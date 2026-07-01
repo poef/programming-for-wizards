@@ -28,6 +28,7 @@ Interactive so far:
 - `same-problem-different-world`: list, table and graph representations for the same dependency data.
 - `numbers-are-machines`: tally marks, Roman numerals, abacus columns and positional bases for one number.
 - `html-chooses-a-tree`: overlapping text annotations, crossed HTML, tree-safe HTML and range data.
+- `jaqt-extension-lab`: a JavaScript query that grows from loops into a small host-language DSL.
 
 Source files:
 

@@ -1,7 +1,7 @@
 {
   "id": "programming-for-wizards",
   "title": "Programming for Wizards",
-  "generatedAt": "2026-07-01T21:00:44.326Z",
+  "generatedAt": "2026-07-01T21:19:22.851Z",
   "phase": "01-enhanced-static-manuscript",
   "features": {
     "notes": "planned",
@@ -269,7 +269,7 @@
       "chapter": "10-code-exhibit-extending-javascript-with-jaqt",
       "title": "Jaqt Extension Lab",
       "url": "chapters/10-code-exhibit-extending-javascript-with-jaqt.html#exhibit-jaqt-extension-lab",
-      "status": "placeholder"
+      "status": "interactive"
     },
     {
       "id": "knitted-castle-vs-lego-castle",

@@ -14,7 +14,8 @@ const siteDataDir = path.join(siteDir, "data")
 const interactiveExhibits = new Set([
   "same-problem-different-world",
   "numbers-are-machines",
-  "html-chooses-a-tree"
+  "html-chooses-a-tree",
+  "jaqt-extension-lab"
 ])
 
 const manifest = {
