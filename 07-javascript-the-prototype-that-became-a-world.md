@@ -72,6 +72,6 @@ Decentralized Web
 
 ---
 
-> **Wizard move**
+> **Wizard rule**
 >
 > A prototype in production is not a temporary mistake. It is often the seed of the future system. Plant carefully.

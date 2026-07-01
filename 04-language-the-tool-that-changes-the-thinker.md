@@ -36,6 +36,6 @@ This doesn't mean that you are better, or other people are somehow worse. It doe
 
 Now, to be clear, I do not advocate manipulating people. There is long and bad history of demagogues that somehow understand how to turn good people into unruly mobs. They do this by explicitly targeting the fast system, using things like flags, showmanship, feelings of dented pride, fear, etc. But they also use things like comradeship, feelings of belonging, working together for a greater good. All these things are powerful and you should be wary of people wielding them. Even with good intentions, you may not end up in a good place.
 
-> **Wizard move**
+> **Wizard rule**
 >
 > Before you try to convince people, ask which language their problem already speaks.

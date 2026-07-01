@@ -40,6 +40,6 @@ So why don't we build software like that? Well, we're trying to, but we don't kn
 
 This is because even NPM packages are still build more like the knitted castle than the lego castle. Each package can be re-used as a whole, but not so much broken apart and used partly, to create something entirely new.
 
-> **Wizard move**
+> **Wizard rule**
 >
 > Complexity is not only a matter of size. It is a matter of how many kinds of connections the reader must keep in their head.

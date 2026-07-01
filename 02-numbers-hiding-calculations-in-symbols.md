@@ -143,6 +143,6 @@ This is a good time to end our archaeological dig through numbers. There is quit
 
 The important thing for now is this: every number system we saw did work for us. Tally marks counted. Roman numerals embedded small calculations. Positional notation made zero necessary. The carry mechanism turned notation into machinery. Binary made the smallest useful alphabet large enough to build a computer.
 
-> **Wizard move**
+> **Wizard rule**
 >
 > A notation is not just a way to write something down. A good notation performs part of the work for you.

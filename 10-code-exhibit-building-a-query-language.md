@@ -706,6 +706,6 @@ $result = array_filter($data, $f);
 
 Check to see the full code in [PHP Sandbox here.](http://sandbox.onlinephpfunctions.com/code/b8eebaa7f48da9d3ce440142ee0d48476198c6d7)
 
-> **Wizard move**
+> **Wizard rule**
 >
 > A DSL is a boundary drawn in language. Draw it where the problem already has a natural edge.

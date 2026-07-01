@@ -275,6 +275,6 @@ https://en.wikipedia.org/wiki/Markup_language
 
 https://chnm.gmu.edu/digitalhistory/links/pdf/chapter3/3.19a.pdf
 
-> **Wizard move**
+> **Wizard rule**
 >
 > Every format is a bet about the shape of future problems. HTML bet on trees. It was a very good bet, but not a free one.

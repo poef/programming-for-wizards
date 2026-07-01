@@ -36,6 +36,6 @@ Done correctly, a DSL allows you to divide your problem along natural boundaries
 
 But the most important thing to remember is that you are creating a new language whenever you add any variable, function, class or method. By being conscious of this, you can make sure that the language you are building is easy to learn, simple to use and expressive. Designed for humans, not computers.
 
-> **Wizard move**
+> **Wizard rule**
 >
 > Whenever you name something, you are teaching the next reader a word. Make sure the word earns its place.

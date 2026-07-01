@@ -38,7 +38,7 @@ Examples:
 3. Let the friction show.
 4. Introduce the reframe.
 5. Add an interactive exhibit placeholder.
-6. End with a wizard move.
+6. End with a wizard rule.
 
 ## Notes on source material
 

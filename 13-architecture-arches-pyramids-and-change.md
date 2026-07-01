@@ -104,6 +104,6 @@ This does not mean quality is irrelevant. It does not mean ugly code is noble. I
 >
 > Show two teams. One ships a small imperfect system early and adapts. The other designs a more complete system but ships later. Introduce environmental changes every few turns. The demo should make clear that the future solution is not competing with today's problem, but with tomorrow's changed problem.
 
-> **Wizard move**
+> **Wizard rule**
 >
 > Perfect is the enemy of good enough because the world does not wait for perfect.

@@ -38,6 +38,6 @@ And after that, everyone else said the new thing was obvious.
 
 That is how magic usually works.
 
-> **Wizard move**
+> **Wizard rule**
 >
 > Do not only solve the problem. Ask what world would make the problem natural.

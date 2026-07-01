@@ -226,6 +226,6 @@ Just like human languages.
 
 As a wizard you should be aware of these forces, and fight them. And you can fight them using Domain Specific Languages (DSL's)
 
-> **Wizard move**
+> **Wizard rule**
 >
 > A language is good when it makes the right ideas easy to say and the wrong ideas awkward to say.

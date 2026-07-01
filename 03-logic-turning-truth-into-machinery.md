@@ -88,6 +88,6 @@ That is a very wizardly move. When intuition gets unreliable, make the possible 
 >
 > Let the reader choose `and`, `or`, or `not`. Show the selected logic gate, then show the equivalent circuit made only from NAND gates. Include a truth table that updates as gates are composed.
 
-> **Wizard move**
+> **Wizard rule**
 >
 > When intuition becomes unreliable, build a table. Then let the table reason for you.

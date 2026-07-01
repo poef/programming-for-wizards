@@ -42,6 +42,10 @@ Wizards do not merely write solutions. They invent the world in which the soluti
 - [12. The knitted castle](12-the-knitted-castle.md)
 - [13. Architecture: arches, pyramids, and change](13-architecture-arches-pyramids-and-change.md)
 
+### Epilogue
+
+- [14. Rule zero: there are no rules](14-rule-zero-there-are-no-rules.md)
+
 ### Working notes
 
 - [Interactive exhibit backlog](interactive-exhibits.md)
