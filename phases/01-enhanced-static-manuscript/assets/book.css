@@ -141,6 +141,8 @@ a:hover {
 .chapter-map,
 .reader-margin {
   align-self: start;
+  max-height: calc(100vh - 48px);
+  overflow: auto;
   position: sticky;
   top: 24px;
 }
@@ -725,6 +727,8 @@ th {
 
   .chapter-map,
   .reader-margin {
+    max-height: none;
+    overflow: visible;
     position: static;
   }
 
