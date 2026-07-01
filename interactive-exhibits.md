@@ -37,6 +37,13 @@ The book should not feel like paper with a few toys glued on. The interactive pi
 | `linked-data-addresses` | 15 | Show private app identifiers becoming shared Web-addressable things and properties, so facts from different tools can meet. |
 | `web-home-directory` | 16 | Show app-owned data versus user-owned identity and data, making replacement cheap. |
 
+
+## Reader notes as a book-level feature
+
+The marginal notes feature is not a chapter exhibit, but it should be treated as part of the same digital format. The reader should be able to attach notes to paragraphs, code blocks, figures and exhibits. The first version can store notes locally; a later version can store them in the reader's Solid pod.
+
+See [Reader notes and Solid publishing](reader-notes-and-solid.md).
+
 ## Implementation note
 
 For a first digital version, each exhibit can be a small standalone HTML file loaded in an iframe or web component. The chapter only needs a placeholder block with a stable id. The demo implementation can come later without rewriting the prose.

@@ -477,13 +477,11 @@ It is small enough to be disappointing, which is usually a good sign.
 
 A parser would have felt more impressive. There would have been tokens, grammar rules, parse trees, maybe a compiler. We could have built a tiny kingdom.
 
-If we had stopped at the previous chapter, this might not look like a true DSL at all. The previous chapter made the boundary sound much harder: a compiler, a runtime, a new little language separated from the old one.
+In the previous chapter I made it sound as if that is what a real DSL requires. A compiler. A runtime. A border that separates the new language from the old one.
 
-That was the trap.
+That was not quite true.
 
-Those are real tools, and sometimes you need them. SQL needs its own world. Regular expressions are their own strange little machine. But a DSL is not made true by the size of the border around it. The important part is that a problem has been given a language that fits it.
-
-This exhibit went in a smaller direction. Instead of building a new kingdom, we moved the problem slightly.
+It is a useful way to think about some DSLs, especially the ones that really do create a separate little world. But this exhibit has gone in another direction. Instead of building a new kingdom, we moved the problem slightly.
 
 The query is no longer a string that must be understood by a new language. It is a JavaScript object whose shape carries meaning. The places where the query needs behavior are filled with JavaScript functions. The chain gives the object-shapes a readable path: start here, keep these, make this shape, give me the value.
 

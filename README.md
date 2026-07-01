@@ -51,5 +51,7 @@ Wizards do not merely write solutions. They invent the world in which the soluti
 
 ### Working notes
 
+- [Presentation plan: from book to grimoire](presentation-plan.md)
 - [Interactive exhibit backlog](interactive-exhibits.md)
+- [Reader notes and Solid publishing](reader-notes-and-solid.md)
 - [Restructuring notes](restructuring-notes.md)
