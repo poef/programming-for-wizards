@@ -254,27 +254,8 @@ However, what you are seeing is an editor, designed by Microsoft originally for 
 
 The only succesful in-browser editors, that are capable of editing any HTML and deliver a good end result--as in: clean HTML--, do so by switching away from HTML. Instead they use a different underlying editing format. They convert the HTML to that, then allow you to edit it, and when you press save it is converted back to HTML again.
 
-This is a good lesson to learn: Just because it looks simple, doesn't mean it is. All choices have consequences. The less choices you make, the less consequences will haunt you.
-
- 
-
-
-
-
-
-
-
-
-
----
-https://nofluffjuststuff.com/blog/douglas_crockford/2007/06/scribe
-https://dbpedia.org/page/Scribe_(markup_language)
-http://www.columbia.edu/cu/computinghistory/scribe.pdf
-https://nofluffjuststuff.com/blog/douglas_crockford/2007/06/scribe
-https://en.wikipedia.org/wiki/Markup_language
-
-https://chnm.gmu.edu/digitalhistory/links/pdf/chapter3/3.19a.pdf
+This is a good lesson to learn: All choices have consequences. The less choices you make, the less consequences will haunt you.
 
 > **Wizard rule**
 >
-> Every format is a bet about the shape of future problems. HTML bet on trees. It was a very good bet, but not a free one.
+> Just because it looks simple, doesn't mean it is. Every format is a bet about the shape of future problems.

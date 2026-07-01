@@ -4,29 +4,29 @@ tags: programming for wizards
 
 # Code exhibit: extending JavaScript with JAQT
 
-The previous chapter ended with Domain Specific Languages. This chapter is still a workshop, but the workshop has changed shape.
+The previous chapter ended with the idea that every program contains a small language. That can sound a bit mystical, so in this chapter we are going to build one.
 
-The obvious way to make a DSL is to make a new language. You define a grammar, write a tokenizer, build a parser, maybe turn the result into SQL, maybe turn it into a filter function. That is a perfectly respectable way to do it. Many useful languages are built that way.
+Not a real production-quality language. That would take us too far into the swamp. A small exhibit version. Something tiny enough to keep in your head, but large enough to show the trick.
 
-It also creates a border.
+A common way to create a small new language is to build a new language with a tokenizer, a parser and a translator. That is a valid way to make a DSL (Domain Specific Language). It is also the most obvious way: invent a new notation, then teach the computer how to read it.
 
-On one side of the border is your normal programming language, with all its functions, libraries, syntax, editor support, error messages, habits and tricks. On the other side is your new little language. The little language may be lovely, but it cannot automatically use the things on the other side. Every function you want inside it must be re-invented there, or exposed through some bridge you now have to maintain.
+But instead of building a new language from scratch, you can sometimes find a shape inside the language you're already using. Lets take Javascript for example. You add a few conventions, a few helper functions, and suddenly ordinary JavaScript starts to read like a little query language.
 
-This is not always wrong. Sometimes the border is exactly the point. SQL is useful partly because it is not JavaScript or PHP or Python. Regular expressions are useful partly because they have their own dense, cursed little notation.
+That distinction matters. A separate parser creates a border. On one side is PHP, JavaScript, Python or whatever language your program is written in. On the other side is your new little language. Once you cross that border, the things from the host language no longer come with you for free. Functions, imports, editor help, error messages, test tools, habits. They all need a passport.
 
-But a wizard should be careful about borders. A border is a place where ideas have to show their passport.
+Sometimes that border is worth it. SQL is not JavaScript, and that is part of its power. Regular expressions are their own dense, cursed little world, and we keep using them because the curse is useful.
 
-JAQT takes a different route. It has a query-like shape, inspired by SQL and GraphQL, but it stays in JavaScript. It does not parse a string. It does not ask you to step into a smaller language. It adds a few words and conventions to JavaScript itself, so that normal JavaScript functions, objects, arrays, operators and syntax can keep doing the work.
+But borders are expensive. So before we build one, it is worth asking a wizard's question:
 
-That is the interesting move.
+> What if the language we need is already hiding inside the language we have?
 
 > **Interactive exhibit placeholder: `jaqt-extension-lab`**
 >
-> Show three panes. In the first pane, use plain JavaScript with `filter()` and `map()`. In the second pane, show the same query in a JAQT-shaped form with `from().where().select()`. In the third pane, show the tiny implementation from this chapter. Let the reader click on a function value in the query and see where it is called later. The important thing to make visible is that the DSL is not parsed. It is executed as ordinary JavaScript.
+> Show the same query growing in stages: a loop, then `filter()` and `map()`, then small predicate functions, then an object-shaped pattern, then the final JAQT-shaped query. Let the reader click a function such as `startsWith("O")` and watch it become a value that is stored, passed around and called later. The point is to make the host-language trick visible: no parser appears, because the query is already JavaScript.
 
-## The problem
+## A pile of little records
 
-Imagine we have some JSON-like data:
+Imagine we have some people:
 
 ```js id="q0mh6q"
 const people = [
@@ -60,9 +60,37 @@ const people = [
 ]
 ```
 
-We want the people whose last name starts with `O` and who live in Manchester. Then we want a smaller result, with only the fields we care about.
+A pile of objects like this is not a database, but it starts to smell like one. We have records. They have fields. Some fields contain other records. Sooner or later we want to ask questions.
 
-In plain JavaScript this is not terrible:
+For example:
+
+> Give me the people whose last name starts with `O` and who live in Manchester. Then return only the bits I want to show.
+
+The most direct version is a loop:
+
+```js id="h7p0ep"
+const result = []
+
+for (const person of people) {
+    if (
+        person.lastName.startsWith("O") &&
+        person.address.city === "Manchester"
+    ) {
+        result.push({
+            firstName: person.firstName,
+            lastName: person.lastName,
+            city: person.address.city,
+            label: `${person.firstName} ${person.lastName}`
+        })
+    }
+}
+```
+
+This is fine. It says what to do. Walk through the people. Check each person. Push a smaller object into the result.
+
+But the question is slightly hidden inside the instructions. The code spends quite a lot of its time telling JavaScript how to walk through an array and build another array. We did not really want to talk about walking and pushing. We wanted to talk about people, names and cities.
+
+JavaScript already gives us a nicer shape:
 
 ```js id="p9drf7"
 const result = people
@@ -78,68 +106,259 @@ const result = people
     }))
 ```
 
-There is nothing wrong with this code. In fact, this is one of the reasons JavaScript is a nice language for this kind of work. Arrays already have `filter()` and `map()`. Functions can be written inline. Objects are easy to create. A great deal of the machinery is already there.
+This is better. The walking and pushing are gone. `filter()` says which records survive. `map()` says what shape they become.
 
-Still, there is some noise. The word `person` is repeated everywhere. The shape of the output is mixed with the mechanics of looping over the input. The query is visible, but it is not quite as visible as it could be.
+Still, there is a small itch. The word `person` is everywhere. The shape of the input and the shape of the output are present, but they are buried in repeated property access. The query is visible, but it has not quite stepped forward.
 
-A separate query language might solve this by introducing a new string syntax:
+A common wizard mistake is to notice this itch and immediately summon a parser.
+
+## The tempting new language
+
+It is easy to imagine a prettier notation:
 
 ```txt id="w69i9s"
-lastName startsWith "O" and address.city = "Manchester"
+from people
+where lastName startsWith "O"
+and address.city = "Manchester"
+select firstName, lastName, address.city as city
 ```
 
-That has a certain appeal. It also means we now have to parse that string. If we want `startsWith`, we have to define what it means in the new language. If we want a helper function that already exists in our JavaScript program, we have to make it available to the parser somehow. If we want syntax highlighting, error messages, editor integration and tests, we are building a small programming language whether we admit it or not.
+This is attractive. It looks like a query. It removes the repeated `person`. It gives the problem a language of its own.
 
-For some problems that is the right amount of trouble.
+But now we have another problem. This text is not JavaScript. JavaScript cannot run it. So we need to tokenize it, parse it, build some kind of tree from it, and then turn that tree into something executable.
 
-For this one, maybe not.
+If we want `startsWith`, we must define that operation in the new language. If we want to use an existing JavaScript helper, we need a way to smuggle that helper across the border. If we want editor support, we need to teach the editor. If the user makes a mistake, we need to make our own error messages.
 
-## Functions as values
+Again, this can be a good trade. SQL earns its border. A query string that can be sent to a database server, optimized, explained, logged and permission-checked is doing work that ordinary JavaScript cannot do by itself.
 
-To understand the JAQT-shaped solution, you need one idea that is strange only until it isn't:
+Our little array of people does not need that much ceremony yet.
+
+So let us try a smaller spell.
+
+## A question can be a function
+
+JavaScript has one feature that looks ordinary but keeps opening trapdoors: functions are values.
+
+You can put a function in a variable:
+
+```js id="mre9w1"
+const livesInManchester = person => person.address.city === "Manchester"
+```
+
+You can pass that function to another function:
+
+```js id="cc90se"
+const mancunians = people.filter(livesInManchester)
+```
+
+`filter()` does not know what counts as a match. It asks the function. The function is a small piece of delayed behavior. It is not the answer yet. It is a way to get an answer later, when a `person` is available.
+
+You can also write a function that creates one of these little questions:
 
 ```js id="hlgk8c"
 const olderThan = age => person => person.age > age
-```
 
-This is a function that returns another function.
-
-If you call `olderThan(40)`, you get a new function back:
-
-```js id="xmjsy7"
 const isOlderThan40 = olderThan(40)
 
 isOlderThan40({ age: 62 }) // true
 isOlderThan40({ age: 28 }) // false
 ```
 
-This is higher-order programming. The name sounds like someone wanted to scare off beginners, but the idea is not that mysterious. A function can be a value. You can put it in a variable. You can pass it to another function. You can return it from a function. You can store it in an object.
+This is called higher-order programming. The name sounds as if it was designed by people who wanted to keep the rabble out, but the idea is small enough:
 
-JavaScript programmers use this all the time:
+A function can receive another function.
+A function can return another function.
+A function can be carried around like any other value.
 
-```js id="s0ro6e"
-people.filter(person => person.age > 40)
-people.map(person => person.firstName)
-```
-
-`filter()` does not know what counts as a match. You hand it a function. `map()` does not know what the new value should be. You hand it a function. The function is not the result yet. It is a small piece of delayed behavior.
-
-This is the door JAQT walks through.
-
-Instead of inventing a new syntax for every possible operation, we can let JavaScript functions carry the parts that need computation.
+That means we can make tiny reusable bits of query logic without inventing syntax for them:
 
 ```js id="oa4e35"
 const startsWith = prefix => value => value.startsWith(prefix)
 const fullName = person => `${person.firstName} ${person.lastName}`
 ```
 
-Now `startsWith("O")` is a reusable test. `fullName` is a reusable transformation. They are normal JavaScript functions. They can be tested, named, imported, combined and debugged like any other JavaScript function.
+`startsWith("O")` returns a function. Later, that function can be given a last name and decide whether it matches.
 
-No border crossing needed.
+This is the first small step. We have not made a DSL yet. We have only noticed that JavaScript already has a way to treat behavior as data.
 
-## A tiny JAQT-shaped query
+## A shape can be a question
 
-Here is the kind of shape we want:
+The next step is to stop writing the whole predicate by hand.
+
+Suppose we write the question as an object:
+
+```js id="rt25sv"
+{
+    lastName: startsWith("O"),
+    address: {
+        city: "Manchester"
+    }
+}
+```
+
+This object looks a little like the data. That is the trick. A pattern shaped like the data can describe what we want from the data.
+
+Static values mean: this field must equal this value.
+
+Functions mean: call this function with the field value.
+
+Nested objects mean: go down into the nested object and continue matching there.
+
+Now the query is no longer hidden inside `person.lastName` and `person.address.city`. The fields we care about are visible as fields.
+
+Here is a small matcher:
+
+```js id="v9dzxh"
+function isObject(value) {
+    return value && typeof value === "object" && !Array.isArray(value)
+}
+
+function matches(pattern, item) {
+    return Object.entries(pattern).every(([key, expected]) => {
+        const actual = item?.[key]
+
+        if (typeof expected === "function") {
+            return expected(actual, item)
+        }
+
+        if (isObject(expected)) {
+            return matches(expected, actual)
+        }
+
+        return actual === expected
+    })
+}
+```
+
+And now we can use it with normal `filter()`:
+
+```js id="x4l9yb"
+const pattern = {
+    lastName: startsWith("O"),
+    address: {
+        city: "Manchester"
+    }
+}
+
+const matchesPattern = person => matches(pattern, person)
+const result = people.filter(matchesPattern)
+```
+
+This is already interesting. We did not parse a string. We did not create a second language. We gave an ordinary JavaScript object a new meaning.
+
+## The result also has a shape
+
+Filtering is only half the problem. We also want to say what the result should look like.
+
+We could use `map()` directly:
+
+```js id="dc9fuz"
+const result = people
+    .filter(person => matches(pattern, person))
+    .map(person => ({
+        firstName: person.firstName,
+        lastName: person.lastName,
+        city: person.address.city,
+        label: fullName(person)
+    }))
+```
+
+This is still good code. But we can try the same move again.
+
+If an object can describe the shape we want to match, perhaps an object can also describe the shape we want to return.
+
+We need one tiny marker. 
+
+```js id="sr68jo"
+const _ = Symbol("copy this property")
+```
+
+In the real JAQT, `_` does more. In this exhibit version, it only means: copy the property with this name.
+
+Now we can describe the result:
+
+```js id="ndpu66"
+const personCard = {
+    firstName: _,
+    lastName: _,
+    address: {
+        city: _
+    },
+    label: fullName
+}
+```
+
+This says: copy `firstName`, copy `lastName`, copy `address.city`, and calculate `label` by calling `fullName`.
+
+A small projector can interpret that shape:
+
+```js id="h502kl"
+function project(shape, source, root = source) {
+    return Object.fromEntries(
+        Object.entries(shape).map(([key, rule]) => {
+            if (rule === _) {
+                return [key, source?.[key]]
+            }
+
+            if (typeof rule === "function") {
+                return [key, rule(root, source)]
+            }
+
+            if (isObject(rule)) {
+                return [key, project(rule, source?.[key] ?? {}, root)]
+            }
+
+            return [key, rule]
+        })
+    )
+}
+```
+
+And again, we can use it without leaving JavaScript:
+
+```js id="wmlcgg"
+const result = people
+    .filter(person => matches(pattern, person))
+    .map(person => project(personCard, person))
+```
+
+We are now quite close to a query language, but we arrived one small step at a time.
+
+A question became a function.
+
+A pattern became an object.
+
+A result shape became an object.
+
+The host language did not disappear. It became the material.
+
+## Giving the shape a few words
+
+The code still uses `filter()` and `map()` directly. There is nothing wrong with that, but the shape would be easier to read if the query had a few words of its own.
+
+We can wrap the array:
+
+```js id="xk67tk"
+function from(items) {
+    return {
+        where(pattern) {
+            return from(items.filter(item => matches(pattern, item)))
+        },
+        select(shape) {
+            return from(items.map(item => project(shape, item)))
+        },
+        value() {
+            return items
+        }
+    }
+}
+```
+
+That is almost embarrassingly small. `where()` is a thin wrapper around `filter()`. `select()` is a thin wrapper around `map()`. `value()` gives the array back.
+
+But the words matter. They give the little language a surface.
+
+Now the query can read like this:
 
 ```js id="p036fn"
 const result = from(people)
@@ -159,14 +378,6 @@ const result = from(people)
     })
     .value()
 ```
-
-This is not real JAQT yet. It is a small exhibit version, designed to fit in one chapter.
-
-But the important shape is already there.
-
-`where()` receives an object that looks like the data we want to match. Static values are compared directly. Nested objects match nested objects. Functions are called, so the query can still use any ordinary JavaScript function.
-
-`select()` receives an object that looks like the data we want back. The `_` placeholder means: copy the value with this name. A function means: calculate this value.
 
 The result is:
 
@@ -191,15 +402,17 @@ The result is:
 ]
 ```
 
-The interesting thing here is what stayed ordinary. The query is an object. The parts that need calculation are functions. The program can run the whole thing directly, without a tokenizer sitting between the reader and JavaScript.
+This is not real JAQT. It is a small wooden model of the bridge. Real JAQT has a more capable `_`, more operations and a lot more practical edge-case handling. Libraries are where edge cases go to start families.
 
-The DSL is the shape of the objects and the meaning of the functions we pass in.
+The point of the model is the shape.
+
+The query looks like a query, but every piece of it is still JavaScript. The object literals are JavaScript. The nested objects are JavaScript. The functions are JavaScript. The method chain is JavaScript. The helper functions can be imported, named, tested and reused with no special bridge.
 
 ## The whole exhibit version
 
-This is the complete tiny implementation:
+Here is the complete tiny version in one place:
 
-```js id="xk67tk"
+```js id="jaqt-mini-complete"
 const _ = Symbol("copy this property")
 
 function from(items) {
@@ -208,7 +421,7 @@ function from(items) {
             return from(items.filter(item => matches(pattern, item)))
         },
         select(shape) {
-            return from(items.map(item => project(shape, item, item)))
+            return from(items.map(item => project(shape, item)))
         },
         value() {
             return items
@@ -221,10 +434,6 @@ function isObject(value) {
 }
 
 function matches(pattern, item) {
-    if (typeof pattern === "function") {
-        return pattern(item)
-    }
-
     return Object.entries(pattern).every(([key, expected]) => {
         const actual = item?.[key]
 
@@ -240,7 +449,7 @@ function matches(pattern, item) {
     })
 }
 
-function project(shape, source, root) {
+function project(shape, source, root = source) {
     return Object.fromEntries(
         Object.entries(shape).map(([key, rule]) => {
             if (rule === _) {
@@ -259,54 +468,24 @@ function project(shape, source, root) {
         })
     )
 }
+
+const startsWith = prefix => value => value.startsWith(prefix)
+const fullName = person => `${person.firstName} ${person.lastName}`
 ```
 
-That is small enough to hold in your head, which is important for this chapter. Real JAQT has more features. It has a more capable `_`. It supports more operations. It has to deal with more annoying cases, because libraries are where annoying cases go to have long careers.
+It is small enough to be disappointing, which is usually a good sign.
 
-But the skeleton is here.
+A parser would have felt more impressive. There would have been tokens, grammar rules, parse trees, maybe a compiler. We could have built a tiny kingdom.
 
-`from()` wraps an array and adds a few words to it: `where`, `select` and `value`.
+Instead we moved the problem slightly.
 
-`where()` is a thin layer over `filter()`.
+The query is no longer a string that must be understood by a new language. It is a JavaScript object whose shape carries meaning. The places where the query needs behavior are filled with JavaScript functions. The chain gives the object-shapes a readable path: start here, keep these, make this shape, give me the value.
 
-`select()` is a thin layer over `map()`.
+## Composing inside the host language
 
-`matches()` understands the object shape used for filtering.
+The reward for staying inside JavaScript is that composition keeps working.
 
-`project()` understands the object shape used for selecting.
-
-Most of the magic is not in the amount of code. It is in choosing which things should be represented as data and which things should remain functions.
-
-## The small trick
-
-The `_` placeholder is deliberately boring in this exhibit version:
-
-```js id="sr68jo"
-const _ = Symbol("copy this property")
-```
-
-It is just a unique marker. In a `select()` shape, it means: copy the property with the same name from the source object.
-
-```js id="ul9vxl"
-select({
-    firstName: _,
-    lastName: _
-})
-```
-
-This is not something JavaScript normally means. We invented that meaning. But we did it inside ordinary JavaScript syntax. The object is still an object. The property names are still property names. The helper functions are still functions.
-
-The real JAQT takes this further. Its `_` is a pointer-like function, so you can write expressions that point into the data. That is a cleverer trick, and a useful one, but I do not want to hide the smaller trick under a larger one too quickly.
-
-The smaller trick is already enough:
-
-> an object can describe a shape, and functions inside that object can describe the places where the shape must do work.
-
-Once you see that, the query no longer has to be a string.
-
-## Reusing JavaScript
-
-Because the query is JavaScript, we can add helpers without teaching a parser about them.
+We can make little pieces:
 
 ```js id="g2ce8l"
 const inCity = city => ({
@@ -314,15 +493,19 @@ const inCity = city => ({
 })
 
 const lastNameStartsWith = prefix => ({
-    lastName: value => value.startsWith(prefix)
+    lastName: startsWith(prefix)
 })
 
 const personCard = {
     firstName: _,
     lastName: _,
-    label: person => `${person.firstName} ${person.lastName}`
+    label: fullName
 }
+```
 
+And combine them with JavaScript itself:
+
+```js id="ucz6xq"
 const result = from(people)
     .where({
         ...inCity("Manchester"),
@@ -332,30 +515,26 @@ const result = from(people)
     .value()
 ```
 
-That spread operator is just JavaScript. The arrow functions are just JavaScript. The template string is just JavaScript. If you want to use a function from another module, import it. If you want to test `lastNameStartsWith`, test it like any other function.
+The spread operator did not need to be added to our DSL. It was already in JavaScript. Arrow functions did not need to be added. Imports did not need to be added. Tests did not need to be added. The surrounding language remains available.
 
-The DSL did not become weaker by staying inside the host language. In this case it became more useful, because it can borrow the whole surrounding language without ceremony.
+The little query language did not become powerful because we cut it loose from JavaScript. It became useful because we found a small query-shaped hollow inside JavaScript and gave it a name.
 
-This is also why this approach is not only about syntax. Syntax is the visible part. The real question is where the boundary goes.
+## The border question
 
-A separate parser draws a hard boundary. Inside the DSL, only the DSL exists. You may get beautiful notation, but you must pay for every bridge.
+This does not mean every DSL should be embedded in a host language.
 
-A host-language DSL draws a softer boundary. You still create a new way of saying things, but you use the host language as the material. The danger is that the boundary can become vague. If everything is allowed, the shape may dissolve into ordinary code again.
+Sometimes you want the hard border. A database server cannot run arbitrary JavaScript helper functions every time someone sends it a query. A configuration file should perhaps be boring data, not a program in disguise. A language used by non-programmers may need its own guardrails, error messages and vocabulary.
 
-The trick is to make the new shape strong enough to be recognizable, but small enough that the surrounding language can still breathe.
+A host-language DSL has its own dangers. If the conventions are too weak, it dissolves back into ordinary code. If the tricks are too clever, readers have to learn JavaScript and your secret dialect of JavaScript at the same time.
 
-## What did we invent?
+So the question is not whether separate DSLs are bad and embedded DSLs are good. That would be too easy, and therefore suspicious.
 
-Filtering and mapping were already in JavaScript.
+The question is where the boundary belongs.
 
-The useful change is where the shape of the query lives.
+A parser version of a DSL puts the boundary around a new query language. The JAQT-shaped version moves the boundary inward. JavaScript remains the language. The DSL is the shape of a few objects, a handful of functions, and the agreement that certain positions in the shape mean certain things.
 
-In the plain JavaScript version, the shape is scattered through a chain of callbacks. In the parser version, the shape lives in a string and has to be recovered by machinery. In the JAQT-shaped version, the shape is an ordinary JavaScript object. Where calculation is needed, the object contains ordinary JavaScript functions.
-
-This is a small change, but it changes the feel of the problem. The query becomes something you can compose with the language you already have.
-
-Many useful abstractions are like this. They are not separate worlds. They are small extensions of a world you already understand.
+That smaller change gives us enough of the query idea to be useful, without making us leave the world we are already in.
 
 > **Wizard rule**
 >
-> When you invent a language, do not cross a boundary unless the boundary helps. Sometimes the better spell is a small extension of the language you already have.
+> When you invent a language, first look for the smallest change in shape that lets the old problem become smaller. A new border is powerful only when it opens more than it closes.
