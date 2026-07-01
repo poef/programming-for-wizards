@@ -52,3 +52,9 @@ For a first digital version, each exhibit can be a small standalone HTML file lo
 
 Show two models side by side. In the app-owned model, each app contains its own account, identity and data. In the user-owned model, identity and data live in a user-controlled space and applications receive permission to use parts of it. Let the reader replace an app and show which model makes replacement cheap.
 
+
+## Accessibility requirements for exhibits
+
+Every exhibit should have a static fallback and a keyboard-accessible path through the interaction. Motion, drag, tilt and pointer-only interactions may be used as enhancements, but they cannot be the only way to understand or operate an exhibit.
+
+The exhibit should remain a serious explanatory object, not a game mechanic. It may be playful, but the play must reveal the idea.

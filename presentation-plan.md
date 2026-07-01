@@ -40,6 +40,8 @@ The digital version adds three layers around the text:
 
 The fantasy layer should be structural, not decorative. The book should not become fake parchment with candles and dragons pasted around the edges. It should feel like a clean digital manuscript that has inherited some medieval habits: margins, glosses, diagrams, initials, rule cards, maps and strange little machines in the page.
 
+The book should still feel like a serious publication. The historical and fantastical layer is an accent and a structure, not a game skin. The reader should never have to fight the theme in order to read the text. Accessibility, font choice, motion preferences and static fallbacks are part of the design from the beginning. See [Visual design and accessibility guidelines](visual-design-and-accessibility.md).
+
 ## Page anatomy
 
 A chapter page should have four visible zones on desktop:
@@ -153,7 +155,8 @@ Add:
 - styled Wizard's rule cards;
 - styled exhibit placeholders;
 - references and marginal notes layout;
-- stable paragraph anchors.
+- stable paragraph anchors;
+- accessible reader settings for font, size, line height, contrast and motion.
 
 No complex demos yet.
 

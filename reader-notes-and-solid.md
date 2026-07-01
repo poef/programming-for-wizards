@@ -23,6 +23,8 @@ The simplest interaction:
 
 On desktop, notes live in the side margin. On mobile, they live in a drawer or bottom sheet.
 
+The margin should feel inspired by manuscript glosses, but it must remain accessible. Notes need keyboard controls, visible focus, export/delete options and a non-margin view for small screens and assistive technology. The reader's own notes are content, not decoration.
+
 ## Stable paragraph ids
 
 Notes need stable anchors. That means the generated site should give meaningful ids to blocks of content.

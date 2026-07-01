@@ -54,4 +54,5 @@ Wizards do not merely write solutions. They invent the world in which the soluti
 - [Presentation plan: from book to grimoire](presentation-plan.md)
 - [Interactive exhibit backlog](interactive-exhibits.md)
 - [Reader notes and Solid publishing](reader-notes-and-solid.md)
+- [Visual design and accessibility guidelines](visual-design-and-accessibility.md)
 - [Restructuring notes](restructuring-notes.md)
