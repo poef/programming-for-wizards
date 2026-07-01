@@ -57,21 +57,30 @@ A simple example is the JavaScript module system. For the longest time it didn't
 
 And even though there now is a clear standard module system, what we end up using is an incompatible version of it, based on npm packages. This was originally designed for Node, a JavaScript engine for the Server, not the Browser.
 
-## Web OS?
+## The browser-shaped computer
 
-WebOS - KaiOS
-ChromeOS
-Electron
-PWA
+Netscape's dream did not quite happen in the way Netscape imagined. We did not all simply stop using operating systems and live inside Navigator.
 
-## Whither from here
+But something close enough happened to be worth noticing.
 
-WASM
-Functions as a Service
-Decentralized Web
+A lot of what people now call "using the computer" is really using the browser. Mail, documents, calendars, maps, banking, shopping, music, chat, work administration, school systems, tax forms, photo libraries. The local machine is still there, but for many people it has become less like the place where the work lives and more like the window through which the work is reached.
 
----
+ChromeOS makes that idea unusually explicit. It is an operating system built around the assumption that the web is not just one application among many. The web is the main place where things happen.
+
+Electron approaches the same idea from the other direction. If people still expect desktop applications, fine. Put a browser-shaped runtime inside the application and let web technologies pretend to be native software. This is a ridiculous thing to do, and also a very successful one, which is a combination software history seems to enjoy.
+
+Progressive Web Apps sit somewhere in the middle. They try to let web applications behave a bit more like installed software, with icons, offline behavior and notifications, without fully leaving the web behind.
+
+None of these are the final answer. They are clues.
+
+The browser began as a way to read linked documents. JavaScript turned it into a programmable surface. Over time that surface absorbed more and more of the things we used to expect from operating systems: storage, identity, permissions, installation, background work, hardware access, offline behavior.
+
+The network starts to look less like something the computer connects to, and more like the place where the computer happens.
+
+That raises a question this chapter should not try to answer yet. If the web becomes the operating system, who owns the home directory?
+
+That is where Solid will eventually enter the story.
 
 > **Wizard rule**
 >
-> A prototype in production is not a temporary mistake. It is often the seed of the future system. Plant carefully.
+> A prototype is not always a throwaway version of the real thing. Sometimes it is the first piece of ground the future manages to stand on.
