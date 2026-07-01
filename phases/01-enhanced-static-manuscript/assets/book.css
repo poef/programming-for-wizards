@@ -178,6 +178,34 @@ a:hover {
   outline-offset: 2px;
 }
 
+.reader-toggle-name {
+  align-items: center;
+  display: flex;
+  gap: 0.55rem;
+}
+
+.reader-toggle-ornament {
+  color: var(--color-blue-ink);
+  flex: 0 0 auto;
+  fill: none;
+  block-size: 32px;
+  inline-size: 44px;
+  opacity: 0.9;
+  stroke: currentColor;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 2;
+}
+
+.reader-toggle-ornament circle {
+  fill: color-mix(in srgb, var(--color-accent), transparent 72%);
+  stroke: currentColor;
+}
+
+[data-reader-tools="open"] .reader-toggle-ornament {
+  color: var(--color-exhibit);
+}
+
 .reader-toggle-state {
   color: var(--color-muted);
   font-size: 0.78rem;
@@ -192,6 +220,53 @@ a:hover {
 
 .reader-tools[hidden] {
   display: none;
+}
+
+.reader-panel-ornament {
+  color: var(--color-blue-ink);
+  display: block;
+  fill: none;
+  block-size: 88px;
+  inline-size: 100%;
+  margin: -2px 0 -4px;
+  opacity: 0.82;
+  pointer-events: none;
+  stroke: currentColor;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 2.4;
+}
+
+.reader-panel-ornament .ornament-wire {
+  stroke: currentColor;
+}
+
+.reader-panel-ornament .ornament-leaf,
+.reader-panel-ornament .ornament-node {
+  fill: color-mix(in srgb, var(--color-exhibit), transparent 78%);
+  stroke: currentColor;
+}
+
+.reader-panel-ornament .ornament-chip {
+  fill: color-mix(in srgb, var(--color-panel), transparent 16%);
+  stroke: currentColor;
+}
+
+.reader-panel-ornament .ornament-chip-line,
+.reader-panel-ornament .ornament-pin {
+  stroke: var(--color-accent);
+}
+
+[data-theme="contrast"] .reader-toggle-ornament circle,
+[data-theme="contrast"] .reader-panel-ornament .ornament-leaf,
+[data-theme="contrast"] .reader-panel-ornament .ornament-node,
+[data-theme="contrast"] .reader-panel-ornament .ornament-chip {
+  fill: var(--color-page);
+}
+
+[data-theme="contrast"] .reader-panel-ornament .ornament-chip-line,
+[data-theme="contrast"] .reader-panel-ornament .ornament-pin {
+  stroke: currentColor;
 }
 
 .book-title {
