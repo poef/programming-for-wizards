@@ -152,6 +152,53 @@
     return value => positions.get(value) ?? rangeStart
   }
 
+  const treeLayout = (root, options = {}) => {
+    const childrenKey = options.childrenKey ?? "children"
+    const levelGap = options.levelGap ?? 88
+    const leafGap = options.leafGap ?? 150
+    const marginX = options.marginX ?? 72
+    const marginY = options.marginY ?? 36
+    const nodes = []
+    const links = []
+    let leafIndex = 0
+    let maxDepth = 0
+
+    const walk = (node, depth = 0) => {
+      const children = (node[childrenKey] ?? []).map(child => walk(child, depth + 1))
+      const x = children.length
+        ? children.reduce((total, child) => total + child.x, 0) / children.length
+        : leafIndex++ * leafGap
+      const item = { ...node, children, depth, x, y: depth * levelGap }
+
+      maxDepth = Math.max(maxDepth, depth)
+      nodes.push(item)
+
+      for (const child of children) {
+        links.push({ source: item, target: child })
+      }
+
+      return item
+    }
+
+    const laidOutRoot = walk(root)
+    const minX = Math.min(...nodes.map(node => node.x))
+    const maxX = Math.max(...nodes.map(node => node.x))
+
+    for (const node of nodes) {
+      node.x = node.x - minX + marginX
+      node.y = node.y + marginY
+    }
+
+    return {
+      root: laidOutRoot,
+      nodes,
+      links,
+      width: Math.max(1, maxX - minX) + marginX * 2,
+      height: maxDepth * levelGap + marginY * 2,
+      leafCount: leafIndex
+    }
+  }
+
   const marks = {
     group: (attributes, ...children) => svg("g", attributes, ...children),
     line: attributes => svg("line", attributes),
@@ -173,7 +220,8 @@
     scalePoint,
     start,
     state,
-    svg
+    svg,
+    treeLayout
   }
 
   window.WizardExhibits = api

@@ -23,6 +23,11 @@ Initial exhibits:
 
 Each exhibit should keep a static fallback and a keyboard-accessible path through the interaction.
 
+Interactive so far:
+
+- `same-problem-different-world`: list, table and graph representations for the same dependency data.
+- `html-chooses-a-tree`: overlapping text annotations, crossed HTML, tree-safe HTML and range data.
+
 Source files:
 
 - [assets/exhibit-kit.js](assets/exhibit-kit.js): tiny reusable exhibit primitives.

@@ -1,7 +1,7 @@
 {
   "id": "programming-for-wizards",
   "title": "Programming for Wizards",
-  "generatedAt": "2026-07-01T17:32:26.893Z",
+  "generatedAt": "2026-07-01T20:54:19.749Z",
   "phase": "01-enhanced-static-manuscript",
   "features": {
     "notes": "planned",
@@ -237,7 +237,7 @@
       "chapter": "06-the-web-as-document",
       "title": "Html Chooses A Tree",
       "url": "chapters/06-the-web-as-document.html#exhibit-html-chooses-a-tree",
-      "status": "placeholder"
+      "status": "interactive"
     },
     {
       "id": "prototype-becomes-platform",

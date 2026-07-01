@@ -11,7 +11,10 @@ const siteDir = path.join(rootDir, "site")
 const siteChapterDir = path.join(siteDir, "chapters")
 const siteAssetDir = path.join(siteDir, "assets")
 const siteDataDir = path.join(siteDir, "data")
-const interactiveExhibits = new Set(["same-problem-different-world"])
+const interactiveExhibits = new Set([
+  "same-problem-different-world",
+  "html-chooses-a-tree"
+])
 
 const manifest = {
   id: "programming-for-wizards",
