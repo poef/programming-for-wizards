@@ -26,7 +26,7 @@ You are continually extending your programming language, creating a new language
 
 You can make it easier for other people to learn your language. One way is to mimic existing languages. [Design patterns](https://en.wikipedia.org/wiki/Software_design_pattern) fit into this approach. Another way is to keep your changes small. This approach leads to composable components. And finally, you can create real DSL's, that aren't limited to the syntax and capabilities of your source programming language. 
 
-Creating a true DSL means that you have to create your own compiler and runtime. But it has the benefit of making the boundary between the DSL and the source programming language extremely clear. Done well, this boundary lines up well with a natural boundary in the problem domain. The best DSL's are so well known that we don't actually think of them as DSL's anymore. 
+Creating a true DSL means that you have to create your own compiler and runtime. It makes the boundary between the DSL and the source programming language extremely clear. Done well, this boundary lines up well with a natural boundary in the problem domain. The best DSL's are so well known that we don't actually think of them as DSL's anymore. 
 
 One example is [Regular Expressions](https://en.wikipedia.org/wiki/Regular_expression). Any non-trivial program will have them. Beginning programmers hate them, because they are so unreadable.. for the untrained.
 

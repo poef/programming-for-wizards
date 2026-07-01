@@ -61,7 +61,7 @@ allowed the end-tags to be omitted for the "h1" and "p" elements.
 
 Unfortunately their work only made it out of IBM as a product you could buy and use, somewhere at the end of the 1980's. 
 
-So the award for the first released markup language that described the meaning--the semantics--of a text goes to [Scribe](http://www.columbia.edu/cu/computinghistory/scribe.pdf) in 1980. At the time a wizard called Brian K. Reid, was a student at the department of computer science at Carnegie Mellon University, USA. He created what he called _"A Document Specification Language and its Compiler"_, as his final dissertation. The resulting software we now know as Scribe. Douglas Crockford later wrote [a short appreciation of Scribe](https://nofluffjuststuff.com/blog/douglas_crockford/2007/06/scribe), mostly to complain that the rest of us did not steal more of its good ideas.
+So the award for one of the first released markup languages that described the meaning--the semantics--of a text goes to [Scribe](http://www.columbia.edu/cu/computinghistory/scribe.pdf) in 1980. At the time a wizard called Brian K. Reid, was a student at the department of computer science at Carnegie Mellon University, USA. He created what he called _"A Document Specification Language and its Compiler"_, as his final dissertation. The resulting software we now know as Scribe. Douglas Crockford later wrote [a short appreciation of Scribe](https://nofluffjuststuff.com/blog/douglas_crockford/2007/06/scribe), mostly to complain that the rest of us did not steal more of its good ideas.
 
 Here is a sample of a text marked up with Scribe:
 
@@ -72,7 +72,7 @@ Here is a sample of a text marked up with Scribe:
  mean @i"anything") could go inside. @End(Quotation)
 ```
 
-GML eventually turned into [SGML--Standard Generalized Markup Language](https://en.wikipedia.org/wiki/Standard_Generalized_Markup_Language), which became an industry standard around 1983. And in 1989, when sir Tim looked around for a markup language for the Web, he found SGML as a well-defined standard. SGML itself had no tags, it just described how you could create your own document format or DTD--Document Type Definition. This was clearly too complex. However the original GML did have tags, nice and short ones. So [HTML](https://html.spec.whatwg.org/) was born out of a combination of SGML and GML.
+GML eventually turned into [SGML--Standard Generalized Markup Language](https://en.wikipedia.org/wiki/Standard_Generalized_Markup_Language), which became an industry standard in 1986. And in 1989, when sir Tim looked around for a markup language for the Web, he found SGML as a well-defined standard. SGML itself had no tags, it just described how you could create your own document format or DTD--Document Type Definition. This was clearly too complex. However the original GML did have tags, nice and short ones. So [HTML](https://html.spec.whatwg.org/) was born out of a combination of SGML and GML.
 
 Here is that first HTML page again:
 

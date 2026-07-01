@@ -66,7 +66,7 @@ Why is this important? Well, this insight opens the way for the first calculator
 
 <img src="https://upload.wikimedia.org/wikipedia/commons/b/b7/Detail_of_a_Roth_Calculating_machine.png">
 
-[Blaise Pascal](https://en.wikipedia.org/wiki/Blaise_Pascal) is credited with making the first usable mechanical calculator. It could add and subtract, and with repeated motions also multiply and divide. Its not a computer yet, but we've come a long way from scratch marks.
+[Blaise Pascal](https://en.wikipedia.org/wiki/Blaise_Pascal) is credited with making one of the first usable mechanical calculators. It could add and subtract, and with repeated motions also multiply and divide. Its not a computer yet, but we've come a long way from scratch marks.
 
 I should mention the [Antikythera device](https://en.wikipedia.org/wiki/Antikythera_mechanism). This is a device from the classic greek era, which is purported to be able to calculate astronomical positions and eclipses. It is called the earliest (analogue) computer, it has been dated to somewhere between 205BC and 87BC. [The next time we know of that a device of similar complexity was made, we're in the renaissance in western europe](https://www.nature.com/articles/444534a).
 

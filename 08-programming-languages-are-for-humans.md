@@ -191,7 +191,7 @@ This is in fact a complete Lisp interpreter, written in Common Lisp. It is a tra
 
 The power of Lisp is that it allows you to write code using almost any paradigm. For anything any other programming language can do, you can write Lisp code that does the same.
 
-However, I lied a bit earlier. There is one other early programming language I didn't mention. And it is older than all these. It is called [lambda calculus](https://plato.stanford.edu/entries/lambda-calculus/), and it was first designed in the 1940's by a wizard called [Alonzo Church](https://en.wikipedia.org/wiki/Alonzo_Church). Lambda calculus is still in use today, and growing more influential, as functional programming. Below is an example written in [Miranda](https://en.wikipedia.org/wiki/Miranda_%28programming_language%29).
+However, I lied a bit earlier. There is one other early programming language I didn't mention. And it is older than all these. It is called [lambda calculus](https://plato.stanford.edu/entries/lambda-calculus/), and it was first designed in the 1930's by a wizard called [Alonzo Church](https://en.wikipedia.org/wiki/Alonzo_Church). Lambda calculus is still in use today, and growing more influential, as functional programming. Below is an example written in [Miranda](https://en.wikipedia.org/wiki/Miranda_%28programming_language%29).
 
 
 ```miranda
