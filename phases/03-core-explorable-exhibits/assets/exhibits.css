@@ -1,0 +1,220 @@
+.exhibit-live {
+  background: var(--color-exhibit-soft);
+}
+
+.exhibit-shell {
+  display: grid;
+  gap: 0.85rem;
+}
+
+.exhibit-intro,
+.exhibit-summary,
+.exhibit-footnote {
+  margin: 0;
+}
+
+.exhibit-summary {
+  color: var(--color-ink);
+  font-weight: 650;
+}
+
+.exhibit-footnote {
+  color: var(--color-muted);
+  font-size: 0.95rem;
+}
+
+.exhibit-toolbar {
+  align-items: end;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  justify-content: space-between;
+}
+
+.exhibit-choice {
+  border: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin: 0;
+  min-width: min(100%, 22rem);
+  padding: 0;
+}
+
+.exhibit-choice legend {
+  color: var(--color-muted);
+  flex-basis: 100%;
+  font-size: 0.82rem;
+  font-weight: 700;
+  letter-spacing: 0;
+  margin-bottom: 0.1rem;
+  text-transform: uppercase;
+}
+
+.exhibit-choice button,
+.exhibit-reset {
+  background: var(--color-page);
+  border: 1px solid transparent;
+  border-radius: 8px;
+  color: var(--color-ink);
+  cursor: pointer;
+  font: inherit;
+  font-weight: 700;
+  min-height: 2.75rem;
+  padding: 0.55rem 0.8rem;
+}
+
+.exhibit-choice button[aria-pressed="true"] {
+  background: var(--color-exhibit);
+  color: var(--color-page);
+}
+
+.exhibit-choice button:focus-visible,
+.exhibit-reset:focus-visible {
+  outline: 3px solid var(--color-focus);
+  outline-offset: 2px;
+}
+
+.exhibit-stage {
+  align-items: center;
+  display: grid;
+  min-height: 20rem;
+}
+
+.exhibit-task-list {
+  counter-reset: task;
+  display: grid;
+  gap: 0.5rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.exhibit-task-list li {
+  align-items: baseline;
+  background: var(--color-page);
+  background: color-mix(in srgb, var(--color-page) 82%, var(--color-exhibit-soft));
+  border-radius: 8px;
+  display: grid;
+  gap: 0.35rem 1rem;
+  grid-template-columns: minmax(9rem, 1fr) minmax(10rem, 1.4fr);
+  min-height: 3rem;
+  padding: 0.65rem 0.75rem;
+}
+
+.exhibit-task-list li::before {
+  color: var(--color-exhibit);
+  content: counter(task, decimal-leading-zero);
+  counter-increment: task;
+  font-family: var(--book-font-mono);
+  font-size: 0.82rem;
+  font-weight: 700;
+  grid-column: 1 / -1;
+}
+
+.exhibit-task-list span {
+  color: var(--color-muted);
+}
+
+.exhibit-table-wrap {
+  overflow-x: auto;
+}
+
+.exhibit-table {
+  min-width: 34rem;
+  width: 100%;
+}
+
+.exhibit-table th,
+.exhibit-table td {
+  vertical-align: top;
+}
+
+.dependency-graph {
+  align-items: center;
+  display: grid;
+  min-height: 18rem;
+}
+
+.dependency-graph svg {
+  display: block;
+  height: auto;
+  width: 100%;
+}
+
+.dependency-edge {
+  fill: none;
+  stroke: var(--color-muted);
+  stroke: color-mix(in srgb, var(--color-ink) 45%, transparent);
+  stroke-linecap: round;
+  stroke-width: 3;
+}
+
+.dependency-node circle {
+  stroke: var(--color-muted);
+  stroke: color-mix(in srgb, var(--color-ink) 35%, transparent);
+  stroke-width: 2;
+}
+
+.dependency-label rect {
+  fill: var(--color-page);
+  stroke: var(--color-muted);
+  stroke: color-mix(in srgb, var(--color-ink) 24%, transparent);
+  stroke-width: 1.5;
+}
+
+.dependency-label text {
+  fill: var(--color-ink);
+  font-family: var(--book-font-body);
+  font-size: 0.82rem;
+  font-weight: 800;
+  letter-spacing: 0;
+}
+
+.dependency-node-0 circle {
+  fill: #ffd36a;
+}
+
+.dependency-node-1 circle {
+  fill: #90d7c6;
+}
+
+.dependency-node-2 circle {
+  fill: #f4a6b8;
+}
+
+html[data-theme="contrast"] .dependency-edge {
+  stroke: currentColor;
+}
+
+html[data-theme="contrast"] .dependency-node circle {
+  fill: var(--color-page);
+  stroke: currentColor;
+  stroke-width: 3;
+}
+
+html[data-theme="contrast"] .dependency-label rect {
+  fill: var(--color-page);
+  stroke: currentColor;
+  stroke-width: 2;
+}
+
+html[data-theme="contrast"] .dependency-label text {
+  fill: var(--color-ink);
+}
+
+@media (max-width: 720px) {
+  .exhibit-stage {
+    min-height: 24rem;
+  }
+
+  .exhibit-task-list li {
+    grid-template-columns: 1fr;
+  }
+
+  .exhibit-choice,
+  .exhibit-choice button,
+  .exhibit-reset {
+    width: 100%;
+  }
+}

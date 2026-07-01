@@ -3,11 +3,13 @@ tags: Programming for wizards
 ---
 # Programming for Wizards
 
-This is a book about programming, but not in the usual sense.
+This book is for people who suspect software could be simpler, stranger, smaller, and more humane than it usually is.
 
 It is not meant to teach you the next framework, the proper way to write a loop, or the correct amount of tabs. It is meant to teach a more dangerous habit: looking at a problem until you can see the shape someone else missed.
 
-Wizards do not merely write solutions. They invent the world in which the solution becomes simple.
+Here, "wizard" is not a rank or credential. It is an invitation to look closely at how problems are shaped, how tools shape people in return, and where a smaller, stranger, more humane path might exist.
+
+Wizards do not merely write solutions. They learn to notice the world around a problem, and sometimes change the shape of it.
 
 ## Repository layout
 

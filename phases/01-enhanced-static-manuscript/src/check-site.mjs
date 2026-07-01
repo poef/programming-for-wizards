@@ -149,6 +149,10 @@ function checkManifestExpectations(chapters, manifest) {
     fail("Manifest should declare readerSettings: true")
   }
 
+  if (manifest.features?.exhibitRuntime !== true) {
+    fail("Manifest should declare exhibitRuntime: true")
+  }
+
   for (const chapter of manifest.chapters ?? []) {
     const expectedUrl = `chapters/${chapter.id}.html`
     if (chapter.url !== expectedUrl) {
@@ -180,7 +184,8 @@ function checkGeneratedExhibits(chapters, manifest, htmlByFile) {
   compareSets("exhibit in manifest", expectedKeys, manifestKeys)
   compareSets("exhibit in generated HTML", expectedKeys, htmlKeys)
 
-  notes.push(`${expected.length} exhibit placeholders are represented in manifest and HTML`)
+  const interactive = (manifest.exhibits ?? []).filter(exhibit => exhibit.status === "interactive")
+  notes.push(`${expected.length} exhibits are represented in manifest and HTML; ${interactive.length} interactive`)
 }
 
 function checkGeneratedRules(chapters, manifest, htmlByFile) {
@@ -228,13 +233,25 @@ function checkHtmlPages(htmlByFile) {
       fail(`${relativeFile} is missing the reader settings script`)
     }
 
+    if (!/<link\s+rel="stylesheet"\s+href="(?:\.\.\/)?assets\/exhibits\/exhibits\.css">/.test(html)) {
+      fail(`${relativeFile} is missing the exhibit stylesheet`)
+    }
+
+    if (!/<script\s+defer\s+src="(?:\.\.\/)?assets\/exhibits\/exhibit-kit\.js"><\/script>/.test(html)) {
+      fail(`${relativeFile} is missing the exhibit kit script`)
+    }
+
+    if (!/<script\s+defer\s+src="(?:\.\.\/)?assets\/exhibits\/exhibits\.js"><\/script>/.test(html)) {
+      fail(`${relativeFile} is missing the exhibit registry script`)
+    }
+
     const settingControls = [...html.matchAll(/\bdata-setting="/g)].length
     if (settingControls !== 6) {
       fail(`${relativeFile} has ${settingControls} reader setting controls, expected 6`)
     }
   }
 
-  notes.push(`${htmlByFile.size} generated HTML pages include reader controls and script`)
+  notes.push(`${htmlByFile.size} generated HTML pages include reader controls and exhibit scripts`)
 }
 
 async function checkLocalLinks(htmlByFile, idsByFile) {

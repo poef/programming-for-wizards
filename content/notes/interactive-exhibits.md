@@ -46,7 +46,11 @@ See [Reader notes and Solid publishing](reader-notes-and-solid.md).
 
 ## Implementation note
 
-For a first digital version, each exhibit can be a small standalone HTML file loaded in an iframe or web component. The chapter only needs a placeholder block with a stable id. The demo implementation can come later without rewriting the prose.
+For the first digital version, each exhibit begins as a static manuscript block with a stable `data-exhibit-id`. JavaScript progressively enhances only the exhibit ids it knows how to run. If scripts fail, the prose fallback remains.
+
+The exhibit code should grow like a small language by accident: tiny DOM helpers, SVG marks, state, controls, scales and data transforms that are useful because real exhibits needed them. The pieces should stay small enough to read in one sitting.
+
+Use existing JavaScript libraries when they do a hard job well, especially for parsing, graph layout, math, geometry, accessibility-heavy widgets, or mature visualization behavior. When a library is too broad for the immediate job, steal the idea instead: keep the local abstraction small and replaceable.
 
 ## 16. The Web as home: `web-home-directory`
 

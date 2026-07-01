@@ -6,10 +6,12 @@ const rootDir = path.resolve(fileURLToPath(new URL("../../../", import.meta.url)
 const contentDir = path.join(rootDir, "content")
 const chapterDir = path.join(contentDir, "chapters")
 const phaseDir = path.join(rootDir, "phases", "01-enhanced-static-manuscript")
+const exhibitPhaseDir = path.join(rootDir, "phases", "03-core-explorable-exhibits")
 const siteDir = path.join(rootDir, "site")
 const siteChapterDir = path.join(siteDir, "chapters")
 const siteAssetDir = path.join(siteDir, "assets")
 const siteDataDir = path.join(siteDir, "data")
+const interactiveExhibits = new Set(["same-problem-different-world"])
 
 const manifest = {
   id: "programming-for-wizards",
@@ -19,6 +21,7 @@ const manifest = {
   features: {
     notes: "planned",
     solidNotes: "planned",
+    exhibitRuntime: true,
     readerSettings: true,
     staticFallbacks: true
   },
@@ -110,6 +113,11 @@ async function main() {
   )
 
   await cp(path.join(phaseDir, "assets"), siteAssetDir, { recursive: true })
+  await cp(
+    path.join(exhibitPhaseDir, "assets"),
+    path.join(siteAssetDir, "exhibits"),
+    { recursive: true }
+  )
 
   console.log(`Built ${chapters.length} chapters into ${path.relative(rootDir, siteDir)}`)
 }
@@ -347,7 +355,7 @@ class MarkdownRenderer {
       chapter: this.chapter.id,
       title,
       url: `chapters/${this.chapter.id}.html#${id}`,
-      status: "placeholder"
+      status: interactiveExhibits.has(exhibitId) ? "interactive" : "placeholder"
     })
     this.addAnchor(id, "exhibit", title)
 
@@ -561,7 +569,10 @@ function pageShell({ title, currentId, chapters, main, pageKind }) {
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>${escapeHtml(title)}</title>
   <link rel="stylesheet" href="${relativeRoot}assets/book.css">
+  <link rel="stylesheet" href="${relativeRoot}assets/exhibits/exhibits.css">
   <script defer src="${relativeRoot}assets/book.js"></script>
+  <script defer src="${relativeRoot}assets/exhibits/exhibit-kit.js"></script>
+  <script defer src="${relativeRoot}assets/exhibits/exhibits.js"></script>
 </head>
 <body>
   <a class="skip-link" href="#main">Skip to manuscript</a>
@@ -650,6 +661,7 @@ function indexLayout(chapters) {
   return `<main id="main" class="manuscript manuscript-index">
   <header class="chapter-header">
     <p class="chapter-kicker">Enhanced Static Manuscript</p>
+    ${chapterGlyph(0)}
     <h1>Programming for Wizards</h1>
     <p class="lede">A book about programming as the art of changing the shape of a problem.</p>
   </header>
@@ -671,6 +683,7 @@ function chapterLayout(chapter, renderedBody, previous, next) {
   <header class="chapter-header">
     <p class="chapter-kicker">${escapeHtml(chapter.part)}</p>
     <p class="chapter-number">Chapter ${escapeHtml(chapter.number)}</p>
+    ${chapterGlyph(Number(chapter.number))}
   </header>
   ${renderedBody}
   <nav class="chapter-pagination" aria-label="Chapter navigation">
@@ -692,6 +705,7 @@ function renderInline(source) {
   text = text.replace(/`([^`]+)`/g, (_, code) => hold(`<code>${escapeHtml(code)}</code>`))
   text = text.replace(/!\[([^\]]*)\]\(([^)]+)\)/g, (_, alt, href) => hold(`<img src="${escapeAttribute(href)}" alt="${escapeAttribute(alt)}">`))
   text = text.replace(/\[([^\]]+)\]\(([^)]+)\)/g, (_, label, href) => hold(`<a href="${escapeAttribute(href)}">${renderInline(label)}</a>`))
+  text = text.replace(/<[^>\n]+>/g, tag => hold(tag))
   text = text.replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>")
   text = text.replace(/_([^_]+)_/g, "<em>$1</em>")
   text = text.replace(/\*([^*]+)\*/g, "<em>$1</em>")
@@ -740,6 +754,31 @@ function humanizeId(id) {
   return id
     .replace(/[-_]+/g, " ")
     .replace(/\b\w/g, character => character.toUpperCase())
+}
+
+function chapterGlyph(number) {
+  const glyphs = new Map([
+    [0, `<path d="M20 48h56M48 20v56M30 30l36 36M66 30 30 66"/><circle cx="48" cy="48" r="9"/>`],
+    [1, `<path d="M23 62c14-25 36-25 50 0"/><path d="M32 62V34m16 28V25m16 37V38"/><circle cx="32" cy="31" r="3"/><circle cx="48" cy="22" r="3"/><circle cx="64" cy="35" r="3"/>`],
+    [2, `<path d="M22 67h52"/><path d="M30 67V25h36v42"/><path d="M39 67V37h18v30"/><path d="M21 25h54"/><circle cx="35" cy="50" r="2"/><circle cx="61" cy="50" r="2"/>`],
+    [3, `<path d="M23 67c12-17 12-31 0-43 17 12 31 12 50 0-12 17-12 31 0 43-19-12-33-12-50 0z"/><path d="M35 48h26M48 35v26"/>`],
+    [4, `<path d="M25 63c8-22 17-33 28-33 9 0 15 6 18 17"/><path d="M25 63c16-5 31-5 46 0"/><path d="M36 42c7 4 15 4 24 0"/>`],
+    [5, `<path d="M21 64c15-16 30-32 54-32"/><circle cx="24" cy="62" r="5"/><circle cx="48" cy="48" r="5"/><circle cx="72" cy="34" r="5"/><path d="M43 48H30m37-14H53"/>`],
+    [6, `<path d="M48 72V24"/><path d="M48 37c-13-12-23-11-30 2 12 1 22 0 30-2z"/><path d="M48 49c14-13 24-12 31 2-12 1-23 0-31-2z"/><path d="M48 60c-10-7-19-6-27 4 10 2 19 1 27-4z"/>`],
+    [7, `<path d="M23 29h50v34H23z"/><path d="M23 39h50"/><path d="M34 72h28"/><path d="M42 63v9m12-9v9"/><circle cx="31" cy="34" r="1.5"/><circle cx="37" cy="34" r="1.5"/>`],
+    [8, `<path d="M25 31c12-10 34-10 46 0"/><path d="M71 31c-12 10-34 10-46 0"/><path d="M25 65c12-10 34-10 46 0"/><path d="M71 65c-12 10-34 10-46 0"/><path d="M35 48h26"/>`],
+    [9, `<path d="M22 31h20v20H22zM54 31h20v20H54zM38 60h20v20H38z"/><path d="M42 41h12M48 51v9"/>`],
+    [10, `<path d="M24 25h48L55 48v21l-14 7V48z"/><path d="M33 35h30"/><path d="M40 45h16"/>`],
+    [11, `<path d="M20 31c22 4 17 32 39 36 10 2 17-3 17-12"/><path d="M24 62c18-14 33-16 50-7"/><path d="M24 44c21-1 36 6 47 21"/><circle cx="20" cy="31" r="3"/><circle cx="24" cy="62" r="3"/><circle cx="76" cy="55" r="3"/>`],
+    [12, `<circle cx="48" cy="48" r="14"/><path d="M48 20v14m0 28v14M20 48h14m28 0h14"/><circle cx="48" cy="20" r="4"/><circle cx="76" cy="48" r="4"/><circle cx="48" cy="76" r="4"/><circle cx="20" cy="48" r="4"/>`],
+    [13, `<path d="M21 69h54"/><path d="M29 69V54a19 19 0 0 1 38 0v15"/><path d="M39 69V55a9 9 0 0 1 18 0v14"/><path d="M34 38 48 24l14 14"/>`],
+    [14, `<circle cx="29" cy="32" r="7"/><circle cx="67" cy="36" r="7"/><circle cx="40" cy="67" r="7"/><path d="M35 36l25-1M32 39l7 21M62 41 45 62"/><path d="M22 51c17-10 34-10 52 0"/>`],
+    [15, `<path d="M22 61h52"/><path d="M28 61V33h16v28M52 61V25h16v36"/><path d="M31 42h10m14-7h10M31 51h10m24-6H55"/>`],
+    [16, `<path d="M22 50 48 28l26 22"/><path d="M31 48v22h34V48"/><path d="M41 70V55h14v15"/><path d="M24 70h48"/><circle cx="62" cy="34" r="4"/>`],
+    [17, `<path d="M26 27h19v19H26zM51 30h19v19H51zM35 55h19v19H35z"/><path d="M45 36h6M52 49l-7 6M36 46l4 9"/><path d="M65 65c-14 8-25 8-34 0"/>`]
+  ])
+
+  return `<svg class="chapter-glyph" viewBox="0 0 96 96" focusable="false" aria-hidden="true">${glyphs.get(number) ?? glyphs.get(0)}</svg>`
 }
 
 function escapeHtml(value) {

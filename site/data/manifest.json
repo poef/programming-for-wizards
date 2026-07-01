@@ -1,11 +1,12 @@
 {
   "id": "programming-for-wizards",
   "title": "Programming for Wizards",
-  "generatedAt": "2026-07-01T16:26:26.074Z",
+  "generatedAt": "2026-07-01T17:19:16.716Z",
   "phase": "01-enhanced-static-manuscript",
   "features": {
     "notes": "planned",
     "solidNotes": "planned",
+    "exhibitRuntime": true,
     "readerSettings": true,
     "staticFallbacks": true
   },
@@ -188,7 +189,7 @@
       "chapter": "01-this-is-not-a-programming-book",
       "title": "Same Problem Different World",
       "url": "chapters/01-this-is-not-a-programming-book.html#exhibit-same-problem-different-world",
-      "status": "placeholder"
+      "status": "interactive"
     },
     {
       "id": "numbers-are-machines",
@@ -489,18 +490,25 @@
       "url": "chapters/01-this-is-not-a-programming-book.html#p-01-there-are-a-lot-of-books-about-programming"
     },
     {
-      "id": "p-01-this-book-is-meant-for-wizards-wizards-who",
+      "id": "p-01-this-book-is-for-people-who-suspect-software",
       "type": "paragraph",
-      "label": "This book is meant for wizards. Wizards who want to learn how to program computers. In the process you will also learn h",
+      "label": "This book is for people who suspect software could be simpler, stranger, smaller, and more humane than it usually is.",
       "chapter": "01-this-is-not-a-programming-book",
-      "url": "chapters/01-this-is-not-a-programming-book.html#p-01-this-book-is-meant-for-wizards-wizards-who"
+      "url": "chapters/01-this-is-not-a-programming-book.html#p-01-this-book-is-for-people-who-suspect-software"
     },
     {
-      "id": "p-01-you-probably-have-already-been-programming-computers-for",
+      "id": "p-01-that-is-what-i-mean-by-wizard-here",
       "type": "paragraph",
-      "label": "You probably have already been programming computers for a while. And you are probably not happy about the state of soft",
+      "label": "That is what I mean by wizard here. Not a rank, not a credential, and not a secret club. A wizard is someone willing to ",
       "chapter": "01-this-is-not-a-programming-book",
-      "url": "chapters/01-this-is-not-a-programming-book.html#p-01-you-probably-have-already-been-programming-computers-for"
+      "url": "chapters/01-this-is-not-a-programming-book.html#p-01-that-is-what-i-mean-by-wizard-here"
+    },
+    {
+      "id": "p-01-you-may-already-have-been-programming-computers-for",
+      "type": "paragraph",
+      "label": "You may already have been programming computers for a while. You may not be happy about the state of software and progra",
+      "chapter": "01-this-is-not-a-programming-book",
+      "url": "chapters/01-this-is-not-a-programming-book.html#p-01-you-may-already-have-been-programming-computers-for"
     },
     {
       "id": "p-01-to-really-learn-what-you-can-do-chapters",

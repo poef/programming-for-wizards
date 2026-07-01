@@ -7,23 +7,26 @@
   --book-font-scale: 100%;
   --book-line-height: 1.6;
   --book-column-width: 42rem;
-  --layout-nav-width: 272px;
-  --layout-margin-width: 288px;
+  --layout-nav-width: 248px;
+  --layout-margin-width: 360px;
   --reader-label-height: 30px;
   --reader-control-height: 42px;
   --reader-row-height: 78px;
-  --color-page: #f7f7f2;
+  --color-page: #f5f5f1;
   --color-panel: #ffffff;
   --color-ink: #1f2421;
   --color-muted: #646a61;
-  --color-line: #d8d8cd;
+  --color-line: #dcded6;
+  --color-soft: #eceee7;
+  --color-accent: #a77d32;
+  --color-blue-ink: #315d72;
   --color-rule: #7d2636;
-  --color-rule-soft: #f5e8e3;
+  --color-rule-soft: #f7ecec;
   --color-exhibit: #1f6f62;
-  --color-exhibit-soft: #e5f1ed;
-  --color-code: #f1f2ec;
+  --color-exhibit-soft: #e8f2ef;
+  --color-code: #f0f1ed;
   --color-focus: #005fcc;
-  --shadow-soft: 0 12px 40px rgb(31 36 33 / 0.08);
+  --shadow-soft: 0 8px 24px rgb(31 36 33 / 0.06);
 }
 
 [data-font="simple-sans"] {
@@ -48,6 +51,9 @@
   --color-ink: #f3f3ed;
   --color-muted: #b9bba9;
   --color-line: #4a4d42;
+  --color-soft: #2c2e27;
+  --color-accent: #d1b166;
+  --color-blue-ink: #9bb7c6;
   --color-rule: #f0a3a6;
   --color-rule-soft: #321c21;
   --color-exhibit: #8fd6c6;
@@ -63,6 +69,9 @@
   --color-ink: #000000;
   --color-muted: #202020;
   --color-line: #000000;
+  --color-soft: #ffffff;
+  --color-accent: #000000;
+  --color-blue-ink: #000000;
   --color-rule: #8b0000;
   --color-rule-soft: #ffffff;
   --color-exhibit: #005a4a;
@@ -83,6 +92,7 @@ html {
 }
 
 body {
+  background: var(--color-page);
   margin: 0;
   font-family: var(--book-font-body);
 }
@@ -150,9 +160,18 @@ a:hover {
   text-decoration: none;
 }
 
+.book-title::before {
+  background: var(--color-accent);
+  border-radius: 999px;
+  content: "";
+  display: inline-block;
+  height: 0.48em;
+  margin-right: 0.45em;
+  width: 0.48em;
+}
+
 .map-section {
-  border-top: 1px solid var(--color-line);
-  padding: 1rem 0;
+  padding: 0.65rem 0;
 }
 
 .map-section h2,
@@ -200,6 +219,11 @@ a:hover {
   color: var(--color-rule);
 }
 
+.map-section a[aria-current="page"] span {
+  color: var(--color-rule);
+  font-weight: 700;
+}
+
 .map-section span,
 .index-toc span {
   color: var(--color-muted);
@@ -207,10 +231,10 @@ a:hover {
 }
 
 .reader-panel {
-  background: var(--color-panel);
-  border: 1px solid var(--color-line);
+  background: color-mix(in srgb, var(--color-panel), transparent 18%);
+  border: 0;
   border-radius: 8px;
-  box-shadow: var(--shadow-soft);
+  box-shadow: none;
   inline-size: 100%;
   padding: 16px;
 }
@@ -246,18 +270,28 @@ a:hover {
 
 .manuscript {
   justify-self: center;
-  background: var(--color-panel);
-  border: 1px solid var(--color-line);
-  box-shadow: var(--shadow-soft);
+  background: transparent;
+  border: 0;
+  box-shadow: none;
   min-width: 0;
+  overflow: hidden;
+  position: relative;
   width: min(100%, var(--book-column-width));
-  padding: clamp(1.25rem, 4vw, 4rem);
+  padding: clamp(1.25rem, 4vw, 4rem) 0 clamp(1.25rem, 4vw, 4rem);
 }
 
 .chapter-header {
-  border-bottom: 1px solid var(--color-line);
+  align-items: start;
+  border-bottom: 0;
+  display: grid;
+  gap: 0.35rem 1.25rem;
+  grid-template-columns: minmax(0, 1fr) auto;
   margin-bottom: 2rem;
-  padding-bottom: 1rem;
+  padding-bottom: 0.25rem;
+}
+
+.chapter-header > :not(.chapter-glyph) {
+  grid-column: 1;
 }
 
 .chapter-kicker,
@@ -276,6 +310,29 @@ figcaption {
 
 .chapter-number {
   margin-top: 0.35rem;
+}
+
+.chapter-glyph {
+  color: var(--color-blue-ink);
+  grid-column: 2;
+  grid-row: 1 / span 2;
+  height: clamp(4rem, 12vw, 6.5rem);
+  opacity: 0.88;
+  overflow: visible;
+  stroke: currentColor;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 3;
+  width: clamp(4rem, 12vw, 6.5rem);
+}
+
+.chapter-glyph circle {
+  fill: color-mix(in srgb, var(--color-accent), transparent 75%);
+  stroke: currentColor;
+}
+
+.manuscript-index .chapter-glyph {
+  grid-row: 1 / span 3;
 }
 
 .lede {
@@ -298,6 +355,7 @@ h6 {
 }
 
 h1 {
+  color: var(--color-ink);
   font-size: clamp(2.2rem, 8vw, 4.5rem);
   margin-top: 0;
 }
@@ -317,6 +375,17 @@ li {
 
 p {
   margin: 1rem 0;
+}
+
+.manuscript:not(.manuscript-index) > h1 + p::first-letter {
+  color: var(--color-rule);
+  float: left;
+  font-family: var(--book-font-heading);
+  font-size: 4.35rem;
+  font-weight: 700;
+  line-height: 0.82;
+  margin: 0.2rem 0.65rem 0.1rem 0;
+  padding: 0.06rem 0.12rem 0 0;
 }
 
 .anchor-link {
@@ -339,23 +408,22 @@ h6:hover .anchor-link,
 }
 
 blockquote {
-  border-left: 4px solid var(--color-line);
   color: var(--color-muted);
   margin: 1.5rem 0;
-  padding-left: 1rem;
+  padding-left: 1.25rem;
 }
 
 .wizard-rule,
 .exhibit-placeholder {
-  border: 1px solid;
+  border: 0;
   border-radius: 8px;
   margin: 2rem 0;
   padding: 1.15rem;
+  position: relative;
 }
 
 .wizard-rule {
   background: var(--color-rule-soft);
-  border-color: var(--color-rule);
 }
 
 .wizard-rule p:last-child,
@@ -369,12 +437,13 @@ blockquote {
 
 .exhibit-placeholder {
   background: var(--color-exhibit-soft);
-  border-color: var(--color-exhibit);
 }
 
 .exhibit-placeholder h2 {
+  border: 0;
   font-size: 1.25rem;
   margin: 0.35rem 0 0.75rem;
+  padding-top: 0;
 }
 
 .exhibit-kicker {
@@ -382,9 +451,7 @@ blockquote {
 }
 
 .static-fallback {
-  border-top: 1px solid color-mix(in srgb, var(--color-exhibit), transparent 60%);
   margin-top: 1rem;
-  padding-top: 0.25rem;
 }
 
 .static-fallback p {
@@ -444,7 +511,7 @@ td {
 }
 
 th {
-  background: var(--color-code);
+  background: color-mix(in srgb, var(--color-accent), var(--color-code) 88%);
 }
 
 .table-figure {
@@ -456,8 +523,7 @@ th {
 }
 
 .index-toc section {
-  border-top: 1px solid var(--color-line);
-  padding: 1rem 0;
+  padding: 0.75rem 0;
 }
 
 .index-toc h3 {
@@ -472,16 +538,16 @@ th {
 }
 
 .chapter-pagination {
-  border-top: 1px solid var(--color-line);
   display: grid;
   gap: 1rem;
   grid-template-columns: 1fr 1fr;
   margin-top: 3rem;
-  padding-top: 1rem;
+  padding-top: 0;
 }
 
 .chapter-pagination a {
-  border: 1px solid var(--color-line);
+  background: color-mix(in srgb, var(--color-panel), transparent 16%);
+  border: 0;
   border-radius: 8px;
   color: var(--color-ink);
   display: grid;

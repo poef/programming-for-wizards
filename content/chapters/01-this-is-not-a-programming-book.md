@@ -6,11 +6,13 @@ tags: programming for wizards
 
 There are a lot of books about programming. Many of them are called a variant of [_Programming for Dummies_](https://en.wikipedia.org/wiki/For_Dummies). This is not one of those.
 
-This book is meant for wizards. Wizards who want to learn how to program computers. In the process you will also learn how to program people.
+This book is for people who suspect software could be simpler, stranger, smaller, and more humane than it usually is.
 
-You probably have already been programming computers for a while. And you are probably not happy about the state of software and programming in general. This means you are no longer a beginner. Welcome to the club.
+That is what I mean by _wizard_ here. Not a rank, not a credential, and not a secret club. A wizard is someone willing to look at a problem long enough to wonder whether the problem was shaped badly in the first place.
 
-To really learn what you can do, chapters in this book will go back and try to highlight where we are and how we got there. This is meant to give you a perspective, but also to show you that everything you've learned is just something that someone thought up. There is no law of nature that forces you to stick to what someone else made up. You can make it all up yourself.
+You may already have been programming computers for a while. You may not be happy about the state of software and programming in general. Or you may simply have noticed that the tools around you are human inventions, which means they can be questioned, repaired, replaced, and made kinder.
+
+To really learn what you can do, chapters in this book will go back and try to highlight where we are and how we got there. This is meant to give you a perspective, but also to show you that everything you've learned is just something that someone thought up. There is no law of nature that forces you to stick to what someone else made up. You are allowed to question the shapes you inherited, and sometimes to make a better one.
 
 That is the point of this book.
 
@@ -37,4 +39,3 @@ Most of the chapters in this book are stories about people doing exactly that. T
 And after that, everyone else said the new thing was obvious.
 
 That is how magic usually works.
-
