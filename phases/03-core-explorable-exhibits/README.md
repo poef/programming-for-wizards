@@ -26,6 +26,7 @@ Each exhibit should keep a static fallback and a keyboard-accessible path throug
 Interactive so far:
 
 - `same-problem-different-world`: list, table and graph representations for the same dependency data.
+- `numbers-are-machines`: tally marks, Roman numerals, abacus columns and positional bases for one number.
 - `html-chooses-a-tree`: overlapping text annotations, crossed HTML, tree-safe HTML and range data.
 
 Source files:

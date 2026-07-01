@@ -1,7 +1,7 @@
 {
   "id": "programming-for-wizards",
   "title": "Programming for Wizards",
-  "generatedAt": "2026-07-01T20:54:19.749Z",
+  "generatedAt": "2026-07-01T21:00:44.326Z",
   "phase": "01-enhanced-static-manuscript",
   "features": {
     "notes": "planned",
@@ -197,7 +197,7 @@
       "chapter": "02-numbers-hiding-calculations-in-symbols",
       "title": "Numbers Are Machines",
       "url": "chapters/02-numbers-hiding-calculations-in-symbols.html#exhibit-numbers-are-machines",
-      "status": "placeholder"
+      "status": "interactive"
     },
     {
       "id": "truth-table-riddle",

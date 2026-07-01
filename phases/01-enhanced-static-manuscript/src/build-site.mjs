@@ -13,6 +13,7 @@ const siteAssetDir = path.join(siteDir, "assets")
 const siteDataDir = path.join(siteDir, "data")
 const interactiveExhibits = new Set([
   "same-problem-different-world",
+  "numbers-are-machines",
   "html-chooses-a-tree"
 ])
 
