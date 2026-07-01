@@ -14,7 +14,7 @@ Introduction -> Numbers -> Web -> Language -> Query DSL -> HTML -> Logic -> WIP 
 The new order is:
 
 ```text
-Prologue -> Representations -> The Web as address/document/platform -> Inventing languages -> Binding and boundaries -> Complexity and change
+Prologue -> Representations -> The Web as address/document/platform -> Inventing languages -> Boundaries and reusable pieces -> Architecture, change and home
 ```
 
 ## Main editorial rule

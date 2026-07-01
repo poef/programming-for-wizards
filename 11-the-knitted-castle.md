@@ -144,7 +144,7 @@ You cannot defeat complexity once and for all. That is the sort of promise that 
 
 But you can fight.
 
-You can keep asking what assumptions a piece is carrying. You can make dependencies explicit instead of letting them seep in through globals, singletons and secret imports. You can keep the core of a system away from the shell that talks to browsers, databases, networks and users. You can pass plain data across boundaries. You can write adapters at the edge instead of making every part know every other part's dialect.
+You can keep asking what assumptions a piece is carrying. You can make dependencies explicit instead of letting them seep in through globals, singletons and secret imports. You can keep the stable rules of a system away from the parts that talk to browsers, databases, networks and users. You can pass plain data across boundaries. You can write adapters at the edge instead of making every part know every other part's dialect.
 
 You can make small languages for the stable parts of the problem, as we did with JAQT. Not always new languages with parsers. Sometimes just a shape in data, a few names, a convention that lets the important idea stand apart from the machinery.
 
