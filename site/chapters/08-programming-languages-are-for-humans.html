@@ -1,0 +1,315 @@
+<!doctype html>
+<html lang="en" data-font="publication" data-theme="light" data-motion="auto">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Programming languages are for humans - Programming for Wizards</title>
+  <link rel="stylesheet" href="../assets/book.css">
+  <script defer src="../assets/book.js"></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to manuscript</a>
+  <div class="book-shell">
+    <nav class="chapter-map" aria-label="Chapters">
+  <a class="book-title" href="../index.html">Programming for Wizards</a>
+  
+<section class="map-section">
+  <h2>Prologue: You are allowed to make it up</h2>
+  <ol>
+    <li><a href="../chapters/01-this-is-not-a-programming-book.html"><span>01</span>This is not a programming book</a></li>
+  </ol>
+</section>
+<section class="map-section">
+  <h2>Part I: Representations are spells</h2>
+  <ol>
+    <li><a href="../chapters/02-numbers-hiding-calculations-in-symbols.html"><span>02</span>Numbers: hiding calculations in symbols</a></li><li><a href="../chapters/03-logic-turning-truth-into-machinery.html"><span>03</span>Logic: turning truth into machinery</a></li><li><a href="../chapters/04-language-the-tool-that-changes-the-thinker.html"><span>04</span>Language: the tool that changes the thinker</a></li>
+  </ol>
+</section>
+<section class="map-section">
+  <h2>Part II: The Web, from address to platform</h2>
+  <ol>
+    <li><a href="../chapters/05-the-web-as-address.html"><span>05</span>The Web as address: a spell for pointing anywhere</a></li><li><a href="../chapters/06-the-web-as-document.html"><span>06</span>The Web as document: choosing a tree</a></li><li><a href="../chapters/07-the-web-as-platform.html"><span>07</span>The Web as platform: the prototype that became a world</a></li>
+  </ol>
+</section>
+<section class="map-section">
+  <h2>Part III: Inventing languages</h2>
+  <ol>
+    <li><a aria-current="page" href="../chapters/08-programming-languages-are-for-humans.html"><span>08</span>Programming languages are for humans</a></li><li><a href="../chapters/09-every-program-contains-a-language.html"><span>09</span>Every program contains a language</a></li><li><a href="../chapters/10-code-exhibit-extending-javascript-with-jaqt.html"><span>10</span>Code exhibit: extending JavaScript with JAQT</a></li>
+  </ol>
+</section>
+<section class="map-section">
+  <h2>Part IV: Boundaries and reusable pieces</h2>
+  <ol>
+    <li><a href="../chapters/11-the-knitted-castle.html"><span>11</span>The knitted castle</a></li><li><a href="../chapters/12-objects-binding-data-behavior-and-time.html"><span>12</span>Objects: binding data, behavior, and time</a></li>
+  </ol>
+</section>
+<section class="map-section">
+  <h2>Part V: Architecture, change, commons, and home</h2>
+  <ol>
+    <li><a href="../chapters/13-architecture-arches-pyramids-and-change.html"><span>13</span>Architecture: arches, pyramids, and change</a></li><li><a href="../chapters/14-the-web-as-commons.html"><span>14</span>The Web as commons: innovation happens elsewhere</a></li><li><a href="../chapters/15-the-web-as-data.html"><span>15</span>The Web as data: things should have addresses too</a></li><li><a href="../chapters/16-the-web-as-home.html"><span>16</span>The Web as home: your data should outlive your apps</a></li>
+  </ol>
+</section>
+<section class="map-section">
+  <h2>Epilogue</h2>
+  <ol>
+    <li><a href="../chapters/17-rule-zero-there-are-no-rules.html"><span>17</span>Rule zero: there are no rules</a></li>
+  </ol>
+</section>
+</nav>
+    <main id="main" class="manuscript">
+  <header class="chapter-header">
+    <p class="chapter-kicker">Part III: Inventing languages</p>
+    <p class="chapter-number">Chapter 08</p>
+  </header>
+  <h1 id="h-08-programming-languages-are-for-humans"><a class="anchor-link" href="#h-08-programming-languages-are-for-humans" aria-label="Link to Programming languages are for humans">#</a>Programming languages are for humans</h1>
+<p id="p-08-a-few-chapters-ago-we-looked-at-language" data-note-target>A few chapters ago we looked at language as magic. Human language does not merely carry thoughts around; it changes what kinds of thoughts are easy to have.</p>
+<p id="p-08-programming-languages-do-the-same-thing-but-with" data-note-target>Programming languages do the same thing, but with less tolerance for ambiguity and more semicolons.</p>
+<p id="p-08-this-chapter-returns-to-that-idea-but-now" data-note-target>This chapter returns to that idea, but now turns it toward programming proper. A programming language is not primarily a machine interface. It is a human thinking tool that happens to be precise enough for a machine to execute.</p>
+<aside id="exhibit-same-program-many-languages" class="exhibit-placeholder" data-exhibit-id="same-program-many-languages" data-note-target>
+<p class="exhibit-kicker">Interactive Exhibit</p>
+<h2>Same Program Many Languages</h2>
+<p>Show one tiny program in machine code, assembly, COBOL, Fortran, Lisp and a modern language. Let the reader reveal comments and structure step by step. The point is not to rank languages; the point is to feel which ideas each language makes cheap or expensive.</p>
+<div class="static-fallback" aria-label="Static fallback">
+<p>Same Program Many Languages is planned as an interactive exhibit. This placeholder preserves the explanation and its stable address for the static edition.</p>
+</div>
+</aside>
+<h2 id="h-08-computer-languages"><a class="anchor-link" href="#h-08-computer-languages" aria-label="Link to Computer languages">#</a>Computer languages</h2>
+<p id="p-08-a-common-misconception-is-that-programming-languages-are" data-note-target>A common misconception is that programming languages are designed to allow you to program computers. If that was the only reason, there wouldn't be that many programming languages. A computer doesn't need a programming language, humans do. Computers are perfectly fine executing instructions like this:</p>
+<figure id="code-08-018" class="code-figure" data-note-target>
+<figcaption>code</figcaption>
+<pre><code>037744 016701 000026 012702 000352 005211 105711 100376 
+116162 000002 037400 005267 177756 000765 177550</code></pre>
+</figure>
+<p id="p-08-this-machine-code-is-written-in-octal-to" data-note-target>This <a href="https://en.wikipedia.org/wiki/Machine_code">machine code</a> is written in octal, to make it slightly more readable for humans. But the first really usable step is to write it as <a href="https://en.wikipedia.org/wiki/Assembly_language">assembly code</a>:</p>
+<figure id="code-08-024" class="code-figure" data-note-target>
+<figcaption>code</figcaption>
+<pre><code>037744: 016701 000026          MOV   037776,R1
+037750: 012702 000352          MOV   #352,R2
+037754: 005211                 INC   @R1
+037756: 105711                 TSTB  @R1
+037760: 100376                 BPL   037756
+037762: 116162 000002 037400   MOVB  2(R1),37400(R2)
+037770: 005267 177756          INC   037752
+037774: 000765                 BR    037750
+037776: 177550                 .WORD 177550</code></pre>
+</figure>
+<p id="p-08-and-now-with-some-labels-and-comments" data-note-target>And now with some labels and comments:</p>
+<figure id="code-08-038" class="code-figure" data-note-target>
+<figcaption>code</figcaption>
+<pre><code>        LOAD = 0x7400				; Buffer address
+
+0x7744	016701	BEGIN:	MOV	DEVICE, R1	; Get Device CSR
+0x7746	000026
+0x7750	012702	LOOP:	MOV	(PC)+, R2	; Get buffer offset
+0x7752	000352	OFFSET:	.-LOAD
+0x7754	005211	        INC	@R1		; Turn on reader
+0x7756	105711	READY:	TSTB	@R1		; Done?
+0x7760	100376	        BPL	READY
+0x7762	116162	        MOVB	2(R1), LOAD(R2)	; Transfer
+0x7764	000002
+0x7766	0x7400
+0x7770	005267		INC	OFFSET		; Bump buffer offset
+0x7772	177756
+0x7774	000765		BR	LOOP
+0x7776	177550	DEVICE:	177550			; Input device CSR address</code></pre>
+</figure>
+<p id="p-08-this-is-the-code-to-make-a-pdp" data-note-target>This is the code to <a href="http://gunkies.org/wiki/PDP-11_Bootstrap_Loader">make a PDP-11 computer boot</a>. It is commonly known as <a href="https://en.wikipedia.org/wiki/Bootstrapping">bootstrap</a> code.</p>
+<p id="p-08-even-in-this-enhanced-more-human-form-this" data-note-target>Even in this enhanced, more human form, this code is not very readable. Or expressive. Most humans don't code in assembly language. Yet all programming languages get compiled, or interpreted, to convert it ultimately to machine code.</p>
+<p id="p-08-the-earliest-programming-languages-designed-for-humans-that" data-note-target>The earliest programming languages designed for humans, that are still in use, are <a href="https://en.wikipedia.org/wiki/Fortran">Fortran</a>, <a href="https://en.wikipedia.org/wiki/Lisp_%28programming_language%29">Lisp</a> and <a href="https://en.wikipedia.org/wiki/COBOL">COBOL</a>. And they represent completely different visions on what a programming language should be.</p>
+<p id="p-08-cobol-is-designed-to-be-as-human-readable" data-note-target>Cobol is designed to be as human readable as possible. It is explicitly designed to an English-like grammar. Its intended use was in business settings. It was both very successful and almost universally hated.</p>
+<figure id="code-08-065" class="code-figure" data-note-target>
+<figcaption>cobol</figcaption>
+<pre><code class="language-cobol">/
+IDENTIFICATION DIVISION.
+*-----------------------
+PROGRAM-ID.    UNLDBCU1
+*
+ENVIRONMENT DIVISION.
+*
+CONFIGURATION SECTION.
+DATA DIVISION.
+*
+WORKING-STORAGE SECTION.
+*
+01  WORKAREA-IND.
+       02  WORKIND PIC S9(4) COMP OCCURS 750 TIMES.
+01  RECWORK.
+       02  RECWORK-LEN PIC S9(8) COMP VALUE 32700.
+       02  RECWORK-CHAR PIC X(1) OCCURS 32700 TIMES.
+*
+PROCEDURE DIVISION.
+*
+        CALL 'UNLDBCU2' USING WORKAREA-IND RECWORK.
+        GOBACK.</code></pre>
+</figure>
+<p id="p-08-believe-it-or-not-cobol-is-still-in" data-note-target>Believe it or not, cobol is still in use today. The code above is copied from a current (2022) manual for <a href="https://www.ibm.com/products/db2">DB2</a>, an IBM database system that runs on their <a href="https://www.ibm.com/products/zos">z/OS</a> mainframes. These in themselves are an evolution of the famous <a href="https://en.wikipedia.org/wiki/OS/360">OS/360</a> mainframes of the 1960s. I'm not sure if this is a wizards rule, but if it is, it is:</p>
+<p id="p-08-bad-ideas-and-bad-code-never-die-they" data-note-target><em>Bad ideas and bad code never die, they will infect other programmers and proliferate faster than any good idea ever will.</em></p>
+<p id="p-08-fortran-then-is-a-better-language-it-is" data-note-target>Fortran, then, is a better language. It is the first imperative programming language. It influenced almost all of the programming languages in existence today. And it is still used and useful in scientific and numeric computing. Here is an example in Fortran 77:</p>
+<figure id="code-08-096" class="code-figure" data-note-target>
+<figcaption>fortran</figcaption>
+<pre><code class="language-fortran">PROGRAM MAIN
+INTEGER N, X
+EXTERNAL SUB1
+COMMON /GLOBALS/ N
+X = 0
+PRINT *, 'Enter number of repeats'
+READ (*,*) N
+CALL SUB1(X,SUB1)
+END
+
+SUBROUTINE SUB1(X,DUMSUB)
+INTEGER N, X
+EXTERNAL DUMSUB
+COMMON /GLOBALS/ N
+IF(X .LT. N)THEN
+  X = X + 1
+  PRINT *, 'x = ', X
+  CALL DUMSUB(X,DUMSUB)
+END IF
+END</code></pre>
+</figure>
+<p id="p-08-finally-we-arrive-at-lisp-a-wizard-called" data-note-target>Finally we arrive at Lisp. A wizard called <a href="https://en.wikipedia.org/wiki/John_McCarthy_%28computer_scientist%29">John McCarthy</a> dreamed up Lisp between 1956 and 1958. He succeeded in creating both the most succint and most expressive programming language. And this still holds today. The Lisp compiler, when written in Lisp, is remarkable small:</p>
+<figure id="code-08-121" class="code-figure" data-note-target>
+<figcaption>common-lisp</figcaption>
+<pre><code class="language-common-lisp">(defun null. (x)
+  (eq x '()))
+
+(defun and. (x y)
+  (cond (x (cond (y 't) ('t '())))
+        ('t '())))
+
+(defun not. (x)
+  (cond (x '())
+        ('t 't)))
+
+(defun append. (x y)
+  (cond ((null. x) y)
+        ('t (cons (car x) (append. (cdr x) y)))))
+
+(defun list. (x y)
+  (cons x (cons y '())))
+
+(defun pair. (x y)
+  (cond ((and. (null. x) (null. y)) '())
+        ((and. (not. (atom x)) (not. (atom y)))
+         (cons (list. (car x) (car y))
+               (pair. (cdr x) (cdr y))))))
+
+(defun assoc. (x y)
+  (cond ((eq (caar y) x) (cadar y))
+        ('t (assoc. x (cdr y)))))
+
+(defun eval. (e a)
+  (cond
+    ((atom e) (assoc. e a))
+    ((atom (car e))
+     (cond
+       ((eq (car e) 'quote) (cadr e))
+       ((eq (car e) 'atom)  (atom   (eval. (cadr e) a)))
+       ((eq (car e) 'eq)    (eq     (eval. (cadr e) a)
+                                    (eval. (caddr e) a)))
+       ((eq (car e) 'car)   (car    (eval. (cadr e) a)))
+       ((eq (car e) 'cdr)   (cdr    (eval. (cadr e) a)))
+       ((eq (car e) 'cons)  (cons   (eval. (cadr e) a)
+                                    (eval. (caddr e) a)))
+       ((eq (car e) 'cond)  (evcon. (cdr e) a))
+       ('t (eval. (cons (assoc. (car e) a)
+                        (cdr e))
+                  a))))
+    ((eq (caar e) 'label)
+     (eval. (cons (caddar e) (cdr e))
+            (cons (list. (cadar e) (car e)) a)))
+    ((eq (caar e) 'lambda)
+     (eval. (caddar e)
+            (append. (pair. (cadar e) (evlis. (cdr e) a))
+                     a)))))
+
+(defun evcon. (c a)
+  (cond ((eval. (caar c) a)
+         (eval. (cadar c) a))
+        ('t (evcon. (cdr c) a))))
+
+(defun evlis. (m a)
+  (cond ((null. m) '())
+        ('t (cons (eval.  (car m) a)
+                  (evlis. (cdr m) a)))))</code></pre>
+</figure>
+<p id="p-08-this-is-in-fact-a-complete-lisp-interpreter" data-note-target>This is in fact a complete Lisp interpreter, written in Common Lisp. It is a translation of McCarthy's original, by a wizard called Paul Graham, in his <a href="http://www.paulgraham.com/rootsoflisp.html">Roots of Lisp</a> article.</p>
+<p id="p-08-the-power-of-lisp-is-that-it-allows" data-note-target>The power of Lisp is that it allows you to write code using almost any paradigm. For anything any other programming language can do, you can write Lisp code that does the same.</p>
+<p id="p-08-however-i-lied-a-bit-earlier-there-is" data-note-target>However, I lied a bit earlier. There is one other early programming language I didn't mention. And it is older than all these. It is called <a href="https://plato.stanford.edu/entries/lambda-calculus/">lambda calculus</a>, and it was first designed in the 1930's by a wizard called <a href="https://en.wikipedia.org/wiki/Alonzo_Church">Alonzo Church</a>. Lambda calculus is still in use today, and growing more influential, as functional programming. Below is an example written in <a href="https://en.wikipedia.org/wiki/Miranda_%28programming_language%29">Miranda</a>.</p>
+<figure id="code-08-193" class="code-figure" data-note-target>
+<figcaption>miranda</figcaption>
+<pre><code class="language-miranda">hanoi 0 a b c = [] 
+hanoi (n+1) a b c = hanoi n a c b
+                    move a b
+                    hanoi n c b a
+move a b = &quot;move the top disc from &quot;++a++&quot; to &quot;++b++&quot;\n&quot;</code></pre>
+</figure>
+<p id="p-08-these-three-lines-of-code-solve-the-wellknown" data-note-target>These three lines of code solve the wellknown <a href="https://en.wikipedia.org/wiki/Tower_of_Hanoi">Towers of Hanoi</a> problem. Just like Lisp, or perhaps even more so, functional programming is both powerful and expressive.</p>
+<h2 id="h-08-differences-commonalities-and-why-we-cant-have-nice-things"><a class="anchor-link" href="#h-08-differences-commonalities-and-why-we-cant-have-nice-things" aria-label="Link to Differences, commonalities and why we can&#39;t have nice things">#</a>Differences, commonalities and why we can't have nice things</h2>
+<p id="p-08-computer-languages-are-more-commonly-known-as-programming" data-note-target>Computer languages are more commonly known as programming languages. They are designed to make a computer do something. Did you spot the lie?</p>
+<p id="p-08-programming-languages-are-designed-unlike-human-languages-however" data-note-target>Programming languages are designed, unlike human languages. However they aren't designed to make a computer do anything, they are designed so you, a human, can reason and communicate about what it is that you want the computer to do. This may seem like a small difference, but it is in fact the reason behind the proliferation of programming languages.</p>
+<p id="p-08-just-like-human-languages-a-programming-languages-make" data-note-target>Just like human languages, a programming languages make it easier for some ideas to be expressed than others. The best programming language allows you to freely express all the ideas you need to solve a problem in as simple and straightforward a way as possible. And they do so with a minimum of required learning.</p>
+<p id="p-08-unfortunately-thats-also-not-true-you-see-almost" data-note-target>Unfortunately thats also not true. You see, almost anyone will tell you that, yes, Lisp is the most powerful yet simple programming language out there. And yet almost no one is actually using it in anger. Why?</p>
+<p id="p-08-the-problem-is-communication-not-between-the-human" data-note-target>The problem is communication. Not between the human wizard and their computer. The problem is communicating ideas between humans. You see, languages like Lisp are so powerful, you can create any existing paradigm or programming language idea in it. But the expression of that idea will be your own custom take on that idea. Any other wizard that wants to work with your ideas, your code, will have to learn your version, your implementation of these ideas. And lord help them if you thought up some crazy new ideas.</p>
+<p id="p-08-the-problem-in-general-is-that-reading-code" data-note-target>The problem in general is that reading code is hard. It is much easier to write code. This sounds nonsensical, yet it is true. It is the source of the <a href="https://en.wikipedia.org/wiki/Not_invented_here">NIH syndrome</a> (Not Invented Here.)</p>
+<p id="p-08-one-answer-is-to-make-programming-languages-bigger" data-note-target>One answer is to make programming languages bigger. Add more standard stuff. Add design patterns. Add frameworks. Make sure all programmers are fed the same cookie-cutter solutions, so all code starts to look roughly the same. Create frameworks that force all problems into a <a href="https://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93controller">Model-View-Controller</a> solution on top of an <a href="https://en.wikipedia.org/wiki/Object%E2%80%93relational_mapping">Object-Relational Mapper</a>. Boom :boom:, done!</p>
+<p id="p-08-there-is-a-reason-this-keeps-happening-shared" data-note-target>There is a reason this keeps happening. Shared shapes make code easier to read. If every project invents its own private universe, every project becomes a new country with its own customs, grammar and strange little hand gestures. A framework gives everyone the same street names.</p>
+<p id="p-08-but-there-is-a-cost-once-the-shared" data-note-target>But there is a cost. Once the shared language becomes too large, the real problem starts to disappear underneath the standard machinery. You are no longer saying what your program means. You are saying how this particular framework wants the meaning to be dressed.</p>
+<p id="p-08-so-the-natural-pressure-on-programming-languages-is" data-note-target>So the natural pressure on programming languages is strange. Small powerful languages are wonderful for the writer, but dangerous for the reader. Large standard languages are easier to share, but they also make it harder to say unusual things simply.</p>
+<p id="p-08-just-like-human-languages" data-note-target>Just like human languages.</p>
+<p id="p-08-a-wizard-should-be-aware-of-this-tension" data-note-target>A wizard should be aware of this tension. You do not escape it by choosing the one true language, because the one true language does not exist. You escape it, when you can, by making the language of the program fit the problem more closely.</p>
+<p id="p-08-that-is-where-domain-specific-languages-become-interesting" data-note-target>That is where <a href="https://martinfowler.com/dsl.html">Domain Specific Languages</a> become interesting.</p>
+<p id="p-08-a-dsl-is-not-automatically-a-separate-language" data-note-target>A DSL is not automatically a separate language with a parser and a manual. Sometimes it is. <a href="https://en.wikipedia.org/wiki/SQL">SQL</a> is its own world, and for good reasons. But sometimes a DSL is smaller than that. It can be a handful of names, a few conventions, a shape in the data, a chain of functions, a way of arranging code so the important ideas stand next to each other.</p>
+<p id="p-08-the-next-chapter-is-an-exhibit-of-that" data-note-target>The next chapter is an exhibit of that smaller kind of language. We will not build a grand new syntax. We will look for a little query language hiding inside JavaScript.</p>
+<aside id="rule-08-wizards-seventh-rule" class="wizard-rule" data-note-target>
+<p class="rule-label">Wizard's seventh rule</p>
+<p>Code, like language, should clarify, not hide intent.</p>
+</aside>
+  <nav class="chapter-pagination" aria-label="Chapter navigation">
+    <a rel="prev" href="07-the-web-as-platform.html"><span>Previous</span>The Web as platform: the prototype that became a world</a>
+    <a rel="next" href="09-every-program-contains-a-language.html"><span>Next</span>Every program contains a language</a>
+  </nav>
+</main>
+    <aside class="reader-margin" aria-label="Reader tools">
+  <section class="reader-panel">
+    <h2>Reader</h2>
+    <label>Font
+      <select data-setting="font">
+        <option value="publication">Publication</option>
+        <option value="simple-serif">Simple serif</option>
+        <option value="simple-sans">Simple sans</option>
+        <option value="high-legibility">High legibility</option>
+      </select>
+    </label>
+    <label>Size
+      <input data-setting="fontScale" type="range" min="92" max="124" step="4" value="100">
+    </label>
+    <label>Line
+      <input data-setting="lineHeight" type="range" min="145" max="185" step="5" value="160">
+    </label>
+    <label>Width
+      <input data-setting="columnWidth" type="range" min="36" max="54" step="2" value="42">
+    </label>
+    <label>Theme
+      <select data-setting="theme">
+        <option value="light">Light</option>
+        <option value="dark">Dark</option>
+        <option value="contrast">Contrast</option>
+      </select>
+    </label>
+    <label>Motion
+      <select data-setting="motion">
+        <option value="auto">Auto</option>
+        <option value="reduced">Reduced</option>
+      </select>
+    </label>
+  </section>
+  <section class="reader-panel">
+    <h2>Book Data</h2>
+    <a href="../data/manifest.json">Manifest</a>
+  </section>
+</aside>
+  </div>
+</body>
+</html>

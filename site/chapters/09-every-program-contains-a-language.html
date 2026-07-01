@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="en" data-font="publication" data-theme="light" data-motion="auto">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Every program contains a language - Programming for Wizards</title>
+  <link rel="stylesheet" href="../assets/book.css">
+  <script defer src="../assets/book.js"></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to manuscript</a>
+  <div class="book-shell">
+    <nav class="chapter-map" aria-label="Chapters">
+  <a class="book-title" href="../index.html">Programming for Wizards</a>
+  
+<section class="map-section">
+  <h2>Prologue: You are allowed to make it up</h2>
+  <ol>
+    <li><a href="../chapters/01-this-is-not-a-programming-book.html"><span>01</span>This is not a programming book</a></li>
+  </ol>
+</section>
+<section class="map-section">
+  <h2>Part I: Representations are spells</h2>
+  <ol>
+    <li><a href="../chapters/02-numbers-hiding-calculations-in-symbols.html"><span>02</span>Numbers: hiding calculations in symbols</a></li><li><a href="../chapters/03-logic-turning-truth-into-machinery.html"><span>03</span>Logic: turning truth into machinery</a></li><li><a href="../chapters/04-language-the-tool-that-changes-the-thinker.html"><span>04</span>Language: the tool that changes the thinker</a></li>
+  </ol>
+</section>
+<section class="map-section">
+  <h2>Part II: The Web, from address to platform</h2>
+  <ol>
+    <li><a href="../chapters/05-the-web-as-address.html"><span>05</span>The Web as address: a spell for pointing anywhere</a></li><li><a href="../chapters/06-the-web-as-document.html"><span>06</span>The Web as document: choosing a tree</a></li><li><a href="../chapters/07-the-web-as-platform.html"><span>07</span>The Web as platform: the prototype that became a world</a></li>
+  </ol>
+</section>
+<section class="map-section">
+  <h2>Part III: Inventing languages</h2>
+  <ol>
+    <li><a href="../chapters/08-programming-languages-are-for-humans.html"><span>08</span>Programming languages are for humans</a></li><li><a aria-current="page" href="../chapters/09-every-program-contains-a-language.html"><span>09</span>Every program contains a language</a></li><li><a href="../chapters/10-code-exhibit-extending-javascript-with-jaqt.html"><span>10</span>Code exhibit: extending JavaScript with JAQT</a></li>
+  </ol>
+</section>
+<section class="map-section">
+  <h2>Part IV: Boundaries and reusable pieces</h2>
+  <ol>
+    <li><a href="../chapters/11-the-knitted-castle.html"><span>11</span>The knitted castle</a></li><li><a href="../chapters/12-objects-binding-data-behavior-and-time.html"><span>12</span>Objects: binding data, behavior, and time</a></li>
+  </ol>
+</section>
+<section class="map-section">
+  <h2>Part V: Architecture, change, commons, and home</h2>
+  <ol>
+    <li><a href="../chapters/13-architecture-arches-pyramids-and-change.html"><span>13</span>Architecture: arches, pyramids, and change</a></li><li><a href="../chapters/14-the-web-as-commons.html"><span>14</span>The Web as commons: innovation happens elsewhere</a></li><li><a href="../chapters/15-the-web-as-data.html"><span>15</span>The Web as data: things should have addresses too</a></li><li><a href="../chapters/16-the-web-as-home.html"><span>16</span>The Web as home: your data should outlive your apps</a></li>
+  </ol>
+</section>
+<section class="map-section">
+  <h2>Epilogue</h2>
+  <ol>
+    <li><a href="../chapters/17-rule-zero-there-are-no-rules.html"><span>17</span>Rule zero: there are no rules</a></li>
+  </ol>
+</section>
+</nav>
+    <main id="main" class="manuscript">
+  <header class="chapter-header">
+    <p class="chapter-kicker">Part III: Inventing languages</p>
+    <p class="chapter-number">Chapter 09</p>
+  </header>
+  <h1 id="h-09-every-program-contains-a-language"><a class="anchor-link" href="#h-09-every-program-contains-a-language" aria-label="Link to Every program contains a language">#</a>Every program contains a language</h1>
+<p id="p-09-a-program-is-not-only-written-in-a" data-note-target>A program is not only written in a language. A program also creates a language.</p>
+<p id="p-09-every-variable-name-function-name-class-name-method" data-note-target>Every variable name, function name, class name, method name, command name, file name and folder name adds a word to that language. Anyone reading your program must learn that language before they can safely change it.</p>
+<p id="p-09-this-is-why-reading-code-is-hard-it" data-note-target>This is why reading code is hard. It is much easier to write code. When you write code, you already know the language you are inventing. Everyone else has to reverse-engineer it from the traces you leave behind.</p>
+<aside id="exhibit-tiny-dsl-boundary" class="exhibit-placeholder" data-exhibit-id="tiny-dsl-boundary" data-note-target>
+<p class="exhibit-kicker">Interactive Exhibit</p>
+<h2>Tiny Dsl Boundary</h2>
+<p>Start with a small validation problem written as ordinary <code>if</code> statements. Then turn repeated fragments into named functions, then into a table, then into a tiny DSL. Let the reader compare what each version makes visible. The point is to show that language-making happens gradually, not only when you build a parser.</p>
+<div class="static-fallback" aria-label="Static fallback">
+<p>Tiny Dsl Boundary is planned as an interactive exhibit. This placeholder preserves the explanation and its stable address for the static edition.</p>
+</div>
+</aside>
+<h2 id="h-09-domain-specific-languages"><a class="anchor-link" href="#h-09-domain-specific-languages" aria-label="Link to Domain Specific Languages">#</a>Domain Specific Languages</h2>
+<p id="p-09-domain-specific-languages-are-just-programming-languages-in" data-note-target>Domain Specific Languages are just programming languages. In fact, FORTRAN is a DSL for math, COBOL is a DSL for ... ehm... lets forget about COBOL. But in general a DSL is much more limited than a normal programming language. It is small and simple, focused on single problem domain (hence the name.)</p>
+<p id="p-09-when-you-start-using-dsls-you-dont-use" data-note-target>When you start using DSL's, you don't use a single programming language. You use many of them, and glue them together to form your program.</p>
+<p id="p-09-in-fact-if-youve-done-any-programming-you" data-note-target>In fact, if you've done any programming, you have used the exact same ideas, though expressed less powerfully. Any time you create a variable or a function, or classes and methods, you are creating your own DSL, expressed within the limitations of your programming language.</p>
+<p id="p-09-you-are-continually-extending-your-programming-language-creating" data-note-target>You are continually extending your programming language, creating a new language in the process. Anyone reading your code must first learn this language. And while we start out young and amazingly adept at learning languages, as we grow up most of us lose this ability. Or at least it gets degraded. Unless you keep practicing.</p>
+<p id="p-09-you-can-make-it-easier-for-other-people" data-note-target>You can make it easier for other people to learn your language. One way is to mimic existing languages. <a href="https://en.wikipedia.org/wiki/Software_design_pattern">Design patterns</a> fit into this approach. Another way is to keep your changes small. This approach leads to composable components. And finally, you can create real DSL's, that aren't limited to the syntax and capabilities of your source programming language.</p>
+<p id="p-09-creating-a-true-dsl-means-that-you-have" data-note-target>Creating a true DSL means that you have to create your own compiler and runtime. It makes the boundary between the DSL and the source programming language extremely clear. Done well, this boundary lines up well with a natural boundary in the problem domain. The best DSL's are so well known that we don't actually think of them as DSL's anymore.</p>
+<p id="p-09-one-example-is-regular-expressions-any-non-trivial" data-note-target>One example is <a href="https://en.wikipedia.org/wiki/Regular_expression">Regular Expressions</a>. Any non-trivial program will have them. Beginning programmers hate them, because they are so unreadable.. for the untrained.</p>
+<p id="p-09-another-example-is-sql-almost-any-software-that" data-note-target>Another example is SQL. Almost any software that uses a database, will have some SQL in it. It may be hidden behind an ORM, but it will be there.</p>
+<p id="p-09-done-correctly-a-dsl-allows-you-to-divide" data-note-target>Done correctly, a DSL allows you to divide your problem along natural boundaries in the domain. Then you can solve each sub-problem seperately. While you are solving that sub-problem, you don't have to think about the solution for other problems. You will not need to read code that isn't related. Your programming language doesn't need to have tools that aren't related to your current problem. DSL's allow you to have a high level view of the problem and not worry about low level implementation details.</p>
+<p id="p-09-but-the-most-important-thing-to-remember-is" data-note-target>But the most important thing to remember is that you are creating a new language whenever you add any variable, function, class or method. By being conscious of this, you can make sure that the language you are building is easy to learn, simple to use and expressive. Designed for humans, not computers.</p>
+<aside id="rule-09-wizards-eighth-rule" class="wizard-rule" data-note-target>
+<p class="rule-label">Wizard's eighth rule</p>
+<p>Whenever you name something, you are teaching the next reader a word. Make sure the word earns its place.</p>
+</aside>
+  <nav class="chapter-pagination" aria-label="Chapter navigation">
+    <a rel="prev" href="08-programming-languages-are-for-humans.html"><span>Previous</span>Programming languages are for humans</a>
+    <a rel="next" href="10-code-exhibit-extending-javascript-with-jaqt.html"><span>Next</span>Code exhibit: extending JavaScript with JAQT</a>
+  </nav>
+</main>
+    <aside class="reader-margin" aria-label="Reader tools">
+  <section class="reader-panel">
+    <h2>Reader</h2>
+    <label>Font
+      <select data-setting="font">
+        <option value="publication">Publication</option>
+        <option value="simple-serif">Simple serif</option>
+        <option value="simple-sans">Simple sans</option>
+        <option value="high-legibility">High legibility</option>
+      </select>
+    </label>
+    <label>Size
+      <input data-setting="fontScale" type="range" min="92" max="124" step="4" value="100">
+    </label>
+    <label>Line
+      <input data-setting="lineHeight" type="range" min="145" max="185" step="5" value="160">
+    </label>
+    <label>Width
+      <input data-setting="columnWidth" type="range" min="36" max="54" step="2" value="42">
+    </label>
+    <label>Theme
+      <select data-setting="theme">
+        <option value="light">Light</option>
+        <option value="dark">Dark</option>
+        <option value="contrast">Contrast</option>
+      </select>
+    </label>
+    <label>Motion
+      <select data-setting="motion">
+        <option value="auto">Auto</option>
+        <option value="reduced">Reduced</option>
+      </select>
+    </label>
+  </section>
+  <section class="reader-panel">
+    <h2>Book Data</h2>
+    <a href="../data/manifest.json">Manifest</a>
+  </section>
+</aside>
+  </div>
+</body>
+</html>

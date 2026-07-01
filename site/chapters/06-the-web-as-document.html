@@ -1,0 +1,308 @@
+<!doctype html>
+<html lang="en" data-font="publication" data-theme="light" data-motion="auto">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>The Web as document: choosing a tree - Programming for Wizards</title>
+  <link rel="stylesheet" href="../assets/book.css">
+  <script defer src="../assets/book.js"></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to manuscript</a>
+  <div class="book-shell">
+    <nav class="chapter-map" aria-label="Chapters">
+  <a class="book-title" href="../index.html">Programming for Wizards</a>
+  
+<section class="map-section">
+  <h2>Prologue: You are allowed to make it up</h2>
+  <ol>
+    <li><a href="../chapters/01-this-is-not-a-programming-book.html"><span>01</span>This is not a programming book</a></li>
+  </ol>
+</section>
+<section class="map-section">
+  <h2>Part I: Representations are spells</h2>
+  <ol>
+    <li><a href="../chapters/02-numbers-hiding-calculations-in-symbols.html"><span>02</span>Numbers: hiding calculations in symbols</a></li><li><a href="../chapters/03-logic-turning-truth-into-machinery.html"><span>03</span>Logic: turning truth into machinery</a></li><li><a href="../chapters/04-language-the-tool-that-changes-the-thinker.html"><span>04</span>Language: the tool that changes the thinker</a></li>
+  </ol>
+</section>
+<section class="map-section">
+  <h2>Part II: The Web, from address to platform</h2>
+  <ol>
+    <li><a href="../chapters/05-the-web-as-address.html"><span>05</span>The Web as address: a spell for pointing anywhere</a></li><li><a aria-current="page" href="../chapters/06-the-web-as-document.html"><span>06</span>The Web as document: choosing a tree</a></li><li><a href="../chapters/07-the-web-as-platform.html"><span>07</span>The Web as platform: the prototype that became a world</a></li>
+  </ol>
+</section>
+<section class="map-section">
+  <h2>Part III: Inventing languages</h2>
+  <ol>
+    <li><a href="../chapters/08-programming-languages-are-for-humans.html"><span>08</span>Programming languages are for humans</a></li><li><a href="../chapters/09-every-program-contains-a-language.html"><span>09</span>Every program contains a language</a></li><li><a href="../chapters/10-code-exhibit-extending-javascript-with-jaqt.html"><span>10</span>Code exhibit: extending JavaScript with JAQT</a></li>
+  </ol>
+</section>
+<section class="map-section">
+  <h2>Part IV: Boundaries and reusable pieces</h2>
+  <ol>
+    <li><a href="../chapters/11-the-knitted-castle.html"><span>11</span>The knitted castle</a></li><li><a href="../chapters/12-objects-binding-data-behavior-and-time.html"><span>12</span>Objects: binding data, behavior, and time</a></li>
+  </ol>
+</section>
+<section class="map-section">
+  <h2>Part V: Architecture, change, commons, and home</h2>
+  <ol>
+    <li><a href="../chapters/13-architecture-arches-pyramids-and-change.html"><span>13</span>Architecture: arches, pyramids, and change</a></li><li><a href="../chapters/14-the-web-as-commons.html"><span>14</span>The Web as commons: innovation happens elsewhere</a></li><li><a href="../chapters/15-the-web-as-data.html"><span>15</span>The Web as data: things should have addresses too</a></li><li><a href="../chapters/16-the-web-as-home.html"><span>16</span>The Web as home: your data should outlive your apps</a></li>
+  </ol>
+</section>
+<section class="map-section">
+  <h2>Epilogue</h2>
+  <ol>
+    <li><a href="../chapters/17-rule-zero-there-are-no-rules.html"><span>17</span>Rule zero: there are no rules</a></li>
+  </ol>
+</section>
+</nav>
+    <main id="main" class="manuscript">
+  <header class="chapter-header">
+    <p class="chapter-kicker">Part II: The Web, from address to platform</p>
+    <p class="chapter-number">Chapter 06</p>
+  </header>
+  <h1 id="h-06-the-web-as-document-choosing-a-tree"><a class="anchor-link" href="#h-06-the-web-as-document-choosing-a-tree" aria-label="Link to The Web as document: choosing a tree">#</a>The Web as document: choosing a tree</h1>
+<p id="p-06-what-shape-should-a-document-have" data-note-target>What shape should a document have?</p>
+<p id="p-06-the-question-sounds-harmless-a-document-is-just" data-note-target>The question sounds harmless. A document is just text, right? Perhaps text with some headings, links, emphasis, images, lists. But as soon as you want the computer to understand those things, you must choose a shape.</p>
+<p id="p-06-html-chose-a-tree" data-note-target>HTML chose a tree.</p>
+<p id="p-06-that-choice-made-the-web-easy-enough-to" data-note-target>That choice made the Web easy enough to write by hand, easy enough for browsers to recover from mistakes, and structured enough for programs to inspect. It also made some things surprisingly difficult.</p>
+<aside id="exhibit-html-chooses-a-tree" class="exhibit-placeholder" data-exhibit-id="html-chooses-a-tree" data-note-target>
+<p class="exhibit-kicker">Interactive Exhibit</p>
+<h2>Html Chooses A Tree</h2>
+<p>Let the reader select overlapping ranges in a sentence, for example bold from character 1 to 15 and comment from character 8 to 25. Try to encode the overlap as HTML and show why the tree breaks. Then show the same annotations as ranges. The point is not that HTML is bad; the point is that every representation has consequences.</p>
+<div class="static-fallback" aria-label="Static fallback">
+<p>Html Chooses A Tree is planned as an interactive exhibit. This placeholder preserves the explanation and its stable address for the static edition.</p>
+</div>
+</aside>
+<p id="p-06-as-i-wrote-in-the-previous-chapter-in" data-note-target>As I wrote in the previous chapter, in 1989 a wizard called Tim invented the World-Wide Web and changed the world forever. The first, and I think most important part, was the invention of the URL. But another invention was HTML - or HyperText Markup Language.</p>
+<p id="p-06-ive-already-talked-about-hypertext-so-ill-focus" data-note-target>I've already talked about HyperText, so I'll focus on the Markup Language part here. Markup has been around longer than you might think, certainly longer than computers, and maybe even longer than the printing press.</p>
+<p id="p-06-markup-is-simply-an-additional-marking-on-a" data-note-target>Markup is simply an additional marking on a document, added to add extra meaning. The general idea is now called a <a href="https://en.wikipedia.org/wiki/Markup_language">markup language</a>. A <a href="https://chnm.gmu.edu/digitalhistory/links/pdf/chapter3/3.19a.pdf">brief history of document markup</a> gives the old trade version of this nicely. The most common use of markup, pre-computer era, was in <a href="https://en.wikipedia.org/wiki/Letterpress_printing">letterpress printing</a> and later <a href="https://en.wikipedia.org/wiki/Offset_printing">offset printing</a> as well. Here an editor added markup, using a pen or pencil, to a document before sending it to a typesetter. The typesetter was a person tasked with creating the page out of movable type, physical metal blocks containing a single letter or glyph.</p>
+<figure><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/ae/Metal_movable_type.jpg/1920px-Metal_movable_type.jpg">
+    <caption>An example of movable type</caption>
+</figure>
+<p id="p-06-the-editor-added-markup-to-tell-the-typesetter" data-note-target>The editor added markup to tell the typesetter what font and font size to use, as well as other layout decisions.</p>
+<p id="p-06-when-the-first-computers-came-around-they-were" data-note-target>When the first computers came around, they were very limited in the kind of output they could create. If there was a printer attached, it would generally be a typewriter style printer.</p>
+<p id="p-06-once-the-output-devices-gained-more-capabilities-their" data-note-target>Once the output devices gained more capabilities, their manufacturers quickly realized a need to somehow instruct these devices how to display or output text.</p>
+<p id="p-06-one-application-was-on-how-and-where-to" data-note-target>One application was on how and where to display text on terminal screens. From this we ultimately end up with ANSI codes, based on the DEC (Digital Equipment Corporation) VT-100 line of terminals. This is still in use in most command shell programs. But it has no direct influence on HTML, so I'll skip the history here.</p>
+<p id="p-06-the-other-more-relevant-application-was-to-create" data-note-target>The other, more relevant application, was to create better printed output. Early on, the only way to get decent printed output, was to add a typesetter system to your computer. Such a typesetter was itself a complex computer, combined with a system similar to copiers. The typesetter could be instructed to use specific fonts and font sizes. It had a complex API you could use to do this. But each system had its own, vendor specific API and software.</p>
+<p id="p-06-the-wizards-at-bell-labs-who-were-busy" data-note-target>The wizards at Bell Labs, who were busy inventing Unix, were not impressed. They wanted their Unix and C manuals to be nicely typeset, without having to fiddle around. So they invented <a href="https://en.wikipedia.org/wiki/Troff"><code>troff</code></a>, one of the earliest markup languages. It is still in use today, any Unix system has a built-in manual system, called <code>man</code>. And all manual pages are marked up with a <code>troff</code> descendant.</p>
+<p id="p-06-another-wizard-called-knuth-wanted-to-write-a" data-note-target>Another wizard, called Knuth, wanted to write a book about programming. Well actually, he wanted to write <em>the</em> book on programming. In 1962 he was approached by Addison-Wesley about writing a book about compiler design. But he <a href="https://en.wikipedia.org/wiki/The_Art_of_Computer_Programming">enlarged the scope a bit</a>. The first 3 parts - of a proposed 7 part series, were typeset and published by 1973. However, the typesetting instructions for the first books were no longer usable, since the typesetting systems had changed by that time. Clearly that was unacceptable to a proper wizard like Knuth.</p>
+<p id="p-06-so-in-1974-he-took-some-time-off" data-note-target>So in 1974 he took some time off to develop his own, better, typesetting system. That hiatus turned out to be 11 years and resulted in the <a href="https://tug.org/whatis.html">TeX</a> system. An extension of that system, called <a href="https://www.latex-project.org/">LaTeX</a>, is still the preferred system to deliver scientific and mathematical articles to science magazines. It is also one of very few programs which are very likely bug-free. One of the reasons for this may be gleaned from this quote by Knuth: <em>"... one of TEX’s principal advantages is the fact that it does not change "</em></p>
+<p id="p-06-both-troff-and-tex-use-markup-languages-specifically" data-note-target>Both <code>troff</code> and TeX use markup languages specifically to typeset documents before putting them on paper. As such they are not so much interested in declaring the meaning of content, just the styling.</p>
+<p id="p-06-this-is-where-things-get-interesting-sometime-in" data-note-target>This is where things get interesting. Sometime in the 1970's some wizards from IBM created a system called <a href="https://en.wikipedia.org/wiki/IBM_Generalized_Markup_Language">GML</a>. This either means Generalized Markup Language, or it might mean Goldfarb, Mosher and Lorie, who were the aforementioned wizards. Here is an example of a text with GML markup:</p>
+<figure id="code-06-045" class="code-figure" data-note-target>
+<figcaption>gml</figcaption>
+<pre><code class="language-gml">:h1.Chapter 1:  Introduction
+:p.GML supported hierarchical containers, such as
+:ol.
+:li.Ordered lists (like this one),
+:li.Unordered lists, and
+:li.Definition lists
+:eol.
+as well as simple structures.
+:p.Markup minimization (later generalized and formalized in SGML),
+allowed the end-tags to be omitted for the &quot;h1&quot; and &quot;p&quot; elements.</code></pre>
+</figure>
+<p id="p-06-unfortunately-their-work-only-made-it-out-of" data-note-target>Unfortunately their work only made it out of IBM as a product you could buy and use, somewhere at the end of the 1980's.</p>
+<p id="p-06-so-the-award-for-one-of-the-first" data-note-target>So the award for one of the first released markup languages that described the meaning--the semantics--of a text goes to <a href="http://www.columbia.edu/cu/computinghistory/scribe.pdf">Scribe</a> in 1980. At the time a wizard called Brian K. Reid, was a student at the department of computer science at Carnegie Mellon University, USA. He created what he called <em>"A Document Specification Language and its Compiler"</em>, as his final dissertation. The resulting software we now know as Scribe. Douglas Crockford later wrote <a href="https://nofluffjuststuff.com/blog/douglas_crockford/2007/06/scribe">a short appreciation of Scribe</a>, mostly to complain that the rest of us did not steal more of its good ideas.</p>
+<p id="p-06-here-is-a-sample-of-a-text-marked" data-note-target>Here is a sample of a text marked up with Scribe:</p>
+<figure id="code-06-064" class="code-figure" data-note-target>
+<figcaption>scribe</figcaption>
+<pre><code class="language-scribe">@Heading(Cranberry Bread)
+
+@Begin(Quotation) And pretty much anything (and I 
+ mean @i&quot;anything&quot;) could go inside. @End(Quotation)</code></pre>
+</figure>
+<p id="p-06-gml-eventually-turned-into-sgml-standard-generalized-markup" data-note-target>GML eventually turned into <a href="https://en.wikipedia.org/wiki/Standard_Generalized_Markup_Language">SGML--Standard Generalized Markup Language</a>, which became an industry standard in 1986. And in 1989, when sir Tim looked around for a markup language for the Web, he found SGML as a well-defined standard. SGML itself had no tags, it just described how you could create your own document format or DTD--Document Type Definition. This was clearly too complex. However the original GML did have tags, nice and short ones. So <a href="https://html.spec.whatwg.org/">HTML</a> was born out of a combination of SGML and GML.</p>
+<p id="p-06-here-is-that-first-html-page-again" data-note-target>Here is that first HTML page again:</p>
+<figure id="code-06-075" class="code-figure" data-note-target>
+<figcaption>html</figcaption>
+<pre><code class="language-html">&lt;header&gt;
+&lt;title&gt;http://info.cern.ch&lt;/title&gt;
+&lt;/header&gt;
+
+&lt;h1&gt;http://info.cern.ch - home of the first website&lt;/h1&gt;
+&lt;p&gt;From here you can:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;http://info.cern.ch/hypertext/WWW/TheProject.html&quot;&gt;Browse the 
+    first website&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://line-mode.cern.ch/www/hypertext/WWW/TheProject.html&quot;&gt;
+    Browse the first website using the line-mode browser simulator&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://home.web.cern.ch/topics/birth-web&quot;&gt;Learn about the birth
+    of the web&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://home.web.cern.ch/about&quot;&gt;Learn about CERN, the 
+    physics laboratory where the web was born&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/body&gt;</code></pre>
+</figure>
+<p id="p-06-this-is-not-an-sgml-document-it-doesnt" data-note-target>This is not an SGML document, it doesn't have a DTD header. Later HTML would become compliant with SGML, at least until <a href="https://html.spec.whatwg.org/multipage/introduction.html#history-2">HTML5</a> was released.</p>
+<p id="p-06-it-does-use-the-same-syntax-to-differentiate" data-note-target>It does use the same syntax to differentiate between markup and content. All markup tags are enclosed in <code>&lt;</code> and <code>&gt;</code> characters.</p>
+<p id="p-06-lets-take-a-closer-look-at-the-reasons" data-note-target>Let's take a closer look at the reasons behind this format. One of the main goals of the web was to make it easy for people to write HTML documents. There was no special editor. Unlike the word processors people use today, you wrote HTML as source code. You used a standard text editor. The web browser would render that source code, but it wasn't an editor itself.</p>
+<p id="p-06-this-means-that-the-source-code-should-be" data-note-target>This means that the source code should be human readable. So, to make the structure more clear, a markup had a start and an end tag. This made it easy to see which markup ended where. Imagine an HTML version without named end tags, something like this:</p>
+<figure id="code-06-103" class="code-figure" data-note-target>
+<figcaption>code</figcaption>
+<pre><code>&lt;strong&gt;This is an &lt;/em&gt;example&lt;/&gt; text&lt;/&gt;</code></pre>
+</figure>
+<p id="p-06-this-is-technically-feasible-maybe-even-easier-however" data-note-target>This is technically feasible, maybe even easier. However, for a human this is much more difficult to read. And crucially, it is so much easier to make errors, errors that the browser won't be able to recover from.</p>
+<p id="p-06-another-consequence-of-the-chosen-format-is-that" data-note-target>Another consequence of the chosen format is that some characters can not be used in the content anymore. Clearly the <code>&lt;</code> character now has a special meaning. And so have the <code>&gt;</code> and <code>&quot;</code> characters. HTML solves this by allowing you to encode special characters with a special format:</p>
+<ul><li><code>&lt;</code> as &lt;</li><li><code>&gt;</code> as &gt;</li><li><code>&quot;</code> as &quot;</li></ul>
+<p id="p-06-however-now-weve-added-the-character-to-the" data-note-target>However, now we've added the <code>&amp;</code> character to the list of special characters as well. This is easily solved:</p>
+<ul><li><code>&amp;</code> as <code>&amp;amp;</code></li></ul>
+<p id="p-06-and-these-are-the-basics-of-html" data-note-target>And these are the basics of HTML.</p>
+<p id="p-06-now-for-the-tricky-parts-as-youve-seen" data-note-target>Now for the tricky parts. As you've seen, HTML has elements that have a start and end tag. This means you can enclose other tags, or nest them. You cannot overlap tags. The following example is incorrect use of HTML:</p>
+<figure id="code-06-123" class="code-figure" data-note-target>
+<figcaption>html</figcaption>
+<pre><code class="language-html">&lt;strong&gt;This is a strong &lt;em&gt;and partially emphasized&lt;/strong&gt; text&lt;/em&gt;</code></pre>
+</figure>
+<p id="p-06-instead-you-are-supposed-to-write-this" data-note-target>Instead, you are supposed to write this:</p>
+<figure id="code-06-129" class="code-figure" data-note-target>
+<figcaption>html</figcaption>
+<pre><code class="language-html">&lt;strong&gt;This is a strong &lt;em&gt;and partially emphasized&lt;/em&gt;&lt;/strong&gt;&lt;em&gt; text&lt;/em&gt;</code></pre>
+</figure>
+<p id="p-06-and-this-html-can-be-represented-as-a" data-note-target>And this HTML can be represented as a tree structure:</p>
+<ul><li>strong</li><li>This is a strong</li><li>em</li><li>and partially emphasized</li><li>em</li><li>text </li></ul>
+<p id="p-06-this-is-how-your-web-browser-understands-this" data-note-target>This is how your web browser understands this HTML. Most modern browsers allow you to take a look at this structure, by pressing <code>&lt;ctrl&gt; &lt;shift&gt; i</code>. Or you can right-click on a web page and select "inspect". There you will see a complete representation of the HTML content, as a tree. This is also called the <a href="https://developer.mozilla.org/en-US/docs/Web/API/Document_Object_Model">DOM or Document Object Model</a>.</p>
+<p id="p-06-the-html-specification-forces-you-to-create-a" data-note-target>The HTML specification forces you to create a tree structure of your document. There can be no overlapping markup.</p>
+<p id="p-06-this-tree-structure-does-have-benefits-you-can" data-note-target>This tree structure does have benefits. You can also write the above HTML as follows:</p>
+<figure id="code-06-148" class="code-figure" data-note-target>
+<figcaption>html</figcaption>
+<pre><code class="language-html">&lt;strong&gt;
+    This is a strong 
+    &lt;em&gt;
+        and partially emphasized
+    &lt;/em&gt;
+&lt;/strong&gt;
+&lt;em&gt;
+    text
+&lt;/em&gt;</code></pre>
+</figure>
+<p id="p-06-and-it-would-render-the-same-the-tree" data-note-target>And it would render the same. The tree structure is now made visible by the level of indenting in the source. This is now common practice when manually editing HTML. The indentation makes it much easier to see if your closing tags line up with your opening tags.</p>
+<p id="p-06-to-make-this-work-web-browsers-apply-what" data-note-target>To make this work, web browsers apply what is called <a href="https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_text/Whitespace">white-space collapsing</a>. In general, any time you add multiple white-space characters in your content, the browser reads this as 'add one space please'.</p>
+<p id="p-06-for-example-both-lines-in-the-example-below" data-note-target>For example, both lines in the example below will line out perfectly:</p>
+<figure id="code-06-166" class="code-figure" data-note-target>
+<figcaption>html</figcaption>
+<pre><code class="language-html">This renders exactly the same.&lt;br&gt;
+   This    renders exactly    the      same.</code></pre>
+</figure>
+<p id="p-06-even-the-extra-3-spaces-at-the-start" data-note-target>Even the extra 3 spaces at the start of the second line do not show up.</p>
+<p id="p-06-however-there-is-another-tricky-complication-take-the" data-note-target>However, there is another tricky complication. Take the following HTML:</p>
+<figure id="code-06-175" class="code-figure" data-note-target>
+<figcaption>html</figcaption>
+<pre><code class="language-html">&lt;ul&gt;
+    &lt;li&gt;
+        one
+    &lt;/li&gt;
+    &lt;li&gt;
+        two
+    &lt;/li&gt;
+    &lt;li&gt;
+        three
+    &lt;/li&gt;
+&lt;/ul&gt;</code></pre>
+</figure>
+<p id="p-06-this-renders-like-this" data-note-target>This renders like this:</p>
+<ul>
+    <li>
+        one
+    </li>
+    <li>
+        two
+    </li>
+    <li>
+        three
+    </li>
+</ul>
+<p id="p-06-but-if-i-change-the-list-items-to" data-note-target>But if I change the list items to render as <em>inline</em> elements, instead of <em>block</em> elements, you get this:</p>
+<style>
+    .list-inline {
+        padding: 0 !important;
+        margin-left: 0;
+    }
+    .list-inline li {
+        display: inline;
+        margin: 0;
+        padding: 0
+    }
+</style>
+<ul class="list-inline">
+    <li>
+        one
+    </li>
+    <li>
+        two
+    </li>
+    <li>
+        three
+    </li>
+</ul>
+<p id="p-06-lets-change-the-markup-to-this-instead" data-note-target>Let's change the markup to this instead:</p>
+<figure id="code-06-227" class="code-figure" data-note-target>
+<figcaption>html</figcaption>
+<pre><code class="language-html">&lt;ul&gt;&lt;li&gt;one&lt;/li&gt;&lt;li&gt;two&lt;/li&gt;&lt;li&gt;three&lt;/li&gt;&lt;/ul&gt;</code></pre>
+</figure>
+<p id="p-06-there-is-no-change-in-the-normal-rendering" data-note-target>There is no change in the normal rendering, as each item is a block element:</p>
+<ul><li>one</li><li>two</li><li>three</li></ul>
+<p id="p-06-but-now-here-it-is-inline" data-note-target>But now here it is inline:</p>
+<ul class="list-inline"><li>one</li><li>two</li><li>three</li></ul>
+<p id="p-06-and-there-is-no-space-between-the-items" data-note-target>And there is no space between the items anymore.</p>
+<p id="p-06-finally-if-you-really-want-to-open-a" data-note-target>Finally if you really want to open a can of worms, try writing a rich text editor, with full <a href="https://en.wikipedia.org/wiki/WYSIWYG"><em>WYSIWYG</em></a> (What-You-See-Is-What-You-Get) capabilities, using HTML. Modern browsers have such an editor included. You can start one just by entering something like this with the <a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Global_attributes/contenteditable"><code>contenteditable</code></a> attribute:</p>
+<figure id="code-06-243" class="code-figure" data-note-target>
+<figcaption>html</figcaption>
+<pre><code class="language-html">&lt;div contenteditable=true&gt;
+    Type here
+&lt;/div&gt;</code></pre>
+</figure>
+<p id="p-06-however-what-you-are-seeing-is-an-editor" data-note-target>However, what you are seeing is an editor, designed by Microsoft originally for Internet Explorer 5.5, with an API that is derived from WordPad. Its capabilities are dreadfully limited. And yet there is no improved version. The <a href="https://whatwg.org/">WHATWG</a>, the group now in charge of the HTML specification, have created a special workgroup to create an improved standard for <code>contenteditable</code>, but this workgroup has disbanded itself after years of trying to create something better.</p>
+<p id="p-06-the-only-successful-in-browser-editors-that-are" data-note-target>The only successful in-browser editors, that are capable of editing any HTML and deliver a good end result--as in: clean HTML--, do so by switching away from HTML. Instead they use a different underlying editing format. They convert the HTML to that, then allow you to edit it, and when you press save it is converted back to HTML again.</p>
+<p id="p-06-this-is-a-good-lesson-to-learn-all" data-note-target>This is a good lesson to learn: All choices have consequences. The less choices you make, the less consequences will haunt you.</p>
+<aside id="rule-06-wizards-fifth-rule" class="wizard-rule" data-note-target>
+<p class="rule-label">Wizard's fifth rule</p>
+<p>Just because it looks simple, doesn't mean it is. Every format is a bet about the shape of future problems.</p>
+</aside>
+  <nav class="chapter-pagination" aria-label="Chapter navigation">
+    <a rel="prev" href="05-the-web-as-address.html"><span>Previous</span>The Web as address: a spell for pointing anywhere</a>
+    <a rel="next" href="07-the-web-as-platform.html"><span>Next</span>The Web as platform: the prototype that became a world</a>
+  </nav>
+</main>
+    <aside class="reader-margin" aria-label="Reader tools">
+  <section class="reader-panel">
+    <h2>Reader</h2>
+    <label>Font
+      <select data-setting="font">
+        <option value="publication">Publication</option>
+        <option value="simple-serif">Simple serif</option>
+        <option value="simple-sans">Simple sans</option>
+        <option value="high-legibility">High legibility</option>
+      </select>
+    </label>
+    <label>Size
+      <input data-setting="fontScale" type="range" min="92" max="124" step="4" value="100">
+    </label>
+    <label>Line
+      <input data-setting="lineHeight" type="range" min="145" max="185" step="5" value="160">
+    </label>
+    <label>Width
+      <input data-setting="columnWidth" type="range" min="36" max="54" step="2" value="42">
+    </label>
+    <label>Theme
+      <select data-setting="theme">
+        <option value="light">Light</option>
+        <option value="dark">Dark</option>
+        <option value="contrast">Contrast</option>
+      </select>
+    </label>
+    <label>Motion
+      <select data-setting="motion">
+        <option value="auto">Auto</option>
+        <option value="reduced">Reduced</option>
+      </select>
+    </label>
+  </section>
+  <section class="reader-panel">
+    <h2>Book Data</h2>
+    <a href="../data/manifest.json">Manifest</a>
+  </section>
+</aside>
+  </div>
+</body>
+</html>

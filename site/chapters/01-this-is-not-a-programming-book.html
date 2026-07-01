@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="en" data-font="publication" data-theme="light" data-motion="auto">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>This is not a programming book - Programming for Wizards</title>
+  <link rel="stylesheet" href="../assets/book.css">
+  <script defer src="../assets/book.js"></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to manuscript</a>
+  <div class="book-shell">
+    <nav class="chapter-map" aria-label="Chapters">
+  <a class="book-title" href="../index.html">Programming for Wizards</a>
+  
+<section class="map-section">
+  <h2>Prologue: You are allowed to make it up</h2>
+  <ol>
+    <li><a aria-current="page" href="../chapters/01-this-is-not-a-programming-book.html"><span>01</span>This is not a programming book</a></li>
+  </ol>
+</section>
+<section class="map-section">
+  <h2>Part I: Representations are spells</h2>
+  <ol>
+    <li><a href="../chapters/02-numbers-hiding-calculations-in-symbols.html"><span>02</span>Numbers: hiding calculations in symbols</a></li><li><a href="../chapters/03-logic-turning-truth-into-machinery.html"><span>03</span>Logic: turning truth into machinery</a></li><li><a href="../chapters/04-language-the-tool-that-changes-the-thinker.html"><span>04</span>Language: the tool that changes the thinker</a></li>
+  </ol>
+</section>
+<section class="map-section">
+  <h2>Part II: The Web, from address to platform</h2>
+  <ol>
+    <li><a href="../chapters/05-the-web-as-address.html"><span>05</span>The Web as address: a spell for pointing anywhere</a></li><li><a href="../chapters/06-the-web-as-document.html"><span>06</span>The Web as document: choosing a tree</a></li><li><a href="../chapters/07-the-web-as-platform.html"><span>07</span>The Web as platform: the prototype that became a world</a></li>
+  </ol>
+</section>
+<section class="map-section">
+  <h2>Part III: Inventing languages</h2>
+  <ol>
+    <li><a href="../chapters/08-programming-languages-are-for-humans.html"><span>08</span>Programming languages are for humans</a></li><li><a href="../chapters/09-every-program-contains-a-language.html"><span>09</span>Every program contains a language</a></li><li><a href="../chapters/10-code-exhibit-extending-javascript-with-jaqt.html"><span>10</span>Code exhibit: extending JavaScript with JAQT</a></li>
+  </ol>
+</section>
+<section class="map-section">
+  <h2>Part IV: Boundaries and reusable pieces</h2>
+  <ol>
+    <li><a href="../chapters/11-the-knitted-castle.html"><span>11</span>The knitted castle</a></li><li><a href="../chapters/12-objects-binding-data-behavior-and-time.html"><span>12</span>Objects: binding data, behavior, and time</a></li>
+  </ol>
+</section>
+<section class="map-section">
+  <h2>Part V: Architecture, change, commons, and home</h2>
+  <ol>
+    <li><a href="../chapters/13-architecture-arches-pyramids-and-change.html"><span>13</span>Architecture: arches, pyramids, and change</a></li><li><a href="../chapters/14-the-web-as-commons.html"><span>14</span>The Web as commons: innovation happens elsewhere</a></li><li><a href="../chapters/15-the-web-as-data.html"><span>15</span>The Web as data: things should have addresses too</a></li><li><a href="../chapters/16-the-web-as-home.html"><span>16</span>The Web as home: your data should outlive your apps</a></li>
+  </ol>
+</section>
+<section class="map-section">
+  <h2>Epilogue</h2>
+  <ol>
+    <li><a href="../chapters/17-rule-zero-there-are-no-rules.html"><span>17</span>Rule zero: there are no rules</a></li>
+  </ol>
+</section>
+</nav>
+    <main id="main" class="manuscript">
+  <header class="chapter-header">
+    <p class="chapter-kicker">Prologue: You are allowed to make it up</p>
+    <p class="chapter-number">Chapter 01</p>
+  </header>
+  <h1 id="h-01-this-is-not-a-programming-book"><a class="anchor-link" href="#h-01-this-is-not-a-programming-book" aria-label="Link to This is not a programming book">#</a>This is not a programming book</h1>
+<p id="p-01-there-are-a-lot-of-books-about-programming" data-note-target>There are a lot of books about programming. Many of them are called a variant of <a href="https://en.wikipedia.org/wiki/For_Dummies"><em>Programming for Dummies</em></a>. This is not one of those.</p>
+<p id="p-01-this-book-is-meant-for-wizards-wizards-who" data-note-target>This book is meant for wizards. Wizards who want to learn how to program computers. In the process you will also learn how to program people.</p>
+<p id="p-01-you-probably-have-already-been-programming-computers-for" data-note-target>You probably have already been programming computers for a while. And you are probably not happy about the state of software and programming in general. This means you are no longer a beginner. Welcome to the club.</p>
+<p id="p-01-to-really-learn-what-you-can-do-chapters" data-note-target>To really learn what you can do, chapters in this book will go back and try to highlight where we are and how we got there. This is meant to give you a perspective, but also to show you that everything you've learned is just something that someone thought up. There is no law of nature that forces you to stick to what someone else made up. You can make it all up yourself.</p>
+<p id="p-01-that-is-the-point-of-this-book" data-note-target>That is the point of this book.</p>
+<p id="p-01-not-that-you-should-reject-everything-wizards-dont" data-note-target>Not that you should reject everything. Wizards don't waste good magic. They steal, improve, combine, and sometimes very carefully throw things away. The trick is to notice which part of the world is actually fixed, and which part is only a habit that got old enough to look like nature.</p>
+<aside id="exhibit-same-problem-different-world" class="exhibit-placeholder" data-exhibit-id="same-problem-different-world" data-note-target>
+<p class="exhibit-kicker">Interactive Exhibit</p>
+<h2>Same Problem Different World</h2>
+<p>Start with one small problem, for example organizing a few tasks with dependencies. Let the reader solve it manually. Then change only the representation: from a written list, to a table, to a graph. The problem should not get solved by more cleverness. It should get smaller because the reader can now see the right shape.</p>
+<div class="static-fallback" aria-label="Static fallback">
+<p>Same Problem Different World is planned as an interactive exhibit. This placeholder preserves the explanation and its stable address for the static edition.</p>
+</div>
+</aside>
+<h2 id="h-01-the-wizards-question"><a class="anchor-link" href="#h-01-the-wizards-question" aria-label="Link to The wizard&#39;s question">#</a>The wizard's question</h2>
+<p id="p-01-a-beginner-asks-how-do-i-solve-this" data-note-target>A beginner asks: <em>How do I solve this?</em></p>
+<p id="p-01-a-better-programmer-asks-what-is-the-simplest" data-note-target>A better programmer asks: <em>What is the simplest solution?</em></p>
+<p id="p-01-a-wizard-asks-something-stranger" data-note-target>A wizard asks something stranger:</p>
+<blockquote><p>What would make this problem disappear?</p></blockquote>
+<p id="p-01-this-is-not-laziness-or-at-least-not" data-note-target>This is not laziness. Or at least not only laziness. It is the ability to look at the shape of a problem and suspect that the shape itself may be wrong.</p>
+<p id="p-01-most-of-the-chapters-in-this-book-are" data-note-target>Most of the chapters in this book are stories about people doing exactly that. They changed the notation. They changed the machine. They changed the boundary between systems. They changed the language people used to talk about the work.</p>
+<p id="p-01-and-after-that-everyone-else-said-the-new" data-note-target>And after that, everyone else said the new thing was obvious.</p>
+<p id="p-01-that-is-how-magic-usually-works" data-note-target>That is how magic usually works.</p>
+  <nav class="chapter-pagination" aria-label="Chapter navigation">
+    <span></span>
+    <a rel="next" href="02-numbers-hiding-calculations-in-symbols.html"><span>Next</span>Numbers: hiding calculations in symbols</a>
+  </nav>
+</main>
+    <aside class="reader-margin" aria-label="Reader tools">
+  <section class="reader-panel">
+    <h2>Reader</h2>
+    <label>Font
+      <select data-setting="font">
+        <option value="publication">Publication</option>
+        <option value="simple-serif">Simple serif</option>
+        <option value="simple-sans">Simple sans</option>
+        <option value="high-legibility">High legibility</option>
+      </select>
+    </label>
+    <label>Size
+      <input data-setting="fontScale" type="range" min="92" max="124" step="4" value="100">
+    </label>
+    <label>Line
+      <input data-setting="lineHeight" type="range" min="145" max="185" step="5" value="160">
+    </label>
+    <label>Width
+      <input data-setting="columnWidth" type="range" min="36" max="54" step="2" value="42">
+    </label>
+    <label>Theme
+      <select data-setting="theme">
+        <option value="light">Light</option>
+        <option value="dark">Dark</option>
+        <option value="contrast">Contrast</option>
+      </select>
+    </label>
+    <label>Motion
+      <select data-setting="motion">
+        <option value="auto">Auto</option>
+        <option value="reduced">Reduced</option>
+      </select>
+    </label>
+  </section>
+  <section class="reader-panel">
+    <h2>Book Data</h2>
+    <a href="../data/manifest.json">Manifest</a>
+  </section>
+</aside>
+  </div>
+</body>
+</html>

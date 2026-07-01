@@ -1,0 +1,203 @@
+<!doctype html>
+<html lang="en" data-font="publication" data-theme="light" data-motion="auto">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Objects: binding data, behavior, and time - Programming for Wizards</title>
+  <link rel="stylesheet" href="../assets/book.css">
+  <script defer src="../assets/book.js"></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to manuscript</a>
+  <div class="book-shell">
+    <nav class="chapter-map" aria-label="Chapters">
+  <a class="book-title" href="../index.html">Programming for Wizards</a>
+  
+<section class="map-section">
+  <h2>Prologue: You are allowed to make it up</h2>
+  <ol>
+    <li><a href="../chapters/01-this-is-not-a-programming-book.html"><span>01</span>This is not a programming book</a></li>
+  </ol>
+</section>
+<section class="map-section">
+  <h2>Part I: Representations are spells</h2>
+  <ol>
+    <li><a href="../chapters/02-numbers-hiding-calculations-in-symbols.html"><span>02</span>Numbers: hiding calculations in symbols</a></li><li><a href="../chapters/03-logic-turning-truth-into-machinery.html"><span>03</span>Logic: turning truth into machinery</a></li><li><a href="../chapters/04-language-the-tool-that-changes-the-thinker.html"><span>04</span>Language: the tool that changes the thinker</a></li>
+  </ol>
+</section>
+<section class="map-section">
+  <h2>Part II: The Web, from address to platform</h2>
+  <ol>
+    <li><a href="../chapters/05-the-web-as-address.html"><span>05</span>The Web as address: a spell for pointing anywhere</a></li><li><a href="../chapters/06-the-web-as-document.html"><span>06</span>The Web as document: choosing a tree</a></li><li><a href="../chapters/07-the-web-as-platform.html"><span>07</span>The Web as platform: the prototype that became a world</a></li>
+  </ol>
+</section>
+<section class="map-section">
+  <h2>Part III: Inventing languages</h2>
+  <ol>
+    <li><a href="../chapters/08-programming-languages-are-for-humans.html"><span>08</span>Programming languages are for humans</a></li><li><a href="../chapters/09-every-program-contains-a-language.html"><span>09</span>Every program contains a language</a></li><li><a href="../chapters/10-code-exhibit-extending-javascript-with-jaqt.html"><span>10</span>Code exhibit: extending JavaScript with JAQT</a></li>
+  </ol>
+</section>
+<section class="map-section">
+  <h2>Part IV: Boundaries and reusable pieces</h2>
+  <ol>
+    <li><a href="../chapters/11-the-knitted-castle.html"><span>11</span>The knitted castle</a></li><li><a aria-current="page" href="../chapters/12-objects-binding-data-behavior-and-time.html"><span>12</span>Objects: binding data, behavior, and time</a></li>
+  </ol>
+</section>
+<section class="map-section">
+  <h2>Part V: Architecture, change, commons, and home</h2>
+  <ol>
+    <li><a href="../chapters/13-architecture-arches-pyramids-and-change.html"><span>13</span>Architecture: arches, pyramids, and change</a></li><li><a href="../chapters/14-the-web-as-commons.html"><span>14</span>The Web as commons: innovation happens elsewhere</a></li><li><a href="../chapters/15-the-web-as-data.html"><span>15</span>The Web as data: things should have addresses too</a></li><li><a href="../chapters/16-the-web-as-home.html"><span>16</span>The Web as home: your data should outlive your apps</a></li>
+  </ol>
+</section>
+<section class="map-section">
+  <h2>Epilogue</h2>
+  <ol>
+    <li><a href="../chapters/17-rule-zero-there-are-no-rules.html"><span>17</span>Rule zero: there are no rules</a></li>
+  </ol>
+</section>
+</nav>
+    <main id="main" class="manuscript">
+  <header class="chapter-header">
+    <p class="chapter-kicker">Part IV: Boundaries and reusable pieces</p>
+    <p class="chapter-number">Chapter 12</p>
+  </header>
+  <h1 id="h-12-objects-binding-data-behavior-and-time"><a class="anchor-link" href="#h-12-objects-binding-data-behavior-and-time" aria-label="Link to Objects: binding data, behavior, and time">#</a>Objects: binding data, behavior, and time</h1>
+<p id="p-12-in-the-previous-chapter-we-looked-at-the" data-note-target>In the previous chapter we looked at the knitted castle: the strange tendency of software to grow threads. Every useful piece starts to depend on data shapes, frameworks, databases, styling, configuration, lifecycles, users, errors and history. Before long, the piece is no longer a brick. It is a tower with half the castle still attached.</p>
+<p id="p-12-object-oriented-programming-is-one-of-the-great" data-note-target>Object Oriented Programming is one of the great historical answers to that problem. Perhaps the most successful one.</p>
+<p id="p-12-it-promised-a-way-to-make-software-out" data-note-target>It promised a way to make software out of reusable pieces. Not just functions, not just files, but little things that carried their own data and behavior around with them. Objects could be combined. Classes could be extended. The internal mess could be hidden. The outside world could talk to a smaller public surface.</p>
+<p id="p-12-that-promise-was-powerful-enough-that-oop-took" data-note-target>That promise was powerful enough that OOP took over much of the programming world. For many programmers, programming became object-oriented programming. Classes, methods, inheritance, interfaces, constructors, services, factories: this became the normal furniture of software.</p>
+<p id="p-12-and-yet-the-knitted-castle-did-not-go" data-note-target>And yet the knitted castle did not go away.</p>
+<p id="p-12-so-i-will-not-start-with-a-definition" data-note-target>So I will not start with a definition of OOP. Definitions are where this subject goes to become religious. I will start with the promise, and with the part of the promise that still matters.</p>
+<p id="p-12-where-should-behavior-live" data-note-target>Where should behavior live?</p>
+<p id="p-12-if-you-have-data-in-one-place-and" data-note-target>If you have data in one place and all the code that works on that data somewhere else, the distance between the two becomes part of the problem. Every change requires you to remember the connection. Every reader has to rebuild the connection in their head.</p>
+<p id="p-12-one-answer-is-bind-the-behavior-to-the" data-note-target>One answer is: bind the behavior to the data. Put the methods where the state is. Make the thing responsible for its own rules.</p>
+<p id="p-12-that-is-one-useful-idea-hiding-inside-oop" data-note-target>That is one useful idea hiding inside OOP. It is not the whole answer to reusable software, but it is a real answer to a real part of the problem.</p>
+<aside id="exhibit-where-should-behavior-live" class="exhibit-placeholder" data-exhibit-id="where-should-behavior-live" data-note-target>
+<p class="exhibit-kicker">Interactive Exhibit</p>
+<h2>Where Should Behavior Live</h2>
+<p>Show a tiny order system as loose records plus functions. Then show it as objects with methods. Let the reader change an invariant, such as "an order may not ship before payment". Highlight how far the change has to travel in each representation.</p>
+<div class="static-fallback" aria-label="Static fallback">
+<p>Where Should Behavior Live is planned as an interactive exhibit. This placeholder preserves the explanation and its stable address for the static edition.</p>
+</div>
+</aside>
+<h2 id="h-12-classes-and-objects"><a class="anchor-link" href="#h-12-classes-and-objects" aria-label="Link to Classes and objects">#</a>Classes and objects</h2>
+<p id="p-12-a-class-is-often-explained-as-a-blueprint" data-note-target>A class is often explained as a blueprint. An object is the thing built from that blueprint. This is good enough for a first approximation, and dangerous if you believe it too deeply.</p>
+<p id="p-12-the-more-important-idea-is-that-an-object" data-note-target>The more important idea is that an object carries a small world around with it. It has state, and it has behavior that is allowed to touch that state. A good object hides its messy insides and exposes a smaller language to the rest of the program.</p>
+<p id="p-12-that-language-can-be-pleasant-it-can-also" data-note-target>That language can be pleasant. It can also become a trap.</p>
+<figure id="code-12-035" class="code-figure" data-note-target>
+<figcaption>php</figcaption>
+<pre><code class="language-php">$order-&gt;pay($payment);
+$order-&gt;ship($address);
+$order-&gt;cancel($reason);</code></pre>
+</figure>
+<p id="p-12-this-code-tells-a-little-story-it-is" data-note-target>This code tells a little story. It is better than pushing random arrays through random functions. But the story depends on the object having the right boundaries. If <code>Order</code> knows about databases, mailers, HTTP requests, payment gateways, templates and logging, it is no longer a small world. It is a knitted castle with a nice name.</p>
+<h2 id="h-12-dependencies"><a class="anchor-link" href="#h-12-dependencies" aria-label="Link to Dependencies">#</a>Dependencies</h2>
+<p id="p-12-the-real-trouble-often-starts-when-an-object" data-note-target>The real trouble often starts when an object needs something from the outside world.</p>
+<p id="p-12-for-example-an-order-may-need-to-save" data-note-target>For example, an order may need to save itself. The tempting thing is to let it create the thing it needs.</p>
+<figure id="code-12-049" class="code-figure" data-note-target>
+<figcaption>php</figcaption>
+<pre><code class="language-php">class Order {
+    public function save() {
+        $db = new DatabaseConnection();
+        $db-&gt;save($this);
+    }
+}</code></pre>
+</figure>
+<p id="p-12-this-looks-convenient-and-convenience-is-one-of" data-note-target>This looks convenient, and convenience is one of the most dangerous forms of magic. The <code>Order</code> class now decides not only what an order is, but also where databases come from. If the database changes, the order changes. If you want to test the order, you need a database or a trick.</p>
+<p id="p-12-the-dependency-is-hidden" data-note-target>The dependency is hidden.</p>
+<p id="p-12-a-cleaner-version-is-to-ask-for-what" data-note-target>A cleaner version is to ask for what you need.</p>
+<figure id="code-12-064" class="code-figure" data-note-target>
+<figcaption>php</figcaption>
+<pre><code class="language-php">class Order {
+    public function save(OrderRepository $orders) {
+        $orders-&gt;save($this);
+    }
+}</code></pre>
+</figure>
+<p id="p-12-or-to-inject-the-dependency-when-the-object" data-note-target>Or to inject the dependency when the object is created.</p>
+<figure id="code-12-074" class="code-figure" data-note-target>
+<figcaption>php</figcaption>
+<pre><code class="language-php">class OrderService {
+    public function __construct(private OrderRepository $orders) {}
+
+    public function ship(Order $order, Address $address) {
+        $order-&gt;ship($address);
+        $this-&gt;orders-&gt;save($order);
+    }
+}</code></pre>
+</figure>
+<p id="p-12-this-is-the-useful-core-of-dependency-injection" data-note-target>This is the useful core of <a href="https://martinfowler.com/articles/injection.html">dependency injection</a>. Not the frameworks. Not the annotations. Not the containers with configuration files so large that they need their own weather report.</p>
+<p id="p-12-the-useful-idea-is-simple" data-note-target>The useful idea is simple:</p>
+<blockquote><p>The place that uses a dependency does not have to be the place that chooses it.</p></blockquote>
+<p id="p-12-that-lets-you-bind-later" data-note-target>That lets you bind later.</p>
+<h2 id="h-12-binding-time"><a class="anchor-link" href="#h-12-binding-time" aria-label="Link to Binding time">#</a>Binding time</h2>
+<p id="p-12-a-surprising-amount-of-software-design-is-about" data-note-target>A surprising amount of software design is about binding time.</p>
+<p id="p-12-when-do-we-decide-which-database-to-use" data-note-target>When do we decide which database to use? When do we decide which template renders this page? When do we decide which implementation of an interface belongs in production and which one belongs in tests?</p>
+<p id="p-12-if-you-decide-too-early-your-code-becomes" data-note-target>If you decide too early, your code becomes rigid. If you decide too late, your code becomes vague. Wizardry is not always delaying decisions. It is moving each decision to the place where it is cheapest to change and easiest to understand.</p>
+<p id="p-12-this-is-where-factories-dependency-injection-containers-service" data-note-target>This is where factories, <a href="https://en.wikipedia.org/wiki/Dependency_injection">dependency injection containers</a>, <a href="https://martinfowler.com/articles/injection.html#UsingAServiceLocator">service locators</a>, configuration files and plugin systems all come from. They are attempts to move binding.</p>
+<p id="p-12-some-of-them-help-some-of-them-merely" data-note-target>Some of them help. Some of them merely move the mess to a more impressive room.</p>
+<aside id="exhibit-binding-time-slider" class="exhibit-placeholder" data-exhibit-id="binding-time-slider" data-note-target>
+<p class="exhibit-kicker">Interactive Exhibit</p>
+<h2>Binding Time Slider</h2>
+<p>Show the same dependency bound in three places: inside the class, in a factory, and at the application shell. Let the reader swap the database implementation. Count how many pieces change and how much of the program needs to know.</p>
+<div class="static-fallback" aria-label="Static fallback">
+<p>Binding Time Slider is planned as an interactive exhibit. This placeholder preserves the explanation and its stable address for the static edition.</p>
+</div>
+</aside>
+<h2 id="h-12-shell-and-core"><a class="anchor-link" href="#h-12-shell-and-core" aria-label="Link to Shell and core">#</a>Shell and core</h2>
+<p id="p-12-one-useful-boundary-is-the-shell-core-split" data-note-target>One useful boundary is the shell/core split.</p>
+<p id="p-12-the-core-contains-the-rules-of-the-program" data-note-target>The core contains the rules of the program. It should know as little as possible about files, databases, networks, frameworks, clocks and random number generators. The shell knows about the outside world. It wires everything together.</p>
+<p id="p-12-this-is-not-because-the-outside-world-is" data-note-target>This is not because the outside world is dirty and the core is pure. That sounds moralistic, and software is already full of enough false morality.</p>
+<p id="p-12-the-reason-is-more-practical-the-outside-world" data-note-target>The reason is more practical. The outside world changes in different ways than the rules of your program. Databases change. Frameworks change. APIs change. Files move. Users do strange things. The core should be protected from that weather where possible.</p>
+<p id="p-12-this-is-the-same-move-we-have-seen" data-note-target>This is the same move we have seen before. Change the boundary, and the problem changes shape.</p>
+<aside id="rule-12-wizards-eleventh-rule" class="wizard-rule" data-note-target>
+<p class="rule-label">Wizard's eleventh rule</p>
+<p>Do not only ask what a thing depends on. Ask where that dependency should be bound.</p>
+</aside>
+  <nav class="chapter-pagination" aria-label="Chapter navigation">
+    <a rel="prev" href="11-the-knitted-castle.html"><span>Previous</span>The knitted castle</a>
+    <a rel="next" href="13-architecture-arches-pyramids-and-change.html"><span>Next</span>Architecture: arches, pyramids, and change</a>
+  </nav>
+</main>
+    <aside class="reader-margin" aria-label="Reader tools">
+  <section class="reader-panel">
+    <h2>Reader</h2>
+    <label>Font
+      <select data-setting="font">
+        <option value="publication">Publication</option>
+        <option value="simple-serif">Simple serif</option>
+        <option value="simple-sans">Simple sans</option>
+        <option value="high-legibility">High legibility</option>
+      </select>
+    </label>
+    <label>Size
+      <input data-setting="fontScale" type="range" min="92" max="124" step="4" value="100">
+    </label>
+    <label>Line
+      <input data-setting="lineHeight" type="range" min="145" max="185" step="5" value="160">
+    </label>
+    <label>Width
+      <input data-setting="columnWidth" type="range" min="36" max="54" step="2" value="42">
+    </label>
+    <label>Theme
+      <select data-setting="theme">
+        <option value="light">Light</option>
+        <option value="dark">Dark</option>
+        <option value="contrast">Contrast</option>
+      </select>
+    </label>
+    <label>Motion
+      <select data-setting="motion">
+        <option value="auto">Auto</option>
+        <option value="reduced">Reduced</option>
+      </select>
+    </label>
+  </section>
+  <section class="reader-panel">
+    <h2>Book Data</h2>
+    <a href="../data/manifest.json">Manifest</a>
+  </section>
+</aside>
+  </div>
+</body>
+</html>

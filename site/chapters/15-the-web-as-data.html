@@ -1,0 +1,343 @@
+<!doctype html>
+<html lang="en" data-font="publication" data-theme="light" data-motion="auto">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>The Web as data: things should have addresses too - Programming for Wizards</title>
+  <link rel="stylesheet" href="../assets/book.css">
+  <script defer src="../assets/book.js"></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to manuscript</a>
+  <div class="book-shell">
+    <nav class="chapter-map" aria-label="Chapters">
+  <a class="book-title" href="../index.html">Programming for Wizards</a>
+  
+<section class="map-section">
+  <h2>Prologue: You are allowed to make it up</h2>
+  <ol>
+    <li><a href="../chapters/01-this-is-not-a-programming-book.html"><span>01</span>This is not a programming book</a></li>
+  </ol>
+</section>
+<section class="map-section">
+  <h2>Part I: Representations are spells</h2>
+  <ol>
+    <li><a href="../chapters/02-numbers-hiding-calculations-in-symbols.html"><span>02</span>Numbers: hiding calculations in symbols</a></li><li><a href="../chapters/03-logic-turning-truth-into-machinery.html"><span>03</span>Logic: turning truth into machinery</a></li><li><a href="../chapters/04-language-the-tool-that-changes-the-thinker.html"><span>04</span>Language: the tool that changes the thinker</a></li>
+  </ol>
+</section>
+<section class="map-section">
+  <h2>Part II: The Web, from address to platform</h2>
+  <ol>
+    <li><a href="../chapters/05-the-web-as-address.html"><span>05</span>The Web as address: a spell for pointing anywhere</a></li><li><a href="../chapters/06-the-web-as-document.html"><span>06</span>The Web as document: choosing a tree</a></li><li><a href="../chapters/07-the-web-as-platform.html"><span>07</span>The Web as platform: the prototype that became a world</a></li>
+  </ol>
+</section>
+<section class="map-section">
+  <h2>Part III: Inventing languages</h2>
+  <ol>
+    <li><a href="../chapters/08-programming-languages-are-for-humans.html"><span>08</span>Programming languages are for humans</a></li><li><a href="../chapters/09-every-program-contains-a-language.html"><span>09</span>Every program contains a language</a></li><li><a href="../chapters/10-code-exhibit-extending-javascript-with-jaqt.html"><span>10</span>Code exhibit: extending JavaScript with JAQT</a></li>
+  </ol>
+</section>
+<section class="map-section">
+  <h2>Part IV: Boundaries and reusable pieces</h2>
+  <ol>
+    <li><a href="../chapters/11-the-knitted-castle.html"><span>11</span>The knitted castle</a></li><li><a href="../chapters/12-objects-binding-data-behavior-and-time.html"><span>12</span>Objects: binding data, behavior, and time</a></li>
+  </ol>
+</section>
+<section class="map-section">
+  <h2>Part V: Architecture, change, commons, and home</h2>
+  <ol>
+    <li><a href="../chapters/13-architecture-arches-pyramids-and-change.html"><span>13</span>Architecture: arches, pyramids, and change</a></li><li><a href="../chapters/14-the-web-as-commons.html"><span>14</span>The Web as commons: innovation happens elsewhere</a></li><li><a aria-current="page" href="../chapters/15-the-web-as-data.html"><span>15</span>The Web as data: things should have addresses too</a></li><li><a href="../chapters/16-the-web-as-home.html"><span>16</span>The Web as home: your data should outlive your apps</a></li>
+  </ol>
+</section>
+<section class="map-section">
+  <h2>Epilogue</h2>
+  <ol>
+    <li><a href="../chapters/17-rule-zero-there-are-no-rules.html"><span>17</span>Rule zero: there are no rules</a></li>
+  </ol>
+</section>
+</nav>
+    <main id="main" class="manuscript">
+  <header class="chapter-header">
+    <p class="chapter-kicker">Part V: Architecture, change, commons, and home</p>
+    <p class="chapter-number">Chapter 15</p>
+  </header>
+  <h1 id="h-15-the-web-as-data-things-should-have-addresses-too"><a class="anchor-link" href="#h-15-the-web-as-data-things-should-have-addresses-too" aria-label="Link to The Web as data: things should have addresses too">#</a>The Web as data: things should have addresses too</h1>
+<p id="p-15-the-previous-chapter-ended-with-a-problem-of" data-note-target>The previous chapter ended with a problem of openness.</p>
+<p id="p-15-if-innovation-happens-elsewhere-then-software-must-leave" data-note-target>If innovation happens elsewhere, then software must leave room for outside invention. A browser should be able to talk to servers it did not know in advance. A page should be able to link to a document written by a stranger. A tool should be replaceable without rebuilding the whole world around it.</p>
+<p id="p-15-but-there-is-a-stubborn-place-where-this" data-note-target>But there is a stubborn place where this still often fails: data.</p>
+<p id="p-15-a-contacts-app-knows-your-friends-a-calendar" data-note-target>A contacts app knows your friends. A calendar app knows who attends your meetings. A photo app knows who appears in your pictures. A school system knows which learning goals belong to which subject. A project tool knows who works on what. Each program may know something true about the same world.</p>
+<p id="p-15-yet-to-the-software-these-truths-often-live" data-note-target>Yet to the software, these truths often live in separate little rooms.</p>
+<figure id="private-records" class="code-figure" data-note-target>
+<figcaption>text</figcaption>
+<pre><code class="language-text">contacts: person-17
+calendar: attendee-4
+photos: face-91</code></pre>
+</figure>
+<p id="p-15-a-human-can-see-that-these-records-may" data-note-target>A human can see that these records may all be talking about the same person. The software usually cannot, unless someone builds a special bridge between those exact systems. And then another bridge. And another. And another.</p>
+<p id="p-15-this-is-the-knitted-castle-again-but-now" data-note-target>This is the knitted castle again, but now the threads run through the data.</p>
+<p id="p-15-the-problem-is-not-only-where-the-data" data-note-target>The problem is not only where the data lives. The problem is how the data points.</p>
+<aside id="exhibit-linked-data-addresses" class="exhibit-placeholder" data-exhibit-id="linked-data-addresses" data-note-target>
+<p class="exhibit-kicker">Interactive Exhibit</p>
+<h2>Linked Data Addresses</h2>
+<p>Show three small apps: contacts, calendar and photos. Each has a private record for the same person. First show the private identifiers: <code>person-17</code>, <code>attendee-4</code>, <code>face-91</code>. Then let the reader replace them with one shared Web address for the person. Show how each app can still say its own thing, but now the statements can meet. Add a second step where the properties themselves also get addresses, so <code>knows</code>, <code>attends</code> and <code>appearsIn</code> become shared terms rather than private column names.</p>
+<div class="static-fallback" aria-label="Static fallback">
+<p>Linked Data Addresses is planned as an interactive exhibit. This placeholder preserves the explanation and its stable address for the static edition.</p>
+</div>
+</aside>
+<h2 id="h-15-facts-are-older-than-databases"><a class="anchor-link" href="#h-15-facts-are-older-than-databases" aria-label="Link to Facts are older than databases">#</a>Facts are older than databases</h2>
+<p id="p-15-let-us-start-smaller" data-note-target>Let us start smaller.</p>
+<p id="p-15-suppose-we-know-this" data-note-target>Suppose we know this:</p>
+<figure id="plain-facts" class="code-figure" data-note-target>
+<figcaption>text</figcaption>
+<pre><code class="language-text">Hilda lives in Manchester.
+Stan lives in Manchester.
+Kevin lives in Liverpool.
+Hilda knows Stan.</code></pre>
+</figure>
+<p id="p-15-there-are-many-ways-to-write-these-facts" data-note-target>There are many ways to write these facts down. In a spreadsheet you might make rows and columns. In a database you might create tables. In an object-oriented program you might make <code>Person</code> objects. In JSON you might write nested objects. In a notebook you might just write the sentences.</p>
+<p id="p-15-each-shape-helps-with-some-questions-and-makes" data-note-target>Each shape helps with some questions and makes other questions awkward.</p>
+<p id="p-15-a-language-called-prolog-made-a-very-different" data-note-target>A language called <a href="https://dl.acm.org/doi/10.1145/234286.1057820">Prolog</a> made a very different choice. Prolog came out of <a href="https://en.wikipedia.org/wiki/Logic_programming">logic programming</a> work in the early 1970s. Instead of giving the computer a list of steps, you describe facts and rules, then ask questions. A tiny Prolog-ish world might look like this:</p>
+<figure id="prolog-facts" class="code-figure" data-note-target>
+<figcaption>prolog</figcaption>
+<pre><code class="language-prolog">lives_in(hilda, manchester).
+lives_in(stan, manchester).
+lives_in(kevin, liverpool).
+
+knows(hilda, stan).
+knows(stan, kevin).</code></pre>
+</figure>
+<p id="p-15-then-you-can-ask" data-note-target>Then you can ask:</p>
+<figure id="prolog-query" class="code-figure" data-note-target>
+<figcaption>prolog</figcaption>
+<pre><code class="language-prolog">?- lives_in(Person, manchester).</code></pre>
+</figure>
+<p id="p-15-and-prolog-tries-to-find-values-for-person" data-note-target>And Prolog tries to find values for <code>Person</code> that make the question true.</p>
+<p id="p-15-this-is-a-strange-experience-if-you-are" data-note-target>This is a strange experience if you are used to ordinary programming. You do not say: loop over the people, check the city field, push matching people into a result array. You say something closer to: here are some things that are true; now find me the things that make this other statement true.</p>
+<p id="p-15-the-important-part-for-this-chapter-is-not" data-note-target>The important part for this chapter is not Prolog itself. The important part is the shape:</p>
+<figure id="relation-shape" class="code-figure" data-note-target>
+<figcaption>text</figcaption>
+<pre><code class="language-text">relation(subject, object)</code></pre>
+</figure>
+<p id="p-15-or-sometimes" data-note-target>Or sometimes:</p>
+<figure id="rule-shape" class="code-figure" data-note-target>
+<figcaption>text</figcaption>
+<pre><code class="language-text">new_fact(X) is true if other_fact(X) is true</code></pre>
+</figure>
+<p id="p-15-a-fact-becomes-a-small-piece-of-the" data-note-target>A fact becomes a small piece of the world. A query becomes a pattern with holes in it. The machine tries to fill the holes.</p>
+<p id="p-15-that-idea-will-keep-coming-back" data-note-target>That idea will keep coming back.</p>
+<h2 id="h-15-long-skinny-tables"><a class="anchor-link" href="#h-15-long-skinny-tables" aria-label="Link to Long skinny tables">#</a>Long skinny tables</h2>
+<p id="p-15-databases-found-another-version-of-the-same-trick" data-note-target>Databases found another version of the same trick.</p>
+<p id="p-15-a-normal-table-has-columns" data-note-target>A normal table has columns:</p>
+<figure id="wide-table" class="code-figure" data-note-target>
+<figcaption>text</figcaption>
+<pre><code class="language-text">id | first_name | last_name | city
+---|------------|-----------|-----------
+17 | Hilda      | Ogden     | Manchester
+18 | Stan       | Ogden     | Manchester
+19 | Kevin      | Webster   | Liverpool</code></pre>
+</figure>
+<p id="p-15-this-works-beautifully-when-you-know-the-shape" data-note-target>This works beautifully when you know the shape of the data. Every person has a first name, a last name and a city. The columns are the promise. The rows are the examples.</p>
+<p id="p-15-but-what-if-the-shape-keeps-changing" data-note-target>But what if the shape keeps changing?</p>
+<p id="p-15-medical-records-are-a-classic-example-one-patient" data-note-target>Medical records are a classic example. One patient may have a blood pressure reading, another a glucose value, another a note from a neurologist, another a measurement that did not even exist when the database was first designed. Products in a shop have the same problem. A shoe, a camera and a refrigerator do not want the same columns.</p>
+<p id="p-15-one-answer-is-entity-attribute-value-usually-shortened" data-note-target>One answer is <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC2110957/">Entity-Attribute-Value</a>, usually shortened to EAV.</p>
+<p id="p-15-instead-of-making-one-column-for-every-possible" data-note-target>Instead of making one column for every possible attribute, you write each fact as a row:</p>
+<figure id="eav-table" class="code-figure" data-note-target>
+<figcaption>text</figcaption>
+<pre><code class="language-text">entity | attribute  | value
+-------|------------|-----------
+hilda  | firstName  | Hilda
+hilda  | lastName   | Ogden
+hilda  | city       | Manchester
+stan   | firstName  | Stan
+stan   | city       | Manchester</code></pre>
+</figure>
+<p id="p-15-this-table-is-long-and-skinny-it-can" data-note-target>This table is long and skinny. It can accept new attributes without changing the physical table. If tomorrow you need to store <code>favoriteBiscuit</code>, you add a row:</p>
+<figure id="eav-new-row" class="code-figure" data-note-target>
+<figcaption>text</figcaption>
+<pre><code class="language-text">hilda | favoriteBiscuit | custard cream</code></pre>
+</figure>
+<p id="p-15-no-new-column-no-database-migration-no-ceremony" data-note-target>No new column. No database migration. No ceremony.</p>
+<p id="p-15-this-is-powerful-and-also-dangerous-a-normal" data-note-target>This is powerful, and also dangerous. A normal table shows its shape immediately. EAV hides the shape inside the data. To understand what a <code>Person</code> is supposed to look like, you now need metadata, conventions, validation rules and patience.</p>
+<p id="p-15-you-escaped-one-rigidity-and-invited-another-kind" data-note-target>You escaped one rigidity and invited another kind of confusion.</p>
+<p id="p-15-still-eav-matters-here-because-it-makes-a" data-note-target>Still, EAV matters here because it makes a useful move visible:</p>
+<figure id="eav-shape" class="code-figure" data-note-target>
+<figcaption>text</figcaption>
+<pre><code class="language-text">thing | property | value</code></pre>
+</figure>
+<p id="p-15-a-record-has-been-broken-into-small-statements" data-note-target>A record has been broken into small statements.</p>
+<p id="p-15-that-is-close-to-the-shape-we-need" data-note-target>That is close to the shape we need, but not quite enough for the Web.</p>
+<h2 id="h-15-the-private-name-problem"><a class="anchor-link" href="#h-15-the-private-name-problem" aria-label="Link to The private-name problem">#</a>The private-name problem</h2>
+<p id="p-15-imagine-two-systems-both-use-eav" data-note-target>Imagine two systems both use EAV.</p>
+<p id="p-15-the-contacts-app-says" data-note-target>The contacts app says:</p>
+<figure id="contacts-eav" class="code-figure" data-note-target>
+<figcaption>text</figcaption>
+<pre><code class="language-text">person-17 | city | Manchester</code></pre>
+</figure>
+<p id="p-15-the-calendar-app-says" data-note-target>The calendar app says:</p>
+<figure id="calendar-eav" class="code-figure" data-note-target>
+<figcaption>text</figcaption>
+<pre><code class="language-text">attendee-4 | city | Manchester</code></pre>
+</figure>
+<p id="p-15-both-have-flexible-data-both-can-add-new" data-note-target>Both have flexible data. Both can add new attributes. Both can represent facts in the same general shape.</p>
+<p id="p-15-but-the-names-are-still-private" data-note-target>But the names are still private.</p>
+<p id="p-15-the-contacts-app-says-person-17-the-calendar" data-note-target>The contacts app says <code>person-17</code>. The calendar app says <code>attendee-4</code>. The photo app says <code>face-91</code>. These identifiers may all refer to Hilda, but nothing in the data tells another program that. And even if the subject names matched, the property names may not. One app says <code>city</code>. Another says <code>town</code>. Another says <code>addressLocality</code>. Another says <code>municipality</code>, because someone had a meeting.</p>
+<p id="p-15-inside-one-application-private-names-are-fine-they" data-note-target>Inside one application, private names are fine. They are cheap. They are convenient. You can keep a dictionary somewhere and know what they mean.</p>
+<p id="p-15-across-boundaries-private-names-become-expensive" data-note-target>Across boundaries, private names become expensive.</p>
+<p id="p-15-every-bridge-has-to-learn-the-private-names" data-note-target>Every bridge has to learn the private names on both sides. Every import script becomes a little translator. Every export format becomes a negotiation. And when one side changes, the bridge frays.</p>
+<p id="p-15-so-the-next-wizard-question-is-simple" data-note-target>So the next wizard question is simple:</p>
+<blockquote><p>What if the names in the data could cross the same boundaries as the documents?</p></blockquote>
+<h2 id="h-15-things-can-have-addresses"><a class="anchor-link" href="#h-15-things-can-have-addresses" aria-label="Link to Things can have addresses">#</a>Things can have addresses</h2>
+<p id="p-15-the-web-already-gave-documents-addresses" data-note-target>The Web already gave documents addresses.</p>
+<figure id="document-address" class="code-figure" data-note-target>
+<figcaption>url</figcaption>
+<pre><code class="language-url">https://example.org/people/hilda.html</code></pre>
+</figure>
+<p id="p-15-linked-data-asks-for-a-small-but-important" data-note-target><a href="https://www.w3.org/DesignIssues/LinkedData.html">Linked data</a> asks for a small but important change in ambition:</p>
+<blockquote><p>not only documents should have addresses; things should have addresses too.</p></blockquote>
+<p id="p-15-the-person-hilda-can-have-an-address-like" data-note-target>The person Hilda can have an address-like identifier:</p>
+<figure id="hilda-uri" class="code-figure" data-note-target>
+<figcaption>url</figcaption>
+<pre><code class="language-url">https://example.org/id/hilda-ogden</code></pre>
+</figure>
+<p id="p-15-the-idea-of-a-city-can-have-one" data-note-target>The idea of a city can have one:</p>
+<figure id="manchester-uri" class="code-figure" data-note-target>
+<figcaption>url</figcaption>
+<pre><code class="language-url">https://example.org/id/manchester</code></pre>
+</figure>
+<p id="p-15-the-relationship-lives-in-can-have-one" data-note-target>The relationship <code>lives in</code> can have one:</p>
+<figure id="lives-in-uri" class="code-figure" data-note-target>
+<figcaption>url</figcaption>
+<pre><code class="language-url">https://example.org/vocab/livesIn</code></pre>
+</figure>
+<p id="p-15-now-a-fact-can-be-written-as-three" data-note-target>Now a fact can be written as three pieces:</p>
+<figure id="triple-shape" class="code-figure" data-note-target>
+<figcaption>text</figcaption>
+<pre><code class="language-text">subject    predicate    object
+Hilda      lives in     Manchester</code></pre>
+</figure>
+<p id="p-15-or-with-web-names" data-note-target>Or, with Web names:</p>
+<figure id="linked-triple" class="code-figure" data-note-target>
+<figcaption>text</figcaption>
+<pre><code class="language-text">https://example.org/id/hilda-ogden
+https://example.org/vocab/livesIn
+https://example.org/id/manchester</code></pre>
+</figure>
+<p id="p-15-this-is-not-pretty-yet-it-is-not" data-note-target>This is not pretty yet. It is not meant to be pretty. It is meant to cross boundaries.</p>
+<p id="p-15-the-resource-description-framework-rdf-gives-this-idea" data-note-target>The <a href="https://www.w3.org/TR/rdf11-concepts/">Resource Description Framework</a>, RDF, gives this idea a formal shape. An RDF graph is made of subject-predicate-object triples. Subjects and objects are nodes. Predicates are the arcs between them. In less specification-shaped language: RDF lets you write small facts that join into a graph.</p>
+<p id="p-15-here-is-a-friendlier-syntax-turtle" data-note-target>Here is a friendlier syntax, <a href="https://www.w3.org/TR/turtle/">Turtle</a>:</p>
+<figure id="turtle-example" class="code-figure" data-note-target>
+<figcaption>turtle</figcaption>
+<pre><code class="language-turtle">@prefix ex: &lt;https://example.org/id/&gt; .
+@prefix vocab: &lt;https://example.org/vocab/&gt; .
+
+ex:hilda-ogden
+    vocab:firstName &quot;Hilda&quot; ;
+    vocab:lastName &quot;Ogden&quot; ;
+    vocab:livesIn ex:manchester ;
+    vocab:knows ex:stan-ogden .</code></pre>
+</figure>
+<p id="p-15-this-is-the-prolog-ish-idea-again-little" data-note-target>This is the Prolog-ish idea again: little statements about the world. It is the EAV-ish idea again: entity, attribute, value. But now the names can be Web names.</p>
+<p id="p-15-that-is-the-small-change" data-note-target>That is the small change.</p>
+<p id="p-15-and-it-is-not-small" data-note-target>And it is not small.</p>
+<h2 id="h-15-a-graph-without-a-center"><a class="anchor-link" href="#h-15-a-graph-without-a-center" aria-label="Link to A graph without a center">#</a>A graph without a center</h2>
+<p id="p-15-a-table-has-a-home-it-lives-in" data-note-target>A table has a home. It lives in a database. The database belongs to an application, or at least to an organization. The table has a schema. The schema says what the columns mean.</p>
+<p id="p-15-a-graph-can-be-more-slippery" data-note-target>A graph can be more slippery.</p>
+<p id="p-15-i-can-say-something-about-hilda-in-my" data-note-target>I can say something about Hilda in my address book. You can say something about Hilda in a calendar invitation. A school can say something about Hilda in a class list. A photo archive can say something about Hilda in an annotation. None of us has to own the complete record.</p>
+<p id="p-15-we-can-each-write-a-few-statements" data-note-target>We can each write a few statements.</p>
+<figure id="distributed-facts" class="code-figure" data-note-target>
+<figcaption>turtle</figcaption>
+<pre><code class="language-turtle"># In a contacts document
+ex:hilda-ogden vocab:phoneNumber &quot;+44 ...&quot; .
+
+# In a calendar document
+ex:meeting-123 vocab:attendee ex:hilda-ogden .
+
+# In a photo document
+ex:photo-7 vocab:depicts ex:hilda-ogden .</code></pre>
+</figure>
+<p id="p-15-if-the-names-line-up-software-can-follow" data-note-target>If the names line up, software can follow them.</p>
+<p id="p-15-this-is-where-linked-data-gets-its-name" data-note-target>This is where linked data gets its name. The data is not just structured. It points. A fact can point to a thing, and that thing can point to more facts, and those facts can point outward again.</p>
+<p id="p-15-tim-berners-lee-described-linked-data-with-a" data-note-target>Tim Berners-Lee described linked data with a few deliberately simple rules: use URIs as names for things, use HTTP URIs so people can look them up, provide useful information when they are looked up, and include links to other URIs so people and machines can discover more.</p>
+<p id="p-15-this-is-the-url-chapter-coming-back-in" data-note-target>This is the URL chapter coming back in another costume.</p>
+<p id="p-15-a-url-let-one-document-point-outside-itself" data-note-target>A URL let one document point outside itself. Linked data lets one fact point outside itself.</p>
+<h2 id="h-15-meaning-needs-names-too"><a class="anchor-link" href="#h-15-meaning-needs-names-too" aria-label="Link to Meaning needs names too">#</a>Meaning needs names too</h2>
+<p id="p-15-there-is-a-catch-of-course-there-is" data-note-target>There is a catch, of course. There is always a catch.</p>
+<p id="p-15-it-is-not-enough-to-give-hilda-a" data-note-target>It is not enough to give Hilda a Web identifier. The properties need meaning as well.</p>
+<p id="p-15-if-i-write" data-note-target>If I write:</p>
+<figure id="unclear-term" class="code-figure" data-note-target>
+<figcaption>turtle</figcaption>
+<pre><code class="language-turtle">ex:hilda-ogden ex:knows ex:stan-ogden .</code></pre>
+</figure>
+<p id="p-15-what-does-knows-mean" data-note-target>what does <code>knows</code> mean?</p>
+<p id="p-15-met-once-friends-with-can-recognize-in-a" data-note-target>Met once? Friends with? Can recognize in a police lineup? Has a phone number for? Follows on a social network? Once shared a tram in Manchester?</p>
+<p id="p-15-a-word-that-looks-obvious-to-a-human" data-note-target>A word that looks obvious to a human may be too vague for software. Or worse, it may be obvious in two different ways to two different humans.</p>
+<p id="p-15-so-linked-data-also-needs-vocabularies-shared-sets" data-note-target>So linked data also needs vocabularies: shared sets of terms with addresses and definitions. This is where the dream becomes powerful and irritating at the same time. Powerful, because a shared vocabulary lets different software talk about the same kind of thing. Irritating, because shared meaning is social work pretending to be technical work.</p>
+<p id="p-15-the-machine-can-follow-the-link-people-still" data-note-target>The machine can follow the link. People still have to agree, enough, about what the link means.</p>
+<p id="p-15-this-is-why-linked-data-is-not-fairy" data-note-target>This is why linked data is not fairy dust. You cannot sprinkle RDF on a pile of confusion and get wisdom. You can still make a knitted castle out of triples. You can still use private terms no one else understands. You can still create vocabularies so large that using them feels like filling in a tax return for an ontology committee.</p>
+<p id="p-15-the-wizardly-part-is-not-the-format-by" data-note-target>The wizardly part is not the format by itself.</p>
+<p id="p-15-the-wizardly-part-is-the-boundary-it-makes" data-note-target>The wizardly part is the boundary it makes possible.</p>
+<h2 id="h-15-data-that-can-travel"><a class="anchor-link" href="#h-15-data-that-can-travel" aria-label="Link to Data that can travel">#</a>Data that can travel</h2>
+<p id="p-15-think-again-about-small-replaceable-software" data-note-target>Think again about small replaceable software.</p>
+<p id="p-15-a-small-calendar-app-can-be-small-only" data-note-target>A small calendar app can be small only if it does not have to own the whole identity system, contact list and notification universe. A small photo app can be small only if it can talk about people, albums, permissions and locations without inventing a private universe for each one. A small learning tool can be small only if learning goals, subjects, exercises and progress can be understood outside the one tool that first wrote them.</p>
+<p id="p-15-for-that-to-work-the-data-needs-to" data-note-target>For that to work, the data needs to travel farther than the program.</p>
+<p id="p-15-not-all-of-it-not-always-publicly-not" data-note-target>Not all of it. Not always publicly. Not without permission. Not without care. But conceptually, the data must be able to survive outside the private memory of one application.</p>
+<p id="p-15-this-is-where-linked-data-belongs-in-the" data-note-target>This is where linked data belongs in the story of the Web.</p>
+<p id="p-15-the-url-made-documents-reachable" data-note-target>The URL made documents reachable.</p>
+<p id="p-15-html-made-documents-understandable-enough-for-browsers-to" data-note-target>HTML made documents understandable enough for browsers to render and programs to inspect.</p>
+<p id="p-15-javascript-made-documents-programmable" data-note-target>JavaScript made documents programmable.</p>
+<p id="p-15-linked-data-asks-whether-the-things-described-by" data-note-target>Linked data asks whether the things described by those documents can become reachable and understandable too.</p>
+<p id="p-15-if-they-can-software-gets-a-different-shape" data-note-target>If they can, software gets a different shape. Applications do not have to be kingdoms that contain all meaning. They can become visitors, editors, viewers, filters, assistants, translators, little tools with opinions. They can arrive, do useful work, and leave without taking the user's world with them.</p>
+<p id="p-15-that-is-the-bridge-to-the-next-chapter" data-note-target>That is the bridge to the next chapter.</p>
+<p id="p-15-if-data-can-have-addresses-if-facts-can" data-note-target>If data can have addresses, if facts can link to other facts, and if meanings can be shared across boundaries, then the next question becomes unavoidable:</p>
+<p id="p-15-where-should-a-persons-own-data-live" data-note-target>where should a person's own data live?</p>
+<aside id="rule-15-wizards-fourteenth-rule" class="wizard-rule" data-note-target>
+<p class="rule-label">Wizard's fourteenth rule</p>
+<p>Data becomes more useful when its meanings can travel farther than the program that first wrote it.</p>
+</aside>
+  <nav class="chapter-pagination" aria-label="Chapter navigation">
+    <a rel="prev" href="14-the-web-as-commons.html"><span>Previous</span>The Web as commons: innovation happens elsewhere</a>
+    <a rel="next" href="16-the-web-as-home.html"><span>Next</span>The Web as home: your data should outlive your apps</a>
+  </nav>
+</main>
+    <aside class="reader-margin" aria-label="Reader tools">
+  <section class="reader-panel">
+    <h2>Reader</h2>
+    <label>Font
+      <select data-setting="font">
+        <option value="publication">Publication</option>
+        <option value="simple-serif">Simple serif</option>
+        <option value="simple-sans">Simple sans</option>
+        <option value="high-legibility">High legibility</option>
+      </select>
+    </label>
+    <label>Size
+      <input data-setting="fontScale" type="range" min="92" max="124" step="4" value="100">
+    </label>
+    <label>Line
+      <input data-setting="lineHeight" type="range" min="145" max="185" step="5" value="160">
+    </label>
+    <label>Width
+      <input data-setting="columnWidth" type="range" min="36" max="54" step="2" value="42">
+    </label>
+    <label>Theme
+      <select data-setting="theme">
+        <option value="light">Light</option>
+        <option value="dark">Dark</option>
+        <option value="contrast">Contrast</option>
+      </select>
+    </label>
+    <label>Motion
+      <select data-setting="motion">
+        <option value="auto">Auto</option>
+        <option value="reduced">Reduced</option>
+      </select>
+    </label>
+  </section>
+  <section class="reader-panel">
+    <h2>Book Data</h2>
+    <a href="../data/manifest.json">Manifest</a>
+  </section>
+</aside>
+  </div>
+</body>
+</html>
