@@ -12,10 +12,6 @@ HTML chose a tree.
 
 That choice made the Web easy enough to write by hand, easy enough for browsers to recover from mistakes, and structured enough for programs to inspect. It also made some things surprisingly difficult.
 
-> **Interactive exhibit placeholder: `html-chooses-a-tree`**
->
-> Let the reader select overlapping ranges in a sentence, for example bold from character 1 to 15 and comment from character 8 to 25. Try to encode the overlap as HTML and show why the tree breaks. Then show the same annotations as ranges. The point is not that HTML is bad; the point is that every representation has consequences.
-
 As I wrote in the previous chapter, in 1989 a wizard called Tim invented the World-Wide Web and changed the world forever. The first, and I think most important part, was the invention of the URL. But another invention was HTML - or HyperText Markup Language.
 
 I've already talked about HyperText, so I'll focus on the Markup Language part here. Markup has been around longer than you might think, certainly longer than computers, and maybe even longer than the printing press.
@@ -255,6 +251,10 @@ However, what you are seeing is an editor, designed by Microsoft originally for 
 The only successful in-browser editors, that are capable of editing any HTML and deliver a good end result--as in: clean HTML--, do so by switching away from HTML. Instead they use a different underlying editing format. They convert the HTML to that, then allow you to edit it, and when you press save it is converted back to HTML again.
 
 This is a good lesson to learn: All choices have consequences. The less choices you make, the less consequences will haunt you.
+
+> **Interactive exhibit placeholder: `html-chooses-a-tree`**
+>
+> Let the reader select overlapping ranges in a sentence, for example bold from character 1 to 15 and comment from character 8 to 25. Try to encode the overlap as HTML and show why the tree breaks. Then show the same annotations as ranges. The point is not that HTML is bad; the point is that every representation has consequences.
 
 > **Wizard's fifth rule**
 >

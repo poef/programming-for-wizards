@@ -20,10 +20,6 @@ But borders are expensive. So before we build one, it is worth asking a wizard's
 
 > What if the language we need is already hiding inside the language we have?
 
-> **Interactive exhibit placeholder: `jaqt-extension-lab`**
->
-> Show the same query growing in stages: a loop, then `filter()` and `map()`, then small predicate functions, then an object-shaped pattern, then the final [JAQT](https://github.com/muze-nl/jaqt)-shaped query. Let the reader click a function such as `startsWith("O")` and watch it become a value that is stored, passed around and called later. The point is to make the host-language trick visible: no parser appears, because the query is already JavaScript.
-
 ## A pile of little records
 
 Imagine we have some people:
@@ -484,6 +480,10 @@ That was not quite true.
 It is a useful way to think about some DSLs, especially the ones that really do create a separate little world. But this exhibit has gone in another direction. Instead of building a new kingdom, we moved the problem slightly.
 
 The query is no longer a string that must be understood by a new language. It is a JavaScript object whose shape carries meaning. The places where the query needs behavior are filled with JavaScript functions. The chain gives the object-shapes a readable path: start here, keep these, make this shape, give me the value.
+
+> **Interactive exhibit placeholder: `jaqt-extension-lab`**
+>
+> Show the same query growing in stages: a loop, then `filter()` and `map()`, then small predicate functions, then an object-shaped pattern, then the final [JAQT](https://github.com/muze-nl/jaqt)-shaped query. Let the reader click a function such as `startsWith("O")` and watch it become a value that is stored, passed around and called later. The point is to make the host-language trick visible: no parser appears, because the query is already JavaScript.
 
 ## Composing inside the host language
 

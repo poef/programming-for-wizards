@@ -69,14 +69,6 @@
 <p id="p-02-how-do-you-make-a-number-bigger-than" data-note-target>How do you make a number bigger than your fingers?</p>
 <p id="p-02-that-sounds-like-a-childish-question-but-it" data-note-target>That sounds like a childish question, but it is one of the first great programming questions. You have a thing in the world. You need to represent it. The first representation works for a while. Then the world grows larger than the representation, and the representation starts fighting you.</p>
 <p id="p-02-numbers-are-a-good-place-to-begin-because" data-note-target>Numbers are a good place to begin because they look natural. They are not. Number systems are inventions. Interfaces. Little machines for doing work in your head.</p>
-<aside id="exhibit-numbers-are-machines" class="exhibit-placeholder" data-exhibit-id="numbers-are-machines" data-note-target>
-<p class="exhibit-kicker">Interactive Exhibit</p>
-<h2>Numbers Are Machines</h2>
-<p>Let the reader enter a number and switch between tally marks, Roman numerals, abacus columns, decimal, binary, octal and hexadecimal. Each switch should show which calculation is hidden in the notation. Adding <code>1</code> should visibly create carry in decimal and binary.</p>
-<div class="static-fallback" aria-label="Static fallback">
-<p>Numbers Are Machines is planned as an interactive exhibit. This placeholder preserves the explanation and its stable address for the static edition.</p>
-</div>
-</aside>
 <h2 id="h-02-numbers-numbers-numbers"><a class="anchor-link" href="#h-02-numbers-numbers-numbers" aria-label="Link to Numbers, numbers, numbers">#</a>Numbers, numbers, numbers</h2>
 <p id="p-02-its-no-secret-that-programming-is-based-on" data-note-target>Its no secret that programming is based on numbers. Two of them, 0 and 1. It may come as a surprise to some that one of those numbers is much newer than the other.</p>
 <p id="p-02-lets-go-back-way-back-back-into-time" data-note-target>Lets go back, way back, back into time, when the only people who existed were cavemen, cavewomen, troglodytes.</p>
@@ -107,9 +99,9 @@
 <p id="p-02-this-leads-to-another-lesson-hiding-inside-the" data-note-target>This leads to another lesson hiding inside the first one: your creation will probably outlive you, so document it.</p>
 <p id="p-02-were-getting-pretty-good-at-writing-large-numbers" data-note-target>We're getting pretty good at writing large numbers. We can write down 1,000,000 and read it without blinking an eye. But science is progressing and making up bigger numbers faster than we can write them down. How about the number of atoms in the universe? Or even bigger, all the possible move variations in the game of chess?</p>
 <p id="p-02-to-write-that-number-down-you-will-need" data-note-target>To write that number down you will need a number with at least 111 0's. Clearly that is no longer practical. So enter <a href="https://en.wikipedia.org/wiki/Scientific_notation">scientific notation</a>, where we add another calculation as part of the notation of a number: exponents.</p>
-<figure id="math-02-073" class="math-block" data-note-target><pre>2 \times 10^{111}</pre></figure>
+<figure id="math-02-069" class="math-block" data-note-target><pre>2 \times 10^{111}</pre></figure>
 <p id="p-02-but-we-can-also-use-these-to-explain" data-note-target>But we can also use these to explain the positional nature of arabic numerals:</p>
-<figure id="table-02-079" class="table-figure" data-note-target>
+<figure id="table-02-075" class="table-figure" data-note-target>
 <table>
 <thead><tr><th>$$ \times 10^{2} $$</th><th>$$ \times 10^{1} $$</th><th>$$ \times 10^{0} $$</th></tr></thead>
 <tbody>
@@ -120,14 +112,14 @@
 <p id="p-02-so-the-number-972-is-equal-to-9" data-note-target>So the number 972 is equal to $$ 9 \times 10^2 + 7 \times 10^1 +2 \times 10^0 $$</p>
 <p id="p-02-so-what-about-our-original-two-numbers-1" data-note-target>So what about our original two numbers, 1 and 0. Well, if you understand the magic of positional notation, it turns out that you don't actually need all 10 numerals on each position.</p>
 <p id="p-02-you-can-use-any-amount-of-numbers-like" data-note-target>You can use any amount of numbers, like 16 for <a href="https://en.wikipedia.org/wiki/Hexadecimal">hexadecimal</a> numbers, e.g:</p>
-<figure id="math-02-089" class="math-block" data-note-target><pre>    0x1F   = 1 \times 16 + 15</pre></figure>
+<figure id="math-02-085" class="math-block" data-note-target><pre>    0x1F   = 1 \times 16 + 15</pre></figure>
 <p id="p-02-0x-is-just-a-convention-to-say-this" data-note-target><em>$0x$ is just a convention to say 'this is a hexadecimal number', and since there are 16 single position numerals, we've A to F as placeholders for 11 to 16.</em></p>
 <p id="p-02-or-octal-with-8-numerals-per-position" data-note-target>Or <a href="https://en.wikipedia.org/wiki/Octal">octal</a>, with 8 numerals per position:</p>
-<figure id="math-02-097" class="math-block" data-note-target><pre>    017 = 1 \times 8 + 7</pre></figure>
+<figure id="math-02-093" class="math-block" data-note-target><pre>    017 = 1 \times 8 + 7</pre></figure>
 <p id="p-02-or-minimize-it-two-two-numbers-1-and" data-note-target>Or, minimize it two two numbers, 1 and 0 and you get <a href="https://en.wikipedia.org/wiki/Binary_number">binary</a>:</p>
-<figure id="math-02-103" class="math-block" data-note-target><pre>    11 = 1 \times 2 + 1</pre></figure>
+<figure id="math-02-099" class="math-block" data-note-target><pre>    11 = 1 \times 2 + 1</pre></figure>
 <p id="p-02-and-using-exponents-we-can-explain-it-a" data-note-target>And using exponents, we can explain it a bit better:</p>
-<figure id="table-02-109" class="table-figure" data-note-target>
+<figure id="table-02-105" class="table-figure" data-note-target>
 <table>
 <thead><tr><th>$$ \times 2^{2} $$</th><th>$$ \times 2^{1} $$</th><th>$$ \times 2^{0} $$</th></tr></thead>
 <tbody>
@@ -136,11 +128,11 @@
 </table>
 </figure>
 <p id="p-02-which-means-that-the-binary-number-101-is" data-note-target>Which means that the binary number 101 is equal to</p>
-<figure id="math-02-115" class="math-block" data-note-target><pre>    1 \times 2^2 + 0 \times 2^1 + 1 \times 2^0</pre></figure>
+<figure id="math-02-111" class="math-block" data-note-target><pre>    1 \times 2^2 + 0 \times 2^1 + 1 \times 2^0</pre></figure>
 <p id="p-02-this-simplifies-to" data-note-target>This simplifies to</p>
-<figure id="math-02-121" class="math-block" data-note-target><pre>    1 \times 4 + 1 = 5</pre></figure>
+<figure id="math-02-117" class="math-block" data-note-target><pre>    1 \times 4 + 1 = 5</pre></figure>
 <p id="p-02-binary-numbers-are-so-ubiquitous-in-programming-that" data-note-target>Binary numbers are so ubiquitous in programming, that you'll see the powers of 2 around a lot. So here are the first few:</p>
-<figure id="table-02-128" class="table-figure" data-note-target>
+<figure id="table-02-124" class="table-figure" data-note-target>
 <table>
 <thead><tr><th>$2^{10}$</th><th>$2^9$</th><th>$2^8$</th><th>$2^7$</th><th>$2^6$</th><th>$2^5$</th><th>$2^4$</th><th>$2^3$</th><th>$2^2$</th><th>$2^1$</th><th>$2^0$</th></tr></thead>
 <tbody>
@@ -151,6 +143,14 @@
 <p id="p-02-this-is-a-good-time-to-end-our" data-note-target>This is a good time to end our archaeological dig through numbers. There is quite a bit more to explore, but you can do that yourself. The web contains all the information you need and more.</p>
 <p id="p-02-the-important-thing-for-now-is-this-every" data-note-target>The important thing for now is this: every number system we saw did work for us. Tally marks counted. Roman numerals embedded small calculations. Positional notation made zero necessary. The carry mechanism turned notation into machinery. Binary made the smallest useful alphabet large enough to build a computer.</p>
 <p id="p-02-a-notation-is-not-just-a-way-to" data-note-target>A notation is not just a way to write something down. A good notation performs part of the work for you. And most good notations were not invented from nothing. They were borrowed, bent, stolen, simplified, combined and used somewhere new.</p>
+<aside id="exhibit-numbers-are-machines" class="exhibit-placeholder" data-exhibit-id="numbers-are-machines" data-note-target>
+<p class="exhibit-kicker">Interactive Exhibit</p>
+<h2>Numbers Are Machines</h2>
+<p>Let the reader enter a number and switch between tally marks, Roman numerals, abacus columns, decimal, binary, octal and hexadecimal. Each switch should show which calculation is hidden in the notation. Adding <code>1</code> should visibly create carry in decimal and binary.</p>
+<div class="static-fallback" aria-label="Static fallback">
+<p>Numbers Are Machines is planned as an interactive exhibit. This placeholder preserves the explanation and its stable address for the static edition.</p>
+</div>
+</aside>
 <aside id="rule-02-wizards-first-rule" class="wizard-rule" data-note-target>
 <p class="rule-label">Wizard's first rule</p>
 <p>Steal.</p>

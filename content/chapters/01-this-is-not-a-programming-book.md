@@ -18,10 +18,6 @@ That is the point of this book.
 
 Not that you should reject everything. Wizards don't waste good magic. They steal, improve, combine, and sometimes very carefully throw things away. The trick is to notice which part of the world is actually fixed, and which part is only a habit that got old enough to look like nature.
 
-> **Interactive exhibit placeholder: `same-problem-different-world`**
->
-> Start with one small problem, for example organizing a few tasks with dependencies. Let the reader solve it manually. Then change only the representation: from a written list, to a table, to a graph. The problem should not get solved by more cleverness. It should get smaller because the reader can now see the right shape.
-
 ## The wizard's question
 
 A beginner asks: _How do I solve this?_
@@ -39,3 +35,7 @@ Most of the chapters in this book are stories about people doing exactly that. T
 And after that, everyone else said the new thing was obvious.
 
 That is how magic usually works.
+
+> **Interactive exhibit placeholder: `same-problem-different-world`**
+>
+> Start with one small problem, for example organizing a few tasks with dependencies. Let the reader solve it manually. Then change only the representation: from a written list, to a table, to a graph. The problem should not get solved by more cleverness. It should get smaller because the reader can now see the right shape.

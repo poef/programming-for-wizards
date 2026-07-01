@@ -1,7 +1,7 @@
 {
   "id": "programming-for-wizards",
   "title": "Programming for Wizards",
-  "generatedAt": "2026-07-01T21:25:14.222Z",
+  "generatedAt": "2026-07-01T21:31:50.278Z",
   "phase": "01-enhanced-static-manuscript",
   "features": {
     "notes": "planned",
@@ -532,13 +532,6 @@
       "url": "chapters/01-this-is-not-a-programming-book.html#p-01-not-that-you-should-reject-everything-wizards-dont"
     },
     {
-      "id": "exhibit-same-problem-different-world",
-      "type": "exhibit",
-      "label": "Same Problem Different World",
-      "chapter": "01-this-is-not-a-programming-book",
-      "url": "chapters/01-this-is-not-a-programming-book.html#exhibit-same-problem-different-world"
-    },
-    {
       "id": "h-01-the-wizards-question",
       "type": "heading",
       "label": "The wizard's question",
@@ -595,6 +588,13 @@
       "url": "chapters/01-this-is-not-a-programming-book.html#p-01-that-is-how-magic-usually-works"
     },
     {
+      "id": "exhibit-same-problem-different-world",
+      "type": "exhibit",
+      "label": "Same Problem Different World",
+      "chapter": "01-this-is-not-a-programming-book",
+      "url": "chapters/01-this-is-not-a-programming-book.html#exhibit-same-problem-different-world"
+    },
+    {
       "id": "h-02-numbers-hiding-calculations-in-symbols",
       "type": "heading",
       "label": "Numbers: hiding calculations in symbols",
@@ -621,13 +621,6 @@
       "label": "Numbers are a good place to begin because they look natural. They are not. Number systems are inventions. Interfaces. Li",
       "chapter": "02-numbers-hiding-calculations-in-symbols",
       "url": "chapters/02-numbers-hiding-calculations-in-symbols.html#p-02-numbers-are-a-good-place-to-begin-because"
-    },
-    {
-      "id": "exhibit-numbers-are-machines",
-      "type": "exhibit",
-      "label": "Numbers Are Machines",
-      "chapter": "02-numbers-hiding-calculations-in-symbols",
-      "url": "chapters/02-numbers-hiding-calculations-in-symbols.html#exhibit-numbers-are-machines"
     },
     {
       "id": "h-02-numbers-numbers-numbers",
@@ -826,11 +819,11 @@
       "url": "chapters/02-numbers-hiding-calculations-in-symbols.html#p-02-to-write-that-number-down-you-will-need"
     },
     {
-      "id": "math-02-073",
+      "id": "math-02-069",
       "type": "math",
       "label": "math block",
       "chapter": "02-numbers-hiding-calculations-in-symbols",
-      "url": "chapters/02-numbers-hiding-calculations-in-symbols.html#math-02-073"
+      "url": "chapters/02-numbers-hiding-calculations-in-symbols.html#math-02-069"
     },
     {
       "id": "p-02-but-we-can-also-use-these-to-explain",
@@ -840,11 +833,11 @@
       "url": "chapters/02-numbers-hiding-calculations-in-symbols.html#p-02-but-we-can-also-use-these-to-explain"
     },
     {
-      "id": "table-02-079",
+      "id": "table-02-075",
       "type": "table",
       "label": "table",
       "chapter": "02-numbers-hiding-calculations-in-symbols",
-      "url": "chapters/02-numbers-hiding-calculations-in-symbols.html#table-02-079"
+      "url": "chapters/02-numbers-hiding-calculations-in-symbols.html#table-02-075"
     },
     {
       "id": "p-02-so-the-number-972-is-equal-to-9",
@@ -868,11 +861,11 @@
       "url": "chapters/02-numbers-hiding-calculations-in-symbols.html#p-02-you-can-use-any-amount-of-numbers-like"
     },
     {
-      "id": "math-02-089",
+      "id": "math-02-085",
       "type": "math",
       "label": "math block",
       "chapter": "02-numbers-hiding-calculations-in-symbols",
-      "url": "chapters/02-numbers-hiding-calculations-in-symbols.html#math-02-089"
+      "url": "chapters/02-numbers-hiding-calculations-in-symbols.html#math-02-085"
     },
     {
       "id": "p-02-0x-is-just-a-convention-to-say-this",
@@ -889,11 +882,11 @@
       "url": "chapters/02-numbers-hiding-calculations-in-symbols.html#p-02-or-octal-with-8-numerals-per-position"
     },
     {
-      "id": "math-02-097",
+      "id": "math-02-093",
       "type": "math",
       "label": "math block",
       "chapter": "02-numbers-hiding-calculations-in-symbols",
-      "url": "chapters/02-numbers-hiding-calculations-in-symbols.html#math-02-097"
+      "url": "chapters/02-numbers-hiding-calculations-in-symbols.html#math-02-093"
     },
     {
       "id": "p-02-or-minimize-it-two-two-numbers-1-and",
@@ -903,11 +896,11 @@
       "url": "chapters/02-numbers-hiding-calculations-in-symbols.html#p-02-or-minimize-it-two-two-numbers-1-and"
     },
     {
-      "id": "math-02-103",
+      "id": "math-02-099",
       "type": "math",
       "label": "math block",
       "chapter": "02-numbers-hiding-calculations-in-symbols",
-      "url": "chapters/02-numbers-hiding-calculations-in-symbols.html#math-02-103"
+      "url": "chapters/02-numbers-hiding-calculations-in-symbols.html#math-02-099"
     },
     {
       "id": "p-02-and-using-exponents-we-can-explain-it-a",
@@ -917,11 +910,11 @@
       "url": "chapters/02-numbers-hiding-calculations-in-symbols.html#p-02-and-using-exponents-we-can-explain-it-a"
     },
     {
-      "id": "table-02-109",
+      "id": "table-02-105",
       "type": "table",
       "label": "table",
       "chapter": "02-numbers-hiding-calculations-in-symbols",
-      "url": "chapters/02-numbers-hiding-calculations-in-symbols.html#table-02-109"
+      "url": "chapters/02-numbers-hiding-calculations-in-symbols.html#table-02-105"
     },
     {
       "id": "p-02-which-means-that-the-binary-number-101-is",
@@ -931,11 +924,11 @@
       "url": "chapters/02-numbers-hiding-calculations-in-symbols.html#p-02-which-means-that-the-binary-number-101-is"
     },
     {
-      "id": "math-02-115",
+      "id": "math-02-111",
       "type": "math",
       "label": "math block",
       "chapter": "02-numbers-hiding-calculations-in-symbols",
-      "url": "chapters/02-numbers-hiding-calculations-in-symbols.html#math-02-115"
+      "url": "chapters/02-numbers-hiding-calculations-in-symbols.html#math-02-111"
     },
     {
       "id": "p-02-this-simplifies-to",
@@ -945,11 +938,11 @@
       "url": "chapters/02-numbers-hiding-calculations-in-symbols.html#p-02-this-simplifies-to"
     },
     {
-      "id": "math-02-121",
+      "id": "math-02-117",
       "type": "math",
       "label": "math block",
       "chapter": "02-numbers-hiding-calculations-in-symbols",
-      "url": "chapters/02-numbers-hiding-calculations-in-symbols.html#math-02-121"
+      "url": "chapters/02-numbers-hiding-calculations-in-symbols.html#math-02-117"
     },
     {
       "id": "p-02-binary-numbers-are-so-ubiquitous-in-programming-that",
@@ -959,11 +952,11 @@
       "url": "chapters/02-numbers-hiding-calculations-in-symbols.html#p-02-binary-numbers-are-so-ubiquitous-in-programming-that"
     },
     {
-      "id": "table-02-128",
+      "id": "table-02-124",
       "type": "table",
       "label": "table",
       "chapter": "02-numbers-hiding-calculations-in-symbols",
-      "url": "chapters/02-numbers-hiding-calculations-in-symbols.html#table-02-128"
+      "url": "chapters/02-numbers-hiding-calculations-in-symbols.html#table-02-124"
     },
     {
       "id": "p-02-this-is-a-good-time-to-end-our",
@@ -985,6 +978,13 @@
       "label": "A notation is not just a way to write something down. A good notation performs part of the work for you. And most good n",
       "chapter": "02-numbers-hiding-calculations-in-symbols",
       "url": "chapters/02-numbers-hiding-calculations-in-symbols.html#p-02-a-notation-is-not-just-a-way-to"
+    },
+    {
+      "id": "exhibit-numbers-are-machines",
+      "type": "exhibit",
+      "label": "Numbers Are Machines",
+      "chapter": "02-numbers-hiding-calculations-in-symbols",
+      "url": "chapters/02-numbers-hiding-calculations-in-symbols.html#exhibit-numbers-are-machines"
     },
     {
       "id": "rule-02-wizards-first-rule",
@@ -2009,13 +2009,6 @@
       "url": "chapters/06-the-web-as-document.html#p-06-that-choice-made-the-web-easy-enough-to"
     },
     {
-      "id": "exhibit-html-chooses-a-tree",
-      "type": "exhibit",
-      "label": "Html Chooses A Tree",
-      "chapter": "06-the-web-as-document",
-      "url": "chapters/06-the-web-as-document.html#exhibit-html-chooses-a-tree"
-    },
-    {
       "id": "p-06-as-i-wrote-in-the-previous-chapter-in",
       "type": "paragraph",
       "label": "As I wrote in the previous chapter, in 1989 a wizard called Tim invented the World-Wide Web and changed the world foreve",
@@ -2107,11 +2100,11 @@
       "url": "chapters/06-the-web-as-document.html#p-06-this-is-where-things-get-interesting-sometime-in"
     },
     {
-      "id": "code-06-045",
+      "id": "code-06-041",
       "type": "code",
       "label": "gml block",
       "chapter": "06-the-web-as-document",
-      "url": "chapters/06-the-web-as-document.html#code-06-045"
+      "url": "chapters/06-the-web-as-document.html#code-06-041"
     },
     {
       "id": "p-06-unfortunately-their-work-only-made-it-out-of",
@@ -2135,11 +2128,11 @@
       "url": "chapters/06-the-web-as-document.html#p-06-here-is-a-sample-of-a-text-marked"
     },
     {
-      "id": "code-06-064",
+      "id": "code-06-060",
       "type": "code",
       "label": "scribe block",
       "chapter": "06-the-web-as-document",
-      "url": "chapters/06-the-web-as-document.html#code-06-064"
+      "url": "chapters/06-the-web-as-document.html#code-06-060"
     },
     {
       "id": "p-06-gml-eventually-turned-into-sgml-standard-generalized-markup",
@@ -2156,11 +2149,11 @@
       "url": "chapters/06-the-web-as-document.html#p-06-here-is-that-first-html-page-again"
     },
     {
-      "id": "code-06-075",
+      "id": "code-06-071",
       "type": "code",
       "label": "html block",
       "chapter": "06-the-web-as-document",
-      "url": "chapters/06-the-web-as-document.html#code-06-075"
+      "url": "chapters/06-the-web-as-document.html#code-06-071"
     },
     {
       "id": "p-06-this-is-not-an-sgml-document-it-doesnt",
@@ -2191,11 +2184,11 @@
       "url": "chapters/06-the-web-as-document.html#p-06-this-means-that-the-source-code-should-be"
     },
     {
-      "id": "code-06-103",
+      "id": "code-06-099",
       "type": "code",
       "label": "code block",
       "chapter": "06-the-web-as-document",
-      "url": "chapters/06-the-web-as-document.html#code-06-103"
+      "url": "chapters/06-the-web-as-document.html#code-06-099"
     },
     {
       "id": "p-06-this-is-technically-feasible-maybe-even-easier-however",
@@ -2233,11 +2226,11 @@
       "url": "chapters/06-the-web-as-document.html#p-06-now-for-the-tricky-parts-as-youve-seen"
     },
     {
-      "id": "code-06-123",
+      "id": "code-06-119",
       "type": "code",
       "label": "html block",
       "chapter": "06-the-web-as-document",
-      "url": "chapters/06-the-web-as-document.html#code-06-123"
+      "url": "chapters/06-the-web-as-document.html#code-06-119"
     },
     {
       "id": "p-06-instead-you-are-supposed-to-write-this",
@@ -2247,11 +2240,11 @@
       "url": "chapters/06-the-web-as-document.html#p-06-instead-you-are-supposed-to-write-this"
     },
     {
-      "id": "code-06-129",
+      "id": "code-06-125",
       "type": "code",
       "label": "html block",
       "chapter": "06-the-web-as-document",
-      "url": "chapters/06-the-web-as-document.html#code-06-129"
+      "url": "chapters/06-the-web-as-document.html#code-06-125"
     },
     {
       "id": "p-06-and-this-html-can-be-represented-as-a",
@@ -2282,11 +2275,11 @@
       "url": "chapters/06-the-web-as-document.html#p-06-this-tree-structure-does-have-benefits-you-can"
     },
     {
-      "id": "code-06-148",
+      "id": "code-06-144",
       "type": "code",
       "label": "html block",
       "chapter": "06-the-web-as-document",
-      "url": "chapters/06-the-web-as-document.html#code-06-148"
+      "url": "chapters/06-the-web-as-document.html#code-06-144"
     },
     {
       "id": "p-06-and-it-would-render-the-same-the-tree",
@@ -2310,11 +2303,11 @@
       "url": "chapters/06-the-web-as-document.html#p-06-for-example-both-lines-in-the-example-below"
     },
     {
-      "id": "code-06-166",
+      "id": "code-06-162",
       "type": "code",
       "label": "html block",
       "chapter": "06-the-web-as-document",
-      "url": "chapters/06-the-web-as-document.html#code-06-166"
+      "url": "chapters/06-the-web-as-document.html#code-06-162"
     },
     {
       "id": "p-06-even-the-extra-3-spaces-at-the-start",
@@ -2331,11 +2324,11 @@
       "url": "chapters/06-the-web-as-document.html#p-06-however-there-is-another-tricky-complication-take-the"
     },
     {
-      "id": "code-06-175",
+      "id": "code-06-171",
       "type": "code",
       "label": "html block",
       "chapter": "06-the-web-as-document",
-      "url": "chapters/06-the-web-as-document.html#code-06-175"
+      "url": "chapters/06-the-web-as-document.html#code-06-171"
     },
     {
       "id": "p-06-this-renders-like-this",
@@ -2359,11 +2352,11 @@
       "url": "chapters/06-the-web-as-document.html#p-06-lets-change-the-markup-to-this-instead"
     },
     {
-      "id": "code-06-227",
+      "id": "code-06-223",
       "type": "code",
       "label": "html block",
       "chapter": "06-the-web-as-document",
-      "url": "chapters/06-the-web-as-document.html#code-06-227"
+      "url": "chapters/06-the-web-as-document.html#code-06-223"
     },
     {
       "id": "p-06-there-is-no-change-in-the-normal-rendering",
@@ -2394,11 +2387,11 @@
       "url": "chapters/06-the-web-as-document.html#p-06-finally-if-you-really-want-to-open-a"
     },
     {
-      "id": "code-06-243",
+      "id": "code-06-239",
       "type": "code",
       "label": "html block",
       "chapter": "06-the-web-as-document",
-      "url": "chapters/06-the-web-as-document.html#code-06-243"
+      "url": "chapters/06-the-web-as-document.html#code-06-239"
     },
     {
       "id": "p-06-however-what-you-are-seeing-is-an-editor",
@@ -2420,6 +2413,13 @@
       "label": "This is a good lesson to learn: All choices have consequences. The less choices you make, the less consequences will hau",
       "chapter": "06-the-web-as-document",
       "url": "chapters/06-the-web-as-document.html#p-06-this-is-a-good-lesson-to-learn-all"
+    },
+    {
+      "id": "exhibit-html-chooses-a-tree",
+      "type": "exhibit",
+      "label": "Html Chooses A Tree",
+      "chapter": "06-the-web-as-document",
+      "url": "chapters/06-the-web-as-document.html#exhibit-html-chooses-a-tree"
     },
     {
       "id": "rule-06-wizards-fifth-rule",
@@ -3185,13 +3185,6 @@
       "url": "chapters/10-code-exhibit-extending-javascript-with-jaqt.html#p-10-but-borders-are-expensive-so-before-we-build"
     },
     {
-      "id": "exhibit-jaqt-extension-lab",
-      "type": "exhibit",
-      "label": "Jaqt Extension Lab",
-      "chapter": "10-code-exhibit-extending-javascript-with-jaqt",
-      "url": "chapters/10-code-exhibit-extending-javascript-with-jaqt.html#exhibit-jaqt-extension-lab"
-    },
-    {
       "id": "h-10-a-pile-of-little-records",
       "type": "heading",
       "label": "A pile of little records",
@@ -3855,6 +3848,13 @@
       "label": "The query is no longer a string that must be understood by a new language. It is a JavaScript object whose shape carries",
       "chapter": "10-code-exhibit-extending-javascript-with-jaqt",
       "url": "chapters/10-code-exhibit-extending-javascript-with-jaqt.html#p-10-the-query-is-no-longer-a-string-that"
+    },
+    {
+      "id": "exhibit-jaqt-extension-lab",
+      "type": "exhibit",
+      "label": "Jaqt Extension Lab",
+      "chapter": "10-code-exhibit-extending-javascript-with-jaqt",
+      "url": "chapters/10-code-exhibit-extending-javascript-with-jaqt.html#exhibit-jaqt-extension-lab"
     },
     {
       "id": "h-10-composing-inside-the-host-language",

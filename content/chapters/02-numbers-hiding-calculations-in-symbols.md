@@ -10,10 +10,6 @@ That sounds like a childish question, but it is one of the first great programmi
 
 Numbers are a good place to begin because they look natural. They are not. Number systems are inventions. Interfaces. Little machines for doing work in your head.
 
-> **Interactive exhibit placeholder: `numbers-are-machines`**
->
-> Let the reader enter a number and switch between tally marks, Roman numerals, abacus columns, decimal, binary, octal and hexadecimal. Each switch should show which calculation is hidden in the notation. Adding `1` should visibly create carry in decimal and binary.
-
 ## Numbers, numbers, numbers
 
 Its no secret that programming is based on numbers. Two of them, 0 and 1. It may come as a surprise to some that one of those numbers is much newer than the other.
@@ -138,6 +134,10 @@ This is a good time to end our archaeological dig through numbers. There is quit
 The important thing for now is this: every number system we saw did work for us. Tally marks counted. Roman numerals embedded small calculations. Positional notation made zero necessary. The carry mechanism turned notation into machinery. Binary made the smallest useful alphabet large enough to build a computer.
 
 A notation is not just a way to write something down. A good notation performs part of the work for you. And most good notations were not invented from nothing. They were borrowed, bent, stolen, simplified, combined and used somewhere new.
+
+> **Interactive exhibit placeholder: `numbers-are-machines`**
+>
+> Let the reader enter a number and switch between tally marks, Roman numerals, abacus columns, decimal, binary, octal and hexadecimal. Each switch should show which calculation is hidden in the notation. Adding `1` should visibly create carry in decimal and binary.
 
 > **Wizard's first rule**
 >

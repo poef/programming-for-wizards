@@ -74,14 +74,6 @@
 <p id="p-10-sometimes-that-border-is-worth-it-sql-is" data-note-target>Sometimes that border is worth it. SQL is not JavaScript, and that is part of its power. Regular expressions are their own dense, cursed little world, and we keep using them because the curse is useful.</p>
 <p id="p-10-but-borders-are-expensive-so-before-we-build" data-note-target>But borders are expensive. So before we build one, it is worth asking a wizard's question:</p>
 <blockquote><p>What if the language we need is already hiding inside the language we have?</p></blockquote>
-<aside id="exhibit-jaqt-extension-lab" class="exhibit-placeholder" data-exhibit-id="jaqt-extension-lab" data-note-target>
-<p class="exhibit-kicker">Interactive Exhibit</p>
-<h2>Jaqt Extension Lab</h2>
-<p>Show the same query growing in stages: a loop, then <code>filter()</code> and <code>map()</code>, then small predicate functions, then an object-shaped pattern, then the final <a href="https://github.com/muze-nl/jaqt">JAQT</a>-shaped query. Let the reader click a function such as <code>startsWith(&quot;O&quot;)</code> and watch it become a value that is stored, passed around and called later. The point is to make the host-language trick visible: no parser appears, because the query is already JavaScript.</p>
-<div class="static-fallback" aria-label="Static fallback">
-<p>Jaqt Extension Lab is planned as an interactive exhibit. This placeholder preserves the explanation and its stable address for the static edition.</p>
-</div>
-</aside>
 <h2 id="h-10-a-pile-of-little-records"><a class="anchor-link" href="#h-10-a-pile-of-little-records" aria-label="Link to A pile of little records">#</a>A pile of little records</h2>
 <p id="p-10-imagine-we-have-some-people" data-note-target>Imagine we have some people:</p>
 <figure id="q0mh6q" class="code-figure" data-note-target>
@@ -465,6 +457,14 @@ const fullName = person =&gt; `${person.firstName} ${person.lastName}`</code></p
 <p id="p-10-that-was-not-quite-true" data-note-target>That was not quite true.</p>
 <p id="p-10-it-is-a-useful-way-to-think-about" data-note-target>It is a useful way to think about some DSLs, especially the ones that really do create a separate little world. But this exhibit has gone in another direction. Instead of building a new kingdom, we moved the problem slightly.</p>
 <p id="p-10-the-query-is-no-longer-a-string-that" data-note-target>The query is no longer a string that must be understood by a new language. It is a JavaScript object whose shape carries meaning. The places where the query needs behavior are filled with JavaScript functions. The chain gives the object-shapes a readable path: start here, keep these, make this shape, give me the value.</p>
+<aside id="exhibit-jaqt-extension-lab" class="exhibit-placeholder" data-exhibit-id="jaqt-extension-lab" data-note-target>
+<p class="exhibit-kicker">Interactive Exhibit</p>
+<h2>Jaqt Extension Lab</h2>
+<p>Show the same query growing in stages: a loop, then <code>filter()</code> and <code>map()</code>, then small predicate functions, then an object-shaped pattern, then the final <a href="https://github.com/muze-nl/jaqt">JAQT</a>-shaped query. Let the reader click a function such as <code>startsWith(&quot;O&quot;)</code> and watch it become a value that is stored, passed around and called later. The point is to make the host-language trick visible: no parser appears, because the query is already JavaScript.</p>
+<div class="static-fallback" aria-label="Static fallback">
+<p>Jaqt Extension Lab is planned as an interactive exhibit. This placeholder preserves the explanation and its stable address for the static edition.</p>
+</div>
+</aside>
 <h2 id="h-10-composing-inside-the-host-language"><a class="anchor-link" href="#h-10-composing-inside-the-host-language" aria-label="Link to Composing inside the host language">#</a>Composing inside the host language</h2>
 <p id="p-10-the-reward-for-staying-inside-javascript-is-that" data-note-target>The reward for staying inside JavaScript is that composition keeps working.</p>
 <p id="p-10-we-can-make-little-pieces" data-note-target>We can make little pieces:</p>
