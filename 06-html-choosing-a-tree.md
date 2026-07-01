@@ -16,11 +16,11 @@ That choice made the Web easy enough to write by hand, easy enough for browsers 
 >
 > Let the reader select overlapping ranges in a sentence, for example bold from character 1 to 15 and comment from character 8 to 25. Try to encode the overlap as HTML and show why the tree breaks. Then show the same annotations as ranges. The point is not that HTML is bad; the point is that every representation has consequences.
 
-As I've written in part 1 of this chapter, in 1989 a wizard called Tim invented the World-Wide Web and changed the world forever. The first, and I think most important part, was the invention of the URL. But another invention was HTML - or HyperText Markup Language.
+As I wrote in the previous chapter, in 1989 a wizard called Tim invented the World-Wide Web and changed the world forever. The first, and I think most important part, was the invention of the URL. But another invention was HTML - or HyperText Markup Language.
 
-I've talked about HyperText in part 1, so I'll focus on the Markup Language part here. Markup has been around longer than you might think, certainly longer than computers, and maybe even longer than the printing press.
+I've already talked about HyperText, so I'll focus on the Markup Language part here. Markup has been around longer than you might think, certainly longer than computers, and maybe even longer than the printing press.
 
-A 'markup' is simply an additional marking on a document, added to add extra meaning. The most common use of markup, pre-computer era, was in [letterpress printing](https://en.wikipedia.org/wiki/Letterpress_printing) and later [offset printing](https://en.wikipedia.org/wiki/Offset_printing) as well. Here an editor added markup, using a pen or pencil, to a document before sending it to a typesetter. The typesetter was a person tasked with creating the page out of movable type, physical metal blocks containing a single letter or glyph.
+Markup is simply an additional marking on a document, added to add extra meaning. The general idea is now called a [markup language](https://en.wikipedia.org/wiki/Markup_language). A [brief history of document markup](https://chnm.gmu.edu/digitalhistory/links/pdf/chapter3/3.19a.pdf) gives the old trade version of this nicely. The most common use of markup, pre-computer era, was in [letterpress printing](https://en.wikipedia.org/wiki/Letterpress_printing) and later [offset printing](https://en.wikipedia.org/wiki/Offset_printing) as well. Here an editor added markup, using a pen or pencil, to a document before sending it to a typesetter. The typesetter was a person tasked with creating the page out of movable type, physical metal blocks containing a single letter or glyph.
 
 <figure><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/ae/Metal_movable_type.jpg/1920px-Metal_movable_type.jpg">
     <caption>An example of movable type</caption>
@@ -28,7 +28,7 @@ A 'markup' is simply an additional marking on a document, added to add extra mea
 
 The editor added markup to tell the typesetter what font and font size to use, as well as other layout decisions.
 
-When te first computers came around, they were very limited in the kind of output they could create. If there was a printer attached, it would generally be a typewriter style printer.
+When the first computers came around, they were very limited in the kind of output they could create. If there was a printer attached, it would generally be a typewriter style printer.
 
 Once the output devices gained more capabilities, their manufacturers quickly realized a need to somehow instruct these devices how to display or output text.
 
@@ -38,13 +38,13 @@ The other, more relevant application, was to create better printed output. Early
 
 The wizards at Bell Labs, who were busy inventing Unix, were not impressed. They wanted their Unix and C manuals to be nicely typeset, without having to fiddle around. So they invented `troff`, one of the earliest markup languages. It is still in use today, any Unix system has a built-in manual system, called `man`. And all manual pages are marked up with a `troff` descendant.
 
-Another wizard, called Knuth, wanted to write a book about programming. Well actually, he wanted to write *the* book on programming. In 1962 hew as approached by Addison-Wesley about writing a book about compiler design. But he [enlarged the scope a bit](https://en.wikipedia.org/wiki/The_Art_of_Computer_Programming). The first 3 parts - of a proposed 7 part series, were typeset and published by 1973. However, the typesetting instructions for the first books were no longer usable, since the typesetting systems had changed by that time. Clearly that was unacceptable to a proper wizard like Knuth.
+Another wizard, called Knuth, wanted to write a book about programming. Well actually, he wanted to write *the* book on programming. In 1962 he was approached by Addison-Wesley about writing a book about compiler design. But he [enlarged the scope a bit](https://en.wikipedia.org/wiki/The_Art_of_Computer_Programming). The first 3 parts - of a proposed 7 part series, were typeset and published by 1973. However, the typesetting instructions for the first books were no longer usable, since the typesetting systems had changed by that time. Clearly that was unacceptable to a proper wizard like Knuth.
 
 So in 1974 he took some time off to develop his own, better, typesetting system. That hiatus turned out to be 11 years and resulted in the TeX system. An extension of that system, called LaTeX, is still the preferred system to deliver scientific and mathematical articles to science magazines. It is also one of very few programs which are very likely bug-free. One of the reasons for this may be gleaned from this quote by Knuth: _"... one of TEX’s principal advantages is the fact that it does not change "_
 
 Both `troff` and TeX use markup languages specifically to typeset documents before putting them on paper. As such they are not so much interested in declaring the meaning of content, just the styling.
 
-This is were things get interesting. Sometime in the 1970's some wizards from IBM created a system called GML. This either means Generalized Markup Language, or it might mean Goldfarb, Mosher and Lorie, who were the aforementioned wizards. Here is an example of a text with GML markup:
+This is where things get interesting. Sometime in the 1970's some wizards from IBM created a system called GML. This either means Generalized Markup Language, or it might mean Goldfarb, Mosher and Lorie, who were the aforementioned wizards. Here is an example of a text with GML markup:
 
 ```GML
 :h1.Chapter 1:  Introduction
@@ -61,7 +61,7 @@ allowed the end-tags to be omitted for the "h1" and "p" elements.
 
 Unfortunately their work only made it out of IBM as a product you could buy and use, somewhere at the end of the 1980's. 
 
-So the award for the first released markup language that described the meaning--the semantics--of a text goes to [Scribe](http://www.columbia.edu/cu/computinghistory/scribe.pdf) in 1980. At the time a wizard called Brian K. Reid, was a student at the department of computer science at Columbia University, USA. He created what he called _"A Document Specification Language and its Compiler"_, as his final dissertation. The resulting software we now know as Scribe.
+So the award for the first released markup language that described the meaning--the semantics--of a text goes to [Scribe](http://www.columbia.edu/cu/computinghistory/scribe.pdf) in 1980. At the time a wizard called Brian K. Reid, was a student at the department of computer science at Carnegie Mellon University, USA. He created what he called _"A Document Specification Language and its Compiler"_, as his final dissertation. The resulting software we now know as Scribe. Douglas Crockford later wrote [a short appreciation of Scribe](https://nofluffjuststuff.com/blog/douglas_crockford/2007/06/scribe), mostly to complain that the rest of us did not steal more of its good ideas.
 
 Here is a sample of a text marked up with Scribe:
 
@@ -72,7 +72,7 @@ Here is a sample of a text marked up with Scribe:
  mean @i"anything") could go inside. @End(Quotation)
 ```
 
-GML eventually turned into [SGML--standard generalized markup language](https://en.wikipedia.org/wiki/Standard_Generalized_Markup_Language), which became an industry standard around 1983. And in 1989, when sir Tim looked around for a markup language for the Web, he found SGML as a well-defined standard. SGML itself had no tags, it just described how you could create your own document format or DTD--Document Type Definition. This was clearly too complex. However the original GML did have tags, nice and short ones. So HTML was born out of a combination of SGML and GML.
+GML eventually turned into [SGML--Standard Generalized Markup Language](https://en.wikipedia.org/wiki/Standard_Generalized_Markup_Language), which became an industry standard around 1983. And in 1989, when sir Tim looked around for a markup language for the Web, he found SGML as a well-defined standard. SGML itself had no tags, it just described how you could create your own document format or DTD--Document Type Definition. This was clearly too complex. However the original GML did have tags, nice and short ones. So HTML was born out of a combination of SGML and GML.
 
 Here is that first HTML page again:
 
@@ -100,7 +100,7 @@ This is not an SGML document, it doesn't have a DTD header. Later HTML would bec
 
 It does use the same syntax to differentiate between markup and content. All markup tags are enclosed in `<` and `>` characters.
 
-Let's take a closer look at the reasons behind this format. One of the main goals of the web was to make it easy for people to write HTML documents. There was no special editor. Unlike the word processors people use today, you wrote HTML as source code. You used a standard text editor. The webbrowser would render that source code, but it wasn't an editor itself.
+Let's take a closer look at the reasons behind this format. One of the main goals of the web was to make it easy for people to write HTML documents. There was no special editor. Unlike the word processors people use today, you wrote HTML as source code. You used a standard text editor. The web browser would render that source code, but it wasn't an editor itself.
 
 This means that the source code should be human readable. So, to make the structure more clear, a markup had a start and an end tag. This made it easy to see which markup ended where. Imagine an HTML version without named end tags, something like this:
 
@@ -143,7 +143,7 @@ And this HTML can be represented as a tree structure:
 - em
   - text 
 
-This is how your webbrowser understands this HTML. Most modern browsers allow you to take a look at this structure, by pressing `<ctrl> <shift> i`. Or you can right-click on a web page and select "inspect". There you will see a complete representation of the HTML content, as a tree. This is also called the DOM or Document Object Model.
+This is how your web browser understands this HTML. Most modern browsers allow you to take a look at this structure, by pressing `<ctrl> <shift> i`. Or you can right-click on a web page and select "inspect". There you will see a complete representation of the HTML content, as a tree. This is also called the DOM or Document Object Model.
 
 The HTML specification forces you to create a tree structure of your document. There can be no overlapping markup.
 
@@ -250,9 +250,9 @@ Finally if you really want to open a can of worms, try writing a rich text edito
 </div>
 ```
 
-However, what you are seeing is an editor, designed by Microsoft originally for Internet Explorer 5.5, with an API that is derived from WordPad. Its capabilities are dreadfully limited. And yet there is no improved version. The What-wg, the group now in charge of the HTML specification, have created a special workgroup to create an improved standard for `contenteditable`, but this workgroup has disbanded itself after years of trying to create something better.
+However, what you are seeing is an editor, designed by Microsoft originally for Internet Explorer 5.5, with an API that is derived from WordPad. Its capabilities are dreadfully limited. And yet there is no improved version. The WHATWG, the group now in charge of the HTML specification, have created a special workgroup to create an improved standard for `contenteditable`, but this workgroup has disbanded itself after years of trying to create something better.
 
-The only succesful in-browser editors, that are capable of editing any HTML and deliver a good end result--as in: clean HTML--, do so by switching away from HTML. Instead they use a different underlying editing format. They convert the HTML to that, then allow you to edit it, and when you press save it is converted back to HTML again.
+The only successful in-browser editors, that are capable of editing any HTML and deliver a good end result--as in: clean HTML--, do so by switching away from HTML. Instead they use a different underlying editing format. They convert the HTML to that, then allow you to edit it, and when you press save it is converted back to HTML again.
 
 This is a good lesson to learn: All choices have consequences. The less choices you make, the less consequences will haunt you.
 
