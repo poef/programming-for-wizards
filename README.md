@@ -6,7 +6,7 @@ tags: Programming for wizards
 - [Introduction](/introduction.md)
 - [Numbers](/numbers.md)
 - [The Web, part 1](/web-1.md)
-- [Language](/langauge.md)
+- [Language](/language.md)
 - [Code: Building a simple query DSL in PHP](/query-dsl-php.md)
 - [The Web, part 2](/web-2.md)
 - [Logic](/logic.md)
