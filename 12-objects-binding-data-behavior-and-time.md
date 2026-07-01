@@ -86,7 +86,7 @@ class OrderService {
 }
 ```
 
-This is the useful core of dependency injection. Not the frameworks. Not the annotations. Not the containers with configuration files so large that they need their own weather report.
+This is the useful core of [dependency injection](https://martinfowler.com/articles/injection.html). Not the frameworks. Not the annotations. Not the containers with configuration files so large that they need their own weather report.
 
 The useful idea is simple:
 
@@ -102,7 +102,7 @@ When do we decide which database to use? When do we decide which template render
 
 If you decide too early, your code becomes rigid. If you decide too late, your code becomes vague. Wizardry is not always delaying decisions. It is moving each decision to the place where it is cheapest to change and easiest to understand.
 
-This is where factories, dependency injection containers, service locators, configuration files and plugin systems all come from. They are attempts to move binding.
+This is where factories, [dependency injection containers](https://en.wikipedia.org/wiki/Dependency_injection), [service locators](https://martinfowler.com/articles/injection.html#UsingAServiceLocator), configuration files and plugin systems all come from. They are attempts to move binding.
 
 Some of them help. Some of them merely move the mess to a more impressive room.
 

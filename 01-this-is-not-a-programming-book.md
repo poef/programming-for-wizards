@@ -4,7 +4,7 @@ tags: programming for wizards
 
 # This is not a programming book
 
-There are a lot of books about programming. Many of them are called a variant of _Programming for Dummies_. This is not one of those.
+There are a lot of books about programming. Many of them are called a variant of [_Programming for Dummies_](https://en.wikipedia.org/wiki/For_Dummies). This is not one of those.
 
 This book is meant for wizards. Wizards who want to learn how to program computers. In the process you will also learn how to program people.
 

@@ -47,7 +47,7 @@ There are many ways to write these facts down. In a spreadsheet you might make r
 
 Each shape helps with some questions and makes other questions awkward.
 
-A language called [Prolog](https://dl.acm.org/doi/10.1145/234286.1057820) made a very different choice. Prolog came out of logic programming work in the early 1970s. Instead of giving the computer a list of steps, you describe facts and rules, then ask questions. A tiny Prolog-ish world might look like this:
+A language called [Prolog](https://dl.acm.org/doi/10.1145/234286.1057820) made a very different choice. Prolog came out of [logic programming](https://en.wikipedia.org/wiki/Logic_programming) work in the early 1970s. Instead of giving the computer a list of steps, you describe facts and rules, then ask questions. A tiny Prolog-ish world might look like this:
 
 ```prolog id="prolog-facts"
 lives_in(hilda, manchester).
@@ -180,7 +180,7 @@ The Web already gave documents addresses.
 https://example.org/people/hilda.html
 ```
 
-Linked data asks for a small but important change in ambition:
+[Linked data](https://www.w3.org/DesignIssues/LinkedData.html) asks for a small but important change in ambition:
 
 > not only documents should have addresses; things should have addresses too.
 
@@ -221,7 +221,7 @@ This is not pretty yet. It is not meant to be pretty. It is meant to cross bound
 
 The [Resource Description Framework](https://www.w3.org/TR/rdf11-concepts/), RDF, gives this idea a formal shape. An RDF graph is made of subject-predicate-object triples. Subjects and objects are nodes. Predicates are the arcs between them. In less specification-shaped language: RDF lets you write small facts that join into a graph.
 
-Here is a friendlier syntax, Turtle:
+Here is a friendlier syntax, [Turtle](https://www.w3.org/TR/turtle/):
 
 ```turtle id="turtle-example"
 @prefix ex: <https://example.org/id/> .
@@ -265,7 +265,7 @@ If the names line up, software can follow them.
 
 This is where linked data gets its name. The data is not just structured. It points. A fact can point to a thing, and that thing can point to more facts, and those facts can point outward again.
 
-Tim Berners-Lee described [linked data](https://www.w3.org/DesignIssues/LinkedData.html) with a few deliberately simple rules: use URIs as names for things, use HTTP URIs so people can look them up, provide useful information when they are looked up, and include links to other URIs so people and machines can discover more.
+Tim Berners-Lee described linked data with a few deliberately simple rules: use URIs as names for things, use HTTP URIs so people can look them up, provide useful information when they are looked up, and include links to other URIs so people and machines can discover more.
 
 This is the URL chapter coming back in another costume.
 

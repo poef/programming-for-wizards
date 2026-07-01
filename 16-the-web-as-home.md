@@ -74,9 +74,9 @@ Small, replaceable software requires a place where the important things are not 
 
 ## A web with a home directory
 
-There is a project called Solid that tries to explore this direction. I do not want to turn this chapter into a manual for it. The details matter, but the wizardly part is the change of shape.
+There is a project called [Solid](https://solidproject.org/) that tries to explore this direction. I do not want to turn this chapter into a manual for it. The details matter, but the wizardly part is the change of shape.
 
-Solid asks what would happen if identity and data were separated from applications. A person has an identity on the web. Their data can live in a place they control. Applications ask for access. The app is no longer automatically the place where the data lives.
+Solid asks what would happen if identity and data were separated from applications. A person has an [identity on the web](https://solidproject.org/FAQ). Their data can live in a [place they control](https://solidproject.org/FAQ). Applications ask for access. The app is no longer automatically the place where the data lives.
 
 This sounds almost too obvious, once said aloud. Of course your contacts should be yours. Of course your calendar should not belong to one calendar interface. Of course your notes should not become unreadable because a company pivoted, merged, shut down, rebranded, or discovered artificial intelligence in a board meeting.
 

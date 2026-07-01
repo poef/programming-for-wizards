@@ -6,7 +6,7 @@ tags: programming for wizards
 
 Why is it so difficult to make reusable software?
 
-This is one of those questions that keeps returning, dressed in new clothes. Objects would do it. Components would do it. Packages would do it. Services would do it. Web components would do it. Frameworks would do it. Some new build system, package manager, module format, runtime or architectural style would finally let us write a piece of software once and use it everywhere.
+This is one of those questions that keeps returning, dressed in new clothes. [Objects](https://en.wikipedia.org/wiki/Object-oriented_programming) would do it. [Components](https://en.wikipedia.org/wiki/Component-based_software_engineering) would do it. [Packages](https://en.wikipedia.org/wiki/Software_package) would do it. [Services](https://en.wikipedia.org/wiki/Service-oriented_architecture) would do it. [Web components](https://developer.mozilla.org/en-US/docs/Web/API/Web_components) would do it. Frameworks would do it. Some new build system, package manager, module format, runtime or architectural style would finally let us write a piece of software once and use it everywhere.
 
 And then, a few years later, we discover that we have not built a Lego castle after all.
 
@@ -16,7 +16,7 @@ We have knitted another one.
 >
 > Begin with five clean modules. Let the reader add features one by one. Each feature creates dependency threads: data shape, styling, lifecycle, configuration, events, permissions, errors, storage, network calls. Then let the reader try to reuse one piece in a different project. Show how many invisible threads come along. Finally introduce clearer boundaries: explicit inputs, boring data, adapters, stable protocols, and a core that knows less about its surroundings.
 
-The famous wizard Alan Kay once said:
+The famous wizard [Alan Kay](https://en.wikipedia.org/wiki/Alan_Kay) once said:
 
 > "Whatever we [in computing] do is more like what the Egyptians did. Building pyramids, piling things on top of each other." [(video)](https://www.tele-task.de/lecture/video/2772/)
 
@@ -132,7 +132,7 @@ A framework often says: live here.
 
 Living somewhere can be pleasant. A framework can give you roads, plumbing, electricity, building codes, a market square and a school. But moving one house from that town to another town is not the same as moving a Lego brick.
 
-This is also why standards matter. A standard creates a boundary that does not belong to one package. HTML, URLs, JSON, HTTP, CSS selectors, the DOM, SQL, POSIX paths, MIME types. None of these are perfect. Some of them are full of ghosts. But when enough systems agree on the boundary, reuse becomes less dependent on one implementation.
+This is also why standards matter. A standard creates a boundary that does not belong to one package. HTML, URLs, [JSON](https://www.json.org/json-en.html), HTTP, [CSS selectors](https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_selectors), the DOM, SQL, [POSIX paths](https://pubs.opengroup.org/onlinepubs/9699919799/basedefs/V1_chap03.html#tag_03_271), [MIME types](https://www.iana.org/assignments/media-types/media-types.xhtml). None of these are perfect. Some of them are full of ghosts. But when enough systems agree on the boundary, reuse becomes less dependent on one implementation.
 
 The Web itself works because many different pieces agree just enough to meet each other.
 

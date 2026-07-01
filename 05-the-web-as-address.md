@@ -4,13 +4,13 @@ tags: programming for wizards
 
 # The Web as address: a spell for pointing anywhere
 
-In 1989 a wizard called Tim invented the World Wide Web and changed the world forever.
+In 1989 a wizard called [Tim](https://www.w3.org/People/Berners-Lee/) invented the [World Wide Web](https://www.w3.org/History/1989/proposal-msw.html) and changed the world forever.
 
 That sounds dramatic, but 1989 was not exactly short on drama. Walls were falling. Regimes were cracking. The Cold War was entering its final strange act. Compared to all of that, a proposal for sharing documents between physicists at CERN must have looked very small.
 
 That is one of the problems with good magic. When it first appears, it often looks like paperwork.
 
-The first website did not look like the future either. It did not have video, rounded corners, infinite scrolling, cookie banners, or a button asking you to subscribe to a newsletter before you had read the first sentence. It was mostly text and links.
+The [first website](https://info.cern.ch) did not look like the future either. It did not have video, rounded corners, infinite scrolling, cookie banners, or a button asking you to subscribe to a newsletter before you had read the first sentence. It was mostly text and links.
 
 ```htmlembedded=
 http://info.cern.ch
@@ -37,7 +37,7 @@ The `a` tag is tiny. Almost suspiciously tiny. Just one letter. Hidden inside it
 http://info.cern.ch/hypertext/WWW/TheProject.html
 ```
 
-The URL. The Uniform Resource Locator.
+The [URL](https://url.spec.whatwg.org/). The Uniform Resource Locator.
 
 A spell for pointing anywhere.
 
@@ -49,11 +49,11 @@ A spell for pointing anywhere.
 
 To understand why the URL mattered, we need to go back a little further than 1989.
 
-The idea of hypertext was older than the Web. Ted Nelson coined the term in 1965, and you can trace the dream further back to Vannevar Bush's 1945 essay *As We May Think*. Wizards had been dreaming for decades about systems where documents could point to other documents, where knowledge could become a web instead of a pile.
+The idea of [hypertext](https://en.wikipedia.org/wiki/Hypertext) was older than the Web. [Ted Nelson](https://en.wikipedia.org/wiki/Ted_Nelson) coined the term in 1965, and you can trace the dream further back to [Vannevar Bush](https://en.wikipedia.org/wiki/Vannevar_Bush)'s 1945 essay [*As We May Think*](https://www.theatlantic.com/magazine/archive/1945/07/as-we-may-think/303881/). Wizards had been dreaming for decades about systems where documents could point to other documents, where knowledge could become a web instead of a pile.
 
 But there is a large gap between dreaming about a global web of knowledge and getting one that ordinary people can actually use.
 
-Ted Nelson started the Xanadu project in the 1960s. It was ambitious, beautiful, and, as ambitious beautiful things often are, very hard to finish. Apple released HyperCard in 1987. HyperCard had cards, stacks, buttons and links. It let ordinary people build little interactive information worlds. In another timeline it might have become the way many people learned to think with computers.
+Ted Nelson started [the Xanadu project](https://en.wikipedia.org/wiki/Project_Xanadu) in the 1960s. It was ambitious, beautiful, and, as ambitious beautiful things often are, very hard to finish. Apple released [HyperCard](https://en.wikipedia.org/wiki/HyperCard) in 1987. HyperCard had cards, stacks, buttons and links. It let ordinary people build little interactive information worlds. In another timeline it might have become the way many people learned to think with computers.
 
 HyperCard was wonderful inside its own little universe. A card could point to another card. A button could take you somewhere else in the stack. Local magic, and very good local magic too.
 
@@ -61,7 +61,7 @@ The awkward part was the boundary. What if the thing you wanted to point to was 
 
 Xanadu tried to design a grand hypertext universe. HyperCard made a smaller universe that people could actually play with. The Web took a stranger route. It connected existing worlds using the cheapest-looking piece of machinery imaginable: a string.
 
-That is the part I find interesting. Tim Berners-Lee did not have to invent networking from scratch. TCP/IP was there. He did not have to invent a global naming system for computers. DNS was there. He did not have to invent hierarchical file paths. Unix had made those familiar. He did not have to invent the dream of hypertext either.
+That is the part I find interesting. Tim Berners-Lee did not have to invent networking from scratch. [TCP/IP](https://en.wikipedia.org/wiki/Internet_protocol_suite) was there. He did not have to invent a global naming system for computers. [DNS](https://en.wikipedia.org/wiki/Domain_Name_System) was there. He did not have to invent hierarchical file paths. [Unix](https://en.wikipedia.org/wiki/Unix) had made those familiar. He did not have to invent the dream of hypertext either.
 
 The missing piece was a simple way for one document to say:
 
@@ -148,7 +148,7 @@ Now look at the middle part:
 //info.cern.ch/
 ```
 
-The double slash says that what follows is a network location. This convention was borrowed too; Berners-Lee has said he took it from Apollo workstations, where `//` was used for network paths.
+The double slash says that what follows is a network location. This convention was borrowed too; Berners-Lee has said he took it from [Apollo workstations](https://en.wikipedia.org/wiki/Apollo_Computer), where `//` was used for network paths.
 
 Again, this is how wizards really work most of the time. They do not produce polished inventions from a vacuum. They notice a shape that already solved part of the problem somewhere else, then move it to a place where it suddenly matters more.
 
@@ -170,11 +170,11 @@ Finally, the first part:
 http://
 ```
 
-At first this seems like the boring bit. It tells the browser to use HTTP. Sensible enough.
+At first this seems like the boring bit. It tells the browser to use [HTTP](https://developer.mozilla.org/en-US/docs/Web/HTTP). Sensible enough.
 
 But putting the scheme at the front was also a wonderfully strange move, because it left the door open for the link to escape HTTP.
 
-Compare it with Gopher, another worldwide information system that appeared around the same time. For a brief moment, Gopher was a serious contender. A Gopher menu entry might contain a type, a title, a path, a hostname and a port:
+Compare it with [Gopher](https://en.wikipedia.org/wiki/Gopher_%28protocol%29), another worldwide information system that appeared around the same time. For a brief moment, Gopher was a serious contender. A Gopher menu entry might contain a type, a title, a path, a hostname and a port:
 
 ```text
 1CIA World Factbook    /Archives/politics/CIA    gopher.example.org    70

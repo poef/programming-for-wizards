@@ -36,15 +36,15 @@ One application was on how and where to display text on terminal screens. From t
 
 The other, more relevant application, was to create better printed output. Early on, the only way to get decent printed output, was to add a typesetter system to your computer. Such a typesetter was itself a complex computer, combined with a system similar to copiers. The typesetter could be instructed to use specific fonts and font sizes. It had a complex API you could use to do this. But each system had its own, vendor specific API and software.
 
-The wizards at Bell Labs, who were busy inventing Unix, were not impressed. They wanted their Unix and C manuals to be nicely typeset, without having to fiddle around. So they invented `troff`, one of the earliest markup languages. It is still in use today, any Unix system has a built-in manual system, called `man`. And all manual pages are marked up with a `troff` descendant.
+The wizards at Bell Labs, who were busy inventing Unix, were not impressed. They wanted their Unix and C manuals to be nicely typeset, without having to fiddle around. So they invented [`troff`](https://en.wikipedia.org/wiki/Troff), one of the earliest markup languages. It is still in use today, any Unix system has a built-in manual system, called `man`. And all manual pages are marked up with a `troff` descendant.
 
 Another wizard, called Knuth, wanted to write a book about programming. Well actually, he wanted to write *the* book on programming. In 1962 he was approached by Addison-Wesley about writing a book about compiler design. But he [enlarged the scope a bit](https://en.wikipedia.org/wiki/The_Art_of_Computer_Programming). The first 3 parts - of a proposed 7 part series, were typeset and published by 1973. However, the typesetting instructions for the first books were no longer usable, since the typesetting systems had changed by that time. Clearly that was unacceptable to a proper wizard like Knuth.
 
-So in 1974 he took some time off to develop his own, better, typesetting system. That hiatus turned out to be 11 years and resulted in the TeX system. An extension of that system, called LaTeX, is still the preferred system to deliver scientific and mathematical articles to science magazines. It is also one of very few programs which are very likely bug-free. One of the reasons for this may be gleaned from this quote by Knuth: _"... one of TEX’s principal advantages is the fact that it does not change "_
+So in 1974 he took some time off to develop his own, better, typesetting system. That hiatus turned out to be 11 years and resulted in the [TeX](https://tug.org/whatis.html) system. An extension of that system, called [LaTeX](https://www.latex-project.org/), is still the preferred system to deliver scientific and mathematical articles to science magazines. It is also one of very few programs which are very likely bug-free. One of the reasons for this may be gleaned from this quote by Knuth: _"... one of TEX’s principal advantages is the fact that it does not change "_
 
 Both `troff` and TeX use markup languages specifically to typeset documents before putting them on paper. As such they are not so much interested in declaring the meaning of content, just the styling.
 
-This is where things get interesting. Sometime in the 1970's some wizards from IBM created a system called GML. This either means Generalized Markup Language, or it might mean Goldfarb, Mosher and Lorie, who were the aforementioned wizards. Here is an example of a text with GML markup:
+This is where things get interesting. Sometime in the 1970's some wizards from IBM created a system called [GML](https://en.wikipedia.org/wiki/IBM_Generalized_Markup_Language). This either means Generalized Markup Language, or it might mean Goldfarb, Mosher and Lorie, who were the aforementioned wizards. Here is an example of a text with GML markup:
 
 ```GML
 :h1.Chapter 1:  Introduction
@@ -72,7 +72,7 @@ Here is a sample of a text marked up with Scribe:
  mean @i"anything") could go inside. @End(Quotation)
 ```
 
-GML eventually turned into [SGML--Standard Generalized Markup Language](https://en.wikipedia.org/wiki/Standard_Generalized_Markup_Language), which became an industry standard around 1983. And in 1989, when sir Tim looked around for a markup language for the Web, he found SGML as a well-defined standard. SGML itself had no tags, it just described how you could create your own document format or DTD--Document Type Definition. This was clearly too complex. However the original GML did have tags, nice and short ones. So HTML was born out of a combination of SGML and GML.
+GML eventually turned into [SGML--Standard Generalized Markup Language](https://en.wikipedia.org/wiki/Standard_Generalized_Markup_Language), which became an industry standard around 1983. And in 1989, when sir Tim looked around for a markup language for the Web, he found SGML as a well-defined standard. SGML itself had no tags, it just described how you could create your own document format or DTD--Document Type Definition. This was clearly too complex. However the original GML did have tags, nice and short ones. So [HTML](https://html.spec.whatwg.org/) was born out of a combination of SGML and GML.
 
 Here is that first HTML page again:
 
@@ -96,7 +96,7 @@ Here is that first HTML page again:
 </body>
 ```
 
-This is not an SGML document, it doesn't have a DTD header. Later HTML would become compliant with SGML, at least until HTML5 was released.
+This is not an SGML document, it doesn't have a DTD header. Later HTML would become compliant with SGML, at least until [HTML5](https://html.spec.whatwg.org/multipage/introduction.html#history-2) was released.
 
 It does use the same syntax to differentiate between markup and content. All markup tags are enclosed in `<` and `>` characters.
 
@@ -143,7 +143,7 @@ And this HTML can be represented as a tree structure:
 - em
   - text 
 
-This is how your web browser understands this HTML. Most modern browsers allow you to take a look at this structure, by pressing `<ctrl> <shift> i`. Or you can right-click on a web page and select "inspect". There you will see a complete representation of the HTML content, as a tree. This is also called the DOM or Document Object Model.
+This is how your web browser understands this HTML. Most modern browsers allow you to take a look at this structure, by pressing `<ctrl> <shift> i`. Or you can right-click on a web page and select "inspect". There you will see a complete representation of the HTML content, as a tree. This is also called the [DOM or Document Object Model](https://developer.mozilla.org/en-US/docs/Web/API/Document_Object_Model).
 
 The HTML specification forces you to create a tree structure of your document. There can be no overlapping markup.
 
@@ -163,7 +163,7 @@ This tree structure does have benefits. You can also write the above HTML as fol
 
 And it would render the same. The tree structure is now made visible by the level of indenting in the source. This is now common practice when manually editing HTML. The indentation makes it much easier to see if your closing tags line up with your opening tags.
 
-To make this work, web browsers apply what is called white-space collapsing. In general, any time you add multiple white-space characters in your content, the browser reads this as 'add one space please'.
+To make this work, web browsers apply what is called [white-space collapsing](https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_text/Whitespace). In general, any time you add multiple white-space characters in your content, the browser reads this as 'add one space please'.
 
 For example, both lines in the example below will line out perfectly:
 
@@ -242,7 +242,7 @@ But now here it is inline:
 
 And there is no space between the items anymore.
 
-Finally if you really want to open a can of worms, try writing a rich text editor, with full _WYSIWYG_ (What-You-See-Is-What-You-Get) capabilities, using HTML. Modern browsers have such an editor included. You can start one just by entering something like this:
+Finally if you really want to open a can of worms, try writing a rich text editor, with full [_WYSIWYG_](https://en.wikipedia.org/wiki/WYSIWYG) (What-You-See-Is-What-You-Get) capabilities, using HTML. Modern browsers have such an editor included. You can start one just by entering something like this with the [`contenteditable`](https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Global_attributes/contenteditable) attribute:
 
 ```htmlembedded=
 <div contenteditable=true>
@@ -250,7 +250,7 @@ Finally if you really want to open a can of worms, try writing a rich text edito
 </div>
 ```
 
-However, what you are seeing is an editor, designed by Microsoft originally for Internet Explorer 5.5, with an API that is derived from WordPad. Its capabilities are dreadfully limited. And yet there is no improved version. The WHATWG, the group now in charge of the HTML specification, have created a special workgroup to create an improved standard for `contenteditable`, but this workgroup has disbanded itself after years of trying to create something better.
+However, what you are seeing is an editor, designed by Microsoft originally for Internet Explorer 5.5, with an API that is derived from WordPad. Its capabilities are dreadfully limited. And yet there is no improved version. The [WHATWG](https://whatwg.org/), the group now in charge of the HTML specification, have created a special workgroup to create an improved standard for `contenteditable`, but this workgroup has disbanded itself after years of trying to create something better.
 
 The only successful in-browser editors, that are capable of editing any HTML and deliver a good end result--as in: clean HTML--, do so by switching away from HTML. Instead they use a different underlying editing format. They convert the HTML to that, then allow you to edit it, and when you press save it is converted back to HTML again.
 

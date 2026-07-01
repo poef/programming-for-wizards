@@ -22,7 +22,7 @@ But borders are expensive. So before we build one, it is worth asking a wizard's
 
 > **Interactive exhibit placeholder: `jaqt-extension-lab`**
 >
-> Show the same query growing in stages: a loop, then `filter()` and `map()`, then small predicate functions, then an object-shaped pattern, then the final JAQT-shaped query. Let the reader click a function such as `startsWith("O")` and watch it become a value that is stored, passed around and called later. The point is to make the host-language trick visible: no parser appears, because the query is already JavaScript.
+> Show the same query growing in stages: a loop, then `filter()` and `map()`, then small predicate functions, then an object-shaped pattern, then the final [JAQT](https://github.com/muze-nl/jaqt)-shaped query. Let the reader click a function such as `startsWith("O")` and watch it become a value that is stored, passed around and called later. The point is to make the host-language trick visible: no parser appears, because the query is already JavaScript.
 
 ## A pile of little records
 
@@ -164,7 +164,7 @@ isOlderThan40({ age: 62 }) // true
 isOlderThan40({ age: 28 }) // false
 ```
 
-This is called higher-order programming. The name sounds as if it was designed by people who wanted to keep the rabble out, but the idea is small enough:
+This is called [higher-order programming](https://en.wikipedia.org/wiki/Higher-order_function). The name sounds as if it was designed by people who wanted to keep the rabble out, but the idea is small enough:
 
 A function can receive another function.
 A function can return another function.

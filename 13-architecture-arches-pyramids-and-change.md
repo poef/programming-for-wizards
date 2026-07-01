@@ -57,7 +57,7 @@ Ultimately Alan Kay's VPRI failed to deliver on its promise. But not by much. It
 > ... the entire apparatus of TCP/IP was
 less than 200 lines of code. ... many TCP/IP packages run to 10,000 or 20,000 lines of code in C.
 
-> the open source Cairo system (a comprehensibly done version of PostScript that is fast enough to be used for real-time interfaces) is about 44,000 lines of C code ... a hefty and speedy subset of Cairo in less than 500 lines of code. 
+> the open source Cairo system (a comprehensibly done version of [PostScript](https://en.wikipedia.org/wiki/PostScript) that is fast enough to be used for real-time interfaces) is about 44,000 lines of C code ... a hefty and speedy subset of Cairo in less than 500 lines of code. 
 
 All this is possible because of the [OMeta parser language](http://www.vpri.org/pdf/tr2007003_ometa.pdf), which makes it efficient and easy to create new languages. The OMeta language can be expressed in itself in about 100 lines. Ometa is a variant of a ["Parsing Expression Grammar"](https://en.wikipedia.org/wiki/Parsing_expression_grammar) or PEG. There are many other PEG systems out there, for any language.
 
@@ -69,9 +69,9 @@ Going back to Christopher Alexander, can we get to a definition of software arch
 
 I think we can. But we must step back from the code a bit. It is easy to get lost in details and no-true-scotsman fallacies when discussing software design. So I'll use a few time-tested articles as inspiration.
 
-The first one is called 'The rise of "Worse is Better"', by wizard Richard P. Gabriel. In it he argues that software that is objectively worse, actually wins in the marketplace. With the result that much of the software that we end up using is not as good as the software that could have been. We end up building on top of the worse software. And worse, the new generation of developers doesn't even know that things could have been better.
+The first one is called ['The rise of "Worse is Better"'](https://www.dreamsongs.com/WorseIsBetter.html), by wizard Richard P. Gabriel. In it he argues that software that is objectively worse, actually wins in the marketplace. With the result that much of the software that we end up using is not as good as the software that could have been. We end up building on top of the worse software. And worse, the new generation of developers doesn't even know that things could have been better.
 
-A wizard called Eric S. Raymond, later in 1997 wrote 'The Cathedral and the Bazaar', from a different perspective. In it Eric describes two filosophies of software design. One he equates with the Cathedral, it is carefully designed up front and then built according to plan. This stands for most commercial software built upto then. In contrast, he equates the emerging open source movement, and its software, with the Bazaar. There is no grand centralized plan, these is only anarchy. But it is a constructive anarchy. Because there is no central grand plan, the Bazaar reacts to changing circumstances instantly. And the bazaar wins in the marketplace because, while its solutions aren't ideal, or even very good, the solutions are there. The Cathedral approach cannot deliver good-enough solutions in the same timescale as the Bazaar.
+A wizard called [Eric S. Raymond](https://en.wikipedia.org/wiki/Eric_S._Raymond), later in 1997 wrote ['The Cathedral and the Bazaar'](http://www.catb.org/~esr/writings/cathedral-bazaar/cathedral-bazaar/), from a different perspective. In it Eric describes two filosophies of software design. One he equates with the Cathedral, it is carefully designed up front and then built according to plan. This stands for most commercial software built upto then. In contrast, he equates the emerging [open source](https://opensource.org/osd) movement, and its software, with the Bazaar. There is no grand centralized plan, these is only anarchy. But it is a constructive anarchy. Because there is no central grand plan, the Bazaar reacts to changing circumstances instantly. And the bazaar wins in the marketplace because, while its solutions aren't ideal, or even very good, the solutions are there. The Cathedral approach cannot deliver good-enough solutions in the same timescale as the Bazaar.
 
 Ultimately both papers argue the same point. A working good-enough solution now is always better than a perfect solution sometime in the future.
 
@@ -83,8 +83,6 @@ But if you take a look at the Linux Kernel, it is very difficult to argue that i
 Yet Linux, and the whole OpenSource movement, is the poster-child for the Bazaar approach, as well as 'Worse is Better'. What is going on?
 
 ## Scale and Change
-
-Great software doesn't win in the marketplace. Instead crappy software is succesfull. Famously dubbed "[Worse is Better](https://www.dreamsongs.com/WorseIsBetter.html)" by wizard Richard P. Gabriel. Wizard Eric S. Raymond has a different take on it, called "[The Cathedral and the Bazaar](http://www.catb.org/~esr/writings/cathedral-bazaar/cathedral-bazaar/)".
 
 I believe that the underlying force that ties these two observations together is this: Software is change. Software changes the world, and is changed by it. Any software that solves a problem now, will always be better than software that will solve the problem later. It does not matter that the current solution is worse than the promised solution later. The future solution is going to arrive in a changed world, where it no longer matters.
 

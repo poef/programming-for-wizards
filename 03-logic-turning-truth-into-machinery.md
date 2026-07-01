@@ -8,7 +8,7 @@ You are standing before two doors. One door will lead to your desire, the other 
 
 However, you may only ask one question.
 
-This is a famous riddle, with a single correct answer. An answer you can reach by rigorously applying logic. Boolean logic. Logic with just true and false.
+This is a famous riddle, with a single correct answer. An answer you can reach by rigorously applying logic. [Boolean logic](https://en.wikipedia.org/wiki/Boolean_algebra). Logic with just true and false.
 
 Obviously you need to ask one of the guards a question that will reveal which door to pass through. But if you ask either guard which door to choose, you cannot know if the guard lied to you or not.
 
@@ -35,7 +35,7 @@ No matter which guard you ask, you will get the wrong door. So you choose the ot
 
 ## Boolean logic
 
-Today we call this Boolean Logic, named after the 19th century wizard George Boole. And the tables above are called truth tables. Logic has a much longer history, through the 17th century wizard Leibniz, all the way to an ancient Greek wizard called Aristotle.
+Today we call this Boolean Logic, named after the 19th century wizard [George Boole](https://en.wikipedia.org/wiki/George_Boole). And the tables above are called [truth tables](https://en.wikipedia.org/wiki/Truth_table). Logic has a much longer history, through the 17th century wizard [Leibniz](https://en.wikipedia.org/wiki/Gottfried_Wilhelm_Leibniz), all the way to an ancient Greek wizard called [Aristotle](https://en.wikipedia.org/wiki/Aristotle).
 
 But Boolean logic is at the core of modern programming. It is at the core of computers. In a sense all things your computer can do for you today are based on application of Boolean logic: true and false, 1 and 0.
 
@@ -78,7 +78,7 @@ Combining these, we can also create `nor` and `nand`.
 
 Wait a minute... what is this `nand` thing? Why not just write `not and`?
 
-Well... it so happens that your computer can implement everything with just `nand`. All other operations can be written as combinations of one or more nands. Hardware wizards found ways to create tiny nand _gates_, and from those gates built the tiny parts of modern CPUs.
+Well... it so happens that your computer can implement everything with just `nand`. All other operations can be written as combinations of one or more nands. Hardware wizards found ways to create tiny [NAND _gates_](https://en.wikipedia.org/wiki/NAND_gate), and from those gates built the tiny parts of modern CPUs.
 
 This is the second great trick in this chapter. First we turned a riddle into a table. Then we turned the table into a machine.
 

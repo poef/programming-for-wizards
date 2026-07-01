@@ -20,7 +20,7 @@ Its no secret that programming is based on numbers. Two of them, 0 and 1. It may
 
 Lets go back, way back, back into time, when the only people who existed were cavemen, cavewomen, troglodytes.
 
-These, our ancestors, probably counted using their fingers. Holding up one or more fingers, you can count to 10 using two hands. But what if you want to add numbers to your cave painting? Well, you make tally marks: IIII etc.
+These, our ancestors, probably counted using their fingers. Holding up one or more fingers, you can count to 10 using two hands. But what if you want to add numbers to your cave painting? Well, you make [tally marks](https://en.wikipedia.org/wiki/Tally_marks): IIII etc.
 
 So the first number we used, was 1, or I. But tally marks get cumbersome quickly. So someone invented a new symbol to mark 5 tallies: <img src="https://upload.wikimedia.org/wikipedia/commons/1/1d/Tally_marks-Five-bar_Gate.svg" style="height:1em">
 
@@ -30,11 +30,11 @@ What the romans invented here was that you could write a calculation to describe
 
 The simple rule is that smaller marks before larger marks mean subtraction. If they are placed after larger marks, they mean addition. The romans got creative after X and invented marks for 50, 100, 500, 1000 and 5000. They didn't need numbers bigger than that apparantly. (Well, actually, a wizard somewhere says, they also had bars you could add on top of a mark to multiply its value by 1000... so there's that.)
 
-So as an example, what does the roman numeral MMXXI translate to in our arabic numerals? (Yes, they are arabic in origin, I'll get to that, patience.) Or what about MCMXCVIII? And we're still just around 2000. Roman numerals still get unwieldy fairly quickly. But its better than tally marks.
+So as an example, what does the [Roman numeral](https://en.wikipedia.org/wiki/Roman_numerals) MMXXI translate to in our [Hindu-Arabic numerals](https://en.wikipedia.org/wiki/Hindu%E2%80%93Arabic_numeral_system)? (Yes, they are arabic in origin, I'll get to that, patience.) Or what about MCMXCVIII? And we're still just around 2000. Roman numerals still get unwieldy fairly quickly. But its better than tally marks.
 
 Notice we've come from the cavemen period, at least 35.000 years ago all the way to the romans, and we still have to do without 0.
 
-But lets step back a bit and introduce the abacus. This simple devices' origins are unknown. It could be that its been invented multiple times. We know for certain that it was in use by the roman era, they probably stole it from the greeks. Who may have gotten it from egyptians or babylonians, who probably got it from the sumerians. 
+But lets step back a bit and introduce the [abacus](https://en.wikipedia.org/wiki/Abacus). This simple devices' origins are unknown. It could be that its been invented multiple times. We know for certain that it was in use by the roman era, they probably stole it from the greeks. Who may have gotten it from egyptians or babylonians, who probably got it from the sumerians. 
 
 This may be a good first rule of programming for wizards: 
 
@@ -54,9 +54,9 @@ It is lot easier to explain if I use arabic numerals. They use the exact same mu
 
 And here we have for the first time the number 0. Without it, arabic numerals are impossible. 
 
-As a side note, the idea of a [number 0](https://en.wikipedia.org/wiki/0) is much older than this. But its status was not well established. How can a number, or anything, be nothing, the mathematicians of the time asked. But with the idea of a positional notation, the status of 0 as a true number became standardized. 
+As a side note, the idea of a [number 0](https://en.wikipedia.org/wiki/0) is much older than this. But its status was not well established. How can a number, or anything, be nothing, the mathematicians of the time asked. But with the idea of [positional notation](https://en.wikipedia.org/wiki/Positional_notation), the status of 0 as a true number became standardized. 
 
-As another aside, I should probably call the arabic numerals [hindu numerals](https://en.wikipedia.org/wiki/Hindu%E2%80%93Arabic_numeral_system) instead. It seems the arabs stole the idea from the hindu, who had been using these for a few hundred years already. See wizards first rule.
+As another aside, I should probably call the arabic numerals hindu numerals instead. It seems the arabs stole the idea from the hindu, who had been using these for a few hundred years already. See wizards first rule.
 
 Now back to large numbers. Using the position to multipy each numeral to describe large numbers, we can create very large numbers. Much larger than we usually need, say on a market square haggling over the price of a chicken. And all this by multiplying by 10.
 
@@ -78,7 +78,7 @@ This leads to wizards first rule's corollary:
 
 We're getting pretty good at writing large numbers. We can write down 1,000,000 and read it without blinking an eye. But science is progressing and making up bigger numbers faster than we can write them down. How about the number of atoms in the universe? Or even bigger, all the possible move variations in the game of chess?
 
-To write that number down you will need a number with at least 111 0's. Clearly that is no longer practical. So enter the scientific notation, where we add another calculation as part of the notation of a number: exponents.
+To write that number down you will need a number with at least 111 0's. Clearly that is no longer practical. So enter [scientific notation](https://en.wikipedia.org/wiki/Scientific_notation), where we add another calculation as part of the notation of a number: exponents.
 
 $$
 2 \times 10^{111}
@@ -94,7 +94,7 @@ So the number 972 is equal to $$ 9 \times 10^2 + 7 \times 10^1 +2 \times 10^0 $$
 
 So what about our original two numbers, 1 and 0. Well, if you understand the magic of positional notation, it turns out that you don't actually need all 10 numerals on each position.
 
-You can use any amount of numbers, like 16 for hexadecimal numbers, e.g:
+You can use any amount of numbers, like 16 for [hexadecimal](https://en.wikipedia.org/wiki/Hexadecimal) numbers, e.g:
 
 $$
     0x1F   = 1 \times 16 + 15
@@ -102,13 +102,13 @@ $$
 
 *$0x$ is just a convention to say 'this is a hexadecimal number', and since there are 16 single position numerals, we've A to F as placeholders for 11 to 16.*
 
-Or octal, with 8 numerals per position:
+Or [octal](https://en.wikipedia.org/wiki/Octal), with 8 numerals per position:
 
 $$
     017 = 1 \times 8 + 7
 $$
 
-Or, minimize it two two numbers, 1 and 0 and you get binary:
+Or, minimize it two two numbers, 1 and 0 and you get [binary](https://en.wikipedia.org/wiki/Binary_number):
 
 $$
     11 = 1 \times 2 + 1
