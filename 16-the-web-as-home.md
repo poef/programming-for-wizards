@@ -118,6 +118,6 @@ That is a very different question. It points to different designs. It rewards di
 
 And this is the theme that keeps returning throughout this book. The hard problem may not be the thing you first thought it was. Sometimes the hard problem is caused by the shape of the world around it. Change the shape, and the problem changes. Sometimes it shrinks. Sometimes it moves somewhere more honest. Sometimes it opens a door.
 
-> **Wizard rule**
+> **Wizard's fifteenth rule**
 >
 > Put the boundary where replacement should be cheap. If the user owns their identity and data, software can stay small enough to replace.

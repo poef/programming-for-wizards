@@ -256,6 +256,6 @@ The only successful in-browser editors, that are capable of editing any HTML and
 
 This is a good lesson to learn: All choices have consequences. The less choices you make, the less consequences will haunt you.
 
-> **Wizard rule**
+> **Wizard's fifth rule**
 >
 > Just because it looks simple, doesn't mean it is. Every format is a bet about the shape of future problems.

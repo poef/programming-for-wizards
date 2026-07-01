@@ -539,6 +539,6 @@ A parser version of a DSL puts the boundary around a new query language. The JAQ
 
 That smaller change gives us enough of the query idea to be useful, without making us leave the world we are already in.
 
-> **Wizard rule**
+> **Wizard's ninth rule**
 >
 > When you invent a language, first look for the smallest change in shape that lets the old problem become smaller. A new border is powerful only when it opens more than it closes.

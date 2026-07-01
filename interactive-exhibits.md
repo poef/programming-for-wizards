@@ -11,7 +11,7 @@ The book should not feel like paper with a few toys glued on. The interactive pi
 2. Let the obvious solution become awkward.
 3. Change the representation, boundary, language, or rule.
 4. Show that the problem got smaller.
-5. End with the chapter's wizard rule.
+5. End with the chapter's wizard's rule.
 
 ## Current placeholders
 

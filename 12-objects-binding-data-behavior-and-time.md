@@ -122,6 +122,6 @@ The reason is more practical. The outside world changes in different ways than t
 
 This is the same move we have seen before. Change the boundary, and the problem changes shape.
 
-> **Wizard rule**
+> **Wizard's eleventh rule**
 >
 > Do not only ask what a thing depends on. Ask where that dependency should be bound.

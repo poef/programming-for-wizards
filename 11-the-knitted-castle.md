@@ -156,6 +156,6 @@ The Lego castle is not built by magic universal parts. It is built by choosing w
 
 The knitted castle is always waiting. Every feature wants to tie one more loop. The wizard's work is not to avoid all loops. That would make software useless. The work is to keep asking which loops belong inside a part, and which ones should become a boundary.
 
-> **Wizard rule**
+> **Wizard's tenth rule**
 >
 > A reusable component is not a piece with many uses. It is a piece with few assumptions and a clear boundary.

@@ -40,6 +40,6 @@ This matters when you talk to other people. It will matter later when we talk ab
 
 But before we get there, we need to look at the Web. Because the Web is one of the great examples of what happens when a few small invented words and symbols become shared by almost everyone.
 
-> **Wizard rule**
+> **Wizard's third rule**
 >
 > Before you try to convince people, ask which language their problem already speaks.

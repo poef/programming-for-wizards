@@ -327,6 +327,6 @@ If data can have addresses, if facts can link to other facts, and if meanings ca
 
 where should a person's own data live?
 
-> **Wizard rule**
+> **Wizard's fourteenth rule**
 >
 > Data becomes more useful when its meanings can travel farther than the program that first wrote it.

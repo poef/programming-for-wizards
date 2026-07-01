@@ -81,6 +81,6 @@ That raises a question this chapter should not try to answer yet. If the web bec
 
 A later chapter will pick up that question.
 
-> **Wizard rule**
+> **Wizard's sixth rule**
 >
 > A prototype is not always a throwaway version of the real thing. Sometimes it is the first piece of ground the future manages to stand on.

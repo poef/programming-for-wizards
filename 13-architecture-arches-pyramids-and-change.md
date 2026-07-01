@@ -75,7 +75,7 @@ A wizard called [Eric S. Raymond](https://en.wikipedia.org/wiki/Eric_S._Raymond)
 
 Ultimately both papers argue the same point. A working good-enough solution now is always better than a perfect solution sometime in the future.
 
-I think there may be another Wizards Rule here:
+I think there may be another rule here:
 > Perfect is the enemy of good enough.
 
 But if you take a look at the Linux Kernel, it is very difficult to argue that it resembles the bazaar. It has much more features of the Cathedral approach. There's an enormous amount of code, that is carefully crafted to work together, according to a plan laid out and checked by a single chief architect--Linus Torvalds, another influential wizard.
@@ -92,7 +92,7 @@ That raises another question. If the world keeps changing, where do the useful a
 
 Any software you create will have to live in a constantly changing world or environment. Software that is incapable of changing with the world will be left behind and forgotten. This is one of the fundamental differences between software and traditional engineering. And why software project management cannot use traditional project management approaches.
 
-There is another Wizards Rule hiding here:
+There is another rule hiding here:
 
 > Software is change.
 
@@ -104,6 +104,6 @@ This does not mean quality is irrelevant. It does not mean ugly code is noble. I
 >
 > Show two teams. One ships a small imperfect system early and adapts. The other designs a more complete system but ships later. Introduce environmental changes every few turns. The demo should make clear that the future solution is not competing with today's problem, but with tomorrow's changed problem.
 
-> **Wizard rule**
+> **Wizard's twelfth rule**
 >
 > Perfect is the enemy of good enough because the world does not wait for perfect.

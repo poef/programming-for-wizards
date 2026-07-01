@@ -220,6 +220,6 @@ That is much harder to design than it looks. Large systems keep tempting us to m
 
 This is something a wizard is very aware of. A small change in representation can make a problem manageable. Sometimes it makes the old problem disappear. And sometimes, if the shape is right, it opens a door you did not know was there.
 
-> **Wizard rule**
+> **Wizard's fourth rule**
 >
 > When a problem feels too large, do not only look for a larger solution. Look for the smaller shape that changes what kind of problem it is.

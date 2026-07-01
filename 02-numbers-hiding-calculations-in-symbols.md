@@ -36,11 +36,7 @@ Notice we've come from the cavemen period, at least 35.000 years ago all the way
 
 But lets step back a bit and introduce the [abacus](https://en.wikipedia.org/wiki/Abacus). This simple devices' origins are unknown. It could be that its been invented multiple times. We know for certain that it was in use by the roman era, they probably stole it from the greeks. Who may have gotten it from egyptians or babylonians, who probably got it from the sumerians. 
 
-This may be a good first rule of programming for wizards: 
-
-## Wizards first rule: steal
-
-Its better to steal a good idea, rather than trying to come up with your own.
+This may be a good first lesson of programming for wizards: it is better to steal a good idea than to come up with a worse one yourself.
 
 Anyway, back to the abacus. Lets show one for those who haven't seen one yet:
 
@@ -72,9 +68,7 @@ I should mention the [Antikythera device](https://en.wikipedia.org/wiki/Antikyth
 
 To really understand how much of a leap this is, just take a look back at our timeline of numbers. Around 100BC is before the invention of 0, before positional notation and the carry mechanism. Yet some greek wizard, probably from Rhodes, made this device still.
 
-This leads to wizards first rule's corollary:
-
-## Wizards first rule, corollary: Your creation will probably outlive you, so document it.
+This leads to another lesson hiding inside the first one: your creation will probably outlive you, so document it.
 
 We're getting pretty good at writing large numbers. We can write down 1,000,000 and read it without blinking an eye. But science is progressing and making up bigger numbers faster than we can write them down. How about the number of atoms in the universe? Or even bigger, all the possible move variations in the game of chess?
 
@@ -143,6 +137,12 @@ This is a good time to end our archaeological dig through numbers. There is quit
 
 The important thing for now is this: every number system we saw did work for us. Tally marks counted. Roman numerals embedded small calculations. Positional notation made zero necessary. The carry mechanism turned notation into machinery. Binary made the smallest useful alphabet large enough to build a computer.
 
-> **Wizard rule**
+A notation is not just a way to write something down. A good notation performs part of the work for you. And most good notations were not invented from nothing. They were borrowed, bent, stolen, simplified, combined and used somewhere new.
+
+> **Wizard's first rule**
 >
-> A notation is not just a way to write something down. A good notation performs part of the work for you.
+> Steal.
+>
+> **Wizard's first rule, corollary**
+>
+> Your creation will probably outlive you, so document it.

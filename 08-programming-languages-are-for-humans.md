@@ -236,6 +236,6 @@ A DSL is not automatically a separate language with a parser and a manual. Somet
 
 The next chapter is an exhibit of that smaller kind of language. We will not build a grand new syntax. We will look for a little query language hiding inside JavaScript.
 
-> **Wizard rule**
+> **Wizard's seventh rule**
 >
 > Code, like language, should clarify, not hide intent.

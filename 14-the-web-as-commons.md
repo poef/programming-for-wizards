@@ -106,6 +106,6 @@ The next chapter takes one more step before we talk about the user's home. If ou
 
 If the network becomes the place where software happens, then the facts inside our software cannot remain trapped behind private names forever. Otherwise the castle has merely learned to export a few files through a gate.
 
-> **Wizard rule**
+> **Wizard's thirteenth rule**
 >
 > A closed system must solve every problem itself. An open system needs boundaries clear enough for the world to bring the next answer.
