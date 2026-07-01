@@ -31,7 +31,7 @@ Wizards do not merely write solutions. They invent the world in which the soluti
 
 - [08. Programming languages are for humans](08-programming-languages-are-for-humans.md)
 - [09. Every program contains a language](09-every-program-contains-a-language.md)
-- [10. Code exhibit: building a query language](10-code-exhibit-building-a-query-language.md)
+- [10. Code exhibit: extending JavaScript with JAQT](10-code-exhibit-extending-javascript-with-jaqt.md)
 
 ### Part IV: Binding and boundaries
 

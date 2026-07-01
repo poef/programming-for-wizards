@@ -27,7 +27,7 @@ The book should not feel like paper with a few toys glued on. The interactive pi
 | `prototype-becomes-platform` | 07 | Show how a small prototype accretes platform concerns. |
 | `same-program-many-languages` | 08 | Show that languages are human thinking tools. |
 | `tiny-dsl-boundary` | 09 | Show a gradual path from functions to tables to DSL. |
-| `query-language-lab` | 10 | Make the tokenizer/parser/transpiler visible. |
+| `jaqt-extension-lab` | 10 | Compare plain JavaScript, a JAQT-shaped query, and the tiny implementation; show functions as values. |
 | `where-should-behavior-live` | 11 | Compare data+functions with behavior bound to data. |
 | `binding-time-slider` | 11 | Show where dependencies are bound and how that affects change. |
 | `knitted-castle-vs-lego-castle` | 12 | Make dependency growth visible. |
