@@ -1,108 +1,185 @@
 ---
 tags: programming for wizards
 ---
-
 # Architecture: arches, pyramids, and change
 
+Alan Kay once compared modern software to pyramid building:
+
+> “If you look at software today, through the lens of the history of engineering, it’s certainly engineering of a sort—but it’s the kind of engineering that people without the concept of the arch did. Most software today is very much like an Egyptian pyramid with millions of bricks piled on top of each other, with no structural integrity, but just done by brute force and thousands of slaves.”
+
+At first it sounds like the kind of thing software people say when they want to sound disappointed in the entire industry. Which, to be fair, is one of our oldest traditions.
+
+But the metaphor is worth taking seriously.
+
+A pyramid is not a stupid structure. It is an extremely successful one. If your goal is to build something large, stable, and hard to accidentally knock over, piling up an enormous amount of stone is a respectable strategy.
+
+It is also a very expensive way to create height.
+
+And a terrible way to create empty space.
+
+An arch solves a different problem. It does not win by adding more material. It wins by arranging the material differently. The weight that might have made the structure collapse is redirected, shared, and turned into part of what keeps the structure standing.
+
+That is the part Kay's metaphor points at.
+
+Software is very good at piling up stones.
+
+More code. More packages. More layers. More services. More configuration. More process. More diagrams explaining why the pile is actually carefully designed.
+
+Sometimes the pile works. Pyramids do work. But if every new problem asks for more stone, more carrying, more coordination, and more explanation, then we should at least wonder whether we are missing an arch.
+
+So the question for this chapter is:
+
 What would a software arch look like?
-
-This chapter is a bit different. Architecture sounds like the grand subject, the place where we finally explain how to build large systems correctly. Unfortunately, anyone who tells you they know how to do that is probably selling consultancy.
-
-We do not know how to design software, at least not on a large scale, with anything like the confidence that bridge builders have. But we do have stories. We have metaphors. We have failures. We have a few good tricks.
-
-So this chapter keeps the uncertainty. But it gives the uncertainty a shape.
 
 > **Interactive exhibit placeholder: `pyramid-arch-bazaar`**
 >
 > Let the reader compare three growth strategies: pile-on pyramid, planned cathedral, adaptive bazaar. Add changing requirements over time. Show where each strategy absorbs change and where it cracks.
 
-This chapter is a bit different. I won't start with the roots of Architecture. Instead I'll quote a wizard you've heard about before, Alan Kay: 
+## Pyramids and arches
 
-> A 500 foot high Egyptian pyramid took hundreds of thousands of workers several decades to construct. They piled up material brick on brick then finished the outside with a smooth layer of limestone. By contrast, the 1000 foot high Empire State Building was constructed from scratch in less than 11 months by less than 3000 workers. Quite a bit of today's software and its construction process resemble the Egyptian pyramid, but I would dare say that no one currently knows how to organize 3000 programmers to make a major piece of software from scratch in less than 11 months.
+I used to think the word architecture had its roots in the word arch, which had its roots in arc. Unfortunately the world is not this simple or elegant. Words rarely have the decency to arrange themselves for our metaphors.
 
-While the quote is from a [2001 foreword to a book about Squeek](http://guzdial.cc.gatech.edu/squeakbook/AlansForeword.html), the state of the art in software design or architecture has not moved significantly.
+Still, I maintain that real architecture starts when people stop only piling material and begin using the forces inside the material.
 
-There are lots and lots of articles and blog posts and books written about software architecture. But they do not rise to the level of science. They are stories, anecdotes. "I did this, and it was successfull." The truth is, we don't know how to design software, at least not on a large scale.
+The Egyptians built some impressive pyramids. We still do not know every detail of how they pulled it off. There are theories, some more convincing than others. But in essence, a pyramid is a magnificent pile. A very clever pile, but still a pile.
 
-This chapter is no different. But I will try anyway.
+The Roman arch is something else. The arch existed before the Romans, but the Romans were very good at spotting useful ideas, stealing them, improving them, and then repeating them with almost terrifying discipline. Bridges, aqueducts, gates, amphitheatres, bath houses. Once you understand the arch, stone can do things that a pile of stone cannot.
 
-## On pyramids and arches
+This matters because the arch is not just a shape. It is a different answer to the same world.
 
-I used to think that the word Architecture had its roots in the word Arch, which had its roots in Arc. Unfortunately the world is not this simple or elegant. However, I still maintain that real architecture started with arches, or roman arches.
+Gravity did not go away. Stone did not become lighter. The problem was reframed. The builder learned to arrange the pieces so that the forces pushing down and sideways became part of the solution.
 
-Before the advent of true architecture, all we knew to do was piling stones on top of each other. Some impressive piling was done, to be sure. But the knowledge and tools to use the properties of the stones to maximum advantage was not there.
+That is what makes the image useful for software.
 
-The egyptians build some impressive pyramids. We still don't quite know how they pulled it off. There are some untested theories, which will have to wait untill scientists get more access again. But in essence, a pyramid is just a more advanced way of piling stones.
+A software arch would not be a prettier diagram. It would not be another layer on the pile. It would be a way of arranging the work so that the forces that normally make software collapse help carry the structure instead.
 
-The roman arch is something else. To appreciate its ingenuity and usefullness, not to mention its longevity, just look at all the buildings, bridges and aquaducts they, the romans, left behind. The arch was invented earlier, but not used as effectively and as wide untill roman times. Again, the romans were good at spotting good ideas and stealing them. And improving on them.
+The hard part is knowing what those forces are.
 
-With the same knowledge about the strong and weak points of stones, and the challenges the world throws up in the form of gravity and earth quakes, we later build cathedrals, bridges and giant domes. These were much cheaper and faster to build then pyramids, and were much more useful as well.
+In buildings, some of the forces are literal: weight, compression, tension, wind, earthquakes, water, time. In software, the forces are stranger. Changing requirements. Missing knowledge. Competing teams. Dependencies. Users who do not do what the diagram says. Libraries that update. Platforms that change direction. The future arriving with muddy boots.
 
-Later on we learned to use better materials and tools, that allowed us to build [some](https://en.wikipedia.org/wiki/Millau_Viaduct) [truly](https://en.wikipedia.org/wiki/Burj_Khalifa) [mind-blowing](https://www.dezeen.com/2019/09/26/zaha-hadid-architects-starfish-beijing-daxing-international-airport/) [constructions](https://en.wikipedia.org/wiki/Maeslantkering).
+A software architecture that ignores those forces is just decoration.
 
-But while these projects are awe-inspiring, most architecture is much more mundane. The way houses are designed differs more by region than by time. In 1977 a wizard called Christopher Alexander and his co-authors published "[A Pattern Language](https://en.wikipedia.org/wiki/A_Pattern_Language)". In 1979 he followed it with "[The Timeless Way of Building](https://en.wikipedia.org/wiki/The_Timeless_Way_of_Building)". Together these books advocated for a culture of architecture based on time-tested, local patterns. And in an ironic twist of history software architects all over the world listened to his ideas and ran with it. While his peer architects mostly ignored or dismissed it.
+## Patterns from buildings
 
-These days no programmer is unaware of the concept of design patterns. I will not spend much time on them here, as more than enough has been said and written about them by smarter people than me.
+Most architecture is not made of world-famous monuments. Most buildings are ordinary buildings. Houses, shops, schools, sheds, streets. The way they are designed differs more by region than by grand theory. Local builders learn what works. Over time, those solutions become patterns.
 
-## Software Arches
+In 1977, Christopher Alexander and his co-authors published [*A Pattern Language*](https://en.wikipedia.org/wiki/A_Pattern_Language). In 1979 Alexander followed it with [*The Timeless Way of Building*](https://en.wikipedia.org/wiki/The_Timeless_Way_of_Building). Together these books argued for a culture of building based on patterns: recurring solutions to recurring problems, grounded in human life rather than only in abstract design.
 
-The original quote I started this chapter with, was from Alan Kay.
-Alan Kay has since started (and finished) VPRI--[ViewPoints Research Institute](http://www.vpri.org/)--with the express aim to build a functioning software application, from the microcode on a CPU up through the operating system to a usable application with a GUI, in less than 20,000 lines of code.
+In one of history's little jokes, software people listened.
 
-In contrast, in 2020 the Linux Kernel reached 27.8 million lines of code, with 21,074 different contributors. And this is just the kernel. We're firmly in pyramid territory here.
+Human architects mostly argued about Alexander or ignored him. Software architects grabbed the idea and ran off with it. These days no programmer is unaware of design patterns, even if only because at some point someone tried to solve a small problem by introducing a factory that manufactures factories.
 
-Ultimately Alan Kay's VPRI failed to deliver on its promise. But not by much. It did show that it was possible to achieve its aim. By carefully crafted code, written by experts, in domain specific languages. Each part of the project first defined the language that would be most efficient to write the software in. Then they wrote that software.
+I will not spend much time on software design patterns here. More than enough has been said about them, and some of it was even useful.
 
-[The results speak for themselves:](http://www.vpri.org/pdf/tr2007008_steps.pdf) 
-> ... the entire apparatus of TCP/IP was
-less than 200 lines of code. ... many TCP/IP packages run to 10,000 or 20,000 lines of code in C.
+The important thing for this chapter is that Alexander gives us a second way to think about architecture. Architecture is not only grand structures. It is also a shared language for recurring forces.
 
-> the open source Cairo system (a comprehensibly done version of [PostScript](https://en.wikipedia.org/wiki/PostScript) that is fast enough to be used for real-time interfaces) is about 44,000 lines of C code ... a hefty and speedy subset of Cairo in less than 500 lines of code. 
+A pattern is not a law. It is not a recipe you apply blindly. It is a remembered shape: when the world pushes like this, perhaps arrange the pieces like that.
 
-All this is possible because of the [OMeta parser language](http://www.vpri.org/pdf/tr2007003_ometa.pdf), which makes it efficient and easy to create new languages. The OMeta language can be expressed in itself in about 100 lines. Ometa is a variant of a ["Parsing Expression Grammar"](https://en.wikipedia.org/wiki/Parsing_expression_grammar) or PEG. There are many other PEG systems out there, for any language.
+That is close to what software wants. Not universal answers, but better ways to recognize the pressure.
 
-Given the results achieved I think that any concept of Software Architecture should have Domain Specific Languages in there somewhere. However, I'm not even close to calling this the Software Arch.
+## Software arches
 
-## Rustic Architecture
+Alan Kay did not merely complain about pyramids. He also spent a good part of his career trying to build something closer to an arch.
 
-Going back to Christopher Alexander, can we get to a definition of software architecture that is more rustic, more related to his inventory of design patterns in use by local builders than the Architecture used by some of those awe-inspiring projects I showed earlier?
+One later attempt was the Viewpoints Research Institute, or [VPRI](http://www.vpri.org/). One of its projects asked an almost ridiculous question: how much software would it take to build a complete personal computing system if you refused to accept the usual piles?
 
-I think we can. But we must step back from the code a bit. It is easy to get lost in details and no-true-scotsman fallacies when discussing software design. So I'll use a few time-tested articles as inspiration.
+Not just an app. A stack: graphics, networking, operating-system-like pieces, user interface, languages. The sort of thing that normally arrives with millions of lines of code and enough build scripts to frighten livestock.
 
-The first one is called ['The rise of "Worse is Better"'](https://www.dreamsongs.com/WorseIsBetter.html), by wizard Richard P. Gabriel. In it he argues that software that is objectively worse, actually wins in the marketplace. With the result that much of the software that we end up using is not as good as the software that could have been. We end up building on top of the worse software. And worse, the new generation of developers doesn't even know that things could have been better.
+The VPRI answer was the [STEPS project](http://www.vpri.org/pdf/tr2007008_steps.pdf). The numbers in the report are startling. A TCP/IP implementation in hundreds of lines instead of tens of thousands. A Cairo-like graphics system in hundreds of lines instead of tens of thousands. Whether or not you believe every comparison is fair, the direction is hard to ignore.
 
-A wizard called [Eric S. Raymond](https://en.wikipedia.org/wiki/Eric_S._Raymond), later in 1997 wrote ['The Cathedral and the Bazaar'](http://www.catb.org/~esr/writings/cathedral-bazaar/cathedral-bazaar/), from a different perspective. In it Eric describes two filosophies of software design. One he equates with the Cathedral, it is carefully designed up front and then built according to plan. This stands for most commercial software built upto then. In contrast, he equates the emerging [open source](https://opensource.org/osd) movement, and its software, with the Bazaar. There is no grand centralized plan, these is only anarchy. But it is a constructive anarchy. Because there is no central grand plan, the Bazaar reacts to changing circumstances instantly. And the bazaar wins in the marketplace because, while its solutions aren't ideal, or even very good, the solutions are there. The Cathedral approach cannot deliver good-enough solutions in the same timescale as the Bazaar.
+The trick was not simply writing cleverer C.
 
-Ultimately both papers argue the same point. A working good-enough solution now is always better than a perfect solution sometime in the future.
+VPRI treated language-making as an architectural tool. Each domain got a small language fitted to that domain. The project did not ask one general-purpose language to express every idea directly. It built little notations, little interpreters, little worlds where the right ideas could be said compactly.
 
-I think there may be another rule here:
-> Perfect is the enemy of good enough.
+[OMeta](http://www.vpri.org/pdf/tr2007003_ometa.pdf) was one of the tools that made this style practical. It is a language for writing languages, based on ideas from [Parsing Expression Grammars](https://en.wikipedia.org/wiki/Parsing_expression_grammar). OMeta can describe itself in about a hundred lines, which is the kind of sentence that makes language people smile in a slightly worrying way.
 
-But if you take a look at the Linux Kernel, it is very difficult to argue that it resembles the bazaar. It has much more features of the Cathedral approach. There's an enormous amount of code, that is carefully crafted to work together, according to a plan laid out and checked by a single chief architect--Linus Torvalds, another influential wizard.
+But OMeta itself is not the software arch.
 
-Yet Linux, and the whole OpenSource movement, is the poster-child for the Bazaar approach, as well as 'Worse is Better'. What is going on?
+Nor are DSLs automatically the software arch. A bad little language is just a bad little language with extra ceremony. We have already seen that in the language chapters. A language helps when it makes the right distinctions visible and hides the accidental machinery.
 
-## Scale and Change
+The VPRI lesson is more general:
 
-I believe that the underlying force that ties these two observations together is this: Software is change. Software changes the world, and is changed by it. Any software that solves a problem now, will always be better than software that will solve the problem later. It does not matter that the current solution is worse than the promised solution later. The future solution is going to arrive in a changed world, where it no longer matters.
+Sometimes the architecture is not the arrangement of modules. Sometimes the architecture is the arrangement of meanings.
 
-The bazaar approach of OpenSource embraces this. It is the opposite of careful planning. It accepts that the world will keep moving while you are still building.
+Instead of piling up code in the same old shapes, you ask what language would make the problem smaller. That is one possible software arch. Not the only one. But a real one.
 
-That raises another question. If the world keeps changing, where do the useful answers come from? Often they do not come from inside your project at all. The next chapter will follow that thread.
+## Rustic architecture
 
-Any software you create will have to live in a constantly changing world or environment. Software that is incapable of changing with the world will be left behind and forgotten. This is one of the fundamental differences between software and traditional engineering. And why software project management cannot use traditional project management approaches.
+There is another direction from Alexander that is just as useful and less glamorous.
 
-There is another rule hiding here:
+Forget the monumental building for a moment. Think about local building. The village. The workshop. The kitchen table that has been repaired three times. The pattern that survives because it keeps being useful.
 
-> Software is change.
+Software architecture often wants to sound like skyscrapers. The important documents use words like enterprise, platform, governance, strategic alignment. But a lot of good software is more rustic than that. It grows out of tools people use, problems they have, habits they repeat, and shortcuts that become roads.
 
-Software changes the world, and is changed by it. Any software that solves a problem now will always be better than software that will solve the problem later, if the later solution arrives in a world where the problem has moved on.
+This is where the neat engineering story starts to blur.
 
-This does not mean quality is irrelevant. It does not mean ugly code is noble. It means architecture is not the art of designing the perfect structure. It is the art of designing structures that can survive being wrong.
+If software were only a matter of arranging known forces, architecture might be simpler. But software changes the forces. A successful program does not merely sit in the world. It teaches people new habits. It creates new expectations. It becomes a dependency. It invites competitors. It changes what users ask for next.
+
+A bridge does not usually make people invent a new kind of river.
+
+Software does that sort of thing all the time.
+
+So perhaps software architecture cannot be the art of designing the perfect structure. The perfect structure would have to be perfect for a world that is still moving.
+
+This brings us to two old essays that seem, at first, to be about a different question.
+
+Richard P. Gabriel wrote [*The Rise of “Worse is Better”*](https://www.dreamsongs.com/WorseIsBetter.html). The uncomfortable claim is that software that is in some ways worse can win because it is simpler, earlier, easier to spread, easier to implement, or easier to adapt. Once it wins, everyone else builds on it, and the better idea becomes a historical footnote.
+
+Eric S. Raymond later wrote [*The Cathedral and the Bazaar*](http://www.catb.org/~esr/writings/cathedral-bazaar/cathedral-bazaar/), contrasting carefully planned cathedral-style development with the messy, adaptive energy of open source. His bazaar is not beautiful because it is messy. Mess by itself is just mess. The useful part is that many people can react, repair, extend and redirect the work while the world is still changing.
+
+These essays are not the same, but they rhyme.
+
+They both make software perfection look suspicious.
+
+A working good-enough solution now is always better than a perfect solution sometime in the future.
+
+I know. Always is a dangerous word. Good. Dangerous words wake people up.
+
+The reason is not that bad software is noble. It is not that quality does not matter. It is that the future solution is not competing with today's problem. It is competing with the world as it exists when that future solution finally arrives.
+
+And by then the world may have learned to ask another question.
+
+## Scale and change
+
+The Linux kernel makes this wonderfully confusing.
+
+From far away, Linux is the poster child for the bazaar. Open source. Many contributors. A system shaped by the work of thousands of people across the world.
+
+From close up, it does not look like anarchy. It is an enormous body of carefully reviewed code, with maintainers, subsystems, rules, arguments, rituals, long memories and Linus Torvalds still looming over the whole thing like a weather system.
+
+So is it a cathedral or a bazaar?
+
+Yes.
+
+That is the wrong question.
+
+The useful distinction is not whether software is planned or unplanned. Large successful software is almost always both. The useful question is whether the structure can keep changing without losing itself completely.
+
+That is the force software architecture has to handle.
+
+Change.
+
+Software changes the world, and is changed by it. Any software you create has to live in an environment full of new uses, new machines, new libraries, new laws, new attacks, new expectations and new mistakes. Software that cannot change with that world will eventually be left behind, wrapped in a compatibility layer, or worshipped by a small group of specialists who know which version of which compiler still understands it.
+
+This is one of the fundamental differences between software and traditional engineering. It is also why software project management keeps getting into trouble when it borrows too directly from older engineering disciplines.
+
+A building project can be late, expensive and politically cursed, but the ground usually does not rewrite the laws of stone halfway through. Software has no such manners.
+
+That does not mean architecture is hopeless. It means architecture is less about certainty than we would like.
+
+A good architecture does not prove that you were right. It gives you somewhere to go when you discover that you were wrong.
 
 > **Interactive exhibit placeholder: `change-arrives-before-perfect`**
 >
 > Show two teams. One ships a small imperfect system early and adapts. The other designs a more complete system but ships later. Introduce environmental changes every few turns. The demo should make clear that the future solution is not competing with today's problem, but with tomorrow's changed problem.
+
+This also leads to the next question.
+
+If the world keeps changing, where do the useful answers come from?
+
+Not always from inside your project. Not even usually from inside your project, if the project is interesting enough. Other people are solving adjacent problems. Other communities are inventing tools. Other systems are creating expectations. Other wizards are making strange little things that may suddenly become the missing piece of your own work.
+
+The next chapter follows that thread.
 
 > **Wizard's twelfth rule**
 >
