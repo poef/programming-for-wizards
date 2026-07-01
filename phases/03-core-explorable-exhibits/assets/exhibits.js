@@ -972,22 +972,67 @@
     "aria-pressed": selectedFunction === id ? "true" : "false"
   })
 
+  const jaqtOptionLabel = (options, value) => (
+    options.find(option => option.value === value)?.label ?? value
+  )
+
+  const jaqtEditToken = ({ editingToken, id, label, onChange, onToggle, options, value }) => el(
+    "span",
+    { className: "jaqt-edit-wrap" },
+    button(jaqtOptionLabel(options, value), () => onToggle(id), {
+      "aria-expanded": editingToken === id ? "true" : "false",
+      className: "jaqt-edit-token"
+    }),
+    editingToken === id
+      ? el(
+          "span",
+          { className: "jaqt-edit-menu", role: "listbox", "aria-label": label },
+          options.map(option => button(option.label, () => onChange(id, option.value), {
+            className: classNames("jaqt-edit-option", option.value === value && "is-selected"),
+            "aria-selected": option.value === value ? "true" : "false",
+            role: "option"
+          }))
+        )
+      : null
+  )
+
   const renderJaqtCode = lines => el(
     "pre",
     { className: "jaqt-code", tabindex: "0" },
     el("code", {}, lines)
   )
 
-  const jaqtConditionLines = (query, indent = "    ") => {
+  const jaqtConditionRows = (query, edit, indent = "    ") => {
     const conditions = []
 
-    if (query.prefix !== "any") conditions.push(`person.lastName.startsWith("${query.prefix}")`)
-    if (query.city !== "any") conditions.push(`person.address.city === "${query.city}"`)
-    if (!conditions.length) conditions.push("true")
+    if (query.prefix !== "any") {
+      conditions.push([
+        'person.lastName.startsWith("',
+        edit("prefix"),
+        '")'
+      ])
+    }
 
-    return conditions.map((condition, index) => (
-      `${indent}${condition}${index < conditions.length - 1 ? " &&" : ""}`
+    if (query.city !== "any") {
+      conditions.push([
+        'person.address.city === "',
+        edit("city"),
+        '"'
+      ])
+    }
+
+    if (!conditions.length) conditions.push(["true"])
+
+    const rows = conditions.map((parts, index) => jaqtCodeLine(
+      indent,
+      parts,
+      index < conditions.length - 1 ? " &&" : ""
     ))
+
+    if (query.prefix === "any") rows.push(jaqtCodeLine(indent, "// last name: ", edit("prefix")))
+    if (query.city === "any") rows.push(jaqtCodeLine(indent, "// city: ", edit("city")))
+
+    return rows
   }
 
   const jaqtLoopPushLines = query => {
@@ -1050,26 +1095,30 @@
     ]
   }
 
-  const jaqtPatternLines = (query, selectedFunction, onSelect) => {
+  const jaqtPatternLines = (query, selectedFunction, edit, onSelect) => {
     const hasPrefix = query.prefix !== "any"
     const hasCity = query.city !== "any"
 
-    if (!hasPrefix && !hasCity) return [jaqtCodeLine("const pattern = {}")]
+    if (!hasPrefix && !hasCity) {
+      return [
+        jaqtCodeLine("const pattern = {} // last name: ", edit("prefix"), ", city: ", edit("city"))
+      ]
+    }
 
     return [
       jaqtCodeLine("const pattern = {"),
       hasPrefix
-        ? jaqtCodeLine("  lastName: ", jaqtToken("startsWith", `startsWith("${query.prefix}")`, selectedFunction, onSelect), hasCity ? "," : "")
+        ? jaqtCodeLine("  lastName: ", jaqtToken("startsWith", "startsWith(", selectedFunction, onSelect), '"', edit("prefix"), '")', hasCity ? "," : "")
         : null,
-      hasCity ? jaqtCodeLine(`  address: { city: "${query.city}" }`) : null,
+      hasCity ? jaqtCodeLine('  address: { city: "', edit("city"), '" }') : null,
       jaqtCodeLine("}")
     ].filter(Boolean)
   }
 
-  const jaqtShapeLines = (query, selectedFunction, onSelect) => {
+  const jaqtShapeLines = (query, selectedFunction, edit, onSelect) => {
     if (query.shape === "names") {
       return [
-        jaqtCodeLine("const personCard = {"),
+        jaqtCodeLine("const personCard = { // ", edit("shape")),
         jaqtCodeLine("  firstName: _,"),
         jaqtCodeLine("  lastName: _"),
         jaqtCodeLine("}")
@@ -1078,7 +1127,7 @@
 
     if (query.shape === "age") {
       return [
-        jaqtCodeLine("const personCard = {"),
+        jaqtCodeLine("const personCard = { // ", edit("shape")),
         jaqtCodeLine("  label: ", jaqtToken("fullName", "fullName", selectedFunction, onSelect), ","),
         jaqtCodeLine("  age: _,"),
         jaqtCodeLine("  address: { city: _ }"),
@@ -1087,7 +1136,7 @@
     }
 
     return [
-      jaqtCodeLine("const personCard = {"),
+      jaqtCodeLine("const personCard = { // ", edit("shape")),
       jaqtCodeLine("  firstName: _,"),
       jaqtCodeLine("  lastName: _,"),
       jaqtCodeLine("  address: { city: _ },"),
@@ -1096,9 +1145,10 @@
     ]
   }
 
-  const jaqtInlineShapeLines = (query, selectedFunction, onSelect, indent = "  ") => {
+  const jaqtInlineShapeLines = (query, selectedFunction, edit, onSelect, indent = "  ") => {
     if (query.shape === "names") {
       return [
+        jaqtCodeLine(`${indent}  // shape: `, edit("shape")),
         jaqtCodeLine(`${indent}  firstName: _,`),
         jaqtCodeLine(`${indent}  lastName: _`)
       ]
@@ -1106,6 +1156,7 @@
 
     if (query.shape === "age") {
       return [
+        jaqtCodeLine(`${indent}  // shape: `, edit("shape")),
         jaqtCodeLine(`${indent}  label: `, jaqtToken("fullName", "fullName", selectedFunction, onSelect), ","),
         jaqtCodeLine(`${indent}  age: _,`),
         jaqtCodeLine(`${indent}  address: { city: _ }`)
@@ -1113,6 +1164,7 @@
     }
 
     return [
+      jaqtCodeLine(`${indent}  // shape: `, edit("shape")),
       jaqtCodeLine(`${indent}  firstName: _,`),
       jaqtCodeLine(`${indent}  lastName: _,`),
       jaqtCodeLine(`${indent}  address: { city: _ },`),
@@ -1121,28 +1173,30 @@
   }
 
   const jaqtCodeRenderers = {
-    loop: queryData => renderJaqtCode([
+    loop: (queryData, selectedFunction, edit) => renderJaqtCode([
       jaqtCodeLine("const result = []"),
       jaqtCodeLine(""),
       jaqtCodeLine("for (const person of people) {"),
       jaqtCodeLine("  if ("),
-      jaqtConditionLines(queryData.query).map(line => jaqtCodeLine(line)),
+      jaqtConditionRows(queryData.query, edit),
       jaqtCodeLine("  ) {"),
+      jaqtCodeLine("    // result shape: ", edit("shape")),
       jaqtLoopPushLines(queryData.query).map(line => jaqtCodeLine(line)),
       jaqtCodeLine("  }"),
       jaqtCodeLine("}")
     ]),
-    array: queryData => renderJaqtCode([
+    array: (queryData, selectedFunction, edit) => renderJaqtCode([
       jaqtCodeLine("const result = people"),
       jaqtCodeLine("  .filter(person =>"),
-      jaqtConditionLines(queryData.query).map(line => jaqtCodeLine(line)),
+      jaqtConditionRows(queryData.query, edit),
       jaqtCodeLine("  )"),
+      jaqtCodeLine("  // result shape: ", edit("shape")),
       jaqtMapLines(queryData.query).map(line => jaqtCodeLine(line))
     ]),
-    functions: (queryData, selectedFunction, onSelect) => renderJaqtCode([
+    functions: (queryData, selectedFunction, edit, onSelect) => renderJaqtCode([
       queryData.query.prefix !== "any"
-        ? jaqtCodeLine("const lastNameMatches = ", jaqtToken("startsWith", `startsWith("${queryData.query.prefix}")`, selectedFunction, onSelect))
-        : jaqtCodeLine("const lastNameMatches = null"),
+        ? jaqtCodeLine("const lastNameMatches = ", jaqtToken("startsWith", "startsWith", selectedFunction, onSelect), '("', edit("prefix"), '")')
+        : jaqtCodeLine("const lastNameMatches = null // prefix: ", edit("prefix")),
       jaqtCodeLine(""),
       jaqtCodeLine("const ", jaqtToken("fullName", "fullName", selectedFunction, onSelect), " ="),
       jaqtCodeLine("  person => `${person.firstName} ${person.lastName}`"),
@@ -1153,33 +1207,37 @@
         ? jaqtCodeLine("    lastNameMatches(person.lastName)", queryData.query.city !== "any" ? " &&" : "")
         : null,
       queryData.query.city !== "any"
-        ? jaqtCodeLine(`    person.address.city === "${queryData.query.city}"`)
+        ? jaqtCodeLine('    person.address.city === "', edit("city"), '"')
         : null,
       queryData.query.prefix === "any" && queryData.query.city === "any" ? jaqtCodeLine("    true") : null,
       jaqtCodeLine("  )"),
+      jaqtCodeLine("  // result shape: ", edit("shape")),
       jaqtMapLines(queryData.query).map(line => jaqtCodeLine(line))
     ].filter(Boolean)),
-    pattern: (queryData, selectedFunction, onSelect) => renderJaqtCode([
-      jaqtPatternLines(queryData.query, selectedFunction, onSelect),
+    pattern: (queryData, selectedFunction, edit, onSelect) => renderJaqtCode([
+      jaqtPatternLines(queryData.query, selectedFunction, edit, onSelect),
       jaqtCodeLine(""),
-      jaqtShapeLines(queryData.query, selectedFunction, onSelect),
+      jaqtShapeLines(queryData.query, selectedFunction, edit, onSelect),
       jaqtCodeLine(""),
       jaqtCodeLine("const result = people"),
       jaqtCodeLine("  .filter(person => ", jaqtToken("matches", "matches(pattern, person)", selectedFunction, onSelect), ")"),
       jaqtCodeLine("  .map(person => ", jaqtToken("project", "project(personCard, person)", selectedFunction, onSelect), ")")
     ]),
-    jaqt: (queryData, selectedFunction, onSelect) => renderJaqtCode([
+    jaqt: (queryData, selectedFunction, edit, onSelect) => renderJaqtCode([
       jaqtCodeLine("const result = from(people)"),
       jaqtCodeLine("  .where({"),
       queryData.query.prefix !== "any"
-        ? jaqtCodeLine("    lastName: ", jaqtToken("startsWith", `startsWith("${queryData.query.prefix}")`, selectedFunction, onSelect), queryData.query.city !== "any" ? "," : "")
+        ? jaqtCodeLine("    lastName: ", jaqtToken("startsWith", "startsWith", selectedFunction, onSelect), '("', edit("prefix"), '")', queryData.query.city !== "any" ? "," : "")
         : null,
       queryData.query.city !== "any"
-        ? jaqtCodeLine(`    address: { city: "${queryData.query.city}" }`)
+        ? jaqtCodeLine('    address: { city: "', edit("city"), '" }')
+        : null,
+      queryData.query.prefix === "any" && queryData.query.city === "any"
+        ? jaqtCodeLine("    // all people: ", edit("prefix"), ", ", edit("city"))
         : null,
       jaqtCodeLine("  })"),
       jaqtCodeLine("  .select({"),
-      jaqtInlineShapeLines(queryData.query, selectedFunction, onSelect),
+      jaqtInlineShapeLines(queryData.query, selectedFunction, edit, onSelect),
       jaqtCodeLine("  })"),
       jaqtCodeLine("  .value()")
     ].filter(Boolean))
@@ -1322,11 +1380,38 @@
     )
   }
 
-  const renderJaqtStage = (currentState, onFunctionSelect) => {
+  const renderJaqtStage = (currentState, { onEditChange, onEditToggle, onFunctionSelect }) => {
     const { selectedFunction, stage } = currentState
     const current = jaqtStages.find(item => item.id === stage) ?? jaqtStages[0]
     const renderCode = jaqtCodeRenderers[current.id] ?? jaqtCodeRenderers.loop
     const queryData = jaqtRunQuery(currentState)
+    const edit = id => {
+      const config = {
+        city: {
+          label: "City",
+          options: jaqtCityOptions,
+          value: queryData.query.city
+        },
+        prefix: {
+          label: "Last name prefix",
+          options: jaqtPrefixOptions,
+          value: queryData.query.prefix
+        },
+        shape: {
+          label: "Result shape",
+          options: jaqtShapeOptions,
+          value: queryData.query.shape
+        }
+      }[id]
+
+      return jaqtEditToken({
+        editingToken: currentState.editingToken,
+        id,
+        onChange: onEditChange,
+        onToggle: onEditToggle,
+        ...config
+      })
+    }
 
     return el(
       "div",
@@ -1338,7 +1423,7 @@
           "section",
           { className: "jaqt-code-panel" },
           el("h3", {}, "Query"),
-          renderCode(queryData, selectedFunction, onFunctionSelect),
+          renderCode(queryData, selectedFunction, edit, onFunctionSelect),
           el("p", { className: "jaqt-stage-note" }, jaqtStageNotes[current.id])
         ),
         renderJaqtPipeline(current.id, queryData)
@@ -1350,42 +1435,31 @@
   define("jaqt-extension-lab", ({ root }) => {
     const stage = el("div", { className: "exhibit-stage jaqt-stage", "aria-live": "polite" })
     const summary = el("p", { className: "exhibit-summary" })
-    const model = state({ ...jaqtDefaults, selectedFunction: "startsWith", stage: "loop" }, render)
+    const model = state({ ...jaqtDefaults, editingToken: null, selectedFunction: "startsWith", stage: "loop" }, render)
     const stageChoice = choice({
       label: "Stage",
       options: jaqtStages.map(option => ({ value: option.id, label: option.label })),
       value: model.get().stage,
-      onChange: stageId => model.set({ stage: stageId })
-    })
-    const prefixChoice = choice({
-      label: "Last name",
-      options: jaqtPrefixOptions,
-      value: model.get().prefix,
-      onChange: prefix => model.set({ prefix })
-    })
-    const cityChoice = choice({
-      label: "City",
-      options: jaqtCityOptions,
-      value: model.get().city,
-      onChange: city => model.set({ city })
-    })
-    const shapeChoice = choice({
-      label: "Result shape",
-      options: jaqtShapeOptions,
-      value: model.get().shape,
-      onChange: shape => model.set({ shape })
+      onChange: stageId => model.set({ editingToken: null, stage: stageId })
     })
     const next = button("Next", () => model.set(current => {
       const index = jaqtStages.findIndex(option => option.id === current.stage)
       const stageId = jaqtStages[Math.min(index + 1, jaqtStages.length - 1)]?.id ?? current.stage
-      return { stage: stageId }
+      return { editingToken: null, stage: stageId }
     }), {
       className: "exhibit-reset"
     })
-    const reset = button("Reset", () => model.set({ ...jaqtDefaults, selectedFunction: "startsWith", stage: "loop" }), {
+    const reset = button("Reset", () => model.set({ ...jaqtDefaults, editingToken: null, selectedFunction: "startsWith", stage: "loop" }), {
       className: "exhibit-reset"
     })
-    const selectFunction = selectedFunction => model.set({ selectedFunction })
+    const selectFunction = selectedFunction => model.set({ editingToken: null, selectedFunction })
+    const toggleEdit = editingToken => model.set(current => ({
+      editingToken: current.editingToken === editingToken ? null : editingToken
+    }))
+    const changeEdit = (editingToken, value) => model.set({
+      [editingToken]: value,
+      editingToken: null
+    })
 
     enhance(root, el(
       "div",
@@ -1398,7 +1472,6 @@
         "The same query grows from ordinary JavaScript into a small host-language DSL. No parser appears; the query shape is already JavaScript."
       ),
       el("div", { className: "exhibit-toolbar" }, stageChoice.node, el("div", { className: "number-actions" }, next, reset)),
-      el("div", { className: "jaqt-query-controls" }, prefixChoice.node, cityChoice.node, shapeChoice.node),
       summary,
       stage,
       el(
@@ -1410,13 +1483,13 @@
 
     function render(current) {
       const selected = jaqtStages.find(option => option.id === current.stage) ?? jaqtStages[0]
-      const query = jaqtQueryFrom(current)
       stageChoice.setValue(selected.id)
-      prefixChoice.setValue(query.prefix)
-      cityChoice.setValue(query.city)
-      shapeChoice.setValue(query.shape)
       summary.textContent = selected.summary
-      stage.replaceChildren(renderJaqtStage(current, selectFunction))
+      stage.replaceChildren(renderJaqtStage(current, {
+        onEditChange: changeEdit,
+        onEditToggle: toggleEdit,
+        onFunctionSelect: selectFunction
+      }))
     }
 
     render(model.get())

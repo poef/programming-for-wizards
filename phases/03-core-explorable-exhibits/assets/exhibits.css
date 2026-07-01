@@ -566,16 +566,6 @@ html[data-theme="contrast"] .place-column.is-carry-wrapped {
   grid-template-columns: 1fr;
 }
 
-.jaqt-query-controls {
-  display: grid;
-  gap: 0.65rem;
-  grid-template-columns: repeat(auto-fit, minmax(11rem, 1fr));
-}
-
-.jaqt-query-controls .exhibit-choice {
-  min-width: 0;
-}
-
 .jaqt-code-panel,
 .jaqt-function-lab,
 .jaqt-pipeline section {
@@ -635,6 +625,64 @@ html[data-theme="contrast"] .place-column.is-carry-wrapped {
   padding: 0.05rem 0.25rem;
 }
 
+.jaqt-edit-wrap {
+  display: inline-block;
+  position: relative;
+  white-space: normal;
+  z-index: 1;
+}
+
+.jaqt-edit-token {
+  background: color-mix(in srgb, var(--color-panel) 55%, #90d7c6);
+  border: 1px solid color-mix(in srgb, var(--color-ink) 26%, transparent);
+  border-radius: 6px;
+  color: var(--color-ink);
+  cursor: pointer;
+  font: inherit;
+  font-weight: 900;
+  line-height: 1.2;
+  max-inline-size: 9rem;
+  overflow-wrap: anywhere;
+  padding: 0.05rem 0.35rem;
+}
+
+.jaqt-edit-token[aria-expanded="true"] {
+  background: var(--color-exhibit);
+  color: var(--color-page);
+}
+
+.jaqt-edit-menu {
+  background: var(--color-page);
+  border: 1px solid color-mix(in srgb, var(--color-ink) 28%, transparent);
+  border-radius: 8px;
+  box-shadow: 0 0.75rem 1.4rem color-mix(in srgb, var(--color-ink) 18%, transparent);
+  display: grid;
+  gap: 0.25rem;
+  inset-block-start: calc(100% + 0.2rem);
+  inset-inline-start: 0;
+  min-inline-size: max(7rem, 100%);
+  padding: 0.3rem;
+  position: absolute;
+  white-space: normal;
+  z-index: 5;
+}
+
+.jaqt-edit-option {
+  background: transparent;
+  border: 0;
+  border-radius: 6px;
+  color: var(--color-ink);
+  cursor: pointer;
+  font: inherit;
+  font-weight: 800;
+  padding: 0.35rem 0.45rem;
+  text-align: left;
+}
+
+.jaqt-edit-option.is-selected {
+  background: var(--color-exhibit-soft);
+}
+
 .jaqt-code-token.is-selected,
 .jaqt-function-tab.is-selected {
   background: var(--color-exhibit);
@@ -642,6 +690,8 @@ html[data-theme="contrast"] .place-column.is-carry-wrapped {
 }
 
 .jaqt-code-token:focus-visible,
+.jaqt-edit-token:focus-visible,
+.jaqt-edit-option:focus-visible,
 .jaqt-function-tab:focus-visible {
   outline: 3px solid var(--color-focus);
   outline-offset: 2px;
@@ -797,12 +847,21 @@ html[data-theme="contrast"] .jaqt-function-result {
 }
 
 html[data-theme="contrast"] .jaqt-code-token,
+html[data-theme="contrast"] .jaqt-edit-token,
+html[data-theme="contrast"] .jaqt-edit-option.is-selected,
 html[data-theme="contrast"] .jaqt-function-tab,
 html[data-theme="contrast"] .jaqt-code-token.is-selected,
+html[data-theme="contrast"] .jaqt-edit-token[aria-expanded="true"],
 html[data-theme="contrast"] .jaqt-function-tab.is-selected {
   background: var(--color-page);
   color: var(--color-ink);
   outline: 2px solid currentColor;
+}
+
+html[data-theme="contrast"] .jaqt-edit-menu {
+  background: var(--color-page);
+  border-color: currentColor;
+  box-shadow: none;
 }
 
 .html-tree-stage {
