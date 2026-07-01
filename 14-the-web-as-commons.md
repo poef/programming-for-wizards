@@ -102,9 +102,9 @@ That is strange, once you notice it.
 
 If innovation happens elsewhere, then the user should be able to benefit from tools that were invented elsewhere. But that is much harder when each app owns its own little copy of the user's life. A better calendar app cannot simply be a better calendar app if the calendar belongs to the old one. A better contacts tool cannot simply be a better contacts tool if the contacts are trapped behind another account. A small notes viewer cannot simply read the notes if the notes live inside a private platform.
 
-The next chapter picks up this problem directly.
+The next chapter takes one more step before we talk about the user's home. If outside tools are supposed to work together, they need more than open source code and friendly intentions. They need data that can cross boundaries too.
 
-If the network becomes the place where software happens, then the user's home cannot belong to one application. Otherwise the castle has merely moved into the cloud.
+If the network becomes the place where software happens, then the facts inside our software cannot remain trapped behind private names forever. Otherwise the castle has merely learned to export a few files through a gate.
 
 > **Wizard rule**
 >

@@ -8,7 +8,7 @@ Chapter 7 left a question hanging.
 
 If the web becomes the operating system, who owns the home directory?
 
-The previous chapter added another pressure. If innovation happens elsewhere, users should be able to benefit from tools that were invented elsewhere. That is much harder when each application owns its own little copy of the user's life.
+The previous two chapters added pressure from two sides. If innovation happens elsewhere, users should be able to benefit from tools that were invented elsewhere. And if linked data lets facts and meanings cross boundaries, then it becomes harder to accept that each application should own its own little copy of the user's life.
 
 On a normal computer the home-directory question has an obvious answer, at least in theory. There is a place where your files live. Your documents, photos, music, projects, notes, saved games, half-written novels and badly named folders all sit somewhere that is more yours than the applications are.
 
@@ -94,7 +94,7 @@ This is where the earlier chapters start to matter. A URL is powerful because it
 
 The personal web needs the same kind of thinking.
 
-It is not enough to say that users should own their data. Ownership is an important word, but by itself it does not design an architecture. You need addresses. You need identity. You need permissions. You need shared meanings. You need ways for small applications to cooperate without becoming one large application.
+It is not enough to say that users should own their data. Ownership is an important word, but by itself it does not design an architecture. You need addresses. You need identity. You need permissions. You need linked data, or something very much like it, so meanings can travel between tools. You need ways for small applications to cooperate without becoming one large application.
 
 You need boundaries that make replacement normal.
 

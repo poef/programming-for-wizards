@@ -42,11 +42,12 @@ Wizards do not merely write solutions. They invent the world in which the soluti
 
 - [13. Architecture: arches, pyramids, and change](13-architecture-arches-pyramids-and-change.md)
 - [14. The Web as commons: innovation happens elsewhere](14-the-web-as-commons.md)
-- [15. The Web as home: your data should outlive your apps](15-the-web-as-home.md)
+- [15. The Web as data: things should have addresses too](15-the-web-as-data.md)
+- [16. The Web as home: your data should outlive your apps](16-the-web-as-home.md)
 
 ### Epilogue
 
-- [16. Rule zero: there are no rules](16-rule-zero-there-are-no-rules.md)
+- [17. Rule zero: there are no rules](17-rule-zero-there-are-no-rules.md)
 
 ### Working notes
 

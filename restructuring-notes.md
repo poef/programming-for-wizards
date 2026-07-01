@@ -14,7 +14,7 @@ Introduction -> Numbers -> Web -> Language -> Query DSL -> HTML -> Logic -> WIP 
 The new order is:
 
 ```text
-Prologue -> Representations -> The Web as address/document/platform -> Inventing languages -> Boundaries and reusable pieces -> Architecture, change, commons and home
+Prologue -> Representations -> The Web as address/document/platform -> Inventing languages -> Boundaries and reusable pieces -> Architecture, change, commons, data and home
 ```
 
 ## Main editorial rule
@@ -50,3 +50,8 @@ A few chapters were substantially rewritten because the new structure needed the
 ## Late-book commons chapter
 
 The chapter on the Web as commons belongs before the personal-web/home chapter. It generalizes the architecture/change material into a broader rule: no single system can out-invent the outside world, so useful systems need open boundaries where outside work can attach. The following home chapter then applies that idea to user identity, data and small replaceable software.
+
+
+## Late-book linked data chapter
+
+The linked-data chapter belongs between the commons chapter and the home chapter. The commons chapter says useful systems must leave room for outside invention. The home chapter asks where a user's identity and data should live. Linked data supplies the missing middle idea: software written by different people can cooperate around personal data only when the things inside that data have names and meanings that can cross application boundaries.
