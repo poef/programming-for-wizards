@@ -4,9 +4,17 @@ tags: programming for wizards
 
 # Objects: binding data, behavior, and time
 
-Object Oriented Programming is one of those subjects where everyone thinks they know what it means, right up until two programmers try to define it in the same room.
+In the previous chapter we looked at the knitted castle: the strange tendency of software to grow threads. Every useful piece starts to depend on data shapes, frameworks, databases, styling, configuration, lifecycles, users, errors and history. Before long, the piece is no longer a brick. It is a tower with half the castle still attached.
 
-So I will not start with the definition. I will start with the problem.
+Object Oriented Programming is one of the great historical answers to that problem. Perhaps the most successful one.
+
+It promised a way to make software out of reusable pieces. Not just functions, not just files, but little things that carried their own data and behavior around with them. Objects could be combined. Classes could be extended. The internal mess could be hidden. The outside world could talk to a smaller public surface.
+
+That promise was powerful enough that OOP took over much of the programming world. For many programmers, programming became object-oriented programming. Classes, methods, inheritance, interfaces, constructors, services, factories: this became the normal furniture of software.
+
+And yet the knitted castle did not go away.
+
+So I will not start with a definition of OOP. Definitions are where this subject goes to become religious. I will start with the promise, and with the part of the promise that still matters.
 
 Where should behavior live?
 
@@ -14,7 +22,7 @@ If you have data in one place and all the code that works on that data somewhere
 
 One answer is: bind the behavior to the data. Put the methods where the state is. Make the thing responsible for its own rules.
 
-That is one useful idea hiding inside OOP.
+That is one useful idea hiding inside OOP. It is not the whole answer to reusable software, but it is a real answer to a real part of the problem.
 
 > **Interactive exhibit placeholder: `where-should-behavior-live`**
 >
