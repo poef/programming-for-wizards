@@ -4,11 +4,11 @@ tags: programming for wizards
 
 # Programming languages are for humans
 
-A common misconception is that programming languages are designed to allow you to program computers.
+The previous language chapter looked at language as magic. Human language does not merely carry thoughts around; it changes what kinds of thoughts are easy to have.
 
-If that was the only reason, there wouldn't be that many programming languages. A computer doesn't need a programming language, humans do.
+Programming languages do the same thing, but with less tolerance for ambiguity and more semicolons.
 
-This chapter is where the earlier language chapter turns toward programming proper. The important reframe is simple: a programming language is not primarily a machine interface. It is a human thinking tool that happens to be precise enough for a machine to execute.
+This chapter turns that idea toward programming proper. A programming language is not primarily a machine interface. It is a human thinking tool that happens to be precise enough for a machine to execute.
 
 > **Interactive exhibit placeholder: `same-program-many-languages`**
 >
@@ -216,16 +216,26 @@ Unfortunately thats also not true. You see, almost anyone will tell you that, ye
 
 The problem is communication. Not between the human wizard and their computer. The problem is communicating ideas between humans. You see, languages like Lisp are so powerful, you can create any existing paradigm or programming language idea in it. But the expression of that idea will be your own custom take on that idea. Any other wizard that wants to work with your ideas, your code, will have to learn your version, your implementation of these ideas. And lord help them if you thought up some crazy new ideas.
 
-The problem in general is reading code is hard. It is much easier to write code. This sounds non-sensical, yet it is true. It is the source of the NIH syndrome (Not Invented Here.)
+The problem in general is that reading code is hard. It is much easier to write code. This sounds nonsensical, yet it is true. It is the source of the NIH syndrome (Not Invented Here.)
 
-So what can we do to mitigate this? Simple, make programming languages bigger, add more standard stuff, add design patterns. In short, make sure all programmers are fed the same cookie-cutter solutions, so all code starts to look the same. Create frameworks that force all problems into a Model-View-Controller solution on top of an Object-Relation-Mapper. Boom :boom:, done!
+One answer is to make programming languages bigger. Add more standard stuff. Add design patterns. Add frameworks. Make sure all programmers are fed the same cookie-cutter solutions, so all code starts to look roughly the same. Create frameworks that force all problems into a Model-View-Controller solution on top of an Object-Relational Mapper. Boom :boom:, done!
 
-Now all you need to do to understand a piece of software, is look for the differences. So the natural progression for programming languages is not to become smaller and more powerful, but bigger and less powerful.
+There is a reason this keeps happening. Shared shapes make code easier to read. If every project invents its own private universe, every project becomes a new country with its own customs, grammar and strange little hand gestures. A framework gives everyone the same street names.
+
+But there is a cost. Once the shared language becomes too large, the real problem starts to disappear underneath the standard machinery. You are no longer saying what your program means. You are saying how this particular framework wants the meaning to be dressed.
+
+So the natural pressure on programming languages is strange. Small powerful languages are wonderful for the writer, but dangerous for the reader. Large standard languages are easier to share, but they also make it harder to say unusual things simply.
 
 Just like human languages.
 
-As a wizard you should be aware of these forces, and fight them. And you can fight them using Domain Specific Languages (DSL's)
+A wizard should be aware of this tension. You do not escape it by choosing the one true language, because the one true language does not exist. You escape it, when you can, by making the language of the program fit the problem more closely.
+
+That is where Domain Specific Languages become interesting.
+
+A DSL is not automatically a separate language with a parser and a manual. Sometimes it is. SQL is its own world, and for good reasons. But sometimes a DSL is smaller than that. It can be a handful of names, a few conventions, a shape in the data, a chain of functions, a way of arranging code so the important ideas stand next to each other.
+
+The next chapter is an exhibit of that smaller kind of language. We will not build a grand new syntax. We will look for a little query language hiding inside JavaScript.
 
 > **Wizard rule**
 >
-> A language is good when it makes the right ideas easy to say and the wrong ideas awkward to say.
+> Code, like language, should clarify, not hide intent.
