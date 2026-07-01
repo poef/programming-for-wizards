@@ -4,11 +4,11 @@ tags: programming for wizards
 
 # Programming languages are for humans
 
-The previous language chapter looked at language as magic. Human language does not merely carry thoughts around; it changes what kinds of thoughts are easy to have.
+A few chapters ago we looked at language as magic. Human language does not merely carry thoughts around; it changes what kinds of thoughts are easy to have.
 
 Programming languages do the same thing, but with less tolerance for ambiguity and more semicolons.
 
-This chapter turns that idea toward programming proper. A programming language is not primarily a machine interface. It is a human thinking tool that happens to be precise enough for a machine to execute.
+This chapter returns to that idea, but now turns it toward programming proper. A programming language is not primarily a machine interface. It is a human thinking tool that happens to be precise enough for a machine to execute.
 
 > **Interactive exhibit placeholder: `same-program-many-languages`**
 >
