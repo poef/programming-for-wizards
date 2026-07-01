@@ -2,7 +2,7 @@
 tags: programming for wizards
 ---
 
-# HTML: choosing a tree
+# The Web as document: choosing a tree
 
 What shape should a document have?
 

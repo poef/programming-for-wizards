@@ -2,7 +2,7 @@
 tags: programming for wizards
 ---
 
-# JavaScript: the prototype that became a world
+# The Web as platform: the prototype that became a world
 
 What happens when a prototype becomes the platform?
 
@@ -79,7 +79,7 @@ The network starts to look less like something the computer connects to, and mor
 
 That raises a question this chapter should not try to answer yet. If the web becomes the operating system, who owns the home directory?
 
-That is where Solid will eventually enter the story.
+A later chapter will pick up that question.
 
 > **Wizard rule**
 >

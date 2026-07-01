@@ -2,7 +2,7 @@
 tags: programming for wizards
 ---
 
-# The URL: a spell for pointing anywhere
+# The Web as address: a spell for pointing anywhere
 
 In 1989 a wizard called Tim invented the World Wide Web and changed the world forever.
 

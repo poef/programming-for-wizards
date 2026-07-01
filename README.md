@@ -21,11 +21,11 @@ Wizards do not merely write solutions. They invent the world in which the soluti
 - [03. Logic: turning truth into machinery](03-logic-turning-truth-into-machinery.md)
 - [04. Language: the tool that changes the thinker](04-language-the-tool-that-changes-the-thinker.md)
 
-### Part II: Small marks, large worlds
+### Part II: The Web, from address to platform
 
-- [05. The URL: a spell for pointing anywhere](05-url-a-spell-for-pointing-anywhere.md)
-- [06. HTML: choosing a tree](06-html-choosing-a-tree.md)
-- [07. JavaScript: the prototype that became a world](07-javascript-the-prototype-that-became-a-world.md)
+- [05. The Web as address: a spell for pointing anywhere](05-the-web-as-address.md)
+- [06. The Web as document: choosing a tree](06-the-web-as-document.md)
+- [07. The Web as platform: the prototype that became a world](07-the-web-as-platform.md)
 
 ### Part III: Inventing languages
 
@@ -41,10 +41,11 @@ Wizards do not merely write solutions. They invent the world in which the soluti
 
 - [12. The knitted castle](12-the-knitted-castle.md)
 - [13. Architecture: arches, pyramids, and change](13-architecture-arches-pyramids-and-change.md)
+- [14. The Web as home: your data should outlive your apps](14-the-web-as-home.md)
 
 ### Epilogue
 
-- [14. Rule zero: there are no rules](14-rule-zero-there-are-no-rules.md)
+- [15. Rule zero: there are no rules](15-rule-zero-there-are-no-rules.md)
 
 ### Working notes
 

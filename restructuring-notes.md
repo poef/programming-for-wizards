@@ -14,7 +14,7 @@ Introduction -> Numbers -> Web -> Language -> Query DSL -> HTML -> Logic -> WIP 
 The new order is:
 
 ```text
-Prologue -> Representations -> Web as boundary-crossing marks -> Inventing languages -> Binding and boundaries -> Complexity and change
+Prologue -> Representations -> The Web as address/document/platform -> Inventing languages -> Binding and boundaries -> Complexity and change
 ```
 
 ## Main editorial rule
@@ -25,9 +25,9 @@ Examples:
 
 - Numbers are not basics; they are notations that hide calculations.
 - Logic is not philosophy; it is truth made mechanical.
-- The URL is not an address; it is a compact agreement between systems.
-- HTML is not just markup; it is a commitment to a tree.
-- JavaScript is not just a language; it is a prototype that became a platform.
+- The Web as address is not just about locating files; it is about a compact agreement between systems.
+- The Web as document is not just markup; it is a commitment to a tree.
+- The Web as platform is what happens when a small prototype becomes load-bearing.
 - OOP is not a religion; it is a collection of moves about binding behavior, state and dependencies.
 - Architecture is not a science yet; it is the art of surviving change.
 
@@ -42,6 +42,6 @@ Examples:
 
 ## Notes on source material
 
-Most of the original prose has been kept where it already carried the voice well. The main edits are added openings, renamed chapters, new transitions, visible interactive placeholders, and final wizard-move boxes.
+Most of the original prose has been kept where it already carried the voice well. The main edits are added openings, renamed chapters, new transitions, visible interactive placeholders, and final wizard-rule boxes.
 
 A few chapters were substantially rewritten because the new structure needed them to do a different job: the URL chapter, the logic chapter, and the objects/dependencies chapter.
