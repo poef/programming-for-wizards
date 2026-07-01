@@ -1,7 +1,18 @@
 ---
 tags: programming for wizards
 ---
-# The Web, part 3
+
+# JavaScript: the prototype that became a world
+
+What happens when a prototype becomes the platform?
+
+This chapter is about JavaScript, but it is also about a familiar software story. A demo is created in a hurry. It works well enough. Then the world starts building on it. The demo becomes the foundation. The foundation keeps moving.
+
+That is both terrifying and, sometimes, lucky.
+
+> **Interactive exhibit placeholder: `prototype-becomes-platform`**
+>
+> Show a tiny prototype language with three features. Then let the reader add real-world demands: modules, DOM access, packages, async loading, backwards compatibility. Each new demand should add visible layers around the original core. The point is that platforms accrete history.
 
 The logical next part of the web to discuss, would be HTTP. However I don't think it would add much, or be interesting. So instead this chapter I will write about another part of the web, made by a wizard called Brendan Eich: JavaScript.
 
@@ -61,3 +72,6 @@ Decentralized Web
 
 ---
 
+> **Wizard move**
+>
+> A prototype in production is not a temporary mistake. It is often the seed of the future system. Plant carefully.

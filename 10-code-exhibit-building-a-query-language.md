@@ -1,7 +1,18 @@
 ---
 tags: programming for wizards
 ---
-# Code: Building a simple query DSL in PHP
+
+# Code exhibit: building a query language
+
+Now we stop merely admiring spells and make one.
+
+The previous chapter ended with Domain Specific Languages. This chapter is a workshop: a small query language, built from tokenizer to parser to SQL and PHP output.
+
+The purpose is not that this particular language is perfect. It isn't. The purpose is to feel the boundary. Once you create a real language, even a tiny one, you get to decide what can be said inside that language and what must stay outside it.
+
+> **Interactive exhibit placeholder: `query-language-lab`**
+>
+> Make this chapter interactive in four panes: query input, tokens, parse tree, output. Let the reader type `lastName~="O%" and address.city="Manchester"` and watch the tokenizer, parser, SQL transpiler and PHP filter update. Keep the implementation small enough that the reader can inspect it.
 
 As I argued in the Programming for Wizards chapter about Language, you should be able to write a Domain Specific Language to help solve problems. To show you that almost any modern language has the tools to help you do that, this chapter shows how you can write a simple DSL in PHP.
 
@@ -694,3 +705,7 @@ $result = array_filter($data, $f);
 ```
 
 Check to see the full code in [PHP Sandbox here.](http://sandbox.onlinephpfunctions.com/code/b8eebaa7f48da9d3ce440142ee0d48476198c6d7)
+
+> **Wizard move**
+>
+> A DSL is a boundary drawn in language. Draw it where the problem already has a natural edge.

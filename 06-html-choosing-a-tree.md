@@ -2,7 +2,19 @@
 tags: programming for wizards
 ---
 
-# Programming for Wizards: the Web, part 2
+# HTML: choosing a tree
+
+What shape should a document have?
+
+The question sounds harmless. A document is just text, right? Perhaps text with some headings, links, emphasis, images, lists. But as soon as you want the computer to understand those things, you must choose a shape.
+
+HTML chose a tree.
+
+That choice made the Web easy enough to write by hand, easy enough for browsers to recover from mistakes, and structured enough for programs to inspect. It also made some things surprisingly difficult.
+
+> **Interactive exhibit placeholder: `html-chooses-a-tree`**
+>
+> Let the reader select overlapping ranges in a sentence, for example bold from character 1 to 15 and comment from character 8 to 25. Try to encode the overlap as HTML and show why the tree breaks. Then show the same annotations as ranges. The point is not that HTML is bad; the point is that every representation has consequences.
 
 As I've written in part 1 of this chapter, in 1989 a wizard called Tim invented the World-Wide Web and changed the world forever. The first, and I think most important part, was the invention of the URL. But another invention was HTML - or HyperText Markup Language.
 
@@ -263,3 +275,6 @@ https://en.wikipedia.org/wiki/Markup_language
 
 https://chnm.gmu.edu/digitalhistory/links/pdf/chapter3/3.19a.pdf
 
+> **Wizard move**
+>
+> Every format is a bet about the shape of future problems. HTML bet on trees. It was a very good bet, but not a free one.

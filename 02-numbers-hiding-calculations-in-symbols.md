@@ -2,7 +2,17 @@
 tags: programming for wizards
 ---
 
-# Programming for Wizards: numbers
+# Numbers: hiding calculations in symbols
+
+How do you make a number bigger than your fingers?
+
+That sounds like a childish question, but it is one of the first great programming questions. You have a thing in the world. You need to represent it. The first representation works for a while. Then the world grows larger than the representation, and the representation starts fighting you.
+
+Numbers are a good place to begin because they look natural. They are not. Number systems are inventions. Interfaces. Little machines for doing work in your head.
+
+> **Interactive exhibit placeholder: `numbers-are-machines`**
+>
+> Let the reader enter a number and switch between tally marks, Roman numerals, abacus columns, decimal, binary, octal and hexadecimal. Each switch should show which calculation is hidden in the notation. Adding `1` should visibly create carry in decimal and binary.
 
 ## Numbers, numbers, numbers
 
@@ -129,20 +139,10 @@ Binary numbers are so ubiquitous in programming, that you'll see the powers of 2
 | - | - | - | - | - | - | - | - | - | - | - |
 |1024 | 512 | 256 | 128 | 64 | 32 | 16 | 8 | 4 | 2 | 1 |
 
+This is a good time to end our archaeological dig through numbers. There is quite a bit more to explore, but you can do that yourself. The web contains all the information you need and more.
 
+The important thing for now is this: every number system we saw did work for us. Tally marks counted. Roman numerals embedded small calculations. Positional notation made zero necessary. The carry mechanism turned notation into machinery. Binary made the smallest useful alphabet large enough to build a computer.
 
-
-This is a good time to end our archealogical dig through numbers. There is quite a bit more to explore, but you can do that yourself. The web contains all the information you need and more.
-
-<hr>
-
-Notes for later, you can stop reading now.
-
-I could go on about the [invention of computers](https://en.wikipedia.org/wiki/History_of_computer_science), [Leibniz](https://en.wikipedia.org/wiki/Gottfried_Wilhelm_Leibniz) and [Babbage](https://en.wikipedia.org/wiki/Charles_Babbage), [Ada Lovelace](https://en.wikipedia.org/wiki/Ada_Lovelace), [Alan Turing](https://en.wikipedia.org/wiki/Alan_Turing), [Enigma](https://en.wikipedia.org/wiki/Enigma_machine), [Colossus](https://en.wikipedia.org/wiki/Colossus_computer), [Eniac](https://en.wikipedia.org/wiki/ENIAC), [Konrad Zuse](https://en.wikipedia.org/wiki/Konrad_Zuse), [Vannevar Bush](https://en.wikipedia.org/wiki/Vannevar_Bush), etc. 
-
-
-## Wizards' second rule: use the source
-
-## Wizards' third rule: respect the boundaries
-
-Seriously. Stop reading.
+> **Wizard move**
+>
+> A notation is not just a way to write something down. A good notation performs part of the work for you.

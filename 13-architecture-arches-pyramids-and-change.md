@@ -1,7 +1,20 @@
 ---
 tags: programming for wizards
 ---
-# Architecture
+
+# Architecture: arches, pyramids, and change
+
+What would a software arch look like?
+
+This chapter is a bit different. Architecture sounds like the grand subject, the place where we finally explain how to build large systems correctly. Unfortunately, anyone who tells you they know how to do that is probably selling consultancy.
+
+We do not know how to design software, at least not on a large scale, with anything like the confidence that bridge builders have. But we do have stories. We have metaphors. We have failures. We have a few good tricks.
+
+So this chapter keeps the uncertainty. But it gives the uncertainty a shape.
+
+> **Interactive exhibit placeholder: `pyramid-arch-bazaar`**
+>
+> Let the reader compare three growth strategies: pile-on pyramid, planned cathedral, adaptive bazaar. Add changing requirements over time. Show where each strategy absorbs change and where it cracks.
 
 This chapter is a bit different. I won't start with the roots of Architecture. Instead I'll quote a wizard you've heard about before, Alan Kay: 
 
@@ -71,17 +84,26 @@ Yet Linux, and the whole OpenSource movement, is the poster-child for the Bazaar
 
 ## Scale and Change
 
+Great software doesn't win in the marketplace. Instead crappy software is succesfull. Famously dubbed "[Worse is Better](https://www.dreamsongs.com/WorseIsBetter.html)" by wizard Richard P. Gabriel. Wizard Eric S. Raymond has a different take on it, called "[The Cathedral and the Bazaar](http://www.catb.org/~esr/writings/cathedral-bazaar/cathedral-bazaar/)".
 
+I believe that the underlying force that ties these two observations together is this: Software is change. Software changes the world, and is changed by it. Any software that solves a problem now, will always be better than software that will solve the problem later. It does not matter that the current solution is worse than the promised solution later. The future solution is going to arrive in a changed world, where it no longer matters.
 
+The bazaar approach of OpenSource embraces this. It is the opposite of careful planning. It embraces the principle of innovation, most importantly that of "[Innovation happens elsewhere.](https://dreamsongs.com/IHE/)"
 
+Any software you create will have to live in a constantly changing world or environment. Software that is incapable of changing with the world will be left behind and forgotten. This is one of the fundamental differences between software and traditional engineering. And why software project management cannot use traditional project management approaches.
 
+There is another Wizards Rule hiding here:
 
+> Software is change.
 
+Software changes the world, and is changed by it. Any software that solves a problem now will always be better than software that will solve the problem later, if the later solution arrives in a world where the problem has moved on.
 
+This does not mean quality is irrelevant. It does not mean ugly code is noble. It means architecture is not the art of designing the perfect structure. It is the art of designing structures that can survive being wrong.
 
+> **Interactive exhibit placeholder: `change-arrives-before-perfect`**
+>
+> Show two teams. One ships a small imperfect system early and adapts. The other designs a more complete system but ships later. Introduce environmental changes every few turns. The demo should make clear that the future solution is not competing with today's problem, but with tomorrow's changed problem.
 
-
-
-
-
-
+> **Wizard move**
+>
+> Perfect is the enemy of good enough because the world does not wait for perfect.

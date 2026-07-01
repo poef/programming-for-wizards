@@ -1,7 +1,18 @@
 ---
 tags: programming for wizards
 ---
-# The Knitted Castle
+
+# The knitted castle
+
+Why does software get harder as it gets larger?
+
+It is tempting to answer with a complaint about bad programmers, bad managers, bad requirements, bad frameworks, or bad luck. There is enough of all of that, of course. But the deeper answer is less comforting: complexity grows naturally.
+
+You don't need to be stupid to create a knitted castle. You only need to keep adding useful things.
+
+> **Interactive exhibit placeholder: `knitted-castle-vs-lego-castle`**
+>
+> Begin with five clean modules. Let the reader add features one by one. Each feature creates dependency threads. Then offer a different representation: stable boundaries, ports, small languages, derived data. The goal is not to remove all dependencies, but to make the kinds of dependencies visible.
 
 The famous wizard Alan Kay once said:
 
@@ -29,3 +40,6 @@ So why don't we build software like that? Well, we're trying to, but we don't kn
 
 This is because even NPM packages are still build more like the knitted castle than the lego castle. Each package can be re-used as a whole, but not so much broken apart and used partly, to create something entirely new.
 
+> **Wizard move**
+>
+> Complexity is not only a matter of size. It is a matter of how many kinds of connections the reader must keep in their head.

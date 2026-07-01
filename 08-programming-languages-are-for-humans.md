@@ -1,29 +1,18 @@
 ---
 tags: programming for wizards
 ---
-# Programming for wizards: Language
 
-Language is magic. We're so used to it that we don't see it, but think about it. While you are reading this, I have the capability to inject my thoughts into your mind. I can control your mind! And even more magically, I can do this while being miles away, or I might even be dead. My mind to your mind. You don't need to be a Vulcan, just start writing.
+# Programming languages are for humans
 
-Lets start at the very beginning. A very good place to start. We don't know exactly when humans started to use language. But we can be sure it was before we started to write. The capacity to use and create language seems built in to our DNA, literally. It is one thing that clearly seperates us from our earth co-habitants. Scientists guesstimate that our earliest forays into language started somewhere between 200.000 and 100.000 years ago. What that language was like is unknowable. We do know that, when we finally decided to start to write something, language was already splintered into many, many different and incompatible versions.
+A common misconception is that programming languages are designed to allow you to program computers.
 
-The one constant in our use of language seems to be that every generation mutates the language they use. There is no human language, in actual every day use, that survives for long periods without large changes. To use language is to change it. Which is fitting, because the world around us changes, so to describe it, we need a changing medium.
+If that was the only reason, there wouldn't be that many programming languages. A computer doesn't need a programming language, humans do.
 
-An interesting question related to this is: does language dictate what we can think? Or is it the other way around? We change language to better express what we think? Or is it both? Can some ideas only spread after someone changes the language to be able to express it?
+This chapter is where the earlier language chapter turns toward programming proper. The important reframe is simple: a programming language is not primarily a machine interface. It is a human thinking tool that happens to be precise enough for a machine to execute.
 
-Whatever it is, we use language to communicate our ideas to each other. However, language is just a limited part of the human experience. We used to think that our language processing center is limited to one half of our brain. Today it is accepted that it is more nuanced, but language processing and generation occupy only a small part of your brain.
-
-Another way to look at it is by dividing your brain functions in to the fast and slow systems. A wizard called Daniel Kahneman wrote a book called 'Thinking, Fast and Slow', which you definitely should read. In it he argues that most of our thinking, about 98%, is in our so-called Fast System. This is commonly known as our subconscious. It is effortless, autonomous or automatic. It observes and evaluates. Only 2% of our thinking is in our Slow System. This is the conscious part, where we use language, where we plan, where we are self-aware.
-
-Looking at these percentages, it is no wonder that he argues that our system 2, the slow system, is a slave to our fast system. Research indicates that we actually make most of our decisions in the fast system, before we consciously think about it. When we do think about it, the fast system is usually tasked with finding a reason to substantiate or support the decision we've already made. Then the mind does a final trick. It will make you believe that you made your decision based on these reasons. You did not, your decision was already made.
-
-A simple rule I've found to be true: You cannot change someone's decision with rational arguments if that decision was based on emotion. Daniel Kahneman argues that by far the most of our decisions are so conceived. Therefor rational arguments are a poor tool to change someone's mind.
-
-You, as a wizard, and specifically focused on programming, are quite unusual. You have taught yourself to think up a new world, not just in your slow system, but in fact in an even slower system than that, using formal language with arcane rules. You are not normal. You should not expect to be understood, nor should you expect to convince other people by using this wholy unnatural way of thinking.
-
-This doesn't mean that you are better, or other people are somehow worse. It does mean you are different. If you want to be understood, if you want to convince people, if you want to change the world, it is up to you to make the effort.
-
-Now, to be clear, I do not advocate manipulating people. There is long and bad history of demagogues that somehow understand how to turn good people into unruly mobs. They do this by explicitly targeting the fast system, using things like flags, showmanship, feelings of dented pride, fear, etc. But they also use things like comradeship, feelings of belonging, working together for a greater good. All these things are powerful and you should be wary of people wielding them. Even with good intentions, you may not end up in a good place.
+> **Interactive exhibit placeholder: `same-program-many-languages`**
+>
+> Show one tiny program in machine code, assembly, COBOL, Fortran, Lisp and a modern language. Let the reader reveal comments and structure step by step. The point is not to rank languages; the point is to feel which ideas each language makes cheap or expensive.
 
 ## Computer languages
 
@@ -237,24 +226,6 @@ Just like human languages.
 
 As a wizard you should be aware of these forces, and fight them. And you can fight them using Domain Specific Languages (DSL's)
 
-## Domain Specific Languages
-
-Domain Specific Languages are just programming languages. In fact, FORTRAN is a DSL for math, COBOL is a DSL for ... ehm... lets forget about COBOL. But in general a DSL is much more limited than a normal programming language. It is small and simple, focused on single problem domain (hence the name.)
-
-When you start using DSL's, you don't use a single programming language. You use many of them, and glue them together to form your program.
-
-In fact, if you've done any programming, you have used the exact same ideas, though expressed less powerfully. Any time you create a variable or a function, or classes and methods, you are creating your own DSL, expressed within the limitations of your programming language.
-
-You are continually extending your programming language, creating a new language in the process. Anyone reading your code must first learn this language. And while we start out young and amazingly adept at learning languages, as we grow up most of us lose this ability. Or at least it gets degraded. Unless you keep practicing.
-
-You can make it easier for other people to learn your language. One way is to mimic existing languages. Design patterns fit into this approach. Another way is to keep your changes small. This approach leads to composable components. And finally, you can create real DSL's, that aren't limited to the syntax and capabilities of your source programming language. 
-
-Creating a true DSL means that you have to create your own compiler and runtime. But it has the benefit of making the boundary between the DSL and the source programming language extremely clear. Done well, this boundary lines up well with a natural boundary in the problem domain. The best DSL's are so well known that we don't actually think of them as DSL's anymore. 
-
-One example is Regular Expressions. Any non-trivial program will have them. Beginning programmers hate them, because they are so unreadable.. for the untrained.
-
-Another example is SQL. Almost any software that uses a database, will have some SQL in it. It may be hidden behind an ORM, but it will be there.
-
-Done correctly, a DSL allows you to divide your problem along natural boundaries in the domain. Then you can solve each sub-problem seperately. While you are solving that sub-problem, you don't have to think about the solution for other problems. You will not need to read code that isn't related. Your programming language doesn't need to have tools that aren't related to your current problem. DSL's allow you to have a high level view of the problem and not worry about low level implementation details.
-
-But the most important thing to remember is that you are creating a new language whenever you add any variable, function, class or method. By being conscious of this, you can make sure that the language you are building is easy to learn, simple to use and expressive. Designed for humans, not computers.
+> **Wizard move**
+>
+> A language is good when it makes the right ideas easy to say and the wrong ideas awkward to say.
