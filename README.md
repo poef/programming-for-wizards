@@ -38,14 +38,15 @@ Wizards do not merely write solutions. They invent the world in which the soluti
 - [11. The knitted castle](11-the-knitted-castle.md)
 - [12. Objects: binding data, behavior, and time](12-objects-binding-data-behavior-and-time.md)
 
-### Part V: Architecture, change, and home
+### Part V: Architecture, change, commons, and home
 
 - [13. Architecture: arches, pyramids, and change](13-architecture-arches-pyramids-and-change.md)
-- [14. The Web as home: your data should outlive your apps](14-the-web-as-home.md)
+- [14. The Web as commons: innovation happens elsewhere](14-the-web-as-commons.md)
+- [15. The Web as home: your data should outlive your apps](15-the-web-as-home.md)
 
 ### Epilogue
 
-- [15. Rule zero: there are no rules](15-rule-zero-there-are-no-rules.md)
+- [16. Rule zero: there are no rules](16-rule-zero-there-are-no-rules.md)
 
 ### Working notes
 

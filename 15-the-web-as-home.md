@@ -4,11 +4,13 @@ tags: programming for wizards
 
 # The Web as home: your data should outlive your apps
 
-Chapter 7 ended with a question it was not ready to answer yet.
+Chapter 7 left a question hanging.
 
 If the web becomes the operating system, who owns the home directory?
 
-On a normal computer that question has an obvious answer, at least in theory. There is a place where your files live. Your documents, photos, music, projects, notes, saved games, half-written novels and badly named folders all sit somewhere that is more yours than the applications are.
+The previous chapter added another pressure. If innovation happens elsewhere, users should be able to benefit from tools that were invented elsewhere. That is much harder when each application owns its own little copy of the user's life.
+
+On a normal computer the home-directory question has an obvious answer, at least in theory. There is a place where your files live. Your documents, photos, music, projects, notes, saved games, half-written novels and badly named folders all sit somewhere that is more yours than the applications are.
 
 You can install a different text editor without rewriting all your text files. You can open an image in another program. You can delete an application and, if the world is not too cursed, your documents remain.
 

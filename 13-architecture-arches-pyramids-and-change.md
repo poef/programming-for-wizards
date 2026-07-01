@@ -88,7 +88,9 @@ Great software doesn't win in the marketplace. Instead crappy software is succes
 
 I believe that the underlying force that ties these two observations together is this: Software is change. Software changes the world, and is changed by it. Any software that solves a problem now, will always be better than software that will solve the problem later. It does not matter that the current solution is worse than the promised solution later. The future solution is going to arrive in a changed world, where it no longer matters.
 
-The bazaar approach of OpenSource embraces this. It is the opposite of careful planning. It embraces the principle of innovation, most importantly that of "[Innovation happens elsewhere.](https://dreamsongs.com/IHE/)"
+The bazaar approach of OpenSource embraces this. It is the opposite of careful planning. It accepts that the world will keep moving while you are still building.
+
+That raises another question. If the world keeps changing, where do the useful answers come from? Often they do not come from inside your project at all. The next chapter will follow that thread.
 
 Any software you create will have to live in a constantly changing world or environment. Software that is incapable of changing with the world will be left behind and forgotten. This is one of the fundamental differences between software and traditional engineering. And why software project management cannot use traditional project management approaches.
 

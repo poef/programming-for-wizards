@@ -14,7 +14,7 @@ Introduction -> Numbers -> Web -> Language -> Query DSL -> HTML -> Logic -> WIP 
 The new order is:
 
 ```text
-Prologue -> Representations -> The Web as address/document/platform -> Inventing languages -> Boundaries and reusable pieces -> Architecture, change and home
+Prologue -> Representations -> The Web as address/document/platform -> Inventing languages -> Boundaries and reusable pieces -> Architecture, change, commons and home
 ```
 
 ## Main editorial rule
@@ -45,3 +45,8 @@ Examples:
 Most of the original prose has been kept where it already carried the voice well. The main edits are added openings, renamed chapters, new transitions, visible interactive placeholders, and final wizard-rule boxes.
 
 A few chapters were substantially rewritten because the new structure needed them to do a different job: the URL chapter, the logic chapter, and the objects/dependencies chapter.
+
+
+## Late-book commons chapter
+
+The chapter on the Web as commons belongs before the personal-web/home chapter. It generalizes the architecture/change material into a broader rule: no single system can out-invent the outside world, so useful systems need open boundaries where outside work can attach. The following home chapter then applies that idea to user identity, data and small replaceable software.

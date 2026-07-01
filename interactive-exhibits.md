@@ -33,12 +33,13 @@ The book should not feel like paper with a few toys glued on. The interactive pi
 | `knitted-castle-vs-lego-castle` | 11 | Show how reusable parts become entangled by hidden assumptions, and how explicit boundaries keep pieces Lego-like. |
 | `pyramid-arch-bazaar` | 13 | Compare growth strategies under changing requirements. |
 | `change-arrives-before-perfect` | 13 | Show why late perfection loses to early adaptation. |
+| `innovation-happens-elsewhere` | 14 | Show why closed systems have to predict every useful future, while open boundaries let outside tools and ideas attach. |
 
 ## Implementation note
 
 For a first digital version, each exhibit can be a small standalone HTML file loaded in an iframe or web component. The chapter only needs a placeholder block with a stable id. The demo implementation can come later without rewriting the prose.
 
-## 14. The Web as home: `web-home-directory`
+## 15. The Web as home: `web-home-directory`
 
 Show two models side by side. In the app-owned model, each app contains its own account, identity and data. In the user-owned model, identity and data live in a user-controlled space and applications receive permission to use parts of it. Let the reader replace an app and show which model makes replacement cheap.
 
