@@ -241,7 +241,7 @@ function checkHtmlPages(htmlByFile) {
       fail(`${relativeFile} is missing the exhibit kit script`)
     }
 
-    if (!/<script\s+defer\s+src="(?:\.\.\/)?assets\/exhibits\/exhibits\.js"><\/script>/.test(html)) {
+    if (!/<script\s+type="module"\s+src="(?:\.\.\/)?assets\/exhibits\/exhibits\.js"><\/script>/.test(html)) {
       fail(`${relativeFile} is missing the exhibit registry script`)
     }
 

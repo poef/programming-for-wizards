@@ -29,6 +29,11 @@ Interactive so far:
 - `numbers-are-machines`: tally marks, Roman numerals, abacus columns and positional bases for one number.
 - `html-chooses-a-tree`: overlapping text annotations, crossed HTML, tree-safe HTML and range data.
 - `jaqt-extension-lab`: a JavaScript query that grows from loops into a small host-language DSL.
+- `knitted-castle-vs-lego-castle`: replacement tests that reveal hidden dependency threads and explicit boundaries.
+
+Follow-up TODOs:
+
+- Simplify `knitted-castle-vs-lego-castle`: make it one path, one part, one insight. Show `PriceBadge`, click "Reuse in another project", reveal hidden assumptions one by one, then convert those threads into explicit boundary pieces such as `price`, `formatPrice`, `className`, `onView`, and a mount adapter.
 
 Source files:
 

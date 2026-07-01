@@ -1,7 +1,7 @@
 {
   "id": "programming-for-wizards",
   "title": "Programming for Wizards",
-  "generatedAt": "2026-07-01T21:38:19.492Z",
+  "generatedAt": "2026-07-01T21:59:21.957Z",
   "phase": "01-enhanced-static-manuscript",
   "features": {
     "notes": "planned",
@@ -277,7 +277,7 @@
       "chapter": "11-the-knitted-castle",
       "title": "Knitted Castle Vs Lego Castle",
       "url": "chapters/11-the-knitted-castle.html#exhibit-knitted-castle-vs-lego-castle",
-      "status": "placeholder"
+      "status": "interactive"
     },
     {
       "id": "where-should-behavior-live",
@@ -4011,13 +4011,6 @@
       "url": "chapters/11-the-knitted-castle.html#p-11-we-have-knitted-another-one"
     },
     {
-      "id": "exhibit-knitted-castle-vs-lego-castle",
-      "type": "exhibit",
-      "label": "Knitted Castle Vs Lego Castle",
-      "chapter": "11-the-knitted-castle",
-      "url": "chapters/11-the-knitted-castle.html#exhibit-knitted-castle-vs-lego-castle"
-    },
-    {
       "id": "p-11-the-famous-wizard-alan-kay-once-said",
       "type": "paragraph",
       "label": "The famous wizard Alan Kay once said:",
@@ -4485,6 +4478,13 @@
       "label": "The knitted castle is always waiting. Every feature wants to tie one more loop. The wizard's work is not to avoid all lo",
       "chapter": "11-the-knitted-castle",
       "url": "chapters/11-the-knitted-castle.html#p-11-the-knitted-castle-is-always-waiting-every-feature"
+    },
+    {
+      "id": "exhibit-knitted-castle-vs-lego-castle",
+      "type": "exhibit",
+      "label": "Knitted Castle Vs Lego Castle",
+      "chapter": "11-the-knitted-castle",
+      "url": "chapters/11-the-knitted-castle.html#exhibit-knitted-castle-vs-lego-castle"
     },
     {
       "id": "rule-11-wizards-tenth-rule",

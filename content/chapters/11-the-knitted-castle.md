@@ -12,10 +12,6 @@ And then, a few years later, we discover that we have not built a Lego castle af
 
 We have knitted another one.
 
-> **Interactive exhibit placeholder: `knitted-castle-vs-lego-castle`**
->
-> Begin with five clean modules. Let the reader add features one by one. Each feature creates dependency threads: data shape, styling, lifecycle, configuration, events, permissions, errors, storage, network calls. Then let the reader try to reuse one piece in a different project. Show how many invisible threads come along. Finally introduce clearer boundaries: explicit inputs, boring data, adapters, stable protocols, and a core that knows less about its surroundings.
-
 The famous wizard [Alan Kay](https://en.wikipedia.org/wiki/Alan_Kay) once said:
 
 > "Whatever we [in computing] do is more like what the Egyptians did. Building pyramids, piling things on top of each other." [(video)](https://www.tele-task.de/lecture/video/2772/)
@@ -155,6 +151,10 @@ You can also accept that some things should not be reusable. A piece of software
 The Lego castle is not built by magic universal parts. It is built by choosing where the studs go, and then having the discipline not to put threads through them later.
 
 The knitted castle is always waiting. Every feature wants to tie one more loop. The wizard's work is not to avoid all loops. That would make software useless. The work is to keep asking which loops belong inside a part, and which ones should become a boundary.
+
+> **Interactive exhibit placeholder: `knitted-castle-vs-lego-castle`**
+>
+> Begin with five clean modules. Let the reader add features one by one. Each feature creates dependency threads: data shape, styling, lifecycle, configuration, events, permissions, errors, storage, network calls. Then let the reader try to reuse one piece in a different project. Show how many invisible threads come along. Finally introduce clearer boundaries: explicit inputs, boring data, adapters, stable protocols, and a core that knows less about its surroundings.
 
 > **Wizard's tenth rule**
 >

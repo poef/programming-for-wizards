@@ -15,7 +15,8 @@ const interactiveExhibits = new Set([
   "same-problem-different-world",
   "numbers-are-machines",
   "html-chooses-a-tree",
-  "jaqt-extension-lab"
+  "jaqt-extension-lab",
+  "knitted-castle-vs-lego-castle"
 ])
 
 const manifest = {
@@ -578,7 +579,7 @@ function pageShell({ title, currentId, chapters, main, pageKind }) {
   <link rel="stylesheet" href="${relativeRoot}assets/exhibits/exhibits.css">
   <script defer src="${relativeRoot}assets/book.js"></script>
   <script defer src="${relativeRoot}assets/exhibits/exhibit-kit.js"></script>
-  <script defer src="${relativeRoot}assets/exhibits/exhibits.js"></script>
+  <script type="module" src="${relativeRoot}assets/exhibits/exhibits.js"></script>
 </head>
 <body>
   <a class="skip-link" href="#main">Skip to manuscript</a>

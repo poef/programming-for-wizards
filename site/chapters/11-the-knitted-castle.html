@@ -8,7 +8,7 @@
   <link rel="stylesheet" href="../assets/exhibits/exhibits.css">
   <script defer src="../assets/book.js"></script>
   <script defer src="../assets/exhibits/exhibit-kit.js"></script>
-  <script defer src="../assets/exhibits/exhibits.js"></script>
+  <script type="module" src="../assets/exhibits/exhibits.js"></script>
 </head>
 <body>
   <a class="skip-link" href="#main">Skip to manuscript</a>
@@ -70,14 +70,6 @@
 <p id="p-11-this-is-one-of-those-questions-that-keeps" data-note-target>This is one of those questions that keeps returning, dressed in new clothes. <a href="https://en.wikipedia.org/wiki/Object-oriented_programming">Objects</a> would do it. <a href="https://en.wikipedia.org/wiki/Component-based_software_engineering">Components</a> would do it. <a href="https://en.wikipedia.org/wiki/Software_package">Packages</a> would do it. <a href="https://en.wikipedia.org/wiki/Service-oriented_architecture">Services</a> would do it. <a href="https://developer.mozilla.org/en-US/docs/Web/API/Web_components">Web components</a> would do it. Frameworks would do it. Some new build system, package manager, module format, runtime or architectural style would finally let us write a piece of software once and use it everywhere.</p>
 <p id="p-11-and-then-a-few-years-later-we-discover" data-note-target>And then, a few years later, we discover that we have not built a Lego castle after all.</p>
 <p id="p-11-we-have-knitted-another-one" data-note-target>We have knitted another one.</p>
-<aside id="exhibit-knitted-castle-vs-lego-castle" class="exhibit-placeholder" data-exhibit-id="knitted-castle-vs-lego-castle" data-note-target>
-<p class="exhibit-kicker">Interactive Exhibit</p>
-<h2>Knitted Castle Vs Lego Castle</h2>
-<p>Begin with five clean modules. Let the reader add features one by one. Each feature creates dependency threads: data shape, styling, lifecycle, configuration, events, permissions, errors, storage, network calls. Then let the reader try to reuse one piece in a different project. Show how many invisible threads come along. Finally introduce clearer boundaries: explicit inputs, boring data, adapters, stable protocols, and a core that knows less about its surroundings.</p>
-<div class="static-fallback" aria-label="Static fallback">
-<p>Knitted Castle Vs Lego Castle is planned as an interactive exhibit. This placeholder preserves the explanation and its stable address for the static edition.</p>
-</div>
-</aside>
 <p id="p-11-the-famous-wizard-alan-kay-once-said" data-note-target>The famous wizard <a href="https://en.wikipedia.org/wiki/Alan_Kay">Alan Kay</a> once said:</p>
 <blockquote><p>"Whatever we [in computing] do is more like what the Egyptians did. Building pyramids, piling things on top of each other." <a href="https://www.tele-task.de/lecture/video/2772/">(video)</a></p></blockquote>
 <p id="p-11-i-think-the-situation-is-more-dire-than" data-note-target>I think the situation is more dire than that. We're not stacking bricks. <a href="https://youtu.be/SxdOUGdseq4?t=1287">We're knitting castles</a>.</p>
@@ -148,6 +140,14 @@
 <p id="p-11-you-can-also-accept-that-some-things-should" data-note-target>You can also accept that some things should not be reusable. A piece of software that is deeply fitted to one situation may be valuable precisely because it is fitted. The mistake is not writing such code. The mistake is pretending it is a brick.</p>
 <p id="p-11-the-lego-castle-is-not-built-by-magic" data-note-target>The Lego castle is not built by magic universal parts. It is built by choosing where the studs go, and then having the discipline not to put threads through them later.</p>
 <p id="p-11-the-knitted-castle-is-always-waiting-every-feature" data-note-target>The knitted castle is always waiting. Every feature wants to tie one more loop. The wizard's work is not to avoid all loops. That would make software useless. The work is to keep asking which loops belong inside a part, and which ones should become a boundary.</p>
+<aside id="exhibit-knitted-castle-vs-lego-castle" class="exhibit-placeholder" data-exhibit-id="knitted-castle-vs-lego-castle" data-note-target>
+<p class="exhibit-kicker">Interactive Exhibit</p>
+<h2>Knitted Castle Vs Lego Castle</h2>
+<p>Begin with five clean modules. Let the reader add features one by one. Each feature creates dependency threads: data shape, styling, lifecycle, configuration, events, permissions, errors, storage, network calls. Then let the reader try to reuse one piece in a different project. Show how many invisible threads come along. Finally introduce clearer boundaries: explicit inputs, boring data, adapters, stable protocols, and a core that knows less about its surroundings.</p>
+<div class="static-fallback" aria-label="Static fallback">
+<p>Knitted Castle Vs Lego Castle is planned as an interactive exhibit. This placeholder preserves the explanation and its stable address for the static edition.</p>
+</div>
+</aside>
 <aside id="rule-11-wizards-tenth-rule" class="wizard-rule" data-note-target>
 <p class="rule-label">Wizard's tenth rule</p>
 <p>A reusable component is not a piece with many uses. It is a piece with few assumptions and a clear boundary.</p>
