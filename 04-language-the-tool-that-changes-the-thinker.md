@@ -28,7 +28,7 @@ Looking at it this way, it is no wonder that Kahneman argues that our system 2, 
 
 A simple rule I've found to be true: you cannot change someone's decision with rational arguments if that decision was based on emotion. Rational arguments are a poor tool to change someone's mind when the decision lives somewhere else.
 
-You, as a wizard, and specifically focused on programming, are quite unusual. You have taught yourself to think up a new world, not just in your slow system, but in fact in an even slower system than that, using formal language with arcane rules. You are not normal. You should not expect to be understood, nor should you expect to convince other people by using this wholly unnatural way of thinking.
+If you are the kind of wizard this book is written for, programming has trained you in a strange habit. You imagine a world in a formal language with arcane rules, then expect that world to behave. That is useful, but it is not normal. You should not expect to be understood, nor should you expect to convince other people by using this wholly unnatural way of thinking.
 
 This doesn't mean that you are better, or other people are somehow worse. It does mean you are different. If you want to be understood, if you want to convince people, if you want to change the world, it is up to you to make the effort.
 
