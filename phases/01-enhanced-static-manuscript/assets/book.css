@@ -146,7 +146,52 @@ a:hover {
 }
 
 .reader-margin {
+  display: grid;
+  gap: 12px;
   line-height: 1.35;
+}
+
+.reader-toggle {
+  align-items: center;
+  background: color-mix(in srgb, var(--color-panel), transparent 18%);
+  border: 1px solid transparent;
+  border-radius: 8px;
+  color: var(--color-ink);
+  cursor: pointer;
+  display: flex;
+  font: inherit;
+  font-weight: 700;
+  gap: 0.75rem;
+  inline-size: 100%;
+  justify-content: space-between;
+  min-block-size: 44px;
+  padding: 10px 12px;
+  text-align: left;
+}
+
+.reader-toggle:hover {
+  color: var(--color-rule);
+}
+
+.reader-toggle:focus-visible {
+  outline: 3px solid var(--color-focus);
+  outline-offset: 2px;
+}
+
+.reader-toggle-state {
+  color: var(--color-muted);
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.reader-tools {
+  display: block;
+}
+
+.reader-tools[hidden] {
+  display: none;
 }
 
 .book-title {

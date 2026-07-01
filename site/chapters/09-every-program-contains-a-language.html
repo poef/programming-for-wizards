@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en" data-font="publication" data-theme="light" data-motion="auto">
+<html lang="en" data-font="publication" data-theme="light" data-motion="auto" data-page-kind="chapter" data-reader-tools="closed">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -98,43 +98,49 @@
   </nav>
 </main>
     <aside class="reader-margin" aria-label="Reader tools">
-  <section class="reader-panel">
-    <h2>Reader</h2>
-    <label>Font
-      <select data-setting="font">
-        <option value="publication">Publication</option>
-        <option value="simple-serif">Simple serif</option>
-        <option value="simple-sans">Simple sans</option>
-        <option value="high-legibility">High legibility</option>
-      </select>
-    </label>
-    <label>Size
-      <input data-setting="fontScale" type="range" min="92" max="124" step="4" value="100">
-    </label>
-    <label>Line
-      <input data-setting="lineHeight" type="range" min="145" max="185" step="5" value="160">
-    </label>
-    <label>Width
-      <input data-setting="columnWidth" type="range" min="36" max="54" step="2" value="42">
-    </label>
-    <label>Theme
-      <select data-setting="theme">
-        <option value="light">Light</option>
-        <option value="dark">Dark</option>
-        <option value="contrast">Contrast</option>
-      </select>
-    </label>
-    <label>Motion
-      <select data-setting="motion">
-        <option value="auto">Auto</option>
-        <option value="reduced">Reduced</option>
-      </select>
-    </label>
-  </section>
-  <section class="reader-panel">
-    <h2>Book Data</h2>
-    <a href="../data/manifest.json">Manifest</a>
-  </section>
+  <button class="reader-toggle" type="button" aria-expanded="false" aria-controls="reader-tools-panel" aria-label="Show reader tools" data-reader-tools-toggle>
+    <span>Reader</span>
+    <span class="reader-toggle-state" data-reader-tools-label>Open</span>
+  </button>
+  <div id="reader-tools-panel" class="reader-tools" data-reader-tools-panel hidden>
+    <section class="reader-panel">
+      <h2>Reader</h2>
+      <label>Font
+        <select data-setting="font">
+          <option value="publication">Publication</option>
+          <option value="simple-serif">Simple serif</option>
+          <option value="simple-sans">Simple sans</option>
+          <option value="high-legibility">High legibility</option>
+        </select>
+      </label>
+      <label>Size
+        <input data-setting="fontScale" type="range" min="92" max="124" step="4" value="100">
+      </label>
+      <label>Line
+        <input data-setting="lineHeight" type="range" min="145" max="185" step="5" value="160">
+      </label>
+      <label>Width
+        <input data-setting="columnWidth" type="range" min="36" max="54" step="2" value="42">
+      </label>
+      <label>Theme
+        <select data-setting="theme">
+          <option value="light">Light</option>
+          <option value="dark">Dark</option>
+          <option value="contrast">Contrast</option>
+        </select>
+      </label>
+      <label>Motion
+        <select data-setting="motion">
+          <option value="auto">Auto</option>
+          <option value="reduced">Reduced</option>
+        </select>
+      </label>
+    </section>
+    <section class="reader-panel">
+      <h2>Book Data</h2>
+      <a href="../data/manifest.json">Manifest</a>
+    </section>
+  </div>
 </aside>
   </div>
 </body>

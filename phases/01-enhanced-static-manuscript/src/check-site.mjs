@@ -245,6 +245,14 @@ function checkHtmlPages(htmlByFile) {
       fail(`${relativeFile} is missing the exhibit registry script`)
     }
 
+    if (!/\bdata-reader-tools-toggle\b/.test(html)) {
+      fail(`${relativeFile} is missing the reader tools toggle`)
+    }
+
+    if (!/\bdata-reader-tools-panel\b/.test(html)) {
+      fail(`${relativeFile} is missing the reader tools panel`)
+    }
+
     const settingControls = [...html.matchAll(/\bdata-setting="/g)].length
     if (settingControls !== 6) {
       fail(`${relativeFile} has ${settingControls} reader setting controls, expected 6`)

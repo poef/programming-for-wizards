@@ -561,9 +561,10 @@ function languageLabel(language) {
 
 function pageShell({ title, currentId, chapters, main, pageKind }) {
   const relativeRoot = pageKind === "chapter" ? "../" : ""
+  const readerToolsDefault = pageKind === "index" ? "open" : "closed"
 
   return `<!doctype html>
-<html lang="en" data-font="publication" data-theme="light" data-motion="auto">
+<html lang="en" data-font="publication" data-theme="light" data-motion="auto" data-page-kind="${pageKind}" data-reader-tools="${readerToolsDefault}">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -579,7 +580,7 @@ function pageShell({ title, currentId, chapters, main, pageKind }) {
   <div class="book-shell">
     ${chapterMap(chapters, currentId, relativeRoot)}
     ${main}
-    ${readerMargin(relativeRoot)}
+    ${readerMargin(relativeRoot, readerToolsDefault)}
   </div>
 </body>
 </html>`
@@ -609,45 +610,53 @@ function chapterMap(chapters, currentId, relativeRoot) {
 </nav>`
 }
 
-function readerMargin(relativeRoot) {
+function readerMargin(relativeRoot, readerToolsDefault) {
+  const isOpen = readerToolsDefault === "open"
+
   return `<aside class="reader-margin" aria-label="Reader tools">
-  <section class="reader-panel">
-    <h2>Reader</h2>
-    <label>Font
-      <select data-setting="font">
-        <option value="publication">Publication</option>
-        <option value="simple-serif">Simple serif</option>
-        <option value="simple-sans">Simple sans</option>
-        <option value="high-legibility">High legibility</option>
-      </select>
-    </label>
-    <label>Size
-      <input data-setting="fontScale" type="range" min="92" max="124" step="4" value="100">
-    </label>
-    <label>Line
-      <input data-setting="lineHeight" type="range" min="145" max="185" step="5" value="160">
-    </label>
-    <label>Width
-      <input data-setting="columnWidth" type="range" min="36" max="54" step="2" value="42">
-    </label>
-    <label>Theme
-      <select data-setting="theme">
-        <option value="light">Light</option>
-        <option value="dark">Dark</option>
-        <option value="contrast">Contrast</option>
-      </select>
-    </label>
-    <label>Motion
-      <select data-setting="motion">
-        <option value="auto">Auto</option>
-        <option value="reduced">Reduced</option>
-      </select>
-    </label>
-  </section>
-  <section class="reader-panel">
-    <h2>Book Data</h2>
-    <a href="${relativeRoot}data/manifest.json">Manifest</a>
-  </section>
+  <button class="reader-toggle" type="button" aria-expanded="${isOpen ? "true" : "false"}" aria-controls="reader-tools-panel" aria-label="${isOpen ? "Hide" : "Show"} reader tools" data-reader-tools-toggle>
+    <span>Reader</span>
+    <span class="reader-toggle-state" data-reader-tools-label>${isOpen ? "Close" : "Open"}</span>
+  </button>
+  <div id="reader-tools-panel" class="reader-tools" data-reader-tools-panel${isOpen ? "" : " hidden"}>
+    <section class="reader-panel">
+      <h2>Reader</h2>
+      <label>Font
+        <select data-setting="font">
+          <option value="publication">Publication</option>
+          <option value="simple-serif">Simple serif</option>
+          <option value="simple-sans">Simple sans</option>
+          <option value="high-legibility">High legibility</option>
+        </select>
+      </label>
+      <label>Size
+        <input data-setting="fontScale" type="range" min="92" max="124" step="4" value="100">
+      </label>
+      <label>Line
+        <input data-setting="lineHeight" type="range" min="145" max="185" step="5" value="160">
+      </label>
+      <label>Width
+        <input data-setting="columnWidth" type="range" min="36" max="54" step="2" value="42">
+      </label>
+      <label>Theme
+        <select data-setting="theme">
+          <option value="light">Light</option>
+          <option value="dark">Dark</option>
+          <option value="contrast">Contrast</option>
+        </select>
+      </label>
+      <label>Motion
+        <select data-setting="motion">
+          <option value="auto">Auto</option>
+          <option value="reduced">Reduced</option>
+        </select>
+      </label>
+    </section>
+    <section class="reader-panel">
+      <h2>Book Data</h2>
+      <a href="${relativeRoot}data/manifest.json">Manifest</a>
+    </section>
+  </div>
 </aside>`
 }
 

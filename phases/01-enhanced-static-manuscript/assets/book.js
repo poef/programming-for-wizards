@@ -1,5 +1,6 @@
 (() => {
   const storageKey = "programming-for-wizards.reader-settings"
+  const readerToolsKey = "programming-for-wizards.reader-tools"
   const hasOwn = (object, key) => Object.prototype.hasOwnProperty.call(object, key)
 
   const defaults = {
@@ -25,6 +26,25 @@
       localStorage.setItem(storageKey, JSON.stringify(settings))
     } catch {
       // Reader settings should still work for the current page if storage is unavailable.
+    }
+  }
+
+  const loadReaderToolsState = () => {
+    try {
+      const stored = localStorage.getItem(readerToolsKey)
+      if (stored === "open" || stored === "closed") return stored
+    } catch {
+      // The generated page default is still usable when storage is unavailable.
+    }
+
+    return document.documentElement.dataset.readerTools === "open" ? "open" : "closed"
+  }
+
+  const saveReaderToolsState = value => {
+    try {
+      localStorage.setItem(readerToolsKey, value)
+    } catch {
+      // The current page can still open and close the panel without persistence.
     }
   }
 
@@ -59,6 +79,39 @@
     control.addEventListener("change", update)
   }
 
+  const applyReaderToolsState = value => {
+    const root = document.documentElement
+    const toggle = document.querySelector("[data-reader-tools-toggle]")
+    const panel = document.querySelector("[data-reader-tools-panel]")
+    const label = document.querySelector("[data-reader-tools-label]")
+    const isOpen = value === "open"
+
+    root.dataset.readerTools = isOpen ? "open" : "closed"
+    if (!toggle || !panel) return
+
+    toggle.setAttribute("aria-expanded", isOpen ? "true" : "false")
+    toggle.setAttribute("aria-label", `${isOpen ? "Hide" : "Show"} reader tools`)
+    panel.hidden = !isOpen
+
+    if (label) {
+      label.textContent = isOpen ? "Close" : "Open"
+    }
+  }
+
+  const bindReaderToolsToggle = () => {
+    const toggle = document.querySelector("[data-reader-tools-toggle]")
+    if (!toggle) return
+
+    let current = loadReaderToolsState()
+    applyReaderToolsState(current)
+
+    toggle.addEventListener("click", () => {
+      current = current === "open" ? "closed" : "open"
+      applyReaderToolsState(current)
+      saveReaderToolsState(current)
+    })
+  }
+
   const addAnchorLinks = () => {
     for (const target of document.querySelectorAll("[data-note-target][id]")) {
       if (target.querySelector(":scope > .margin-anchor")) continue
@@ -76,6 +129,7 @@
   const controls = document.querySelectorAll("[data-setting]")
 
   applySettings(settings)
+  bindReaderToolsToggle()
 
   for (const control of controls) {
     syncControl(control, settings)
