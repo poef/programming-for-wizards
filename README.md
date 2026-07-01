@@ -27,6 +27,12 @@ npm run build
 
 Open [site/index.html](site/index.html) after building.
 
+To rebuild and validate the generated book:
+
+```sh
+npm run check
+```
+
 To serve the generated files locally:
 
 ```sh

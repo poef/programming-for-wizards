@@ -12,3 +12,13 @@ This phase owns:
 - reader settings for font, size, line height, column width, theme and motion.
 
 The generated output is written to `site/`.
+
+Useful commands:
+
+```sh
+npm run build
+npm run check
+npm run dev
+```
+
+`npm run check` rebuilds the static site and validates chapter output, local links, manifest entries, duplicate anchors, reader controls and common Markdown leaks.

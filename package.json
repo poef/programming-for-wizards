@@ -5,6 +5,7 @@
   "type": "module",
   "scripts": {
     "build": "node phases/01-enhanced-static-manuscript/src/build-site.mjs",
+    "check": "npm run build && node phases/01-enhanced-static-manuscript/src/check-site.mjs",
     "dev": "node phases/01-enhanced-static-manuscript/src/dev-site.mjs",
     "watch": "node phases/01-enhanced-static-manuscript/src/dev-site.mjs",
     "serve": "node phases/01-enhanced-static-manuscript/src/serve-site.mjs"
