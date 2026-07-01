@@ -30,7 +30,7 @@ The book should not feel like paper with a few toys glued on. The interactive pi
 | `jaqt-extension-lab` | 10 | Let a query grow from a loop to `filter()`/`map()`, then to functions-as-values, object-shaped patterns, and the final JAQT-shaped form. |
 | `where-should-behavior-live` | 11 | Compare data+functions with behavior bound to data. |
 | `binding-time-slider` | 11 | Show where dependencies are bound and how that affects change. |
-| `knitted-castle-vs-lego-castle` | 12 | Make dependency growth visible. |
+| `knitted-castle-vs-lego-castle` | 12 | Show how reusable parts become entangled by hidden assumptions, and how explicit boundaries keep pieces Lego-like. |
 | `pyramid-arch-bazaar` | 13 | Compare growth strategies under changing requirements. |
 | `change-arrives-before-perfect` | 13 | Show why late perfection loses to early adaptation. |
 

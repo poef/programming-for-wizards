@@ -204,7 +204,7 @@ This is where the URL feels most wizard-like to me. Xanadu tried to design the w
 
 But the shape of the problem had changed. A document no longer had to contain the world it wanted to point into. It only needed a small piece of text that crossed the boundary. That shift made the original problem smaller, and at the same time made the possible world much larger.
 
-The first version of the Web could be poor, ugly, incomplete, and still useful. Perhaps especially because it was incomplete. People could publish a page without joining a grand knowledge system. They could run a server without asking permission from the authors of the browser. New uses could grow in the gaps, because the seams were still visible.
+The first version of the Web could be poor, ugly, incomplete, and still useful. Perhaps especially because it was incomplete. People could publish a page without joining a grand knowledge system. They could run a server without asking permission from the authors of the browser. New uses could grow in the gaps, because the boundaries were still visible.
 
 ## Why this matters for programming
 
@@ -216,7 +216,7 @@ The URL works because it crosses boundaries without swallowing the systems on ei
 
 Each part keeps its own job. The connection between them stays small.
 
-That is much harder to design than it looks. Large systems keep tempting us to make larger abstractions: one model to explain everything, one framework to own everything, one platform to contain everything. The Web went the other way often enough to matter. It left seams. A seam is a place where one system can meet another without becoming it.
+That is much harder to design than it looks. Large systems keep tempting us to make larger abstractions: one model to explain everything, one framework to own everything, one platform to contain everything. The Web went the other way often enough to matter. It left boundaries visible. A boundary is a place where one system can meet another without becoming it.
 
 This is something a wizard is very aware of. A small change in representation can make a problem manageable. Sometimes it makes the old problem disappear. And sometimes, if the shape is right, it opens a door you did not know was there.
 
