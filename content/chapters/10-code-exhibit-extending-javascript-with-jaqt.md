@@ -4,13 +4,13 @@ tags: programming for wizards
 
 # Code exhibit: extending JavaScript with JAQT
 
-Every program builds its own language. That is what we learned from the previous two chapters. If you're not careful, the language is hard to read or too large to fit in your head. But if you create an entire new language, you end up with lots of tiny languages that don't work together at all.
+Every program builds its own language. That is what we learned from the previous two chapters. If you're not careful, the language is hard to read or too large to fit in your head. But if you create an entirely new language, you end up with lots of tiny languages that don't work together at all.
 
 That's where the previous chapter left out a little trick. You can create a DSL with its own parser or compiler. But you don't always have to.
 
 Sometimes the language you need is already hiding inside the language you're using. You add a few conventions, a few helper functions, and suddenly ordinary JavaScript starts to read like a little query language.
 
-That distinction matters. A separate parser creates a border. On one side is PHP, JavaScript, Python or whatever language your program is written in. On the other side is your new little language. Once you cross that border, the things from the host language no longer come with you for free. Functions, imports, editor help, error messages, test tools, habits. They all need a passport.
+That distinction matters. A separate parser creates a border. On one side is PHP, JavaScript, Python, or whatever language your program is written in. On the other side is your new little language. Once you cross that border, the things from the host language no longer come with you for free. Functions, imports, editor help, error messages, test tools, and familiar habits. They all need a passport.
 
 Sometimes that border is worth it. SQL is not JavaScript, and that is part of its power. Regular expressions are their own dense, cursed little world, and we keep using them because the curse is useful.
 
@@ -80,7 +80,7 @@ for (const person of people) {
 }
 ```
 
-This is fine. It works. But the question is hidden inside walking, checking and pushing. We wanted to talk about people, names and cities.
+This is fine. It works. But the question is hidden inside walking, checking, and pushing. We wanted to talk about people, names, and cities.
 
 JavaScript already gives us a nicer shape:
 
@@ -121,7 +121,7 @@ This is attractive. It looks like a query. It removes the repeated `person`. It 
 
 But now the text is not JavaScript. JavaScript cannot run it. We need tokens, grammar rules, a parse tree, a translator, and our own error messages. If we want `startsWith`, we must define that operation in the new language. If we want to use an existing JavaScript helper, we need a way to smuggle that helper across the border.
 
-Again, this can be a good trade. SQL earns its border. A query string that can be sent to a database server, optimized, explained, logged and permission-checked is doing work that ordinary JavaScript cannot do by itself.
+Again, this can be a good trade. SQL earns its border. A query string that can be sent to a database server, optimized, explained, logged, and permission-checked is doing work that ordinary JavaScript cannot do by itself.
 
 Our little array of people does not need that much ceremony yet.
 
@@ -336,11 +336,11 @@ The result is:
 ]
 ```
 
-This is not real JAQT. It is a small wooden model of the bridge. Real JAQT has a more capable `_`, more operations and a lot more practical edge-case handling. Libraries are where edge cases go to start families.
+This is not real JAQT. It is a small wooden model of the bridge. Real JAQT has a more capable `_`, more operations, and a lot more practical edge-case handling. Libraries are where edge cases go to start families.
 
 The point of the model is the shape.
 
-The query looks like a query, but every piece of it is still JavaScript. The object literals are JavaScript. The nested objects are JavaScript. The functions are JavaScript. The method chain is JavaScript. The helper functions can be imported, named, tested and reused with no special bridge.
+The query looks like a query, but every piece of it is still JavaScript. The object literals are JavaScript. The nested objects are JavaScript. The functions are JavaScript. The method chain is JavaScript. The helper functions can be imported, named, tested, and reused with no special bridge.
 
 ## The whole exhibit version
 
@@ -457,7 +457,7 @@ The little query language did not become useful because we cut it loose from Jav
 
 This does not mean every DSL should be embedded in a host language.
 
-Sometimes you want the hard border. A database server cannot run arbitrary JavaScript helper functions every time someone sends it a query. A configuration file should be boring data, not a program in disguise. A language used by non-programmers may need its own guardrails, error messages and vocabulary.
+Sometimes you want the hard border. A database server cannot run arbitrary JavaScript helper functions every time someone sends it a query. A configuration file should be boring data, not a program in disguise. A language used by non-programmers may need its own guardrails, error messages, and vocabulary.
 
 A host-language DSL has its own dangers. If the conventions are too weak, it dissolves back into ordinary code. If the tricks are too clever, readers have to learn JavaScript and your secret dialect of JavaScript at the same time.
 
