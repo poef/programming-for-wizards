@@ -1,5 +1,5 @@
 export function registerNumbersExhibit(context) {
-  const { button, choice, define, el, enhance, state, view } = context
+  const { define, enhance, view } = context
 
   const numberLimit = 255
   const digitSymbols = "0123456789ABCDEF"
@@ -29,6 +29,10 @@ export function registerNumbersExhibit(context) {
   ])
 
   const classNames = (...names) => names.filter(Boolean).join(" ")
+  const htmlString = (strings, ...values) => (
+    values.map((value, index) => `${strings[index]}${value}`).join("") + strings[strings.length - 1]
+  )
+  const fragment = source => document.createRange().createContextualFragment(source)
 
   const clampNumber = value => {
     const numeric = Number(value)
@@ -166,50 +170,39 @@ export function registerNumbersExhibit(context) {
     }
   }
 
-  const renderFacts = facts => el(
-    "dl",
-    { className: "number-facts" },
-    facts.map(fact => [
-      el("dt", {}, fact.label),
-      el("dd", {}, fact.value)
-    ])
-  )
+  const renderFacts = facts => htmlString`
+    <dl class="number-facts">
+      ${facts.map(fact => htmlString`<dt>${fact.label}</dt><dd>${fact.value}</dd>`).join("")}
+    </dl>
+  `
 
-  const renderNumberFrame = ({ columns = null, facts, note = null, output, outputClass = "" }) => el(
-    "div",
-    { className: "number-machine-view" },
-    el(
-      "section",
-      { className: "number-output-panel" },
-      el("h3", {}, "Written"),
-      el("div", { className: classNames("number-output", outputClass) }, output)
-    ),
-    el(
-      "section",
-      { className: "number-work-panel" },
-      el("h3", {}, "Hidden work"),
-      columns,
-      renderFacts(facts),
-      note ? el("p", { className: "number-note" }, note) : null
-    )
-  )
+  const renderNumberFrame = ({ columns = "", facts, note = "", output, outputClass = "" }) => fragment(htmlString`
+    <div class="number-machine-view">
+      <section class="number-output-panel">
+        <h3>Written</h3>
+        <div class="${classNames("number-output", outputClass)}">${output}</div>
+      </section>
+      <section class="number-work-panel">
+        <h3>Hidden work</h3>
+        ${columns}
+        ${renderFacts(facts)}
+        ${note ? htmlString`<p class="number-note">${note}</p>` : ""}
+      </section>
+    </div>
+  `)
 
   const renderTallyMarks = value => {
-    if (value === 0) return el("span", { className: "empty-number" }, "no marks")
+    if (value === 0) return `<span class="empty-number">no marks</span>`
 
     const groups = Math.floor(value / 5)
     const remainder = value % 5
 
-    return el(
-      "div",
-      { className: "tally-board", "aria-label": `${value} tally marks` },
-      Array.from({ length: groups }, () => (
-        el("span", { className: "tally-group", "aria-hidden": "true" }, "||||/")
-      )),
-      remainder
-        ? el("span", { className: "tally-group tally-group-partial", "aria-hidden": "true" }, "|".repeat(remainder))
-        : null
-    )
+    return htmlString`
+      <div class="tally-board" aria-label="${value} tally marks">
+        ${Array.from({ length: groups }, () => `<span class="tally-group" aria-hidden="true">||||/</span>`).join("")}
+        ${remainder ? htmlString`<span class="tally-group tally-group-partial" aria-hidden="true">${"|".repeat(remainder)}</span>` : ""}
+      </div>
+    `
   }
 
   const renderTallyView = ({ value }) => {
@@ -228,18 +221,18 @@ export function registerNumbersExhibit(context) {
   }
 
   const renderRomanBreakdown = value => {
-    if (value === 0) return null
+    if (value === 0) return ""
 
-    return el(
-      "div",
-      { className: "roman-parts" },
-      romanParts(value).map(part => el(
-        "span",
-        { className: classNames("roman-part", part.symbol.length === 2 && "is-subtractive") },
-        el("strong", {}, part.symbol),
-        el("span", {}, describeRomanPart(part))
-      ))
-    )
+    return htmlString`
+      <div class="roman-parts">
+        ${romanParts(value).map(part => htmlString`
+          <span class="${classNames("roman-part", part.symbol.length === 2 && "is-subtractive")}">
+            <strong>${part.symbol}</strong>
+            <span>${describeRomanPart(part)}</span>
+          </span>
+        `).join("")}
+      </div>
+    `
   }
 
   const renderRomanView = ({ value }) => renderNumberFrame({
@@ -258,34 +251,28 @@ export function registerNumbersExhibit(context) {
   const renderAbacusColumns = value => {
     const terms = positionalTerms(value, 10)
 
-    return el(
-      "div",
-      { className: "abacus-columns", role: "img", "aria-label": `Abacus columns showing ${value}` },
-      terms.map(term => {
+    return htmlString`
+      <div class="abacus-columns" role="img" aria-label="Abacus columns showing ${value}">
+        ${terms.map(term => {
         const lower = term.digit % 5
         const hasFive = term.digit >= 5
 
-        return el(
-          "div",
-          { className: "abacus-column" },
-          el("span", { className: "abacus-place" }, `x${formatWeight(10, term.power)}`),
-          el(
-            "div",
-            { className: "abacus-rod" },
-            el("span", { className: classNames("abacus-bead abacus-bead-five", hasFive && "is-active"), "aria-hidden": "true" }),
-            el("span", { className: "abacus-divider", "aria-hidden": "true" }),
-            Array.from({ length: 4 }, (_, index) => el(
-              "span",
-              {
-                className: classNames("abacus-bead", index >= 4 - lower && "is-active"),
-                "aria-hidden": "true"
-              }
-            ))
-          ),
-          el("span", { className: "abacus-digit" }, term.symbol)
-        )
-      })
-    )
+        return htmlString`
+          <div class="abacus-column">
+            <span class="abacus-place">x${formatWeight(10, term.power)}</span>
+            <div class="abacus-rod">
+              <span class="${classNames("abacus-bead abacus-bead-five", hasFive && "is-active")}" aria-hidden="true"></span>
+              <span class="abacus-divider" aria-hidden="true"></span>
+              ${Array.from({ length: 4 }, (_, index) => (
+                `<span class="${classNames("abacus-bead", index >= 4 - lower && "is-active")}" aria-hidden="true"></span>`
+              )).join("")}
+            </div>
+            <span class="abacus-digit">${term.symbol}</span>
+          </div>
+        `
+      }).join("")}
+      </div>
+    `
   }
 
   const renderAbacusView = ({ value }) => {
@@ -302,23 +289,23 @@ export function registerNumbersExhibit(context) {
     })
   }
 
-  const renderPlaceColumns = (terms, carryInfo) => el(
-    "div",
-    { className: "place-columns" },
-    terms.map(term => {
+  const renderPlaceColumns = (terms, carryInfo) => htmlString`
+    <div class="place-columns">
+      ${terms.map(term => {
       const isTouched = carryInfo?.touchedPowers.has(term.power)
       const isWrapped = carryInfo?.wrappedPowers.has(term.power)
 
-      return el(
-        "div",
-        { className: classNames("place-column", isTouched && "is-carry-touched", isWrapped && "is-carry-wrapped") },
-        isTouched ? el("span", { className: "carry-badge" }, isWrapped ? "carry" : "+1") : null,
-        el("span", { className: "place-digit" }, term.symbol),
-        el("span", { className: "place-weight" }, `x${formatWeight(term.base, term.power)}`),
-        el("span", { className: "place-contribution" }, `${digitName(term.digit)} x ${term.weight}`)
-      )
-    })
-  )
+      return htmlString`
+        <div class="${classNames("place-column", isTouched && "is-carry-touched", isWrapped && "is-carry-wrapped")}">
+          ${isTouched ? htmlString`<span class="carry-badge">${isWrapped ? "carry" : "+1"}</span>` : ""}
+          <span class="place-digit">${term.symbol}</span>
+          <span class="place-weight">x${formatWeight(term.base, term.power)}</span>
+          <span class="place-contribution">${digitName(term.digit)} x ${term.weight}</span>
+        </div>
+      `
+    }).join("")}
+    </div>
+  `
 
   const renderPositionalView = ({ base, label, note, prefix = "", value, previousValue }) => {
     const terms = positionalTerms(value, base)
@@ -341,140 +328,117 @@ export function registerNumbersExhibit(context) {
     })
   }
 
-  const numberViews = [
-    view(
-      "tally",
-      "Tally",
-      "Tally marks keep the count visible, but almost none of the work is compressed.",
-      renderTallyView
-    ),
-    view(
-      "roman",
-      "Roman",
-      "Roman numerals write a little addition and subtraction into the order of marks.",
-      renderRomanView
-    ),
-    view(
-      "abacus",
-      "Abacus",
-      "An abacus turns place value into columns: bead value times column weight.",
-      renderAbacusView
-    ),
-    view(
-      "decimal",
-      "Decimal",
-      "Decimal digits hide powers of ten and a carry wheel behind familiar symbols.",
-      current => renderPositionalView({
-        ...current,
-        base: 10,
-        label: "Decimal",
-        note: "This is the everyday machine: digits are remainders, places are powers of ten."
-      })
-    ),
-    view(
-      "binary",
-      "Binary",
-      "Binary is the same place-value machine with only two digits.",
-      current => renderPositionalView({
-        ...current,
-        base: 2,
-        label: "Binary",
-        prefix: "0b",
-        note: "With only 0 and 1, carry happens often. That is why the pattern is so mechanical."
-      })
-    ),
-    view(
-      "octal",
-      "Octal",
-      "Octal uses powers of eight, shortening binary-shaped values into larger chunks.",
-      current => renderPositionalView({
-        ...current,
-        base: 8,
-        label: "Octal",
-        prefix: "0o",
-        note: "Change the base and the columns change. The number underneath does not."
-      })
-    ),
-    view(
-      "hex",
-      "Hex",
-      "Hexadecimal packs value into powers of sixteen, with A through F standing for 10 through 15.",
-      current => renderPositionalView({
-        ...current,
-        base: 16,
-        label: "Hex",
-        prefix: "0x",
-        note: "One hex digit can hold sixteen states, so it lines up neatly with four binary bits."
-      })
-    )
+  const positionalViews = [
+    ["decimal", "Decimal", "Decimal digits hide powers of ten and a carry wheel behind familiar symbols.", { base: 10, label: "Decimal", note: "This is the everyday machine: digits are remainders, places are powers of ten." }],
+    ["binary", "Binary", "Binary is the same place-value machine with only two digits.", { base: 2, label: "Binary", prefix: "0b", note: "With only 0 and 1, carry happens often. That is why the pattern is so mechanical." }],
+    ["octal", "Octal", "Octal uses powers of eight, shortening binary-shaped values into larger chunks.", { base: 8, label: "Octal", prefix: "0o", note: "Change the base and the columns change. The number underneath does not." }],
+    ["hex", "Hex", "Hexadecimal packs value into powers of sixteen, with A through F standing for 10 through 15.", { base: 16, label: "Hex", prefix: "0x", note: "One hex digit can hold sixteen states, so it lines up neatly with four binary bits." }]
   ]
 
+  const numberViews = [
+    view("tally", "Tally", "Tally marks keep the count visible, but almost none of the work is compressed.", renderTallyView),
+    view("roman", "Roman", "Roman numerals write a little addition and subtraction into the order of marks.", renderRomanView),
+    view("abacus", "Abacus", "An abacus turns place value into columns: bead value times column weight.", renderAbacusView),
+    ...positionalViews.map(([id, label, summary, config]) => view(id, label, summary, current => renderPositionalView({ ...current, ...config })))
+  ]
+
+  const renderNumberShellTemplate = () => {
+    const html = window.html ?? htmlString
+    const viewButtons = numberViews.map(option => html`
+      <button type="button" data-number-view="${option.id}" data-simply-command="setView" data-simply-value="${option.id}">${option.label}</button>
+    `).join("")
+
+    return html`
+      <div class="exhibit-shell">
+        <p class="exhibit-kicker">Interactive Exhibit</p>
+        <h2>Numbers Are Machines</h2>
+        <p class="exhibit-intro">
+          One number can be a pile of marks, a Roman calculation, a bead machine, or a positional system. The value stays put; the hidden work moves around.
+        </p>
+        <div class="exhibit-toolbar number-toolbar">
+          <label class="number-input-label">
+            <span>Number</span>
+            <input aria-label="Number" data-number-input data-simply-command="setNumber" data-simply-immediate="true" inputmode="numeric" max="${numberLimit}" min="0" type="number" value="27">
+          </label>
+          <fieldset class="exhibit-choice" data-number-view-buttons>
+            <legend>Notation</legend>
+            ${viewButtons}
+          </fieldset>
+          <div class="number-actions">
+            <button type="button" class="exhibit-reset number-action" data-simply-command="addOne">Add 1</button>
+            <button type="button" class="exhibit-reset" data-simply-command="reset">Reset</button>
+          </div>
+        </div>
+        <p class="exhibit-summary" data-simply-field="summary"></p>
+        <div class="exhibit-stage number-machine-stage" data-number-stage aria-live="polite"></div>
+        <p class="exhibit-footnote">
+          A notation is a small machine for making some operations cheap enough to think with.
+        </p>
+      </div>
+    `
+  }
+
   define("numbers-are-machines", ({ root }) => {
-    const stage = el("div", { className: "exhibit-stage number-machine-stage", "aria-live": "polite" })
-    const summary = el("p", { className: "exhibit-summary" })
-    const model = state({ previousValue: null, value: 27, view: "decimal" }, render)
-    const numberInput = el("input", {
-      "aria-label": "Number",
-      inputmode: "numeric",
-      max: String(numberLimit),
-      min: "0",
-      onInput: event => model.set({ previousValue: null, value: clampNumber(event.target.value) }),
-      type: "number",
-      value: String(model.get().value)
-    })
-    const numberField = el(
-      "label",
-      { className: "number-input-label" },
-      el("span", {}, "Number"),
-      numberInput
-    )
-    const viewChoice = choice({
-      label: "Notation",
-      options: numberViews.map(option => ({ value: option.id, label: option.label })),
-      value: model.get().view,
-      onChange: value => model.set({ view: value })
-    })
-    const addOne = button("Add 1", () => model.set(current => {
-      const nextValue = clampNumber(current.value + 1)
-      return {
-        previousValue: nextValue === current.value ? null : current.value,
-        value: nextValue
-      }
-    }), {
-      className: "exhibit-reset number-action"
-    })
-    const reset = button("Reset", () => model.set({ previousValue: null, value: 27, view: "decimal" }), {
-      className: "exhibit-reset"
-    })
-
-    enhance(root, el(
-      "div",
-      { className: "exhibit-shell" },
-      el("p", { className: "exhibit-kicker" }, "Interactive Exhibit"),
-      el("h2", {}, "Numbers Are Machines"),
-      el(
-        "p",
-        { className: "exhibit-intro" },
-        "One number can be a pile of marks, a Roman calculation, a bead machine, or a positional system. The value stays put; the hidden work moves around."
-      ),
-      el("div", { className: "exhibit-toolbar number-toolbar" }, numberField, viewChoice.node, el("div", { className: "number-actions" }, addOne, reset)),
-      summary,
-      stage,
-      el(
-        "p",
-        { className: "exhibit-footnote" },
-        "A notation is a small machine for making some operations cheap enough to think with."
-      )
-    ))
-
-    function render(current) {
-      const selected = numberViews.find(option => option.id === current.view) ?? numberViews[0]
-      viewChoice.setValue(selected.id)
-      if (document.activeElement !== numberInput) numberInput.value = String(current.value)
-      summary.textContent = selected.summary
-      stage.replaceChildren(selected.render(current))
-    }
-
-    render(model.get())
+    renderSimplyFlowNumbers(root)
   })
+
+  function renderSimplyFlowNumbers(root) {
+    const simply = window.simply
+    enhance(root, fragment(renderNumberShellTemplate()))
+
+    const app = simply.app({
+      container: root,
+      data: {
+        previousValue: null,
+        summary: numberViews.find(option => option.id === "decimal")?.summary ?? "",
+        value: 27,
+        view: "decimal"
+      },
+      commands: {
+        setNumber(source, value) {
+          this.data.previousValue = null
+          this.data.value = clampNumber(value)
+        },
+        setView(source, value) {
+          this.data.view = value
+        },
+        addOne() {
+          const nextValue = clampNumber(this.data.value + 1)
+          this.data.previousValue = nextValue === this.data.value ? null : this.data.value
+          this.data.value = nextValue
+        },
+        reset() {
+          this.data.previousValue = null
+          this.data.value = 27
+          this.data.view = "decimal"
+        }
+      }
+    })
+    const stage = root.querySelector("[data-number-stage]")
+    const numberInput = root.querySelector("[data-number-input]")
+    const viewButtons = [...root.querySelectorAll("[data-number-view]")]
+
+    simply.effect(() => {
+      const value = clampNumber(app.data.value)
+      const current = {
+        previousValue: app.data.previousValue,
+        value,
+        view: app.data.view
+      }
+      const selected = numberViews.find(option => option.id === current.view) ?? numberViews[0]
+
+      if (app.data.view !== selected.id) app.data.view = selected.id
+      app.data.summary = selected.summary
+
+      for (const viewButton of viewButtons) {
+        viewButton.setAttribute("aria-pressed", viewButton.dataset.numberView === selected.id ? "true" : "false")
+      }
+
+      if (document.activeElement !== numberInput) {
+        numberInput.value = String(value)
+      }
+
+      stage.replaceChildren(selected.render(current))
+    })
+  }
 }

@@ -579,6 +579,7 @@ function pageShell({ title, currentId, chapters, main, pageKind }) {
   <link rel="stylesheet" href="${relativeRoot}assets/exhibits/exhibits.css">
   <script defer src="${relativeRoot}assets/book.js"></script>
   <script defer src="${relativeRoot}assets/exhibits/exhibit-kit.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/gh/muze-labs/simplyflow@main/packages/simplyflow/dist/simply.flow.js"></script>
   <script type="module" src="${relativeRoot}assets/exhibits/exhibits.js"></script>
 </head>
 <body>
