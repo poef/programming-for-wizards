@@ -116,6 +116,8 @@ One useful boundary is the shell/core split.
 
 The core contains the rules of the program. It should know as little as possible about files, databases, networks, frameworks, clocks and random number generators. The shell knows about the outside world. It wires everything together.
 
+The shell is where many decisions are allowed to be late.
+
 This is not because the outside world is dirty and the core is pure. That sounds moralistic, and software is already full of enough false morality.
 
 The reason is more practical. The outside world changes in different ways than the rules of your program. Databases change. Frameworks change. APIs change. Files move. Users do strange things. The core should be protected from that weather where possible.
@@ -124,4 +126,4 @@ This is the same move we have seen before. Change the boundary, and the problem 
 
 > **Wizard's eleventh rule**
 >
-> Do not only ask what a thing depends on. Ask where that dependency should be bound.
+> Choose wisely when to choose.
