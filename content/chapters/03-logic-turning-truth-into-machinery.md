@@ -4,53 +4,70 @@ tags: programming for wizards
 
 # Logic: turning truth into machinery
 
-You are standing before two doors. One door will lead to your desire, the other to your doom. Before the doors are two guards. They both know which door leads where. You know one of the guards always lies. The other will always tell the truth.
+In the last chapter, we saw that a good notation can do some of the calculation for you. Logic does something similar for reasoning.
 
-However, you may only ask one question.
+This matters because your brain is a wonderful machine, but it cheats. It guesses. It skips steps. It sees patterns that aren't there and misses patterns that are. Most of the time this is useful. Sometimes it gets you killed by a door.
 
-This is a famous riddle, with a single correct answer. An answer you can reach by rigorously applying logic. [Boolean logic](https://en.wikipedia.org/wiki/Boolean_algebra). Logic with just true and false.
+You are standing before two doors. One door leads to your desire. The other leads to your doom. Before the doors are two guards. They both know which door leads where. One guard always lies. The other always tells the truth.
 
-Obviously you need to ask one of the guards a question that will reveal which door to pass through. But if you ask either guard which door to choose, you cannot know if the guard lied to you or not.
+You may ask one question.
 
-| answer | guard lies | guard tells the truth |
-| - | - | - |
-| left door | your doom | your desire |
-| right door | your doom | your desire |
+Obviously, you need to ask a question that reveals which door to use. But the obvious question doesn't work.
 
-Without more information, you cannot know which door to use. However, you can ask a slightly more convoluted question, that will let you know for sure which door to use.
+Which door should I choose?
 
-The question is:
+If you ask the truthful guard, she'll point to your desire. If you ask the lying guard, she'll point to your doom. Since you don't know which guard you're asking, the answer is useless.
 
-> If I would ask the other guard which door leads to my desire, what would she answer?
+The problem isn't that you're not clever enough. The problem is that the truth has the wrong shape. So we need to put it into a better one, a table. 
+
+If you ask a guard directly which door leads to your desire, the table looks like this:
+
+| Guard you ask | Door they point to |
+| - | - |
+| Truthful | Desire |
+| Liar | Doom |
+
+That doesn't help, the answer depends on which guard you asked, and you don't know that. So the famous solution is to ask a different, less direct question:
+
+> If I asked the other guard which door leads to my desire, what would she answer?
 
 Now whatever answer you get, you choose the other door.
 
-If the guard you ask tells the truth, she must give you the wrong answer, since that is what the other guard would say. If the guard you ask always lies, she must also give you the wrong answer, because she lies about the other guard's true answer.
+If the guard you ask tells the truth, she must give you the wrong answer, because that is what the liar would say. If the guard you ask lies, she must also give you the wrong answer, because she lies about the truthful guard's true answer.
 
-No matter which guard you ask, you will get the wrong door. So you choose the other one.
+| Guard you ask | What happens | Door they point to |
+| - | - | - |
+| Truthful | Thruthfully reports the liar's answer | Doom |
+| Liar | Lies about the truthful guard's answer | Doom |
 
-> **Interactive exhibit placeholder: `truth-table-riddle`**
->
-> Show the two-door riddle as a truth table. Let the reader toggle which guard lies and which door is correct. Then show the normal question failing, and the indirect question always returning the wrong door. The moment should be: logic is not cleverness, it is bookkeeping.
+No matter which guard you ask, you get the wrong door. So you choose the other one.
+
+The trick isn't that you became smarter than the guards, it is that you asked a question that made both possible worlds collapse into the same answer. You made the uncertainty stopped mattering. That is logic doing its work.
 
 ## Boolean logic
 
-Today we call this Boolean Logic, named after the 19th century wizard [George Boole](https://en.wikipedia.org/wiki/George_Boole). And the tables above are called [truth tables](https://en.wikipedia.org/wiki/Truth_table). Logic has a much longer history, through the 17th century wizard [Leibniz](https://en.wikipedia.org/wiki/Gottfried_Wilhelm_Leibniz), all the way to an ancient Greek wizard called [Aristotle](https://en.wikipedia.org/wiki/Aristotle).
+Today we call this Boolean logic, after [George Boole](https://en.wikipedia.org/wiki/George_Boole). The tables above are called [truth tables](https://en.wikipedia.org/wiki/Truth_table).
 
-But Boolean logic is at the core of modern programming. It is at the core of computers. In a sense all things your computer can do for you today are based on application of Boolean logic: true and false, 1 and 0.
+Boolean logic is brutally small. Everything gets squeezed into two values:
+
+| Value   | Meaning                    |
+| ------- | -------------------------- |
+| `true`  | yes, on, present, allowed  |
+| `false` | no, off, absent, forbidden |
+
+That should feel familiar. In the last chapter, we squeezed numbers into symbols and columns. Here we squeeze reasoning into cases.
+
+And once reasoning fits into cases, we can start building machinery around it.
+
+Boolean logic is at the core of modern programming. It is at the core of computers. In a sense all things your computer can do for you today are based on application of Boolean logic: true and false, 1 and 0.
 
 The operations described by Boolean logic are mostly applied on two terms. Lets call them `p` and `q`. Just like our guards, we don't know whether they are true or false. But using the power of the truth table, we can reason about them anyway.
 
-The operations are: `and`, `or`, `not`, and `iff`.
+The operations are: `and`, `or` and `not`.
 
 | not q | q = true | q = false |
 | - | - | - |
 | | false | true |
-
-| p iff q | q = true | q = false |
-| - | - | - |
-| p = true | true | false |
-| p = false | false | true |
 
 | p or q | q = true | q = false |
 | - | - | - |
