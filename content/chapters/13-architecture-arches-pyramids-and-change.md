@@ -1,6 +1,7 @@
 ---
 tags: programming for wizards
 ---
+
 # Architecture: arches, pyramids, and change
 
 Alan Kay once compared modern software to pyramid building:
@@ -43,7 +44,7 @@ Still, I maintain that real architecture starts when people stop only piling mat
 
 The Egyptians built some impressive pyramids. We still do not know every detail of how they pulled it off. There are theories, some more convincing than others. But in essence, a pyramid is a magnificent pile. A very clever pile, but still a pile.
 
-The Roman arch is something else. The arch existed before the Romans, but the Romans were very good at spotting useful ideas, stealing them, improving them, and then repeating them with almost terrifying discipline. Bridges, aqueducts, gates, amphitheatres, bath houses. Once you understand the arch, stone can do things that a pile of stone cannot.
+The Roman arch is something else. The arch existed before the Romans, but the Romans were very good at spotting useful ideas, stealing them, improving them, and then repeating them with almost terrifying discipline. Bridges, aqueducts, gates, amphitheatres, bathhouses. Once you understand the arch, stone can do things that a pile of stone cannot.
 
 This matters because the arch is not just a shape. It is a different answer to the same world.
 
@@ -71,7 +72,7 @@ That is the architectural lesson we need. Not columns, cornices, or software des
 
 Alan Kay did not merely complain about pyramids. He also spent a good part of his career trying to build something closer to an arch.
 
-One later attempt was the Viewpoints Research Institute, or [VPRI](http://www.vpri.org/). One of its projects asked an almost ridiculous question: how much software would it take to build a complete personal computing system if you refused to accept the usual piles?
+One later attempt came through the Viewpoints Research Institute, or [VPRI](http://www.vpri.org/). One of its projects asked an almost ridiculous question: how much software would it take to build a complete personal computing system if you refused to accept the usual piles?
 
 Not just an app. A stack: graphics, networking, operating-system-like pieces, user interface, languages. The sort of thing that normally arrives with millions of lines of code and enough build scripts to frighten livestock.
 
@@ -99,7 +100,7 @@ There is another direction that is just as useful and less glamorous.
 
 Forget the monumental building for a moment. Think about local building. The village. The workshop. The kitchen table that has been repaired three times. The habit that survives because it keeps being useful.
 
-Software architecture often wants to sound like skyscrapers. The important documents use words like enterprise, platform, governance, strategic alignment. But a lot of good software is more rustic than that. It grows out of tools people use, problems they have, habits they repeat, and shortcuts that become roads.
+Software architecture often wants to sound like skyscrapers. The important documents use words like enterprise, platform, governance, and strategic alignment. But a lot of good software is more rustic than that. It grows out of tools people use, problems they have, habits they repeat, and shortcuts that become roads.
 
 This is where the neat engineering story starts to blur.
 
@@ -115,7 +116,7 @@ This brings us to two old essays that seem, at first, to be about a different qu
 
 Richard P. Gabriel wrote [*The Rise of “Worse is Better”*](https://www.dreamsongs.com/WorseIsBetter.html). The uncomfortable claim is that software that is in some ways worse can win because it is simpler, earlier, easier to spread, easier to implement, or easier to adapt. Once it wins, everyone else builds on it, and the better idea becomes a historical footnote.
 
-Eric S. Raymond later wrote [*The Cathedral and the Bazaar*](http://www.catb.org/~esr/writings/cathedral-bazaar/cathedral-bazaar/), contrasting carefully planned cathedral-style development with the messy, adaptive energy of open source. His bazaar is not beautiful because it is messy. Mess by itself is just mess. The useful part is that many people can react, repair, extend and redirect the work while the world is still changing.
+Eric S. Raymond later wrote [*The Cathedral and the Bazaar*](http://www.catb.org/~esr/writings/cathedral-bazaar/cathedral-bazaar/), contrasting carefully planned cathedral-style development with the messy, adaptive energy of open source. His bazaar is not beautiful because it is messy. Mess by itself is just mess. The useful part is that many people can react, repair, extend, and redirect the work while the world is still changing.
 
 These essays are not the same, but they rhyme.
 
@@ -135,7 +136,7 @@ The Linux kernel makes this wonderfully confusing.
 
 From far away, Linux is the poster child for the bazaar. Open source. Many contributors. A system shaped by the work of thousands of people across the world.
 
-From close up, it does not look like anarchy. It is an enormous body of carefully reviewed code, with maintainers, subsystems, rules, arguments, rituals, long memories and Linus Torvalds still looming over the whole thing like a weather system.
+From close up, it does not look like anarchy. It is an enormous body of carefully reviewed code, with maintainers, subsystems, rules, arguments, rituals, long memories, and Linus Torvalds still looming over the whole thing like a weather system.
 
 So is it a cathedral or a bazaar?
 
@@ -149,11 +150,11 @@ That is the force software architecture has to handle.
 
 Change.
 
-Software changes the world, and is changed by it. Any software you create has to live in an environment full of new uses, new machines, new libraries, new laws, new attacks, new expectations and new mistakes. Software that cannot change with that world will eventually be left behind, wrapped in a compatibility layer, or worshipped by a small group of specialists who know which version of which compiler still understands it.
+Software changes the world, and is changed by it. Any software you create has to live in an environment full of new uses, new machines, new libraries, new laws, new attacks, new expectations, and new mistakes. Software that cannot change with that world will eventually be left behind, wrapped in a compatibility layer, or worshipped by a small group of specialists who know which version of which compiler still understands it.
 
 This is one of the fundamental differences between software and traditional engineering. It is also why software project management keeps getting into trouble when it borrows too directly from older engineering disciplines.
 
-A building project can be late, expensive and politically cursed, but the ground usually does not rewrite the laws of stone halfway through. Software has no such manners.
+A building project can be late, expensive, and politically cursed, but the ground usually does not rewrite the laws of stone halfway through. Software has no such manners.
 
 That does not mean architecture is hopeless. It means architecture is less about certainty than we would like.
 
