@@ -6,17 +6,17 @@ tags: programming for wizards
 
 Why is it so difficult to make reusable software?
 
-This is one of those questions that keeps returning, dressed in new clothes. [Objects](https://en.wikipedia.org/wiki/Object-oriented_programming) would do it. [Components](https://en.wikipedia.org/wiki/Component-based_software_engineering) would do it. [Packages](https://en.wikipedia.org/wiki/Software_package) would do it. [Services](https://en.wikipedia.org/wiki/Service-oriented_architecture) would do it. [Web components](https://developer.mozilla.org/en-US/docs/Web/API/Web_components) would do it. Frameworks would do it. Some new build system, package manager, module format, runtime or architectural style would finally let us write a piece of software once and use it everywhere.
+This is one of those questions that keeps returning, dressed in new clothes. [Objects](https://en.wikipedia.org/wiki/Object-oriented_programming) would do it. [Components](https://en.wikipedia.org/wiki/Component-based_software_engineering) would do it. [Packages](https://en.wikipedia.org/wiki/Software_package) would do it. [Services](https://en.wikipedia.org/wiki/Service-oriented_architecture) would do it. [Web components](https://developer.mozilla.org/en-US/docs/Web/API/Web_components) would do it. Frameworks would do it. Some new build system, package manager, module format, runtime, or architectural style would finally let us write a piece of software once and use it everywhere.
 
-And then, a few years later, we discover that we have not built a Lego castle after all.
-
-We have knitted another one.
+And then, a few years later, we discover that we have not built a Lego castle after all. We've made a tangle of yarn.
 
 The famous wizard [Alan Kay](https://en.wikipedia.org/wiki/Alan_Kay) once said:
 
 > "Whatever we [in computing] do is more like what the Egyptians did. Building pyramids, piling things on top of each other." [(video)](https://www.tele-task.de/lecture/video/2772/)
 
-I think the situation is more dire than that. We're not stacking bricks. [We're knitting castles](https://youtu.be/SxdOUGdseq4?t=1287).
+I think the situation is more dire than that. We're not stacking bricks. We're knitting castles.
+
+> *Aside:* I've stolen the knitted castle example from Rich Hickey. He uses the image in [Simple Made Easy](https://youtu.be/SxdOUGdseq4?t=1287), a talk every wizard should probably watch at least once. His point is that simplicity is not about looking small or familiar. It is about whether the parts are braided together.
 
 A pyramid is at least made of separate stones. They may be heavy, badly placed, and difficult to move, but you can still point at one and say: there, that is a stone.
 
@@ -34,7 +34,7 @@ A Lego brick does not care whether it is used in a castle, a spaceship, a bridge
 
 That boringness is part of the magic.
 
-A Lego brick is reusable because it makes very few assumptions about the thing you are building. It does not decide the color scheme of the castle. It does not come with a preferred story about who lives there. It does not require the dragon package, the royal-taxation package and a particular version of the drawbridge runtime.
+A Lego brick is reusable because it makes very few assumptions about the thing you are building. It does not decide the color scheme of the castle. It does not come with a preferred story about who lives there. It does not require the dragon package, the royal-taxation package, and a particular version of the drawbridge runtime.
 
 Most software components are not like that.
 
@@ -62,7 +62,7 @@ To reuse it, you do not only need the component. You need the weather system it 
 
 ## Packages are not the same as parts
 
-JavaScript has one of the largest ecosystems of reusable packages ever created. NPM is both a miracle and a warning label.
+JavaScript has one of the largest ecosystems of reusable packages ever created. npm is both a miracle and a warning label.
 
 It proves that reuse is possible. You can install a parser, a date library, a test runner, a renderer, a bundler, a color picker, a database client, a state manager, a tiny function that tells you whether a number is odd, and several hundred things you did not know you needed because one of those packages needed them for you.
 
@@ -92,7 +92,7 @@ A protocol can be reusable because different systems can meet at a boundary and 
 
 A UI component is harder. It often wants data, styling, events, state, focus rules, accessibility behavior, theme decisions, lifecycle hooks, translations, permissions, and a place in the surrounding application.
 
-An application feature is harder still. A shopping cart is not just a list of products. It touches pricing, stock, identity, sessions, shipping, tax, discounts, payments, errors, emails, fraud, analytics, legal requirements and customer support.
+An application feature is harder still. A shopping cart is not just a list of products. It touches pricing, stock, identity, sessions, shipping, tax, discounts, payments, errors, emails, fraud, analytics, legal requirements, and customer support.
 
 At some point you are no longer reusing a part. You are importing a small civilization.
 
@@ -126,7 +126,7 @@ This is why small libraries often age better than clever frameworks. A small lib
 
 A framework often says: live here.
 
-Living somewhere can be pleasant. A framework can give you roads, plumbing, electricity, building codes, a market square and a school. But moving one house from that town to another town is not the same as moving a Lego brick.
+Living somewhere can be pleasant. A framework can give you roads, plumbing, electricity, building codes, a market square, and a school. But moving one house from that town to another town is not the same as moving a Lego brick.
 
 This is also why standards matter. A standard creates a boundary that does not belong to one package. HTML, URLs, [JSON](https://www.json.org/json-en.html), HTTP, [CSS selectors](https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_selectors), the DOM, SQL, [POSIX paths](https://pubs.opengroup.org/onlinepubs/9699919799/basedefs/V1_chap03.html#tag_03_271), [MIME types](https://www.iana.org/assignments/media-types/media-types.xhtml). None of these are perfect. Some of them are full of ghosts. But when enough systems agree on the boundary, reuse becomes less dependent on one implementation.
 
@@ -136,11 +136,11 @@ The Web itself works because many different pieces agree just enough to meet eac
 
 So what can you do?
 
-You cannot defeat complexity once and for all. That is the sort of promise that sells books, frameworks and conference talks. The castle will always try to knit itself.
+You cannot defeat complexity once and for all. That is the sort of promise that sells books, frameworks, and conference talks. The castle will always try to knit itself.
 
 But you can fight.
 
-You can keep asking what assumptions a piece is carrying. You can make dependencies explicit instead of letting them seep in through globals, singletons and secret imports. You can keep the stable rules of a system away from the parts that talk to browsers, databases, networks and users. You can pass plain data across boundaries. You can write adapters at the edge instead of making every part know every other part's dialect.
+You can keep asking what assumptions a piece is carrying. You can make dependencies explicit instead of letting them seep in through globals, singletons, and secret imports. You can keep the stable rules of a system away from the parts that talk to browsers, databases, networks, and users. You can pass plain data across boundaries. You can write adapters at the edge instead of making every part know every other part's dialect.
 
 You can make small languages for the stable parts of the problem, as we did with JAQT. Not always new languages with parsers. Sometimes just a shape in data, a few names, a convention that lets the important idea stand apart from the machinery.
 
@@ -158,4 +158,4 @@ The knitted castle is always waiting. Every feature wants to tie one more loop. 
 
 > **Wizard's tenth rule**
 >
-> A reusable component is not a piece with many uses. It is a piece with few assumptions and a clear boundary.
+> Assumptions are threads. Cut the threads.
