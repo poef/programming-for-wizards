@@ -16,6 +16,31 @@ The one constant in our use of language seems to be that every generation mutate
 
 An interesting question related to this is usually discussed as [linguistic relativity](https://en.wikipedia.org/wiki/Linguistic_relativity): does language dictate what we can think? Or is it the other way around? Do we change language to better express what we think? Or is it both? Can some ideas only spread after someone changes the language enough to express them?
 
+There is an actual wizard who has thought about this.
+
+[Alan Moore](https://en.wikipedia.org/wiki/Alan_Moore), who writes books and comics and also calls himself a magician, has a useful idea of magic. Not stage magic. Not rabbits, hats, or pretending to saw someone in half. Magic as the deliberate use of symbols, words, images, and stories to change consciousness.
+
+In that view, there is the physical world, made of bodies and stones and rain and hunger. And then there is the imagined world: countries, borders, money, laws, gods, companies, reputations, revolutions, futures. These things are not fake. They can shape your life, ruin your day, start a war, or get you paid. But they do not exist in the same way a stone exists. They exist because enough minds agree to carry them.
+
+Language is one of the most direct ways to work in that imagined world. A story can make a monster. A treaty can make a country. A manual can make a craft. A book can put a new room inside your head and leave you living there.
+
+This is why language is magic in a very practical sense. It changes the imagined world, and the imagined world keeps reaching back into the physical one.
+
+Computer programs make this even stranger. A program starts as an imagined structure: names, rules, conditions, promises. Then the machine runs it, and something happens. A door opens. A message is sent. Money moves. A robot arm turns. The imaginary crosses over and touches the world.
+
+So when programmers choose words, they are not decorating the code. They are shaping the imagined machine that other people will have to live inside.
+
+
+Programmers have their own version of this magic.
+
+[Guy Steele](https://en.wikipedia.org/wiki/Guy_L._Steele_Jr.) gave a talk called [*Growing a Language*](https://www.cs.virginia.edu/~evans/cs655/readings/steele.pdf), in which he started with an absurdly small language and then slowly grew it while speaking. If he needed a word that wasn't already allowed, he first had to define it using words that were. The talk is funny, painful, and very effective, because you can feel the cost of missing words.
+
+That is the point.
+
+A thought can be simple in your mind and expensive in your language. If the language has no word for the thing you mean, you have to build the thought out of smaller thoughts. Sometimes that is useful. It forces you to be precise. Sometimes it is terrible. It makes every sentence drag a cart of definitions behind it.
+
+That is why naming is not decoration. When you add the right word, you don't just shorten the sentence. You change what can be said easily, and what can be said easily has a much better chance of being said at all.
+
 > **Interactive exhibit placeholder: `words-change-the-problem`**
 >
 > Present the same tiny situation using three different vocabularies: machine words, business words, and a visual metaphor. Let the reader rename things and see which relationships become easier or harder to notice. The point is that naming is not decoration. The words you choose decide which parts of the problem stand in the light.
@@ -30,4 +55,4 @@ But before we get there, we need to look at the Web. Because the Web is one of t
 
 > **Wizard's third rule**
 >
-> The words are part of the machine.
+> Change the words, change the world.
