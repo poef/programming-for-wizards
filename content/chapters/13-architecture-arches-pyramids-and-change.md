@@ -59,23 +59,13 @@ In buildings, some of the forces are literal: weight, compression, tension, wind
 
 A software architecture that ignores those forces is just decoration.
 
-## Patterns from buildings
+## Architecture as force
 
-Most architecture is not made of world-famous monuments. Most buildings are ordinary buildings. Houses, shops, schools, sheds, streets. The way they are designed differs more by region than by grand theory. Local builders learn what works. Over time, those solutions become patterns.
+Architecture is not only the shape of a thing. It is the way a thing carries force.
 
-In 1977, Christopher Alexander and his co-authors published [*A Pattern Language*](https://en.wikipedia.org/wiki/A_Pattern_Language). In 1979 Alexander followed it with [*The Timeless Way of Building*](https://en.wikipedia.org/wiki/The_Timeless_Way_of_Building). Together these books argued for a culture of building based on patterns: recurring solutions to recurring problems, grounded in human life rather than only in abstract design.
+A pyramid carries force by being massive. Each stone pushes down on the stones below it. An arch does something stranger. It redirects the force sideways and downward, turning pressure into stability.
 
-In one of history's little jokes, software people listened.
-
-Human architects mostly argued about Alexander or ignored him. Software architects grabbed the idea and ran off with it. These days no programmer is unaware of design patterns, even if only because at some point someone tried to solve a small problem by introducing a factory that manufactures factories.
-
-I will not spend much time on software design patterns here. More than enough has been said about them, and some of it was even useful.
-
-The important thing for this chapter is that Alexander gives us a second way to think about architecture. Architecture is not only grand structures. It is also a shared language for recurring forces.
-
-A pattern is not a law. It is not a recipe you apply blindly. It is a remembered shape: when the world pushes like this, perhaps arrange the pieces like that.
-
-That is close to what software wants. Not universal answers, but better ways to recognize the pressure.
+That is the architectural lesson we need. Not columns, cornices, or software design patterns. The interesting question is not whether a structure looks impressive. The interesting question is what pressures it can survive.
 
 ## Software arches
 
@@ -105,9 +95,9 @@ Instead of piling up code in the same old shapes, you ask what language would ma
 
 ## Rustic architecture
 
-There is another direction from Alexander that is just as useful and less glamorous.
+There is another direction that is just as useful and less glamorous.
 
-Forget the monumental building for a moment. Think about local building. The village. The workshop. The kitchen table that has been repaired three times. The pattern that survives because it keeps being useful.
+Forget the monumental building for a moment. Think about local building. The village. The workshop. The kitchen table that has been repaired three times. The habit that survives because it keeps being useful.
 
 Software architecture often wants to sound like skyscrapers. The important documents use words like enterprise, platform, governance, strategic alignment. But a lot of good software is more rustic than that. It grows out of tools people use, problems they have, habits they repeat, and shortcuts that become roads.
 
@@ -183,4 +173,4 @@ The next chapter follows that thread.
 
 > **Wizard's twelfth rule**
 >
-> Perfect is the enemy of good enough because the world does not wait for perfect.
+> You will be wrong. Try not to make it hurt.
