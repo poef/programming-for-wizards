@@ -10,45 +10,59 @@ That sounds like a childish question, but it is one of the first great programmi
 
 Numbers are a good place to begin because they look natural. They are not. Number systems are inventions. Interfaces. Little machines for doing work in your head.
 
-## Numbers, numbers, numbers
+## The first interface
 
-Its no secret that programming is based on numbers. Two of them, 0 and 1. It may come as a surprise to some that one of those numbers is much newer than the other.
+It's no secret that programming is based on numbers. Two of them, 0 and 1.
 
-Lets go back, way back, back into time, when the only people who existed were cavemen, cavewomen, troglodytes.
+It may come as a surprise that one of those numbers is much newer than the other. But before we get to zero, or binary, or computers pretending very convincingly to understand the world, we should start with the oldest number system most people ever use.
 
-These, our ancestors, probably counted using their fingers. Holding up one or more fingers, you can count to 10 using two hands. But what if you want to add numbers to your cave painting? Well, you make [tally marks](https://en.wikipedia.org/wiki/Tally_marks): IIII etc.
+Hands.
 
-So the first number we used, was 1, or I. But tally marks get cumbersome quickly. So someone invented a new symbol to mark 5 tallies: <img src="https://upload.wikimedia.org/wikipedia/commons/1/1d/Tally_marks-Five-bar_Gate.svg" style="height:1em">
+At first, the best number system was the one attached to your body.
 
-And so it stayed for quite a while. Untill a roman (or probably someone else and the romans just stole the idea) had the idea to add symbols for other numbers. So we got X for 10. And the romans redesigned the tally marks further. I, II and III remained the same, but 4 became IV, 5 became V and 6 became VI. 
+That's not a joke. Fingers are portable, visible, hard to lose, and conveniently arranged in groups. For small numbers, they are a pretty good user interface.
 
-What the romans invented here was that you could write a calculation to describe the number. 4 is written as V minus I. The minus operation is indicated by writing the I before the V. If you write it after the V, it is V plus I, or 6.
+You can count to 10 using two hands. But what if you want to add numbers to your cave painting? Well, you make [tally marks](https://en.wikipedia.org/wiki/Tally_marks): IIII and so on.
+
+So the first number we used, was `1`, or the tally mark: `I`. But tally marks get cumbersome quickly. So someone invented a new symbol to mark 5 tallies: <img src="https://upload.wikimedia.org/wikipedia/commons/1/1d/Tally_marks-Five-bar_Gate.svg" style="height:1em">
+
+And so it stayed for quite a while. Untill a roman (or probably someone else and the romans just stole the idea) had the idea to add symbols for other numbers. So we got X for 10. And the romans redesigned the tally marks further. `I`, `II` and `III` remained the same, but 4 became `IV`, 5 became `V` and 6 became `VI`. 
+
+What the romans invented here was that you could write a calculation to describe the number. 4 is written as `V` minus `I`. The minus operation is indicated by writing the `I` before the `V`. If you write it after the `V`, it is `V` plus `I`, or 6.
 
 The simple rule is that smaller marks before larger marks mean subtraction. If they are placed after larger marks, they mean addition. The romans got creative after X and invented marks for 50, 100, 500, 1000 and 5000. They didn't need numbers bigger than that apparantly. (Well, actually, a wizard somewhere says, they also had bars you could add on top of a mark to multiply its value by 1000... so there's that.)
 
-So as an example, what does the [Roman numeral](https://en.wikipedia.org/wiki/Roman_numerals) MMXXI translate to in our [Hindu-Arabic numerals](https://en.wikipedia.org/wiki/Hindu%E2%80%93Arabic_numeral_system)? (Yes, they are arabic in origin, I'll get to that, patience.) Or what about MCMXCVIII? And we're still just around 2000. Roman numerals still get unwieldy fairly quickly. But its better than tally marks.
+So as an example, what does the [Roman numeral](https://en.wikipedia.org/wiki/Roman_numerals) `MMXXI` translate to in our [Arabic numerals](https://en.wikipedia.org/wiki/Hindu%E2%80%93Arabic_numeral_system)? Yes, we call them Arabic numerals. No the story is not quite that simple. Patience.
+
+Now what about `MCMXCVIII`? And we're still just around 2000. Roman numerals still get unwieldy fairly quickly. But its better than tally marks.
 
 Notice we've come from the cavemen period, at least 35.000 years ago all the way to the romans, and we still have to do without 0.
 
 But lets step back a bit and introduce the [abacus](https://en.wikipedia.org/wiki/Abacus). This simple devices' origins are unknown. It could be that its been invented multiple times. We know for certain that it was in use by the roman era, they probably stole it from the greeks. Who may have gotten it from egyptians or babylonians, who probably got it from the sumerians. 
 
-This may be a good first lesson of programming for wizards: it is better to steal a good idea than to come up with a worse one yourself.
+By now, you may have noticed a pattern.
 
-Anyway, back to the abacus. Lets show one for those who haven't seen one yet:
+Everyone is stealing from everyone else.
+
+That sounds worse than it is. Good ideas travel. They are copied, renamed, misunderstood, improved, translated, simplified, and eventually taught to children as if they had always existed. This isn’t a scandal. It’s civilization.
+
+Wizards don’t insist on inventing everything themselves. They notice working magic, learn why it works, and carry it somewhere new.
+
+Anyway, back to the abacus. Roman numerals hide small calculations in the order of symbols. The abacus does something more powerful: it hides multiplication in position. Lets show one for those who haven't seen one yet:
 
 <img src="https://upload.wikimedia.org/wikipedia/commons/a/af/Abacus_6.png">
 
 This is a chinese version, you could probably find its like still in use all over the world today. The idea is simple, each column represents a number between 1 and 10. The upper beads denote 5, the lower beads denote 1. An observant wizard may spot a discrepancy here. Couldn't you do with one less upper and lower bead? Well, yes you could. Its a kind of magic.
 
-But much more important is that here, again, the system introduces a calculation into the representation of numbers. Its different from the roman one, and its much more consistent and still in use today. Its the idea that each column is multiplied by a number. The right most column is multiplied by |, so not much change there. The one next to it is multiplied by X, the next one by C, the next by M and so on. Except of course the romans had trouble writing numbers bigger than about M, without trickery.
+But much more important is that here, again, the system introduces a calculation into the representation of numbers. Its different from the roman one, and its much more consistent and still in use today. Its the idea that each column is multiplied by a number. The right most column is multiplied by `I`, so not much change there. The one next to it is multiplied by `X`, the next one by `C`, the next by `M` and so on. Except of course the romans had trouble writing numbers bigger than about `M`, without trickery.
 
 It is lot easier to explain if I use arabic numerals. They use the exact same multiplication by column as the abacus does. The rightmost column is multiplied by 1, the next is multiplied by 10, then 100, then 1000 and so on.
 
-And here we have for the first time the number 0. Without it, arabic numerals are impossible. 
+And here we have for the first time the number `0`. Without it, arabic numerals are impossible. Positional notation without `0` cannot work. You can write `11`, but how do you write 'one ten and no ones'? Zero fills that hole elegantly.
 
 As a side note, the idea of a [number 0](https://en.wikipedia.org/wiki/0) is much older than this. But its status was not well established. How can a number, or anything, be nothing, the mathematicians of the time asked. But with the idea of [positional notation](https://en.wikipedia.org/wiki/Positional_notation), the status of 0 as a true number became standardized. 
 
-As another aside, I should probably call the arabic numerals hindu numerals instead. It seems the arabs stole the idea from the hindu, who had been using these for a few hundred years already. See wizards first rule.
+As another aside, I should probably call Arabic numerals Hindu numerals instead. It seems the Arabs got the idea from the Hindu, who had been using these for a few hundred years already. ( See wizards first rule.)
 
 Now back to large numbers. Using the position to multipy each numeral to describe large numbers, we can create very large numbers. Much larger than we usually need, say on a market square haggling over the price of a chicken. And all this by multiplying by 10.
 
@@ -83,6 +97,8 @@ But we can also use these to explain the positional nature of arabic numerals:
 So the number 972 is equal to $$ 9 \times 10^2 + 7 \times 10^1 +2 \times 10^0 $$
 
 So what about our original two numbers, 1 and 0. Well, if you understand the magic of positional notation, it turns out that you don't actually need all 10 numerals on each position.
+
+Once you see that the base is just another design choice, decimal starts to look less like nature and more like a very successful habit.
 
 You can use any amount of numbers, like 16 for [hexadecimal](https://en.wikipedia.org/wiki/Hexadecimal) numbers, e.g:
 
@@ -141,8 +157,4 @@ A notation is not just a way to write something down. A good notation performs p
 
 > **Wizard's first rule**
 >
-> Steal.
->
-> **Wizard's first rule, corollary**
->
-> Your creation will probably outlive you, so document it.
+> Steal good magic.
