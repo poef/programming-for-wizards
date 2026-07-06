@@ -290,7 +290,7 @@ function from(items) {
 
 That is almost embarrassingly small. `where()` wraps `filter()`. `select()` wraps `map()`. `value()` gives the array back.
 
-But the words matter. where, select, and value are not decoration. They are the little language becoming visible.
+But the words matter. `where`, `select`, and `value` are not decoration. They are the little language becoming visible.
 
 Now the query can read like this:
 

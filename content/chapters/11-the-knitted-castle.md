@@ -6,7 +6,7 @@ tags: programming for wizards
 
 Why is it so difficult to make reusable software?
 
-This is one of those questions that keeps returning, dressed in new clothes. [Objects](https://en.wikipedia.org/wiki/Object-oriented_programming) would do it. [Components](https://en.wikipedia.org/wiki/Component-based_software_engineering) would do it. [Packages](https://en.wikipedia.org/wiki/Software_package) would do it. [Services](https://en.wikipedia.org/wiki/Service-oriented_architecture) would do it. [Web components](https://developer.mozilla.org/en-US/docs/Web/API/Web_components) would do it. Frameworks would do it. Some new build system, package manager, module format, runtime, or architectural style would finally let us write a piece of software once and use it everywhere.
+[Objects](https://en.wikipedia.org/wiki/Object-oriented_programming) would do it. [Components](https://en.wikipedia.org/wiki/Component-based_software_engineering) would do it. [Packages](https://en.wikipedia.org/wiki/Software_package) would do it. [Services](https://en.wikipedia.org/wiki/Service-oriented_architecture) would do it. [Web components](https://developer.mozilla.org/en-US/docs/Web/API/Web_components) would do it. Frameworks would do it. Some new build system, package manager, module format, runtime, or architectural style would finally let us write a piece of software once and use it everywhere.
 
 And then, a few years later, we discover that we have not built a Lego castle after all. We've made a tangle of yarn.
 
@@ -60,6 +60,10 @@ After a while, the component no longer has a simple shape. It has a climate.
 
 To reuse it, you do not only need the component. You need the weather system it expects to live in.
 
+> **Wizard's ninth rule**
+>
+> Assumptions are threads. Cut the threads.
+
 ## Packages are not the same as parts
 
 JavaScript has one of the largest ecosystems of reusable packages ever created. npm is both a miracle and a warning label.
@@ -96,7 +100,7 @@ An application feature is harder still. A shopping cart is not just a list of pr
 
 At some point you are no longer reusing a part. You are importing a small civilization.
 
-This does not mean reuse is hopeless. It means the useful question is not:
+So let's rephrase the question. The useful question is not:
 
 > Can this be reused?
 
@@ -106,7 +110,7 @@ The useful question is:
 
 Can the calculation be reused without the UI? Can the data format be reused without the database? Can the protocol be reused without the server implementation? Can the visual component be reused without the application state? Can the core rule be reused if we wrap it in a different shell?
 
-A wizard does not ask for universal reuse first. Universal reuse is where many good designs go to become enormous.
+Don't ask for universal reuse first. Universal reuse is where many good designs go to become enormous.
 
 A wizard looks for the boundary.
 
@@ -116,7 +120,7 @@ This is the part that is easy to miss.
 
 The reusable thing is not only the code. It is the boundary around the code.
 
-The boundary says what must be known from the outside and what may remain hidden inside. It says which data crosses it. It says which names matter. It says when things happen. It says who is allowed to call whom. It says what happens when something goes wrong.
+The boundary is where the bargain is made. This data may cross. These names matter. This part stays hidden. This part is someone else's problem.
 
 A bad boundary leaks the whole world.
 
@@ -134,28 +138,20 @@ The Web itself works because many different pieces agree just enough to meet eac
 
 ## Fighting for the Lego castle
 
-So what can you do?
-
 You cannot defeat complexity once and for all. That is the sort of promise that sells books, frameworks, and conference talks. The castle will always try to knit itself.
 
 But you can fight.
 
-You can keep asking what assumptions a piece is carrying. You can make dependencies explicit instead of letting them seep in through globals, singletons, and secret imports. You can keep the stable rules of a system away from the parts that talk to browsers, databases, networks, and users. You can pass plain data across boundaries. You can write adapters at the edge instead of making every part know every other part's dialect.
+You can keep asking what assumptions a piece is carrying. You can make dependencies explicit instead of letting them seep in through globals, singletons, and secret imports.
 
-You can make small languages for the stable parts of the problem, as we did with JAQT. Not always new languages with parsers. Sometimes just a shape in data, a few names, a convention that lets the important idea stand apart from the machinery.
+Keep the stable rules of a system away from the parts that talk to browsers, databases, networks, and users. Pass plain data across boundaries. Write adapters at the edge instead of making every part know every other part's dialect.
 
-You can resist the urge to make every component helpful in advance. Helpfulness is where assumptions breed. A component that does less may travel further.
+Make small languages for the stable parts of the problem, as we did with JAQT. Not always new languages with parsers. Sometimes just a shape in data, a few names, a convention that lets the important idea stand apart from the machinery.
 
-You can also accept that some things should not be reusable. A piece of software that is deeply fitted to one situation may be valuable precisely because it is fitted. The mistake is not writing such code. The mistake is pretending it is a brick.
+Also accept that some things should not be reusable. A piece of software that is deeply fitted to one situation may be valuable precisely because it is fitted. The mistake is not writing such code. The mistake is pretending it is a brick.
 
 The Lego castle is not built by magic universal parts. It is built by choosing where the studs go, and then having the discipline not to put threads through them later.
 
 The knitted castle is always waiting. Every feature wants to tie one more loop. The wizard's work is not to avoid all loops. That would make software useless. The work is to keep asking which loops belong inside a part, and which ones should become a boundary.
 
-> **Interactive exhibit placeholder: `knitted-castle-vs-lego-castle`**
->
-> Begin with five clean modules. Let the reader add features one by one. Each feature creates dependency threads: data shape, styling, lifecycle, configuration, events, permissions, errors, storage, network calls. Then let the reader try to reuse one piece in a different project. Show how many invisible threads come along. Finally introduce clearer boundaries: explicit inputs, boring data, adapters, stable protocols, and a core that knows less about its surroundings.
-
-> **Wizard's tenth rule**
->
-> Assumptions are threads. Cut the threads.
+Now let's talk about Lego blocks, and how and when to bind them next.

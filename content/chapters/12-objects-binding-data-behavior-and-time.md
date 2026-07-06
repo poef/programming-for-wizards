@@ -8,7 +8,7 @@ In the previous chapter we looked at the knitted castle: the strange tendency of
 
 Object Oriented Programming is one of the great historical answers to that problem. Perhaps the most successful one.
 
-It promised a way to make software out of reusable pieces. Not just functions, not just files, but little things that carried their own data and behavior around with them. Objects could be combined. Classes could be extended. The internal mess could be hidden. The outside world could talk to a smaller public surface.
+It promised a way to make software out of reusable pieces. Pieces that were not just functions, but little things that carried their own data and behavior around with them. Objects could be combined. Classes could be extended. The internal mess could be hidden. The outside world could talk to a smaller public surface.
 
 That promise was powerful enough that OOP took over much of the programming world. For many programmers, programming became object-oriented programming. Classes, methods, inheritance, interfaces, constructors, services, factories: this became the normal furniture of software.
 
@@ -20,13 +20,9 @@ Where should behavior live?
 
 If you have data in one place and all the code that works on that data somewhere else, the distance between the two becomes part of the problem. Every change requires you to remember the connection. Every reader has to rebuild the connection in their head.
 
-One answer is: bind the behavior to the data. Put the methods where the state is. Make the thing responsible for its own rules.
+OOP's answer is: bind the behavior to the data. Put the methods where the state is. Make the thing responsible for its own rules.
 
-That is one useful idea hiding inside OOP. It is not the whole answer to reusable software, but it is a real answer to a real part of the problem.
-
-> **Interactive exhibit placeholder: `where-should-behavior-live`**
->
-> Show a tiny order system as loose records plus functions. Then show it as objects with methods. Let the reader change an invariant, such as "an order may not ship before payment". Highlight how far the change has to travel in each representation.
+This is a good direction. It's not the whole answer, but not nothin either. So let's dig deeper into OOP.
 
 ## Classes and objects
 
@@ -86,9 +82,9 @@ class OrderService {
 }
 ```
 
-This is the useful core of [dependency injection](https://martinfowler.com/articles/injection.html). Not the frameworks. Not the annotations. Not the containers with configuration files so large that they need their own weather report.
+Forget the frameworks, the annotations or the containers with configuration files so large that they need their own weather report.
 
-The useful idea is simple:
+Instead the useful idea is simple:
 
 > The place that uses a dependency does not have to be the place that chooses it.
 
@@ -96,11 +92,15 @@ That lets you bind later.
 
 ## Binding time
 
-A surprising amount of software design is about binding time.
+We don't think enough about time. But ignoring it doesn't make it disappear. Instead it infects your careful design in unexpected places. And only pops up when you no longer have the time to fix it.
 
 When do we decide which database to use? When do we decide which template renders this page? When do we decide which implementation of an interface belongs in production and which one belongs in tests?
 
 If you decide too early, your code becomes rigid. If you decide too late, your code becomes vague. Wizardry is not always delaying decisions. It is moving each decision to the place where it is cheapest to change and easiest to understand.
+
+> **Wizard's tenth rule**
+>
+> Choose wisely when to choose.
 
 This is where factories, [dependency injection containers](https://en.wikipedia.org/wiki/Dependency_injection), [service locators](https://martinfowler.com/articles/injection.html#UsingAServiceLocator), configuration files and plugin systems all come from. They are attempts to move binding.
 
@@ -122,8 +122,4 @@ This is not because the outside world is dirty and the core is pure. That sounds
 
 The reason is more practical. The outside world changes in different ways than the rules of your program. Databases change. Frameworks change. APIs change. Files move. Users do strange things. The core should be protected from that weather where possible.
 
-This is the same move we have seen before. Change the boundary, and the problem changes shape.
-
-> **Wizard's eleventh rule**
->
-> Choose wisely when to choose.
+This is the same move we have seen before. Change the boundary, and the problem changes shape. And new problems appear into view. How do we manage these new objects and their boundaries and dependencies? How can we manage time and change?

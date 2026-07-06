@@ -54,7 +54,7 @@ That is what makes the image useful for software.
 
 A software arch would not be a prettier diagram. It would not be another layer on the pile. It would be a way of arranging the work so that the forces that normally make software collapse help carry the structure instead.
 
-The hard part is knowing what those forces are.
+Which forces though?
 
 In buildings, some of the forces are literal: weight, compression, tension, wind, earthquakes, water, time. In software, the forces are stranger. Changing requirements. Missing knowledge. Competing teams. Dependencies. Users who do not do what the diagram says. Libraries that update. Platforms that change direction. The future arriving with muddy boots.
 
@@ -118,9 +118,7 @@ Richard P. Gabriel wrote [*The Rise of “Worse is Better”*](https://www.dream
 
 Eric S. Raymond later wrote [*The Cathedral and the Bazaar*](http://www.catb.org/~esr/writings/cathedral-bazaar/cathedral-bazaar/), contrasting carefully planned cathedral-style development with the messy, adaptive energy of open source. His bazaar is not beautiful because it is messy. Mess by itself is just mess. The useful part is that many people can react, repair, extend, and redirect the work while the world is still changing.
 
-These essays are not the same, but they rhyme.
-
-They both make software perfection look suspicious.
+Different essays. Same warning. They both make software perfection look suspicious.
 
 A working good-enough solution now is always better than a perfect solution sometime in the future.
 
@@ -156,22 +154,16 @@ This is one of the fundamental differences between software and traditional engi
 
 A building project can be late, expensive, and politically cursed, but the ground usually does not rewrite the laws of stone halfway through. Software has no such manners.
 
-That does not mean architecture is hopeless. It means architecture is less about certainty than we would like.
+That means architecture is less about certainty than we would like.
 
 A good architecture does not prove that you were right. It gives you somewhere to go when you discover that you were wrong.
 
-> **Interactive exhibit placeholder: `change-arrives-before-perfect`**
+> **Wizard's eleventh rule**
 >
-> Show two teams. One ships a small imperfect system early and adapts. The other designs a more complete system but ships later. Introduce environmental changes every few turns. The demo should make clear that the future solution is not competing with today's problem, but with tomorrow's changed problem.
-
-This also leads to the next question.
+> You will be wrong. Try not to make it hurt.
 
 If the world keeps changing, where do the useful answers come from?
 
 Not always from inside your project. Not even usually from inside your project, if the project is interesting enough. Other people are solving adjacent problems. Other communities are inventing tools. Other systems are creating expectations. Other wizards are making strange little things that may suddenly become the missing piece of your own work.
 
-The next chapter follows that thread.
-
-> **Wizard's twelfth rule**
->
-> You will be wrong. Try not to make it hurt.
+We have already seen one place where small agreements, visible boundaries, and shared names changed everything: the Web. So before we invent another castle, we should return there.
