@@ -13,7 +13,8 @@ Wizards do not merely write solutions. They learn to notice the world around a p
 
 ## Repository layout
 
-- [content/chapters](content/chapters): the book manuscript.
+- [content/book.json](content/book.json): the explicit book structure used by the static site: title, parts, chapter order, chapter numbers, chapter titles, and source files.
+- [content/chapters](content/chapters): the manuscript chapter files. Their reading order is controlled by `content/book.json`, not by filename sorting.
 - [content/notes](content/notes): presentation, accessibility, exhibit, Solid and restructuring notes.
 - [phases](phases): one home for each product phase, from the static manuscript through the Solid-published edition.
 - [shared/assets](shared/assets): source assets that are shared across phases.
@@ -28,6 +29,8 @@ npm run build
 ```
 
 Open [site/index.html](site/index.html) after building.
+
+The generated site table of contents and chapter navigation are read from [content/book.json](content/book.json). To rearrange chapters or move them between parts, edit that file and rebuild.
 
 To rebuild and validate the generated book:
 
@@ -49,17 +52,19 @@ npm run dev
 
 ## Table of contents
 
+This is a human-readable snapshot. The canonical source for the generated site structure is [content/book.json](content/book.json).
+
 ### Prologue
 
 - [01. This is not a programming book](content/chapters/01-this-is-not-a-programming-book.md)
 
-### Part I: Representations are spells
+### Part I: Representation
 
 - [02. Numbers: hiding calculations in symbols](content/chapters/02-numbers-hiding-calculations-in-symbols.md)
 - [03. Logic: turning truth into machinery](content/chapters/03-logic-turning-truth-into-machinery.md)
 - [04. Language: the tool that changes the thinker](content/chapters/04-language-the-tool-that-changes-the-thinker.md)
 
-### Part II: The Web, from address to platform
+### Part II: Intermezzo - The Web
 
 - [05. The Web as address: a spell for pointing anywhere](content/chapters/05-the-web-as-address.md)
 - [06. The Web as document: choosing a tree](content/chapters/06-the-web-as-document.md)
@@ -77,7 +82,7 @@ npm run dev
 - [12. Objects: binding data, behavior, and time](content/chapters/12-objects-binding-data-behavior-and-time.md)
 - [13. Architecture: arches, pyramids, and change](content/chapters/13-architecture-arches-pyramids-and-change.md)
 
-### Part V: The Web, evolved
+### Part V: The Web, Evolved
 
 - [14. The Web as commons: innovation happens elsewhere](content/chapters/14-the-web-as-commons.md)
 - [15. The Web as data: things should have addresses too](content/chapters/15-the-web-as-data.md)

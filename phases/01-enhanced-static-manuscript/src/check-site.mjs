@@ -4,7 +4,7 @@ import { fileURLToPath } from "node:url"
 
 const rootDir = path.resolve(fileURLToPath(new URL("../../../", import.meta.url)))
 const contentDir = path.join(rootDir, "content")
-const chapterDir = path.join(contentDir, "chapters")
+const bookPath = path.join(contentDir, "book.json")
 const siteDir = path.join(rootDir, "site")
 const siteChapterDir = path.join(siteDir, "chapters")
 const manifestPath = path.join(siteDir, "data", "manifest.json")
@@ -13,7 +13,8 @@ const errors = []
 const notes = []
 
 async function main() {
-  const chapters = await readSourceChapters()
+  const book = await readBook()
+  const chapters = await readSourceChapters(book)
   const manifest = await readJson(manifestPath)
   const htmlFiles = await listFiles(siteDir, file => file.endsWith(".html"))
   const htmlByFile = new Map()
@@ -26,7 +27,7 @@ async function main() {
   }
 
   await checkGeneratedChapters(chapters, manifest)
-  checkManifestExpectations(chapters, manifest)
+  checkManifestExpectations(book, chapters, manifest)
   checkGeneratedExhibits(chapters, manifest, htmlByFile)
   checkGeneratedRules(chapters, manifest, htmlByFile)
   checkHtmlPages(htmlByFile)
@@ -48,28 +49,73 @@ async function main() {
   }
 }
 
-async function readSourceChapters() {
-  const files = (await readdir(chapterDir))
-    .filter(file => /^\d{2}-.*\.md$/.test(file))
-    .sort((a, b) => a.localeCompare(b))
+async function readBook() {
+  return readJson(bookPath)
+}
 
+async function readSourceChapters(book) {
   const chapters = []
+  const seenParts = new Set()
+  const seenChapters = new Set()
+  const seenNumbers = new Set()
 
-  for (const file of files) {
-    const source = await readFile(path.join(chapterDir, file), "utf8")
-    const id = file.replace(/\.md$/, "")
+  if (!Array.isArray(book.parts)) {
+    fail("content/book.json must contain a parts array")
+    return chapters
+  }
 
-    chapters.push({
-      id,
-      file,
-      source,
-      htmlFile: path.join(siteChapterDir, `${id}.html`),
-      exhibits: collectSourceExhibits(id, source),
-      rules: collectSourceRules(id, source)
-    })
+  for (const [partIndex, part] of book.parts.entries()) {
+    if (!part?.id || !part?.title || !Array.isArray(part.chapters)) {
+      fail(`Invalid part entry in content/book.json at parts[${partIndex}]`)
+      continue
+    }
+
+    if (seenParts.has(part.id)) {
+      fail(`Duplicate part id in content/book.json: ${part.id}`)
+    }
+    seenParts.add(part.id)
+
+    for (const [chapterIndex, chapter] of part.chapters.entries()) {
+      if (!chapter?.id || !chapter?.number || !chapter?.source) {
+        fail(`Invalid chapter entry in content/book.json at parts[${partIndex}].chapters[${chapterIndex}]`)
+        continue
+      }
+
+      if (seenChapters.has(chapter.id)) {
+        fail(`Duplicate chapter id in content/book.json: ${chapter.id}`)
+      }
+      seenChapters.add(chapter.id)
+
+      if (seenNumbers.has(chapter.number)) {
+        fail(`Duplicate chapter number in content/book.json: ${chapter.number}`)
+      }
+      seenNumbers.add(chapter.number)
+
+      const sourceFile = safeContentPath(chapter.source)
+      const source = await readFile(sourceFile, "utf8")
+
+      chapters.push({
+        id: chapter.id,
+        number: chapter.number,
+        file: chapter.source,
+        source,
+        htmlFile: path.join(siteChapterDir, `${chapter.id}.html`),
+        exhibits: collectSourceExhibits(chapter.id, source),
+        rules: collectSourceRules(chapter.id, source)
+      })
+    }
   }
 
   return chapters
+}
+
+function safeContentPath(relativePath) {
+  const resolved = path.normalize(path.join(contentDir, relativePath))
+  const distance = path.relative(contentDir, resolved)
+  if (distance.startsWith("..") || path.isAbsolute(distance)) {
+    fail(`Chapter source must stay inside content/: ${relativePath}`)
+  }
+  return resolved
 }
 
 function collectSourceExhibits(chapterId, source) {
@@ -140,9 +186,13 @@ async function checkGeneratedChapters(chapters, manifest) {
   notes.push(`${chapters.length} source chapters have generated HTML`)
 }
 
-function checkManifestExpectations(chapters, manifest) {
-  if (manifest.id !== "programming-for-wizards") {
-    fail(`Manifest id should be programming-for-wizards, got ${JSON.stringify(manifest.id)}`)
+function checkManifestExpectations(book, chapters, manifest) {
+  if (manifest.id !== book.id) {
+    fail(`Manifest id should be ${JSON.stringify(book.id)}, got ${JSON.stringify(manifest.id)}`)
+  }
+
+  if (manifest.title !== book.title) {
+    fail(`Manifest title should be ${JSON.stringify(book.title)}, got ${JSON.stringify(manifest.title)}`)
   }
 
   if (manifest.features?.readerSettings !== true) {

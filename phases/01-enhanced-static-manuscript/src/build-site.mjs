@@ -1,10 +1,10 @@
-import { cp, mkdir, readdir, readFile, rm, writeFile } from "node:fs/promises"
+import { cp, mkdir, readFile, rm, writeFile } from "node:fs/promises"
 import path from "node:path"
 import { fileURLToPath } from "node:url"
 
 const rootDir = path.resolve(fileURLToPath(new URL("../../../", import.meta.url)))
 const contentDir = path.join(rootDir, "content")
-const chapterDir = path.join(contentDir, "chapters")
+const bookPath = path.join(contentDir, "book.json")
 const phaseDir = path.join(rootDir, "phases", "01-enhanced-static-manuscript")
 const exhibitPhaseDir = path.join(rootDir, "phases", "03-core-explorable-exhibits")
 const siteDir = path.join(rootDir, "site")
@@ -19,32 +19,24 @@ const interactiveExhibits = new Set([
   "knitted-castle-vs-lego-castle"
 ])
 
-const manifest = {
-  id: "programming-for-wizards",
-  title: "Programming for Wizards",
-  generatedAt: new Date().toISOString(),
-  phase: "01-enhanced-static-manuscript",
-  features: {
-    notes: "planned",
-    solidNotes: "planned",
-    exhibitRuntime: true,
-    readerSettings: true,
-    staticFallbacks: true
-  },
-  chapters: [],
-  exhibits: [],
-  rules: [],
-  anchors: []
-}
-
-const partForNumber = number => {
-  if (number === "01") return "Prologue: You are allowed to make it up"
-  if (["02", "03", "04"].includes(number)) return "Part I: Representations are spells"
-  if (["05", "06", "07"].includes(number)) return "Part II: The Web, from address to platform"
-  if (["08", "09", "10"].includes(number)) return "Part III: Inventing languages"
-  if (["11", "12"].includes(number)) return "Part IV: Boundaries and reusable pieces"
-  if (["13", "14", "15", "16"].includes(number)) return "Part V: Architecture, change, commons, and home"
-  return "Epilogue"
+function createManifest(book) {
+  return {
+    id: book.id,
+    title: book.title,
+    generatedAt: new Date().toISOString(),
+    phase: "01-enhanced-static-manuscript",
+    features: {
+      notes: "planned",
+      solidNotes: "planned",
+      exhibitRuntime: true,
+      readerSettings: true,
+      staticFallbacks: true
+    },
+    chapters: [],
+    exhibits: [],
+    rules: [],
+    anchors: []
+  }
 }
 
 async function main() {
@@ -53,7 +45,9 @@ async function main() {
   await mkdir(siteAssetDir, { recursive: true })
   await mkdir(siteDataDir, { recursive: true })
 
-  const chapters = await readChapters()
+  const book = await readBook()
+  const chapters = await readChapters(book)
+  const manifest = createManifest(book)
   const renderedChapters = chapters.map((chapter, index) => {
     const renderer = new MarkdownRenderer(chapter)
     const html = renderer.render(chapter.body)
@@ -74,6 +68,7 @@ async function main() {
       number: chapter.number,
       title: chapter.title,
       part: chapter.part,
+      partId: chapter.partId,
       url: chapter.url,
       previous: chapter.previous,
       next: chapter.next,
@@ -86,7 +81,8 @@ async function main() {
     return {
       chapter,
       html: pageShell({
-        title: `${chapter.title} - Programming for Wizards`,
+        title: `${chapter.title} - ${book.title}`,
+        book,
         currentId: chapter.id,
         chapters,
         main: chapterLayout(chapter, html, previous, next),
@@ -105,10 +101,11 @@ async function main() {
   await writeFile(
     path.join(siteDir, "index.html"),
     pageShell({
-      title: "Programming for Wizards",
+      title: book.title,
+      book,
       currentId: null,
       chapters,
-      main: indexLayout(chapters),
+      main: indexLayout(book, chapters),
       pageKind: "index"
     })
   )
@@ -128,32 +125,89 @@ async function main() {
   console.log(`Built ${chapters.length} chapters into ${path.relative(rootDir, siteDir)}`)
 }
 
-async function readChapters() {
-  const files = (await readdir(chapterDir))
-    .filter(file => /^\d{2}-.*\.md$/.test(file))
-    .sort((a, b) => a.localeCompare(b))
+async function readBook() {
+  const book = JSON.parse(await readFile(bookPath, "utf8"))
 
+  assertText(book.id, "book.id")
+  assertText(book.title, "book.title")
+  assertArray(book.parts, "book.parts")
+
+  return book
+}
+
+async function readChapters(book) {
   const chapters = []
+  const seenParts = new Set()
+  const seenChapters = new Set()
+  const seenNumbers = new Set()
 
-  for (const file of files) {
-    const source = await readFile(path.join(chapterDir, file), "utf8")
-    const { attributes, body } = parseFrontMatter(source)
-    const title = body.match(/^#\s+(.+)$/m)?.[1]?.trim() ?? file.replace(/\.md$/, "")
-    const number = file.slice(0, 2)
-    const id = file.replace(/\.md$/, "")
+  for (const [partIndex, part] of book.parts.entries()) {
+    const partPath = `book.parts[${partIndex}]`
+    assertText(part.id, `${partPath}.id`)
+    assertText(part.title, `${partPath}.title`)
+    assertArray(part.chapters, `${partPath}.chapters`)
 
-    chapters.push({
-      id,
-      number,
-      title,
-      part: partForNumber(number),
-      sourcePath: `content/chapters/${file}`,
-      attributes,
-      body
-    })
+    if (seenParts.has(part.id)) {
+      throw new Error(`Duplicate part id in content/book.json: ${part.id}`)
+    }
+    seenParts.add(part.id)
+
+    for (const [chapterIndex, chapterData] of part.chapters.entries()) {
+      const chapterPath = `${partPath}.chapters[${chapterIndex}]`
+      assertText(chapterData.id, `${chapterPath}.id`)
+      assertText(chapterData.number, `${chapterPath}.number`)
+      assertText(chapterData.source, `${chapterPath}.source`)
+
+      if (seenChapters.has(chapterData.id)) {
+        throw new Error(`Duplicate chapter id in content/book.json: ${chapterData.id}`)
+      }
+      seenChapters.add(chapterData.id)
+
+      if (seenNumbers.has(chapterData.number)) {
+        throw new Error(`Duplicate chapter number in content/book.json: ${chapterData.number}`)
+      }
+      seenNumbers.add(chapterData.number)
+
+      const sourcePath = safeContentPath(chapterData.source)
+      const source = await readFile(sourcePath, "utf8")
+      const { attributes, body } = parseFrontMatter(source)
+      const markdownTitle = body.match(/^#\s+(.+)$/m)?.[1]?.trim()
+
+      chapters.push({
+        id: chapterData.id,
+        number: chapterData.number,
+        title: chapterData.title ?? markdownTitle ?? chapterData.id,
+        part: part.title,
+        partId: part.id,
+        sourcePath: `content/${chapterData.source}`,
+        attributes,
+        body
+      })
+    }
   }
 
   return chapters
+}
+
+function safeContentPath(relativePath) {
+  const resolved = path.normalize(path.join(contentDir, relativePath))
+  const distance = path.relative(contentDir, resolved)
+  if (distance.startsWith("..") || path.isAbsolute(distance)) {
+    throw new Error(`Chapter source must stay inside content/: ${relativePath}`)
+  }
+  return resolved
+}
+
+function assertText(value, label) {
+  if (typeof value !== "string" || !value.trim()) {
+    throw new Error(`content/book.json must contain a non-empty string at ${label}`)
+  }
+}
+
+function assertArray(value, label) {
+  if (!Array.isArray(value)) {
+    throw new Error(`content/book.json must contain an array at ${label}`)
+  }
 }
 
 function parseFrontMatter(source) {
@@ -565,7 +619,7 @@ function languageLabel(language) {
   return language
 }
 
-function pageShell({ title, currentId, chapters, main, pageKind }) {
+function pageShell({ title, book, currentId, chapters, main, pageKind }) {
   const relativeRoot = pageKind === "chapter" ? "../" : ""
   const readerToolsDefault = pageKind === "index" ? "open" : "closed"
 
@@ -585,7 +639,7 @@ function pageShell({ title, currentId, chapters, main, pageKind }) {
 <body>
   <a class="skip-link" href="#main">Skip to manuscript</a>
   <div class="book-shell">
-    ${chapterMap(chapters, currentId, relativeRoot)}
+    ${chapterMap(book, chapters, currentId, relativeRoot)}
     ${main}
     ${readerMargin(relativeRoot, readerToolsDefault)}
   </div>
@@ -593,7 +647,7 @@ function pageShell({ title, currentId, chapters, main, pageKind }) {
 </html>`
 }
 
-function chapterMap(chapters, currentId, relativeRoot) {
+function chapterMap(book, chapters, currentId, relativeRoot) {
   const grouped = new Map()
   for (const chapter of chapters) {
     if (!grouped.has(chapter.part)) grouped.set(chapter.part, [])
@@ -612,7 +666,7 @@ function chapterMap(chapters, currentId, relativeRoot) {
 </section>`).join("")
 
   return `<nav class="chapter-map" aria-label="Chapters">
-  <a class="book-title" href="${relativeRoot}index.html">Programming for Wizards</a>
+  <a class="book-title" href="${relativeRoot}index.html">${escapeHtml(book.title)}</a>
   ${groups}
 </nav>`
 }
@@ -701,7 +755,7 @@ function readerPanelOrnament() {
     </svg>`
 }
 
-function indexLayout(chapters) {
+function indexLayout(book, chapters) {
   const grouped = new Map()
   for (const chapter of chapters) {
     if (!grouped.has(chapter.part)) grouped.set(chapter.part, [])
@@ -712,8 +766,8 @@ function indexLayout(chapters) {
   <header class="chapter-header">
     <p class="chapter-kicker">Enhanced Static Manuscript</p>
     ${chapterGlyph(0)}
-    <h1>Programming for Wizards</h1>
-    <p class="lede">A book about programming as the art of changing the shape of a problem.</p>
+    <h1>${escapeHtml(book.title)}</h1>
+    <p class="lede">${escapeHtml(book.subtitle ?? "")}</p>
   </header>
   <section class="index-toc" aria-labelledby="toc-heading">
     <h2 id="toc-heading">Contents</h2>
