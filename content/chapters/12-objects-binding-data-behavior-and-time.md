@@ -22,7 +22,7 @@ If you have data in one place and all the code that works on that data somewhere
 
 OOP's answer is: bind the behavior to the data. Put the methods where the state is. Make the thing responsible for its own rules.
 
-This is a good direction. It's not the whole answer, but not nothin either. So let's dig deeper into OOP.
+This is a good direction. It's not the whole answer, but it's not nothing either.
 
 ## Classes and objects
 
@@ -82,7 +82,7 @@ class OrderService {
 }
 ```
 
-Forget the frameworks, the annotations or the containers with configuration files so large that they need their own weather report.
+Forget the frameworks, the annotations, and the containers with configuration files so large that they need their own weather report.
 
 Instead the useful idea is simple:
 
@@ -92,7 +92,7 @@ That lets you bind later.
 
 ## Binding time
 
-We don't think enough about time. But ignoring it doesn't make it disappear. Instead it infects your careful design in unexpected places. And only pops up when you no longer have the time to fix it.
+We don't think enough about time. But ignoring it doesn't make it disappear. Instead it infects your careful design in unexpected places, then pops up when you no longer have the time to fix it.
 
 When do we decide which database to use? When do we decide which template renders this page? When do we decide which implementation of an interface belongs in production and which one belongs in tests?
 
@@ -122,4 +122,4 @@ This is not because the outside world is dirty and the core is pure. That sounds
 
 The reason is more practical. The outside world changes in different ways than the rules of your program. Databases change. Frameworks change. APIs change. Files move. Users do strange things. The core should be protected from that weather where possible.
 
-This is the same move we have seen before. Change the boundary, and the problem changes shape. And new problems appear into view. How do we manage these new objects and their boundaries and dependencies? How can we manage time and change?
+This is the same move we have seen before. Change the boundary, and the problem changes shape. Then the problem gets bigger. Not one object, but the whole structure. Not one dependency, but change itself.

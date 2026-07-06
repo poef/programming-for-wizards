@@ -154,4 +154,4 @@ The Lego castle is not built by magic universal parts. It is built by choosing w
 
 The knitted castle is always waiting. Every feature wants to tie one more loop. The wizard's work is not to avoid all loops. That would make software useless. The work is to keep asking which loops belong inside a part, and which ones should become a boundary.
 
-Now let's talk about Lego blocks, and how and when to bind them next.
+Now let's talk about what happens when blocks start carrying little worlds of their own.

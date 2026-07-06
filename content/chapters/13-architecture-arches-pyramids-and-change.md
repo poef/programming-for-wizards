@@ -32,10 +32,6 @@ So the question for this chapter is:
 
 What would a software arch look like?
 
-> **Interactive exhibit placeholder: `pyramid-arch-bazaar`**
->
-> Let the reader compare three growth strategies: pile-on pyramid, planned cathedral, adaptive bazaar. Add changing requirements over time. Show where each strategy absorbs change and where it cracks.
-
 ## Pyramids and arches
 
 I used to think the word architecture had its roots in the word arch, which had its roots in arc. Unfortunately the world is not this simple or elegant. Words rarely have the decency to arrange themselves for our metaphors.
@@ -154,9 +150,7 @@ This is one of the fundamental differences between software and traditional engi
 
 A building project can be late, expensive, and politically cursed, but the ground usually does not rewrite the laws of stone halfway through. Software has no such manners.
 
-That means architecture is less about certainty than we would like.
-
-A good architecture does not prove that you were right. It gives you somewhere to go when you discover that you were wrong.
+Architecture is not certainty; it is a way to survive being wrong.
 
 > **Wizard's eleventh rule**
 >
@@ -166,4 +160,4 @@ If the world keeps changing, where do the useful answers come from?
 
 Not always from inside your project. Not even usually from inside your project, if the project is interesting enough. Other people are solving adjacent problems. Other communities are inventing tools. Other systems are creating expectations. Other wizards are making strange little things that may suddenly become the missing piece of your own work.
 
-We have already seen one place where small agreements, visible boundaries, and shared names changed everything: the Web. So before we invent another castle, we should return there.
+We have already seen one place where small agreements, visible boundaries, and shared names changed everything: the Web. So before we invent another castle, we should return to the Web.
