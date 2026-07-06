@@ -22,7 +22,7 @@ At that point, a wizard may decide to make the language explicit.
 
 > **Wizard's eighth rule**
 >
-> Everything gets a name. Its better if you know it.
+> Everything gets a name. It's better if you know it.
 
 ## Domain Specific Languages
 
@@ -42,4 +42,4 @@ Done correctly, a DSL allows you to divide your problem along natural boundaries
 
 But the most important thing to remember is that you are creating a new language whenever you add any variable, function, class or method. By being conscious of this, you can make sure that the language you are building is easy to learn, simple to use and expressive. Designed for humans, not computers. 
 
-Lets make that practical.
+Let's make that practical.

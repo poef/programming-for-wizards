@@ -18,9 +18,7 @@ But borders are expensive. So before we build one, it is worth asking a wizard's
 
 > What if the language we need is already hiding inside the language we have?
 
-> **Interactive exhibit placeholder: `jaqt-extension-lab`**
->
-> Show the same query growing in stages: a loop, then `filter()` and `map()`, then small predicate functions, then an object-shaped pattern, then the final JAQT-shaped query. Let the reader click a function such as `startsWith("O")` and watch it become a value that is stored, passed around and called later. The point is to make the host-language trick visible: no parser appears, because the query is already JavaScript.
+Now, for this example, we'll wade into the deeper waters of JavaScript. Don't worry if you didn't bring your wellies. You can watch from the bank; the code should reveal the trick anyway.
 
 ## A pile of little records
 
@@ -123,7 +121,7 @@ But now the text is not JavaScript. JavaScript cannot run it. We need tokens, gr
 
 Again, this can be a good trade. SQL earns its border. A query string that can be sent to a database server, optimized, explained, logged, and permission-checked is doing work that ordinary JavaScript cannot do by itself.
 
-Our little array of people does not need that much ceremony yet.
+Our little array of people does not need that much ceremony yet. The bill would come due before the language had earned it.
 
 So let's try a smaller spell.
 
@@ -196,6 +194,8 @@ const result = people.filter(person => matches(pattern, person))
 ```
 
 This is already interesting. We did not parse a string. We did not create a second language. We gave an ordinary JavaScript object a new meaning.
+
+This is one of those moments where naming changes the problem. We did not add much code. We gave a shape a job.
 
 ## The result also has a shape
 
@@ -290,7 +290,7 @@ function from(items) {
 
 That is almost embarrassingly small. `where()` wraps `filter()`. `select()` wraps `map()`. `value()` gives the array back.
 
-But the words matter. They give the little language a surface.
+But the words matter. where, select, and value are not decoration. They are the little language becoming visible.
 
 Now the query can read like this:
 
@@ -468,7 +468,3 @@ The question is where the boundary belongs.
 A parser version of a DSL puts the boundary around a new query language. The JAQT-shaped version moves the boundary inward. JavaScript remains the language. The DSL is the shape of a few objects, a handful of functions, and the agreement that certain positions in the shape mean certain things.
 
 That smaller change gives us enough of the query idea to be useful, without making us leave the world we are already in.
-
-> **Wizard's ninth rule**
->
-> A border is a cost.
