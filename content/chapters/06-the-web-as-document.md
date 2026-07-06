@@ -2,7 +2,9 @@
 tags: programming for wizards
 ---
 
-# The Web as document: choosing a tree
+# The Web: the shape of words
+
+A URL can point to a document. But pointing is not enough. Once the browser arrives, it still has to know what it is looking at.
 
 What shape should a document have?
 
