@@ -1,6 +1,6 @@
 ---
-
-## tags: programming for wizards
+tags: programming for wizards
+---
 
 # This is not a programming book
 
