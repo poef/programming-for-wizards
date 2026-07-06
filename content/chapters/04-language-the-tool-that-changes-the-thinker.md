@@ -2,9 +2,9 @@
 tags: programming for wizards
 ---
 
-# Language: the tool that changes the thinker
+# Language: the oldest trick
 
-Language is magic.
+Previously we've discussed numbers and logic. But not language. Which is strange, because language has been doing all the work. Language is magic. Old magic.
 
 We're so used to it that we don't see it, but think about it. While you are reading this, I have the capability to inject my thoughts into your mind. I can control your mind! And even more magically, I can do this while being miles away, or I might even be dead. My mind to your mind. You don't need to be a Vulcan, just start writing.
 
@@ -38,18 +38,15 @@ A thought can be simple in your mind and expensive in your language. If the lang
 
 That is why naming is not decoration. When you add the right word, you don't just shorten the sentence. You change what can be said easily, and what can be said easily has a much better chance of being said at all.
 
-> **Interactive exhibit placeholder: `words-change-the-problem`**
->
-> Present the same tiny situation using three different vocabularies: machine words, business words, and a visual metaphor. Let the reader rename things and see which relationships become easier or harder to notice. The point is that naming is not decoration. The words you choose decide which parts of the problem stand in the light.
-
 Whatever the answer, language is not just a way to communicate ideas. Language is part of how ideas become possible to communicate in the first place.
 
 The words people already use decide what feels natural, what feels strange, what feels possible, and what feels like nonsense. Give something a name, and it becomes easier to notice. Give two things different names, and they begin to feel different. Use the wrong words, and the problem starts lying to you.
+
+> **Wizard's third rule**
+>
+> Change the words. Change the world.
 
 This matters when you talk to other people. It will matter later when we talk about programming languages as well. Code is also a kind of language. It also gives names to things, hides some details, exposes others, and makes some thoughts easy while making other thoughts awkward.
 
 But before we get there, we need to look at the Web. Because the Web is one of the great examples of what happens when a few small invented words and symbols become shared by almost everyone.
 
-> **Wizard's third rule**
->
-> Change the words. Change the world.
