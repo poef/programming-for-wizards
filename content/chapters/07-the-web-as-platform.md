@@ -2,7 +2,7 @@
 tags: programming for wizards
 ---
 
-# The Web as platform: the prototype that became a world
+# The Web: waking up the words
 
 What happens when a prototype becomes the platform?
 

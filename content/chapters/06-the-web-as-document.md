@@ -16,7 +16,7 @@ That choice made the Web easy enough to write by hand, easy enough for browsers 
 
 As I wrote in the previous chapter, in 1989 a wizard called Tim invented the World-Wide Web and changed the world forever. The first, and I think most important part, was the invention of the URL. But another invention was HTML - or HyperText Markup Language.
 
-I've already talked about HyperText, so I'll focus on the Markup Language part here. Markup has been around longer than you might think, certainly longer than computers, and maybe even longer than the printing press.
+To understand an invention, and the problem it solves, you need to understand its history. I've already talked about HyperText, so I'll focus on the Markup Language part here. Markup has been around longer than you might think, certainly longer than computers, and maybe even longer than the printing press.
 
 Markup is simply an additional marking on a document, added to add extra meaning. The general idea is now called a [markup language](https://en.wikipedia.org/wiki/Markup_language). A [brief history of document markup](https://chnm.gmu.edu/digitalhistory/links/pdf/chapter3/3.19a.pdf) gives the old trade version of this nicely. The most common use of markup, pre-computer era, was in [letterpress printing](https://en.wikipedia.org/wiki/Letterpress_printing) and later [offset printing](https://en.wikipedia.org/wiki/Offset_printing) as well. Here an editor added markup, using a pen or pencil, to a document before sending it to a typesetter. The typesetter was a person tasked with creating the page out of movable type, physical metal blocks containing a single letter or glyph.
 
@@ -30,9 +30,7 @@ When the first computers came around, they were very limited in the kind of outp
 
 Once the output devices gained more capabilities, their manufacturers quickly realized a need to somehow instruct these devices how to display or output text.
 
-One application was on how and where to display text on terminal screens. From this we ultimately end up with ANSI codes, based on the DEC (Digital Equipment Corporation) VT-100 line of terminals. This is still in use in most command shell programs. But it has no direct influence on HTML, so I'll skip the history here.
-
-The other, more relevant application, was to create better printed output. Early on, the only way to get decent printed output, was to add a typesetter system to your computer. Such a typesetter was itself a complex computer, combined with a system similar to copiers. The typesetter could be instructed to use specific fonts and font sizes. It had a complex API you could use to do this. But each system had its own, vendor specific API and software.
+The biggest problem was how to create better printed output. Early on, the only way to get decent printed output, was to add a typesetter system to your computer. Such a typesetter was itself a complex computer, combined with a system similar to copiers. The typesetter could be instructed to use specific fonts and font sizes. It had a complex API you could use to do this. But each system had its own, vendor specific API and software.
 
 The wizards at Bell Labs, who were busy inventing Unix, were not impressed. They wanted their Unix and C manuals to be nicely typeset, without having to fiddle around. So they invented [`troff`](https://en.wikipedia.org/wiki/Troff), one of the earliest markup languages. It is still in use today, any Unix system has a built-in manual system, called `man`. And all manual pages are marked up with a `troff` descendant.
 
@@ -57,18 +55,7 @@ as well as simple structures.
 allowed the end-tags to be omitted for the "h1" and "p" elements.
 ```
 
-Unfortunately their work only made it out of IBM as a product you could buy and use, somewhere at the end of the 1980's. 
-
-So the award for one of the first released markup languages that described the meaning--the semantics--of a text goes to [Scribe](http://www.columbia.edu/cu/computinghistory/scribe.pdf) in 1980. At the time a wizard called Brian K. Reid, was a student at the department of computer science at Carnegie Mellon University, USA. He created what he called _"A Document Specification Language and its Compiler"_, as his final dissertation. The resulting software we now know as Scribe. Douglas Crockford later wrote [a short appreciation of Scribe](https://nofluffjuststuff.com/blog/douglas_crockford/2007/06/scribe), mostly to complain that the rest of us did not steal more of its good ideas.
-
-Here is a sample of a text marked up with Scribe:
-
-```scribe
-@Heading(Cranberry Bread)
-
-@Begin(Quotation) And pretty much anything (and I 
- mean @i"anything") could go inside. @End(Quotation)
-```
+Unfortunately their work only made it out of IBM as a product you could buy and use, somewhere at the end of the 1980's. So the award for one of the first released markup languages that described the meaning--the semantics--of a text goes to [Scribe](http://www.columbia.edu/cu/computinghistory/scribe.pdf) in 1980. But we did not end up in a Scribe world, so I'll leave it there and return to GML.
 
 GML eventually turned into [SGML--Standard Generalized Markup Language](https://en.wikipedia.org/wiki/Standard_Generalized_Markup_Language), which became an industry standard in 1986. And in 1989, when sir Tim looked around for a markup language for the Web, he found SGML as a well-defined standard. SGML itself had no tags, it just described how you could create your own document format or DTD--Document Type Definition. This was clearly too complex. However the original GML did have tags, nice and short ones. So [HTML](https://html.spec.whatwg.org/) was born out of a combination of SGML and GML.
 
@@ -106,7 +93,7 @@ This means that the source code should be human readable. So, to make the struct
 <strong>This is an </em>example</> text</>
 ```
 
-This is technically feasible, maybe even easier. However, for a human this is much more difficult to read. And crucially, it is so much easier to make errors, errors that the browser won't be able to recover from.
+This is technically feasible, maybe even simpler. However, for a human this is much more difficult to read. And crucially, it is so much easier to make errors, errors that the browser won't be able to recover from.
 
 Another consequence of the chosen format is that some characters can not be used in the content anymore. Clearly the `<` character now has a special meaning. And so have the `>` and `"` characters. HTML solves this by allowing you to encode special characters with a special format:
 
@@ -145,6 +132,10 @@ This is how your web browser understands this HTML. Most modern browsers allow y
 
 The HTML specification forces you to create a tree structure of your document. There can be no overlapping markup.
 
+> **Wizard's fifth rule**
+>
+> Every choice closes a door.
+
 This tree structure does have benefits. You can also write the above HTML as follows:
 
 ```htmlembedded=
@@ -172,75 +163,7 @@ This renders exactly the same.<br>
 
 Even the extra 3 spaces at the start of the second line do not show up.
 
-However, there is another tricky complication. Take the following HTML:
-
-```htmlembedded=
-<ul>
-    <li>
-        one
-    </li>
-    <li>
-        two
-    </li>
-    <li>
-        three
-    </li>
-</ul>
-```
-
-This renders like this:
-<ul>
-    <li>
-        one
-    </li>
-    <li>
-        two
-    </li>
-    <li>
-        three
-    </li>
-</ul>
-
-But if I change the list items to render as _inline_ elements, instead of _block_ elements, you get this:
-<style>
-    .list-inline {
-        padding: 0 !important;
-        margin-left: 0;
-    }
-    .list-inline li {
-        display: inline;
-        margin: 0;
-        padding: 0
-    }
-</style>
-<ul class="list-inline">
-    <li>
-        one
-    </li>
-    <li>
-        two
-    </li>
-    <li>
-        three
-    </li>
-</ul>
-
-Let's change the markup to this instead:
-```htmlembedded=
-<ul><li>one</li><li>two</li><li>three</li></ul>
-```
-
-There is no change in the normal rendering, as each item is a block element:
-
-<ul><li>one</li><li>two</li><li>three</li></ul>
-
-But now here it is inline:
-
-<ul class="list-inline"><li>one</li><li>two</li><li>three</li></ul>
-
-And there is no space between the items anymore.
-
-Finally if you really want to open a can of worms, try writing a rich text editor, with full [_WYSIWYG_](https://en.wikipedia.org/wiki/WYSIWYG) (What-You-See-Is-What-You-Get) capabilities, using HTML. Modern browsers have such an editor included. You can start one just by entering something like this with the [`contenteditable`](https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Global_attributes/contenteditable) attribute:
+Now if you really want to open a can of worms, try writing a rich text editor, with full [_WYSIWYG_](https://en.wikipedia.org/wiki/WYSIWYG) (What-You-See-Is-What-You-Get) capabilities, using HTML. Modern browsers have such an editor included. You can start one just by entering something like this with the [`contenteditable`](https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Global_attributes/contenteditable) attribute:
 
 ```htmlembedded=
 <div contenteditable=true>
@@ -252,12 +175,4 @@ However, what you are seeing is an editor, designed by Microsoft originally for 
 
 The only successful in-browser editors, that are capable of editing any HTML and deliver a good end result--as in: clean HTML--, do so by switching away from HTML. Instead they use a different underlying editing format. They convert the HTML to that, then allow you to edit it, and when you press save it is converted back to HTML again.
 
-This is a good lesson to learn: All choices have consequences. The less choices you make, the less consequences will haunt you.
-
-> **Interactive exhibit placeholder: `html-chooses-a-tree`**
->
-> Let the reader select overlapping ranges in a sentence, for example bold from character 1 to 15 and comment from character 8 to 25. Try to encode the overlap as HTML and show why the tree breaks. Then show the same annotations as ranges. The point is not that HTML is bad; the point is that every representation has consequences.
-
-> **Wizard's fifth rule**
->
-> Just because it looks simple, doesn't mean it is. Every format is a bet about the shape of future problems.
+This is a good lesson to learn: All choices have consequences. The less choices you make, the less consequences will haunt you. One choice made quickly is haunting us still: JavaScript.
