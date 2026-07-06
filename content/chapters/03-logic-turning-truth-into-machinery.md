@@ -2,7 +2,7 @@
 tags: programming for wizards
 ---
 
-# Logic: turning truth into machinery
+# Logic: the truth is out there.
 
 In the last chapter, we saw that a good notation can do some of the calculation for you. Logic does something similar for reasoning.
 
@@ -42,7 +42,11 @@ If the guard you ask tells the truth, she must give you the wrong answer, becaus
 
 No matter which guard you ask, you get the wrong door. So you choose the other one.
 
-The trick isn't that you became smarter than the guards. It's that you asked a question that made both possible worlds collapse into the same answer. You made the uncertainty stop mattering. That is logic doing its work.
+The trick isn't that you became smarter than the guards. It's that you asked a question that made both possible worlds collapse into the same answer. The first question had the wrong shape, the second one revealed a new way of seeing. You made the uncertainty stop mattering. That is logic doing its work.
+
+> **Wizard's second rule**
+>
+> Tables don't lie.
 
 ## Boolean logic
 
@@ -98,14 +102,6 @@ Wait a minute... what is this `nand` thing? Why not just write `not and`?
 
 Well... it so happens that your computer can implement everything with just `nand`. All other operations can be written as combinations of one or more NANDs. Hardware wizards found ways to create tiny [NAND _gates_](https://en.wikipedia.org/wiki/NAND_gate), and from those gates built the tiny parts of modern CPUs.
 
-This is the second great trick in this chapter. First we turned a riddle into a table. Then we turned the table into a machine.
+This is the second great trick in this chapter. First we turned a riddle into a table. Then we turned the table into a machine. 
 
-That is a very wizardly move. When intuition gets unreliable, make the possible cases explicit. Then let the table reason for you.
-
-> **Interactive exhibit placeholder: `nand-all-the-way-down`**
->
-> Let the reader choose `and`, `or`, or `not`. Show the selected logic gate, then show the equivalent circuit made only from NAND gates. Include a truth table that updates as gates are composed.
-
-> **Wizard's second rule**
->
-> Tables don't lie.
+Tables don't lie, but people do. And we like it. So much that we've invented something entirely new. Something clever and diabolical, called language.
