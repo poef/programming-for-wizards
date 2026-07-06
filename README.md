@@ -32,6 +32,8 @@ Open [site/index.html](site/index.html) after building.
 
 The generated site table of contents and chapter navigation are read from [content/book.json](content/book.json). To rearrange chapters or move them between parts, edit that file and rebuild.
 
+The static site also loads MathJax for TeX-style formulas in the manuscript. Use `$...$` for inline formulas and `$$...$$` for display formulas. Standalone display blocks may also be written as a line containing `$$`, followed by the formula, followed by another `$$` line.
+
 To rebuild and validate the generated book:
 
 ```sh
@@ -54,17 +56,17 @@ npm run dev
 
 This is a human-readable snapshot. The canonical source for the generated site structure is [content/book.json](content/book.json).
 
-### Prologue
+### Prologue: You are allowed to make it up
 
 - [01. This is not a programming book](content/chapters/01-this-is-not-a-programming-book.md)
 
-### Part I: Representation
+### Part I: Representations are spells
 
 - [02. Numbers: hiding calculations in symbols](content/chapters/02-numbers-hiding-calculations-in-symbols.md)
 - [03. Logic: turning truth into machinery](content/chapters/03-logic-turning-truth-into-machinery.md)
 - [04. Language: the tool that changes the thinker](content/chapters/04-language-the-tool-that-changes-the-thinker.md)
 
-### Part II: Intermezzo - The Web
+### Part II: The Web, from address to platform
 
 - [05. The Web as address: a spell for pointing anywhere](content/chapters/05-the-web-as-address.md)
 - [06. The Web as document: choosing a tree](content/chapters/06-the-web-as-document.md)
@@ -76,14 +78,14 @@ This is a human-readable snapshot. The canonical source for the generated site s
 - [09. Every program contains a language](content/chapters/09-every-program-contains-a-language.md)
 - [10. Code exhibit: extending JavaScript with JAQT](content/chapters/10-code-exhibit-extending-javascript-with-jaqt.md)
 
-### Part IV: Boundaries and arches
+### Part IV: Boundaries and reusable pieces
 
 - [11. The knitted castle](content/chapters/11-the-knitted-castle.md)
 - [12. Objects: binding data, behavior, and time](content/chapters/12-objects-binding-data-behavior-and-time.md)
+
+### Part V: Architecture, change, commons, and home
+
 - [13. Architecture: arches, pyramids, and change](content/chapters/13-architecture-arches-pyramids-and-change.md)
-
-### Part V: The Web, Evolved
-
 - [14. The Web as commons: innovation happens elsewhere](content/chapters/14-the-web-as-commons.md)
 - [15. The Web as data: things should have addresses too](content/chapters/15-the-web-as-data.md)
 - [16. The Web as home: your data should outlive your apps](content/chapters/16-the-web-as-home.md)

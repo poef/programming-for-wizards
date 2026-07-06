@@ -6,6 +6,19 @@
   <title>Numbers: hiding calculations in symbols - Programming for Wizards</title>
   <link rel="stylesheet" href="../assets/book.css">
   <link rel="stylesheet" href="../assets/exhibits/exhibits.css">
+  <script>
+    window.MathJax = {
+      tex: {
+        inlineMath: [["$", "$"], ["\\(", "\\)"]],
+        displayMath: [["$$", "$$"], ["\\[", "\\]"]],
+        processEscapes: true
+      },
+      options: {
+        skipHtmlTags: ["script", "noscript", "style", "textarea", "pre", "code"]
+      }
+    }
+  </script>
+  <script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
   <script defer src="../assets/book.js"></script>
   <script defer src="../assets/exhibits/exhibit-kit.js"></script>
   <script defer src="https://cdn.jsdelivr.net/gh/muze-labs/simplyflow@main/packages/simplyflow/dist/simply.flow.js"></script>
@@ -18,19 +31,19 @@
   <a class="book-title" href="../index.html">Programming for Wizards</a>
   
 <section class="map-section">
-  <h2>Prologue</h2>
+  <h2>Prologue: You are allowed to make it up</h2>
   <ol>
     <li><a href="../chapters/01-this-is-not-a-programming-book.html"><span>01</span>This is not a programming book</a></li>
   </ol>
 </section>
 <section class="map-section">
-  <h2>Part I: Representation</h2>
+  <h2>Part I: Representations are spells</h2>
   <ol>
     <li><a aria-current="page" href="../chapters/02-numbers-hiding-calculations-in-symbols.html"><span>02</span>Numbers: hiding calculations in symbols</a></li><li><a href="../chapters/03-logic-turning-truth-into-machinery.html"><span>03</span>Logic: turning truth into machinery</a></li><li><a href="../chapters/04-language-the-tool-that-changes-the-thinker.html"><span>04</span>Language: the tool that changes the thinker</a></li>
   </ol>
 </section>
 <section class="map-section">
-  <h2>Part II: Intermezzo - the Web</h2>
+  <h2>Part II: The Web, from address to platform</h2>
   <ol>
     <li><a href="../chapters/05-the-web-as-address.html"><span>05</span>The Web as address: a spell for pointing anywhere</a></li><li><a href="../chapters/06-the-web-as-document.html"><span>06</span>The Web as document: choosing a tree</a></li><li><a href="../chapters/07-the-web-as-platform.html"><span>07</span>The Web as platform: the prototype that became a world</a></li>
   </ol>
@@ -42,15 +55,15 @@
   </ol>
 </section>
 <section class="map-section">
-  <h2>Part IV: Boundaries and arches</h2>
+  <h2>Part IV: Boundaries and reusable pieces</h2>
   <ol>
-    <li><a href="../chapters/11-the-knitted-castle.html"><span>11</span>The knitted castle</a></li><li><a href="../chapters/12-objects-binding-data-behavior-and-time.html"><span>12</span>Objects: binding data, behavior, and time</a></li><li><a href="../chapters/13-architecture-arches-pyramids-and-change.html"><span>13</span>Architecture: arches, pyramids, and change</a></li>
+    <li><a href="../chapters/11-the-knitted-castle.html"><span>11</span>The knitted castle</a></li><li><a href="../chapters/12-objects-binding-data-behavior-and-time.html"><span>12</span>Objects: binding data, behavior, and time</a></li>
   </ol>
 </section>
 <section class="map-section">
-  <h2>Part V: The Web Evolved</h2>
+  <h2>Part V: Architecture, change, commons, and home</h2>
   <ol>
-    <li><a href="../chapters/14-the-web-as-commons.html"><span>14</span>The Web as commons: innovation happens elsewhere</a></li><li><a href="../chapters/15-the-web-as-data.html"><span>15</span>The Web as data: things should have addresses too</a></li><li><a href="../chapters/16-the-web-as-home.html"><span>16</span>The Web as home: your data should outlive your apps</a></li>
+    <li><a href="../chapters/13-architecture-arches-pyramids-and-change.html"><span>13</span>Architecture: arches, pyramids, and change</a></li><li><a href="../chapters/14-the-web-as-commons.html"><span>14</span>The Web as commons: innovation happens elsewhere</a></li><li><a href="../chapters/15-the-web-as-data.html"><span>15</span>The Web as data: things should have addresses too</a></li><li><a href="../chapters/16-the-web-as-home.html"><span>16</span>The Web as home: your data should outlive your apps</a></li>
   </ol>
 </section>
 <section class="map-section">
@@ -62,7 +75,7 @@
 </nav>
     <main id="main" class="manuscript">
   <header class="chapter-header">
-    <p class="chapter-kicker">Part I: Representation</p>
+    <p class="chapter-kicker">Part I: Representations are spells</p>
     <p class="chapter-number">Chapter 02</p>
     <svg class="chapter-glyph" viewBox="0 0 96 96" focusable="false" aria-hidden="true"><path d="M22 67h52"/><path d="M30 67V25h36v42"/><path d="M39 67V37h18v30"/><path d="M21 25h54"/><circle cx="35" cy="50" r="2"/><circle cx="61" cy="50" r="2"/></svg>
   </header>
@@ -107,7 +120,11 @@
 <p id="p-02-this-leads-to-another-lesson-hiding-inside-the" data-note-target>This leads to another lesson hiding inside the first one: your creation will probably outlive you, so document it.</p>
 <p id="p-02-were-getting-pretty-good-at-writing-large-numbers" data-note-target>We're getting pretty good at writing large numbers. We can write down 1,000,000 and read it without blinking an eye. But science is progressing and making up bigger numbers faster than we can write them down. How about the number of atoms in the universe? Or even bigger, all the possible move sequences in the game of chess?</p>
 <p id="p-02-to-write-that-number-down-you-will-need" data-note-target>To write that number down, you will need a number with at least 111 zeros. Clearly that is no longer practical. So enter <a href="https://en.wikipedia.org/wiki/Scientific_notation">scientific notation</a>, where we add another calculation as part of the notation of a number: exponents.</p>
-<figure id="math-02-083" class="math-block" data-note-target><pre>2 \times 10^{111}</pre></figure>
+<figure id="math-02-083" class="math-block" data-note-target>
+<div class="math-display">$$
+2 \times 10^{111}
+$$</div>
+</figure>
 <p id="p-02-but-we-can-also-use-these-to-explain" data-note-target>But we can also use these to explain the positional nature of Arabic numerals:</p>
 <figure id="table-02-089" class="table-figure" data-note-target>
 <table>
@@ -121,12 +138,24 @@
 <p id="p-02-so-what-about-our-original-two-numbers-1" data-note-target>So what about our original two numbers, <code>1</code> and <code>0</code>? Well, if you understand the magic of positional notation, it turns out that you don't actually need all 10 numerals in each position.</p>
 <p id="p-02-once-you-see-that-the-base-is-just" data-note-target>Once you see that the base is just another design choice, decimal starts to look less like nature and more like a very successful habit.</p>
 <p id="p-02-you-can-use-any-number-of-numerals-such" data-note-target>You can use any number of numerals, such as 16 for <a href="https://en.wikipedia.org/wiki/Hexadecimal">hexadecimal</a> numbers, for example:</p>
-<figure id="math-02-101" class="math-block" data-note-target><pre>    0x1F   = 1 \times 16 + 15</pre></figure>
+<figure id="math-02-101" class="math-block" data-note-target>
+<div class="math-display">$$
+0x1F   = 1 \times 16 + 15
+$$</div>
+</figure>
 <p id="p-02-0x-is-just-a-convention-to-say-this" data-note-target><em><code>0x</code> is just a convention to say 'this is a hexadecimal number', and since there are 16 single-position numerals, we've got <code>A</code> to <code>F</code> as placeholders for 10 to 15.</em></p>
 <p id="p-02-or-octal-with-8-numerals-per-position" data-note-target>Or <a href="https://en.wikipedia.org/wiki/Octal">octal</a>, with 8 numerals per position:</p>
-<figure id="math-02-109" class="math-block" data-note-target><pre>    0o17 = 1 \times 8 + 7</pre></figure>
+<figure id="math-02-109" class="math-block" data-note-target>
+<div class="math-display">$$
+0o17 = 1 \times 8 + 7
+$$</div>
+</figure>
 <p id="p-02-or-minimize-it-to-two-numbers-1-and" data-note-target>Or minimize it to two numbers, <code>1</code> and <code>0</code>, and you get <a href="https://en.wikipedia.org/wiki/Binary_number">binary</a>:</p>
-<figure id="math-02-115" class="math-block" data-note-target><pre>    11 = 1 \times 2 + 1</pre></figure>
+<figure id="math-02-115" class="math-block" data-note-target>
+<div class="math-display">$$
+11 = 1 \times 2 + 1
+$$</div>
+</figure>
 <p id="p-02-and-using-exponents-we-can-explain-it-a" data-note-target>And using exponents, we can explain it a bit better:</p>
 <figure id="table-02-121" class="table-figure" data-note-target>
 <table>
@@ -137,9 +166,17 @@
 </table>
 </figure>
 <p id="p-02-this-means-that-the-binary-number-101-is" data-note-target>This means that the binary number <code>101</code> is equal to</p>
-<figure id="math-02-127" class="math-block" data-note-target><pre>    1 \times 2^2 + 0 \times 2^1 + 1 \times 2^0</pre></figure>
+<figure id="math-02-127" class="math-block" data-note-target>
+<div class="math-display">$$
+1 \times 2^2 + 0 \times 2^1 + 1 \times 2^0
+$$</div>
+</figure>
 <p id="p-02-this-simplifies-to" data-note-target>This simplifies to</p>
-<figure id="math-02-133" class="math-block" data-note-target><pre>    1 \times 4 + 1 = 5</pre></figure>
+<figure id="math-02-133" class="math-block" data-note-target>
+<div class="math-display">$$
+1 \times 4 + 1 = 5
+$$</div>
+</figure>
 <p id="p-02-binary-numbers-are-so-ubiquitous-in-programming-that" data-note-target>Binary numbers are so ubiquitous in programming that you'll see the powers of 2 often. Here are the first few:</p>
 <figure id="table-02-140" class="table-figure" data-note-target>
 <table>

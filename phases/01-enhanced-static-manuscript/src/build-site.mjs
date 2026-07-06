@@ -30,6 +30,7 @@ function createManifest(book) {
       solidNotes: "planned",
       exhibitRuntime: true,
       readerSettings: true,
+      mathRendering: true,
       staticFallbacks: true
     },
     chapters: [],
@@ -359,7 +360,11 @@ class MarkdownRenderer {
     this.addAnchor(id, "math", "math block")
 
     return {
-      html: `<figure id="${id}" class="math-block" data-note-target><pre>${escapeHtml(math.join("\n"))}</pre></figure>`,
+      html: `<figure id="${id}" class="math-block" data-note-target>
+<div class="math-display">$$
+${escapeHtml(math.join("\n").trim())}
+$$</div>
+</figure>`,
       nextIndex: index < lines.length ? index + 1 : index
     }
   }
@@ -631,6 +636,19 @@ function pageShell({ title, book, currentId, chapters, main, pageKind }) {
   <title>${escapeHtml(title)}</title>
   <link rel="stylesheet" href="${relativeRoot}assets/book.css">
   <link rel="stylesheet" href="${relativeRoot}assets/exhibits/exhibits.css">
+  <script>
+    window.MathJax = {
+      tex: {
+        inlineMath: [["$", "$"], ["\\\\(", "\\\\)"]],
+        displayMath: [["$$", "$$"], ["\\\\[", "\\\\]"]],
+        processEscapes: true
+      },
+      options: {
+        skipHtmlTags: ["script", "noscript", "style", "textarea", "pre", "code"]
+      }
+    }
+  </script>
+  <script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
   <script defer src="${relativeRoot}assets/book.js"></script>
   <script defer src="${relativeRoot}assets/exhibits/exhibit-kit.js"></script>
   <script defer src="https://cdn.jsdelivr.net/gh/muze-labs/simplyflow@main/packages/simplyflow/dist/simply.flow.js"></script>
@@ -809,6 +827,7 @@ function renderInline(source) {
   text = text.replace(/`([^`]+)`/g, (_, code) => hold(`<code>${escapeHtml(code)}</code>`))
   text = text.replace(/!\[([^\]]*)\]\(([^)]+)\)/g, (_, alt, href) => hold(`<img src="${escapeAttribute(href)}" alt="${escapeAttribute(alt)}">`))
   text = text.replace(/\[([^\]]+)\]\(([^)]+)\)/g, (_, label, href) => hold(`<a href="${escapeAttribute(href)}">${renderInline(label)}</a>`))
+  text = preserveInlineMath(text, hold)
   text = text.replace(/<[^>\n]+>/g, tag => hold(tag))
   text = text.replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>")
   text = text.replace(/_([^_]+)_/g, "<em>$1</em>")
@@ -820,11 +839,21 @@ function renderInline(source) {
     for (let index = 0; index < placeholders.length; index += 1) {
       const key = `\u0000${index}\u0000`
       if (text.includes(key)) {
-        text = text.replaceAll(key, placeholders[index])
+        text = text.split(key).join(placeholders[index])
         restored = true
       }
     }
   }
+
+  return text
+}
+
+function preserveInlineMath(source, hold) {
+  let text = source.replace(/\$\$([\s\S]+?)\$\$/g, (_, math) => hold(`$$${escapeHtml(math)}$$`))
+
+  text = text.replace(/(^|[^\\$])\$((?:\\.|[^$\n])+?)\$/g, (_, prefix, math) => {
+    return `${prefix}${hold(`$${escapeHtml(math)}$`)}`
+  })
 
   return text
 }

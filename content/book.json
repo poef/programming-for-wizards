@@ -5,7 +5,7 @@
   "parts": [
     {
       "id": "prologue",
-      "title": "Prologue",
+      "title": "Prologue: You are allowed to make it up",
       "chapters": [
         {
           "number": "01",
@@ -16,8 +16,8 @@
       ]
     },
     {
-      "id": "representation",
-      "title": "Part I: Representation",
+      "id": "representations-are-spells",
+      "title": "Part I: Representations are spells",
       "chapters": [
         {
           "number": "02",
@@ -41,7 +41,7 @@
     },
     {
       "id": "web-address-document-platform",
-      "title": "Part II: Intermezzo - the Web",
+      "title": "Part II: The Web, from address to platform",
       "chapters": [
         {
           "number": "05",
@@ -88,8 +88,8 @@
       ]
     },
     {
-      "id": "boundaries-and-arches",
-      "title": "Part IV: Boundaries and arches",
+      "id": "boundaries-and-reusable-pieces",
+      "title": "Part IV: Boundaries and reusable pieces",
       "chapters": [
         {
           "number": "11",
@@ -102,19 +102,19 @@
           "id": "12-objects-binding-data-behavior-and-time",
           "title": "Objects: binding data, behavior, and time",
           "source": "chapters/12-objects-binding-data-behavior-and-time.md"
-        },
+        }
+      ]
+    },
+    {
+      "id": "architecture-change-commons-home",
+      "title": "Part V: Architecture, change, commons, and home",
+      "chapters": [
         {
           "number": "13",
           "id": "13-architecture-arches-pyramids-and-change",
           "title": "Architecture: arches, pyramids, and change",
           "source": "chapters/13-architecture-arches-pyramids-and-change.md"
-        }
-      ]
-    },
-    {
-      "id": "solid",
-      "title": "Part V: The Web Evolved",
-      "chapters": [
+        },
         {
           "number": "14",
           "id": "14-the-web-as-commons",

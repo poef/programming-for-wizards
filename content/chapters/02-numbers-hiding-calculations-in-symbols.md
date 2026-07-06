@@ -157,4 +157,4 @@ A notation is not just a way to write something down. A good notation performs p
 
 > **Wizard's first rule**
 >
-> Steal the good stuff.
+> Steal good magic.

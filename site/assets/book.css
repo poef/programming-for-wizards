@@ -594,6 +594,14 @@ figure {
   padding: 0.85rem;
 }
 
+.math-display {
+  min-width: max-content;
+}
+
+.math-block mjx-container[display="true"] {
+  margin: 0.3rem 0;
+}
+
 pre,
 code {
   font-family: var(--book-font-mono);

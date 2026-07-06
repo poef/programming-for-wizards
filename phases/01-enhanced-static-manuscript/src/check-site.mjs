@@ -203,6 +203,10 @@ function checkManifestExpectations(book, chapters, manifest) {
     fail("Manifest should declare exhibitRuntime: true")
   }
 
+  if (manifest.features?.mathRendering !== true) {
+    fail("Manifest should declare mathRendering: true")
+  }
+
   for (const chapter of manifest.chapters ?? []) {
     const expectedUrl = `chapters/${chapter.id}.html`
     if (chapter.url !== expectedUrl) {
@@ -281,6 +285,22 @@ function checkHtmlPages(htmlByFile) {
 
     if (!/<script\s+defer\s+src="(?:\.\.\/)?assets\/book\.js"><\/script>/.test(html)) {
       fail(`${relativeFile} is missing the reader settings script`)
+    }
+
+    if (!/window\.MathJax\s*=/.test(html)) {
+      fail(`${relativeFile} is missing the MathJax configuration`)
+    }
+
+    if (!/<script\s+defer\s+src="https:\/\/cdn\.jsdelivr\.net\/npm\/mathjax@3\/es5\/tex-chtml\.js"><\/script>/.test(html)) {
+      fail(`${relativeFile} is missing the MathJax loader`)
+    }
+
+    if (!html.includes('["\\\\[", "\\\\]"]')) {
+      fail(`${relativeFile} has incorrectly escaped MathJax display delimiters`)
+    }
+
+    if (/<div class="math-display">\\\[/.test(html)) {
+      fail(`${relativeFile} should emit display math with $$ delimiters, not \[ delimiters`)
     }
 
     if (!/<link\s+rel="stylesheet"\s+href="(?:\.\.\/)?assets\/exhibits\/exhibits\.css">/.test(html)) {
