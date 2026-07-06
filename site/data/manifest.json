@@ -1,7 +1,7 @@
 {
   "id": "programming-for-wizards",
   "title": "Programming for Wizards",
-  "generatedAt": "2026-07-01T22:30:52.849Z",
+  "generatedAt": "2026-07-06T06:17:36.286Z",
   "phase": "01-enhanced-static-manuscript",
   "features": {
     "notes": "planned",
@@ -29,7 +29,7 @@
       "url": "chapters/02-numbers-hiding-calculations-in-symbols.html",
       "previous": "01-this-is-not-a-programming-book",
       "next": "03-logic-turning-truth-into-machinery",
-      "rule": "Wizard's first rule, corollary"
+      "rule": "Wizard's first rule"
     },
     {
       "id": "03-logic-turning-truth-into-machinery",
@@ -200,14 +200,6 @@
       "status": "interactive"
     },
     {
-      "id": "truth-table-riddle",
-      "anchor": "exhibit-truth-table-riddle",
-      "chapter": "03-logic-turning-truth-into-machinery",
-      "title": "Truth Table Riddle",
-      "url": "chapters/03-logic-turning-truth-into-machinery.html#exhibit-truth-table-riddle",
-      "status": "placeholder"
-    },
-    {
       "id": "nand-all-the-way-down",
       "anchor": "exhibit-nand-all-the-way-down",
       "chapter": "03-logic-turning-truth-into-machinery",
@@ -342,23 +334,15 @@
       "anchor": "rule-02-wizards-first-rule",
       "chapter": "02-numbers-hiding-calculations-in-symbols",
       "label": "Wizard's first rule",
-      "text": "Steal.",
+      "text": "Steal good magic.",
       "url": "chapters/02-numbers-hiding-calculations-in-symbols.html#rule-02-wizards-first-rule"
-    },
-    {
-      "id": "02-numbers-hiding-calculations-in-symbols-2",
-      "anchor": "rule-02-wizards-first-rule-corollary",
-      "chapter": "02-numbers-hiding-calculations-in-symbols",
-      "label": "Wizard's first rule, corollary",
-      "text": "Your creation will probably outlive you, so document it.",
-      "url": "chapters/02-numbers-hiding-calculations-in-symbols.html#rule-02-wizards-first-rule-corollary"
     },
     {
       "id": "03-logic-turning-truth-into-machinery-1",
       "anchor": "rule-03-wizards-second-rule",
       "chapter": "03-logic-turning-truth-into-machinery",
       "label": "Wizard's second rule",
-      "text": "When intuition becomes unreliable, build a table. Then let the table reason for you.",
+      "text": "Tables don't lie.",
       "url": "chapters/03-logic-turning-truth-into-machinery.html#rule-03-wizards-second-rule"
     },
     {
@@ -366,7 +350,7 @@
       "anchor": "rule-04-wizards-third-rule",
       "chapter": "04-language-the-tool-that-changes-the-thinker",
       "label": "Wizard's third rule",
-      "text": "Before you try to convince people, ask which language their problem already speaks.",
+      "text": "Change the words. Change the world.",
       "url": "chapters/04-language-the-tool-that-changes-the-thinker.html#rule-04-wizards-third-rule"
     },
     {
@@ -398,7 +382,7 @@
       "anchor": "rule-08-wizards-seventh-rule",
       "chapter": "08-programming-languages-are-for-humans",
       "label": "Wizard's seventh rule",
-      "text": "Code, like language, should clarify, not hide intent.",
+      "text": "Every spell builds a wall.",
       "url": "chapters/08-programming-languages-are-for-humans.html#rule-08-wizards-seventh-rule"
     },
     {
@@ -406,7 +390,7 @@
       "anchor": "rule-09-wizards-eighth-rule",
       "chapter": "09-every-program-contains-a-language",
       "label": "Wizard's eighth rule",
-      "text": "Whenever you name something, you are teaching the next reader a word. Make sure the word earns its place.",
+      "text": "True names have power in any language.",
       "url": "chapters/09-every-program-contains-a-language.html#rule-09-wizards-eighth-rule"
     },
     {
@@ -414,7 +398,7 @@
       "anchor": "rule-10-wizards-ninth-rule",
       "chapter": "10-code-exhibit-extending-javascript-with-jaqt",
       "label": "Wizard's ninth rule",
-      "text": "When you invent a language, first look for the smallest change in shape that lets the old problem become smaller. A new border is powerful only when it opens more than it closes.",
+      "text": "A border is a cost.",
       "url": "chapters/10-code-exhibit-extending-javascript-with-jaqt.html#rule-10-wizards-ninth-rule"
     },
     {
@@ -422,7 +406,7 @@
       "anchor": "rule-11-wizards-tenth-rule",
       "chapter": "11-the-knitted-castle",
       "label": "Wizard's tenth rule",
-      "text": "A reusable component is not a piece with many uses. It is a piece with few assumptions and a clear boundary.",
+      "text": "Assumptions are threads. Cut the threads.",
       "url": "chapters/11-the-knitted-castle.html#rule-11-wizards-tenth-rule"
     },
     {
@@ -430,7 +414,7 @@
       "anchor": "rule-12-wizards-eleventh-rule",
       "chapter": "12-objects-binding-data-behavior-and-time",
       "label": "Wizard's eleventh rule",
-      "text": "Do not only ask what a thing depends on. Ask where that dependency should be bound.",
+      "text": "Choose wisely when to choose.",
       "url": "chapters/12-objects-binding-data-behavior-and-time.html#rule-12-wizards-eleventh-rule"
     },
     {
@@ -438,7 +422,7 @@
       "anchor": "rule-13-wizards-twelfth-rule",
       "chapter": "13-architecture-arches-pyramids-and-change",
       "label": "Wizard's twelfth rule",
-      "text": "Perfect is the enemy of good enough because the world does not wait for perfect.",
+      "text": "You will be wrong. Try not to make it hurt.",
       "url": "chapters/13-architecture-arches-pyramids-and-change.html#rule-13-wizards-twelfth-rule"
     },
     {
@@ -490,11 +474,11 @@
       "url": "chapters/01-this-is-not-a-programming-book.html#p-01-there-are-a-lot-of-books-about-programming"
     },
     {
-      "id": "p-01-this-book-is-for-people-who-suspect-software",
+      "id": "p-01-most-programming-books-teach-you-how-to-behave",
       "type": "paragraph",
-      "label": "This book is for people who suspect software could be simpler, stranger, smaller, and more humane than it usually is.",
+      "label": "Most programming books teach you how to behave inside the systems other people built. This one is more interested in how",
       "chapter": "01-this-is-not-a-programming-book",
-      "url": "chapters/01-this-is-not-a-programming-book.html#p-01-this-book-is-for-people-who-suspect-software"
+      "url": "chapters/01-this-is-not-a-programming-book.html#p-01-most-programming-books-teach-you-how-to-behave"
     },
     {
       "id": "p-01-that-is-what-i-mean-by-wizard-here",
@@ -511,11 +495,18 @@
       "url": "chapters/01-this-is-not-a-programming-book.html#p-01-you-may-already-have-been-programming-computers-for"
     },
     {
-      "id": "p-01-to-really-learn-what-you-can-do-chapters",
+      "id": "p-01-to-understand-what-you-can-change-we-will",
       "type": "paragraph",
-      "label": "To really learn what you can do, chapters in this book will go back and try to highlight where we are and how we got the",
+      "label": "To understand what you can change, we will need to go backwards. Again and again, this book will dig up the moment where",
       "chapter": "01-this-is-not-a-programming-book",
-      "url": "chapters/01-this-is-not-a-programming-book.html#p-01-to-really-learn-what-you-can-do-chapters"
+      "url": "chapters/01-this-is-not-a-programming-book.html#p-01-to-understand-what-you-can-change-we-will"
+    },
+    {
+      "id": "p-01-that-is-partly-history-but-mostly-permission-everything",
+      "type": "paragraph",
+      "label": "That is partly history, but mostly permission. Everything you have learned was once something someone thought up. There ",
+      "chapter": "01-this-is-not-a-programming-book",
+      "url": "chapters/01-this-is-not-a-programming-book.html#p-01-that-is-partly-history-but-mostly-permission-everything"
     },
     {
       "id": "p-01-that-is-the-point-of-this-book",
@@ -595,6 +586,48 @@
       "url": "chapters/01-this-is-not-a-programming-book.html#exhibit-same-problem-different-world"
     },
     {
+      "id": "h-01-a-ruin-worth-exploring",
+      "type": "heading",
+      "label": "A ruin worth exploring",
+      "chapter": "01-this-is-not-a-programming-book",
+      "url": "chapters/01-this-is-not-a-programming-book.html#h-01-a-ruin-worth-exploring"
+    },
+    {
+      "id": "p-01-this-book-is-going-to-return-to-the",
+      "type": "paragraph",
+      "label": "This book is going to return to the Web more than once.",
+      "chapter": "01-this-is-not-a-programming-book",
+      "url": "chapters/01-this-is-not-a-programming-book.html#p-01-this-book-is-going-to-return-to-the"
+    },
+    {
+      "id": "p-01-that-is-not-because-the-web-is-the",
+      "type": "paragraph",
+      "label": "That is not because the Web is the only interesting place to learn programming. It is because the Web is one of the few ",
+      "chapter": "01-this-is-not-a-programming-book",
+      "url": "chapters/01-this-is-not-a-programming-book.html#p-01-that-is-not-because-the-web-is-the"
+    },
+    {
+      "id": "p-01-the-web-is-also-one-of-the-few",
+      "type": "paragraph",
+      "label": "The Web is also one of the few great software systems that still lets you lift the carpet. View source is not what it us",
+      "chapter": "01-this-is-not-a-programming-book",
+      "url": "chapters/01-this-is-not-a-programming-book.html#p-01-the-web-is-also-one-of-the-few"
+    },
+    {
+      "id": "p-01-so-yes-this-book-will-be-web-heavy",
+      "type": "paragraph",
+      "label": "So yes, this book will be web-heavy. Not because every wizard must build websites, but because the Web is a very good ru",
+      "chapter": "01-this-is-not-a-programming-book",
+      "url": "chapters/01-this-is-not-a-programming-book.html#p-01-so-yes-this-book-will-be-web-heavy"
+    },
+    {
+      "id": "p-01-we-will-use-it-the-way-wizards-use",
+      "type": "paragraph",
+      "label": "We will use it the way wizards use ruins: not to admire the past, not to restore it exactly, but to steal working magic ",
+      "chapter": "01-this-is-not-a-programming-book",
+      "url": "chapters/01-this-is-not-a-programming-book.html#p-01-we-will-use-it-the-way-wizards-use"
+    },
+    {
       "id": "h-02-numbers-hiding-calculations-in-symbols",
       "type": "heading",
       "label": "Numbers: hiding calculations in symbols",
@@ -623,51 +656,72 @@
       "url": "chapters/02-numbers-hiding-calculations-in-symbols.html#p-02-numbers-are-a-good-place-to-begin-because"
     },
     {
-      "id": "h-02-numbers-numbers-numbers",
+      "id": "h-02-the-first-interface",
       "type": "heading",
-      "label": "Numbers, numbers, numbers",
+      "label": "The first interface",
       "chapter": "02-numbers-hiding-calculations-in-symbols",
-      "url": "chapters/02-numbers-hiding-calculations-in-symbols.html#h-02-numbers-numbers-numbers"
+      "url": "chapters/02-numbers-hiding-calculations-in-symbols.html#h-02-the-first-interface"
     },
     {
       "id": "p-02-its-no-secret-that-programming-is-based-on",
       "type": "paragraph",
-      "label": "Its no secret that programming is based on numbers. Two of them, 0 and 1. It may come as a surprise to some that one of ",
+      "label": "It's no secret that programming is based on numbers. Two of them: 0 and 1.",
       "chapter": "02-numbers-hiding-calculations-in-symbols",
       "url": "chapters/02-numbers-hiding-calculations-in-symbols.html#p-02-its-no-secret-that-programming-is-based-on"
     },
     {
-      "id": "p-02-lets-go-back-way-back-back-into-time",
+      "id": "p-02-it-may-come-as-a-surprise-that-one",
       "type": "paragraph",
-      "label": "Lets go back, way back, back into time, when the only people who existed were cavemen, cavewomen, troglodytes.",
+      "label": "It may come as a surprise that one of those numbers is much newer than the other. But before we get to zero, or binary, ",
       "chapter": "02-numbers-hiding-calculations-in-symbols",
-      "url": "chapters/02-numbers-hiding-calculations-in-symbols.html#p-02-lets-go-back-way-back-back-into-time"
+      "url": "chapters/02-numbers-hiding-calculations-in-symbols.html#p-02-it-may-come-as-a-surprise-that-one"
     },
     {
-      "id": "p-02-these-our-ancestors-probably-counted-using-their-fingers",
+      "id": "p-02-hands",
       "type": "paragraph",
-      "label": "These, our ancestors, probably counted using their fingers. Holding up one or more fingers, you can count to 10 using tw",
+      "label": "Hands.",
       "chapter": "02-numbers-hiding-calculations-in-symbols",
-      "url": "chapters/02-numbers-hiding-calculations-in-symbols.html#p-02-these-our-ancestors-probably-counted-using-their-fingers"
+      "url": "chapters/02-numbers-hiding-calculations-in-symbols.html#p-02-hands"
+    },
+    {
+      "id": "p-02-at-first-the-best-number-system-was-the",
+      "type": "paragraph",
+      "label": "At first, the best number system was the one attached to your body.",
+      "chapter": "02-numbers-hiding-calculations-in-symbols",
+      "url": "chapters/02-numbers-hiding-calculations-in-symbols.html#p-02-at-first-the-best-number-system-was-the"
+    },
+    {
+      "id": "p-02-thats-not-a-joke-fingers-are-portable-visible",
+      "type": "paragraph",
+      "label": "That's not a joke. Fingers are portable, visible, hard to lose, and conveniently arranged in groups. For small numbers, ",
+      "chapter": "02-numbers-hiding-calculations-in-symbols",
+      "url": "chapters/02-numbers-hiding-calculations-in-symbols.html#p-02-thats-not-a-joke-fingers-are-portable-visible"
+    },
+    {
+      "id": "p-02-you-can-count-to-10-using-two-hands",
+      "type": "paragraph",
+      "label": "You can count to 10 using two hands. But what if you want to add numbers to your cave painting? Well, you make tally mar",
+      "chapter": "02-numbers-hiding-calculations-in-symbols",
+      "url": "chapters/02-numbers-hiding-calculations-in-symbols.html#p-02-you-can-count-to-10-using-two-hands"
     },
     {
       "id": "p-02-so-the-first-number-we-used-was-1",
       "type": "paragraph",
-      "label": "So the first number we used, was 1, or I. But tally marks get cumbersome quickly. So someone invented a new symbol to ma",
+      "label": "So the first number we used was 1, or the tally mark: I. But tally marks get cumbersome quickly. So someone invented a n",
       "chapter": "02-numbers-hiding-calculations-in-symbols",
       "url": "chapters/02-numbers-hiding-calculations-in-symbols.html#p-02-so-the-first-number-we-used-was-1"
     },
     {
       "id": "p-02-and-so-it-stayed-for-quite-a-while",
       "type": "paragraph",
-      "label": "And so it stayed for quite a while. Untill a roman (or probably someone else and the romans just stole the idea) had the",
+      "label": "And so it stayed for quite a while. Until a Roman (or probably someone else, and the Romans just stole the idea) had the",
       "chapter": "02-numbers-hiding-calculations-in-symbols",
       "url": "chapters/02-numbers-hiding-calculations-in-symbols.html#p-02-and-so-it-stayed-for-quite-a-while"
     },
     {
       "id": "p-02-what-the-romans-invented-here-was-that-you",
       "type": "paragraph",
-      "label": "What the romans invented here was that you could write a calculation to describe the number. 4 is written as V minus I. ",
+      "label": "What the Romans invented here was that you could write a calculation to describe the number. 4 is written as V minus I. ",
       "chapter": "02-numbers-hiding-calculations-in-symbols",
       "url": "chapters/02-numbers-hiding-calculations-in-symbols.html#p-02-what-the-romans-invented-here-was-that-you"
     },
@@ -681,98 +735,126 @@
     {
       "id": "p-02-so-as-an-example-what-does-the-roman",
       "type": "paragraph",
-      "label": "So as an example, what does the Roman numeral MMXXI translate to in our Hindu-Arabic numerals? (Yes, they are arabic in ",
+      "label": "So as an example, what does the Roman numeral MMXXI translate to in our Arabic numerals? Yes, we call them Arabic numera",
       "chapter": "02-numbers-hiding-calculations-in-symbols",
       "url": "chapters/02-numbers-hiding-calculations-in-symbols.html#p-02-so-as-an-example-what-does-the-roman"
     },
     {
-      "id": "p-02-notice-weve-come-from-the-cavemen-period-at",
+      "id": "p-02-now-what-about-mcmxcviii-and-were-still-just",
       "type": "paragraph",
-      "label": "Notice we've come from the cavemen period, at least 35.000 years ago all the way to the romans, and we still have to do ",
+      "label": "Now what about MCMXCVIII? And we're still just around 2000. Roman numerals still get unwieldy fairly quickly. But it's b",
       "chapter": "02-numbers-hiding-calculations-in-symbols",
-      "url": "chapters/02-numbers-hiding-calculations-in-symbols.html#p-02-notice-weve-come-from-the-cavemen-period-at"
+      "url": "chapters/02-numbers-hiding-calculations-in-symbols.html#p-02-now-what-about-mcmxcviii-and-were-still-just"
+    },
+    {
+      "id": "p-02-notice-weve-come-from-the-age-of-cave",
+      "type": "paragraph",
+      "label": "Notice we've come from the age of cave paintings, at least 35,000 years ago, all the way to the Romans, and we still hav",
+      "chapter": "02-numbers-hiding-calculations-in-symbols",
+      "url": "chapters/02-numbers-hiding-calculations-in-symbols.html#p-02-notice-weve-come-from-the-age-of-cave"
     },
     {
       "id": "p-02-but-lets-step-back-a-bit-and-introduce",
       "type": "paragraph",
-      "label": "But lets step back a bit and introduce the abacus. This simple devices' origins are unknown. It could be that its been i",
+      "label": "But let's step back a bit and introduce the abacus. This simple device's origins are unknown. It may have been invented ",
       "chapter": "02-numbers-hiding-calculations-in-symbols",
       "url": "chapters/02-numbers-hiding-calculations-in-symbols.html#p-02-but-lets-step-back-a-bit-and-introduce"
     },
     {
-      "id": "p-02-this-may-be-a-good-first-lesson-of",
+      "id": "p-02-by-now-you-may-have-noticed-a-pattern",
       "type": "paragraph",
-      "label": "This may be a good first lesson of programming for wizards: it is better to steal a good idea than to come up with a wor",
+      "label": "By now, you may have noticed a pattern.",
       "chapter": "02-numbers-hiding-calculations-in-symbols",
-      "url": "chapters/02-numbers-hiding-calculations-in-symbols.html#p-02-this-may-be-a-good-first-lesson-of"
+      "url": "chapters/02-numbers-hiding-calculations-in-symbols.html#p-02-by-now-you-may-have-noticed-a-pattern"
     },
     {
-      "id": "p-02-anyway-back-to-the-abacus-lets-show-one",
+      "id": "p-02-everyone-is-stealing-from-everyone-else",
       "type": "paragraph",
-      "label": "Anyway, back to the abacus. Lets show one for those who haven't seen one yet:",
+      "label": "Everyone is stealing from everyone else.",
       "chapter": "02-numbers-hiding-calculations-in-symbols",
-      "url": "chapters/02-numbers-hiding-calculations-in-symbols.html#p-02-anyway-back-to-the-abacus-lets-show-one"
+      "url": "chapters/02-numbers-hiding-calculations-in-symbols.html#p-02-everyone-is-stealing-from-everyone-else"
+    },
+    {
+      "id": "p-02-that-sounds-worse-than-it-is-good-ideas",
+      "type": "paragraph",
+      "label": "That sounds worse than it is. Good ideas travel. They are copied, renamed, misunderstood, improved, translated, simplifi",
+      "chapter": "02-numbers-hiding-calculations-in-symbols",
+      "url": "chapters/02-numbers-hiding-calculations-in-symbols.html#p-02-that-sounds-worse-than-it-is-good-ideas"
+    },
+    {
+      "id": "p-02-wizards-dont-insist-on-inventing-everything-themselves-they",
+      "type": "paragraph",
+      "label": "Wizards don't insist on inventing everything themselves. They notice working magic, learn why it works, and carry it som",
+      "chapter": "02-numbers-hiding-calculations-in-symbols",
+      "url": "chapters/02-numbers-hiding-calculations-in-symbols.html#p-02-wizards-dont-insist-on-inventing-everything-themselves-they"
+    },
+    {
+      "id": "p-02-anyway-back-to-the-abacus-roman-numerals-hide",
+      "type": "paragraph",
+      "label": "Anyway, back to the abacus. Roman numerals hide small calculations in the order of symbols. The abacus does something mo",
+      "chapter": "02-numbers-hiding-calculations-in-symbols",
+      "url": "chapters/02-numbers-hiding-calculations-in-symbols.html#p-02-anyway-back-to-the-abacus-roman-numerals-hide"
     },
     {
       "id": "p-02-this-is-a-chinese-version-you-could-probably",
       "type": "paragraph",
-      "label": "This is a chinese version, you could probably find its like still in use all over the world today. The idea is simple, e",
+      "label": "This is a Chinese version; you could probably find something like it still in use around the world today. The idea is si",
       "chapter": "02-numbers-hiding-calculations-in-symbols",
       "url": "chapters/02-numbers-hiding-calculations-in-symbols.html#p-02-this-is-a-chinese-version-you-could-probably"
     },
     {
       "id": "p-02-but-much-more-important-is-that-here-again",
       "type": "paragraph",
-      "label": "But much more important is that here, again, the system introduces a calculation into the representation of numbers. Its",
+      "label": "But much more important is that here, again, the system introduces a calculation into the representation of numbers. It'",
       "chapter": "02-numbers-hiding-calculations-in-symbols",
       "url": "chapters/02-numbers-hiding-calculations-in-symbols.html#p-02-but-much-more-important-is-that-here-again"
     },
     {
-      "id": "p-02-it-is-lot-easier-to-explain-if-i",
+      "id": "p-02-its-a-lot-easier-to-explain-if-i",
       "type": "paragraph",
-      "label": "It is lot easier to explain if I use arabic numerals. They use the exact same multiplication by column as the abacus doe",
+      "label": "It's a lot easier to explain if I use Arabic numerals. They use the exact same multiplication by column as the abacus do",
       "chapter": "02-numbers-hiding-calculations-in-symbols",
-      "url": "chapters/02-numbers-hiding-calculations-in-symbols.html#p-02-it-is-lot-easier-to-explain-if-i"
+      "url": "chapters/02-numbers-hiding-calculations-in-symbols.html#p-02-its-a-lot-easier-to-explain-if-i"
     },
     {
-      "id": "p-02-and-here-we-have-for-the-first-time",
+      "id": "p-02-and-here-for-the-first-time-in-our",
       "type": "paragraph",
-      "label": "And here we have for the first time the number 0. Without it, arabic numerals are impossible.",
+      "label": "And here, for the first time in our story, we have the number 0. Without it, Arabic numerals are impossible. Positional ",
       "chapter": "02-numbers-hiding-calculations-in-symbols",
-      "url": "chapters/02-numbers-hiding-calculations-in-symbols.html#p-02-and-here-we-have-for-the-first-time"
+      "url": "chapters/02-numbers-hiding-calculations-in-symbols.html#p-02-and-here-for-the-first-time-in-our"
     },
     {
       "id": "p-02-as-a-side-note-the-idea-of-a",
       "type": "paragraph",
-      "label": "As a side note, the idea of a number 0 is much older than this. But its status was not well established. How can a numbe",
+      "label": "As a side note, the idea of a number 0 is much older than this. But its status was not well established. The mathematici",
       "chapter": "02-numbers-hiding-calculations-in-symbols",
       "url": "chapters/02-numbers-hiding-calculations-in-symbols.html#p-02-as-a-side-note-the-idea-of-a"
     },
     {
-      "id": "p-02-as-another-aside-i-should-probably-call-the",
+      "id": "p-02-as-another-aside-i-should-probably-call-arabic",
       "type": "paragraph",
-      "label": "As another aside, I should probably call the arabic numerals hindu numerals instead. It seems the arabs stole the idea f",
+      "label": "As another aside, I should probably call Arabic numerals Hindu numerals instead. It seems the Arabs got the idea from In",
       "chapter": "02-numbers-hiding-calculations-in-symbols",
-      "url": "chapters/02-numbers-hiding-calculations-in-symbols.html#p-02-as-another-aside-i-should-probably-call-the"
+      "url": "chapters/02-numbers-hiding-calculations-in-symbols.html#p-02-as-another-aside-i-should-probably-call-arabic"
     },
     {
-      "id": "p-02-now-back-to-large-numbers-using-the-position",
+      "id": "p-02-now-back-to-large-numbers-by-using-position",
       "type": "paragraph",
-      "label": "Now back to large numbers. Using the position to multipy each numeral to describe large numbers, we can create very larg",
+      "label": "Now back to large numbers. By using position to multiply each numeral, we can write very large numbers. Much larger than",
       "chapter": "02-numbers-hiding-calculations-in-symbols",
-      "url": "chapters/02-numbers-hiding-calculations-in-symbols.html#p-02-now-back-to-large-numbers-using-the-position"
+      "url": "chapters/02-numbers-hiding-calculations-in-symbols.html#p-02-now-back-to-large-numbers-by-using-position"
     },
     {
       "id": "p-02-but-there-is-another-calculation-hidden-inside-these",
       "type": "paragraph",
-      "label": "But there is another calculation hidden inside these numbers. This is called 'modular arithmetic'. The idea is that we c",
+      "label": "But there is another calculation hidden inside these numbers. This is called modular arithmetic. The idea is that we can",
       "chapter": "02-numbers-hiding-calculations-in-symbols",
       "url": "chapters/02-numbers-hiding-calculations-in-symbols.html#p-02-but-there-is-another-calculation-hidden-inside-these"
     },
     {
       "id": "p-02-why-is-this-important-well-this-insight-opens",
       "type": "paragraph",
-      "label": "Why is this important? Well, this insight opens the way for the first calculator. A mechanical device that can add and s",
+      "label": "Why is this important? Well, this insight opens the way for mechanical calculators: devices that can add and subtract nu",
       "chapter": "02-numbers-hiding-calculations-in-symbols",
       "url": "chapters/02-numbers-hiding-calculations-in-symbols.html#p-02-why-is-this-important-well-this-insight-opens"
     },
@@ -786,14 +868,14 @@
     {
       "id": "p-02-i-should-mention-the-antikythera-device-this-is",
       "type": "paragraph",
-      "label": "I should mention the Antikythera device. This is a device from the classic greek era, which is purported to be able to c",
+      "label": "I should mention the Antikythera device. This is a device from the classical Greek era, which is thought to have been ab",
       "chapter": "02-numbers-hiding-calculations-in-symbols",
       "url": "chapters/02-numbers-hiding-calculations-in-symbols.html#p-02-i-should-mention-the-antikythera-device-this-is"
     },
     {
       "id": "p-02-to-really-understand-how-much-of-a-leap",
       "type": "paragraph",
-      "label": "To really understand how much of a leap this is, just take a look back at our timeline of numbers. Around 100BC is befor",
+      "label": "To really understand how much of a leap this is, just take a look back at our timeline of numbers. Around 100 BC is befo",
       "chapter": "02-numbers-hiding-calculations-in-symbols",
       "url": "chapters/02-numbers-hiding-calculations-in-symbols.html#p-02-to-really-understand-how-much-of-a-leap"
     },
@@ -814,63 +896,70 @@
     {
       "id": "p-02-to-write-that-number-down-you-will-need",
       "type": "paragraph",
-      "label": "To write that number down you will need a number with at least 111 0's. Clearly that is no longer practical. So enter sc",
+      "label": "To write that number down, you will need a number with at least 111 zeros. Clearly that is no longer practical. So enter",
       "chapter": "02-numbers-hiding-calculations-in-symbols",
       "url": "chapters/02-numbers-hiding-calculations-in-symbols.html#p-02-to-write-that-number-down-you-will-need"
     },
     {
-      "id": "math-02-069",
+      "id": "math-02-083",
       "type": "math",
       "label": "math block",
       "chapter": "02-numbers-hiding-calculations-in-symbols",
-      "url": "chapters/02-numbers-hiding-calculations-in-symbols.html#math-02-069"
+      "url": "chapters/02-numbers-hiding-calculations-in-symbols.html#math-02-083"
     },
     {
       "id": "p-02-but-we-can-also-use-these-to-explain",
       "type": "paragraph",
-      "label": "But we can also use these to explain the positional nature of arabic numerals:",
+      "label": "But we can also use these to explain the positional nature of Arabic numerals:",
       "chapter": "02-numbers-hiding-calculations-in-symbols",
       "url": "chapters/02-numbers-hiding-calculations-in-symbols.html#p-02-but-we-can-also-use-these-to-explain"
     },
     {
-      "id": "table-02-075",
+      "id": "table-02-089",
       "type": "table",
       "label": "table",
       "chapter": "02-numbers-hiding-calculations-in-symbols",
-      "url": "chapters/02-numbers-hiding-calculations-in-symbols.html#table-02-075"
+      "url": "chapters/02-numbers-hiding-calculations-in-symbols.html#table-02-089"
     },
     {
       "id": "p-02-so-the-number-972-is-equal-to-9",
       "type": "paragraph",
-      "label": "So the number 972 is equal to $$ 9 \\times 10^2 + 7 \\times 10^1 +2 \\times 10^0 $$",
+      "label": "So the number 972 is equal to $$ 9 \\times 10^2 + 7 \\times 10^1 + 2 \\times 10^0 $$",
       "chapter": "02-numbers-hiding-calculations-in-symbols",
       "url": "chapters/02-numbers-hiding-calculations-in-symbols.html#p-02-so-the-number-972-is-equal-to-9"
     },
     {
       "id": "p-02-so-what-about-our-original-two-numbers-1",
       "type": "paragraph",
-      "label": "So what about our original two numbers, 1 and 0. Well, if you understand the magic of positional notation, it turns out ",
+      "label": "So what about our original two numbers, 1 and 0? Well, if you understand the magic of positional notation, it turns out ",
       "chapter": "02-numbers-hiding-calculations-in-symbols",
       "url": "chapters/02-numbers-hiding-calculations-in-symbols.html#p-02-so-what-about-our-original-two-numbers-1"
     },
     {
-      "id": "p-02-you-can-use-any-amount-of-numbers-like",
+      "id": "p-02-once-you-see-that-the-base-is-just",
       "type": "paragraph",
-      "label": "You can use any amount of numbers, like 16 for hexadecimal numbers, e.g:",
+      "label": "Once you see that the base is just another design choice, decimal starts to look less like nature and more like a very s",
       "chapter": "02-numbers-hiding-calculations-in-symbols",
-      "url": "chapters/02-numbers-hiding-calculations-in-symbols.html#p-02-you-can-use-any-amount-of-numbers-like"
+      "url": "chapters/02-numbers-hiding-calculations-in-symbols.html#p-02-once-you-see-that-the-base-is-just"
     },
     {
-      "id": "math-02-085",
+      "id": "p-02-you-can-use-any-number-of-numerals-such",
+      "type": "paragraph",
+      "label": "You can use any number of numerals, such as 16 for hexadecimal numbers, for example:",
+      "chapter": "02-numbers-hiding-calculations-in-symbols",
+      "url": "chapters/02-numbers-hiding-calculations-in-symbols.html#p-02-you-can-use-any-number-of-numerals-such"
+    },
+    {
+      "id": "math-02-101",
       "type": "math",
       "label": "math block",
       "chapter": "02-numbers-hiding-calculations-in-symbols",
-      "url": "chapters/02-numbers-hiding-calculations-in-symbols.html#math-02-085"
+      "url": "chapters/02-numbers-hiding-calculations-in-symbols.html#math-02-101"
     },
     {
       "id": "p-02-0x-is-just-a-convention-to-say-this",
       "type": "paragraph",
-      "label": "$0x$ is just a convention to say 'this is a hexadecimal number', and since there are 16 single position numerals, we've ",
+      "label": "0x is just a convention to say 'this is a hexadecimal number', and since there are 16 single-position numerals, we've go",
       "chapter": "02-numbers-hiding-calculations-in-symbols",
       "url": "chapters/02-numbers-hiding-calculations-in-symbols.html#p-02-0x-is-just-a-convention-to-say-this"
     },
@@ -882,25 +971,25 @@
       "url": "chapters/02-numbers-hiding-calculations-in-symbols.html#p-02-or-octal-with-8-numerals-per-position"
     },
     {
-      "id": "math-02-093",
+      "id": "math-02-109",
       "type": "math",
       "label": "math block",
       "chapter": "02-numbers-hiding-calculations-in-symbols",
-      "url": "chapters/02-numbers-hiding-calculations-in-symbols.html#math-02-093"
+      "url": "chapters/02-numbers-hiding-calculations-in-symbols.html#math-02-109"
     },
     {
-      "id": "p-02-or-minimize-it-two-two-numbers-1-and",
+      "id": "p-02-or-minimize-it-to-two-numbers-1-and",
       "type": "paragraph",
-      "label": "Or, minimize it two two numbers, 1 and 0 and you get binary:",
+      "label": "Or minimize it to two numbers, 1 and 0, and you get binary:",
       "chapter": "02-numbers-hiding-calculations-in-symbols",
-      "url": "chapters/02-numbers-hiding-calculations-in-symbols.html#p-02-or-minimize-it-two-two-numbers-1-and"
+      "url": "chapters/02-numbers-hiding-calculations-in-symbols.html#p-02-or-minimize-it-to-two-numbers-1-and"
     },
     {
-      "id": "math-02-099",
+      "id": "math-02-115",
       "type": "math",
       "label": "math block",
       "chapter": "02-numbers-hiding-calculations-in-symbols",
-      "url": "chapters/02-numbers-hiding-calculations-in-symbols.html#math-02-099"
+      "url": "chapters/02-numbers-hiding-calculations-in-symbols.html#math-02-115"
     },
     {
       "id": "p-02-and-using-exponents-we-can-explain-it-a",
@@ -910,25 +999,25 @@
       "url": "chapters/02-numbers-hiding-calculations-in-symbols.html#p-02-and-using-exponents-we-can-explain-it-a"
     },
     {
-      "id": "table-02-105",
+      "id": "table-02-121",
       "type": "table",
       "label": "table",
       "chapter": "02-numbers-hiding-calculations-in-symbols",
-      "url": "chapters/02-numbers-hiding-calculations-in-symbols.html#table-02-105"
+      "url": "chapters/02-numbers-hiding-calculations-in-symbols.html#table-02-121"
     },
     {
-      "id": "p-02-which-means-that-the-binary-number-101-is",
+      "id": "p-02-this-means-that-the-binary-number-101-is",
       "type": "paragraph",
-      "label": "Which means that the binary number 101 is equal to",
+      "label": "This means that the binary number 101 is equal to",
       "chapter": "02-numbers-hiding-calculations-in-symbols",
-      "url": "chapters/02-numbers-hiding-calculations-in-symbols.html#p-02-which-means-that-the-binary-number-101-is"
+      "url": "chapters/02-numbers-hiding-calculations-in-symbols.html#p-02-this-means-that-the-binary-number-101-is"
     },
     {
-      "id": "math-02-111",
+      "id": "math-02-127",
       "type": "math",
       "label": "math block",
       "chapter": "02-numbers-hiding-calculations-in-symbols",
-      "url": "chapters/02-numbers-hiding-calculations-in-symbols.html#math-02-111"
+      "url": "chapters/02-numbers-hiding-calculations-in-symbols.html#math-02-127"
     },
     {
       "id": "p-02-this-simplifies-to",
@@ -938,25 +1027,25 @@
       "url": "chapters/02-numbers-hiding-calculations-in-symbols.html#p-02-this-simplifies-to"
     },
     {
-      "id": "math-02-117",
+      "id": "math-02-133",
       "type": "math",
       "label": "math block",
       "chapter": "02-numbers-hiding-calculations-in-symbols",
-      "url": "chapters/02-numbers-hiding-calculations-in-symbols.html#math-02-117"
+      "url": "chapters/02-numbers-hiding-calculations-in-symbols.html#math-02-133"
     },
     {
       "id": "p-02-binary-numbers-are-so-ubiquitous-in-programming-that",
       "type": "paragraph",
-      "label": "Binary numbers are so ubiquitous in programming, that you'll see the powers of 2 around a lot. So here are the first few",
+      "label": "Binary numbers are so ubiquitous in programming that you'll see the powers of 2 often. Here are the first few:",
       "chapter": "02-numbers-hiding-calculations-in-symbols",
       "url": "chapters/02-numbers-hiding-calculations-in-symbols.html#p-02-binary-numbers-are-so-ubiquitous-in-programming-that"
     },
     {
-      "id": "table-02-124",
+      "id": "table-02-140",
       "type": "table",
       "label": "table",
       "chapter": "02-numbers-hiding-calculations-in-symbols",
-      "url": "chapters/02-numbers-hiding-calculations-in-symbols.html#table-02-124"
+      "url": "chapters/02-numbers-hiding-calculations-in-symbols.html#table-02-140"
     },
     {
       "id": "p-02-this-is-a-good-time-to-end-our",
@@ -994,13 +1083,6 @@
       "url": "chapters/02-numbers-hiding-calculations-in-symbols.html#rule-02-wizards-first-rule"
     },
     {
-      "id": "rule-02-wizards-first-rule-corollary",
-      "type": "rule",
-      "label": "Wizard's first rule, corollary",
-      "chapter": "02-numbers-hiding-calculations-in-symbols",
-      "url": "chapters/02-numbers-hiding-calculations-in-symbols.html#rule-02-wizards-first-rule-corollary"
-    },
-    {
       "id": "h-03-logic-turning-truth-into-machinery",
       "type": "heading",
       "label": "Logic: turning truth into machinery",
@@ -1008,53 +1090,74 @@
       "url": "chapters/03-logic-turning-truth-into-machinery.html#h-03-logic-turning-truth-into-machinery"
     },
     {
+      "id": "p-03-in-the-last-chapter-we-saw-that-a",
+      "type": "paragraph",
+      "label": "In the last chapter, we saw that a good notation can do some of the calculation for you. Logic does something similar fo",
+      "chapter": "03-logic-turning-truth-into-machinery",
+      "url": "chapters/03-logic-turning-truth-into-machinery.html#p-03-in-the-last-chapter-we-saw-that-a"
+    },
+    {
+      "id": "p-03-this-matters-because-your-brain-is-a-wonderful",
+      "type": "paragraph",
+      "label": "This matters because your brain is a wonderful machine, but it cheats. It guesses. It skips steps. It sees patterns that",
+      "chapter": "03-logic-turning-truth-into-machinery",
+      "url": "chapters/03-logic-turning-truth-into-machinery.html#p-03-this-matters-because-your-brain-is-a-wonderful"
+    },
+    {
       "id": "p-03-you-are-standing-before-two-doors-one-door",
       "type": "paragraph",
-      "label": "You are standing before two doors. One door will lead to your desire, the other to your doom. Before the doors are two g",
+      "label": "You are standing before two doors. One door leads to your desire. The other leads to your doom. Before the doors are two",
       "chapter": "03-logic-turning-truth-into-machinery",
       "url": "chapters/03-logic-turning-truth-into-machinery.html#p-03-you-are-standing-before-two-doors-one-door"
     },
     {
-      "id": "p-03-however-you-may-only-ask-one-question",
+      "id": "p-03-you-may-ask-one-question",
       "type": "paragraph",
-      "label": "However, you may only ask one question.",
+      "label": "You may ask one question.",
       "chapter": "03-logic-turning-truth-into-machinery",
-      "url": "chapters/03-logic-turning-truth-into-machinery.html#p-03-however-you-may-only-ask-one-question"
+      "url": "chapters/03-logic-turning-truth-into-machinery.html#p-03-you-may-ask-one-question"
     },
     {
-      "id": "p-03-this-is-a-famous-riddle-with-a-single",
+      "id": "p-03-obviously-you-need-to-ask-a-question-that",
       "type": "paragraph",
-      "label": "This is a famous riddle, with a single correct answer. An answer you can reach by rigorously applying logic. Boolean log",
+      "label": "Obviously, you need to ask a question that reveals which door to use. But the obvious question doesn't work.",
       "chapter": "03-logic-turning-truth-into-machinery",
-      "url": "chapters/03-logic-turning-truth-into-machinery.html#p-03-this-is-a-famous-riddle-with-a-single"
+      "url": "chapters/03-logic-turning-truth-into-machinery.html#p-03-obviously-you-need-to-ask-a-question-that"
     },
     {
-      "id": "p-03-obviously-you-need-to-ask-one-of-the",
+      "id": "p-03-if-you-ask-the-truthful-guard-shell-point",
       "type": "paragraph",
-      "label": "Obviously you need to ask one of the guards a question that will reveal which door to pass through. But if you ask eithe",
+      "label": "If you ask the truthful guard, she'll point to your desire. If you ask the lying guard, she'll point to your doom. Since",
       "chapter": "03-logic-turning-truth-into-machinery",
-      "url": "chapters/03-logic-turning-truth-into-machinery.html#p-03-obviously-you-need-to-ask-one-of-the"
+      "url": "chapters/03-logic-turning-truth-into-machinery.html#p-03-if-you-ask-the-truthful-guard-shell-point"
     },
     {
-      "id": "table-03-011",
+      "id": "p-03-the-problem-isnt-that-youre-not-clever-enough",
+      "type": "paragraph",
+      "label": "The problem isn't that you're not clever enough. The problem is that the truth has the wrong shape. So we need to put it",
+      "chapter": "03-logic-turning-truth-into-machinery",
+      "url": "chapters/03-logic-turning-truth-into-machinery.html#p-03-the-problem-isnt-that-youre-not-clever-enough"
+    },
+    {
+      "id": "p-03-if-you-ask-a-guard-directly-which-door",
+      "type": "paragraph",
+      "label": "If you ask a guard directly which door leads to your desire, the table looks like this:",
+      "chapter": "03-logic-turning-truth-into-machinery",
+      "url": "chapters/03-logic-turning-truth-into-machinery.html#p-03-if-you-ask-a-guard-directly-which-door"
+    },
+    {
+      "id": "table-03-021",
       "type": "table",
       "label": "table",
       "chapter": "03-logic-turning-truth-into-machinery",
-      "url": "chapters/03-logic-turning-truth-into-machinery.html#table-03-011"
+      "url": "chapters/03-logic-turning-truth-into-machinery.html#table-03-021"
     },
     {
-      "id": "p-03-without-more-information-you-cannot-know-which-door",
+      "id": "p-03-that-doesnt-help-the-answer-depends-on-which",
       "type": "paragraph",
-      "label": "Without more information, you cannot know which door to use. However, you can ask a slightly more convoluted question, t",
+      "label": "That doesn't help. The answer depends on which guard you asked, and you don't know that. So the famous solution is to as",
       "chapter": "03-logic-turning-truth-into-machinery",
-      "url": "chapters/03-logic-turning-truth-into-machinery.html#p-03-without-more-information-you-cannot-know-which-door"
-    },
-    {
-      "id": "p-03-the-question-is",
-      "type": "paragraph",
-      "label": "The question is:",
-      "chapter": "03-logic-turning-truth-into-machinery",
-      "url": "chapters/03-logic-turning-truth-into-machinery.html#p-03-the-question-is"
+      "url": "chapters/03-logic-turning-truth-into-machinery.html#p-03-that-doesnt-help-the-answer-depends-on-which"
     },
     {
       "id": "p-03-now-whatever-answer-you-get-you-choose-the",
@@ -1066,23 +1169,30 @@
     {
       "id": "p-03-if-the-guard-you-ask-tells-the-truth",
       "type": "paragraph",
-      "label": "If the guard you ask tells the truth, she must give you the wrong answer, since that is what the other guard would say. ",
+      "label": "If the guard you ask tells the truth, she must give you the wrong answer, because that is what the liar would say. If th",
       "chapter": "03-logic-turning-truth-into-machinery",
       "url": "chapters/03-logic-turning-truth-into-machinery.html#p-03-if-the-guard-you-ask-tells-the-truth"
     },
     {
-      "id": "p-03-no-matter-which-guard-you-ask-you-will",
-      "type": "paragraph",
-      "label": "No matter which guard you ask, you will get the wrong door. So you choose the other one.",
+      "id": "table-03-034",
+      "type": "table",
+      "label": "table",
       "chapter": "03-logic-turning-truth-into-machinery",
-      "url": "chapters/03-logic-turning-truth-into-machinery.html#p-03-no-matter-which-guard-you-ask-you-will"
+      "url": "chapters/03-logic-turning-truth-into-machinery.html#table-03-034"
     },
     {
-      "id": "exhibit-truth-table-riddle",
-      "type": "exhibit",
-      "label": "Truth Table Riddle",
+      "id": "p-03-no-matter-which-guard-you-ask-you-get",
+      "type": "paragraph",
+      "label": "No matter which guard you ask, you get the wrong door. So you choose the other one.",
       "chapter": "03-logic-turning-truth-into-machinery",
-      "url": "chapters/03-logic-turning-truth-into-machinery.html#exhibit-truth-table-riddle"
+      "url": "chapters/03-logic-turning-truth-into-machinery.html#p-03-no-matter-which-guard-you-ask-you-get"
+    },
+    {
+      "id": "p-03-the-trick-isnt-that-you-became-smarter-than",
+      "type": "paragraph",
+      "label": "The trick isn't that you became smarter than the guards. It's that you asked a question that made both possible worlds c",
+      "chapter": "03-logic-turning-truth-into-machinery",
+      "url": "chapters/03-logic-turning-truth-into-machinery.html#p-03-the-trick-isnt-that-you-became-smarter-than"
     },
     {
       "id": "h-03-boolean-logic",
@@ -1092,53 +1202,74 @@
       "url": "chapters/03-logic-turning-truth-into-machinery.html#h-03-boolean-logic"
     },
     {
-      "id": "p-03-today-we-call-this-boolean-logic-named-after",
+      "id": "p-03-today-we-call-this-boolean-logic-after-george",
       "type": "paragraph",
-      "label": "Today we call this Boolean Logic, named after the 19th century wizard George Boole. And the tables above are called trut",
+      "label": "Today we call this Boolean logic, after George Boole. The tables above are called truth tables.",
       "chapter": "03-logic-turning-truth-into-machinery",
-      "url": "chapters/03-logic-turning-truth-into-machinery.html#p-03-today-we-call-this-boolean-logic-named-after"
+      "url": "chapters/03-logic-turning-truth-into-machinery.html#p-03-today-we-call-this-boolean-logic-after-george"
     },
     {
-      "id": "p-03-but-boolean-logic-is-at-the-core-of",
+      "id": "p-03-boolean-logic-is-brutally-small-everything-gets-squeezed",
       "type": "paragraph",
-      "label": "But Boolean logic is at the core of modern programming. It is at the core of computers. In a sense all things your compu",
+      "label": "Boolean logic is brutally small. Everything gets squeezed into two values:",
       "chapter": "03-logic-turning-truth-into-machinery",
-      "url": "chapters/03-logic-turning-truth-into-machinery.html#p-03-but-boolean-logic-is-at-the-core-of"
+      "url": "chapters/03-logic-turning-truth-into-machinery.html#p-03-boolean-logic-is-brutally-small-everything-gets-squeezed"
     },
     {
-      "id": "p-03-the-operations-described-by-boolean-logic-are-mostly",
-      "type": "paragraph",
-      "label": "The operations described by Boolean logic are mostly applied on two terms. Lets call them p and q. Just like our guards,",
-      "chapter": "03-logic-turning-truth-into-machinery",
-      "url": "chapters/03-logic-turning-truth-into-machinery.html#p-03-the-operations-described-by-boolean-logic-are-mostly"
-    },
-    {
-      "id": "p-03-the-operations-are-and-or-not-and-iff",
-      "type": "paragraph",
-      "label": "The operations are: and, or, not, and iff.",
-      "chapter": "03-logic-turning-truth-into-machinery",
-      "url": "chapters/03-logic-turning-truth-into-machinery.html#p-03-the-operations-are-and-or-not-and-iff"
-    },
-    {
-      "id": "table-03-042",
+      "id": "table-03-049",
       "type": "table",
       "label": "table",
       "chapter": "03-logic-turning-truth-into-machinery",
-      "url": "chapters/03-logic-turning-truth-into-machinery.html#table-03-042"
+      "url": "chapters/03-logic-turning-truth-into-machinery.html#table-03-049"
     },
     {
-      "id": "table-03-046",
+      "id": "p-03-that-should-feel-familiar-in-the-last-chapter",
+      "type": "paragraph",
+      "label": "That should feel familiar. In the last chapter, we squeezed numbers into symbols and columns. Here we squeeze reasoning ",
+      "chapter": "03-logic-turning-truth-into-machinery",
+      "url": "chapters/03-logic-turning-truth-into-machinery.html#p-03-that-should-feel-familiar-in-the-last-chapter"
+    },
+    {
+      "id": "p-03-and-once-reasoning-fits-into-cases-we-can",
+      "type": "paragraph",
+      "label": "And once reasoning fits into cases, we can start building machinery around it.",
+      "chapter": "03-logic-turning-truth-into-machinery",
+      "url": "chapters/03-logic-turning-truth-into-machinery.html#p-03-and-once-reasoning-fits-into-cases-we-can"
+    },
+    {
+      "id": "p-03-boolean-logic-is-at-the-core-of-modern",
+      "type": "paragraph",
+      "label": "Boolean logic is at the core of modern programming. It is at the core of computers. Everything your computer does for yo",
+      "chapter": "03-logic-turning-truth-into-machinery",
+      "url": "chapters/03-logic-turning-truth-into-machinery.html#p-03-boolean-logic-is-at-the-core-of-modern"
+    },
+    {
+      "id": "p-03-most-boolean-operations-combine-two-terms-lets-call",
+      "type": "paragraph",
+      "label": "Most Boolean operations combine two terms. Let's call them p and q. Just like our guards, we don't know whether they are",
+      "chapter": "03-logic-turning-truth-into-machinery",
+      "url": "chapters/03-logic-turning-truth-into-machinery.html#p-03-most-boolean-operations-combine-two-terms-lets-call"
+    },
+    {
+      "id": "p-03-the-operations-are-and-or-and-not",
+      "type": "paragraph",
+      "label": "The operations are: and, or and not.",
+      "chapter": "03-logic-turning-truth-into-machinery",
+      "url": "chapters/03-logic-turning-truth-into-machinery.html#p-03-the-operations-are-and-or-and-not"
+    },
+    {
+      "id": "table-03-064",
       "type": "table",
       "label": "table",
       "chapter": "03-logic-turning-truth-into-machinery",
-      "url": "chapters/03-logic-turning-truth-into-machinery.html#table-03-046"
+      "url": "chapters/03-logic-turning-truth-into-machinery.html#table-03-064"
     },
     {
-      "id": "table-03-051",
+      "id": "table-03-069",
       "type": "table",
       "label": "table",
       "chapter": "03-logic-turning-truth-into-machinery",
-      "url": "chapters/03-logic-turning-truth-into-machinery.html#table-03-051"
+      "url": "chapters/03-logic-turning-truth-into-machinery.html#table-03-069"
     },
     {
       "id": "p-03-and-of-course",
@@ -1148,11 +1279,11 @@
       "url": "chapters/03-logic-turning-truth-into-machinery.html#p-03-and-of-course"
     },
     {
-      "id": "table-03-058",
+      "id": "table-03-076",
       "type": "table",
       "label": "table",
       "chapter": "03-logic-turning-truth-into-machinery",
-      "url": "chapters/03-logic-turning-truth-into-machinery.html#table-03-058"
+      "url": "chapters/03-logic-turning-truth-into-machinery.html#table-03-076"
     },
     {
       "id": "p-03-combining-these-we-can-also-create-nor-and",
@@ -1162,18 +1293,18 @@
       "url": "chapters/03-logic-turning-truth-into-machinery.html#p-03-combining-these-we-can-also-create-nor-and"
     },
     {
-      "id": "table-03-065",
+      "id": "table-03-083",
       "type": "table",
       "label": "table",
       "chapter": "03-logic-turning-truth-into-machinery",
-      "url": "chapters/03-logic-turning-truth-into-machinery.html#table-03-065"
+      "url": "chapters/03-logic-turning-truth-into-machinery.html#table-03-083"
     },
     {
-      "id": "table-03-070",
+      "id": "table-03-088",
       "type": "table",
       "label": "table",
       "chapter": "03-logic-turning-truth-into-machinery",
-      "url": "chapters/03-logic-turning-truth-into-machinery.html#table-03-070"
+      "url": "chapters/03-logic-turning-truth-into-machinery.html#table-03-088"
     },
     {
       "id": "p-03-wait-a-minute-what-is-this-nand-thing",
@@ -1239,13 +1370,6 @@
       "url": "chapters/04-language-the-tool-that-changes-the-thinker.html#p-04-were-so-used-to-it-that-we-dont"
     },
     {
-      "id": "p-04-lets-start-at-the-very-beginning-a-very",
-      "type": "paragraph",
-      "label": "Lets start at the very beginning. A very good place to start.",
-      "chapter": "04-language-the-tool-that-changes-the-thinker",
-      "url": "chapters/04-language-the-tool-that-changes-the-thinker.html#p-04-lets-start-at-the-very-beginning-a-very"
-    },
-    {
       "id": "p-04-we-dont-know-exactly-when-humans-started-to",
       "type": "paragraph",
       "label": "We don't know exactly when humans started to use language. But we can be sure it was before we started to write. The cap",
@@ -1267,6 +1391,90 @@
       "url": "chapters/04-language-the-tool-that-changes-the-thinker.html#p-04-an-interesting-question-related-to-this-is-usually"
     },
     {
+      "id": "p-04-there-is-an-actual-wizard-who-has-thought",
+      "type": "paragraph",
+      "label": "There is an actual wizard who has thought about this.",
+      "chapter": "04-language-the-tool-that-changes-the-thinker",
+      "url": "chapters/04-language-the-tool-that-changes-the-thinker.html#p-04-there-is-an-actual-wizard-who-has-thought"
+    },
+    {
+      "id": "p-04-alan-moore-who-writes-books-and-comics-and",
+      "type": "paragraph",
+      "label": "Alan Moore, who writes books and comics and also calls himself a magician, has a useful idea of magic. Not stage magic. ",
+      "chapter": "04-language-the-tool-that-changes-the-thinker",
+      "url": "chapters/04-language-the-tool-that-changes-the-thinker.html#p-04-alan-moore-who-writes-books-and-comics-and"
+    },
+    {
+      "id": "p-04-in-that-view-there-is-the-physical-world",
+      "type": "paragraph",
+      "label": "In that view, there is the physical world, made of bodies and stones and rain and hunger. And then there is the imagined",
+      "chapter": "04-language-the-tool-that-changes-the-thinker",
+      "url": "chapters/04-language-the-tool-that-changes-the-thinker.html#p-04-in-that-view-there-is-the-physical-world"
+    },
+    {
+      "id": "p-04-language-is-one-of-the-most-direct-ways",
+      "type": "paragraph",
+      "label": "Language is one of the most direct ways to work in that imagined world. A story can make a monster. A treaty can make a ",
+      "chapter": "04-language-the-tool-that-changes-the-thinker",
+      "url": "chapters/04-language-the-tool-that-changes-the-thinker.html#p-04-language-is-one-of-the-most-direct-ways"
+    },
+    {
+      "id": "p-04-this-is-why-language-is-magic-in-a",
+      "type": "paragraph",
+      "label": "This is why language is magic in a very practical sense. It changes the imagined world, and the imagined world keeps rea",
+      "chapter": "04-language-the-tool-that-changes-the-thinker",
+      "url": "chapters/04-language-the-tool-that-changes-the-thinker.html#p-04-this-is-why-language-is-magic-in-a"
+    },
+    {
+      "id": "p-04-computer-programs-make-this-even-stranger-a-program",
+      "type": "paragraph",
+      "label": "Computer programs make this even stranger. A program starts as an imagined structure: names, rules, conditions, promises",
+      "chapter": "04-language-the-tool-that-changes-the-thinker",
+      "url": "chapters/04-language-the-tool-that-changes-the-thinker.html#p-04-computer-programs-make-this-even-stranger-a-program"
+    },
+    {
+      "id": "p-04-so-when-programmers-choose-words-they-are-not",
+      "type": "paragraph",
+      "label": "So when programmers choose words, they are not decorating the code. They are shaping the imagined machine that other peo",
+      "chapter": "04-language-the-tool-that-changes-the-thinker",
+      "url": "chapters/04-language-the-tool-that-changes-the-thinker.html#p-04-so-when-programmers-choose-words-they-are-not"
+    },
+    {
+      "id": "p-04-programmers-have-their-own-version-of-this-magic",
+      "type": "paragraph",
+      "label": "Programmers have their own version of this magic.",
+      "chapter": "04-language-the-tool-that-changes-the-thinker",
+      "url": "chapters/04-language-the-tool-that-changes-the-thinker.html#p-04-programmers-have-their-own-version-of-this-magic"
+    },
+    {
+      "id": "p-04-guy-steele-gave-a-talk-called-growing-a",
+      "type": "paragraph",
+      "label": "Guy Steele gave a talk called Growing a Language, in which he started with an absurdly small language and then slowly gr",
+      "chapter": "04-language-the-tool-that-changes-the-thinker",
+      "url": "chapters/04-language-the-tool-that-changes-the-thinker.html#p-04-guy-steele-gave-a-talk-called-growing-a"
+    },
+    {
+      "id": "p-04-that-is-the-point",
+      "type": "paragraph",
+      "label": "That is the point.",
+      "chapter": "04-language-the-tool-that-changes-the-thinker",
+      "url": "chapters/04-language-the-tool-that-changes-the-thinker.html#p-04-that-is-the-point"
+    },
+    {
+      "id": "p-04-a-thought-can-be-simple-in-your-mind",
+      "type": "paragraph",
+      "label": "A thought can be simple in your mind and expensive in your language. If the language has no word for the thing you mean,",
+      "chapter": "04-language-the-tool-that-changes-the-thinker",
+      "url": "chapters/04-language-the-tool-that-changes-the-thinker.html#p-04-a-thought-can-be-simple-in-your-mind"
+    },
+    {
+      "id": "p-04-that-is-why-naming-is-not-decoration-when",
+      "type": "paragraph",
+      "label": "That is why naming is not decoration. When you add the right word, you don't just shorten the sentence. You change what ",
+      "chapter": "04-language-the-tool-that-changes-the-thinker",
+      "url": "chapters/04-language-the-tool-that-changes-the-thinker.html#p-04-that-is-why-naming-is-not-decoration-when"
+    },
+    {
       "id": "exhibit-words-change-the-problem",
       "type": "exhibit",
       "label": "Words Change The Problem",
@@ -1274,60 +1482,18 @@
       "url": "chapters/04-language-the-tool-that-changes-the-thinker.html#exhibit-words-change-the-problem"
     },
     {
-      "id": "p-04-whatever-it-is-we-use-language-to-communicate",
+      "id": "p-04-whatever-the-answer-language-is-not-just-a",
       "type": "paragraph",
-      "label": "Whatever it is, we use language to communicate our ideas to each other. However, language is just a limited part of the ",
+      "label": "Whatever the answer, language is not just a way to communicate ideas. Language is part of how ideas become possible to c",
       "chapter": "04-language-the-tool-that-changes-the-thinker",
-      "url": "chapters/04-language-the-tool-that-changes-the-thinker.html#p-04-whatever-it-is-we-use-language-to-communicate"
+      "url": "chapters/04-language-the-tool-that-changes-the-thinker.html#p-04-whatever-the-answer-language-is-not-just-a"
     },
     {
-      "id": "p-04-another-way-to-look-at-it-is-by",
+      "id": "p-04-the-words-people-already-use-decide-what-feels",
       "type": "paragraph",
-      "label": "Another way to look at it is by dividing your brain functions into the fast and slow systems. A wizard called Daniel Kah",
+      "label": "The words people already use decide what feels natural, what feels strange, what feels possible, and what feels like non",
       "chapter": "04-language-the-tool-that-changes-the-thinker",
-      "url": "chapters/04-language-the-tool-that-changes-the-thinker.html#p-04-another-way-to-look-at-it-is-by"
-    },
-    {
-      "id": "p-04-looking-at-it-this-way-it-is-no",
-      "type": "paragraph",
-      "label": "Looking at it this way, it is no wonder that Kahneman argues that our system 2, the slow system, is often a servant to o",
-      "chapter": "04-language-the-tool-that-changes-the-thinker",
-      "url": "chapters/04-language-the-tool-that-changes-the-thinker.html#p-04-looking-at-it-this-way-it-is-no"
-    },
-    {
-      "id": "p-04-a-simple-rule-ive-found-to-be-true",
-      "type": "paragraph",
-      "label": "A simple rule I've found to be true: you cannot change someone's decision with rational arguments if that decision was b",
-      "chapter": "04-language-the-tool-that-changes-the-thinker",
-      "url": "chapters/04-language-the-tool-that-changes-the-thinker.html#p-04-a-simple-rule-ive-found-to-be-true"
-    },
-    {
-      "id": "p-04-you-as-a-wizard-and-specifically-focused-on",
-      "type": "paragraph",
-      "label": "You, as a wizard, and specifically focused on programming, are quite unusual. You have taught yourself to think up a new",
-      "chapter": "04-language-the-tool-that-changes-the-thinker",
-      "url": "chapters/04-language-the-tool-that-changes-the-thinker.html#p-04-you-as-a-wizard-and-specifically-focused-on"
-    },
-    {
-      "id": "p-04-this-doesnt-mean-that-you-are-better-or",
-      "type": "paragraph",
-      "label": "This doesn't mean that you are better, or other people are somehow worse. It does mean you are different. If you want to",
-      "chapter": "04-language-the-tool-that-changes-the-thinker",
-      "url": "chapters/04-language-the-tool-that-changes-the-thinker.html#p-04-this-doesnt-mean-that-you-are-better-or"
-    },
-    {
-      "id": "p-04-now-to-be-clear-i-do-not-advocate",
-      "type": "paragraph",
-      "label": "Now, to be clear, I do not advocate manipulating people. There is a long and bad history of demagogues that somehow unde",
-      "chapter": "04-language-the-tool-that-changes-the-thinker",
-      "url": "chapters/04-language-the-tool-that-changes-the-thinker.html#p-04-now-to-be-clear-i-do-not-advocate"
-    },
-    {
-      "id": "p-04-the-point-is-not-that-language-gives-you",
-      "type": "paragraph",
-      "label": "The point is not that language gives you a trick for winning arguments. The point is that language is part of the proble",
-      "chapter": "04-language-the-tool-that-changes-the-thinker",
-      "url": "chapters/04-language-the-tool-that-changes-the-thinker.html#p-04-the-point-is-not-that-language-gives-you"
+      "url": "chapters/04-language-the-tool-that-changes-the-thinker.html#p-04-the-words-people-already-use-decide-what-feels"
     },
     {
       "id": "p-04-this-matters-when-you-talk-to-other-people",
@@ -2739,16 +2905,16 @@
     {
       "id": "p-08-a-common-misconception-is-that-programming-languages-are",
       "type": "paragraph",
-      "label": "A common misconception is that programming languages are designed to allow you to program computers. If that was the onl",
+      "label": "A common misconception is that programming languages are designed to allow you to program computers. If that were the on",
       "chapter": "08-programming-languages-are-for-humans",
       "url": "chapters/08-programming-languages-are-for-humans.html#p-08-a-common-misconception-is-that-programming-languages-are"
     },
     {
-      "id": "code-08-018",
+      "id": "code-08-017",
       "type": "code",
       "label": "code block",
       "chapter": "08-programming-languages-are-for-humans",
-      "url": "chapters/08-programming-languages-are-for-humans.html#code-08-018"
+      "url": "chapters/08-programming-languages-are-for-humans.html#code-08-017"
     },
     {
       "id": "p-08-this-machine-code-is-written-in-octal-to",
@@ -2793,18 +2959,18 @@
       "url": "chapters/08-programming-languages-are-for-humans.html#p-08-even-in-this-enhanced-more-human-form-this"
     },
     {
-      "id": "p-08-the-earliest-programming-languages-designed-for-humans-that",
+      "id": "p-08-that-is-why-there-are-so-many-programming",
       "type": "paragraph",
-      "label": "The earliest programming languages designed for humans, that are still in use, are Fortran, Lisp and COBOL. And they rep",
+      "label": "That is why there are so many programming languages. Different humans need different thoughts to be cheap.",
       "chapter": "08-programming-languages-are-for-humans",
-      "url": "chapters/08-programming-languages-are-for-humans.html#p-08-the-earliest-programming-languages-designed-for-humans-that"
+      "url": "chapters/08-programming-languages-are-for-humans.html#p-08-that-is-why-there-are-so-many-programming"
     },
     {
-      "id": "p-08-cobol-is-designed-to-be-as-human-readable",
+      "id": "p-08-cobol-was-designed-to-make-business-programs-look",
       "type": "paragraph",
-      "label": "Cobol is designed to be as human readable as possible. It is explicitly designed to an English-like grammar. Its intende",
+      "label": "COBOL was designed to make business programs look more like business language. Its intended use was in offices, banks, g",
       "chapter": "08-programming-languages-are-for-humans",
-      "url": "chapters/08-programming-languages-are-for-humans.html#p-08-cobol-is-designed-to-be-as-human-readable"
+      "url": "chapters/08-programming-languages-are-for-humans.html#p-08-cobol-was-designed-to-make-business-programs-look"
     },
     {
       "id": "code-08-065",
@@ -2816,23 +2982,23 @@
     {
       "id": "p-08-believe-it-or-not-cobol-is-still-in",
       "type": "paragraph",
-      "label": "Believe it or not, cobol is still in use today. The code above is copied from a current (2022) manual for DB2, an IBM da",
+      "label": "Believe it or not, COBOL is still in use today. The code above is copied from a current manual for DB2, an IBM database ",
       "chapter": "08-programming-languages-are-for-humans",
       "url": "chapters/08-programming-languages-are-for-humans.html#p-08-believe-it-or-not-cobol-is-still-in"
     },
     {
-      "id": "p-08-bad-ideas-and-bad-code-never-die-they",
+      "id": "p-08-that-is-not-an-accident-business-software-tends",
       "type": "paragraph",
-      "label": "Bad ideas and bad code never die, they will infect other programmers and proliferate faster than any good idea ever will",
+      "label": "That is not an accident. Business software tends to outlive the people who wrote it. Once a language becomes part of the",
       "chapter": "08-programming-languages-are-for-humans",
-      "url": "chapters/08-programming-languages-are-for-humans.html#p-08-bad-ideas-and-bad-code-never-die-they"
+      "url": "chapters/08-programming-languages-are-for-humans.html#p-08-that-is-not-an-accident-business-software-tends"
     },
     {
-      "id": "p-08-fortran-then-is-a-better-language-it-is",
+      "id": "p-08-fortran-made-a-different-bet-it-was-built",
       "type": "paragraph",
-      "label": "Fortran, then, is a better language. It is the first imperative programming language. It influenced almost all of the pr",
+      "label": "Fortran made a different bet. It was built for scientists and engineers. It made formulas, arrays, loops, and numerical ",
       "chapter": "08-programming-languages-are-for-humans",
-      "url": "chapters/08-programming-languages-are-for-humans.html#p-08-fortran-then-is-a-better-language-it-is"
+      "url": "chapters/08-programming-languages-are-for-humans.html#p-08-fortran-made-a-different-bet-it-was-built"
     },
     {
       "id": "code-08-096",
@@ -2842,58 +3008,65 @@
       "url": "chapters/08-programming-languages-are-for-humans.html#code-08-096"
     },
     {
+      "id": "p-08-cobol-and-fortran-are-not-just-old-languages",
+      "type": "paragraph",
+      "label": "COBOL and Fortran are not just old languages. They are old answers to different questions. What should business code loo",
+      "chapter": "08-programming-languages-are-for-humans",
+      "url": "chapters/08-programming-languages-are-for-humans.html#p-08-cobol-and-fortran-are-not-just-old-languages"
+    },
+    {
       "id": "p-08-finally-we-arrive-at-lisp-a-wizard-called",
       "type": "paragraph",
-      "label": "Finally we arrive at Lisp. A wizard called John McCarthy dreamed up Lisp between 1956 and 1958. He succeeded in creating",
+      "label": "Finally we arrive at Lisp. A wizard called John McCarthy dreamed up Lisp between 1956 and 1958. Lisp made a stranger bet",
       "chapter": "08-programming-languages-are-for-humans",
       "url": "chapters/08-programming-languages-are-for-humans.html#p-08-finally-we-arrive-at-lisp-a-wizard-called"
     },
     {
-      "id": "code-08-121",
+      "id": "p-08-that-sounds-like-a-technical-detail-until-you",
+      "type": "paragraph",
+      "label": "That sounds like a technical detail until you feel what it does. Lisp doesn't just make it possible to solve problems. I",
+      "chapter": "08-programming-languages-are-for-humans",
+      "url": "chapters/08-programming-languages-are-for-humans.html#p-08-that-sounds-like-a-technical-detail-until-you"
+    },
+    {
+      "id": "p-08-here-is-a-tiny-example",
+      "type": "paragraph",
+      "label": "Here is a tiny example:",
+      "chapter": "08-programming-languages-are-for-humans",
+      "url": "chapters/08-programming-languages-are-for-humans.html#p-08-here-is-a-tiny-example"
+    },
+    {
+      "id": "code-08-127",
       "type": "code",
-      "label": "common-lisp block",
+      "label": "lisp block",
       "chapter": "08-programming-languages-are-for-humans",
-      "url": "chapters/08-programming-languages-are-for-humans.html#code-08-121"
+      "url": "chapters/08-programming-languages-are-for-humans.html#code-08-127"
     },
     {
-      "id": "p-08-this-is-in-fact-a-complete-lisp-interpreter",
+      "id": "p-08-this-adds-a-new-word-to-the-language",
       "type": "paragraph",
-      "label": "This is in fact a complete Lisp interpreter, written in Common Lisp. It is a translation of McCarthy's original, by a wi",
+      "label": "This adds a new word to the language: unless. After that, programmers can write code in terms of the idea they mean, ins",
       "chapter": "08-programming-languages-are-for-humans",
-      "url": "chapters/08-programming-languages-are-for-humans.html#p-08-this-is-in-fact-a-complete-lisp-interpreter"
+      "url": "chapters/08-programming-languages-are-for-humans.html#p-08-this-adds-a-new-word-to-the-language"
     },
     {
-      "id": "p-08-the-power-of-lisp-is-that-it-allows",
+      "id": "p-08-that-is-why-lisp-keeps-returning-in-conversations",
       "type": "paragraph",
-      "label": "The power of Lisp is that it allows you to write code using almost any paradigm. For anything any other programming lang",
+      "label": "That is why Lisp keeps returning in conversations about programming languages, not because everyone should use it, or be",
       "chapter": "08-programming-languages-are-for-humans",
-      "url": "chapters/08-programming-languages-are-for-humans.html#p-08-the-power-of-lisp-is-that-it-allows"
+      "url": "chapters/08-programming-languages-are-for-humans.html#p-08-that-is-why-lisp-keeps-returning-in-conversations"
     },
     {
-      "id": "p-08-however-i-lied-a-bit-earlier-there-is",
+      "id": "p-08-a-lisp-interpreter-can-be-written-in-lisp",
       "type": "paragraph",
-      "label": "However, I lied a bit earlier. There is one other early programming language I didn't mention. And it is older than all ",
+      "label": "A Lisp interpreter can be written in Lisp itself. Paul Graham shows one in Roots of Lisp, based on McCarthy's original. ",
       "chapter": "08-programming-languages-are-for-humans",
-      "url": "chapters/08-programming-languages-are-for-humans.html#p-08-however-i-lied-a-bit-earlier-there-is"
-    },
-    {
-      "id": "code-08-193",
-      "type": "code",
-      "label": "miranda block",
-      "chapter": "08-programming-languages-are-for-humans",
-      "url": "chapters/08-programming-languages-are-for-humans.html#code-08-193"
-    },
-    {
-      "id": "p-08-these-three-lines-of-code-solve-the-wellknown",
-      "type": "paragraph",
-      "label": "These three lines of code solve the wellknown Towers of Hanoi problem. Just like Lisp, or perhaps even more so, function",
-      "chapter": "08-programming-languages-are-for-humans",
-      "url": "chapters/08-programming-languages-are-for-humans.html#p-08-these-three-lines-of-code-solve-the-wellknown"
+      "url": "chapters/08-programming-languages-are-for-humans.html#p-08-a-lisp-interpreter-can-be-written-in-lisp"
     },
     {
       "id": "h-08-differences-commonalities-and-why-we-cant-have-nice-things",
       "type": "heading",
-      "label": "Differences, commonalities and why we can't have nice things",
+      "label": "Differences, commonalities, and why we can't have nice things",
       "chapter": "08-programming-languages-are-for-humans",
       "url": "chapters/08-programming-languages-are-for-humans.html#h-08-differences-commonalities-and-why-we-cant-have-nice-things"
     },
@@ -2907,37 +3080,37 @@
     {
       "id": "p-08-programming-languages-are-designed-unlike-human-languages-however",
       "type": "paragraph",
-      "label": "Programming languages are designed, unlike human languages. However they aren't designed to make a computer do anything,",
+      "label": "Programming languages are designed, unlike human languages. However, they aren't designed to make a computer do anything",
       "chapter": "08-programming-languages-are-for-humans",
       "url": "chapters/08-programming-languages-are-for-humans.html#p-08-programming-languages-are-designed-unlike-human-languages-however"
     },
     {
-      "id": "p-08-just-like-human-languages-a-programming-languages-make",
+      "id": "p-08-just-like-human-languages-programming-languages-make-it",
       "type": "paragraph",
-      "label": "Just like human languages, a programming languages make it easier for some ideas to be expressed than others. The best p",
+      "label": "Just like human languages, programming languages make it easier for some ideas to be expressed than others. The best pro",
       "chapter": "08-programming-languages-are-for-humans",
-      "url": "chapters/08-programming-languages-are-for-humans.html#p-08-just-like-human-languages-a-programming-languages-make"
+      "url": "chapters/08-programming-languages-are-for-humans.html#p-08-just-like-human-languages-programming-languages-make-it"
     },
     {
-      "id": "p-08-unfortunately-thats-also-not-true-you-see-almost",
+      "id": "p-08-unfortunately-thats-also-not-true",
       "type": "paragraph",
-      "label": "Unfortunately thats also not true. You see, almost anyone will tell you that, yes, Lisp is the most powerful yet simple ",
+      "label": "Unfortunately, that's also not true.",
       "chapter": "08-programming-languages-are-for-humans",
-      "url": "chapters/08-programming-languages-are-for-humans.html#p-08-unfortunately-thats-also-not-true-you-see-almost"
+      "url": "chapters/08-programming-languages-are-for-humans.html#p-08-unfortunately-thats-also-not-true"
     },
     {
       "id": "p-08-the-problem-is-communication-not-between-the-human",
       "type": "paragraph",
-      "label": "The problem is communication. Not between the human wizard and their computer. The problem is communicating ideas betwee",
+      "label": "The problem is communication. Not between the human wizard and the computer. The problem is communicating ideas between ",
       "chapter": "08-programming-languages-are-for-humans",
       "url": "chapters/08-programming-languages-are-for-humans.html#p-08-the-problem-is-communication-not-between-the-human"
     },
     {
-      "id": "p-08-the-problem-in-general-is-that-reading-code",
+      "id": "p-08-reading-code-is-hard-it-is-much-easier",
       "type": "paragraph",
-      "label": "The problem in general is that reading code is hard. It is much easier to write code. This sounds nonsensical, yet it is",
+      "label": "Reading code is hard. It is much easier to write code. This sounds nonsensical, yet it is true. It is the source of the ",
       "chapter": "08-programming-languages-are-for-humans",
-      "url": "chapters/08-programming-languages-are-for-humans.html#p-08-the-problem-in-general-is-that-reading-code"
+      "url": "chapters/08-programming-languages-are-for-humans.html#p-08-reading-code-is-hard-it-is-much-easier"
     },
     {
       "id": "p-08-one-answer-is-to-make-programming-languages-bigger",
@@ -2963,7 +3136,7 @@
     {
       "id": "p-08-so-the-natural-pressure-on-programming-languages-is",
       "type": "paragraph",
-      "label": "So the natural pressure on programming languages is strange. Small powerful languages are wonderful for the writer, but ",
+      "label": "So the natural pressure on programming languages is strange. Small, powerful languages are wonderful for the writer, but",
       "chapter": "08-programming-languages-are-for-humans",
       "url": "chapters/08-programming-languages-are-for-humans.html#p-08-so-the-natural-pressure-on-programming-languages-is"
     },
@@ -2984,7 +3157,7 @@
     {
       "id": "p-08-that-is-where-domain-specific-languages-become-interesting",
       "type": "paragraph",
-      "label": "That is where Domain Specific Languages become interesting.",
+      "label": "That is where domain-specific languages become interesting.",
       "chapter": "08-programming-languages-are-for-humans",
       "url": "chapters/08-programming-languages-are-for-humans.html#p-08-that-is-where-domain-specific-languages-become-interesting"
     },
@@ -3026,7 +3199,7 @@
     {
       "id": "p-09-every-variable-name-function-name-class-name-method",
       "type": "paragraph",
-      "label": "Every variable name, function name, class name, method name, command name, file name and folder name adds a word to that",
+      "label": "Every variable name, function name, class name, method name, command name, file name, and folder name adds a word to tha",
       "chapter": "09-every-program-contains-a-language",
       "url": "chapters/09-every-program-contains-a-language.html#p-09-every-variable-name-function-name-class-name-method"
     },
@@ -3036,6 +3209,41 @@
       "label": "This is why reading code is hard. It is much easier to write code. When you write code, you already know the language yo",
       "chapter": "09-every-program-contains-a-language",
       "url": "chapters/09-every-program-contains-a-language.html#p-09-this-is-why-reading-code-is-hard-it"
+    },
+    {
+      "id": "p-09-most-of-the-time-this-local-language-grows",
+      "type": "paragraph",
+      "label": "Most of the time, this local language grows by accident.",
+      "chapter": "09-every-program-contains-a-language",
+      "url": "chapters/09-every-program-contains-a-language.html#p-09-most-of-the-time-this-local-language-grows"
+    },
+    {
+      "id": "p-09-you-add-a-function-because-one-bit-of",
+      "type": "paragraph",
+      "label": "You add a function because one bit of code got annoying. You add a class because three things started to look alike. You",
+      "chapter": "09-every-program-contains-a-language",
+      "url": "chapters/09-every-program-contains-a-language.html#p-09-you-add-a-function-because-one-bit-of"
+    },
+    {
+      "id": "p-09-that-is-not-automatically-bad-it-is-how",
+      "type": "paragraph",
+      "label": "That is not automatically bad. It is how useful code grows.",
+      "chapter": "09-every-program-contains-a-language",
+      "url": "chapters/09-every-program-contains-a-language.html#p-09-that-is-not-automatically-bad-it-is-how"
+    },
+    {
+      "id": "p-09-but-sometimes-the-local-language-wants-to-stop",
+      "type": "paragraph",
+      "label": "But sometimes the local language wants to stop being accidental. Sometimes the problem has a vocabulary of its own, and ",
+      "chapter": "09-every-program-contains-a-language",
+      "url": "chapters/09-every-program-contains-a-language.html#p-09-but-sometimes-the-local-language-wants-to-stop"
+    },
+    {
+      "id": "p-09-at-that-point-a-wizard-may-decide-to",
+      "type": "paragraph",
+      "label": "At that point, a wizard may decide to make the language explicit.",
+      "chapter": "09-every-program-contains-a-language",
+      "url": "chapters/09-every-program-contains-a-language.html#p-09-at-that-point-a-wizard-may-decide-to"
     },
     {
       "id": "exhibit-tiny-dsl-boundary",
@@ -3052,46 +3260,32 @@
       "url": "chapters/09-every-program-contains-a-language.html#h-09-domain-specific-languages"
     },
     {
-      "id": "p-09-domain-specific-languages-are-just-programming-languages-in",
+      "id": "p-09-a-domain-specific-language-or-dsl-is-a",
       "type": "paragraph",
-      "label": "Domain Specific Languages are just programming languages. In fact, FORTRAN is a DSL for math, COBOL is a DSL for ... ehm",
+      "label": "A Domain Specific Language, or DSL, is a language made for one kind of problem. A DSL is much more limited than a normal",
       "chapter": "09-every-program-contains-a-language",
-      "url": "chapters/09-every-program-contains-a-language.html#p-09-domain-specific-languages-are-just-programming-languages-in"
+      "url": "chapters/09-every-program-contains-a-language.html#p-09-a-domain-specific-language-or-dsl-is-a"
     },
     {
       "id": "p-09-when-you-start-using-dsls-you-dont-use",
       "type": "paragraph",
-      "label": "When you start using DSL's, you don't use a single programming language. You use many of them, and glue them together to",
+      "label": "When you start using DSLs, you don't use a single programming language anymore. You use many small languages, and glue t",
       "chapter": "09-every-program-contains-a-language",
       "url": "chapters/09-every-program-contains-a-language.html#p-09-when-you-start-using-dsls-you-dont-use"
     },
     {
-      "id": "p-09-in-fact-if-youve-done-any-programming-you",
+      "id": "p-09-creating-a-true-dsl-means-creating-your-own",
       "type": "paragraph",
-      "label": "In fact, if you've done any programming, you have used the exact same ideas, though expressed less powerfully. Any time ",
+      "label": "Creating a true DSL means creating your own compiler and runtime. It makes the boundary between the DSL and the source p",
       "chapter": "09-every-program-contains-a-language",
-      "url": "chapters/09-every-program-contains-a-language.html#p-09-in-fact-if-youve-done-any-programming-you"
+      "url": "chapters/09-every-program-contains-a-language.html#p-09-creating-a-true-dsl-means-creating-your-own"
     },
     {
-      "id": "p-09-you-are-continually-extending-your-programming-language-creating",
+      "id": "p-09-the-best-dsls-are-so-well-known-that",
       "type": "paragraph",
-      "label": "You are continually extending your programming language, creating a new language in the process. Anyone reading your cod",
+      "label": "The best DSLs are so well known that we don't think of them as DSLs anymore.",
       "chapter": "09-every-program-contains-a-language",
-      "url": "chapters/09-every-program-contains-a-language.html#p-09-you-are-continually-extending-your-programming-language-creating"
-    },
-    {
-      "id": "p-09-you-can-make-it-easier-for-other-people",
-      "type": "paragraph",
-      "label": "You can make it easier for other people to learn your language. One way is to mimic existing languages. Design patterns ",
-      "chapter": "09-every-program-contains-a-language",
-      "url": "chapters/09-every-program-contains-a-language.html#p-09-you-can-make-it-easier-for-other-people"
-    },
-    {
-      "id": "p-09-creating-a-true-dsl-means-that-you-have",
-      "type": "paragraph",
-      "label": "Creating a true DSL means that you have to create your own compiler and runtime. It makes the boundary between the DSL a",
-      "chapter": "09-every-program-contains-a-language",
-      "url": "chapters/09-every-program-contains-a-language.html#p-09-creating-a-true-dsl-means-that-you-have"
+      "url": "chapters/09-every-program-contains-a-language.html#p-09-the-best-dsls-are-so-well-known-that"
     },
     {
       "id": "p-09-one-example-is-regular-expressions-any-non-trivial",
@@ -3103,7 +3297,7 @@
     {
       "id": "p-09-another-example-is-sql-almost-any-software-that",
       "type": "paragraph",
-      "label": "Another example is SQL. Almost any software that uses a database, will have some SQL in it. It may be hidden behind an O",
+      "label": "Another example is SQL. Almost any software that uses a database will have some SQL in it. It may be hidden behind an OR",
       "chapter": "09-every-program-contains-a-language",
       "url": "chapters/09-every-program-contains-a-language.html#p-09-another-example-is-sql-almost-any-software-that"
     },
@@ -3136,37 +3330,30 @@
       "url": "chapters/10-code-exhibit-extending-javascript-with-jaqt.html#h-10-code-exhibit-extending-javascript-with-jaqt"
     },
     {
-      "id": "p-10-the-previous-chapter-ended-with-the-idea-that",
+      "id": "p-10-every-program-builds-its-own-language-that-is",
       "type": "paragraph",
-      "label": "The previous chapter ended with the idea that every program contains a small language. That can sound a bit mystical, so",
+      "label": "Every program builds its own language. That is what we learned from the previous two chapters. If you're not careful, th",
       "chapter": "10-code-exhibit-extending-javascript-with-jaqt",
-      "url": "chapters/10-code-exhibit-extending-javascript-with-jaqt.html#p-10-the-previous-chapter-ended-with-the-idea-that"
+      "url": "chapters/10-code-exhibit-extending-javascript-with-jaqt.html#p-10-every-program-builds-its-own-language-that-is"
     },
     {
-      "id": "p-10-not-a-real-production-quality-language-that-would",
+      "id": "p-10-thats-where-the-previous-chapter-left-out-a",
       "type": "paragraph",
-      "label": "Not a real production-quality language. That would take us too far into the swamp. A small exhibit version. Something ti",
+      "label": "That's where the previous chapter left out a little trick. You can create a DSL with its own parser or compiler. But you",
       "chapter": "10-code-exhibit-extending-javascript-with-jaqt",
-      "url": "chapters/10-code-exhibit-extending-javascript-with-jaqt.html#p-10-not-a-real-production-quality-language-that-would"
+      "url": "chapters/10-code-exhibit-extending-javascript-with-jaqt.html#p-10-thats-where-the-previous-chapter-left-out-a"
     },
     {
-      "id": "p-10-a-common-way-to-create-a-small-new",
+      "id": "p-10-sometimes-the-language-you-need-is-already-hiding",
       "type": "paragraph",
-      "label": "A common way to create a small new language is to build a new language with a tokenizer, a parser and a translator. That",
+      "label": "Sometimes the language you need is already hiding inside the language you're using. You add a few conventions, a few hel",
       "chapter": "10-code-exhibit-extending-javascript-with-jaqt",
-      "url": "chapters/10-code-exhibit-extending-javascript-with-jaqt.html#p-10-a-common-way-to-create-a-small-new"
-    },
-    {
-      "id": "p-10-but-instead-of-building-a-new-language-from",
-      "type": "paragraph",
-      "label": "But instead of building a new language from scratch, you can sometimes find a shape inside the language you're already u",
-      "chapter": "10-code-exhibit-extending-javascript-with-jaqt",
-      "url": "chapters/10-code-exhibit-extending-javascript-with-jaqt.html#p-10-but-instead-of-building-a-new-language-from"
+      "url": "chapters/10-code-exhibit-extending-javascript-with-jaqt.html#p-10-sometimes-the-language-you-need-is-already-hiding"
     },
     {
       "id": "p-10-that-distinction-matters-a-separate-parser-creates-a",
       "type": "paragraph",
-      "label": "That distinction matters. A separate parser creates a border. On one side is PHP, JavaScript, Python or whatever languag",
+      "label": "That distinction matters. A separate parser creates a border. On one side is PHP, JavaScript, Python, or whatever langua",
       "chapter": "10-code-exhibit-extending-javascript-with-jaqt",
       "url": "chapters/10-code-exhibit-extending-javascript-with-jaqt.html#p-10-that-distinction-matters-a-separate-parser-creates-a"
     },
@@ -3183,6 +3370,13 @@
       "label": "But borders are expensive. So before we build one, it is worth asking a wizard's question:",
       "chapter": "10-code-exhibit-extending-javascript-with-jaqt",
       "url": "chapters/10-code-exhibit-extending-javascript-with-jaqt.html#p-10-but-borders-are-expensive-so-before-we-build"
+    },
+    {
+      "id": "exhibit-jaqt-extension-lab",
+      "type": "exhibit",
+      "label": "Jaqt Extension Lab",
+      "chapter": "10-code-exhibit-extending-javascript-with-jaqt",
+      "url": "chapters/10-code-exhibit-extending-javascript-with-jaqt.html#exhibit-jaqt-extension-lab"
     },
     {
       "id": "h-10-a-pile-of-little-records",
@@ -3234,18 +3428,11 @@
       "url": "chapters/10-code-exhibit-extending-javascript-with-jaqt.html#h7p0ep"
     },
     {
-      "id": "p-10-this-is-fine-it-says-what-to-do",
+      "id": "p-10-this-is-fine-it-works-but-the-question",
       "type": "paragraph",
-      "label": "This is fine. It says what to do. Walk through the people. Check each person. Push a smaller object into the result.",
+      "label": "This is fine. It works. But the question is hidden inside walking, checking, and pushing. We wanted to talk about people",
       "chapter": "10-code-exhibit-extending-javascript-with-jaqt",
-      "url": "chapters/10-code-exhibit-extending-javascript-with-jaqt.html#p-10-this-is-fine-it-says-what-to-do"
-    },
-    {
-      "id": "p-10-but-the-question-is-slightly-hidden-inside-the",
-      "type": "paragraph",
-      "label": "But the question is slightly hidden inside the instructions. The code spends quite a lot of its time telling JavaScript ",
-      "chapter": "10-code-exhibit-extending-javascript-with-jaqt",
-      "url": "chapters/10-code-exhibit-extending-javascript-with-jaqt.html#p-10-but-the-question-is-slightly-hidden-inside-the"
+      "url": "chapters/10-code-exhibit-extending-javascript-with-jaqt.html#p-10-this-is-fine-it-works-but-the-question"
     },
     {
       "id": "p-10-javascript-already-gives-us-a-nicer-shape",
@@ -3262,16 +3449,16 @@
       "url": "chapters/10-code-exhibit-extending-javascript-with-jaqt.html#p9drf7"
     },
     {
-      "id": "p-10-this-is-better-the-walking-and-pushing-are",
+      "id": "p-10-this-is-better-filter-says-which-records-survive",
       "type": "paragraph",
-      "label": "This is better. The walking and pushing are gone. filter() says which records survive. map() says what shape they become",
+      "label": "This is better. filter() says which records survive. map() says what shape they become.",
       "chapter": "10-code-exhibit-extending-javascript-with-jaqt",
-      "url": "chapters/10-code-exhibit-extending-javascript-with-jaqt.html#p-10-this-is-better-the-walking-and-pushing-are"
+      "url": "chapters/10-code-exhibit-extending-javascript-with-jaqt.html#p-10-this-is-better-filter-says-which-records-survive"
     },
     {
       "id": "p-10-still-there-is-a-small-itch-the-word",
       "type": "paragraph",
-      "label": "Still, there is a small itch. The word person is everywhere. The shape of the input and the shape of the output are pres",
+      "label": "Still, there is a small itch. The word person is everywhere. The input shape and the output shape are present, but burie",
       "chapter": "10-code-exhibit-extending-javascript-with-jaqt",
       "url": "chapters/10-code-exhibit-extending-javascript-with-jaqt.html#p-10-still-there-is-a-small-itch-the-word"
     },
@@ -3311,18 +3498,11 @@
       "url": "chapters/10-code-exhibit-extending-javascript-with-jaqt.html#p-10-this-is-attractive-it-looks-like-a-query"
     },
     {
-      "id": "p-10-but-now-we-have-another-problem-this-text",
+      "id": "p-10-but-now-the-text-is-not-javascript-javascript",
       "type": "paragraph",
-      "label": "But now we have another problem. This text is not JavaScript. JavaScript cannot run it. So we need to tokenize it, parse",
+      "label": "But now the text is not JavaScript. JavaScript cannot run it. We need tokens, grammar rules, a parse tree, a translator,",
       "chapter": "10-code-exhibit-extending-javascript-with-jaqt",
-      "url": "chapters/10-code-exhibit-extending-javascript-with-jaqt.html#p-10-but-now-we-have-another-problem-this-text"
-    },
-    {
-      "id": "p-10-if-we-want-startswith-we-must-define-that",
-      "type": "paragraph",
-      "label": "If we want startsWith, we must define that operation in the new language. If we want to use an existing JavaScript helpe",
-      "chapter": "10-code-exhibit-extending-javascript-with-jaqt",
-      "url": "chapters/10-code-exhibit-extending-javascript-with-jaqt.html#p-10-if-we-want-startswith-we-must-define-that"
+      "url": "chapters/10-code-exhibit-extending-javascript-with-jaqt.html#p-10-but-now-the-text-is-not-javascript-javascript"
     },
     {
       "id": "p-10-again-this-can-be-a-good-trade-sql",
@@ -3339,11 +3519,11 @@
       "url": "chapters/10-code-exhibit-extending-javascript-with-jaqt.html#p-10-our-little-array-of-people-does-not-need"
     },
     {
-      "id": "p-10-so-let-us-try-a-smaller-spell",
+      "id": "p-10-so-lets-try-a-smaller-spell",
       "type": "paragraph",
-      "label": "So let us try a smaller spell.",
+      "label": "So let's try a smaller spell.",
       "chapter": "10-code-exhibit-extending-javascript-with-jaqt",
-      "url": "chapters/10-code-exhibit-extending-javascript-with-jaqt.html#p-10-so-let-us-try-a-smaller-spell"
+      "url": "chapters/10-code-exhibit-extending-javascript-with-jaqt.html#p-10-so-lets-try-a-smaller-spell"
     },
     {
       "id": "h-10-a-question-can-be-a-function",
@@ -3353,81 +3533,11 @@
       "url": "chapters/10-code-exhibit-extending-javascript-with-jaqt.html#h-10-a-question-can-be-a-function"
     },
     {
-      "id": "p-10-javascript-has-one-feature-that-looks-ordinary-but",
+      "id": "p-10-javascript-functions-are-values-that-ordinary-fact-opens",
       "type": "paragraph",
-      "label": "JavaScript has one feature that looks ordinary but keeps opening trapdoors: functions are values.",
+      "label": "JavaScript functions are values. That ordinary fact opens a useful door.",
       "chapter": "10-code-exhibit-extending-javascript-with-jaqt",
-      "url": "chapters/10-code-exhibit-extending-javascript-with-jaqt.html#p-10-javascript-has-one-feature-that-looks-ordinary-but"
-    },
-    {
-      "id": "p-10-you-can-put-a-function-in-a-variable",
-      "type": "paragraph",
-      "label": "You can put a function in a variable:",
-      "chapter": "10-code-exhibit-extending-javascript-with-jaqt",
-      "url": "chapters/10-code-exhibit-extending-javascript-with-jaqt.html#p-10-you-can-put-a-function-in-a-variable"
-    },
-    {
-      "id": "mre9w1",
-      "type": "code",
-      "label": "js block",
-      "chapter": "10-code-exhibit-extending-javascript-with-jaqt",
-      "url": "chapters/10-code-exhibit-extending-javascript-with-jaqt.html#mre9w1"
-    },
-    {
-      "id": "p-10-you-can-pass-that-function-to-another-function",
-      "type": "paragraph",
-      "label": "You can pass that function to another function:",
-      "chapter": "10-code-exhibit-extending-javascript-with-jaqt",
-      "url": "chapters/10-code-exhibit-extending-javascript-with-jaqt.html#p-10-you-can-pass-that-function-to-another-function"
-    },
-    {
-      "id": "cc90se",
-      "type": "code",
-      "label": "js block",
-      "chapter": "10-code-exhibit-extending-javascript-with-jaqt",
-      "url": "chapters/10-code-exhibit-extending-javascript-with-jaqt.html#cc90se"
-    },
-    {
-      "id": "p-10-filter-does-not-know-what-counts-as-a",
-      "type": "paragraph",
-      "label": "filter() does not know what counts as a match. It asks the function. The function is a small piece of delayed behavior. ",
-      "chapter": "10-code-exhibit-extending-javascript-with-jaqt",
-      "url": "chapters/10-code-exhibit-extending-javascript-with-jaqt.html#p-10-filter-does-not-know-what-counts-as-a"
-    },
-    {
-      "id": "p-10-you-can-also-write-a-function-that-creates",
-      "type": "paragraph",
-      "label": "You can also write a function that creates one of these little questions:",
-      "chapter": "10-code-exhibit-extending-javascript-with-jaqt",
-      "url": "chapters/10-code-exhibit-extending-javascript-with-jaqt.html#p-10-you-can-also-write-a-function-that-creates"
-    },
-    {
-      "id": "hlgk8c",
-      "type": "code",
-      "label": "js block",
-      "chapter": "10-code-exhibit-extending-javascript-with-jaqt",
-      "url": "chapters/10-code-exhibit-extending-javascript-with-jaqt.html#hlgk8c"
-    },
-    {
-      "id": "p-10-this-is-called-higher-order-programming-the-name",
-      "type": "paragraph",
-      "label": "This is called higher-order programming. The name sounds as if it was designed by people who wanted to keep the rabble o",
-      "chapter": "10-code-exhibit-extending-javascript-with-jaqt",
-      "url": "chapters/10-code-exhibit-extending-javascript-with-jaqt.html#p-10-this-is-called-higher-order-programming-the-name"
-    },
-    {
-      "id": "p-10-a-function-can-receive-another-function-a-function",
-      "type": "paragraph",
-      "label": "A function can receive another function. A function can return another function. A function can be carried around like a",
-      "chapter": "10-code-exhibit-extending-javascript-with-jaqt",
-      "url": "chapters/10-code-exhibit-extending-javascript-with-jaqt.html#p-10-a-function-can-receive-another-function-a-function"
-    },
-    {
-      "id": "p-10-that-means-we-can-make-tiny-reusable-bits",
-      "type": "paragraph",
-      "label": "That means we can make tiny reusable bits of query logic without inventing syntax for them:",
-      "chapter": "10-code-exhibit-extending-javascript-with-jaqt",
-      "url": "chapters/10-code-exhibit-extending-javascript-with-jaqt.html#p-10-that-means-we-can-make-tiny-reusable-bits"
+      "url": "chapters/10-code-exhibit-extending-javascript-with-jaqt.html#p-10-javascript-functions-are-values-that-ordinary-fact-opens"
     },
     {
       "id": "oa4e35",
@@ -3444,11 +3554,18 @@
       "url": "chapters/10-code-exhibit-extending-javascript-with-jaqt.html#p-10-startswith-o-returns-a-function-later-that-function"
     },
     {
-      "id": "p-10-this-is-the-first-small-step-we-have",
+      "id": "p-10-so-instead-of-inventing-syntax-for-every-operation",
       "type": "paragraph",
-      "label": "This is the first small step. We have not made a DSL yet. We have only noticed that JavaScript already has a way to trea",
+      "label": "So instead of inventing syntax for every operation, we can carry little pieces of behavior around as JavaScript values.",
       "chapter": "10-code-exhibit-extending-javascript-with-jaqt",
-      "url": "chapters/10-code-exhibit-extending-javascript-with-jaqt.html#p-10-this-is-the-first-small-step-we-have"
+      "url": "chapters/10-code-exhibit-extending-javascript-with-jaqt.html#p-10-so-instead-of-inventing-syntax-for-every-operation"
+    },
+    {
+      "id": "p-10-that-is-the-first-small-step-we-have",
+      "type": "paragraph",
+      "label": "That is the first small step. We have not made a DSL yet. We have only noticed that JavaScript already has a way to trea",
+      "chapter": "10-code-exhibit-extending-javascript-with-jaqt",
+      "url": "chapters/10-code-exhibit-extending-javascript-with-jaqt.html#p-10-that-is-the-first-small-step-we-have"
     },
     {
       "id": "h-10-a-shape-can-be-a-question",
@@ -3479,11 +3596,11 @@
       "url": "chapters/10-code-exhibit-extending-javascript-with-jaqt.html#rt25sv"
     },
     {
-      "id": "p-10-this-object-looks-a-little-like-the-data",
+      "id": "p-10-this-object-looks-like-the-data-that-is",
       "type": "paragraph",
-      "label": "This object looks a little like the data. That is the trick. A pattern shaped like the data can describe what we want fr",
+      "label": "This object looks like the data. That is the trick. A pattern shaped like the data can describe what we want from the da",
       "chapter": "10-code-exhibit-extending-javascript-with-jaqt",
-      "url": "chapters/10-code-exhibit-extending-javascript-with-jaqt.html#p-10-this-object-looks-a-little-like-the-data"
+      "url": "chapters/10-code-exhibit-extending-javascript-with-jaqt.html#p-10-this-object-looks-like-the-data-that-is"
     },
     {
       "id": "p-10-static-values-mean-this-field-must-equal-this",
@@ -3505,13 +3622,6 @@
       "label": "Nested objects mean: go down into the nested object and continue matching there.",
       "chapter": "10-code-exhibit-extending-javascript-with-jaqt",
       "url": "chapters/10-code-exhibit-extending-javascript-with-jaqt.html#p-10-nested-objects-mean-go-down-into-the-nested"
-    },
-    {
-      "id": "p-10-now-the-query-is-no-longer-hidden-inside",
-      "type": "paragraph",
-      "label": "Now the query is no longer hidden inside person.lastName and person.address.city. The fields we care about are visible a",
-      "chapter": "10-code-exhibit-extending-javascript-with-jaqt",
-      "url": "chapters/10-code-exhibit-extending-javascript-with-jaqt.html#p-10-now-the-query-is-no-longer-hidden-inside"
     },
     {
       "id": "p-10-here-is-a-small-matcher",
@@ -3563,37 +3673,9 @@
       "url": "chapters/10-code-exhibit-extending-javascript-with-jaqt.html#p-10-filtering-is-only-half-the-problem-we-also"
     },
     {
-      "id": "p-10-we-could-use-map-directly",
-      "type": "paragraph",
-      "label": "We could use map() directly:",
-      "chapter": "10-code-exhibit-extending-javascript-with-jaqt",
-      "url": "chapters/10-code-exhibit-extending-javascript-with-jaqt.html#p-10-we-could-use-map-directly"
-    },
-    {
-      "id": "dc9fuz",
-      "type": "code",
-      "label": "js block",
-      "chapter": "10-code-exhibit-extending-javascript-with-jaqt",
-      "url": "chapters/10-code-exhibit-extending-javascript-with-jaqt.html#dc9fuz"
-    },
-    {
-      "id": "p-10-this-is-still-good-code-but-we-can",
-      "type": "paragraph",
-      "label": "This is still good code. But we can try the same move again.",
-      "chapter": "10-code-exhibit-extending-javascript-with-jaqt",
-      "url": "chapters/10-code-exhibit-extending-javascript-with-jaqt.html#p-10-this-is-still-good-code-but-we-can"
-    },
-    {
-      "id": "p-10-if-an-object-can-describe-the-shape-we",
-      "type": "paragraph",
-      "label": "If an object can describe the shape we want to match, perhaps an object can also describe the shape we want to return.",
-      "chapter": "10-code-exhibit-extending-javascript-with-jaqt",
-      "url": "chapters/10-code-exhibit-extending-javascript-with-jaqt.html#p-10-if-an-object-can-describe-the-shape-we"
-    },
-    {
       "id": "p-10-we-need-one-tiny-marker",
       "type": "paragraph",
-      "label": "We need one tiny marker.",
+      "label": "We need one tiny marker:",
       "chapter": "10-code-exhibit-extending-javascript-with-jaqt",
       "url": "chapters/10-code-exhibit-extending-javascript-with-jaqt.html#p-10-we-need-one-tiny-marker"
     },
@@ -3661,11 +3743,11 @@
       "url": "chapters/10-code-exhibit-extending-javascript-with-jaqt.html#wmlcgg"
     },
     {
-      "id": "p-10-we-are-now-quite-close-to-a-query",
+      "id": "p-10-we-are-now-close-to-a-query-language",
       "type": "paragraph",
-      "label": "We are now quite close to a query language, but we arrived one small step at a time.",
+      "label": "We are now close to a query language, but we arrived one small step at a time.",
       "chapter": "10-code-exhibit-extending-javascript-with-jaqt",
-      "url": "chapters/10-code-exhibit-extending-javascript-with-jaqt.html#p-10-we-are-now-quite-close-to-a-query"
+      "url": "chapters/10-code-exhibit-extending-javascript-with-jaqt.html#p-10-we-are-now-close-to-a-query-language"
     },
     {
       "id": "p-10-a-question-became-a-function",
@@ -3705,7 +3787,7 @@
     {
       "id": "p-10-the-code-still-uses-filter-and-map-directly",
       "type": "paragraph",
-      "label": "The code still uses filter() and map() directly. There is nothing wrong with that, but the shape would be easier to read",
+      "label": "The code still uses filter() and map() directly. There is nothing wrong with that, but the query would be easier to read",
       "chapter": "10-code-exhibit-extending-javascript-with-jaqt",
       "url": "chapters/10-code-exhibit-extending-javascript-with-jaqt.html#p-10-the-code-still-uses-filter-and-map-directly"
     },
@@ -3724,11 +3806,11 @@
       "url": "chapters/10-code-exhibit-extending-javascript-with-jaqt.html#xk67tk"
     },
     {
-      "id": "p-10-that-is-almost-embarrassingly-small-where-is-a",
+      "id": "p-10-that-is-almost-embarrassingly-small-where-wraps-filter",
       "type": "paragraph",
-      "label": "That is almost embarrassingly small. where() is a thin wrapper around filter(). select() is a thin wrapper around map().",
+      "label": "That is almost embarrassingly small. where() wraps filter(). select() wraps map(). value() gives the array back.",
       "chapter": "10-code-exhibit-extending-javascript-with-jaqt",
-      "url": "chapters/10-code-exhibit-extending-javascript-with-jaqt.html#p-10-that-is-almost-embarrassingly-small-where-is-a"
+      "url": "chapters/10-code-exhibit-extending-javascript-with-jaqt.html#p-10-that-is-almost-embarrassingly-small-where-wraps-filter"
     },
     {
       "id": "p-10-but-the-words-matter-they-give-the-little",
@@ -3768,7 +3850,7 @@
     {
       "id": "p-10-this-is-not-real-jaqt-it-is-a",
       "type": "paragraph",
-      "label": "This is not real JAQT. It is a small wooden model of the bridge. Real JAQT has a more capable , more operations and a lo",
+      "label": "This is not real JAQT. It is a small wooden model of the bridge. Real JAQT has a more capable , more operations, and a l",
       "chapter": "10-code-exhibit-extending-javascript-with-jaqt",
       "url": "chapters/10-code-exhibit-extending-javascript-with-jaqt.html#p-10-this-is-not-real-jaqt-it-is-a"
     },
@@ -3822,25 +3904,11 @@
       "url": "chapters/10-code-exhibit-extending-javascript-with-jaqt.html#p-10-a-parser-would-have-felt-more-impressive-there"
     },
     {
-      "id": "p-10-in-the-previous-chapter-i-made-it-sound",
+      "id": "p-10-instead-we-moved-the-problem-slightly",
       "type": "paragraph",
-      "label": "In the previous chapter I made it sound as if that is what a real DSL requires. A compiler. A runtime. A border that sep",
+      "label": "Instead we moved the problem slightly.",
       "chapter": "10-code-exhibit-extending-javascript-with-jaqt",
-      "url": "chapters/10-code-exhibit-extending-javascript-with-jaqt.html#p-10-in-the-previous-chapter-i-made-it-sound"
-    },
-    {
-      "id": "p-10-that-was-not-quite-true",
-      "type": "paragraph",
-      "label": "That was not quite true.",
-      "chapter": "10-code-exhibit-extending-javascript-with-jaqt",
-      "url": "chapters/10-code-exhibit-extending-javascript-with-jaqt.html#p-10-that-was-not-quite-true"
-    },
-    {
-      "id": "p-10-it-is-a-useful-way-to-think-about",
-      "type": "paragraph",
-      "label": "It is a useful way to think about some DSLs, especially the ones that really do create a separate little world. But this",
-      "chapter": "10-code-exhibit-extending-javascript-with-jaqt",
-      "url": "chapters/10-code-exhibit-extending-javascript-with-jaqt.html#p-10-it-is-a-useful-way-to-think-about"
+      "url": "chapters/10-code-exhibit-extending-javascript-with-jaqt.html#p-10-instead-we-moved-the-problem-slightly"
     },
     {
       "id": "p-10-the-query-is-no-longer-a-string-that",
@@ -3848,13 +3916,6 @@
       "label": "The query is no longer a string that must be understood by a new language. It is a JavaScript object whose shape carries",
       "chapter": "10-code-exhibit-extending-javascript-with-jaqt",
       "url": "chapters/10-code-exhibit-extending-javascript-with-jaqt.html#p-10-the-query-is-no-longer-a-string-that"
-    },
-    {
-      "id": "exhibit-jaqt-extension-lab",
-      "type": "exhibit",
-      "label": "Jaqt Extension Lab",
-      "chapter": "10-code-exhibit-extending-javascript-with-jaqt",
-      "url": "chapters/10-code-exhibit-extending-javascript-with-jaqt.html#exhibit-jaqt-extension-lab"
     },
     {
       "id": "h-10-composing-inside-the-host-language",
@@ -3906,11 +3967,11 @@
       "url": "chapters/10-code-exhibit-extending-javascript-with-jaqt.html#p-10-the-spread-operator-did-not-need-to-be"
     },
     {
-      "id": "p-10-the-little-query-language-did-not-become-powerful",
+      "id": "p-10-the-little-query-language-did-not-become-useful",
       "type": "paragraph",
-      "label": "The little query language did not become powerful because we cut it loose from JavaScript. It became useful because we f",
+      "label": "The little query language did not become useful because we cut it loose from JavaScript. It became useful because we fou",
       "chapter": "10-code-exhibit-extending-javascript-with-jaqt",
-      "url": "chapters/10-code-exhibit-extending-javascript-with-jaqt.html#p-10-the-little-query-language-did-not-become-powerful"
+      "url": "chapters/10-code-exhibit-extending-javascript-with-jaqt.html#p-10-the-little-query-language-did-not-become-useful"
     },
     {
       "id": "h-10-the-border-question",
@@ -3999,16 +4060,9 @@
     {
       "id": "p-11-and-then-a-few-years-later-we-discover",
       "type": "paragraph",
-      "label": "And then, a few years later, we discover that we have not built a Lego castle after all.",
+      "label": "And then, a few years later, we discover that we have not built a Lego castle after all. We've made a tangle of yarn.",
       "chapter": "11-the-knitted-castle",
       "url": "chapters/11-the-knitted-castle.html#p-11-and-then-a-few-years-later-we-discover"
-    },
-    {
-      "id": "p-11-we-have-knitted-another-one",
-      "type": "paragraph",
-      "label": "We have knitted another one.",
-      "chapter": "11-the-knitted-castle",
-      "url": "chapters/11-the-knitted-castle.html#p-11-we-have-knitted-another-one"
     },
     {
       "id": "p-11-the-famous-wizard-alan-kay-once-said",
@@ -4181,7 +4235,7 @@
     {
       "id": "p-11-javascript-has-one-of-the-largest-ecosystems-of",
       "type": "paragraph",
-      "label": "JavaScript has one of the largest ecosystems of reusable packages ever created. NPM is both a miracle and a warning labe",
+      "label": "JavaScript has one of the largest ecosystems of reusable packages ever created. npm is both a miracle and a warning labe",
       "chapter": "11-the-knitted-castle",
       "url": "chapters/11-the-knitted-castle.html#p-11-javascript-has-one-of-the-largest-ecosystems-of"
     },
@@ -4426,7 +4480,7 @@
     {
       "id": "p-11-you-cannot-defeat-complexity-once-and-for-all",
       "type": "paragraph",
-      "label": "You cannot defeat complexity once and for all. That is the sort of promise that sells books, frameworks and conference t",
+      "label": "You cannot defeat complexity once and for all. That is the sort of promise that sells books, frameworks, and conference ",
       "chapter": "11-the-knitted-castle",
       "url": "chapters/11-the-knitted-castle.html#p-11-you-cannot-defeat-complexity-once-and-for-all"
     },
@@ -4781,6 +4835,13 @@
       "url": "chapters/12-objects-binding-data-behavior-and-time.html#p-12-the-core-contains-the-rules-of-the-program"
     },
     {
+      "id": "p-12-the-shell-is-where-many-decisions-are-allowed",
+      "type": "paragraph",
+      "label": "The shell is where many decisions are allowed to be late.",
+      "chapter": "12-objects-binding-data-behavior-and-time",
+      "url": "chapters/12-objects-binding-data-behavior-and-time.html#p-12-the-shell-is-where-many-decisions-are-allowed"
+    },
+    {
       "id": "p-12-this-is-not-because-the-outside-world-is",
       "type": "paragraph",
       "label": "This is not because the outside world is dirty and the core is pure. That sounds moralistic, and software is already ful",
@@ -4998,67 +5059,32 @@
       "url": "chapters/13-architecture-arches-pyramids-and-change.html#p-13-a-software-architecture-that-ignores-those-forces-is"
     },
     {
-      "id": "h-13-patterns-from-buildings",
+      "id": "h-13-architecture-as-force",
       "type": "heading",
-      "label": "Patterns from buildings",
+      "label": "Architecture as force",
       "chapter": "13-architecture-arches-pyramids-and-change",
-      "url": "chapters/13-architecture-arches-pyramids-and-change.html#h-13-patterns-from-buildings"
+      "url": "chapters/13-architecture-arches-pyramids-and-change.html#h-13-architecture-as-force"
     },
     {
-      "id": "p-13-most-architecture-is-not-made-of-world-famous",
+      "id": "p-13-architecture-is-not-only-the-shape-of-a",
       "type": "paragraph",
-      "label": "Most architecture is not made of world-famous monuments. Most buildings are ordinary buildings. Houses, shops, schools, ",
+      "label": "Architecture is not only the shape of a thing. It is the way a thing carries force.",
       "chapter": "13-architecture-arches-pyramids-and-change",
-      "url": "chapters/13-architecture-arches-pyramids-and-change.html#p-13-most-architecture-is-not-made-of-world-famous"
+      "url": "chapters/13-architecture-arches-pyramids-and-change.html#p-13-architecture-is-not-only-the-shape-of-a"
     },
     {
-      "id": "p-13-in-1977-christopher-alexander-and-his-co-authors",
+      "id": "p-13-a-pyramid-carries-force-by-being-massive-each",
       "type": "paragraph",
-      "label": "In 1977, Christopher Alexander and his co-authors published A Pattern Language. In 1979 Alexander followed it with The T",
+      "label": "A pyramid carries force by being massive. Each stone pushes down on the stones below it. An arch does something stranger",
       "chapter": "13-architecture-arches-pyramids-and-change",
-      "url": "chapters/13-architecture-arches-pyramids-and-change.html#p-13-in-1977-christopher-alexander-and-his-co-authors"
+      "url": "chapters/13-architecture-arches-pyramids-and-change.html#p-13-a-pyramid-carries-force-by-being-massive-each"
     },
     {
-      "id": "p-13-in-one-of-historys-little-jokes-software-people",
+      "id": "p-13-that-is-the-architectural-lesson-we-need-not",
       "type": "paragraph",
-      "label": "In one of history's little jokes, software people listened.",
+      "label": "That is the architectural lesson we need. Not columns, cornices, or software design patterns. The interesting question i",
       "chapter": "13-architecture-arches-pyramids-and-change",
-      "url": "chapters/13-architecture-arches-pyramids-and-change.html#p-13-in-one-of-historys-little-jokes-software-people"
-    },
-    {
-      "id": "p-13-human-architects-mostly-argued-about-alexander-or-ignored",
-      "type": "paragraph",
-      "label": "Human architects mostly argued about Alexander or ignored him. Software architects grabbed the idea and ran off with it.",
-      "chapter": "13-architecture-arches-pyramids-and-change",
-      "url": "chapters/13-architecture-arches-pyramids-and-change.html#p-13-human-architects-mostly-argued-about-alexander-or-ignored"
-    },
-    {
-      "id": "p-13-i-will-not-spend-much-time-on-software",
-      "type": "paragraph",
-      "label": "I will not spend much time on software design patterns here. More than enough has been said about them, and some of it w",
-      "chapter": "13-architecture-arches-pyramids-and-change",
-      "url": "chapters/13-architecture-arches-pyramids-and-change.html#p-13-i-will-not-spend-much-time-on-software"
-    },
-    {
-      "id": "p-13-the-important-thing-for-this-chapter-is-that",
-      "type": "paragraph",
-      "label": "The important thing for this chapter is that Alexander gives us a second way to think about architecture. Architecture i",
-      "chapter": "13-architecture-arches-pyramids-and-change",
-      "url": "chapters/13-architecture-arches-pyramids-and-change.html#p-13-the-important-thing-for-this-chapter-is-that"
-    },
-    {
-      "id": "p-13-a-pattern-is-not-a-law-it-is",
-      "type": "paragraph",
-      "label": "A pattern is not a law. It is not a recipe you apply blindly. It is a remembered shape: when the world pushes like this,",
-      "chapter": "13-architecture-arches-pyramids-and-change",
-      "url": "chapters/13-architecture-arches-pyramids-and-change.html#p-13-a-pattern-is-not-a-law-it-is"
-    },
-    {
-      "id": "p-13-that-is-close-to-what-software-wants-not",
-      "type": "paragraph",
-      "label": "That is close to what software wants. Not universal answers, but better ways to recognize the pressure.",
-      "chapter": "13-architecture-arches-pyramids-and-change",
-      "url": "chapters/13-architecture-arches-pyramids-and-change.html#p-13-that-is-close-to-what-software-wants-not"
+      "url": "chapters/13-architecture-arches-pyramids-and-change.html#p-13-that-is-the-architectural-lesson-we-need-not"
     },
     {
       "id": "h-13-software-arches",
@@ -5075,11 +5101,11 @@
       "url": "chapters/13-architecture-arches-pyramids-and-change.html#p-13-alan-kay-did-not-merely-complain-about-pyramids"
     },
     {
-      "id": "p-13-one-later-attempt-was-the-viewpoints-research-institute",
+      "id": "p-13-one-later-attempt-came-through-the-viewpoints-research",
       "type": "paragraph",
-      "label": "One later attempt was the Viewpoints Research Institute, or VPRI. One of its projects asked an almost ridiculous questio",
+      "label": "One later attempt came through the Viewpoints Research Institute, or VPRI. One of its projects asked an almost ridiculou",
       "chapter": "13-architecture-arches-pyramids-and-change",
-      "url": "chapters/13-architecture-arches-pyramids-and-change.html#p-13-one-later-attempt-was-the-viewpoints-research-institute"
+      "url": "chapters/13-architecture-arches-pyramids-and-change.html#p-13-one-later-attempt-came-through-the-viewpoints-research"
     },
     {
       "id": "p-13-not-just-an-app-a-stack-graphics-networking",
@@ -5159,11 +5185,11 @@
       "url": "chapters/13-architecture-arches-pyramids-and-change.html#h-13-rustic-architecture"
     },
     {
-      "id": "p-13-there-is-another-direction-from-alexander-that-is",
+      "id": "p-13-there-is-another-direction-that-is-just-as",
       "type": "paragraph",
-      "label": "There is another direction from Alexander that is just as useful and less glamorous.",
+      "label": "There is another direction that is just as useful and less glamorous.",
       "chapter": "13-architecture-arches-pyramids-and-change",
-      "url": "chapters/13-architecture-arches-pyramids-and-change.html#p-13-there-is-another-direction-from-alexander-that-is"
+      "url": "chapters/13-architecture-arches-pyramids-and-change.html#p-13-there-is-another-direction-that-is-just-as"
     },
     {
       "id": "p-13-forget-the-monumental-building-for-a-moment-think",
@@ -5364,7 +5390,7 @@
     {
       "id": "p-13-a-building-project-can-be-late-expensive-and",
       "type": "paragraph",
-      "label": "A building project can be late, expensive and politically cursed, but the ground usually does not rewrite the laws of st",
+      "label": "A building project can be late, expensive, and politically cursed, but the ground usually does not rewrite the laws of s",
       "chapter": "13-architecture-arches-pyramids-and-change",
       "url": "chapters/13-architecture-arches-pyramids-and-change.html#p-13-a-building-project-can-be-late-expensive-and"
     },

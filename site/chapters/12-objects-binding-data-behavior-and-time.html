@@ -152,12 +152,13 @@ $order-&gt;cancel($reason);</code></pre>
 <h2 id="h-12-shell-and-core"><a class="anchor-link" href="#h-12-shell-and-core" aria-label="Link to Shell and core">#</a>Shell and core</h2>
 <p id="p-12-one-useful-boundary-is-the-shell-core-split" data-note-target>One useful boundary is the shell/core split.</p>
 <p id="p-12-the-core-contains-the-rules-of-the-program" data-note-target>The core contains the rules of the program. It should know as little as possible about files, databases, networks, frameworks, clocks and random number generators. The shell knows about the outside world. It wires everything together.</p>
+<p id="p-12-the-shell-is-where-many-decisions-are-allowed" data-note-target>The shell is where many decisions are allowed to be late.</p>
 <p id="p-12-this-is-not-because-the-outside-world-is" data-note-target>This is not because the outside world is dirty and the core is pure. That sounds moralistic, and software is already full of enough false morality.</p>
 <p id="p-12-the-reason-is-more-practical-the-outside-world" data-note-target>The reason is more practical. The outside world changes in different ways than the rules of your program. Databases change. Frameworks change. APIs change. Files move. Users do strange things. The core should be protected from that weather where possible.</p>
 <p id="p-12-this-is-the-same-move-we-have-seen" data-note-target>This is the same move we have seen before. Change the boundary, and the problem changes shape.</p>
 <aside id="rule-12-wizards-eleventh-rule" class="wizard-rule" data-note-target>
 <p class="rule-label">Wizard's eleventh rule</p>
-<p>Do not only ask what a thing depends on. Ask where that dependency should be bound.</p>
+<p>Choose wisely when to choose.</p>
 </aside>
   <nav class="chapter-pagination" aria-label="Chapter navigation">
     <a rel="prev" href="11-the-knitted-castle.html"><span>Previous</span>The knitted castle</a>

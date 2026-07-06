@@ -67,56 +67,66 @@
     <svg class="chapter-glyph" viewBox="0 0 96 96" focusable="false" aria-hidden="true"><path d="M23 67c12-17 12-31 0-43 17 12 31 12 50 0-12 17-12 31 0 43-19-12-33-12-50 0z"/><path d="M35 48h26M48 35v26"/></svg>
   </header>
   <h1 id="h-03-logic-turning-truth-into-machinery"><a class="anchor-link" href="#h-03-logic-turning-truth-into-machinery" aria-label="Link to Logic: turning truth into machinery">#</a>Logic: turning truth into machinery</h1>
-<p id="p-03-you-are-standing-before-two-doors-one-door" data-note-target>You are standing before two doors. One door will lead to your desire, the other to your doom. Before the doors are two guards. They both know which door leads where. You know one of the guards always lies. The other will always tell the truth.</p>
-<p id="p-03-however-you-may-only-ask-one-question" data-note-target>However, you may only ask one question.</p>
-<p id="p-03-this-is-a-famous-riddle-with-a-single" data-note-target>This is a famous riddle, with a single correct answer. An answer you can reach by rigorously applying logic. <a href="https://en.wikipedia.org/wiki/Boolean_algebra">Boolean logic</a>. Logic with just true and false.</p>
-<p id="p-03-obviously-you-need-to-ask-one-of-the" data-note-target>Obviously you need to ask one of the guards a question that will reveal which door to pass through. But if you ask either guard which door to choose, you cannot know if the guard lied to you or not.</p>
-<figure id="table-03-011" class="table-figure" data-note-target>
+<p id="p-03-in-the-last-chapter-we-saw-that-a" data-note-target>In the last chapter, we saw that a good notation can do some of the calculation for you. Logic does something similar for reasoning.</p>
+<p id="p-03-this-matters-because-your-brain-is-a-wonderful" data-note-target>This matters because your brain is a wonderful machine, but it cheats. It guesses. It skips steps. It sees patterns that aren't there and misses patterns that are. Most of the time this is useful. Sometimes it gets you killed by a door.</p>
+<p id="p-03-you-are-standing-before-two-doors-one-door" data-note-target>You are standing before two doors. One door leads to your desire. The other leads to your doom. Before the doors are two guards. They both know which door leads where. One guard always lies. The other always tells the truth.</p>
+<p id="p-03-you-may-ask-one-question" data-note-target>You may ask one question.</p>
+<p id="p-03-obviously-you-need-to-ask-a-question-that" data-note-target>Obviously, you need to ask a question that reveals which door to use. But the obvious question doesn't work.</p>
+<blockquote><p>Which door should I choose?</p></blockquote>
+<p id="p-03-if-you-ask-the-truthful-guard-shell-point" data-note-target>If you ask the truthful guard, she'll point to your desire. If you ask the lying guard, she'll point to your doom. Since you don't know which guard you're asking, the answer is useless.</p>
+<p id="p-03-the-problem-isnt-that-youre-not-clever-enough" data-note-target>The problem isn't that you're not clever enough. The problem is that the truth has the wrong shape. So we need to put it into a better one: a table.</p>
+<p id="p-03-if-you-ask-a-guard-directly-which-door" data-note-target>If you ask a guard directly which door leads to your desire, the table looks like this:</p>
+<figure id="table-03-021" class="table-figure" data-note-target>
 <table>
-<thead><tr><th>answer</th><th>guard lies</th><th>guard tells the truth</th></tr></thead>
+<thead><tr><th>Guard you ask</th><th>Door they point to</th></tr></thead>
 <tbody>
-<tr><td>left door</td><td>your doom</td><td>your desire</td></tr>
-<tr><td>right door</td><td>your doom</td><td>your desire</td></tr>
+<tr><td>Truthful</td><td>Desire</td></tr>
+<tr><td>Liar</td><td>Doom</td></tr>
 </tbody>
 </table>
 </figure>
-<p id="p-03-without-more-information-you-cannot-know-which-door" data-note-target>Without more information, you cannot know which door to use. However, you can ask a slightly more convoluted question, that will let you know for sure which door to use.</p>
-<p id="p-03-the-question-is" data-note-target>The question is:</p>
-<blockquote><p>If I would ask the other guard which door leads to my desire, what would she answer?</p></blockquote>
+<p id="p-03-that-doesnt-help-the-answer-depends-on-which" data-note-target>That doesn't help. The answer depends on which guard you asked, and you don't know that. So the famous solution is to ask a different, less direct question:</p>
+<blockquote><p>If I asked the other guard which door leads to my desire, what would she answer?</p></blockquote>
 <p id="p-03-now-whatever-answer-you-get-you-choose-the" data-note-target>Now whatever answer you get, you choose the other door.</p>
-<p id="p-03-if-the-guard-you-ask-tells-the-truth" data-note-target>If the guard you ask tells the truth, she must give you the wrong answer, since that is what the other guard would say. If the guard you ask always lies, she must also give you the wrong answer, because she lies about the other guard's true answer.</p>
-<p id="p-03-no-matter-which-guard-you-ask-you-will" data-note-target>No matter which guard you ask, you will get the wrong door. So you choose the other one.</p>
-<aside id="exhibit-truth-table-riddle" class="exhibit-placeholder" data-exhibit-id="truth-table-riddle" data-note-target>
-<p class="exhibit-kicker">Interactive Exhibit</p>
-<h2>Truth Table Riddle</h2>
-<p>Show the two-door riddle as a truth table. Let the reader toggle which guard lies and which door is correct. Then show the normal question failing, and the indirect question always returning the wrong door. The moment should be: logic is not cleverness, it is bookkeeping.</p>
-<div class="static-fallback" aria-label="Static fallback">
-<p>Truth Table Riddle is planned as an interactive exhibit. This placeholder preserves the explanation and its stable address for the static edition.</p>
-</div>
-</aside>
+<p id="p-03-if-the-guard-you-ask-tells-the-truth" data-note-target>If the guard you ask tells the truth, she must give you the wrong answer, because that is what the liar would say. If the guard you ask lies, she must also give you the wrong answer, because she lies about the truthful guard's answer.</p>
+<figure id="table-03-034" class="table-figure" data-note-target>
+<table>
+<thead><tr><th>Guard you ask</th><th>What happens</th><th>Door they point to</th></tr></thead>
+<tbody>
+<tr><td>Truthful</td><td>Truthfully reports the liar's answer</td><td>Doom</td></tr>
+<tr><td>Liar</td><td>Lies about the truthful guard's answer</td><td>Doom</td></tr>
+</tbody>
+</table>
+</figure>
+<p id="p-03-no-matter-which-guard-you-ask-you-get" data-note-target>No matter which guard you ask, you get the wrong door. So you choose the other one.</p>
+<p id="p-03-the-trick-isnt-that-you-became-smarter-than" data-note-target>The trick isn't that you became smarter than the guards. It's that you asked a question that made both possible worlds collapse into the same answer. You made the uncertainty stop mattering. That is logic doing its work.</p>
 <h2 id="h-03-boolean-logic"><a class="anchor-link" href="#h-03-boolean-logic" aria-label="Link to Boolean logic">#</a>Boolean logic</h2>
-<p id="p-03-today-we-call-this-boolean-logic-named-after" data-note-target>Today we call this Boolean Logic, named after the 19th century wizard <a href="https://en.wikipedia.org/wiki/George_Boole">George Boole</a>. And the tables above are called <a href="https://en.wikipedia.org/wiki/Truth_table">truth tables</a>. Logic has a much longer history, through the 17th century wizard <a href="https://en.wikipedia.org/wiki/Gottfried_Wilhelm_Leibniz">Leibniz</a>, all the way to an ancient Greek wizard called <a href="https://en.wikipedia.org/wiki/Aristotle">Aristotle</a>.</p>
-<p id="p-03-but-boolean-logic-is-at-the-core-of" data-note-target>But Boolean logic is at the core of modern programming. It is at the core of computers. In a sense all things your computer can do for you today are based on application of Boolean logic: true and false, 1 and 0.</p>
-<p id="p-03-the-operations-described-by-boolean-logic-are-mostly" data-note-target>The operations described by Boolean logic are mostly applied on two terms. Lets call them <code>p</code> and <code>q</code>. Just like our guards, we don't know whether they are true or false. But using the power of the truth table, we can reason about them anyway.</p>
-<p id="p-03-the-operations-are-and-or-not-and-iff" data-note-target>The operations are: <code>and</code>, <code>or</code>, <code>not</code>, and <code>iff</code>.</p>
-<figure id="table-03-042" class="table-figure" data-note-target>
+<p id="p-03-today-we-call-this-boolean-logic-after-george" data-note-target>Today we call this Boolean logic, after <a href="https://en.wikipedia.org/wiki/George_Boole">George Boole</a>. The tables above are called <a href="https://en.wikipedia.org/wiki/Truth_table">truth tables</a>.</p>
+<p id="p-03-boolean-logic-is-brutally-small-everything-gets-squeezed" data-note-target>Boolean logic is brutally small. Everything gets squeezed into two values:</p>
+<figure id="table-03-049" class="table-figure" data-note-target>
 <table>
-<thead><tr><th>not q</th><th>q = true</th><th>q = false</th></tr></thead>
+<thead><tr><th>Value</th><th>Meaning</th></tr></thead>
 <tbody>
-<tr><td></td><td>false</td><td>true</td></tr>
+<tr><td><code>true</code></td><td>yes, on, present, allowed</td></tr>
+<tr><td><code>false</code></td><td>no, off, absent, forbidden</td></tr>
 </tbody>
 </table>
 </figure>
-<figure id="table-03-046" class="table-figure" data-note-target>
+<p id="p-03-that-should-feel-familiar-in-the-last-chapter" data-note-target>That should feel familiar. In the last chapter, we squeezed numbers into symbols and columns. Here we squeeze reasoning into cases.</p>
+<p id="p-03-and-once-reasoning-fits-into-cases-we-can" data-note-target>And once reasoning fits into cases, we can start building machinery around it.</p>
+<p id="p-03-boolean-logic-is-at-the-core-of-modern" data-note-target>Boolean logic is at the core of modern programming. It is at the core of computers. Everything your computer does for you is built, eventually, on Boolean logic: true and false, 1 and 0.</p>
+<p id="p-03-most-boolean-operations-combine-two-terms-lets-call" data-note-target>Most Boolean operations combine two terms. Let's call them <code>p</code> and <code>q</code>. Just like our guards, we don't know whether they are true or false. But using the power of the truth table, we can reason about them anyway.</p>
+<p id="p-03-the-operations-are-and-or-and-not" data-note-target>The operations are: <code>and</code>, <code>or</code> and <code>not</code>.</p>
+<figure id="table-03-064" class="table-figure" data-note-target>
 <table>
-<thead><tr><th>p iff q</th><th>q = true</th><th>q = false</th></tr></thead>
+<thead><tr><th>q</th><th>not q</th></tr></thead>
 <tbody>
-<tr><td>p = true</td><td>true</td><td>false</td></tr>
-<tr><td>p = false</td><td>false</td><td>true</td></tr>
+<tr><td>true</td><td>false</td></tr>
+<tr><td>false</td><td>true</td></tr>
 </tbody>
 </table>
 </figure>
-<figure id="table-03-051" class="table-figure" data-note-target>
+<figure id="table-03-069" class="table-figure" data-note-target>
 <table>
 <thead><tr><th>p or q</th><th>q = true</th><th>q = false</th></tr></thead>
 <tbody>
@@ -126,7 +136,7 @@
 </table>
 </figure>
 <p id="p-03-and-of-course" data-note-target>And of course:</p>
-<figure id="table-03-058" class="table-figure" data-note-target>
+<figure id="table-03-076" class="table-figure" data-note-target>
 <table>
 <thead><tr><th>p and q</th><th>q = true</th><th>q = false</th></tr></thead>
 <tbody>
@@ -136,7 +146,7 @@
 </table>
 </figure>
 <p id="p-03-combining-these-we-can-also-create-nor-and" data-note-target>Combining these, we can also create <code>nor</code> and <code>nand</code>.</p>
-<figure id="table-03-065" class="table-figure" data-note-target>
+<figure id="table-03-083" class="table-figure" data-note-target>
 <table>
 <thead><tr><th>p nor q</th><th>q = true</th><th>q = false</th></tr></thead>
 <tbody>
@@ -145,7 +155,7 @@
 </tbody>
 </table>
 </figure>
-<figure id="table-03-070" class="table-figure" data-note-target>
+<figure id="table-03-088" class="table-figure" data-note-target>
 <table>
 <thead><tr><th>p nand q</th><th>q = true</th><th>q = false</th></tr></thead>
 <tbody>
@@ -155,7 +165,7 @@
 </table>
 </figure>
 <p id="p-03-wait-a-minute-what-is-this-nand-thing" data-note-target>Wait a minute... what is this <code>nand</code> thing? Why not just write <code>not and</code>?</p>
-<p id="p-03-well-it-so-happens-that-your-computer-can" data-note-target>Well... it so happens that your computer can implement everything with just <code>nand</code>. All other operations can be written as combinations of one or more nands. Hardware wizards found ways to create tiny <a href="https://en.wikipedia.org/wiki/NAND_gate">NAND <em>gates</em></a>, and from those gates built the tiny parts of modern CPUs.</p>
+<p id="p-03-well-it-so-happens-that-your-computer-can" data-note-target>Well... it so happens that your computer can implement everything with just <code>nand</code>. All other operations can be written as combinations of one or more NANDs. Hardware wizards found ways to create tiny <a href="https://en.wikipedia.org/wiki/NAND_gate">NAND <em>gates</em></a>, and from those gates built the tiny parts of modern CPUs.</p>
 <p id="p-03-this-is-the-second-great-trick-in-this" data-note-target>This is the second great trick in this chapter. First we turned a riddle into a table. Then we turned the table into a machine.</p>
 <p id="p-03-that-is-a-very-wizardly-move-when-intuition" data-note-target>That is a very wizardly move. When intuition gets unreliable, make the possible cases explicit. Then let the table reason for you.</p>
 <aside id="exhibit-nand-all-the-way-down" class="exhibit-placeholder" data-exhibit-id="nand-all-the-way-down" data-note-target>
@@ -168,7 +178,7 @@
 </aside>
 <aside id="rule-03-wizards-second-rule" class="wizard-rule" data-note-target>
 <p class="rule-label">Wizard's second rule</p>
-<p>When intuition becomes unreliable, build a table. Then let the table reason for you.</p>
+<p>Tables don't lie.</p>
 </aside>
   <nav class="chapter-pagination" aria-label="Chapter navigation">
     <a rel="prev" href="02-numbers-hiding-calculations-in-symbols.html"><span>Previous</span>Numbers: hiding calculations in symbols</a>

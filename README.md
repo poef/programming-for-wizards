@@ -49,7 +49,7 @@ npm run dev
 
 ## Table of contents
 
-### Prologue: You are allowed to make it up
+### Prologue
 
 - [01. This is not a programming book](content/chapters/01-this-is-not-a-programming-book.md)
 
@@ -71,14 +71,14 @@ npm run dev
 - [09. Every program contains a language](content/chapters/09-every-program-contains-a-language.md)
 - [10. Code exhibit: extending JavaScript with JAQT](content/chapters/10-code-exhibit-extending-javascript-with-jaqt.md)
 
-### Part IV: Boundaries and reusable pieces
+### Part IV: Boundaries and arches
 
 - [11. The knitted castle](content/chapters/11-the-knitted-castle.md)
 - [12. Objects: binding data, behavior, and time](content/chapters/12-objects-binding-data-behavior-and-time.md)
-
-### Part V: Architecture, change, commons, and home
-
 - [13. Architecture: arches, pyramids, and change](content/chapters/13-architecture-arches-pyramids-and-change.md)
+
+### Part V: The Web, evolved
+
 - [14. The Web as commons: innovation happens elsewhere](content/chapters/14-the-web-as-commons.md)
 - [15. The Web as data: things should have addresses too](content/chapters/15-the-web-as-data.md)
 - [16. The Web as home: your data should outlive your apps](content/chapters/16-the-web-as-home.md)
