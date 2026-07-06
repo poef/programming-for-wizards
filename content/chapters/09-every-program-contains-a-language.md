@@ -2,7 +2,7 @@
 tags: programming for wizards
 ---
 
-# Every program contains a language
+# Every program grows a language
 
 A program is not only written in a language. A program also creates a language.
 
@@ -10,7 +10,7 @@ Every variable name, function name, class name, method name, command name, file 
 
 This is why reading code is hard. It is much easier to write code. When you write code, you already know the language you are inventing. Everyone else has to reverse-engineer it from the traces you leave behind.
 
-Most of the time, this local language grows by accident.
+Most of the time, this local language grows by accident. That is the uncomfortable part. You do not get to choose whether your program has a language. You only get to choose whether you notice it before it grows teeth.
 
 You add a function because one bit of code got annoying. You add a class because three things started to look alike. You add a convention because it made one page easier to read. After a while, your program has its own vocabulary. It has things you can say easily, things you can barely say at all, and things that only make sense to people who already live there.
 
@@ -20,9 +20,9 @@ But sometimes the local language wants to stop being accidental. Sometimes the p
 
 At that point, a wizard may decide to make the language explicit.
 
-> **Interactive exhibit placeholder: `tiny-dsl-boundary`**
+> **Wizard's eighth rule**
 >
-> Start with a small validation problem written as ordinary `if` statements. Then turn repeated fragments into named functions, then into a table, then into a tiny DSL. Let the reader compare what each version makes visible. The point is to show that language-making happens gradually, not only when you build a parser.
+> Everything gets a name. Its better if you know it.
 
 ## Domain Specific Languages
 
@@ -40,8 +40,6 @@ Another example is SQL. Almost any software that uses a database will have some 
 
 Done correctly, a DSL allows you to divide your problem along natural boundaries in the domain. Then you can solve each sub-problem separately. While you are solving that sub-problem, you don't have to think about the solution for other problems. You will not need to read code that isn't related. Your programming language doesn't need to have tools that aren't related to your current problem. DSLs allow you to have a high level view of the problem and not worry about low level implementation details.
 
-But the most important thing to remember is that you are creating a new language whenever you add any variable, function, class or method. By being conscious of this, you can make sure that the language you are building is easy to learn, simple to use and expressive. Designed for humans, not computers.
+But the most important thing to remember is that you are creating a new language whenever you add any variable, function, class or method. By being conscious of this, you can make sure that the language you are building is easy to learn, simple to use and expressive. Designed for humans, not computers. 
 
-> **Wizard's eighth rule**
->
-> True names have power in any language.
+Lets make that practical.

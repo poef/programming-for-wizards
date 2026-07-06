@@ -4,17 +4,15 @@ tags: programming for wizards
 
 # The Web: waking up the words
 
+HTML gave Web documents a shape. JavaScript gave them behavior. But it also left us with a new question:
+
 What happens when a prototype becomes the platform?
 
 This chapter is about JavaScript, but it is also about a familiar software story. A demo is created in a hurry. It works well enough. Then the world starts building on it. The demo becomes the foundation. The foundation keeps moving.
 
 That is both terrifying and, sometimes, lucky.
 
-> **Interactive exhibit placeholder: `prototype-becomes-platform`**
->
-> Show a tiny prototype language with three features. Then let the reader add real-world demands: modules, DOM access, packages, async loading, backwards compatibility. Each new demand should add visible layers around the original core. The point is that platforms accrete history.
-
-The logical next part of the web to discuss, would be HTTP. However I don't think it would add much, or be interesting. So instead this chapter I will write about another part of the web, made by a wizard called [Brendan Eich](https://en.wikipedia.org/wiki/Brendan_Eich): [JavaScript](https://developer.mozilla.org/en-US/docs/Web/JavaScript).
+JavaScript was made by a wizard called [Brendan Eich](https://en.wikipedia.org/wiki/Brendan_Eich). And its creation story is almost mythical.
 
 ## JavaScript
 
@@ -34,12 +32,15 @@ How short order? How about 10 days (and probably nights.)
 
 Surely that was only a proof-of-concept, a demo? Well, yes, but this demo, this prototype ended up in production, virtually unchanged. As most prototypes tend to.
 
+> **Wizard's sixth rule**
+>
+> Your spells may gain a life of their own.
+
 However, we got uncharacteristically lucky. JavaScript was not a tuned-down, dummified version of Java. You see, Brendan was lured to work on this project with the promise that he would be allowed to create a [Scheme](https://en.wikipedia.org/wiki/Scheme_%28programming_language%29)-like language. 
 
 Scheme is a descendant of Lisp (and Algol.) It is nothing like Java. But as any Lisp-like language, you can change the language to do anything any other programming language can do. So Brendan added a Java-like syntax on a Scheme-like core. And 10 days later, the world would be changed forever.
 
 > [Brendan Eich](https://web.archive.org/web/20200204010840/https://brendaneich.com/2008/04/popularity/) - "I’m not proud, but I’m happy that I chose Scheme-ish first-class functions and Self-ish (albeit singular) prototypes as the main ingredients. The Java influences, especially y2k Date bugs but also the primitive vs. object distinction (e.g., string vs. String), were unfortunate."
-
 
 As any prototype that is pushed into production too soon, JavaScript has its problems. But its origins in Scheme, and [Self](https://en.wikipedia.org/wiki/Self_%28programming_language%29), which themselves were based on Lisp and [SmallTalk](https://en.wikipedia.org/wiki/Smalltalk), gave JavaScript a much healthier base than we could have hoped for.
 
@@ -77,10 +78,6 @@ The browser began as a way to read linked documents. JavaScript turned it into a
 
 The network starts to look less like something the computer connects to, and more like the place where the computer happens.
 
-That raises a question this chapter should not try to answer yet. If the web becomes the operating system, who owns the home directory?
+That raises a question this chapter does not answer yet. If the web becomes the operating system, who owns the home directory? Don't worry, we'll get there later.
 
-A later chapter will pick up that question.
-
-> **Wizard's sixth rule**
->
-> A prototype is not always a throwaway version of the real thing. Sometimes it is the first piece of ground the future manages to stand on.
+For now, we pick up where we left off in chapter 4, languages. This time we'll teach the computer how to lie.

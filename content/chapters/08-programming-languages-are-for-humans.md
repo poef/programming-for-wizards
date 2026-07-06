@@ -2,17 +2,13 @@
 tags: programming for wizards
 ---
 
-# Programming languages are for humans
+# Teaching machines our words
 
 A few chapters ago we looked at language as magic. Human language does not merely carry thoughts around; it changes what kinds of thoughts are easy to have.
 
 Programming languages do the same thing, but with less tolerance for ambiguity and more semicolons.
 
 This chapter returns to that idea, but now turns it toward programming proper. A programming language is not primarily a machine interface. It is a human thinking tool that happens to be precise enough for a machine to execute.
-
-> **Interactive exhibit placeholder: `same-program-many-languages`**
->
-> Show one tiny program in machine code, assembly, COBOL, Fortran, Lisp, and a modern language. Let the reader reveal comments and structure step by step. The point is not to rank languages; the point is to feel which ideas each language makes cheap or expensive.
 
 ## Computer languages
 
@@ -152,6 +148,10 @@ Unfortunately, that's also not true.
 
 The problem is communication. Not between the human wizard and the computer. The problem is communicating ideas between humans. Small, powerful languages are seductive because they let you create your own vocabulary. But every private vocabulary has a cost. Any other wizard who wants to work with your ideas, your code, will have to learn your version: your implementation, your little country with its own customs, grammar, and strange hand gestures.
 
+> **Wizard's seventh rule**
+>
+> The bill always comes due.
+
 Reading code is hard. It is much easier to write code. This sounds nonsensical, yet it is true. It is the source of the [NIH syndrome](https://en.wikipedia.org/wiki/Not_invented_here): Not Invented Here.
 
 One answer is to make programming languages bigger. Add more standard stuff. Add design patterns. Add frameworks. Make sure all programmers are fed the same cookie-cutter solutions, so all code starts to look roughly the same. Create frameworks that force all problems into a [Model-View-Controller](https://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93controller) solution on top of an [Object-Relational Mapper](https://en.wikipedia.org/wiki/Object%E2%80%93relational_mapping). Boom, done!
@@ -170,8 +170,4 @@ That is where [domain-specific languages](https://martinfowler.com/dsl.html) bec
 
 A DSL is not automatically a separate language with a parser and a manual. Sometimes it is. [SQL](https://en.wikipedia.org/wiki/SQL) is its own world, and for good reasons. But sometimes a DSL is smaller than that. It can be a handful of names, a few conventions, a shape in the data, a chain of functions, a way of arranging code so the important ideas stand next to each other.
 
-The next chapter is an exhibit of that smaller kind of language. We will not build a grand new syntax. We will look for a little query language hiding inside JavaScript.
-
-> **Wizard's seventh rule**
->
-> Every spell builds a wall.
+But before we build one, we need to notice something stranger: every program already contains a language of its own.
