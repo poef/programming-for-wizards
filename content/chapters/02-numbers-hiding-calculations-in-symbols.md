@@ -2,13 +2,15 @@
 tags: programming for wizards
 ---
 
-# Numbers: hiding calculations in symbols
+# Numbers: bigger than you think
 
 How do you make a number bigger than your fingers?
 
 That sounds like a childish question, but it is one of the first great programming questions. You have a thing in the world. You need to represent it. The first representation works for a while. Then the world grows larger than the representation, and the representation starts fighting you.
 
 Numbers are a good place to begin because they look natural. They are not. Number systems are inventions. Interfaces. Little machines for doing work in your head.
+
+We are going to follow one idea as it gets stolen, bent, and improved: each new number system hides a little more work inside the notation itself.
 
 ## The first interface
 
@@ -48,6 +50,10 @@ That sounds worse than it is. Good ideas travel. They are copied, renamed, misun
 
 Wizards don't insist on inventing everything themselves. They notice working magic, learn why it works, and carry it somewhere new.
 
+> **Wizard's first rule**
+>
+> Steal the good stuff.
+
 Anyway, back to the abacus. Roman numerals hide small calculations in the order of symbols. The abacus does something more powerful: it hides multiplication in position. Let's show one for those who haven't seen one yet:
 
 <img src="https://upload.wikimedia.org/wikipedia/commons/a/af/Abacus_6.png">
@@ -74,11 +80,11 @@ Why is this important? Well, this insight opens the way for mechanical calculato
 
 [Blaise Pascal](https://en.wikipedia.org/wiki/Blaise_Pascal) is credited with making one of the first usable mechanical calculators. It could add and subtract, and with repeated motions also multiply and divide. It's not a computer yet, but we've come a long way from scratch marks.
 
+This is not just a history of numbers. It is a history of moving work around: from fingers, to marks, to positions, to machines. And we're not done yet.
+
 I should mention the [Antikythera device](https://en.wikipedia.org/wiki/Antikythera_mechanism). This is a device from the classical Greek era, which is thought to have been able to calculate astronomical positions and eclipses. It is called the earliest analog computer. It has been dated to somewhere between 205 BC and 87 BC. [The next time we know of that a device of similar complexity was made, we're in the Renaissance in Western Europe](https://www.nature.com/articles/444534a).
 
 To really understand how much of a leap this is, just take a look back at our timeline of numbers. Around 100 BC is before the invention of 0, before positional notation and the carry mechanism. Yet some Greek wizard, perhaps from Rhodes, still managed to make this device.
-
-This leads to another lesson hiding inside the first one: your creation will probably outlive you, so document it.
 
 We're getting pretty good at writing large numbers. We can write down 1,000,000 and read it without blinking an eye. But science is progressing and making up bigger numbers faster than we can write them down. How about the number of atoms in the universe? Or even bigger, all the possible move sequences in the game of chess?
 
@@ -149,12 +155,9 @@ This is a good time to end our archaeological dig through numbers. There is quit
 
 The important thing for now is this: every number system we saw did work for us. Tally marks counted. Roman numerals embedded small calculations. Positional notation made zero necessary. The carry mechanism turned notation into machinery. Binary made the smallest useful alphabet large enough to build a computer.
 
-A notation is not just a way to write something down. A good notation performs part of the work for you. And most good notations were not invented from nothing. They were borrowed, bent, stolen, simplified, combined, and used somewhere new.
+So how do you make a number bigger than your fingers?
 
-> **Interactive exhibit placeholder: `numbers-are-machines`**
->
-> Let the reader enter a number and switch between tally marks, Roman numerals, abacus columns, decimal, binary, octal, and hexadecimal. Each switch should show which calculation is hidden in the notation. Adding `1` should visibly create carry in decimal and binary.
+You stop trying to make your fingers bigger. You make the notation smarter.
 
-> **Wizard's first rule**
->
-> Steal good magic.
+A notation is not just a way to write something down. A good notation performs part of the work for you. If you like this, then here's a wizard's thought: What if we could do this not just for quantity, but for truth?
+
