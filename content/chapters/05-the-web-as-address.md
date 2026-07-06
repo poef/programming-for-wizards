@@ -2,7 +2,7 @@
 tags: programming for wizards
 ---
 
-# The Web as address: a spell for pointing anywhere
+# The Web: one string to rule them all.
 
 In 1989 a wizard called [Tim](https://www.w3.org/People/Berners-Lee/) invented the [World Wide Web](https://www.w3.org/History/1989/proposal-msw.html) and changed the world forever.
 
@@ -40,10 +40,6 @@ http://info.cern.ch/hypertext/WWW/TheProject.html
 The [URL](https://url.spec.whatwg.org/). The Uniform Resource Locator.
 
 A spell for pointing anywhere.
-
-> **Interactive exhibit placeholder: `url-as-compressed-map`**
->
-> Show one editable URL. Highlight the protocol, hostname, path, query and fragment as the reader edits it. Next to it, show a little route map: document -> browser -> DNS -> server -> resource -> section. Then let the reader switch between an absolute URL, a protocol-relative URL, an origin-relative URL and a page-relative URL. The important thing to show is how much world is compressed into one string.
 
 ## Hypertext was already in the air
 
@@ -86,6 +82,8 @@ http://    info.cern.ch    /hypertext/WWW/TheProject.html
 protocol  hostname        path
 ```
 
+Then it combines them in one string that binds them all together.
+
 The protocol tells your computer how to talk.
 
 The hostname tells it which name in the global naming system to resolve.
@@ -99,6 +97,11 @@ That is a ridiculous amount of power for one string.
 And the string is still readable. This matters. It matters more than programmers sometimes admit. You can copy a URL into an email, print it in a book, write it on a whiteboard, paste it in a chat message, or, if you are feeling particularly cursed, read it aloud over the phone.
 
 The URL is an address, but it is also a tiny user interface to the network.
+
+
+> **WIzard's fourth rule**
+>
+> Start small, to build big.
 
 ## The path: Unix hiding in plain sight
 
@@ -219,7 +222,3 @@ Each part keeps its own job. The connection between them stays small.
 That is much harder to design than it looks. Large systems keep tempting us to make larger abstractions: one model to explain everything, one framework to own everything, one platform to contain everything. The Web went the other way often enough to matter. It left boundaries visible. A boundary is a place where one system can meet another without becoming it.
 
 This is something a wizard is very aware of. A small change in representation can make a problem manageable. Sometimes it makes the old problem disappear. And sometimes, if the shape is right, it opens a door you did not know was there.
-
-> **Wizard's fourth rule**
->
-> When a problem feels too large, do not only look for a larger solution. Look for the smaller shape that changes what kind of problem it is.
