@@ -169,6 +169,7 @@
   }
 
   const bindPageControls = settings => {
+    const root = document.documentElement
     const manuscript = document.querySelector("[data-page-scroller]")
     const controls = document.querySelector("[data-page-controls]")
     const previous = document.querySelector("[data-page-prev]")
@@ -187,8 +188,33 @@
     const chapterIndex = Number(manuscript.dataset.bookChapterIndex || 0)
     let pageCount = 1
     let pageIndex = 0
+    let resizeFrame = 0
+    let effectiveFlow = root.dataset.flow
 
     const isPaged = () => document.documentElement.dataset.flow === "paged"
+    const canUsePagedFlow = () => {
+      if (settings.flow !== "paged") return false
+
+      const rect = manuscript.getBoundingClientRect()
+      const rootFontSize = Number.parseFloat(getComputedStyle(root).fontSize) || 16
+      const viewportWidth = window.innerWidth
+      const viewportHeight = window.innerHeight
+
+      if (effectiveFlow === "paged") {
+        return viewportWidth >= 66 * rootFontSize && rect.width >= 460 && viewportHeight >= 590
+      }
+
+      return viewportWidth >= 69 * rootFontSize && rect.width >= 620 && viewportHeight >= 650
+    }
+
+    const applyEffectiveFlow = () => {
+      const flow = canUsePagedFlow() ? "paged" : "scroll"
+      effectiveFlow = flow
+      root.dataset.flow = flow
+      root.dataset.flowFallback = settings.flow === "paged" && flow === "scroll" ? "scroll" : "none"
+      return flow
+    }
+
     const pageGap = () => Number.parseFloat(getComputedStyle(manuscript).columnGap) || 0
     const pageStride = () => Math.max(1, manuscript.clientWidth + pageGap())
     const pageCounts = () => {
@@ -216,8 +242,10 @@
       if (nextChapter) window.location.href = nextChapter.href
     }
 
-    const update = () => {
-      if (!isPaged()) {
+    const update = ({ snap = false } = {}) => {
+      const flow = applyEffectiveFlow()
+
+      if (flow !== "paged") {
         controls.hidden = true
         manuscript.scrollLeft = 0
         if (progress) progress.hidden = true
@@ -229,7 +257,13 @@
 
       const stride = pageStride()
       pageCount = Math.max(1, Math.round((manuscript.scrollWidth + pageGap()) / stride))
-      pageIndex = Math.min(pageCount - 1, Math.max(0, Math.round(manuscript.scrollLeft / stride)))
+
+      if (snap) {
+        pageIndex = Math.min(pageCount - 1, Math.max(0, pageIndex))
+        manuscript.scrollLeft = pageIndex * stride
+      } else {
+        pageIndex = Math.min(pageCount - 1, Math.max(0, Math.round(manuscript.scrollLeft / stride)))
+      }
 
       const global = globalPageInfo()
       const progressValue = global.total > 1 ? ((global.current - 1) / (global.total - 1)) * 100 : 100
@@ -285,9 +319,15 @@
       }
     })
 
-    const resizeObserver = new ResizeObserver(update)
+    const scheduleResizeUpdate = () => {
+      window.cancelAnimationFrame(resizeFrame)
+      resizeFrame = window.requestAnimationFrame(() => update({ snap: true }))
+    }
+
+    const resizeObserver = new ResizeObserver(scheduleResizeUpdate)
     resizeObserver.observe(manuscript)
-    document.addEventListener("reader-settings-change", update)
+    window.addEventListener("resize", scheduleResizeUpdate)
+    document.addEventListener("reader-settings-change", () => update({ snap: true }))
     window.addEventListener("load", () => {
       window.setTimeout(() => {
         update()

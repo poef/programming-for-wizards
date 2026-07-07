@@ -7,13 +7,18 @@
   --book-font-scale: 100%;
   --book-line-height: 1.6;
   --book-column-width: 48rem;
+  --book-page-padding-inline: 3.5rem;
+  --book-page-width: calc(var(--book-column-width) + var(--book-page-padding-inline) + var(--book-page-padding-inline));
   --book-page-gap: clamp(1.5rem, 4vw, 3.5rem);
-  --layout-nav-width-open: 248px;
-  --layout-nav-width-closed: 10rem;
-  --layout-margin-width-open: 320px;
-  --layout-margin-width-closed: 12rem;
-  --layout-nav-width: var(--layout-nav-width-open);
-  --layout-margin-width: var(--layout-margin-width-open);
+  --book-shell-padding: clamp(16px, 3vw, 40px);
+  --layout-nav-width: 10rem;
+  --layout-margin-width: 12rem;
+  --layout-panel-width: min(22rem, calc(100vw - 2rem));
+  --layout-panel-gap: clamp(0.75rem, 1.5vw, 1.5rem);
+  --layout-panel-offset: max(
+    var(--book-shell-padding),
+    calc((100vw - var(--book-page-width)) / 2 - var(--layout-panel-gap) - var(--layout-panel-width))
+  );
   --reader-label-height: 30px;
   --reader-control-height: 42px;
   --reader-row-height: 78px;
@@ -32,14 +37,6 @@
   --color-code: #f0f1ed;
   --color-focus: #005fcc;
   --shadow-soft: 0 8px 24px rgb(31 36 33 / 0.06);
-}
-
-[data-chapter-map="closed"] {
-  --layout-nav-width: var(--layout-nav-width-closed);
-}
-
-[data-reader-tools="closed"] {
-  --layout-margin-width: var(--layout-margin-width-closed);
 }
 
 [data-font="simple-sans"] {
@@ -143,33 +140,34 @@ a:hover {
 
 .book-shell {
   display: grid;
-  gap: clamp(12px, 1.6vw, 28px);
-  grid-template-columns: var(--layout-nav-width) minmax(0, 1fr) var(--layout-margin-width);
+  grid-template-columns: minmax(0, var(--book-page-width));
+  justify-content: center;
   margin: 0 auto;
-  max-width: 1680px;
   min-height: 100vh;
-  padding: clamp(16px, 3vw, 40px);
+  padding: var(--book-shell-padding);
+  position: relative;
 }
 
 .chapter-map,
 .reader-margin {
-  align-self: start;
-  max-height: calc(100vh - 48px);
-  overflow-x: hidden;
-  overflow-y: auto;
-  position: sticky;
-  top: 24px;
-}
-
-.reader-margin {
   display: grid;
   gap: 12px;
   line-height: 1.35;
+  max-height: calc(100vh - var(--book-shell-padding) - var(--book-shell-padding));
+  overflow: visible;
+  position: fixed;
+  top: var(--book-shell-padding);
+  z-index: 8;
 }
 
 .chapter-map {
-  display: grid;
-  gap: 12px;
+  inline-size: var(--layout-nav-width);
+  inset-inline-start: var(--layout-panel-offset);
+}
+
+.reader-margin {
+  inline-size: var(--layout-margin-width);
+  inset-inline-end: var(--layout-panel-offset);
 }
 
 .chapter-map-toggle,
@@ -245,6 +243,26 @@ a:hover {
 
 .chapter-map-panel[hidden] {
   display: none;
+}
+
+.chapter-map-panel,
+.reader-tools {
+  background: color-mix(in srgb, var(--color-panel), transparent 4%);
+  border: 1px solid var(--color-line);
+  border-radius: 8px;
+  box-shadow: var(--shadow-soft);
+  inline-size: var(--layout-panel-width);
+  inset-block-start: calc(100% + 12px);
+  inset-inline-start: 0;
+  max-block-size: calc(100vh - 7rem);
+  overflow: auto;
+  padding: 1rem;
+  position: absolute;
+}
+
+.reader-tools {
+  inset-inline-start: auto;
+  inset-inline-end: 0;
 }
 
 .reader-tools {
@@ -443,8 +461,6 @@ a:hover {
 }
 
 [data-flow="paged"][data-page-kind="chapter"] .manuscript {
-  --book-page-padding-inline: clamp(1.25rem, 4vw, 3.5rem);
-
   align-self: start;
   background: color-mix(in srgb, var(--color-panel), transparent 12%);
   border: 1px solid color-mix(in srgb, var(--color-line), transparent 32%);
@@ -454,13 +470,14 @@ a:hover {
   max-height: calc(100vh - clamp(32px, 6vw, 80px));
   overflow: hidden;
   padding: clamp(1.25rem, 3vw, 3rem) var(--book-page-padding-inline) clamp(4.25rem, 7vw, 6rem);
-  width: min(100%, calc(var(--book-column-width) + var(--book-page-padding-inline) + var(--book-page-padding-inline)));
+  width: min(100%, var(--book-page-width));
 }
 
 [data-flow="paged"][data-page-kind="chapter"] .manuscript-pages {
+  column-count: 1;
   column-fill: auto;
   column-gap: var(--book-page-gap);
-  column-width: var(--book-column-width);
+  column-width: auto;
   height: 100%;
   overflow: hidden;
   scroll-behavior: smooth;
@@ -884,10 +901,15 @@ th {
   transition-duration: 0.001ms !important;
 }
 
-@media (max-width: 68rem) {
+@media (max-width: 40rem) {
+  :root {
+    --book-page-padding-inline: clamp(1rem, 5vw, 2rem);
+  }
+
   .book-shell {
     grid-template-columns: minmax(0, 1fr);
     max-width: 48rem;
+    justify-content: stretch;
   }
 
   [data-flow="paged"][data-page-kind="chapter"] body {
@@ -901,6 +923,8 @@ th {
 
   .chapter-map,
   .reader-margin {
+    inline-size: 100%;
+    justify-self: stretch;
     max-height: none;
     overflow: visible;
     position: static;
@@ -911,6 +935,18 @@ th {
     border: 1px solid var(--color-line);
     border-radius: 8px;
     padding: 1rem;
+  }
+
+  .chapter-map-panel,
+  .reader-tools {
+    background: transparent;
+    border: 0;
+    box-shadow: none;
+    inline-size: auto;
+    max-block-size: none;
+    overflow: visible;
+    padding: 0;
+    position: static;
   }
 
   .manuscript {
