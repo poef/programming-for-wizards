@@ -1,9 +1,9 @@
 <!doctype html>
-<html lang="en" data-font="publication" data-theme="light" data-motion="auto" data-page-kind="chapter" data-reader-tools="closed">
+<html lang="en" data-font="publication" data-theme="light" data-motion="auto" data-flow="paged" data-page-kind="chapter" data-chapter-map="closed" data-reader-tools="closed">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>The Web as address: a spell for pointing anywhere - Programming for Wizards</title>
+  <title>The Web: one string to rule them all. - Programming for Wizards</title>
   <link rel="stylesheet" href="../assets/book.css">
   <link rel="stylesheet" href="../assets/exhibits/exhibits.css">
   <script>
@@ -28,6 +28,11 @@
   <a class="skip-link" href="#main">Skip to manuscript</a>
   <div class="book-shell">
     <nav class="chapter-map" aria-label="Chapters">
+  <button class="chapter-map-toggle" type="button" aria-expanded="false" aria-controls="chapter-map-panel" aria-label="Show contents" data-chapter-map-toggle>
+    <span>Contents</span>
+    <span class="chapter-map-toggle-state" data-chapter-map-label>Open</span>
+  </button>
+  <div id="chapter-map-panel" class="chapter-map-panel" data-chapter-map-panel hidden>
   <a class="book-title" href="../index.html">Programming for Wizards</a>
   
 <section class="map-section">
@@ -39,19 +44,19 @@
 <section class="map-section">
   <h2>Part I: Representations are spells</h2>
   <ol>
-    <li><a href="../chapters/02-numbers-hiding-calculations-in-symbols.html"><span>02</span>Numbers: hiding calculations in symbols</a></li><li><a href="../chapters/03-logic-turning-truth-into-machinery.html"><span>03</span>Logic: turning truth into machinery</a></li><li><a href="../chapters/04-language-the-tool-that-changes-the-thinker.html"><span>04</span>Language: the tool that changes the thinker</a></li>
+    <li><a href="../chapters/02-numbers-hiding-calculations-in-symbols.html"><span>02</span>Numbers: bigger than you think</a></li><li><a href="../chapters/03-logic-turning-truth-into-machinery.html"><span>03</span>Logic: the truth is out there.</a></li><li><a href="../chapters/04-language-the-tool-that-changes-the-thinker.html"><span>04</span>Language: the oldest trick</a></li>
   </ol>
 </section>
 <section class="map-section">
   <h2>Part II: The Web, from address to platform</h2>
   <ol>
-    <li><a aria-current="page" href="../chapters/05-the-web-as-address.html"><span>05</span>The Web as address: a spell for pointing anywhere</a></li><li><a href="../chapters/06-the-web-as-document.html"><span>06</span>The Web as document: choosing a tree</a></li><li><a href="../chapters/07-the-web-as-platform.html"><span>07</span>The Web as platform: the prototype that became a world</a></li>
+    <li><a aria-current="page" href="../chapters/05-the-web-as-address.html"><span>05</span>The Web: one string to rule them all.</a></li><li><a href="../chapters/06-the-web-as-document.html"><span>06</span>The Web: the shape of words</a></li><li><a href="../chapters/07-the-web-as-platform.html"><span>07</span>The Web: waking up the words</a></li>
   </ol>
 </section>
 <section class="map-section">
   <h2>Part III: Inventing languages</h2>
   <ol>
-    <li><a href="../chapters/08-programming-languages-are-for-humans.html"><span>08</span>Programming languages are for humans</a></li><li><a href="../chapters/09-every-program-contains-a-language.html"><span>09</span>Every program contains a language</a></li><li><a href="../chapters/10-code-exhibit-extending-javascript-with-jaqt.html"><span>10</span>Code exhibit: extending JavaScript with JAQT</a></li>
+    <li><a href="../chapters/08-programming-languages-are-for-humans.html"><span>08</span>Teaching machines our words</a></li><li><a href="../chapters/09-every-program-contains-a-language.html"><span>09</span>Every program grows a language</a></li><li><a href="../chapters/10-code-exhibit-extending-javascript-with-jaqt.html"><span>10</span>Code exhibit: extending JavaScript with JAQT</a></li>
   </ol>
 </section>
 <section class="map-section">
@@ -72,14 +77,19 @@
     <li><a href="../chapters/17-rule-zero-there-are-no-rules.html"><span>17</span>Rule zero: there are no rules</a></li>
   </ol>
 </section>
+  </div>
 </nav>
     <main id="main" class="manuscript">
+  <div class="book-progress" role="progressbar" aria-label="Book progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" data-book-progress>
+    <span data-book-progress-bar></span>
+  </div>
+  <div class="manuscript-pages" data-page-scroller data-book-chapter-index="4" data-book-page-weights="466,2137,938,931,2137,1864,1422,1466,597,2199,1770,1041,1917,1619,2174,1473,137">
   <header class="chapter-header">
     <p class="chapter-kicker">Part II: The Web, from address to platform</p>
     <p class="chapter-number">Chapter 05</p>
     <svg class="chapter-glyph" viewBox="0 0 96 96" focusable="false" aria-hidden="true"><path d="M21 64c15-16 30-32 54-32"/><circle cx="24" cy="62" r="5"/><circle cx="48" cy="48" r="5"/><circle cx="72" cy="34" r="5"/><path d="M43 48H30m37-14H53"/></svg>
   </header>
-  <h1 id="h-05-the-web-as-address-a-spell-for-pointing-anywhere"><a class="anchor-link" href="#h-05-the-web-as-address-a-spell-for-pointing-anywhere" aria-label="Link to The Web as address: a spell for pointing anywhere">#</a>The Web as address: a spell for pointing anywhere</h1>
+  <h1 id="h-05-the-web-one-string-to-rule-them-all"><a class="anchor-link" href="#h-05-the-web-one-string-to-rule-them-all" aria-label="Link to The Web: one string to rule them all.">#</a>The Web: one string to rule them all.</h1>
 <p id="p-05-in-1989-a-wizard-called-tim-invented-the" data-note-target>In 1989 a wizard called <a href="https://www.w3.org/People/Berners-Lee/">Tim</a> invented the <a href="https://www.w3.org/History/1989/proposal-msw.html">World Wide Web</a> and changed the world forever.</p>
 <p id="p-05-that-sounds-dramatic-but-1989-was-not-exactly" data-note-target>That sounds dramatic, but 1989 was not exactly short on drama. Walls were falling. Regimes were cracking. The Cold War was entering its final strange act. Compared to all of that, a proposal for sharing documents between physicists at CERN must have looked very small.</p>
 <p id="p-05-that-is-one-of-the-problems-with-good" data-note-target>That is one of the problems with good magic. When it first appears, it often looks like paperwork.</p>
@@ -109,14 +119,6 @@ From here you can:
 </figure>
 <p id="p-05-the-url-the-uniform-resource-locator" data-note-target>The <a href="https://url.spec.whatwg.org/">URL</a>. The Uniform Resource Locator.</p>
 <p id="p-05-a-spell-for-pointing-anywhere" data-note-target>A spell for pointing anywhere.</p>
-<aside id="exhibit-url-as-compressed-map" class="exhibit-placeholder" data-exhibit-id="url-as-compressed-map" data-note-target>
-<p class="exhibit-kicker">Interactive Exhibit</p>
-<h2>Url As Compressed Map</h2>
-<p>Show one editable URL. Highlight the protocol, hostname, path, query and fragment as the reader edits it. Next to it, show a little route map: document -> browser -> DNS -> server -> resource -> section. Then let the reader switch between an absolute URL, a protocol-relative URL, an origin-relative URL and a page-relative URL. The important thing to show is how much world is compressed into one string.</p>
-<div class="static-fallback" aria-label="Static fallback">
-<p>Url As Compressed Map is planned as an interactive exhibit. This placeholder preserves the explanation and its stable address for the static edition.</p>
-</div>
-</aside>
 <h2 id="h-05-hypertext-was-already-in-the-air"><a class="anchor-link" href="#h-05-hypertext-was-already-in-the-air" aria-label="Link to Hypertext was already in the air">#</a>Hypertext was already in the air</h2>
 <p id="p-05-to-understand-why-the-url-mattered-we-need" data-note-target>To understand why the URL mattered, we need to go back a little further than 1989.</p>
 <p id="p-05-the-idea-of-hypertext-was-older-than-the" data-note-target>The idea of <a href="https://en.wikipedia.org/wiki/Hypertext">hypertext</a> was older than the Web. <a href="https://en.wikipedia.org/wiki/Ted_Nelson">Ted Nelson</a> coined the term in 1965, and you can trace the dream further back to <a href="https://en.wikipedia.org/wiki/Vannevar_Bush">Vannevar Bush</a>'s 1945 essay <a href="https://www.theatlantic.com/magazine/archive/1945/07/as-we-may-think/303881/"><em>As We May Think</em></a>. Wizards had been dreaming for decades about systems where documents could point to other documents, where knowledge could become a web instead of a pile.</p>
@@ -132,16 +134,17 @@ From here you can:
 <p id="p-05-a-normal-looking-address-with-a-lot-of" data-note-target>A normal-looking address. With a lot of stolen machinery hiding inside it.</p>
 <h2 id="h-05-three-stolen-pieces"><a class="anchor-link" href="#h-05-three-stolen-pieces" aria-label="Link to Three stolen pieces">#</a>Three stolen pieces</h2>
 <p id="p-05-look-again-at-the-url" data-note-target>Look again at the URL:</p>
-<figure id="code-05-074" class="code-figure" data-note-target>
+<figure id="code-05-070" class="code-figure" data-note-target>
 <figcaption>url</figcaption>
 <pre><code class="language-url">http://info.cern.ch/hypertext/WWW/TheProject.html</code></pre>
 </figure>
 <p id="p-05-it-has-three-obvious-parts" data-note-target>It has three obvious parts:</p>
-<figure id="code-05-080" class="code-figure" data-note-target>
+<figure id="code-05-076" class="code-figure" data-note-target>
 <figcaption>text</figcaption>
 <pre><code class="language-text">http://    info.cern.ch    /hypertext/WWW/TheProject.html
 protocol  hostname        path</code></pre>
 </figure>
+<p id="p-05-then-it-combines-them-in-one-string-that" data-note-target>Then it combines them in one string that binds them all together.</p>
 <p id="p-05-the-protocol-tells-your-computer-how-to-talk" data-note-target>The protocol tells your computer how to talk.</p>
 <p id="p-05-the-hostname-tells-it-which-name-in-the" data-note-target>The hostname tells it which name in the global naming system to resolve.</p>
 <p id="p-05-the-path-tells-the-other-side-what-you" data-note-target>The path tells the other side what you are looking for.</p>
@@ -149,28 +152,30 @@ protocol  hostname        path</code></pre>
 <p id="p-05-that-is-a-ridiculous-amount-of-power-for" data-note-target>That is a ridiculous amount of power for one string.</p>
 <p id="p-05-and-the-string-is-still-readable-this-matters" data-note-target>And the string is still readable. This matters. It matters more than programmers sometimes admit. You can copy a URL into an email, print it in a book, write it on a whiteboard, paste it in a chat message, or, if you are feeling particularly cursed, read it aloud over the phone.</p>
 <p id="p-05-the-url-is-an-address-but-it-is" data-note-target>The URL is an address, but it is also a tiny user interface to the network.</p>
+<blockquote><p><strong>WIzard's fourth rule</strong></p>
+<p>Start small, to build big.</p></blockquote>
 <h2 id="h-05-the-path-unix-hiding-in-plain-sight"><a class="anchor-link" href="#h-05-the-path-unix-hiding-in-plain-sight" aria-label="Link to The path: Unix hiding in plain sight">#</a>The path: Unix hiding in plain sight</h2>
 <p id="p-05-start-with-the-path" data-note-target>Start with the path:</p>
-<figure id="code-05-103" class="code-figure" data-note-target>
+<figure id="code-05-106" class="code-figure" data-note-target>
 <figcaption>text</figcaption>
 <pre><code class="language-text">/hypertext/WWW/TheProject.html</code></pre>
 </figure>
 <p id="p-05-if-you-have-used-a-unix-like-system" data-note-target>If you have used a Unix-like system, this shape is familiar. A slash separates folders and files. A path starts at a root, then moves down through names until it reaches the thing you want.</p>
-<figure id="code-05-109" class="code-figure" data-note-target>
+<figure id="code-05-112" class="code-figure" data-note-target>
 <figcaption>text</figcaption>
 <pre><code class="language-text">/hypertext
 /hypertext/WWW
 /hypertext/WWW/TheProject.html</code></pre>
 </figure>
 <p id="p-05-this-feels-obvious-now-but-it-was-only" data-note-target>This feels obvious now, but it was only one possible way to name files. DOS and Windows used backslashes and drive letters. VMS had paths that looked like they had escaped from an engineering manual:</p>
-<figure id="code-05-117" class="code-figure" data-note-target>
+<figure id="code-05-120" class="code-figure" data-note-target>
 <figcaption>text</figcaption>
 <pre><code class="language-text">NODE&quot;accountname password&quot;::device:[directory.subdirectory]filename.type;ver</code></pre>
 </figure>
 <p id="p-05-the-url-chose-the-simpler-unix-shaped-world" data-note-target>The URL chose the simpler Unix-shaped world.</p>
 <p id="p-05-unix-itself-had-stolen-and-simplified-ideas-from" data-note-target>Unix itself had stolen and simplified ideas from earlier systems such as Multics. One of its beautiful tricks is that users do not normally need to care which physical device a file is on. There is a single tree. Disks and devices can be mounted into that tree. The messy physical world disappears behind a simpler name world.</p>
 <p id="p-05-that-idea-survives-inside-the-url-the-path" data-note-target>That idea survives inside the URL. The path says:</p>
-<figure id="code-05-127" class="code-figure" data-note-target>
+<figure id="code-05-130" class="code-figure" data-note-target>
 <figcaption>text</figcaption>
 <pre><code class="language-text">/hypertext/WWW/TheProject.html</code></pre>
 </figure>
@@ -180,7 +185,7 @@ protocol  hostname        path</code></pre>
 <p id="p-05-that-is-not-the-glamorous-part-of-the" data-note-target>That is not the glamorous part of the Web. It is the kind of small compromise that lets a simple text format survive the outside world.</p>
 <h2 id="h-05-the-hostname-a-global-phone-book-that-is-not-a"><a class="anchor-link" href="#h-05-the-hostname-a-global-phone-book-that-is-not-a" aria-label="Link to The hostname: a global phone book that is not a book">#</a>The hostname: a global phone book that is not a book</h2>
 <p id="p-05-now-look-at-the-middle-part" data-note-target>Now look at the middle part:</p>
-<figure id="code-05-143" class="code-figure" data-note-target>
+<figure id="code-05-146" class="code-figure" data-note-target>
 <figcaption>url</figcaption>
 <pre><code class="language-url">//info.cern.ch/</code></pre>
 </figure>
@@ -193,14 +198,14 @@ protocol  hostname        path</code></pre>
 <p id="p-05-the-url-did-not-solve-naming-it-gave" data-note-target>The URL did not solve naming. It gave DNS a place inside the hypertext spell.</p>
 <h2 id="h-05-the-protocol-a-slightly-mad-opening-move"><a class="anchor-link" href="#h-05-the-protocol-a-slightly-mad-opening-move" aria-label="Link to The protocol: a slightly mad opening move">#</a>The protocol: a slightly mad opening move</h2>
 <p id="p-05-finally-the-first-part" data-note-target>Finally, the first part:</p>
-<figure id="code-05-165" class="code-figure" data-note-target>
+<figure id="code-05-168" class="code-figure" data-note-target>
 <figcaption>url</figcaption>
 <pre><code class="language-url">http://</code></pre>
 </figure>
 <p id="p-05-at-first-this-seems-like-the-boring-bit" data-note-target>At first this seems like the boring bit. It tells the browser to use <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP">HTTP</a>. Sensible enough.</p>
 <p id="p-05-but-putting-the-scheme-at-the-front-was" data-note-target>But putting the scheme at the front was also a wonderfully strange move, because it left the door open for the link to escape HTTP.</p>
 <p id="p-05-compare-it-with-gopher-another-worldwide-information-system" data-note-target>Compare it with <a href="https://en.wikipedia.org/wiki/Gopher_%28protocol%29">Gopher</a>, another worldwide information system that appeared around the same time. For a brief moment, Gopher was a serious contender. A Gopher menu entry might contain a type, a title, a path, a hostname and a port:</p>
-<figure id="code-05-175" class="code-figure" data-note-target>
+<figure id="code-05-178" class="code-figure" data-note-target>
 <figcaption>text</figcaption>
 <pre><code class="language-text">1CIA World Factbook    /Archives/politics/CIA    gopher.example.org    70</code></pre>
 </figure>
@@ -211,7 +216,7 @@ protocol  hostname        path</code></pre>
 <p id="p-05-that-is-usually-a-good-sign-a-design" data-note-target>That is usually a good sign. A design has become part of the language when people start using it in places its inventor did not plan.</p>
 <h2 id="h-05-the-small-turn"><a class="anchor-link" href="#h-05-the-small-turn" aria-label="Link to The small turn">#</a>The small turn</h2>
 <p id="p-05-so-the-url-is-not-impressive-because-every" data-note-target>So the URL is not impressive because every part of it was new. It is impressive because a few existing parts were turned toward each other.</p>
-<figure id="code-05-193" class="code-figure" data-note-target>
+<figure id="code-05-196" class="code-figure" data-note-target>
 <figcaption>text</figcaption>
 <pre><code class="language-text">protocol://hostname/path</code></pre>
 </figure>
@@ -226,14 +231,17 @@ protocol  hostname        path</code></pre>
 <p id="p-05-each-part-keeps-its-own-job-the-connection" data-note-target>Each part keeps its own job. The connection between them stays small.</p>
 <p id="p-05-that-is-much-harder-to-design-than-it" data-note-target>That is much harder to design than it looks. Large systems keep tempting us to make larger abstractions: one model to explain everything, one framework to own everything, one platform to contain everything. The Web went the other way often enough to matter. It left boundaries visible. A boundary is a place where one system can meet another without becoming it.</p>
 <p id="p-05-this-is-something-a-wizard-is-very-aware" data-note-target>This is something a wizard is very aware of. A small change in representation can make a problem manageable. Sometimes it makes the old problem disappear. And sometimes, if the shape is right, it opens a door you did not know was there.</p>
-<aside id="rule-05-wizards-fourth-rule" class="wizard-rule" data-note-target>
-<p class="rule-label">Wizard's fourth rule</p>
-<p>When a problem feels too large, do not only look for a larger solution. Look for the smaller shape that changes what kind of problem it is.</p>
-</aside>
+<p id="p-05-the-url-gave-the-web-a-way-to" data-note-target>The URL gave the Web a way to point at documents. Now the Web needed a way to give those documents shape.</p>
   <nav class="chapter-pagination" aria-label="Chapter navigation">
-    <a rel="prev" href="04-language-the-tool-that-changes-the-thinker.html"><span>Previous</span>Language: the tool that changes the thinker</a>
-    <a rel="next" href="06-the-web-as-document.html"><span>Next</span>The Web as document: choosing a tree</a>
+    <a rel="prev" href="04-language-the-tool-that-changes-the-thinker.html"><span>Previous</span>Language: the oldest trick</a>
+    <a rel="next" href="06-the-web-as-document.html"><span>Next</span>The Web: the shape of words</a>
   </nav>
+  </div>
+  <div class="page-turner" data-page-controls hidden>
+    <button type="button" data-page-prev aria-label="Previous page">Previous</button>
+    <span data-page-status aria-live="polite">Page 1 of 1</span>
+    <button type="button" data-page-next aria-label="Next page">Next</button>
+  </div>
 </main>
     <aside class="reader-margin" aria-label="Reader tools">
   <button class="reader-toggle" type="button" aria-expanded="false" aria-controls="reader-tools-panel" aria-label="Show reader tools" data-reader-tools-toggle>
@@ -284,7 +292,13 @@ protocol  hostname        path</code></pre>
         <input data-setting="lineHeight" type="range" min="145" max="185" step="5" value="160">
       </label>
       <label>Width
-        <input data-setting="columnWidth" type="range" min="36" max="54" step="2" value="42">
+        <input data-setting="columnWidth" type="range" min="38" max="66" step="2" value="48">
+      </label>
+      <label>Flow
+        <select data-setting="flow">
+          <option value="paged">Paged</option>
+          <option value="scroll">Scrolling</option>
+        </select>
       </label>
       <label>Theme
         <select data-setting="theme">

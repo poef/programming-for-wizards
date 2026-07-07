@@ -323,9 +323,29 @@ function checkHtmlPages(htmlByFile) {
       fail(`${relativeFile} is missing the reader tools panel`)
     }
 
+    if (!/\bdata-chapter-map-toggle\b/.test(html)) {
+      fail(`${relativeFile} is missing the chapter map toggle`)
+    }
+
+    if (!/\bdata-chapter-map-panel\b/.test(html)) {
+      fail(`${relativeFile} is missing the chapter map panel`)
+    }
+
     const settingControls = [...html.matchAll(/\bdata-setting="/g)].length
-    if (settingControls !== 6) {
-      fail(`${relativeFile} has ${settingControls} reader setting controls, expected 6`)
+    if (settingControls !== 7) {
+      fail(`${relativeFile} has ${settingControls} reader setting controls, expected 7`)
+    }
+
+    if (relativeFile.includes(`${path.sep}chapters${path.sep}`) && !/\bdata-page-controls\b/.test(html)) {
+      fail(`${relativeFile} is missing paged reader controls`)
+    }
+
+    if (relativeFile.includes(`${path.sep}chapters${path.sep}`) && !/\bdata-book-progress\b/.test(html)) {
+      fail(`${relativeFile} is missing book progress controls`)
+    }
+
+    if (relativeFile.includes(`${path.sep}chapters${path.sep}`) && !/\bdata-book-page-weights\b/.test(html)) {
+      fail(`${relativeFile} is missing book page weights`)
     }
   }
 

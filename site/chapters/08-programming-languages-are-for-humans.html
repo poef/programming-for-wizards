@@ -1,9 +1,9 @@
 <!doctype html>
-<html lang="en" data-font="publication" data-theme="light" data-motion="auto" data-page-kind="chapter" data-reader-tools="closed">
+<html lang="en" data-font="publication" data-theme="light" data-motion="auto" data-flow="paged" data-page-kind="chapter" data-chapter-map="closed" data-reader-tools="closed">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Programming languages are for humans - Programming for Wizards</title>
+  <title>Teaching machines our words - Programming for Wizards</title>
   <link rel="stylesheet" href="../assets/book.css">
   <link rel="stylesheet" href="../assets/exhibits/exhibits.css">
   <script>
@@ -28,6 +28,11 @@
   <a class="skip-link" href="#main">Skip to manuscript</a>
   <div class="book-shell">
     <nav class="chapter-map" aria-label="Chapters">
+  <button class="chapter-map-toggle" type="button" aria-expanded="false" aria-controls="chapter-map-panel" aria-label="Show contents" data-chapter-map-toggle>
+    <span>Contents</span>
+    <span class="chapter-map-toggle-state" data-chapter-map-label>Open</span>
+  </button>
+  <div id="chapter-map-panel" class="chapter-map-panel" data-chapter-map-panel hidden>
   <a class="book-title" href="../index.html">Programming for Wizards</a>
   
 <section class="map-section">
@@ -39,19 +44,19 @@
 <section class="map-section">
   <h2>Part I: Representations are spells</h2>
   <ol>
-    <li><a href="../chapters/02-numbers-hiding-calculations-in-symbols.html"><span>02</span>Numbers: hiding calculations in symbols</a></li><li><a href="../chapters/03-logic-turning-truth-into-machinery.html"><span>03</span>Logic: turning truth into machinery</a></li><li><a href="../chapters/04-language-the-tool-that-changes-the-thinker.html"><span>04</span>Language: the tool that changes the thinker</a></li>
+    <li><a href="../chapters/02-numbers-hiding-calculations-in-symbols.html"><span>02</span>Numbers: bigger than you think</a></li><li><a href="../chapters/03-logic-turning-truth-into-machinery.html"><span>03</span>Logic: the truth is out there.</a></li><li><a href="../chapters/04-language-the-tool-that-changes-the-thinker.html"><span>04</span>Language: the oldest trick</a></li>
   </ol>
 </section>
 <section class="map-section">
   <h2>Part II: The Web, from address to platform</h2>
   <ol>
-    <li><a href="../chapters/05-the-web-as-address.html"><span>05</span>The Web as address: a spell for pointing anywhere</a></li><li><a href="../chapters/06-the-web-as-document.html"><span>06</span>The Web as document: choosing a tree</a></li><li><a href="../chapters/07-the-web-as-platform.html"><span>07</span>The Web as platform: the prototype that became a world</a></li>
+    <li><a href="../chapters/05-the-web-as-address.html"><span>05</span>The Web: one string to rule them all.</a></li><li><a href="../chapters/06-the-web-as-document.html"><span>06</span>The Web: the shape of words</a></li><li><a href="../chapters/07-the-web-as-platform.html"><span>07</span>The Web: waking up the words</a></li>
   </ol>
 </section>
 <section class="map-section">
   <h2>Part III: Inventing languages</h2>
   <ol>
-    <li><a aria-current="page" href="../chapters/08-programming-languages-are-for-humans.html"><span>08</span>Programming languages are for humans</a></li><li><a href="../chapters/09-every-program-contains-a-language.html"><span>09</span>Every program contains a language</a></li><li><a href="../chapters/10-code-exhibit-extending-javascript-with-jaqt.html"><span>10</span>Code exhibit: extending JavaScript with JAQT</a></li>
+    <li><a aria-current="page" href="../chapters/08-programming-languages-are-for-humans.html"><span>08</span>Teaching machines our words</a></li><li><a href="../chapters/09-every-program-contains-a-language.html"><span>09</span>Every program grows a language</a></li><li><a href="../chapters/10-code-exhibit-extending-javascript-with-jaqt.html"><span>10</span>Code exhibit: extending JavaScript with JAQT</a></li>
   </ol>
 </section>
 <section class="map-section">
@@ -72,34 +77,31 @@
     <li><a href="../chapters/17-rule-zero-there-are-no-rules.html"><span>17</span>Rule zero: there are no rules</a></li>
   </ol>
 </section>
+  </div>
 </nav>
     <main id="main" class="manuscript">
+  <div class="book-progress" role="progressbar" aria-label="Book progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" data-book-progress>
+    <span data-book-progress-bar></span>
+  </div>
+  <div class="manuscript-pages" data-page-scroller data-book-chapter-index="7" data-book-page-weights="466,2137,938,931,2137,1864,1422,1466,597,2199,1770,1041,1917,1619,2174,1473,137">
   <header class="chapter-header">
     <p class="chapter-kicker">Part III: Inventing languages</p>
     <p class="chapter-number">Chapter 08</p>
     <svg class="chapter-glyph" viewBox="0 0 96 96" focusable="false" aria-hidden="true"><path d="M25 31c12-10 34-10 46 0"/><path d="M71 31c-12 10-34 10-46 0"/><path d="M25 65c12-10 34-10 46 0"/><path d="M71 65c-12 10-34 10-46 0"/><path d="M35 48h26"/></svg>
   </header>
-  <h1 id="h-08-programming-languages-are-for-humans"><a class="anchor-link" href="#h-08-programming-languages-are-for-humans" aria-label="Link to Programming languages are for humans">#</a>Programming languages are for humans</h1>
+  <h1 id="h-08-teaching-machines-our-words"><a class="anchor-link" href="#h-08-teaching-machines-our-words" aria-label="Link to Teaching machines our words">#</a>Teaching machines our words</h1>
 <p id="p-08-a-few-chapters-ago-we-looked-at-language" data-note-target>A few chapters ago we looked at language as magic. Human language does not merely carry thoughts around; it changes what kinds of thoughts are easy to have.</p>
 <p id="p-08-programming-languages-do-the-same-thing-but-with" data-note-target>Programming languages do the same thing, but with less tolerance for ambiguity and more semicolons.</p>
 <p id="p-08-this-chapter-returns-to-that-idea-but-now" data-note-target>This chapter returns to that idea, but now turns it toward programming proper. A programming language is not primarily a machine interface. It is a human thinking tool that happens to be precise enough for a machine to execute.</p>
-<aside id="exhibit-same-program-many-languages" class="exhibit-placeholder" data-exhibit-id="same-program-many-languages" data-note-target>
-<p class="exhibit-kicker">Interactive Exhibit</p>
-<h2>Same Program Many Languages</h2>
-<p>Show one tiny program in machine code, assembly, COBOL, Fortran, Lisp, and a modern language. Let the reader reveal comments and structure step by step. The point is not to rank languages; the point is to feel which ideas each language makes cheap or expensive.</p>
-<div class="static-fallback" aria-label="Static fallback">
-<p>Same Program Many Languages is planned as an interactive exhibit. This placeholder preserves the explanation and its stable address for the static edition.</p>
-</div>
-</aside>
 <h2 id="h-08-computer-languages"><a class="anchor-link" href="#h-08-computer-languages" aria-label="Link to Computer languages">#</a>Computer languages</h2>
 <p id="p-08-a-common-misconception-is-that-programming-languages-are" data-note-target>A common misconception is that programming languages are designed to allow you to program computers. If that were the only reason, there wouldn't be that many programming languages. A computer doesn't need a programming language. Humans do. Computers are perfectly fine executing instructions like this:</p>
-<figure id="code-08-017" class="code-figure" data-note-target>
+<figure id="code-08-013" class="code-figure" data-note-target>
 <figcaption>code</figcaption>
 <pre><code>037744 016701 000026 012702 000352 005211 105711 100376 
 116162 000002 037400 005267 177756 000765 177550</code></pre>
 </figure>
 <p id="p-08-this-machine-code-is-written-in-octal-to" data-note-target>This <a href="https://en.wikipedia.org/wiki/Machine_code">machine code</a> is written in octal, to make it slightly more readable for humans. But the first really usable step is to write it as <a href="https://en.wikipedia.org/wiki/Assembly_language">assembly code</a>:</p>
-<figure id="code-08-024" class="code-figure" data-note-target>
+<figure id="code-08-020" class="code-figure" data-note-target>
 <figcaption>code</figcaption>
 <pre><code>037744: 016701 000026          MOV   037776,R1
 037750: 012702 000352          MOV   #352,R2
@@ -112,7 +114,7 @@
 037776: 177550                 .WORD 177550</code></pre>
 </figure>
 <p id="p-08-and-now-with-some-labels-and-comments" data-note-target>And now with some labels and comments:</p>
-<figure id="code-08-038" class="code-figure" data-note-target>
+<figure id="code-08-034" class="code-figure" data-note-target>
 <figcaption>code</figcaption>
 <pre><code>        LOAD = 0x7400                 ; Buffer address
 
@@ -135,7 +137,7 @@
 <p id="p-08-even-in-this-enhanced-more-human-form-this" data-note-target>Even in this enhanced, more human form, this code is not very readable. Or expressive. Most humans don't code in assembly language. In the end, the machine still gets instructions. The programming language exists because humans need to think, read, change, and share those instructions.</p>
 <p id="p-08-that-is-why-there-are-so-many-programming" data-note-target>That is why there are so many programming languages. Different humans need different thoughts to be cheap.</p>
 <p id="p-08-cobol-was-designed-to-make-business-programs-look" data-note-target><a href="https://en.wikipedia.org/wiki/COBOL">COBOL</a> was designed to make business programs look more like business language. Its intended use was in offices, banks, governments, and large institutions. That does not make it beautiful. It does make it interesting. COBOL made records, reports, procedures, and money moving through organizations easier to say.</p>
-<figure id="code-08-065" class="code-figure" data-note-target>
+<figure id="code-08-061" class="code-figure" data-note-target>
 <figcaption>cobol</figcaption>
 <pre><code class="language-cobol">/
 IDENTIFICATION DIVISION.
@@ -163,7 +165,7 @@ PROCEDURE DIVISION.
 <p id="p-08-believe-it-or-not-cobol-is-still-in" data-note-target>Believe it or not, COBOL is still in use today. The code above is copied from a current manual for <a href="https://www.ibm.com/products/db2">DB2</a>, an IBM database system that runs on <a href="https://www.ibm.com/products/zos">z/OS</a> mainframes. These are descendants of the famous <a href="https://en.wikipedia.org/wiki/OS/360">OS/360</a> mainframes of the 1960s.</p>
 <p id="p-08-that-is-not-an-accident-business-software-tends" data-note-target>That is not an accident. Business software tends to outlive the people who wrote it. Once a language becomes part of the machinery of an institution, replacing it becomes a social, economic, and political problem. Not just a technical one.</p>
 <p id="p-08-fortran-made-a-different-bet-it-was-built" data-note-target><a href="https://en.wikipedia.org/wiki/Fortran">Fortran</a> made a different bet. It was built for scientists and engineers. It made formulas, arrays, loops, and numerical work cheap. Here is an example in Fortran 77:</p>
-<figure id="code-08-096" class="code-figure" data-note-target>
+<figure id="code-08-092" class="code-figure" data-note-target>
 <figcaption>fortran</figcaption>
 <pre><code class="language-fortran">PROGRAM MAIN
 INTEGER N, X
@@ -190,7 +192,7 @@ END</code></pre>
 <p id="p-08-finally-we-arrive-at-lisp-a-wizard-called" data-note-target>Finally we arrive at <a href="https://en.wikipedia.org/wiki/Lisp_%28programming_language%29">Lisp</a>. A wizard called <a href="https://en.wikipedia.org/wiki/John_McCarthy_%28computer_scientist%29">John McCarthy</a> dreamed up Lisp between 1956 and 1958. Lisp made a stranger bet: code and data could have almost the same shape.</p>
 <p id="p-08-that-sounds-like-a-technical-detail-until-you" data-note-target>That sounds like a technical detail until you feel what it does. Lisp doesn't just make it possible to solve problems. It makes it cheap to build little languages for solving problems.</p>
 <p id="p-08-here-is-a-tiny-example" data-note-target>Here is a tiny example:</p>
-<figure id="code-08-127" class="code-figure" data-note-target>
+<figure id="code-08-123" class="code-figure" data-note-target>
 <figcaption>lisp</figcaption>
 <pre><code class="language-lisp">(defmacro unless (condition &amp;body body)
   `(if (not ,condition)
@@ -205,6 +207,10 @@ END</code></pre>
 <p id="p-08-just-like-human-languages-programming-languages-make-it" data-note-target>Just like human languages, programming languages make it easier for some ideas to be expressed than others. The best programming language allows you to freely express all the ideas you need to solve a problem in as simple and straightforward a way as possible. And it does so with as little required learning as possible.</p>
 <p id="p-08-unfortunately-thats-also-not-true" data-note-target>Unfortunately, that's also not true.</p>
 <p id="p-08-the-problem-is-communication-not-between-the-human" data-note-target>The problem is communication. Not between the human wizard and the computer. The problem is communicating ideas between humans. Small, powerful languages are seductive because they let you create your own vocabulary. But every private vocabulary has a cost. Any other wizard who wants to work with your ideas, your code, will have to learn your version: your implementation, your little country with its own customs, grammar, and strange hand gestures.</p>
+<aside id="rule-08-wizards-seventh-rule" class="wizard-rule" data-note-target>
+<p class="rule-label">Wizard's seventh rule</p>
+<p>The bill always comes due.</p>
+</aside>
 <p id="p-08-reading-code-is-hard-it-is-much-easier" data-note-target>Reading code is hard. It is much easier to write code. This sounds nonsensical, yet it is true. It is the source of the <a href="https://en.wikipedia.org/wiki/Not_invented_here">NIH syndrome</a>: Not Invented Here.</p>
 <p id="p-08-one-answer-is-to-make-programming-languages-bigger" data-note-target>One answer is to make programming languages bigger. Add more standard stuff. Add design patterns. Add frameworks. Make sure all programmers are fed the same cookie-cutter solutions, so all code starts to look roughly the same. Create frameworks that force all problems into a <a href="https://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93controller">Model-View-Controller</a> solution on top of an <a href="https://en.wikipedia.org/wiki/Object%E2%80%93relational_mapping">Object-Relational Mapper</a>. Boom, done!</p>
 <p id="p-08-there-is-a-reason-this-keeps-happening-shared" data-note-target>There is a reason this keeps happening. Shared shapes make code easier to read. If every project invents its own private universe, every project becomes a new country with its own customs, grammar, and strange little hand gestures. A framework gives everyone the same street names.</p>
@@ -214,15 +220,17 @@ END</code></pre>
 <p id="p-08-a-wizard-should-be-aware-of-this-tension" data-note-target>A wizard should be aware of this tension. You do not escape it by choosing the one true language, because the one true language does not exist. You escape it, when you can, by making the language of the program fit the problem more closely.</p>
 <p id="p-08-that-is-where-domain-specific-languages-become-interesting" data-note-target>That is where <a href="https://martinfowler.com/dsl.html">domain-specific languages</a> become interesting.</p>
 <p id="p-08-a-dsl-is-not-automatically-a-separate-language" data-note-target>A DSL is not automatically a separate language with a parser and a manual. Sometimes it is. <a href="https://en.wikipedia.org/wiki/SQL">SQL</a> is its own world, and for good reasons. But sometimes a DSL is smaller than that. It can be a handful of names, a few conventions, a shape in the data, a chain of functions, a way of arranging code so the important ideas stand next to each other.</p>
-<p id="p-08-the-next-chapter-is-an-exhibit-of-that" data-note-target>The next chapter is an exhibit of that smaller kind of language. We will not build a grand new syntax. We will look for a little query language hiding inside JavaScript.</p>
-<aside id="rule-08-wizards-seventh-rule" class="wizard-rule" data-note-target>
-<p class="rule-label">Wizard's seventh rule</p>
-<p>Every spell builds a wall.</p>
-</aside>
+<p id="p-08-but-before-we-build-one-we-need-to" data-note-target>But before we build one, we need to notice something stranger: every program already contains a language of its own.</p>
   <nav class="chapter-pagination" aria-label="Chapter navigation">
-    <a rel="prev" href="07-the-web-as-platform.html"><span>Previous</span>The Web as platform: the prototype that became a world</a>
-    <a rel="next" href="09-every-program-contains-a-language.html"><span>Next</span>Every program contains a language</a>
+    <a rel="prev" href="07-the-web-as-platform.html"><span>Previous</span>The Web: waking up the words</a>
+    <a rel="next" href="09-every-program-contains-a-language.html"><span>Next</span>Every program grows a language</a>
   </nav>
+  </div>
+  <div class="page-turner" data-page-controls hidden>
+    <button type="button" data-page-prev aria-label="Previous page">Previous</button>
+    <span data-page-status aria-live="polite">Page 1 of 1</span>
+    <button type="button" data-page-next aria-label="Next page">Next</button>
+  </div>
 </main>
     <aside class="reader-margin" aria-label="Reader tools">
   <button class="reader-toggle" type="button" aria-expanded="false" aria-controls="reader-tools-panel" aria-label="Show reader tools" data-reader-tools-toggle>
@@ -273,7 +281,13 @@ END</code></pre>
         <input data-setting="lineHeight" type="range" min="145" max="185" step="5" value="160">
       </label>
       <label>Width
-        <input data-setting="columnWidth" type="range" min="36" max="54" step="2" value="42">
+        <input data-setting="columnWidth" type="range" min="38" max="66" step="2" value="48">
+      </label>
+      <label>Flow
+        <select data-setting="flow">
+          <option value="paged">Paged</option>
+          <option value="scroll">Scrolling</option>
+        </select>
       </label>
       <label>Theme
         <select data-setting="theme">

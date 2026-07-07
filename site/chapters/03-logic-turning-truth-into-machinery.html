@@ -1,9 +1,9 @@
 <!doctype html>
-<html lang="en" data-font="publication" data-theme="light" data-motion="auto" data-page-kind="chapter" data-reader-tools="closed">
+<html lang="en" data-font="publication" data-theme="light" data-motion="auto" data-flow="paged" data-page-kind="chapter" data-chapter-map="closed" data-reader-tools="closed">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Logic: turning truth into machinery - Programming for Wizards</title>
+  <title>Logic: the truth is out there. - Programming for Wizards</title>
   <link rel="stylesheet" href="../assets/book.css">
   <link rel="stylesheet" href="../assets/exhibits/exhibits.css">
   <script>
@@ -28,6 +28,11 @@
   <a class="skip-link" href="#main">Skip to manuscript</a>
   <div class="book-shell">
     <nav class="chapter-map" aria-label="Chapters">
+  <button class="chapter-map-toggle" type="button" aria-expanded="false" aria-controls="chapter-map-panel" aria-label="Show contents" data-chapter-map-toggle>
+    <span>Contents</span>
+    <span class="chapter-map-toggle-state" data-chapter-map-label>Open</span>
+  </button>
+  <div id="chapter-map-panel" class="chapter-map-panel" data-chapter-map-panel hidden>
   <a class="book-title" href="../index.html">Programming for Wizards</a>
   
 <section class="map-section">
@@ -39,19 +44,19 @@
 <section class="map-section">
   <h2>Part I: Representations are spells</h2>
   <ol>
-    <li><a href="../chapters/02-numbers-hiding-calculations-in-symbols.html"><span>02</span>Numbers: hiding calculations in symbols</a></li><li><a aria-current="page" href="../chapters/03-logic-turning-truth-into-machinery.html"><span>03</span>Logic: turning truth into machinery</a></li><li><a href="../chapters/04-language-the-tool-that-changes-the-thinker.html"><span>04</span>Language: the tool that changes the thinker</a></li>
+    <li><a href="../chapters/02-numbers-hiding-calculations-in-symbols.html"><span>02</span>Numbers: bigger than you think</a></li><li><a aria-current="page" href="../chapters/03-logic-turning-truth-into-machinery.html"><span>03</span>Logic: the truth is out there.</a></li><li><a href="../chapters/04-language-the-tool-that-changes-the-thinker.html"><span>04</span>Language: the oldest trick</a></li>
   </ol>
 </section>
 <section class="map-section">
   <h2>Part II: The Web, from address to platform</h2>
   <ol>
-    <li><a href="../chapters/05-the-web-as-address.html"><span>05</span>The Web as address: a spell for pointing anywhere</a></li><li><a href="../chapters/06-the-web-as-document.html"><span>06</span>The Web as document: choosing a tree</a></li><li><a href="../chapters/07-the-web-as-platform.html"><span>07</span>The Web as platform: the prototype that became a world</a></li>
+    <li><a href="../chapters/05-the-web-as-address.html"><span>05</span>The Web: one string to rule them all.</a></li><li><a href="../chapters/06-the-web-as-document.html"><span>06</span>The Web: the shape of words</a></li><li><a href="../chapters/07-the-web-as-platform.html"><span>07</span>The Web: waking up the words</a></li>
   </ol>
 </section>
 <section class="map-section">
   <h2>Part III: Inventing languages</h2>
   <ol>
-    <li><a href="../chapters/08-programming-languages-are-for-humans.html"><span>08</span>Programming languages are for humans</a></li><li><a href="../chapters/09-every-program-contains-a-language.html"><span>09</span>Every program contains a language</a></li><li><a href="../chapters/10-code-exhibit-extending-javascript-with-jaqt.html"><span>10</span>Code exhibit: extending JavaScript with JAQT</a></li>
+    <li><a href="../chapters/08-programming-languages-are-for-humans.html"><span>08</span>Teaching machines our words</a></li><li><a href="../chapters/09-every-program-contains-a-language.html"><span>09</span>Every program grows a language</a></li><li><a href="../chapters/10-code-exhibit-extending-javascript-with-jaqt.html"><span>10</span>Code exhibit: extending JavaScript with JAQT</a></li>
   </ol>
 </section>
 <section class="map-section">
@@ -72,14 +77,19 @@
     <li><a href="../chapters/17-rule-zero-there-are-no-rules.html"><span>17</span>Rule zero: there are no rules</a></li>
   </ol>
 </section>
+  </div>
 </nav>
     <main id="main" class="manuscript">
+  <div class="book-progress" role="progressbar" aria-label="Book progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" data-book-progress>
+    <span data-book-progress-bar></span>
+  </div>
+  <div class="manuscript-pages" data-page-scroller data-book-chapter-index="2" data-book-page-weights="466,2137,938,931,2137,1864,1422,1466,597,2199,1770,1041,1917,1619,2174,1473,137">
   <header class="chapter-header">
     <p class="chapter-kicker">Part I: Representations are spells</p>
     <p class="chapter-number">Chapter 03</p>
     <svg class="chapter-glyph" viewBox="0 0 96 96" focusable="false" aria-hidden="true"><path d="M23 67c12-17 12-31 0-43 17 12 31 12 50 0-12 17-12 31 0 43-19-12-33-12-50 0z"/><path d="M35 48h26M48 35v26"/></svg>
   </header>
-  <h1 id="h-03-logic-turning-truth-into-machinery"><a class="anchor-link" href="#h-03-logic-turning-truth-into-machinery" aria-label="Link to Logic: turning truth into machinery">#</a>Logic: turning truth into machinery</h1>
+  <h1 id="h-03-logic-the-truth-is-out-there"><a class="anchor-link" href="#h-03-logic-the-truth-is-out-there" aria-label="Link to Logic: the truth is out there.">#</a>Logic: the truth is out there.</h1>
 <p id="p-03-in-the-last-chapter-we-saw-that-a" data-note-target>In the last chapter, we saw that a good notation can do some of the calculation for you. Logic does something similar for reasoning.</p>
 <p id="p-03-this-matters-because-your-brain-is-a-wonderful" data-note-target>This matters because your brain is a wonderful machine, but it cheats. It guesses. It skips steps. It sees patterns that aren't there and misses patterns that are. Most of the time this is useful. Sometimes it gets you killed by a door.</p>
 <p id="p-03-you-are-standing-before-two-doors-one-door" data-note-target>You are standing before two doors. One door leads to your desire. The other leads to your doom. Before the doors are two guards. They both know which door leads where. One guard always lies. The other always tells the truth.</p>
@@ -112,11 +122,15 @@
 </table>
 </figure>
 <p id="p-03-no-matter-which-guard-you-ask-you-get" data-note-target>No matter which guard you ask, you get the wrong door. So you choose the other one.</p>
-<p id="p-03-the-trick-isnt-that-you-became-smarter-than" data-note-target>The trick isn't that you became smarter than the guards. It's that you asked a question that made both possible worlds collapse into the same answer. You made the uncertainty stop mattering. That is logic doing its work.</p>
+<p id="p-03-the-trick-isnt-that-you-became-smarter-than" data-note-target>The trick isn't that you became smarter than the guards. It's that you asked a question that made both possible worlds collapse into the same answer. The first question had the wrong shape, the second one revealed a new way of seeing. You made the uncertainty stop mattering. That is logic doing its work.</p>
+<aside id="rule-03-wizards-second-rule" class="wizard-rule" data-note-target>
+<p class="rule-label">Wizard's second rule</p>
+<p>Tables don't lie.</p>
+</aside>
 <h2 id="h-03-boolean-logic"><a class="anchor-link" href="#h-03-boolean-logic" aria-label="Link to Boolean logic">#</a>Boolean logic</h2>
 <p id="p-03-today-we-call-this-boolean-logic-after-george" data-note-target>Today we call this Boolean logic, after <a href="https://en.wikipedia.org/wiki/George_Boole">George Boole</a>. The tables above are called <a href="https://en.wikipedia.org/wiki/Truth_table">truth tables</a>.</p>
 <p id="p-03-boolean-logic-is-brutally-small-everything-gets-squeezed" data-note-target>Boolean logic is brutally small. Everything gets squeezed into two values:</p>
-<figure id="table-03-049" class="table-figure" data-note-target>
+<figure id="table-03-053" class="table-figure" data-note-target>
 <table>
 <thead><tr><th>Value</th><th>Meaning</th></tr></thead>
 <tbody>
@@ -130,7 +144,7 @@
 <p id="p-03-boolean-logic-is-at-the-core-of-modern" data-note-target>Boolean logic is at the core of modern programming. It is at the core of computers. Everything your computer does for you is built, eventually, on Boolean logic: true and false, 1 and 0.</p>
 <p id="p-03-most-boolean-operations-combine-two-terms-lets-call" data-note-target>Most Boolean operations combine two terms. Let's call them <code>p</code> and <code>q</code>. Just like our guards, we don't know whether they are true or false. But using the power of the truth table, we can reason about them anyway.</p>
 <p id="p-03-the-operations-are-and-or-and-not" data-note-target>The operations are: <code>and</code>, <code>or</code> and <code>not</code>.</p>
-<figure id="table-03-064" class="table-figure" data-note-target>
+<figure id="table-03-068" class="table-figure" data-note-target>
 <table>
 <thead><tr><th>q</th><th>not q</th></tr></thead>
 <tbody>
@@ -139,7 +153,7 @@
 </tbody>
 </table>
 </figure>
-<figure id="table-03-069" class="table-figure" data-note-target>
+<figure id="table-03-073" class="table-figure" data-note-target>
 <table>
 <thead><tr><th>p or q</th><th>q = true</th><th>q = false</th></tr></thead>
 <tbody>
@@ -149,7 +163,7 @@
 </table>
 </figure>
 <p id="p-03-and-of-course" data-note-target>And of course:</p>
-<figure id="table-03-076" class="table-figure" data-note-target>
+<figure id="table-03-080" class="table-figure" data-note-target>
 <table>
 <thead><tr><th>p and q</th><th>q = true</th><th>q = false</th></tr></thead>
 <tbody>
@@ -159,7 +173,7 @@
 </table>
 </figure>
 <p id="p-03-combining-these-we-can-also-create-nor-and" data-note-target>Combining these, we can also create <code>nor</code> and <code>nand</code>.</p>
-<figure id="table-03-083" class="table-figure" data-note-target>
+<figure id="table-03-087" class="table-figure" data-note-target>
 <table>
 <thead><tr><th>p nor q</th><th>q = true</th><th>q = false</th></tr></thead>
 <tbody>
@@ -168,7 +182,7 @@
 </tbody>
 </table>
 </figure>
-<figure id="table-03-088" class="table-figure" data-note-target>
+<figure id="table-03-092" class="table-figure" data-note-target>
 <table>
 <thead><tr><th>p nand q</th><th>q = true</th><th>q = false</th></tr></thead>
 <tbody>
@@ -180,23 +194,17 @@
 <p id="p-03-wait-a-minute-what-is-this-nand-thing" data-note-target>Wait a minute... what is this <code>nand</code> thing? Why not just write <code>not and</code>?</p>
 <p id="p-03-well-it-so-happens-that-your-computer-can" data-note-target>Well... it so happens that your computer can implement everything with just <code>nand</code>. All other operations can be written as combinations of one or more NANDs. Hardware wizards found ways to create tiny <a href="https://en.wikipedia.org/wiki/NAND_gate">NAND <em>gates</em></a>, and from those gates built the tiny parts of modern CPUs.</p>
 <p id="p-03-this-is-the-second-great-trick-in-this" data-note-target>This is the second great trick in this chapter. First we turned a riddle into a table. Then we turned the table into a machine.</p>
-<p id="p-03-that-is-a-very-wizardly-move-when-intuition" data-note-target>That is a very wizardly move. When intuition gets unreliable, make the possible cases explicit. Then let the table reason for you.</p>
-<aside id="exhibit-nand-all-the-way-down" class="exhibit-placeholder" data-exhibit-id="nand-all-the-way-down" data-note-target>
-<p class="exhibit-kicker">Interactive Exhibit</p>
-<h2>Nand All The Way Down</h2>
-<p>Let the reader choose <code>and</code>, <code>or</code>, or <code>not</code>. Show the selected logic gate, then show the equivalent circuit made only from NAND gates. Include a truth table that updates as gates are composed.</p>
-<div class="static-fallback" aria-label="Static fallback">
-<p>Nand All The Way Down is planned as an interactive exhibit. This placeholder preserves the explanation and its stable address for the static edition.</p>
-</div>
-</aside>
-<aside id="rule-03-wizards-second-rule" class="wizard-rule" data-note-target>
-<p class="rule-label">Wizard's second rule</p>
-<p>Tables don't lie.</p>
-</aside>
+<p id="p-03-tables-dont-lie-but-people-do-and-we" data-note-target>Tables don't lie, but people do. And we like it. So much that we've invented something entirely new. Something clever and diabolical, called language.</p>
   <nav class="chapter-pagination" aria-label="Chapter navigation">
-    <a rel="prev" href="02-numbers-hiding-calculations-in-symbols.html"><span>Previous</span>Numbers: hiding calculations in symbols</a>
-    <a rel="next" href="04-language-the-tool-that-changes-the-thinker.html"><span>Next</span>Language: the tool that changes the thinker</a>
+    <a rel="prev" href="02-numbers-hiding-calculations-in-symbols.html"><span>Previous</span>Numbers: bigger than you think</a>
+    <a rel="next" href="04-language-the-tool-that-changes-the-thinker.html"><span>Next</span>Language: the oldest trick</a>
   </nav>
+  </div>
+  <div class="page-turner" data-page-controls hidden>
+    <button type="button" data-page-prev aria-label="Previous page">Previous</button>
+    <span data-page-status aria-live="polite">Page 1 of 1</span>
+    <button type="button" data-page-next aria-label="Next page">Next</button>
+  </div>
 </main>
     <aside class="reader-margin" aria-label="Reader tools">
   <button class="reader-toggle" type="button" aria-expanded="false" aria-controls="reader-tools-panel" aria-label="Show reader tools" data-reader-tools-toggle>
@@ -247,7 +255,13 @@
         <input data-setting="lineHeight" type="range" min="145" max="185" step="5" value="160">
       </label>
       <label>Width
-        <input data-setting="columnWidth" type="range" min="36" max="54" step="2" value="42">
+        <input data-setting="columnWidth" type="range" min="38" max="66" step="2" value="48">
+      </label>
+      <label>Flow
+        <select data-setting="flow">
+          <option value="paged">Paged</option>
+          <option value="scroll">Scrolling</option>
+        </select>
       </label>
       <label>Theme
         <select data-setting="theme">

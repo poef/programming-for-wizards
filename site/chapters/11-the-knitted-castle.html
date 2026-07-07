@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en" data-font="publication" data-theme="light" data-motion="auto" data-page-kind="chapter" data-reader-tools="closed">
+<html lang="en" data-font="publication" data-theme="light" data-motion="auto" data-flow="paged" data-page-kind="chapter" data-chapter-map="closed" data-reader-tools="closed">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -28,6 +28,11 @@
   <a class="skip-link" href="#main">Skip to manuscript</a>
   <div class="book-shell">
     <nav class="chapter-map" aria-label="Chapters">
+  <button class="chapter-map-toggle" type="button" aria-expanded="false" aria-controls="chapter-map-panel" aria-label="Show contents" data-chapter-map-toggle>
+    <span>Contents</span>
+    <span class="chapter-map-toggle-state" data-chapter-map-label>Open</span>
+  </button>
+  <div id="chapter-map-panel" class="chapter-map-panel" data-chapter-map-panel hidden>
   <a class="book-title" href="../index.html">Programming for Wizards</a>
   
 <section class="map-section">
@@ -39,19 +44,19 @@
 <section class="map-section">
   <h2>Part I: Representations are spells</h2>
   <ol>
-    <li><a href="../chapters/02-numbers-hiding-calculations-in-symbols.html"><span>02</span>Numbers: hiding calculations in symbols</a></li><li><a href="../chapters/03-logic-turning-truth-into-machinery.html"><span>03</span>Logic: turning truth into machinery</a></li><li><a href="../chapters/04-language-the-tool-that-changes-the-thinker.html"><span>04</span>Language: the tool that changes the thinker</a></li>
+    <li><a href="../chapters/02-numbers-hiding-calculations-in-symbols.html"><span>02</span>Numbers: bigger than you think</a></li><li><a href="../chapters/03-logic-turning-truth-into-machinery.html"><span>03</span>Logic: the truth is out there.</a></li><li><a href="../chapters/04-language-the-tool-that-changes-the-thinker.html"><span>04</span>Language: the oldest trick</a></li>
   </ol>
 </section>
 <section class="map-section">
   <h2>Part II: The Web, from address to platform</h2>
   <ol>
-    <li><a href="../chapters/05-the-web-as-address.html"><span>05</span>The Web as address: a spell for pointing anywhere</a></li><li><a href="../chapters/06-the-web-as-document.html"><span>06</span>The Web as document: choosing a tree</a></li><li><a href="../chapters/07-the-web-as-platform.html"><span>07</span>The Web as platform: the prototype that became a world</a></li>
+    <li><a href="../chapters/05-the-web-as-address.html"><span>05</span>The Web: one string to rule them all.</a></li><li><a href="../chapters/06-the-web-as-document.html"><span>06</span>The Web: the shape of words</a></li><li><a href="../chapters/07-the-web-as-platform.html"><span>07</span>The Web: waking up the words</a></li>
   </ol>
 </section>
 <section class="map-section">
   <h2>Part III: Inventing languages</h2>
   <ol>
-    <li><a href="../chapters/08-programming-languages-are-for-humans.html"><span>08</span>Programming languages are for humans</a></li><li><a href="../chapters/09-every-program-contains-a-language.html"><span>09</span>Every program contains a language</a></li><li><a href="../chapters/10-code-exhibit-extending-javascript-with-jaqt.html"><span>10</span>Code exhibit: extending JavaScript with JAQT</a></li>
+    <li><a href="../chapters/08-programming-languages-are-for-humans.html"><span>08</span>Teaching machines our words</a></li><li><a href="../chapters/09-every-program-contains-a-language.html"><span>09</span>Every program grows a language</a></li><li><a href="../chapters/10-code-exhibit-extending-javascript-with-jaqt.html"><span>10</span>Code exhibit: extending JavaScript with JAQT</a></li>
   </ol>
 </section>
 <section class="map-section">
@@ -72,8 +77,13 @@
     <li><a href="../chapters/17-rule-zero-there-are-no-rules.html"><span>17</span>Rule zero: there are no rules</a></li>
   </ol>
 </section>
+  </div>
 </nav>
     <main id="main" class="manuscript">
+  <div class="book-progress" role="progressbar" aria-label="Book progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" data-book-progress>
+    <span data-book-progress-bar></span>
+  </div>
+  <div class="manuscript-pages" data-page-scroller data-book-chapter-index="10" data-book-page-weights="466,2137,938,931,2137,1864,1422,1466,597,2199,1770,1041,1917,1619,2174,1473,137">
   <header class="chapter-header">
     <p class="chapter-kicker">Part IV: Boundaries and reusable pieces</p>
     <p class="chapter-number">Chapter 11</p>
@@ -81,7 +91,7 @@
   </header>
   <h1 id="h-11-the-knitted-castle"><a class="anchor-link" href="#h-11-the-knitted-castle" aria-label="Link to The knitted castle">#</a>The knitted castle</h1>
 <p id="p-11-why-is-it-so-difficult-to-make-reusable" data-note-target>Why is it so difficult to make reusable software?</p>
-<p id="p-11-this-is-one-of-those-questions-that-keeps" data-note-target>This is one of those questions that keeps returning, dressed in new clothes. <a href="https://en.wikipedia.org/wiki/Object-oriented_programming">Objects</a> would do it. <a href="https://en.wikipedia.org/wiki/Component-based_software_engineering">Components</a> would do it. <a href="https://en.wikipedia.org/wiki/Software_package">Packages</a> would do it. <a href="https://en.wikipedia.org/wiki/Service-oriented_architecture">Services</a> would do it. <a href="https://developer.mozilla.org/en-US/docs/Web/API/Web_components">Web components</a> would do it. Frameworks would do it. Some new build system, package manager, module format, runtime, or architectural style would finally let us write a piece of software once and use it everywhere.</p>
+<p id="p-11-objects-would-do-it-components-would-do-it" data-note-target><a href="https://en.wikipedia.org/wiki/Object-oriented_programming">Objects</a> would do it. <a href="https://en.wikipedia.org/wiki/Component-based_software_engineering">Components</a> would do it. <a href="https://en.wikipedia.org/wiki/Software_package">Packages</a> would do it. <a href="https://en.wikipedia.org/wiki/Service-oriented_architecture">Services</a> would do it. <a href="https://developer.mozilla.org/en-US/docs/Web/API/Web_components">Web components</a> would do it. Frameworks would do it. Some new build system, package manager, module format, runtime, or architectural style would finally let us write a piece of software once and use it everywhere.</p>
 <p id="p-11-and-then-a-few-years-later-we-discover" data-note-target>And then, a few years later, we discover that we have not built a Lego castle after all. We've made a tangle of yarn.</p>
 <p id="p-11-the-famous-wizard-alan-kay-once-said" data-note-target>The famous wizard <a href="https://en.wikipedia.org/wiki/Alan_Kay">Alan Kay</a> once said:</p>
 <blockquote><p>"Whatever we [in computing] do is more like what the Egyptians did. Building pyramids, piling things on top of each other." <a href="https://www.tele-task.de/lecture/video/2772/">(video)</a></p></blockquote>
@@ -108,6 +118,10 @@
 <p id="p-11-one-thread-for-the-user-one-thread-for" data-note-target>One thread for the user. One thread for the database. One thread for the framework. One thread for the CSS. One thread for authentication. One thread for analytics. One thread for errors. One thread for backwards compatibility. One thread because Friday afternoon was not the right time to redesign the boundary.</p>
 <p id="p-11-after-a-while-the-component-no-longer-has" data-note-target>After a while, the component no longer has a simple shape. It has a climate.</p>
 <p id="p-11-to-reuse-it-you-do-not-only-need" data-note-target>To reuse it, you do not only need the component. You need the weather system it expects to live in.</p>
+<aside id="rule-11-wizards-ninth-rule" class="wizard-rule" data-note-target>
+<p class="rule-label">Wizard's ninth rule</p>
+<p>Assumptions are threads. Cut the threads.</p>
+</aside>
 <h2 id="h-11-packages-are-not-the-same-as-parts"><a class="anchor-link" href="#h-11-packages-are-not-the-same-as-parts" aria-label="Link to Packages are not the same as parts">#</a>Packages are not the same as parts</h2>
 <p id="p-11-javascript-has-one-of-the-largest-ecosystems-of" data-note-target>JavaScript has one of the largest ecosystems of reusable packages ever created. npm is both a miracle and a warning label.</p>
 <p id="p-11-it-proves-that-reuse-is-possible-you-can" data-note-target>It proves that reuse is possible. You can install a parser, a date library, a test runner, a renderer, a bundler, a color picker, a database client, a state manager, a tiny function that tells you whether a number is odd, and several hundred things you did not know you needed because one of those packages needed them for you.</p>
@@ -126,17 +140,17 @@
 <p id="p-11-a-ui-component-is-harder-it-often-wants" data-note-target>A UI component is harder. It often wants data, styling, events, state, focus rules, accessibility behavior, theme decisions, lifecycle hooks, translations, permissions, and a place in the surrounding application.</p>
 <p id="p-11-an-application-feature-is-harder-still-a-shopping" data-note-target>An application feature is harder still. A shopping cart is not just a list of products. It touches pricing, stock, identity, sessions, shipping, tax, discounts, payments, errors, emails, fraud, analytics, legal requirements, and customer support.</p>
 <p id="p-11-at-some-point-you-are-no-longer-reusing" data-note-target>At some point you are no longer reusing a part. You are importing a small civilization.</p>
-<p id="p-11-this-does-not-mean-reuse-is-hopeless-it" data-note-target>This does not mean reuse is hopeless. It means the useful question is not:</p>
+<p id="p-11-so-lets-rephrase-the-question-the-useful-question" data-note-target>So let's rephrase the question. The useful question is not:</p>
 <blockquote><p>Can this be reused?</p></blockquote>
 <p id="p-11-the-useful-question-is" data-note-target>The useful question is:</p>
 <blockquote><p>In what direction can this be reused?</p></blockquote>
 <p id="p-11-can-the-calculation-be-reused-without-the-ui" data-note-target>Can the calculation be reused without the UI? Can the data format be reused without the database? Can the protocol be reused without the server implementation? Can the visual component be reused without the application state? Can the core rule be reused if we wrap it in a different shell?</p>
-<p id="p-11-a-wizard-does-not-ask-for-universal-reuse" data-note-target>A wizard does not ask for universal reuse first. Universal reuse is where many good designs go to become enormous.</p>
+<p id="p-11-dont-ask-for-universal-reuse-first-universal-reuse" data-note-target>Don't ask for universal reuse first. Universal reuse is where many good designs go to become enormous.</p>
 <p id="p-11-a-wizard-looks-for-the-boundary" data-note-target>A wizard looks for the boundary.</p>
 <h2 id="h-11-the-boundary-is-the-component"><a class="anchor-link" href="#h-11-the-boundary-is-the-component" aria-label="Link to The boundary is the component">#</a>The boundary is the component</h2>
 <p id="p-11-this-is-the-part-that-is-easy-to" data-note-target>This is the part that is easy to miss.</p>
 <p id="p-11-the-reusable-thing-is-not-only-the-code" data-note-target>The reusable thing is not only the code. It is the boundary around the code.</p>
-<p id="p-11-the-boundary-says-what-must-be-known-from" data-note-target>The boundary says what must be known from the outside and what may remain hidden inside. It says which data crosses it. It says which names matter. It says when things happen. It says who is allowed to call whom. It says what happens when something goes wrong.</p>
+<p id="p-11-the-boundary-is-where-the-bargain-is-made" data-note-target>The boundary is where the bargain is made. This data may cross. These names matter. This part stays hidden. This part is someone else's problem.</p>
 <p id="p-11-a-bad-boundary-leaks-the-whole-world" data-note-target>A bad boundary leaks the whole world.</p>
 <p id="p-11-a-good-boundary-is-boring-in-the-right" data-note-target>A good boundary is boring in the right places.</p>
 <p id="p-11-this-is-why-small-libraries-often-age-better" data-note-target>This is why small libraries often age better than clever frameworks. A small library can sometimes say: give me this value, I will give you that value. Or: call this function when this happens. Or: here is a plain data structure. Do with it what you want.</p>
@@ -145,31 +159,25 @@
 <p id="p-11-this-is-also-why-standards-matter-a-standard" data-note-target>This is also why standards matter. A standard creates a boundary that does not belong to one package. HTML, URLs, <a href="https://www.json.org/json-en.html">JSON</a>, HTTP, <a href="https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_selectors">CSS selectors</a>, the DOM, SQL, <a href="https://pubs.opengroup.org/onlinepubs/9699919799/basedefs/V1_chap03.html#tag_03_271">POSIX paths</a>, <a href="https://www.iana.org/assignments/media-types/media-types.xhtml">MIME types</a>. None of these are perfect. Some of them are full of ghosts. But when enough systems agree on the boundary, reuse becomes less dependent on one implementation.</p>
 <p id="p-11-the-web-itself-works-because-many-different-pieces" data-note-target>The Web itself works because many different pieces agree just enough to meet each other.</p>
 <h2 id="h-11-fighting-for-the-lego-castle"><a class="anchor-link" href="#h-11-fighting-for-the-lego-castle" aria-label="Link to Fighting for the Lego castle">#</a>Fighting for the Lego castle</h2>
-<p id="p-11-so-what-can-you-do" data-note-target>So what can you do?</p>
 <p id="p-11-you-cannot-defeat-complexity-once-and-for-all" data-note-target>You cannot defeat complexity once and for all. That is the sort of promise that sells books, frameworks, and conference talks. The castle will always try to knit itself.</p>
 <p id="p-11-but-you-can-fight" data-note-target>But you can fight.</p>
-<p id="p-11-you-can-keep-asking-what-assumptions-a-piece" data-note-target>You can keep asking what assumptions a piece is carrying. You can make dependencies explicit instead of letting them seep in through globals, singletons, and secret imports. You can keep the stable rules of a system away from the parts that talk to browsers, databases, networks, and users. You can pass plain data across boundaries. You can write adapters at the edge instead of making every part know every other part's dialect.</p>
-<p id="p-11-you-can-make-small-languages-for-the-stable" data-note-target>You can make small languages for the stable parts of the problem, as we did with JAQT. Not always new languages with parsers. Sometimes just a shape in data, a few names, a convention that lets the important idea stand apart from the machinery.</p>
-<p id="p-11-you-can-resist-the-urge-to-make-every" data-note-target>You can resist the urge to make every component helpful in advance. Helpfulness is where assumptions breed. A component that does less may travel further.</p>
-<p id="p-11-you-can-also-accept-that-some-things-should" data-note-target>You can also accept that some things should not be reusable. A piece of software that is deeply fitted to one situation may be valuable precisely because it is fitted. The mistake is not writing such code. The mistake is pretending it is a brick.</p>
+<p id="p-11-you-can-keep-asking-what-assumptions-a-piece" data-note-target>You can keep asking what assumptions a piece is carrying. You can make dependencies explicit instead of letting them seep in through globals, singletons, and secret imports.</p>
+<p id="p-11-keep-the-stable-rules-of-a-system-away" data-note-target>Keep the stable rules of a system away from the parts that talk to browsers, databases, networks, and users. Pass plain data across boundaries. Write adapters at the edge instead of making every part know every other part's dialect.</p>
+<p id="p-11-make-small-languages-for-the-stable-parts-of" data-note-target>Make small languages for the stable parts of the problem, as we did with JAQT. Not always new languages with parsers. Sometimes just a shape in data, a few names, a convention that lets the important idea stand apart from the machinery.</p>
+<p id="p-11-also-accept-that-some-things-should-not-be" data-note-target>Also accept that some things should not be reusable. A piece of software that is deeply fitted to one situation may be valuable precisely because it is fitted. The mistake is not writing such code. The mistake is pretending it is a brick.</p>
 <p id="p-11-the-lego-castle-is-not-built-by-magic" data-note-target>The Lego castle is not built by magic universal parts. It is built by choosing where the studs go, and then having the discipline not to put threads through them later.</p>
 <p id="p-11-the-knitted-castle-is-always-waiting-every-feature" data-note-target>The knitted castle is always waiting. Every feature wants to tie one more loop. The wizard's work is not to avoid all loops. That would make software useless. The work is to keep asking which loops belong inside a part, and which ones should become a boundary.</p>
-<aside id="exhibit-knitted-castle-vs-lego-castle" class="exhibit-placeholder" data-exhibit-id="knitted-castle-vs-lego-castle" data-note-target>
-<p class="exhibit-kicker">Interactive Exhibit</p>
-<h2>Knitted Castle Vs Lego Castle</h2>
-<p>Begin with five clean modules. Let the reader add features one by one. Each feature creates dependency threads: data shape, styling, lifecycle, configuration, events, permissions, errors, storage, network calls. Then let the reader try to reuse one piece in a different project. Show how many invisible threads come along. Finally introduce clearer boundaries: explicit inputs, boring data, adapters, stable protocols, and a core that knows less about its surroundings.</p>
-<div class="static-fallback" aria-label="Static fallback">
-<p>Knitted Castle Vs Lego Castle is planned as an interactive exhibit. This placeholder preserves the explanation and its stable address for the static edition.</p>
-</div>
-</aside>
-<aside id="rule-11-wizards-tenth-rule" class="wizard-rule" data-note-target>
-<p class="rule-label">Wizard's tenth rule</p>
-<p>Assumptions are threads. Cut the threads.</p>
-</aside>
+<p id="p-11-now-lets-talk-about-what-happens-when-blocks" data-note-target>Now let's talk about what happens when blocks start carrying little worlds of their own.</p>
   <nav class="chapter-pagination" aria-label="Chapter navigation">
     <a rel="prev" href="10-code-exhibit-extending-javascript-with-jaqt.html"><span>Previous</span>Code exhibit: extending JavaScript with JAQT</a>
     <a rel="next" href="12-objects-binding-data-behavior-and-time.html"><span>Next</span>Objects: binding data, behavior, and time</a>
   </nav>
+  </div>
+  <div class="page-turner" data-page-controls hidden>
+    <button type="button" data-page-prev aria-label="Previous page">Previous</button>
+    <span data-page-status aria-live="polite">Page 1 of 1</span>
+    <button type="button" data-page-next aria-label="Next page">Next</button>
+  </div>
 </main>
     <aside class="reader-margin" aria-label="Reader tools">
   <button class="reader-toggle" type="button" aria-expanded="false" aria-controls="reader-tools-panel" aria-label="Show reader tools" data-reader-tools-toggle>
@@ -220,7 +228,13 @@
         <input data-setting="lineHeight" type="range" min="145" max="185" step="5" value="160">
       </label>
       <label>Width
-        <input data-setting="columnWidth" type="range" min="36" max="54" step="2" value="42">
+        <input data-setting="columnWidth" type="range" min="38" max="66" step="2" value="48">
+      </label>
+      <label>Flow
+        <select data-setting="flow">
+          <option value="paged">Paged</option>
+          <option value="scroll">Scrolling</option>
+        </select>
       </label>
       <label>Theme
         <select data-setting="theme">

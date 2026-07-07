@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en" data-font="publication" data-theme="light" data-motion="auto" data-page-kind="chapter" data-reader-tools="closed">
+<html lang="en" data-font="publication" data-theme="light" data-motion="auto" data-flow="paged" data-page-kind="chapter" data-chapter-map="closed" data-reader-tools="closed">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -28,6 +28,11 @@
   <a class="skip-link" href="#main">Skip to manuscript</a>
   <div class="book-shell">
     <nav class="chapter-map" aria-label="Chapters">
+  <button class="chapter-map-toggle" type="button" aria-expanded="false" aria-controls="chapter-map-panel" aria-label="Show contents" data-chapter-map-toggle>
+    <span>Contents</span>
+    <span class="chapter-map-toggle-state" data-chapter-map-label>Open</span>
+  </button>
+  <div id="chapter-map-panel" class="chapter-map-panel" data-chapter-map-panel hidden>
   <a class="book-title" href="../index.html">Programming for Wizards</a>
   
 <section class="map-section">
@@ -39,19 +44,19 @@
 <section class="map-section">
   <h2>Part I: Representations are spells</h2>
   <ol>
-    <li><a href="../chapters/02-numbers-hiding-calculations-in-symbols.html"><span>02</span>Numbers: hiding calculations in symbols</a></li><li><a href="../chapters/03-logic-turning-truth-into-machinery.html"><span>03</span>Logic: turning truth into machinery</a></li><li><a href="../chapters/04-language-the-tool-that-changes-the-thinker.html"><span>04</span>Language: the tool that changes the thinker</a></li>
+    <li><a href="../chapters/02-numbers-hiding-calculations-in-symbols.html"><span>02</span>Numbers: bigger than you think</a></li><li><a href="../chapters/03-logic-turning-truth-into-machinery.html"><span>03</span>Logic: the truth is out there.</a></li><li><a href="../chapters/04-language-the-tool-that-changes-the-thinker.html"><span>04</span>Language: the oldest trick</a></li>
   </ol>
 </section>
 <section class="map-section">
   <h2>Part II: The Web, from address to platform</h2>
   <ol>
-    <li><a href="../chapters/05-the-web-as-address.html"><span>05</span>The Web as address: a spell for pointing anywhere</a></li><li><a href="../chapters/06-the-web-as-document.html"><span>06</span>The Web as document: choosing a tree</a></li><li><a href="../chapters/07-the-web-as-platform.html"><span>07</span>The Web as platform: the prototype that became a world</a></li>
+    <li><a href="../chapters/05-the-web-as-address.html"><span>05</span>The Web: one string to rule them all.</a></li><li><a href="../chapters/06-the-web-as-document.html"><span>06</span>The Web: the shape of words</a></li><li><a href="../chapters/07-the-web-as-platform.html"><span>07</span>The Web: waking up the words</a></li>
   </ol>
 </section>
 <section class="map-section">
   <h2>Part III: Inventing languages</h2>
   <ol>
-    <li><a href="../chapters/08-programming-languages-are-for-humans.html"><span>08</span>Programming languages are for humans</a></li><li><a href="../chapters/09-every-program-contains-a-language.html"><span>09</span>Every program contains a language</a></li><li><a aria-current="page" href="../chapters/10-code-exhibit-extending-javascript-with-jaqt.html"><span>10</span>Code exhibit: extending JavaScript with JAQT</a></li>
+    <li><a href="../chapters/08-programming-languages-are-for-humans.html"><span>08</span>Teaching machines our words</a></li><li><a href="../chapters/09-every-program-contains-a-language.html"><span>09</span>Every program grows a language</a></li><li><a aria-current="page" href="../chapters/10-code-exhibit-extending-javascript-with-jaqt.html"><span>10</span>Code exhibit: extending JavaScript with JAQT</a></li>
   </ol>
 </section>
 <section class="map-section">
@@ -72,8 +77,13 @@
     <li><a href="../chapters/17-rule-zero-there-are-no-rules.html"><span>17</span>Rule zero: there are no rules</a></li>
   </ol>
 </section>
+  </div>
 </nav>
     <main id="main" class="manuscript">
+  <div class="book-progress" role="progressbar" aria-label="Book progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" data-book-progress>
+    <span data-book-progress-bar></span>
+  </div>
+  <div class="manuscript-pages" data-page-scroller data-book-chapter-index="9" data-book-page-weights="466,2137,938,931,2137,1864,1422,1466,597,2199,1770,1041,1917,1619,2174,1473,137">
   <header class="chapter-header">
     <p class="chapter-kicker">Part III: Inventing languages</p>
     <p class="chapter-number">Chapter 10</p>
@@ -87,14 +97,7 @@
 <p id="p-10-sometimes-that-border-is-worth-it-sql-is" data-note-target>Sometimes that border is worth it. SQL is not JavaScript, and that is part of its power. Regular expressions are their own dense, cursed little world, and we keep using them because the curse is useful.</p>
 <p id="p-10-but-borders-are-expensive-so-before-we-build" data-note-target>But borders are expensive. So before we build one, it is worth asking a wizard's question:</p>
 <blockquote><p>What if the language we need is already hiding inside the language we have?</p></blockquote>
-<aside id="exhibit-jaqt-extension-lab" class="exhibit-placeholder" data-exhibit-id="jaqt-extension-lab" data-note-target>
-<p class="exhibit-kicker">Interactive Exhibit</p>
-<h2>Jaqt Extension Lab</h2>
-<p>Show the same query growing in stages: a loop, then <code>filter()</code> and <code>map()</code>, then small predicate functions, then an object-shaped pattern, then the final JAQT-shaped query. Let the reader click a function such as <code>startsWith(&quot;O&quot;)</code> and watch it become a value that is stored, passed around and called later. The point is to make the host-language trick visible: no parser appears, because the query is already JavaScript.</p>
-<div class="static-fallback" aria-label="Static fallback">
-<p>Jaqt Extension Lab is planned as an interactive exhibit. This placeholder preserves the explanation and its stable address for the static edition.</p>
-</div>
-</aside>
+<p id="p-10-now-for-this-example-well-wade-into-the" data-note-target>Now, for this example, we'll wade into the deeper waters of JavaScript. Don't worry if you didn't bring your wellies. You can watch from the bank; the code should reveal the trick anyway.</p>
 <h2 id="h-10-a-pile-of-little-records"><a class="anchor-link" href="#h-10-a-pile-of-little-records" aria-label="Link to A pile of little records">#</a>A pile of little records</h2>
 <p id="p-10-imagine-we-have-some-people" data-note-target>Imagine we have some people:</p>
 <figure id="q0mh6q" class="code-figure" data-note-target>
@@ -180,7 +183,7 @@ select firstName, lastName, address.city, fullName as label</code></pre>
 <p id="p-10-this-is-attractive-it-looks-like-a-query" data-note-target>This is attractive. It looks like a query. It removes the repeated <code>person</code>. It gives the problem a language of its own.</p>
 <p id="p-10-but-now-the-text-is-not-javascript-javascript" data-note-target>But now the text is not JavaScript. JavaScript cannot run it. We need tokens, grammar rules, a parse tree, a translator, and our own error messages. If we want <code>startsWith</code>, we must define that operation in the new language. If we want to use an existing JavaScript helper, we need a way to smuggle that helper across the border.</p>
 <p id="p-10-again-this-can-be-a-good-trade-sql" data-note-target>Again, this can be a good trade. SQL earns its border. A query string that can be sent to a database server, optimized, explained, logged, and permission-checked is doing work that ordinary JavaScript cannot do by itself.</p>
-<p id="p-10-our-little-array-of-people-does-not-need" data-note-target>Our little array of people does not need that much ceremony yet.</p>
+<p id="p-10-our-little-array-of-people-does-not-need" data-note-target>Our little array of people does not need that much ceremony yet. The bill would come due before the language had earned it.</p>
 <p id="p-10-so-lets-try-a-smaller-spell" data-note-target>So let's try a smaller spell.</p>
 <h2 id="h-10-a-question-can-be-a-function"><a class="anchor-link" href="#h-10-a-question-can-be-a-function" aria-label="Link to A question can be a function">#</a>A question can be a function</h2>
 <p id="p-10-javascript-functions-are-values-that-ordinary-fact-opens" data-note-target>JavaScript functions are values. That ordinary fact opens a useful door.</p>
@@ -237,6 +240,7 @@ function matches(pattern, item) {
 <pre><code class="language-js">const result = people.filter(person =&gt; matches(pattern, person))</code></pre>
 </figure>
 <p id="p-10-this-is-already-interesting-we-did-not-parse" data-note-target>This is already interesting. We did not parse a string. We did not create a second language. We gave an ordinary JavaScript object a new meaning.</p>
+<p id="p-10-this-is-one-of-those-moments-where-naming" data-note-target>This is one of those moments where naming changes the problem. We did not add much code. We gave a shape a job.</p>
 <h2 id="h-10-the-result-also-has-a-shape"><a class="anchor-link" href="#h-10-the-result-also-has-a-shape" aria-label="Link to The result also has a shape">#</a>The result also has a shape</h2>
 <p id="p-10-filtering-is-only-half-the-problem-we-also" data-note-target>Filtering is only half the problem. We also want to say what the result should look like.</p>
 <p id="p-10-we-need-one-tiny-marker" data-note-target>We need one tiny marker:</p>
@@ -313,7 +317,7 @@ function matches(pattern, item) {
 }</code></pre>
 </figure>
 <p id="p-10-that-is-almost-embarrassingly-small-where-wraps-filter" data-note-target>That is almost embarrassingly small. <code>where()</code> wraps <code>filter()</code>. <code>select()</code> wraps <code>map()</code>. <code>value()</code> gives the array back.</p>
-<p id="p-10-but-the-words-matter-they-give-the-little" data-note-target>But the words matter. They give the little language a surface.</p>
+<p id="p-10-but-the-words-matter-where-select-and-value" data-note-target>But the words matter. <code>where</code>, <code>select</code>, and <code>value</code> are not decoration. They are the little language becoming visible.</p>
 <p id="p-10-now-the-query-can-read-like-this" data-note-target>Now the query can read like this:</p>
 <figure id="p036fn" class="code-figure" data-note-target>
 <figcaption>js</figcaption>
@@ -466,14 +470,16 @@ const personCard = {
 <p id="p-10-the-question-is-where-the-boundary-belongs" data-note-target>The question is where the boundary belongs.</p>
 <p id="p-10-a-parser-version-of-a-dsl-puts-the" data-note-target>A parser version of a DSL puts the boundary around a new query language. The JAQT-shaped version moves the boundary inward. JavaScript remains the language. The DSL is the shape of a few objects, a handful of functions, and the agreement that certain positions in the shape mean certain things.</p>
 <p id="p-10-that-smaller-change-gives-us-enough-of-the" data-note-target>That smaller change gives us enough of the query idea to be useful, without making us leave the world we are already in.</p>
-<aside id="rule-10-wizards-ninth-rule" class="wizard-rule" data-note-target>
-<p class="rule-label">Wizard's ninth rule</p>
-<p>A border is a cost.</p>
-</aside>
   <nav class="chapter-pagination" aria-label="Chapter navigation">
-    <a rel="prev" href="09-every-program-contains-a-language.html"><span>Previous</span>Every program contains a language</a>
+    <a rel="prev" href="09-every-program-contains-a-language.html"><span>Previous</span>Every program grows a language</a>
     <a rel="next" href="11-the-knitted-castle.html"><span>Next</span>The knitted castle</a>
   </nav>
+  </div>
+  <div class="page-turner" data-page-controls hidden>
+    <button type="button" data-page-prev aria-label="Previous page">Previous</button>
+    <span data-page-status aria-live="polite">Page 1 of 1</span>
+    <button type="button" data-page-next aria-label="Next page">Next</button>
+  </div>
 </main>
     <aside class="reader-margin" aria-label="Reader tools">
   <button class="reader-toggle" type="button" aria-expanded="false" aria-controls="reader-tools-panel" aria-label="Show reader tools" data-reader-tools-toggle>
@@ -524,7 +530,13 @@ const personCard = {
         <input data-setting="lineHeight" type="range" min="145" max="185" step="5" value="160">
       </label>
       <label>Width
-        <input data-setting="columnWidth" type="range" min="36" max="54" step="2" value="42">
+        <input data-setting="columnWidth" type="range" min="38" max="66" step="2" value="48">
+      </label>
+      <label>Flow
+        <select data-setting="flow">
+          <option value="paged">Paged</option>
+          <option value="scroll">Scrolling</option>
+        </select>
       </label>
       <label>Theme
         <select data-setting="theme">

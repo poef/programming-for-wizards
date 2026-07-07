@@ -13,7 +13,7 @@ Wizards do not merely write solutions. They learn to notice the world around a p
 
 ## Repository layout
 
-- [content/book.json](content/book.json): the explicit book structure used by the static site: title, parts, chapter order, chapter numbers, chapter titles, and source files.
+- [content/book.json](content/book.json): the explicit book structure used by the static site: title, parts, chapter order, chapter numbers, and source files. Chapter display titles are read from each manuscript H1.
 - [content/chapters](content/chapters): the manuscript chapter files. Their reading order is controlled by `content/book.json`, not by filename sorting.
 - [content/notes](content/notes): presentation, accessibility, exhibit, Solid and restructuring notes.
 - [phases](phases): one home for each product phase, from the static manuscript through the Solid-published edition.
@@ -30,7 +30,7 @@ npm run build
 
 Open [site/index.html](site/index.html) after building.
 
-The generated site table of contents and chapter navigation are read from [content/book.json](content/book.json). To rearrange chapters or move them between parts, edit that file and rebuild.
+The generated site table of contents and chapter navigation use the order and parts from [content/book.json](content/book.json), while chapter display titles come from each chapter's H1. To rearrange chapters or move them between parts, edit `content/book.json` and rebuild.
 
 The static site also loads MathJax for TeX-style formulas in the manuscript. Use `$...$` for inline formulas and `$$...$$` for display formulas. Standalone display blocks may also be written as a line containing `$$`, followed by the formula, followed by another `$$` line.
 
@@ -62,20 +62,20 @@ This is a human-readable snapshot. The canonical source for the generated site s
 
 ### Part I: Representations are spells
 
-- [02. Numbers: hiding calculations in symbols](content/chapters/02-numbers-hiding-calculations-in-symbols.md)
-- [03. Logic: turning truth into machinery](content/chapters/03-logic-turning-truth-into-machinery.md)
-- [04. Language: the tool that changes the thinker](content/chapters/04-language-the-tool-that-changes-the-thinker.md)
+- [02. Numbers: bigger than you think](content/chapters/02-numbers-hiding-calculations-in-symbols.md)
+- [03. Logic: the truth is out there.](content/chapters/03-logic-turning-truth-into-machinery.md)
+- [04. Language: the oldest trick](content/chapters/04-language-the-tool-that-changes-the-thinker.md)
 
 ### Part II: The Web, from address to platform
 
-- [05. The Web as address: a spell for pointing anywhere](content/chapters/05-the-web-as-address.md)
-- [06. The Web as document: choosing a tree](content/chapters/06-the-web-as-document.md)
-- [07. The Web as platform: the prototype that became a world](content/chapters/07-the-web-as-platform.md)
+- [05. The Web: one string to rule them all.](content/chapters/05-the-web-as-address.md)
+- [06. The Web: the shape of words](content/chapters/06-the-web-as-document.md)
+- [07. The Web: waking up the words](content/chapters/07-the-web-as-platform.md)
 
 ### Part III: Inventing languages
 
-- [08. Programming languages are for humans](content/chapters/08-programming-languages-are-for-humans.md)
-- [09. Every program contains a language](content/chapters/09-every-program-contains-a-language.md)
+- [08. Teaching machines our words](content/chapters/08-programming-languages-are-for-humans.md)
+- [09. Every program grows a language](content/chapters/09-every-program-contains-a-language.md)
 - [10. Code exhibit: extending JavaScript with JAQT](content/chapters/10-code-exhibit-extending-javascript-with-jaqt.md)
 
 ### Part IV: Boundaries and reusable pieces

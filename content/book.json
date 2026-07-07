@@ -22,19 +22,19 @@
         {
           "number": "02",
           "id": "02-numbers-hiding-calculations-in-symbols",
-          "title": "Numbers: hiding calculations in symbols",
+          "title": "Numbers: bigger than you think",
           "source": "chapters/02-numbers-hiding-calculations-in-symbols.md"
         },
         {
           "number": "03",
           "id": "03-logic-turning-truth-into-machinery",
-          "title": "Logic: turning truth into machinery",
+          "title": "Logic: the truth is out there.",
           "source": "chapters/03-logic-turning-truth-into-machinery.md"
         },
         {
           "number": "04",
           "id": "04-language-the-tool-that-changes-the-thinker",
-          "title": "Language: the tool that changes the thinker",
+          "title": "Language: the oldest trick",
           "source": "chapters/04-language-the-tool-that-changes-the-thinker.md"
         }
       ]
@@ -46,19 +46,19 @@
         {
           "number": "05",
           "id": "05-the-web-as-address",
-          "title": "The Web as address: a spell for pointing anywhere",
+          "title": "The Web: one string to rule them all.",
           "source": "chapters/05-the-web-as-address.md"
         },
         {
           "number": "06",
           "id": "06-the-web-as-document",
-          "title": "The Web as document: choosing a tree",
+          "title": "The Web: the shape of words",
           "source": "chapters/06-the-web-as-document.md"
         },
         {
           "number": "07",
           "id": "07-the-web-as-platform",
-          "title": "The Web as platform: the prototype that became a world",
+          "title": "The Web: waking up the words",
           "source": "chapters/07-the-web-as-platform.md"
         }
       ]
@@ -70,13 +70,13 @@
         {
           "number": "08",
           "id": "08-programming-languages-are-for-humans",
-          "title": "Programming languages are for humans",
+          "title": "Teaching machines our words",
           "source": "chapters/08-programming-languages-are-for-humans.md"
         },
         {
           "number": "09",
           "id": "09-every-program-contains-a-language",
-          "title": "Every program contains a language",
+          "title": "Every program grows a language",
           "source": "chapters/09-every-program-contains-a-language.md"
         },
         {

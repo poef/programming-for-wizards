@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en" data-font="publication" data-theme="light" data-motion="auto" data-page-kind="chapter" data-reader-tools="closed">
+<html lang="en" data-font="publication" data-theme="light" data-motion="auto" data-flow="paged" data-page-kind="chapter" data-chapter-map="closed" data-reader-tools="closed">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -28,6 +28,11 @@
   <a class="skip-link" href="#main">Skip to manuscript</a>
   <div class="book-shell">
     <nav class="chapter-map" aria-label="Chapters">
+  <button class="chapter-map-toggle" type="button" aria-expanded="false" aria-controls="chapter-map-panel" aria-label="Show contents" data-chapter-map-toggle>
+    <span>Contents</span>
+    <span class="chapter-map-toggle-state" data-chapter-map-label>Open</span>
+  </button>
+  <div id="chapter-map-panel" class="chapter-map-panel" data-chapter-map-panel hidden>
   <a class="book-title" href="../index.html">Programming for Wizards</a>
   
 <section class="map-section">
@@ -39,19 +44,19 @@
 <section class="map-section">
   <h2>Part I: Representations are spells</h2>
   <ol>
-    <li><a href="../chapters/02-numbers-hiding-calculations-in-symbols.html"><span>02</span>Numbers: hiding calculations in symbols</a></li><li><a href="../chapters/03-logic-turning-truth-into-machinery.html"><span>03</span>Logic: turning truth into machinery</a></li><li><a href="../chapters/04-language-the-tool-that-changes-the-thinker.html"><span>04</span>Language: the tool that changes the thinker</a></li>
+    <li><a href="../chapters/02-numbers-hiding-calculations-in-symbols.html"><span>02</span>Numbers: bigger than you think</a></li><li><a href="../chapters/03-logic-turning-truth-into-machinery.html"><span>03</span>Logic: the truth is out there.</a></li><li><a href="../chapters/04-language-the-tool-that-changes-the-thinker.html"><span>04</span>Language: the oldest trick</a></li>
   </ol>
 </section>
 <section class="map-section">
   <h2>Part II: The Web, from address to platform</h2>
   <ol>
-    <li><a href="../chapters/05-the-web-as-address.html"><span>05</span>The Web as address: a spell for pointing anywhere</a></li><li><a href="../chapters/06-the-web-as-document.html"><span>06</span>The Web as document: choosing a tree</a></li><li><a href="../chapters/07-the-web-as-platform.html"><span>07</span>The Web as platform: the prototype that became a world</a></li>
+    <li><a href="../chapters/05-the-web-as-address.html"><span>05</span>The Web: one string to rule them all.</a></li><li><a href="../chapters/06-the-web-as-document.html"><span>06</span>The Web: the shape of words</a></li><li><a href="../chapters/07-the-web-as-platform.html"><span>07</span>The Web: waking up the words</a></li>
   </ol>
 </section>
 <section class="map-section">
   <h2>Part III: Inventing languages</h2>
   <ol>
-    <li><a href="../chapters/08-programming-languages-are-for-humans.html"><span>08</span>Programming languages are for humans</a></li><li><a href="../chapters/09-every-program-contains-a-language.html"><span>09</span>Every program contains a language</a></li><li><a href="../chapters/10-code-exhibit-extending-javascript-with-jaqt.html"><span>10</span>Code exhibit: extending JavaScript with JAQT</a></li>
+    <li><a href="../chapters/08-programming-languages-are-for-humans.html"><span>08</span>Teaching machines our words</a></li><li><a href="../chapters/09-every-program-contains-a-language.html"><span>09</span>Every program grows a language</a></li><li><a href="../chapters/10-code-exhibit-extending-javascript-with-jaqt.html"><span>10</span>Code exhibit: extending JavaScript with JAQT</a></li>
   </ol>
 </section>
 <section class="map-section">
@@ -72,8 +77,13 @@
     <li><a href="../chapters/17-rule-zero-there-are-no-rules.html"><span>17</span>Rule zero: there are no rules</a></li>
   </ol>
 </section>
+  </div>
 </nav>
     <main id="main" class="manuscript">
+  <div class="book-progress" role="progressbar" aria-label="Book progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" data-book-progress>
+    <span data-book-progress-bar></span>
+  </div>
+  <div class="manuscript-pages" data-page-scroller data-book-chapter-index="12" data-book-page-weights="466,2137,938,931,2137,1864,1422,1466,597,2199,1770,1041,1917,1619,2174,1473,137">
   <header class="chapter-header">
     <p class="chapter-kicker">Part V: Architecture, change, commons, and home</p>
     <p class="chapter-number">Chapter 13</p>
@@ -94,14 +104,6 @@
 <p id="p-13-sometimes-the-pile-works-pyramids-do-work-but" data-note-target>Sometimes the pile works. Pyramids do work. But if every new problem asks for more stone, more carrying, more coordination, and more explanation, then we should at least wonder whether we are missing an arch.</p>
 <p id="p-13-so-the-question-for-this-chapter-is" data-note-target>So the question for this chapter is:</p>
 <p id="p-13-what-would-a-software-arch-look-like" data-note-target>What would a software arch look like?</p>
-<aside id="exhibit-pyramid-arch-bazaar" class="exhibit-placeholder" data-exhibit-id="pyramid-arch-bazaar" data-note-target>
-<p class="exhibit-kicker">Interactive Exhibit</p>
-<h2>Pyramid Arch Bazaar</h2>
-<p>Let the reader compare three growth strategies: pile-on pyramid, planned cathedral, adaptive bazaar. Add changing requirements over time. Show where each strategy absorbs change and where it cracks.</p>
-<div class="static-fallback" aria-label="Static fallback">
-<p>Pyramid Arch Bazaar is planned as an interactive exhibit. This placeholder preserves the explanation and its stable address for the static edition.</p>
-</div>
-</aside>
 <h2 id="h-13-pyramids-and-arches"><a class="anchor-link" href="#h-13-pyramids-and-arches" aria-label="Link to Pyramids and arches">#</a>Pyramids and arches</h2>
 <p id="p-13-i-used-to-think-the-word-architecture-had" data-note-target>I used to think the word architecture had its roots in the word arch, which had its roots in arc. Unfortunately the world is not this simple or elegant. Words rarely have the decency to arrange themselves for our metaphors.</p>
 <p id="p-13-still-i-maintain-that-real-architecture-starts-when" data-note-target>Still, I maintain that real architecture starts when people stop only piling material and begin using the forces inside the material.</p>
@@ -111,7 +113,7 @@
 <p id="p-13-gravity-did-not-go-away-stone-did-not" data-note-target>Gravity did not go away. Stone did not become lighter. The problem was reframed. The builder learned to arrange the pieces so that the forces pushing down and sideways became part of the solution.</p>
 <p id="p-13-that-is-what-makes-the-image-useful-for" data-note-target>That is what makes the image useful for software.</p>
 <p id="p-13-a-software-arch-would-not-be-a-prettier" data-note-target>A software arch would not be a prettier diagram. It would not be another layer on the pile. It would be a way of arranging the work so that the forces that normally make software collapse help carry the structure instead.</p>
-<p id="p-13-the-hard-part-is-knowing-what-those-forces" data-note-target>The hard part is knowing what those forces are.</p>
+<p id="p-13-which-forces-though" data-note-target>Which forces though?</p>
 <p id="p-13-in-buildings-some-of-the-forces-are-literal" data-note-target>In buildings, some of the forces are literal: weight, compression, tension, wind, earthquakes, water, time. In software, the forces are stranger. Changing requirements. Missing knowledge. Competing teams. Dependencies. Users who do not do what the diagram says. Libraries that update. Platforms that change direction. The future arriving with muddy boots.</p>
 <p id="p-13-a-software-architecture-that-ignores-those-forces-is" data-note-target>A software architecture that ignores those forces is just decoration.</p>
 <h2 id="h-13-architecture-as-force"><a class="anchor-link" href="#h-13-architecture-as-force" aria-label="Link to Architecture as force">#</a>Architecture as force</h2>
@@ -143,8 +145,7 @@
 <p id="p-13-this-brings-us-to-two-old-essays-that" data-note-target>This brings us to two old essays that seem, at first, to be about a different question.</p>
 <p id="p-13-richard-p-gabriel-wrote-the-rise-of-worse" data-note-target>Richard P. Gabriel wrote <a href="https://www.dreamsongs.com/WorseIsBetter.html"><em>The Rise of “Worse is Better”</em></a>. The uncomfortable claim is that software that is in some ways worse can win because it is simpler, earlier, easier to spread, easier to implement, or easier to adapt. Once it wins, everyone else builds on it, and the better idea becomes a historical footnote.</p>
 <p id="p-13-eric-s-raymond-later-wrote-the-cathedral-and" data-note-target>Eric S. Raymond later wrote <a href="http://www.catb.org/~esr/writings/cathedral-bazaar/cathedral-bazaar/"><em>The Cathedral and the Bazaar</em></a>, contrasting carefully planned cathedral-style development with the messy, adaptive energy of open source. His bazaar is not beautiful because it is messy. Mess by itself is just mess. The useful part is that many people can react, repair, extend, and redirect the work while the world is still changing.</p>
-<p id="p-13-these-essays-are-not-the-same-but-they" data-note-target>These essays are not the same, but they rhyme.</p>
-<p id="p-13-they-both-make-software-perfection-look-suspicious" data-note-target>They both make software perfection look suspicious.</p>
+<p id="p-13-different-essays-same-warning-they-both-make-software" data-note-target>Different essays. Same warning. They both make software perfection look suspicious.</p>
 <p id="p-13-a-working-good-enough-solution-now-is-always" data-note-target>A working good-enough solution now is always better than a perfect solution sometime in the future.</p>
 <p id="p-13-i-know-always-is-a-dangerous-word-good" data-note-target>I know. Always is a dangerous word. Good. Dangerous words wake people up.</p>
 <p id="p-13-the-reason-is-not-that-bad-software-is" data-note-target>The reason is not that bad software is noble. It is not that quality does not matter. It is that the future solution is not competing with today's problem. It is competing with the world as it exists when that future solution finally arrives.</p>
@@ -162,28 +163,24 @@
 <p id="p-13-software-changes-the-world-and-is-changed-by" data-note-target>Software changes the world, and is changed by it. Any software you create has to live in an environment full of new uses, new machines, new libraries, new laws, new attacks, new expectations, and new mistakes. Software that cannot change with that world will eventually be left behind, wrapped in a compatibility layer, or worshipped by a small group of specialists who know which version of which compiler still understands it.</p>
 <p id="p-13-this-is-one-of-the-fundamental-differences-between" data-note-target>This is one of the fundamental differences between software and traditional engineering. It is also why software project management keeps getting into trouble when it borrows too directly from older engineering disciplines.</p>
 <p id="p-13-a-building-project-can-be-late-expensive-and" data-note-target>A building project can be late, expensive, and politically cursed, but the ground usually does not rewrite the laws of stone halfway through. Software has no such manners.</p>
-<p id="p-13-that-does-not-mean-architecture-is-hopeless-it" data-note-target>That does not mean architecture is hopeless. It means architecture is less about certainty than we would like.</p>
-<p id="p-13-a-good-architecture-does-not-prove-that-you" data-note-target>A good architecture does not prove that you were right. It gives you somewhere to go when you discover that you were wrong.</p>
-<aside id="exhibit-change-arrives-before-perfect" class="exhibit-placeholder" data-exhibit-id="change-arrives-before-perfect" data-note-target>
-<p class="exhibit-kicker">Interactive Exhibit</p>
-<h2>Change Arrives Before Perfect</h2>
-<p>Show two teams. One ships a small imperfect system early and adapts. The other designs a more complete system but ships later. Introduce environmental changes every few turns. The demo should make clear that the future solution is not competing with today's problem, but with tomorrow's changed problem.</p>
-<div class="static-fallback" aria-label="Static fallback">
-<p>Change Arrives Before Perfect is planned as an interactive exhibit. This placeholder preserves the explanation and its stable address for the static edition.</p>
-</div>
-</aside>
-<p id="p-13-this-also-leads-to-the-next-question" data-note-target>This also leads to the next question.</p>
-<p id="p-13-if-the-world-keeps-changing-where-do-the" data-note-target>If the world keeps changing, where do the useful answers come from?</p>
-<p id="p-13-not-always-from-inside-your-project-not-even" data-note-target>Not always from inside your project. Not even usually from inside your project, if the project is interesting enough. Other people are solving adjacent problems. Other communities are inventing tools. Other systems are creating expectations. Other wizards are making strange little things that may suddenly become the missing piece of your own work.</p>
-<p id="p-13-the-next-chapter-follows-that-thread" data-note-target>The next chapter follows that thread.</p>
-<aside id="rule-13-wizards-twelfth-rule" class="wizard-rule" data-note-target>
-<p class="rule-label">Wizard's twelfth rule</p>
+<p id="p-13-architecture-is-not-certainty-it-is-a-way" data-note-target>Architecture is not certainty; it is a way to survive being wrong.</p>
+<aside id="rule-13-wizards-eleventh-rule" class="wizard-rule" data-note-target>
+<p class="rule-label">Wizard's eleventh rule</p>
 <p>You will be wrong. Try not to make it hurt.</p>
 </aside>
+<p id="p-13-if-the-world-keeps-changing-where-do-the" data-note-target>If the world keeps changing, where do the useful answers come from?</p>
+<p id="p-13-not-always-from-inside-your-project-not-even" data-note-target>Not always from inside your project. Not even usually from inside your project, if the project is interesting enough. Other people are solving adjacent problems. Other communities are inventing tools. Other systems are creating expectations. Other wizards are making strange little things that may suddenly become the missing piece of your own work.</p>
+<p id="p-13-we-have-already-seen-one-place-where-small" data-note-target>We have already seen one place where small agreements, visible boundaries, and shared names changed everything: the Web. So before we invent another castle, we should return to the Web.</p>
   <nav class="chapter-pagination" aria-label="Chapter navigation">
     <a rel="prev" href="12-objects-binding-data-behavior-and-time.html"><span>Previous</span>Objects: binding data, behavior, and time</a>
     <a rel="next" href="14-the-web-as-commons.html"><span>Next</span>The Web as commons: innovation happens elsewhere</a>
   </nav>
+  </div>
+  <div class="page-turner" data-page-controls hidden>
+    <button type="button" data-page-prev aria-label="Previous page">Previous</button>
+    <span data-page-status aria-live="polite">Page 1 of 1</span>
+    <button type="button" data-page-next aria-label="Next page">Next</button>
+  </div>
 </main>
     <aside class="reader-margin" aria-label="Reader tools">
   <button class="reader-toggle" type="button" aria-expanded="false" aria-controls="reader-tools-panel" aria-label="Show reader tools" data-reader-tools-toggle>
@@ -234,7 +231,13 @@
         <input data-setting="lineHeight" type="range" min="145" max="185" step="5" value="160">
       </label>
       <label>Width
-        <input data-setting="columnWidth" type="range" min="36" max="54" step="2" value="42">
+        <input data-setting="columnWidth" type="range" min="38" max="66" step="2" value="48">
+      </label>
+      <label>Flow
+        <select data-setting="flow">
+          <option value="paged">Paged</option>
+          <option value="scroll">Scrolling</option>
+        </select>
       </label>
       <label>Theme
         <select data-setting="theme">

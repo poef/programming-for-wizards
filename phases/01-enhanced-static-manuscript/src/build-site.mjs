@@ -73,6 +73,7 @@ async function main() {
       url: chapter.url,
       previous: chapter.previous,
       next: chapter.next,
+      wordCount: chapter.wordCount,
       rule: chapter.rules[chapter.rules.length - 1]?.label ?? null
     })
     manifest.exhibits.push(...chapter.exhibits)
@@ -86,7 +87,7 @@ async function main() {
         book,
         currentId: chapter.id,
         chapters,
-        main: chapterLayout(chapter, html, previous, next),
+        main: chapterLayout(chapter, html, previous, next, chapters, index),
         pageKind: "chapter"
       })
     }
@@ -177,11 +178,12 @@ async function readChapters(book) {
       chapters.push({
         id: chapterData.id,
         number: chapterData.number,
-        title: chapterData.title ?? markdownTitle ?? chapterData.id,
+        title: markdownTitle ?? chapterData.title ?? chapterData.id,
         part: part.title,
         partId: part.id,
         sourcePath: `content/${chapterData.source}`,
         attributes,
+        wordCount: countWords(body),
         body
       })
     }
@@ -209,6 +211,10 @@ function assertArray(value, label) {
   if (!Array.isArray(value)) {
     throw new Error(`content/book.json must contain an array at ${label}`)
   }
+}
+
+function countWords(source) {
+  return stripInline(source).split(/\s+/).filter(Boolean).length
 }
 
 function parseFrontMatter(source) {
@@ -626,10 +632,13 @@ function languageLabel(language) {
 
 function pageShell({ title, book, currentId, chapters, main, pageKind }) {
   const relativeRoot = pageKind === "chapter" ? "../" : ""
-  const readerToolsDefault = pageKind === "index" ? "open" : "closed"
+  const currentChapter = chapters.find(chapter => chapter.id === currentId)
+  const isProloguePage = pageKind === "index" || currentChapter?.partId === "prologue"
+  const chapterMapDefault = isProloguePage ? "open" : "closed"
+  const readerToolsDefault = isProloguePage ? "open" : "closed"
 
   return `<!doctype html>
-<html lang="en" data-font="publication" data-theme="light" data-motion="auto" data-page-kind="${pageKind}" data-reader-tools="${readerToolsDefault}">
+<html lang="en" data-font="publication" data-theme="light" data-motion="auto" data-flow="paged" data-page-kind="${pageKind}" data-chapter-map="${chapterMapDefault}" data-reader-tools="${readerToolsDefault}">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -657,7 +666,7 @@ function pageShell({ title, book, currentId, chapters, main, pageKind }) {
 <body>
   <a class="skip-link" href="#main">Skip to manuscript</a>
   <div class="book-shell">
-    ${chapterMap(book, chapters, currentId, relativeRoot)}
+    ${chapterMap(book, chapters, currentId, relativeRoot, chapterMapDefault)}
     ${main}
     ${readerMargin(relativeRoot, readerToolsDefault)}
   </div>
@@ -665,8 +674,10 @@ function pageShell({ title, book, currentId, chapters, main, pageKind }) {
 </html>`
 }
 
-function chapterMap(book, chapters, currentId, relativeRoot) {
+function chapterMap(book, chapters, currentId, relativeRoot, chapterMapDefault) {
   const grouped = new Map()
+  const isOpen = chapterMapDefault === "open"
+
   for (const chapter of chapters) {
     if (!grouped.has(chapter.part)) grouped.set(chapter.part, [])
     grouped.get(chapter.part).push(chapter)
@@ -684,8 +695,14 @@ function chapterMap(book, chapters, currentId, relativeRoot) {
 </section>`).join("")
 
   return `<nav class="chapter-map" aria-label="Chapters">
+  <button class="chapter-map-toggle" type="button" aria-expanded="${isOpen ? "true" : "false"}" aria-controls="chapter-map-panel" aria-label="${isOpen ? "Hide" : "Show"} contents" data-chapter-map-toggle>
+    <span>Contents</span>
+    <span class="chapter-map-toggle-state" data-chapter-map-label>${isOpen ? "Close" : "Open"}</span>
+  </button>
+  <div id="chapter-map-panel" class="chapter-map-panel" data-chapter-map-panel${isOpen ? "" : " hidden"}>
   <a class="book-title" href="${relativeRoot}index.html">${escapeHtml(book.title)}</a>
   ${groups}
+  </div>
 </nav>`
 }
 
@@ -719,7 +736,13 @@ function readerMargin(relativeRoot, readerToolsDefault) {
         <input data-setting="lineHeight" type="range" min="145" max="185" step="5" value="160">
       </label>
       <label>Width
-        <input data-setting="columnWidth" type="range" min="36" max="54" step="2" value="42">
+        <input data-setting="columnWidth" type="range" min="38" max="66" step="2" value="48">
+      </label>
+      <label>Flow
+        <select data-setting="flow">
+          <option value="paged">Paged</option>
+          <option value="scroll">Scrolling</option>
+        </select>
       </label>
       <label>Theme
         <select data-setting="theme">
@@ -800,8 +823,14 @@ function indexLayout(book, chapters) {
 </main>`
 }
 
-function chapterLayout(chapter, renderedBody, previous, next) {
+function chapterLayout(chapter, renderedBody, previous, next, chapters, chapterIndex) {
+  const pageWeights = chapters.map(entry => entry.wordCount || 1).join(",")
+
   return `<main id="main" class="manuscript">
+  <div class="book-progress" role="progressbar" aria-label="Book progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" data-book-progress>
+    <span data-book-progress-bar></span>
+  </div>
+  <div class="manuscript-pages" data-page-scroller data-book-chapter-index="${chapterIndex}" data-book-page-weights="${escapeAttribute(pageWeights)}">
   <header class="chapter-header">
     <p class="chapter-kicker">${escapeHtml(chapter.part)}</p>
     <p class="chapter-number">Chapter ${escapeHtml(chapter.number)}</p>
@@ -812,6 +841,12 @@ function chapterLayout(chapter, renderedBody, previous, next) {
     ${previous ? `<a rel="prev" href="${previous.id}.html"><span>Previous</span>${escapeHtml(previous.title)}</a>` : "<span></span>"}
     ${next ? `<a rel="next" href="${next.id}.html"><span>Next</span>${escapeHtml(next.title)}</a>` : "<span></span>"}
   </nav>
+  </div>
+  <div class="page-turner" data-page-controls hidden>
+    <button type="button" data-page-prev aria-label="Previous page">Previous</button>
+    <span data-page-status aria-live="polite">Page 1 of 1</span>
+    <button type="button" data-page-next aria-label="Next page">Next</button>
+  </div>
 </main>`
 }
 

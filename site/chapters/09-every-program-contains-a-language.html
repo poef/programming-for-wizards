@@ -1,9 +1,9 @@
 <!doctype html>
-<html lang="en" data-font="publication" data-theme="light" data-motion="auto" data-page-kind="chapter" data-reader-tools="closed">
+<html lang="en" data-font="publication" data-theme="light" data-motion="auto" data-flow="paged" data-page-kind="chapter" data-chapter-map="closed" data-reader-tools="closed">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Every program contains a language - Programming for Wizards</title>
+  <title>Every program grows a language - Programming for Wizards</title>
   <link rel="stylesheet" href="../assets/book.css">
   <link rel="stylesheet" href="../assets/exhibits/exhibits.css">
   <script>
@@ -28,6 +28,11 @@
   <a class="skip-link" href="#main">Skip to manuscript</a>
   <div class="book-shell">
     <nav class="chapter-map" aria-label="Chapters">
+  <button class="chapter-map-toggle" type="button" aria-expanded="false" aria-controls="chapter-map-panel" aria-label="Show contents" data-chapter-map-toggle>
+    <span>Contents</span>
+    <span class="chapter-map-toggle-state" data-chapter-map-label>Open</span>
+  </button>
+  <div id="chapter-map-panel" class="chapter-map-panel" data-chapter-map-panel hidden>
   <a class="book-title" href="../index.html">Programming for Wizards</a>
   
 <section class="map-section">
@@ -39,19 +44,19 @@
 <section class="map-section">
   <h2>Part I: Representations are spells</h2>
   <ol>
-    <li><a href="../chapters/02-numbers-hiding-calculations-in-symbols.html"><span>02</span>Numbers: hiding calculations in symbols</a></li><li><a href="../chapters/03-logic-turning-truth-into-machinery.html"><span>03</span>Logic: turning truth into machinery</a></li><li><a href="../chapters/04-language-the-tool-that-changes-the-thinker.html"><span>04</span>Language: the tool that changes the thinker</a></li>
+    <li><a href="../chapters/02-numbers-hiding-calculations-in-symbols.html"><span>02</span>Numbers: bigger than you think</a></li><li><a href="../chapters/03-logic-turning-truth-into-machinery.html"><span>03</span>Logic: the truth is out there.</a></li><li><a href="../chapters/04-language-the-tool-that-changes-the-thinker.html"><span>04</span>Language: the oldest trick</a></li>
   </ol>
 </section>
 <section class="map-section">
   <h2>Part II: The Web, from address to platform</h2>
   <ol>
-    <li><a href="../chapters/05-the-web-as-address.html"><span>05</span>The Web as address: a spell for pointing anywhere</a></li><li><a href="../chapters/06-the-web-as-document.html"><span>06</span>The Web as document: choosing a tree</a></li><li><a href="../chapters/07-the-web-as-platform.html"><span>07</span>The Web as platform: the prototype that became a world</a></li>
+    <li><a href="../chapters/05-the-web-as-address.html"><span>05</span>The Web: one string to rule them all.</a></li><li><a href="../chapters/06-the-web-as-document.html"><span>06</span>The Web: the shape of words</a></li><li><a href="../chapters/07-the-web-as-platform.html"><span>07</span>The Web: waking up the words</a></li>
   </ol>
 </section>
 <section class="map-section">
   <h2>Part III: Inventing languages</h2>
   <ol>
-    <li><a href="../chapters/08-programming-languages-are-for-humans.html"><span>08</span>Programming languages are for humans</a></li><li><a aria-current="page" href="../chapters/09-every-program-contains-a-language.html"><span>09</span>Every program contains a language</a></li><li><a href="../chapters/10-code-exhibit-extending-javascript-with-jaqt.html"><span>10</span>Code exhibit: extending JavaScript with JAQT</a></li>
+    <li><a href="../chapters/08-programming-languages-are-for-humans.html"><span>08</span>Teaching machines our words</a></li><li><a aria-current="page" href="../chapters/09-every-program-contains-a-language.html"><span>09</span>Every program grows a language</a></li><li><a href="../chapters/10-code-exhibit-extending-javascript-with-jaqt.html"><span>10</span>Code exhibit: extending JavaScript with JAQT</a></li>
   </ol>
 </section>
 <section class="map-section">
@@ -72,29 +77,30 @@
     <li><a href="../chapters/17-rule-zero-there-are-no-rules.html"><span>17</span>Rule zero: there are no rules</a></li>
   </ol>
 </section>
+  </div>
 </nav>
     <main id="main" class="manuscript">
+  <div class="book-progress" role="progressbar" aria-label="Book progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" data-book-progress>
+    <span data-book-progress-bar></span>
+  </div>
+  <div class="manuscript-pages" data-page-scroller data-book-chapter-index="8" data-book-page-weights="466,2137,938,931,2137,1864,1422,1466,597,2199,1770,1041,1917,1619,2174,1473,137">
   <header class="chapter-header">
     <p class="chapter-kicker">Part III: Inventing languages</p>
     <p class="chapter-number">Chapter 09</p>
     <svg class="chapter-glyph" viewBox="0 0 96 96" focusable="false" aria-hidden="true"><path d="M22 31h20v20H22zM54 31h20v20H54zM38 60h20v20H38z"/><path d="M42 41h12M48 51v9"/></svg>
   </header>
-  <h1 id="h-09-every-program-contains-a-language"><a class="anchor-link" href="#h-09-every-program-contains-a-language" aria-label="Link to Every program contains a language">#</a>Every program contains a language</h1>
+  <h1 id="h-09-every-program-grows-a-language"><a class="anchor-link" href="#h-09-every-program-grows-a-language" aria-label="Link to Every program grows a language">#</a>Every program grows a language</h1>
 <p id="p-09-a-program-is-not-only-written-in-a" data-note-target>A program is not only written in a language. A program also creates a language.</p>
 <p id="p-09-every-variable-name-function-name-class-name-method" data-note-target>Every variable name, function name, class name, method name, command name, file name, and folder name adds a word to that language. Anyone reading your program must learn that language before they can safely change it.</p>
 <p id="p-09-this-is-why-reading-code-is-hard-it" data-note-target>This is why reading code is hard. It is much easier to write code. When you write code, you already know the language you are inventing. Everyone else has to reverse-engineer it from the traces you leave behind.</p>
-<p id="p-09-most-of-the-time-this-local-language-grows" data-note-target>Most of the time, this local language grows by accident.</p>
+<p id="p-09-most-of-the-time-this-local-language-grows" data-note-target>Most of the time, this local language grows by accident. That is the uncomfortable part. You do not get to choose whether your program has a language. You only get to choose whether you notice it before it grows teeth.</p>
 <p id="p-09-you-add-a-function-because-one-bit-of" data-note-target>You add a function because one bit of code got annoying. You add a class because three things started to look alike. You add a convention because it made one page easier to read. After a while, your program has its own vocabulary. It has things you can say easily, things you can barely say at all, and things that only make sense to people who already live there.</p>
 <p id="p-09-that-is-not-automatically-bad-it-is-how" data-note-target>That is not automatically bad. It is how useful code grows.</p>
 <p id="p-09-but-sometimes-the-local-language-wants-to-stop" data-note-target>But sometimes the local language wants to stop being accidental. Sometimes the problem has a vocabulary of its own, and forcing that vocabulary through the general-purpose language starts to feel like translating a poem through a tax form.</p>
 <p id="p-09-at-that-point-a-wizard-may-decide-to" data-note-target>At that point, a wizard may decide to make the language explicit.</p>
-<aside id="exhibit-tiny-dsl-boundary" class="exhibit-placeholder" data-exhibit-id="tiny-dsl-boundary" data-note-target>
-<p class="exhibit-kicker">Interactive Exhibit</p>
-<h2>Tiny Dsl Boundary</h2>
-<p>Start with a small validation problem written as ordinary <code>if</code> statements. Then turn repeated fragments into named functions, then into a table, then into a tiny DSL. Let the reader compare what each version makes visible. The point is to show that language-making happens gradually, not only when you build a parser.</p>
-<div class="static-fallback" aria-label="Static fallback">
-<p>Tiny Dsl Boundary is planned as an interactive exhibit. This placeholder preserves the explanation and its stable address for the static edition.</p>
-</div>
+<aside id="rule-09-wizards-eighth-rule" class="wizard-rule" data-note-target>
+<p class="rule-label">Wizard's eighth rule</p>
+<p>Everything gets a name. It's better if you know it.</p>
 </aside>
 <h2 id="h-09-domain-specific-languages"><a class="anchor-link" href="#h-09-domain-specific-languages" aria-label="Link to Domain Specific Languages">#</a>Domain Specific Languages</h2>
 <p id="p-09-a-domain-specific-language-or-dsl-is-a" data-note-target>A Domain Specific Language, or DSL, is a language made for one kind of problem. A DSL is much more limited than a normal programming language. It is small and simple, focused on a single problem domain.</p>
@@ -105,14 +111,17 @@
 <p id="p-09-another-example-is-sql-almost-any-software-that" data-note-target>Another example is SQL. Almost any software that uses a database will have some SQL in it. It may be hidden behind an ORM, but it will be there.</p>
 <p id="p-09-done-correctly-a-dsl-allows-you-to-divide" data-note-target>Done correctly, a DSL allows you to divide your problem along natural boundaries in the domain. Then you can solve each sub-problem separately. While you are solving that sub-problem, you don't have to think about the solution for other problems. You will not need to read code that isn't related. Your programming language doesn't need to have tools that aren't related to your current problem. DSLs allow you to have a high level view of the problem and not worry about low level implementation details.</p>
 <p id="p-09-but-the-most-important-thing-to-remember-is" data-note-target>But the most important thing to remember is that you are creating a new language whenever you add any variable, function, class or method. By being conscious of this, you can make sure that the language you are building is easy to learn, simple to use and expressive. Designed for humans, not computers.</p>
-<aside id="rule-09-wizards-eighth-rule" class="wizard-rule" data-note-target>
-<p class="rule-label">Wizard's eighth rule</p>
-<p>True names have power in any language.</p>
-</aside>
+<p id="p-09-lets-make-that-practical" data-note-target>Let's make that practical.</p>
   <nav class="chapter-pagination" aria-label="Chapter navigation">
-    <a rel="prev" href="08-programming-languages-are-for-humans.html"><span>Previous</span>Programming languages are for humans</a>
+    <a rel="prev" href="08-programming-languages-are-for-humans.html"><span>Previous</span>Teaching machines our words</a>
     <a rel="next" href="10-code-exhibit-extending-javascript-with-jaqt.html"><span>Next</span>Code exhibit: extending JavaScript with JAQT</a>
   </nav>
+  </div>
+  <div class="page-turner" data-page-controls hidden>
+    <button type="button" data-page-prev aria-label="Previous page">Previous</button>
+    <span data-page-status aria-live="polite">Page 1 of 1</span>
+    <button type="button" data-page-next aria-label="Next page">Next</button>
+  </div>
 </main>
     <aside class="reader-margin" aria-label="Reader tools">
   <button class="reader-toggle" type="button" aria-expanded="false" aria-controls="reader-tools-panel" aria-label="Show reader tools" data-reader-tools-toggle>
@@ -163,7 +172,13 @@
         <input data-setting="lineHeight" type="range" min="145" max="185" step="5" value="160">
       </label>
       <label>Width
-        <input data-setting="columnWidth" type="range" min="36" max="54" step="2" value="42">
+        <input data-setting="columnWidth" type="range" min="38" max="66" step="2" value="48">
+      </label>
+      <label>Flow
+        <select data-setting="flow">
+          <option value="paged">Paged</option>
+          <option value="scroll">Scrolling</option>
+        </select>
       </label>
       <label>Theme
         <select data-setting="theme">

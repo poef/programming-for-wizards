@@ -1,9 +1,9 @@
 <!doctype html>
-<html lang="en" data-font="publication" data-theme="light" data-motion="auto" data-page-kind="chapter" data-reader-tools="closed">
+<html lang="en" data-font="publication" data-theme="light" data-motion="auto" data-flow="paged" data-page-kind="chapter" data-chapter-map="closed" data-reader-tools="closed">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>The Web as platform: the prototype that became a world - Programming for Wizards</title>
+  <title>The Web: waking up the words - Programming for Wizards</title>
   <link rel="stylesheet" href="../assets/book.css">
   <link rel="stylesheet" href="../assets/exhibits/exhibits.css">
   <script>
@@ -28,6 +28,11 @@
   <a class="skip-link" href="#main">Skip to manuscript</a>
   <div class="book-shell">
     <nav class="chapter-map" aria-label="Chapters">
+  <button class="chapter-map-toggle" type="button" aria-expanded="false" aria-controls="chapter-map-panel" aria-label="Show contents" data-chapter-map-toggle>
+    <span>Contents</span>
+    <span class="chapter-map-toggle-state" data-chapter-map-label>Open</span>
+  </button>
+  <div id="chapter-map-panel" class="chapter-map-panel" data-chapter-map-panel hidden>
   <a class="book-title" href="../index.html">Programming for Wizards</a>
   
 <section class="map-section">
@@ -39,19 +44,19 @@
 <section class="map-section">
   <h2>Part I: Representations are spells</h2>
   <ol>
-    <li><a href="../chapters/02-numbers-hiding-calculations-in-symbols.html"><span>02</span>Numbers: hiding calculations in symbols</a></li><li><a href="../chapters/03-logic-turning-truth-into-machinery.html"><span>03</span>Logic: turning truth into machinery</a></li><li><a href="../chapters/04-language-the-tool-that-changes-the-thinker.html"><span>04</span>Language: the tool that changes the thinker</a></li>
+    <li><a href="../chapters/02-numbers-hiding-calculations-in-symbols.html"><span>02</span>Numbers: bigger than you think</a></li><li><a href="../chapters/03-logic-turning-truth-into-machinery.html"><span>03</span>Logic: the truth is out there.</a></li><li><a href="../chapters/04-language-the-tool-that-changes-the-thinker.html"><span>04</span>Language: the oldest trick</a></li>
   </ol>
 </section>
 <section class="map-section">
   <h2>Part II: The Web, from address to platform</h2>
   <ol>
-    <li><a href="../chapters/05-the-web-as-address.html"><span>05</span>The Web as address: a spell for pointing anywhere</a></li><li><a href="../chapters/06-the-web-as-document.html"><span>06</span>The Web as document: choosing a tree</a></li><li><a aria-current="page" href="../chapters/07-the-web-as-platform.html"><span>07</span>The Web as platform: the prototype that became a world</a></li>
+    <li><a href="../chapters/05-the-web-as-address.html"><span>05</span>The Web: one string to rule them all.</a></li><li><a href="../chapters/06-the-web-as-document.html"><span>06</span>The Web: the shape of words</a></li><li><a aria-current="page" href="../chapters/07-the-web-as-platform.html"><span>07</span>The Web: waking up the words</a></li>
   </ol>
 </section>
 <section class="map-section">
   <h2>Part III: Inventing languages</h2>
   <ol>
-    <li><a href="../chapters/08-programming-languages-are-for-humans.html"><span>08</span>Programming languages are for humans</a></li><li><a href="../chapters/09-every-program-contains-a-language.html"><span>09</span>Every program contains a language</a></li><li><a href="../chapters/10-code-exhibit-extending-javascript-with-jaqt.html"><span>10</span>Code exhibit: extending JavaScript with JAQT</a></li>
+    <li><a href="../chapters/08-programming-languages-are-for-humans.html"><span>08</span>Teaching machines our words</a></li><li><a href="../chapters/09-every-program-contains-a-language.html"><span>09</span>Every program grows a language</a></li><li><a href="../chapters/10-code-exhibit-extending-javascript-with-jaqt.html"><span>10</span>Code exhibit: extending JavaScript with JAQT</a></li>
   </ol>
 </section>
 <section class="map-section">
@@ -72,26 +77,24 @@
     <li><a href="../chapters/17-rule-zero-there-are-no-rules.html"><span>17</span>Rule zero: there are no rules</a></li>
   </ol>
 </section>
+  </div>
 </nav>
     <main id="main" class="manuscript">
+  <div class="book-progress" role="progressbar" aria-label="Book progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" data-book-progress>
+    <span data-book-progress-bar></span>
+  </div>
+  <div class="manuscript-pages" data-page-scroller data-book-chapter-index="6" data-book-page-weights="466,2137,938,931,2137,1864,1422,1466,597,2199,1770,1041,1917,1619,2174,1473,137">
   <header class="chapter-header">
     <p class="chapter-kicker">Part II: The Web, from address to platform</p>
     <p class="chapter-number">Chapter 07</p>
     <svg class="chapter-glyph" viewBox="0 0 96 96" focusable="false" aria-hidden="true"><path d="M23 29h50v34H23z"/><path d="M23 39h50"/><path d="M34 72h28"/><path d="M42 63v9m12-9v9"/><circle cx="31" cy="34" r="1.5"/><circle cx="37" cy="34" r="1.5"/></svg>
   </header>
-  <h1 id="h-07-the-web-as-platform-the-prototype-that-became-a-world"><a class="anchor-link" href="#h-07-the-web-as-platform-the-prototype-that-became-a-world" aria-label="Link to The Web as platform: the prototype that became a world">#</a>The Web as platform: the prototype that became a world</h1>
+  <h1 id="h-07-the-web-waking-up-the-words"><a class="anchor-link" href="#h-07-the-web-waking-up-the-words" aria-label="Link to The Web: waking up the words">#</a>The Web: waking up the words</h1>
+<p id="p-07-html-gave-web-documents-a-shape-javascript-gave" data-note-target>HTML gave Web documents a shape. JavaScript gave them behavior. But it also left us with a new question:</p>
 <p id="p-07-what-happens-when-a-prototype-becomes-the-platform" data-note-target>What happens when a prototype becomes the platform?</p>
 <p id="p-07-this-chapter-is-about-javascript-but-it-is" data-note-target>This chapter is about JavaScript, but it is also about a familiar software story. A demo is created in a hurry. It works well enough. Then the world starts building on it. The demo becomes the foundation. The foundation keeps moving.</p>
 <p id="p-07-that-is-both-terrifying-and-sometimes-lucky" data-note-target>That is both terrifying and, sometimes, lucky.</p>
-<aside id="exhibit-prototype-becomes-platform" class="exhibit-placeholder" data-exhibit-id="prototype-becomes-platform" data-note-target>
-<p class="exhibit-kicker">Interactive Exhibit</p>
-<h2>Prototype Becomes Platform</h2>
-<p>Show a tiny prototype language with three features. Then let the reader add real-world demands: modules, DOM access, packages, async loading, backwards compatibility. Each new demand should add visible layers around the original core. The point is that platforms accrete history.</p>
-<div class="static-fallback" aria-label="Static fallback">
-<p>Prototype Becomes Platform is planned as an interactive exhibit. This placeholder preserves the explanation and its stable address for the static edition.</p>
-</div>
-</aside>
-<p id="p-07-the-logical-next-part-of-the-web-to" data-note-target>The logical next part of the web to discuss, would be HTTP. However I don't think it would add much, or be interesting. So instead this chapter I will write about another part of the web, made by a wizard called <a href="https://en.wikipedia.org/wiki/Brendan_Eich">Brendan Eich</a>: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript">JavaScript</a>.</p>
+<p id="p-07-javascript-was-made-by-a-wizard-called-brendan" data-note-target>JavaScript was made by a wizard called <a href="https://en.wikipedia.org/wiki/Brendan_Eich">Brendan Eich</a>. And its creation story is almost mythical.</p>
 <h2 id="h-07-javascript"><a class="anchor-link" href="#h-07-javascript" aria-label="Link to JavaScript">#</a>JavaScript</h2>
 <p id="p-07-lets-go-back-a-little-bit-before-may" data-note-target>Lets go back a little bit, before may 1995. You are a young developer tasked with creating an interactive experience on this new fangled World-Wide Web. How would you do that?</p>
 <p id="p-07-the-only-way-would-be-to-add-a" data-note-target>The only way would be to add a form. A visitor of your website would fill it in, then press submit. The form data is sent to the webserver, where a program is called through the <a href="https://en.wikipedia.org/wiki/Common_Gateway_Interface">cgi-bin API</a>. This program reads the form data and does its magic, then prints a response. The webserver reads the response and sends it back to the webbrowser. Not very interactive at all.</p>
@@ -101,6 +104,10 @@
 <p id="p-07-enter-brendan-eich-at-least-client-engineering-management" data-note-target>Enter Brendan Eich -- "At least client engineering management including Tom Paquin, Michael Toy, and Rick Schell, along with some guy named Marc Andreessen, were convinced that Netscape should embed a programming language, in source form, in HTML." -- "What was needed was a convincing proof of concept, AKA a demo. That, I delivered, and in too-short order it was a fait accompli."</p>
 <p id="p-07-how-short-order-how-about-10-days-and" data-note-target>How short order? How about 10 days (and probably nights.)</p>
 <p id="p-07-surely-that-was-only-a-proof-of-concept" data-note-target>Surely that was only a proof-of-concept, a demo? Well, yes, but this demo, this prototype ended up in production, virtually unchanged. As most prototypes tend to.</p>
+<aside id="rule-07-wizards-sixth-rule" class="wizard-rule" data-note-target>
+<p class="rule-label">Wizard's sixth rule</p>
+<p>Your spells may gain a life of their own.</p>
+</aside>
 <p id="p-07-however-we-got-uncharacteristically-lucky-javascript-was-not" data-note-target>However, we got uncharacteristically lucky. JavaScript was not a tuned-down, dummified version of Java. You see, Brendan was lured to work on this project with the promise that he would be allowed to create a <a href="https://en.wikipedia.org/wiki/Scheme_%28programming_language%29">Scheme</a>-like language.</p>
 <p id="p-07-scheme-is-a-descendant-of-lisp-and-algol" data-note-target>Scheme is a descendant of Lisp (and Algol.) It is nothing like Java. But as any Lisp-like language, you can change the language to do anything any other programming language can do. So Brendan added a Java-like syntax on a Scheme-like core. And 10 days later, the world would be changed forever.</p>
 <blockquote><p><a href="https://web.archive.org/web/20200204010840/https://brendaneich.com/2008/04/popularity/">Brendan Eich</a> - "I’m not proud, but I’m happy that I chose Scheme-ish first-class functions and Self-ish (albeit singular) prototypes as the main ingredients. The Java influences, especially y2k Date bugs but also the primitive vs. object distinction (e.g., string vs. String), were unfortunate."</p></blockquote>
@@ -122,16 +129,18 @@
 <p id="p-07-none-of-these-are-the-final-answer-they" data-note-target>None of these are the final answer. They are clues.</p>
 <p id="p-07-the-browser-began-as-a-way-to-read" data-note-target>The browser began as a way to read linked documents. JavaScript turned it into a programmable surface. Over time that surface absorbed more and more of the things we used to expect from operating systems: storage, identity, permissions, installation, background work, hardware access, offline behavior.</p>
 <p id="p-07-the-network-starts-to-look-less-like-something" data-note-target>The network starts to look less like something the computer connects to, and more like the place where the computer happens.</p>
-<p id="p-07-that-raises-a-question-this-chapter-should-not" data-note-target>That raises a question this chapter should not try to answer yet. If the web becomes the operating system, who owns the home directory?</p>
-<p id="p-07-a-later-chapter-will-pick-up-that-question" data-note-target>A later chapter will pick up that question.</p>
-<aside id="rule-07-wizards-sixth-rule" class="wizard-rule" data-note-target>
-<p class="rule-label">Wizard's sixth rule</p>
-<p>A prototype is not always a throwaway version of the real thing. Sometimes it is the first piece of ground the future manages to stand on.</p>
-</aside>
+<p id="p-07-that-raises-a-question-this-chapter-does-not" data-note-target>That raises a question this chapter does not answer yet. If the web becomes the operating system, who owns the home directory? Don't worry, we'll get there later.</p>
+<p id="p-07-for-now-we-pick-up-where-we-left" data-note-target>For now, we pick up where we left off in chapter 4, languages. This time we'll teach the computer how to lie.</p>
   <nav class="chapter-pagination" aria-label="Chapter navigation">
-    <a rel="prev" href="06-the-web-as-document.html"><span>Previous</span>The Web as document: choosing a tree</a>
-    <a rel="next" href="08-programming-languages-are-for-humans.html"><span>Next</span>Programming languages are for humans</a>
+    <a rel="prev" href="06-the-web-as-document.html"><span>Previous</span>The Web: the shape of words</a>
+    <a rel="next" href="08-programming-languages-are-for-humans.html"><span>Next</span>Teaching machines our words</a>
   </nav>
+  </div>
+  <div class="page-turner" data-page-controls hidden>
+    <button type="button" data-page-prev aria-label="Previous page">Previous</button>
+    <span data-page-status aria-live="polite">Page 1 of 1</span>
+    <button type="button" data-page-next aria-label="Next page">Next</button>
+  </div>
 </main>
     <aside class="reader-margin" aria-label="Reader tools">
   <button class="reader-toggle" type="button" aria-expanded="false" aria-controls="reader-tools-panel" aria-label="Show reader tools" data-reader-tools-toggle>
@@ -182,7 +191,13 @@
         <input data-setting="lineHeight" type="range" min="145" max="185" step="5" value="160">
       </label>
       <label>Width
-        <input data-setting="columnWidth" type="range" min="36" max="54" step="2" value="42">
+        <input data-setting="columnWidth" type="range" min="38" max="66" step="2" value="48">
+      </label>
+      <label>Flow
+        <select data-setting="flow">
+          <option value="paged">Paged</option>
+          <option value="scroll">Scrolling</option>
+        </select>
       </label>
       <label>Theme
         <select data-setting="theme">
