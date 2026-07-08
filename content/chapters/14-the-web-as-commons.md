@@ -8,6 +8,12 @@ The previous chapter ended with change.
 
 Software changes the world, and then the changed world comes back for the software. That is annoying, but it is also the thing that makes software interesting. A bridge, once built, can mostly go on being a bridge. A program lives in a world full of people, habits, other programs, new devices, strange edge cases, regulations, fashions, accidents and other wizards.
 
+The Web is one of the best examples we have of software built for that kind of pressure. Not perfectly. Not innocently. But deeply. It was made from small agreements that let strangers connect things across distance, ownership, and time.
+
+That helped with some kinds of reuse. A page can link to another page. A browser can visit a server it has never seen before. A site can load an image, a script, a stylesheet, an API, a payment form, a map.
+
+But the Web as we actually use it has not made software as replaceable as documents. A web service usually arrives as one bundle: application, account, data, identity, permissions, interface, business model. You can use the bundle. You can sometimes export from the bundle. But replacing one piece without accepting the whole little world is still harder than it ought to be.
+
 So the next question is where the answers are supposed to come from.
 
 The tempting answer is: from inside the system. Hire the right people. Build the complete platform. Design the perfect extension mechanism. Add every feature the users might need. Make the castle large enough that nobody has to leave.
@@ -28,27 +34,7 @@ If the owner of the system does not build the thing, the thing does not exist th
 
 That is a dangerous place to put the future.
 
-## The castle and the bazaar again
-
-The last chapter mentioned the cathedral and the bazaar. The image is useful, but it can also mislead.
-
-The bazaar is not magic because it is messy. Mess by itself is just mess. Anyone who has tried to use an undocumented pile of clever open source code knows this. There is nothing holy about confusion with a license file attached.
-
-The bazaar works when there is enough shared ground for strangers to contribute without first becoming subjects of the same king.
-
-That shared ground can be source code. It can be a protocol. It can be a file format. It can be a package system. It can be a test suite, a license, a convention, a small set of names that mean the same thing to enough people.
-
-The important part is that the boundary is visible. Outsiders can see where to attach their work. They can replace one piece without replacing the whole world. They can build a tool the original authors did not imagine.
-
-This is why openness is not the opposite of architecture. It is a different demand on architecture.
-
-A closed architecture asks: how do we make all the parts work together under our control?
-
-An open architecture asks: what must stay stable so that people outside our control can still make useful things?
-
-The second question is harder in a less glamorous way. It means saying no to private shortcuts. It means documenting things you would rather leave implicit. It means accepting that other people will use your work wrong, or at least differently than you expected. It means the boundary has to survive contact with people who were not in the meeting.
-
-That is the cost of letting the outside world in.
+For our purposes, that is the useful part of the bazaar image: enough shared ground for strangers to contribute without first becoming subjects of the same king.
 
 ## The Web was built this way
 
@@ -56,7 +42,7 @@ The Web won partly because it did not require one owner to finish the whole idea
 
 A URL let one document point at another thing somewhere else. HTML gave documents a rough shared shape. HTTP gave browsers and servers a way to talk. Later JavaScript made the page programmable. None of these pieces had to contain the whole future.
 
-People built browsers. People built servers. People wrote pages. People invented terrible layout tricks. People created search engines, blogs, shops, forums, wikis, maps, social networks, documentation sites, video players, webmail, package registries, and a large number of forms asking you to create an account before you can read anything.
+People built browsers and servers. They wrote pages, abused tables for layout, made search engines, blogs, shops, forums, wikis, maps, webmail, package registries, and then a great many ways of asking you to create an account before you can read anything.
 
 Some of this was beautiful. Some of it was regrettable. That is what happens when the world gets involved.
 
@@ -69,6 +55,12 @@ That last phrase, "at least in principle", is doing some work.
 The Web as actually lived has many castles. Search engines, social networks, app stores, cloud platforms, ad networks and identity providers have all built walls on top of the open ground. This is not surprising. Castles are convenient. They are profitable. They reduce friction. They give users one button to press instead of a small lecture about standards.
 
 Still, the open ground matters. Without it, the castles would be the whole world.
+
+So perhaps the question is not only whether the Web can stay open.
+
+Perhaps the question is whether we can use the Web's own architecture to add more boundaries in the places where services usually bundle things together: the application, the user's data, and the user's identity.
+
+Could those pieces become smaller, more independent, and easier to replace, so people can extend the system without becoming subjects of the same kingdom?
 
 ## Small software needs a large outside
 
@@ -90,14 +82,20 @@ A wizard should not be ashamed of using other people's magic. That is how the cr
 
 ## The next boundary
 
-There is one place where the Web still very often gets this wrong.
+So this is the first piece: applications should be able to stay small.
 
-Applications can point to each other. Servers can talk to each other. Code can depend on code written by strangers. But the user's identity and data are still usually captured by the application that happened to collect them first.
+A tool should not have to become a kingdom before it can be useful. It should be able to arrive from the outside, do its work, and leave the user's world behind when it goes.
 
-That is strange, once you notice it.
+But for that to happen, the boundary cannot only sit between one website and another. It has to move inside the web service itself.
 
-If innovation happens elsewhere, then the user should be able to benefit from tools that were invented elsewhere. But that is much harder when each app owns its own little copy of the user's life. A better calendar app cannot simply be a better calendar app if the calendar belongs to the old one. A better contacts tool cannot simply be a better contacts tool if the contacts are trapped behind another account. A small notes viewer cannot simply read the notes if the notes live inside a private platform.
+The application is one thing. The data it works on is another. The identity that grants access is another again.
 
-The next chapter takes one more step before we talk about the user's home. If outside tools are supposed to work together, they need more than open source code and friendly intentions. They need data that can cross boundaries too.
+This chapter has mostly been about the first piece: tools that can be replaced, extended, ignored, or improved by people outside the original design.
+
+The next piece is data.
+
+Applications have often been gatekeepers for people's data. Write a document in Word, send it to someone, and you may also be sending a quiet requirement: use Word too, or at least something compatible enough to pretend. That is not only a technical shape. It is a business shape. It keeps the user close to the application, the ecosystem, the account.
+
+The Web was supposed to be different. A page did not require the editor that wrote it. A link did not belong to the tool that made the link. But web applications have often rebuilt the old gate in a new place.
 
 If the network becomes the place where software happens, then the facts inside our software cannot remain trapped behind private names forever. Otherwise the castle has merely learned to export a few files through a gate.
