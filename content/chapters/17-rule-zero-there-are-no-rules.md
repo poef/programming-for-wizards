@@ -2,16 +2,26 @@
 tags: programming for wizards
 ---
 
-# Rule zero: there are no rules
+# Epilogue: shifting ground
 
-By now the book has left a trail of wizard's rules behind it. Steal good ideas. Choose representations that do work for you. Build tables when intuition starts lying. Draw boundaries where the problem already has an edge. Bind things where change is cheapest. Do not confuse a perfect future with a useful present.
+Most of this book was written from experience.
 
-These are useful rules. They are also traps, if you start treating them like commandments.
+That sounds sturdier than it is.
 
-A rule is only a compressed story about something that worked often enough to be worth remembering. The moment the rule stops helping you see the problem more clearly, it has become part of the problem.
+Experience is not a foundation. It is a record of where the ground used to be solid.
 
-So keep the rules close enough to use them, and loose enough to break them.
+For years, programming meant learning to see through the machine: the notation, the shape of the data, the hidden boundary, the accidental castle, the place where a small change in representation made the problem change size.
 
-> **Wizard's rule zero**
+Those lessons still matter. I think they matter more than ever.
+
+But while this book was being written, the craft moved. Machines became able to write code, explain code, invent code, and misunderstand code at a scale that no careful programmer can ignore. The sand shifted under the workshop.
+
+Maybe the old lessons will become more important. Maybe some of them will become quaint. Maybe the next useful shape is already forming in places that still look like cheating, toys, or bad habits.
+
+I do not know.
+
+That is the final lesson.
+
+> **Wizard's final rule**
 >
 > There are no rules.

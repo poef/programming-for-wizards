@@ -42,4 +42,6 @@ Done correctly, a DSL allows you to divide your problem along natural boundaries
 
 But the most important thing to remember is that you are creating a new language whenever you add any variable, function, class or method. By being conscious of this, you can make sure that the language you are building is easy to learn, simple to use and expressive. Designed for humans, not computers. 
 
+Most names only need to work inside one program. Some eventually want to leave.
+
 Let's make that practical.

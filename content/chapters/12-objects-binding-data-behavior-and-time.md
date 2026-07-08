@@ -123,3 +123,5 @@ This is not because the outside world is dirty and the core is pure. That sounds
 The reason is more practical. The outside world changes in different ways than the rules of your program. Databases change. Frameworks change. APIs change. Files move. Users do strange things. The core should be protected from that weather where possible.
 
 This is the same move we have seen before. Change the boundary, and the problem changes shape. Then the problem gets bigger. Not one object, but the whole structure. Not one dependency, but change itself.
+
+At a large enough scale, architecture is also a question of when things are allowed to become fixed.

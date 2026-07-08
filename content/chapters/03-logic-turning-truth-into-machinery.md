@@ -2,7 +2,7 @@
 tags: programming for wizards
 ---
 
-# Logic: the truth is out there.
+# Logic: the truth is out there
 
 In the last chapter, we saw that a good notation can do some of the calculation for you. Logic does something similar for reasoning.
 

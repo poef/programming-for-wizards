@@ -2,7 +2,7 @@
 tags: programming for wizards
 ---
 
-# The Web: one string to rule them all.
+# The Web: one string to rule them all
 
 In 1989 a wizard called [Tim](https://www.w3.org/People/Berners-Lee/) invented the [World Wide Web](https://www.w3.org/History/1989/proposal-msw.html) and changed the world forever.
 
@@ -99,7 +99,7 @@ And the string is still readable. This matters. It matters more than programmers
 The URL is an address, but it is also a tiny user interface to the network.
 
 
-> **WIzard's fourth rule**
+> **Wizard's fourth rule**
 >
 > Start small, to build big.
 

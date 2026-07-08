@@ -28,7 +28,7 @@
         {
           "number": "03",
           "id": "03-logic-turning-truth-into-machinery",
-          "title": "Logic: the truth is out there.",
+          "title": "Logic: the truth is out there",
           "source": "chapters/03-logic-turning-truth-into-machinery.md"
         },
         {
@@ -46,7 +46,7 @@
         {
           "number": "05",
           "id": "05-the-web-as-address",
-          "title": "The Web: one string to rule them all.",
+          "title": "The Web: one string to rule them all",
           "source": "chapters/05-the-web-as-address.md"
         },
         {
@@ -130,7 +130,7 @@
         {
           "number": "16",
           "id": "16-the-web-as-home",
-          "title": "The Web as home: your data should outlive your apps",
+          "title": "The Web as home: who owns your home directory?",
           "source": "chapters/16-the-web-as-home.md"
         }
       ]
@@ -142,7 +142,7 @@
         {
           "number": "17",
           "id": "17-rule-zero-there-are-no-rules",
-          "title": "Rule zero: there are no rules",
+          "title": "Epilogue: shifting ground",
           "source": "chapters/17-rule-zero-there-are-no-rules.md"
         }
       ]
