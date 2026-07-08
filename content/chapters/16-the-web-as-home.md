@@ -40,10 +40,6 @@ The app has become the container for the user's life.
 
 A wizard should flinch at that.
 
-> **Interactive exhibit placeholder: `web-home-directory`**
->
-> Show two models side by side. In the first, each app has its own identity and data store. Deleting or replacing an app traps or migrates the user's data. In the second, identity and data live in a user-controlled space, and apps connect to it with permissions. Let the reader replace a calendar app, notes app or contacts app and show what changes. The important visual should be the boundary: does the data belong to the app, or does the app visit the data?
-
 ## The old shape and the hidden shape
 
 One way to describe the modern web is this:
@@ -118,6 +114,3 @@ That is a very different question. It points to different designs. It rewards di
 
 And this is the theme that keeps returning throughout this book. The hard problem may not be the thing you first thought it was. Sometimes the hard problem is caused by the shape of the world around it. Change the shape, and the problem changes. Sometimes it shrinks. Sometimes it moves somewhere more honest. Sometimes it opens a door.
 
-> **Wizard's fifteenth rule**
->
-> Put the boundary where replacement should be cheap. If the user owns their identity and data, software can stay small enough to replace.

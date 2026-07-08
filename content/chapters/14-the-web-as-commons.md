@@ -28,10 +28,6 @@ If the owner of the system does not build the thing, the thing does not exist th
 
 That is a dangerous place to put the future.
 
-> **Interactive exhibit placeholder: `innovation-happens-elsewhere`**
->
-> Show a closed app platform and an open commons side by side. In the closed model, new ideas have to be built by the platform owner before users can benefit. In the commons model, outsiders can add tools, formats, viewers or workflows through stable boundaries. Let the reader add an unexpected new use case and show which model can absorb it without asking one central owner to predict it first.
-
 ## The castle and the bazaar again
 
 The last chapter mentioned the cathedral and the bazaar. The image is useful, but it can also mislead.
@@ -105,7 +101,3 @@ If innovation happens elsewhere, then the user should be able to benefit from to
 The next chapter takes one more step before we talk about the user's home. If outside tools are supposed to work together, they need more than open source code and friendly intentions. They need data that can cross boundaries too.
 
 If the network becomes the place where software happens, then the facts inside our software cannot remain trapped behind private names forever. Otherwise the castle has merely learned to export a few files through a gate.
-
-> **Wizard's thirteenth rule**
->
-> A closed system must solve every problem itself. An open system needs boundaries clear enough for the world to bring the next answer.

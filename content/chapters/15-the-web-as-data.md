@@ -26,10 +26,6 @@ This is the knitted castle again, but now the threads run through the data.
 
 The problem is not only where the data lives. The problem is how the data points.
 
-> **Interactive exhibit placeholder: `linked-data-addresses`**
->
-> Show three small apps: contacts, calendar and photos. Each has a private record for the same person. First show the private identifiers: `person-17`, `attendee-4`, `face-91`. Then let the reader replace them with one shared Web address for the person. Show how each app can still say its own thing, but now the statements can meet. Add a second step where the properties themselves also get addresses, so `knows`, `attends` and `appearsIn` become shared terms rather than private column names.
-
 ## Facts are older than databases
 
 Let us start smaller.
@@ -326,7 +322,3 @@ That is the bridge to the next chapter.
 If data can have addresses, if facts can link to other facts, and if meanings can be shared across boundaries, then the next question becomes unavoidable:
 
 where should a person's own data live?
-
-> **Wizard's fourteenth rule**
->
-> Data becomes more useful when its meanings can travel farther than the program that first wrote it.
