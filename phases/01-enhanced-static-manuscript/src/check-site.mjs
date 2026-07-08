@@ -332,8 +332,8 @@ function checkHtmlPages(htmlByFile) {
     }
 
     const settingControls = [...html.matchAll(/\bdata-setting="/g)].length
-    if (settingControls !== 7) {
-      fail(`${relativeFile} has ${settingControls} reader setting controls, expected 7`)
+    if (settingControls !== 8) {
+      fail(`${relativeFile} has ${settingControls} reader setting controls, expected 8`)
     }
 
     if (relativeFile.includes(`${path.sep}chapters${path.sep}`) && !/\bdata-page-controls\b/.test(html)) {

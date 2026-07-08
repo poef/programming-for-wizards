@@ -11,6 +11,17 @@ const siteDir = path.join(rootDir, "site")
 const siteChapterDir = path.join(siteDir, "chapters")
 const siteAssetDir = path.join(siteDir, "assets")
 const siteDataDir = path.join(siteDir, "data")
+const pretextDistDir = path.join(rootDir, "node_modules", "@chenglou", "pretext", "dist")
+const pretextRuntimeFiles = [
+  "layout.js",
+  "analysis.js",
+  "line-break.js",
+  "line-text.js",
+  "rich-inline.js",
+  "measurement.js",
+  "bidi.js",
+  "generated/bidi-data.js"
+]
 const interactiveExhibits = new Set([
   "same-problem-different-world",
   "numbers-are-machines",
@@ -118,6 +129,7 @@ async function main() {
   )
 
   await cp(path.join(phaseDir, "assets"), siteAssetDir, { recursive: true })
+  await copyPretextRuntime()
   await cp(
     path.join(exhibitPhaseDir, "assets"),
     path.join(siteAssetDir, "exhibits"),
@@ -135,6 +147,15 @@ async function readBook() {
   assertArray(book.parts, "book.parts")
 
   return book
+}
+
+async function copyPretextRuntime() {
+  const pretextAssetDir = path.join(siteAssetDir, "pretext")
+  await mkdir(path.join(pretextAssetDir, "generated"), { recursive: true })
+
+  for (const file of pretextRuntimeFiles) {
+    await cp(path.join(pretextDistDir, file), path.join(pretextAssetDir, file))
+  }
 }
 
 async function readChapters(book) {
@@ -584,9 +605,10 @@ ${bodyRows.map(row => `<tr>${row.map(cell => `<td>${renderInline(cell)}</td>`).j
     const text = paragraph.join(" ")
     const id = this.uniqueId(`p-${this.chapter.number}-${slugify(stripInline(text), 8)}`)
     this.addAnchor(id, "paragraph", stripInline(text).slice(0, 120))
+    const isImageBlock = /^!\[[^\]]*]\([^)]+\)$/.test(text.trim())
 
     return {
-      html: `<p id="${id}" data-note-target>${renderInline(text)}</p>`,
+      html: `<p id="${id}"${isImageBlock ? ` class="image-block"` : ""} data-note-target>${renderInline(text)}</p>`,
       nextIndex: index
     }
   }
@@ -744,6 +766,12 @@ function readerMargin(relativeRoot, readerToolsDefault) {
           <option value="scroll">Scrolling</option>
         </select>
       </label>
+      <label>Typography
+        <select data-setting="typography">
+          <option value="browser">Browser</option>
+          <option value="pretext">Book</option>
+        </select>
+      </label>
       <label>Theme
         <select data-setting="theme">
           <option value="light">Light</option>
@@ -843,9 +871,8 @@ function chapterLayout(chapter, renderedBody, previous, next, chapters, chapterI
   </nav>
   </div>
   <div class="page-turner" data-page-controls hidden>
-    <button type="button" data-page-prev aria-label="Previous page">Previous</button>
-    <span data-page-status aria-live="polite">Page 1 of 1</span>
-    <button type="button" data-page-next aria-label="Next page">Next</button>
+    <button type="button" data-page-prev aria-label="Previous page"></button>
+    <button type="button" data-page-next aria-label="Next page"></button>
   </div>
 </main>`
 }

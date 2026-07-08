@@ -1,7 +1,7 @@
 {
   "id": "programming-for-wizards",
   "title": "Programming for Wizards",
-  "generatedAt": "2026-07-07T12:25:16.691Z",
+  "generatedAt": "2026-07-08T21:00:31.427Z",
   "phase": "01-enhanced-static-manuscript",
   "features": {
     "notes": "planned",
@@ -39,7 +39,7 @@
     {
       "id": "03-logic-turning-truth-into-machinery",
       "number": "03",
-      "title": "Logic: the truth is out there.",
+      "title": "Logic: the truth is out there",
       "part": "Part I: Representations are spells",
       "partId": "representations-are-spells",
       "url": "chapters/03-logic-turning-truth-into-machinery.html",
@@ -63,14 +63,14 @@
     {
       "id": "05-the-web-as-address",
       "number": "05",
-      "title": "The Web: one string to rule them all.",
+      "title": "The Web: one string to rule them all",
       "part": "Part II: The Web, from address to platform",
       "partId": "web-address-document-platform",
       "url": "chapters/05-the-web-as-address.html",
       "previous": "04-language-the-tool-that-changes-the-thinker",
       "next": "06-the-web-as-document",
       "wordCount": 2137,
-      "rule": null
+      "rule": "Wizard's fourth rule"
     },
     {
       "id": "06-the-web-as-document",
@@ -117,7 +117,7 @@
       "url": "chapters/09-every-program-contains-a-language.html",
       "previous": "08-programming-languages-are-for-humans",
       "next": "10-code-exhibit-extending-javascript-with-jaqt",
-      "wordCount": 597,
+      "wordCount": 611,
       "rule": "Wizard's eighth rule"
     },
     {
@@ -153,7 +153,7 @@
       "url": "chapters/12-objects-binding-data-behavior-and-time.html",
       "previous": "11-the-knitted-castle",
       "next": "13-architecture-arches-pyramids-and-change",
-      "wordCount": 1041,
+      "wordCount": 1059,
       "rule": "Wizard's tenth rule"
     },
     {
@@ -165,7 +165,7 @@
       "url": "chapters/13-architecture-arches-pyramids-and-change.html",
       "previous": "12-objects-binding-data-behavior-and-time",
       "next": "14-the-web-as-commons",
-      "wordCount": 1917,
+      "wordCount": 2545,
       "rule": "Wizard's eleventh rule"
     },
     {
@@ -177,8 +177,8 @@
       "url": "chapters/14-the-web-as-commons.html",
       "previous": "13-architecture-arches-pyramids-and-change",
       "next": "15-the-web-as-data",
-      "wordCount": 1619,
-      "rule": "Wizard's thirteenth rule"
+      "wordCount": 1487,
+      "rule": null
     },
     {
       "id": "15-the-web-as-data",
@@ -189,32 +189,32 @@
       "url": "chapters/15-the-web-as-data.html",
       "previous": "14-the-web-as-commons",
       "next": "16-the-web-as-home",
-      "wordCount": 2174,
-      "rule": "Wizard's fourteenth rule"
+      "wordCount": 1510,
+      "rule": null
     },
     {
       "id": "16-the-web-as-home",
       "number": "16",
-      "title": "The Web as home: your data should outlive your apps",
+      "title": "The Web as home: who owns your home directory?",
       "part": "Part V: Architecture, change, commons, and home",
       "partId": "architecture-change-commons-home",
       "url": "chapters/16-the-web-as-home.html",
       "previous": "15-the-web-as-data",
       "next": "17-rule-zero-there-are-no-rules",
-      "wordCount": 1473,
-      "rule": "Wizard's fifteenth rule"
+      "wordCount": 1228,
+      "rule": null
     },
     {
       "id": "17-rule-zero-there-are-no-rules",
       "number": "17",
-      "title": "Rule zero: there are no rules",
+      "title": "Epilogue: shifting ground",
       "part": "Epilogue",
       "partId": "epilogue",
       "url": "chapters/17-rule-zero-there-are-no-rules.html",
       "previous": "16-the-web-as-home",
       "next": null,
-      "wordCount": 137,
-      "rule": "Wizard's rule zero"
+      "wordCount": 173,
+      "rule": "Wizard's final rule"
     }
   ],
   "exhibits": [
@@ -224,30 +224,6 @@
       "chapter": "12-objects-binding-data-behavior-and-time",
       "title": "Binding Time Slider",
       "url": "chapters/12-objects-binding-data-behavior-and-time.html#exhibit-binding-time-slider",
-      "status": "placeholder"
-    },
-    {
-      "id": "innovation-happens-elsewhere",
-      "anchor": "exhibit-innovation-happens-elsewhere",
-      "chapter": "14-the-web-as-commons",
-      "title": "Innovation Happens Elsewhere",
-      "url": "chapters/14-the-web-as-commons.html#exhibit-innovation-happens-elsewhere",
-      "status": "placeholder"
-    },
-    {
-      "id": "linked-data-addresses",
-      "anchor": "exhibit-linked-data-addresses",
-      "chapter": "15-the-web-as-data",
-      "title": "Linked Data Addresses",
-      "url": "chapters/15-the-web-as-data.html#exhibit-linked-data-addresses",
-      "status": "placeholder"
-    },
-    {
-      "id": "web-home-directory",
-      "anchor": "exhibit-web-home-directory",
-      "chapter": "16-the-web-as-home",
-      "title": "Web Home Directory",
-      "url": "chapters/16-the-web-as-home.html#exhibit-web-home-directory",
       "status": "placeholder"
     }
   ],
@@ -275,6 +251,14 @@
       "label": "Wizard's third rule",
       "text": "Change the words. Change the world.",
       "url": "chapters/04-language-the-tool-that-changes-the-thinker.html#rule-04-wizards-third-rule"
+    },
+    {
+      "id": "05-the-web-as-address-1",
+      "anchor": "rule-05-wizards-fourth-rule",
+      "chapter": "05-the-web-as-address",
+      "label": "Wizard's fourth rule",
+      "text": "Start small, to build big.",
+      "url": "chapters/05-the-web-as-address.html#rule-05-wizards-fourth-rule"
     },
     {
       "id": "06-the-web-as-document-1",
@@ -333,36 +317,12 @@
       "url": "chapters/13-architecture-arches-pyramids-and-change.html#rule-13-wizards-eleventh-rule"
     },
     {
-      "id": "14-the-web-as-commons-1",
-      "anchor": "rule-14-wizards-thirteenth-rule",
-      "chapter": "14-the-web-as-commons",
-      "label": "Wizard's thirteenth rule",
-      "text": "A closed system must solve every problem itself. An open system needs boundaries clear enough for the world to bring the next answer.",
-      "url": "chapters/14-the-web-as-commons.html#rule-14-wizards-thirteenth-rule"
-    },
-    {
-      "id": "15-the-web-as-data-1",
-      "anchor": "rule-15-wizards-fourteenth-rule",
-      "chapter": "15-the-web-as-data",
-      "label": "Wizard's fourteenth rule",
-      "text": "Data becomes more useful when its meanings can travel farther than the program that first wrote it.",
-      "url": "chapters/15-the-web-as-data.html#rule-15-wizards-fourteenth-rule"
-    },
-    {
-      "id": "16-the-web-as-home-1",
-      "anchor": "rule-16-wizards-fifteenth-rule",
-      "chapter": "16-the-web-as-home",
-      "label": "Wizard's fifteenth rule",
-      "text": "Put the boundary where replacement should be cheap. If the user owns their identity and data, software can stay small enough to replace.",
-      "url": "chapters/16-the-web-as-home.html#rule-16-wizards-fifteenth-rule"
-    },
-    {
       "id": "17-rule-zero-there-are-no-rules-1",
-      "anchor": "rule-17-wizards-rule-zero",
+      "anchor": "rule-17-wizards-final-rule",
       "chapter": "17-rule-zero-there-are-no-rules",
-      "label": "Wizard's rule zero",
+      "label": "Wizard's final rule",
       "text": "There are no rules.",
-      "url": "chapters/17-rule-zero-there-are-no-rules.html#rule-17-wizards-rule-zero"
+      "url": "chapters/17-rule-zero-there-are-no-rules.html#rule-17-wizards-final-rule"
     }
   ],
   "anchors": [
@@ -950,7 +910,7 @@
     {
       "id": "h-03-logic-the-truth-is-out-there",
       "type": "heading",
-      "label": "Logic: the truth is out there.",
+      "label": "Logic: the truth is out there",
       "chapter": "03-logic-turning-truth-into-machinery",
       "url": "chapters/03-logic-turning-truth-into-machinery.html#h-03-logic-the-truth-is-out-there"
     },
@@ -1370,7 +1330,7 @@
     {
       "id": "h-05-the-web-one-string-to-rule-them-all",
       "type": "heading",
-      "label": "The Web: one string to rule them all.",
+      "label": "The Web: one string to rule them all",
       "chapter": "05-the-web-as-address",
       "url": "chapters/05-the-web-as-address.html#h-05-the-web-one-string-to-rule-them-all"
     },
@@ -1625,6 +1585,13 @@
       "label": "The URL is an address, but it is also a tiny user interface to the network.",
       "chapter": "05-the-web-as-address",
       "url": "chapters/05-the-web-as-address.html#p-05-the-url-is-an-address-but-it-is"
+    },
+    {
+      "id": "rule-05-wizards-fourth-rule",
+      "type": "rule",
+      "label": "Wizard's fourth rule",
+      "chapter": "05-the-web-as-address",
+      "url": "chapters/05-the-web-as-address.html#rule-05-wizards-fourth-rule"
     },
     {
       "id": "h-05-the-path-unix-hiding-in-plain-sight",
@@ -3067,6 +3034,13 @@
       "label": "But the most important thing to remember is that you are creating a new language whenever you add any variable, function",
       "chapter": "09-every-program-contains-a-language",
       "url": "chapters/09-every-program-contains-a-language.html#p-09-but-the-most-important-thing-to-remember-is"
+    },
+    {
+      "id": "p-09-most-names-only-need-to-work-inside-one",
+      "type": "paragraph",
+      "label": "Most names only need to work inside one program. Some eventually want to leave.",
+      "chapter": "09-every-program-contains-a-language",
+      "url": "chapters/09-every-program-contains-a-language.html#p-09-most-names-only-need-to-work-inside-one"
     },
     {
       "id": "p-09-lets-make-that-practical",
@@ -4609,11 +4583,53 @@
       "url": "chapters/12-objects-binding-data-behavior-and-time.html#p-12-this-is-the-same-move-we-have-seen"
     },
     {
+      "id": "p-12-at-a-large-enough-scale-architecture-is-also",
+      "type": "paragraph",
+      "label": "At a large enough scale, architecture is also a question of when things are allowed to become fixed.",
+      "chapter": "12-objects-binding-data-behavior-and-time",
+      "url": "chapters/12-objects-binding-data-behavior-and-time.html#p-12-at-a-large-enough-scale-architecture-is-also"
+    },
+    {
       "id": "h-13-architecture-arches-pyramids-and-change",
       "type": "heading",
       "label": "Architecture: arches, pyramids, and change",
       "chapter": "13-architecture-arches-pyramids-and-change",
       "url": "chapters/13-architecture-arches-pyramids-and-change.html#h-13-architecture-arches-pyramids-and-change"
+    },
+    {
+      "id": "p-13-open-a-modern-web-project-and-ask-a",
+      "type": "paragraph",
+      "label": "Open a modern web project and ask a simple question:",
+      "chapter": "13-architecture-arches-pyramids-and-change",
+      "url": "chapters/13-architecture-arches-pyramids-and-change.html#p-13-open-a-modern-web-project-and-ask-a"
+    },
+    {
+      "id": "p-13-what-does-it-take-to-show-one-useful",
+      "type": "paragraph",
+      "label": "What does it take to show one useful page?",
+      "chapter": "13-architecture-arches-pyramids-and-change",
+      "url": "chapters/13-architecture-arches-pyramids-and-change.html#p-13-what-does-it-take-to-show-one-useful"
+    },
+    {
+      "id": "p-13-sometimes-the-answer-starts-with-a-folder-called",
+      "type": "paragraph",
+      "label": "Sometimes the answer starts with a folder called nodemodules.",
+      "chapter": "13-architecture-arches-pyramids-and-change",
+      "url": "chapters/13-architecture-arches-pyramids-and-change.html#p-13-sometimes-the-answer-starts-with-a-folder-called"
+    },
+    {
+      "id": "p-13-this-folder-may-contain-more-files-than-the",
+      "type": "paragraph",
+      "label": "This folder may contain more files than the program you are writing by several orders of magnitude. It may contain packa",
+      "chapter": "13-architecture-arches-pyramids-and-change",
+      "url": "chapters/13-architecture-arches-pyramids-and-change.html#p-13-this-folder-may-contain-more-files-than-the"
+    },
+    {
+      "id": "p-13-still-when-your-own-code-is-a-handful",
+      "type": "paragraph",
+      "label": "Still, when your own code is a handful of files and the supporting pile is large enough to need archaeology, it is fair ",
+      "chapter": "13-architecture-arches-pyramids-and-change",
+      "url": "chapters/13-architecture-arches-pyramids-and-change.html#p-13-still-when-your-own-code-is-a-handful"
     },
     {
       "id": "p-13-alan-kay-once-compared-modern-software-to-pyramid",
@@ -4623,221 +4639,263 @@
       "url": "chapters/13-architecture-arches-pyramids-and-change.html#p-13-alan-kay-once-compared-modern-software-to-pyramid"
     },
     {
-      "id": "p-13-at-first-it-sounds-like-the-kind-of",
+      "id": "p-13-this-is-a-cruel-image-but-not-an",
       "type": "paragraph",
-      "label": "At first it sounds like the kind of thing software people say when they want to sound disappointed in the entire industr",
+      "label": "This is a cruel image, but not an empty one.",
       "chapter": "13-architecture-arches-pyramids-and-change",
-      "url": "chapters/13-architecture-arches-pyramids-and-change.html#p-13-at-first-it-sounds-like-the-kind-of"
+      "url": "chapters/13-architecture-arches-pyramids-and-change.html#p-13-this-is-a-cruel-image-but-not-an"
     },
     {
-      "id": "p-13-but-the-metaphor-is-worth-taking-seriously",
+      "id": "p-13-a-pyramid-is-not-stupid-it-works-if",
       "type": "paragraph",
-      "label": "But the metaphor is worth taking seriously.",
+      "label": "A pyramid is not stupid. It works. If you need height and you do not have a better structural trick, piling up stone is ",
       "chapter": "13-architecture-arches-pyramids-and-change",
-      "url": "chapters/13-architecture-arches-pyramids-and-change.html#p-13-but-the-metaphor-is-worth-taking-seriously"
+      "url": "chapters/13-architecture-arches-pyramids-and-change.html#p-13-a-pyramid-is-not-stupid-it-works-if"
     },
     {
-      "id": "p-13-a-pyramid-is-not-a-stupid-structure-it",
+      "id": "p-13-but-a-pyramid-gets-height-by-adding-mass",
       "type": "paragraph",
-      "label": "A pyramid is not a stupid structure. It is an extremely successful one. If your goal is to build something large, stable",
+      "label": "But a pyramid gets height by adding mass.",
       "chapter": "13-architecture-arches-pyramids-and-change",
-      "url": "chapters/13-architecture-arches-pyramids-and-change.html#p-13-a-pyramid-is-not-a-stupid-structure-it"
+      "url": "chapters/13-architecture-arches-pyramids-and-change.html#p-13-but-a-pyramid-gets-height-by-adding-mass"
     },
     {
-      "id": "p-13-it-is-also-a-very-expensive-way-to",
+      "id": "p-13-an-arch-gets-height-by-arranging-force",
       "type": "paragraph",
-      "label": "It is also a very expensive way to create height.",
+      "label": "An arch gets height by arranging force.",
       "chapter": "13-architecture-arches-pyramids-and-change",
-      "url": "chapters/13-architecture-arches-pyramids-and-change.html#p-13-it-is-also-a-very-expensive-way-to"
+      "url": "chapters/13-architecture-arches-pyramids-and-change.html#p-13-an-arch-gets-height-by-arranging-force"
     },
     {
-      "id": "p-13-and-a-terrible-way-to-create-empty-space",
+      "id": "p-13-that-is-the-useful-part-of-the-metaphor",
       "type": "paragraph",
-      "label": "And a terrible way to create empty space.",
+      "label": "That is the useful part of the metaphor. The arch does not make gravity go away. It does not make stone lighter. It chan",
       "chapter": "13-architecture-arches-pyramids-and-change",
-      "url": "chapters/13-architecture-arches-pyramids-and-change.html#p-13-and-a-terrible-way-to-create-empty-space"
+      "url": "chapters/13-architecture-arches-pyramids-and-change.html#p-13-that-is-the-useful-part-of-the-metaphor"
     },
     {
-      "id": "p-13-an-arch-solves-a-different-problem-it-does",
+      "id": "p-13-so-the-software-question-is-not",
       "type": "paragraph",
-      "label": "An arch solves a different problem. It does not win by adding more material. It wins by arranging the material different",
+      "label": "So the software question is not:",
       "chapter": "13-architecture-arches-pyramids-and-change",
-      "url": "chapters/13-architecture-arches-pyramids-and-change.html#p-13-an-arch-solves-a-different-problem-it-does"
+      "url": "chapters/13-architecture-arches-pyramids-and-change.html#p-13-so-the-software-question-is-not"
     },
     {
-      "id": "p-13-that-is-the-part-kays-metaphor-points-at",
+      "id": "p-13-how-do-we-make-a-prettier-diagram",
       "type": "paragraph",
-      "label": "That is the part Kay's metaphor points at.",
+      "label": "How do we make a prettier diagram?",
       "chapter": "13-architecture-arches-pyramids-and-change",
-      "url": "chapters/13-architecture-arches-pyramids-and-change.html#p-13-that-is-the-part-kays-metaphor-points-at"
+      "url": "chapters/13-architecture-arches-pyramids-and-change.html#p-13-how-do-we-make-a-prettier-diagram"
     },
     {
-      "id": "p-13-software-is-very-good-at-piling-up-stones",
+      "id": "p-13-the-question-is",
       "type": "paragraph",
-      "label": "Software is very good at piling up stones.",
+      "label": "The question is:",
       "chapter": "13-architecture-arches-pyramids-and-change",
-      "url": "chapters/13-architecture-arches-pyramids-and-change.html#p-13-software-is-very-good-at-piling-up-stones"
+      "url": "chapters/13-architecture-arches-pyramids-and-change.html#p-13-the-question-is"
     },
     {
-      "id": "p-13-more-code-more-packages-more-layers-more-services",
+      "id": "p-13-what-are-we-carrying-and-is-there-a",
       "type": "paragraph",
-      "label": "More code. More packages. More layers. More services. More configuration. More process. More diagrams explaining why the",
+      "label": "What are we carrying, and is there a better way to carry it?",
       "chapter": "13-architecture-arches-pyramids-and-change",
-      "url": "chapters/13-architecture-arches-pyramids-and-change.html#p-13-more-code-more-packages-more-layers-more-services"
+      "url": "chapters/13-architecture-arches-pyramids-and-change.html#p-13-what-are-we-carrying-and-is-there-a"
     },
     {
-      "id": "p-13-sometimes-the-pile-works-pyramids-do-work-but",
-      "type": "paragraph",
-      "label": "Sometimes the pile works. Pyramids do work. But if every new problem asks for more stone, more carrying, more coordinati",
-      "chapter": "13-architecture-arches-pyramids-and-change",
-      "url": "chapters/13-architecture-arches-pyramids-and-change.html#p-13-sometimes-the-pile-works-pyramids-do-work-but"
-    },
-    {
-      "id": "p-13-so-the-question-for-this-chapter-is",
-      "type": "paragraph",
-      "label": "So the question for this chapter is:",
-      "chapter": "13-architecture-arches-pyramids-and-change",
-      "url": "chapters/13-architecture-arches-pyramids-and-change.html#p-13-so-the-question-for-this-chapter-is"
-    },
-    {
-      "id": "p-13-what-would-a-software-arch-look-like",
-      "type": "paragraph",
-      "label": "What would a software arch look like?",
-      "chapter": "13-architecture-arches-pyramids-and-change",
-      "url": "chapters/13-architecture-arches-pyramids-and-change.html#p-13-what-would-a-software-arch-look-like"
-    },
-    {
-      "id": "h-13-pyramids-and-arches",
+      "id": "h-13-the-pile",
       "type": "heading",
-      "label": "Pyramids and arches",
+      "label": "The pile",
       "chapter": "13-architecture-arches-pyramids-and-change",
-      "url": "chapters/13-architecture-arches-pyramids-and-change.html#h-13-pyramids-and-arches"
+      "url": "chapters/13-architecture-arches-pyramids-and-change.html#h-13-the-pile"
     },
     {
-      "id": "p-13-i-used-to-think-the-word-architecture-had",
+      "id": "p-13-software-is-very-good-at-becoming-a-pile",
       "type": "paragraph",
-      "label": "I used to think the word architecture had its roots in the word arch, which had its roots in arc. Unfortunately the worl",
+      "label": "Software is very good at becoming a pile.",
       "chapter": "13-architecture-arches-pyramids-and-change",
-      "url": "chapters/13-architecture-arches-pyramids-and-change.html#p-13-i-used-to-think-the-word-architecture-had"
+      "url": "chapters/13-architecture-arches-pyramids-and-change.html#p-13-software-is-very-good-at-becoming-a-pile"
     },
     {
-      "id": "p-13-still-i-maintain-that-real-architecture-starts-when",
+      "id": "p-13-you-start-with-a-page",
       "type": "paragraph",
-      "label": "Still, I maintain that real architecture starts when people stop only piling material and begin using the forces inside ",
+      "label": "You start with a page.",
       "chapter": "13-architecture-arches-pyramids-and-change",
-      "url": "chapters/13-architecture-arches-pyramids-and-change.html#p-13-still-i-maintain-that-real-architecture-starts-when"
+      "url": "chapters/13-architecture-arches-pyramids-and-change.html#p-13-you-start-with-a-page"
     },
     {
-      "id": "p-13-the-egyptians-built-some-impressive-pyramids-we-still",
+      "id": "p-13-then-the-page-needs-a-route-fine-then",
       "type": "paragraph",
-      "label": "The Egyptians built some impressive pyramids. We still do not know every detail of how they pulled it off. There are the",
+      "label": "Then the page needs a route. Fine. Then it needs a little state, because of course it does. Someone has to log in. Someo",
       "chapter": "13-architecture-arches-pyramids-and-change",
-      "url": "chapters/13-architecture-arches-pyramids-and-change.html#p-13-the-egyptians-built-some-impressive-pyramids-we-still"
+      "url": "chapters/13-architecture-arches-pyramids-and-change.html#p-13-then-the-page-needs-a-route-fine-then"
     },
     {
-      "id": "p-13-the-roman-arch-is-something-else-the-arch",
+      "id": "p-13-so-you-add-better-logs",
       "type": "paragraph",
-      "label": "The Roman arch is something else. The arch existed before the Romans, but the Romans were very good at spotting useful i",
+      "label": "So you add better logs.",
       "chapter": "13-architecture-arches-pyramids-and-change",
-      "url": "chapters/13-architecture-arches-pyramids-and-change.html#p-13-the-roman-arch-is-something-else-the-arch"
+      "url": "chapters/13-architecture-arches-pyramids-and-change.html#p-13-so-you-add-better-logs"
     },
     {
-      "id": "p-13-this-matters-because-the-arch-is-not-just",
+      "id": "p-13-again-none-of-these-things-are-foolish-by",
       "type": "paragraph",
-      "label": "This matters because the arch is not just a shape. It is a different answer to the same world.",
+      "label": "Again, none of these things are foolish by themselves. Most software mass arrives one sensible decision at a time.",
       "chapter": "13-architecture-arches-pyramids-and-change",
-      "url": "chapters/13-architecture-arches-pyramids-and-change.html#p-13-this-matters-because-the-arch-is-not-just"
+      "url": "chapters/13-architecture-arches-pyramids-and-change.html#p-13-again-none-of-these-things-are-foolish-by"
     },
     {
-      "id": "p-13-gravity-did-not-go-away-stone-did-not",
+      "id": "p-13-this-is-why-software-piles-are-so-hard",
       "type": "paragraph",
-      "label": "Gravity did not go away. Stone did not become lighter. The problem was reframed. The builder learned to arrange the piec",
+      "label": "This is why software piles are so hard to see while they are forming. Nobody says, \"Today I will make this system too he",
       "chapter": "13-architecture-arches-pyramids-and-change",
-      "url": "chapters/13-architecture-arches-pyramids-and-change.html#p-13-gravity-did-not-go-away-stone-did-not"
+      "url": "chapters/13-architecture-arches-pyramids-and-change.html#p-13-this-is-why-software-piles-are-so-hard"
     },
     {
-      "id": "p-13-that-is-what-makes-the-image-useful-for",
+      "id": "p-13-and-often-they-are-right",
       "type": "paragraph",
-      "label": "That is what makes the image useful for software.",
+      "label": "And often they are right.",
       "chapter": "13-architecture-arches-pyramids-and-change",
-      "url": "chapters/13-architecture-arches-pyramids-and-change.html#p-13-that-is-what-makes-the-image-useful-for"
+      "url": "chapters/13-architecture-arches-pyramids-and-change.html#p-13-and-often-they-are-right"
     },
     {
-      "id": "p-13-a-software-arch-would-not-be-a-prettier",
+      "id": "p-13-the-trouble-starts-when-every-problem-has-the",
       "type": "paragraph",
-      "label": "A software arch would not be a prettier diagram. It would not be another layer on the pile. It would be a way of arrangi",
+      "label": "The trouble starts when every problem has the same answer: add another stone.",
       "chapter": "13-architecture-arches-pyramids-and-change",
-      "url": "chapters/13-architecture-arches-pyramids-and-change.html#p-13-a-software-arch-would-not-be-a-prettier"
+      "url": "chapters/13-architecture-arches-pyramids-and-change.html#p-13-the-trouble-starts-when-every-problem-has-the"
     },
     {
-      "id": "p-13-which-forces-though",
+      "id": "p-13-more-code-more-packages-more-services-more-configuration",
       "type": "paragraph",
-      "label": "Which forces though?",
+      "label": "More code. More packages. More services. More configuration. More process. More meetings to keep the process coordinated",
       "chapter": "13-architecture-arches-pyramids-and-change",
-      "url": "chapters/13-architecture-arches-pyramids-and-change.html#p-13-which-forces-though"
+      "url": "chapters/13-architecture-arches-pyramids-and-change.html#p-13-more-code-more-packages-more-services-more-configuration"
     },
     {
-      "id": "p-13-in-buildings-some-of-the-forces-are-literal",
+      "id": "p-13-sometimes-the-pile-is-the-correct-answer-a",
       "type": "paragraph",
-      "label": "In buildings, some of the forces are literal: weight, compression, tension, wind, earthquakes, water, time. In software,",
+      "label": "Sometimes the pile is the correct answer. A pyramid is a valid structure. But if every new bit of height requires a larg",
       "chapter": "13-architecture-arches-pyramids-and-change",
-      "url": "chapters/13-architecture-arches-pyramids-and-change.html#p-13-in-buildings-some-of-the-forces-are-literal"
+      "url": "chapters/13-architecture-arches-pyramids-and-change.html#p-13-sometimes-the-pile-is-the-correct-answer-a"
     },
     {
-      "id": "p-13-a-software-architecture-that-ignores-those-forces-is",
-      "type": "paragraph",
-      "label": "A software architecture that ignores those forces is just decoration.",
-      "chapter": "13-architecture-arches-pyramids-and-change",
-      "url": "chapters/13-architecture-arches-pyramids-and-change.html#p-13-a-software-architecture-that-ignores-those-forces-is"
-    },
-    {
-      "id": "h-13-architecture-as-force",
+      "id": "h-13-the-arch",
       "type": "heading",
-      "label": "Architecture as force",
+      "label": "The arch",
       "chapter": "13-architecture-arches-pyramids-and-change",
-      "url": "chapters/13-architecture-arches-pyramids-and-change.html#h-13-architecture-as-force"
+      "url": "chapters/13-architecture-arches-pyramids-and-change.html#h-13-the-arch"
     },
     {
-      "id": "p-13-architecture-is-not-only-the-shape-of-a",
+      "id": "p-13-i-used-to-think-the-word-architecture-came",
       "type": "paragraph",
-      "label": "Architecture is not only the shape of a thing. It is the way a thing carries force.",
+      "label": "I used to think the word architecture came from arch, which came from arc, which would have been wonderfully convenient ",
       "chapter": "13-architecture-arches-pyramids-and-change",
-      "url": "chapters/13-architecture-arches-pyramids-and-change.html#p-13-architecture-is-not-only-the-shape-of-a"
+      "url": "chapters/13-architecture-arches-pyramids-and-change.html#p-13-i-used-to-think-the-word-architecture-came"
     },
     {
-      "id": "p-13-a-pyramid-carries-force-by-being-massive-each",
+      "id": "p-13-still-real-architecture-begins-when-people-stop-only",
       "type": "paragraph",
-      "label": "A pyramid carries force by being massive. Each stone pushes down on the stones below it. An arch does something stranger",
+      "label": "Still, real architecture begins when people stop only piling material and start using the forces inside the material.",
       "chapter": "13-architecture-arches-pyramids-and-change",
-      "url": "chapters/13-architecture-arches-pyramids-and-change.html#p-13-a-pyramid-carries-force-by-being-massive-each"
+      "url": "chapters/13-architecture-arches-pyramids-and-change.html#p-13-still-real-architecture-begins-when-people-stop-only"
     },
     {
-      "id": "p-13-that-is-the-architectural-lesson-we-need-not",
+      "id": "p-13-the-egyptians-built-impressive-pyramids-we-still-do",
       "type": "paragraph",
-      "label": "That is the architectural lesson we need. Not columns, cornices, or software design patterns. The interesting question i",
+      "label": "The Egyptians built impressive pyramids. We still do not know every detail of how they did it. But the basic trick is vi",
       "chapter": "13-architecture-arches-pyramids-and-change",
-      "url": "chapters/13-architecture-arches-pyramids-and-change.html#p-13-that-is-the-architectural-lesson-we-need-not"
+      "url": "chapters/13-architecture-arches-pyramids-and-change.html#p-13-the-egyptians-built-impressive-pyramids-we-still-do"
     },
     {
-      "id": "h-13-software-arches",
+      "id": "p-13-the-roman-arch-is-a-different-answer-to",
+      "type": "paragraph",
+      "label": "The Roman arch is a different answer to the same pressure. The arch existed before the Romans, but the Romans were very ",
+      "chapter": "13-architecture-arches-pyramids-and-change",
+      "url": "chapters/13-architecture-arches-pyramids-and-change.html#p-13-the-roman-arch-is-a-different-answer-to"
+    },
+    {
+      "id": "p-13-nothing-magical-happened-to-the-stone-nobody-negotiated",
+      "type": "paragraph",
+      "label": "Nothing magical happened to the stone. Nobody negotiated with gravity. The builders just stopped treating weight as a re",
+      "chapter": "13-architecture-arches-pyramids-and-change",
+      "url": "chapters/13-architecture-arches-pyramids-and-change.html#p-13-nothing-magical-happened-to-the-stone-nobody-negotiated"
+    },
+    {
+      "id": "p-13-that-is-the-part-of-the-metaphor-i",
+      "type": "paragraph",
+      "label": "That is the part of the metaphor I want to keep. A software arch would not be another layer on top of the pile. It would",
+      "chapter": "13-architecture-arches-pyramids-and-change",
+      "url": "chapters/13-architecture-arches-pyramids-and-change.html#p-13-that-is-the-part-of-the-metaphor-i"
+    },
+    {
+      "id": "p-13-which-forces",
+      "type": "paragraph",
+      "label": "Which forces?",
+      "chapter": "13-architecture-arches-pyramids-and-change",
+      "url": "chapters/13-architecture-arches-pyramids-and-change.html#p-13-which-forces"
+    },
+    {
+      "id": "p-13-the-boring-ones-mostly-the-customer-who-says",
+      "type": "paragraph",
+      "label": "The boring ones, mostly. The customer who says, six months later, that when they said \"archive\" they did not mean \"delet",
+      "chapter": "13-architecture-arches-pyramids-and-change",
+      "url": "chapters/13-architecture-arches-pyramids-and-change.html#p-13-the-boring-ones-mostly-the-customer-who-says"
+    },
+    {
+      "id": "p-13-and-then-there-is-the-future-which-keeps",
+      "type": "paragraph",
+      "label": "And then there is the future, which keeps arriving before the system is ready.",
+      "chapter": "13-architecture-arches-pyramids-and-change",
+      "url": "chapters/13-architecture-arches-pyramids-and-change.html#p-13-and-then-there-is-the-future-which-keeps"
+    },
+    {
+      "id": "p-13-you-can-answer-all-of-this-by-adding",
+      "type": "paragraph",
+      "label": "You can answer all of this by adding more stuff. More rules, more checks, more meetings, more glue code, more careful co",
+      "chapter": "13-architecture-arches-pyramids-and-change",
+      "url": "chapters/13-architecture-arches-pyramids-and-change.html#p-13-you-can-answer-all-of-this-by-adding"
+    },
+    {
+      "id": "p-13-but-if-the-same-kind-of-weight-keeps",
+      "type": "paragraph",
+      "label": "But if the same kind of weight keeps returning, it is worth asking whether the system is saying things the hard way.",
+      "chapter": "13-architecture-arches-pyramids-and-change",
+      "url": "chapters/13-architecture-arches-pyramids-and-change.html#p-13-but-if-the-same-kind-of-weight-keeps"
+    },
+    {
+      "id": "p-13-that-is-where-language-comes-back-into-the",
+      "type": "paragraph",
+      "label": "That is where language comes back into the story. Not language as decoration. Language as the shape that decides which t",
+      "chapter": "13-architecture-arches-pyramids-and-change",
+      "url": "chapters/13-architecture-arches-pyramids-and-change.html#p-13-that-is-where-language-comes-back-into-the"
+    },
+    {
+      "id": "h-13-change-the-language",
       "type": "heading",
-      "label": "Software arches",
+      "label": "Change the language?",
       "chapter": "13-architecture-arches-pyramids-and-change",
-      "url": "chapters/13-architecture-arches-pyramids-and-change.html#h-13-software-arches"
+      "url": "chapters/13-architecture-arches-pyramids-and-change.html#h-13-change-the-language"
     },
     {
-      "id": "p-13-alan-kay-did-not-merely-complain-about-pyramids",
+      "id": "p-13-alan-kay-did-not-only-complain-about-pyramids",
       "type": "paragraph",
-      "label": "Alan Kay did not merely complain about pyramids. He also spent a good part of his career trying to build something close",
+      "label": "Alan Kay did not only complain about pyramids. He spent a good part of his career trying to build software that behaved ",
       "chapter": "13-architecture-arches-pyramids-and-change",
-      "url": "chapters/13-architecture-arches-pyramids-and-change.html#p-13-alan-kay-did-not-merely-complain-about-pyramids"
+      "url": "chapters/13-architecture-arches-pyramids-and-change.html#p-13-alan-kay-did-not-only-complain-about-pyramids"
     },
     {
       "id": "p-13-one-later-attempt-came-through-the-viewpoints-research",
       "type": "paragraph",
-      "label": "One later attempt came through the Viewpoints Research Institute, or VPRI. One of its projects asked an almost ridiculou",
+      "label": "One later attempt came through the Viewpoints Research Institute, or VPRI. One of its projects asked an almost rude ques",
       "chapter": "13-architecture-arches-pyramids-and-change",
       "url": "chapters/13-architecture-arches-pyramids-and-change.html#p-13-one-later-attempt-came-through-the-viewpoints-research"
+    },
+    {
+      "id": "p-13-how-much-software-would-it-take-to-build",
+      "type": "paragraph",
+      "label": "How much software would it take to build a complete personal computing system if you refused to accept the usual piles?",
+      "chapter": "13-architecture-arches-pyramids-and-change",
+      "url": "chapters/13-architecture-arches-pyramids-and-change.html#p-13-how-much-software-would-it-take-to-build"
     },
     {
       "id": "p-13-not-just-an-app-a-stack-graphics-networking",
@@ -4849,23 +4907,65 @@
     {
       "id": "p-13-the-vpri-answer-was-the-steps-project-the",
       "type": "paragraph",
-      "label": "The VPRI answer was the STEPS project. The numbers in the report are startling. A TCP/IP implementation in hundreds of l",
+      "label": "The VPRI answer was the STEPS project. The numbers in the report are startling:",
       "chapter": "13-architecture-arches-pyramids-and-change",
       "url": "chapters/13-architecture-arches-pyramids-and-change.html#p-13-the-vpri-answer-was-the-steps-project-the"
     },
     {
+      "id": "table-13-095",
+      "type": "table",
+      "label": "table",
+      "chapter": "13-architecture-arches-pyramids-and-change",
+      "url": "chapters/13-architecture-arches-pyramids-and-change.html#table-13-095"
+    },
+    {
+      "id": "p-13-these-are-not-neat-one-for-one-product",
+      "type": "paragraph",
+      "label": "These are not neat one-for-one product comparisons. The point is the scale of the attempt. VPRI was not trying to shave ",
+      "chapter": "13-architecture-arches-pyramids-and-change",
+      "url": "chapters/13-architecture-arches-pyramids-and-change.html#p-13-these-are-not-neat-one-for-one-product"
+    },
+    {
+      "id": "p-13-your-first-reaction-should-be-distrust",
+      "type": "paragraph",
+      "label": "Your first reaction should be distrust.",
+      "chapter": "13-architecture-arches-pyramids-and-change",
+      "url": "chapters/13-architecture-arches-pyramids-and-change.html#p-13-your-first-reaction-should-be-distrust"
+    },
+    {
+      "id": "p-13-good-distrust-is-healthy",
+      "type": "paragraph",
+      "label": "Good. Distrust is healthy.",
+      "chapter": "13-architecture-arches-pyramids-and-change",
+      "url": "chapters/13-architecture-arches-pyramids-and-change.html#p-13-good-distrust-is-healthy"
+    },
+    {
+      "id": "p-13-but-your-second-reaction-should-be-curiosity",
+      "type": "paragraph",
+      "label": "But your second reaction should be curiosity.",
+      "chapter": "13-architecture-arches-pyramids-and-change",
+      "url": "chapters/13-architecture-arches-pyramids-and-change.html#p-13-but-your-second-reaction-should-be-curiosity"
+    },
+    {
+      "id": "p-13-what-changed-did-they-merely-hide-the-pile",
+      "type": "paragraph",
+      "label": "What changed? Did they merely hide the pile somewhere else? Or did they find an arch?",
+      "chapter": "13-architecture-arches-pyramids-and-change",
+      "url": "chapters/13-architecture-arches-pyramids-and-change.html#p-13-what-changed-did-they-merely-hide-the-pile"
+    },
+    {
       "id": "p-13-the-trick-was-not-simply-writing-cleverer-c",
       "type": "paragraph",
-      "label": "The trick was not simply writing cleverer C.",
+      "label": "The trick was not simply writing cleverer C. VPRI treated language-making as an architectural tool.",
       "chapter": "13-architecture-arches-pyramids-and-change",
       "url": "chapters/13-architecture-arches-pyramids-and-change.html#p-13-the-trick-was-not-simply-writing-cleverer-c"
     },
     {
-      "id": "p-13-vpri-treated-language-making-as-an-architectural-tool",
+      "id": "p-13-each-domain-got-a-small-language-fitted-to",
       "type": "paragraph",
-      "label": "VPRI treated language-making as an architectural tool. Each domain got a small language fitted to that domain. The proje",
+      "label": "Each domain got a small language fitted to that domain. The project did not ask one general-purpose language to express ",
       "chapter": "13-architecture-arches-pyramids-and-change",
-      "url": "chapters/13-architecture-arches-pyramids-and-change.html#p-13-vpri-treated-language-making-as-an-architectural-tool"
+      "url": "chapters/13-architecture-arches-pyramids-and-change.html#p-13-each-domain-got-a-small-language-fitted-to"
     },
     {
       "id": "p-13-ometa-was-one-of-the-tools-that-made",
@@ -4875,116 +4975,151 @@
       "url": "chapters/13-architecture-arches-pyramids-and-change.html#p-13-ometa-was-one-of-the-tools-that-made"
     },
     {
-      "id": "p-13-but-ometa-itself-is-not-the-software-arch",
+      "id": "p-13-but-ometa-itself-is-not-the-arch",
       "type": "paragraph",
-      "label": "But OMeta itself is not the software arch.",
+      "label": "But OMeta itself is not the arch.",
       "chapter": "13-architecture-arches-pyramids-and-change",
-      "url": "chapters/13-architecture-arches-pyramids-and-change.html#p-13-but-ometa-itself-is-not-the-software-arch"
+      "url": "chapters/13-architecture-arches-pyramids-and-change.html#p-13-but-ometa-itself-is-not-the-arch"
     },
     {
-      "id": "p-13-nor-are-dsls-automatically-the-software-arch-a",
+      "id": "p-13-nor-are-dsls-automatically-the-arch-a-bad",
       "type": "paragraph",
-      "label": "Nor are DSLs automatically the software arch. A bad little language is just a bad little language with extra ceremony. W",
+      "label": "Nor are DSLs automatically the arch. A bad little language is just a bad little language with extra ceremony. We have al",
       "chapter": "13-architecture-arches-pyramids-and-change",
-      "url": "chapters/13-architecture-arches-pyramids-and-change.html#p-13-nor-are-dsls-automatically-the-software-arch-a"
+      "url": "chapters/13-architecture-arches-pyramids-and-change.html#p-13-nor-are-dsls-automatically-the-arch-a-bad"
     },
     {
-      "id": "p-13-the-vpri-lesson-is-more-general",
+      "id": "p-13-so-where-did-the-mass-go",
       "type": "paragraph",
-      "label": "The VPRI lesson is more general:",
+      "label": "So where did the mass go?",
       "chapter": "13-architecture-arches-pyramids-and-change",
-      "url": "chapters/13-architecture-arches-pyramids-and-change.html#p-13-the-vpri-lesson-is-more-general"
+      "url": "chapters/13-architecture-arches-pyramids-and-change.html#p-13-so-where-did-the-mass-go"
     },
     {
-      "id": "p-13-sometimes-the-architecture-is-not-the-arrangement-of",
+      "id": "p-13-some-of-it-went-into-the-languages-not",
       "type": "paragraph",
-      "label": "Sometimes the architecture is not the arrangement of modules. Sometimes the architecture is the arrangement of meanings.",
+      "label": "Some of it went into the languages. Not vanished, exactly. More like folded. The repeated machinery became grammar. The ",
       "chapter": "13-architecture-arches-pyramids-and-change",
-      "url": "chapters/13-architecture-arches-pyramids-and-change.html#p-13-sometimes-the-architecture-is-not-the-arrangement-of"
+      "url": "chapters/13-architecture-arches-pyramids-and-change.html#p-13-some-of-it-went-into-the-languages-not"
     },
     {
-      "id": "p-13-instead-of-piling-up-code-in-the-same",
+      "id": "p-13-that-is-the-architectural-move-hiding-inside-the",
       "type": "paragraph",
-      "label": "Instead of piling up code in the same old shapes, you ask what language would make the problem smaller. That is one poss",
+      "label": "That is the architectural move hiding inside the language trick.",
       "chapter": "13-architecture-arches-pyramids-and-change",
-      "url": "chapters/13-architecture-arches-pyramids-and-change.html#p-13-instead-of-piling-up-code-in-the-same"
+      "url": "chapters/13-architecture-arches-pyramids-and-change.html#p-13-that-is-the-architectural-move-hiding-inside-the"
     },
     {
-      "id": "h-13-rustic-architecture",
+      "id": "p-13-you-are-not-only-deciding-which-modules-talk",
+      "type": "paragraph",
+      "label": "You are not only deciding which modules talk to which other modules. You are deciding what the system is allowed to mean",
+      "chapter": "13-architecture-arches-pyramids-and-change",
+      "url": "chapters/13-architecture-arches-pyramids-and-change.html#p-13-you-are-not-only-deciding-which-modules-talk"
+    },
+    {
+      "id": "p-13-that-can-be-an-arch",
+      "type": "paragraph",
+      "label": "That can be an arch.",
+      "chapter": "13-architecture-arches-pyramids-and-change",
+      "url": "chapters/13-architecture-arches-pyramids-and-change.html#p-13-that-can-be-an-arch"
+    },
+    {
+      "id": "p-13-not-always-sometimes-it-is-just-a-private",
+      "type": "paragraph",
+      "label": "Not always. Sometimes it is just a private dialect with a README and a bad attitude. But when it works, the structure ge",
+      "chapter": "13-architecture-arches-pyramids-and-change",
+      "url": "chapters/13-architecture-arches-pyramids-and-change.html#p-13-not-always-sometimes-it-is-just-a-private"
+    },
+    {
+      "id": "h-13-better-can-still-lose",
       "type": "heading",
-      "label": "Rustic architecture",
+      "label": "Better can still lose",
       "chapter": "13-architecture-arches-pyramids-and-change",
-      "url": "chapters/13-architecture-arches-pyramids-and-change.html#h-13-rustic-architecture"
+      "url": "chapters/13-architecture-arches-pyramids-and-change.html#h-13-better-can-still-lose"
     },
     {
-      "id": "p-13-there-is-another-direction-that-is-just-as",
+      "id": "p-13-there-is-a-trap-here",
       "type": "paragraph",
-      "label": "There is another direction that is just as useful and less glamorous.",
+      "label": "There is a trap here.",
       "chapter": "13-architecture-arches-pyramids-and-change",
-      "url": "chapters/13-architecture-arches-pyramids-and-change.html#p-13-there-is-another-direction-that-is-just-as"
+      "url": "chapters/13-architecture-arches-pyramids-and-change.html#p-13-there-is-a-trap-here"
     },
     {
-      "id": "p-13-forget-the-monumental-building-for-a-moment-think",
+      "id": "p-13-once-you-see-a-beautiful-arch-you-may",
       "type": "paragraph",
-      "label": "Forget the monumental building for a moment. Think about local building. The village. The workshop. The kitchen table th",
+      "label": "Once you see a beautiful arch, you may start believing that the better structure should win. It should be smaller, clear",
       "chapter": "13-architecture-arches-pyramids-and-change",
-      "url": "chapters/13-architecture-arches-pyramids-and-change.html#p-13-forget-the-monumental-building-for-a-moment-think"
+      "url": "chapters/13-architecture-arches-pyramids-and-change.html#p-13-once-you-see-a-beautiful-arch-you-may"
     },
     {
-      "id": "p-13-software-architecture-often-wants-to-sound-like-skyscrapers",
+      "id": "p-13-software-history-does-not-have-these-manners",
       "type": "paragraph",
-      "label": "Software architecture often wants to sound like skyscrapers. The important documents use words like enterprise, platform",
+      "label": "Software history does not have these manners.",
       "chapter": "13-architecture-arches-pyramids-and-change",
-      "url": "chapters/13-architecture-arches-pyramids-and-change.html#p-13-software-architecture-often-wants-to-sound-like-skyscrapers"
-    },
-    {
-      "id": "p-13-this-is-where-the-neat-engineering-story-starts",
-      "type": "paragraph",
-      "label": "This is where the neat engineering story starts to blur.",
-      "chapter": "13-architecture-arches-pyramids-and-change",
-      "url": "chapters/13-architecture-arches-pyramids-and-change.html#p-13-this-is-where-the-neat-engineering-story-starts"
-    },
-    {
-      "id": "p-13-if-software-were-only-a-matter-of-arranging",
-      "type": "paragraph",
-      "label": "If software were only a matter of arranging known forces, architecture might be simpler. But software changes the forces",
-      "chapter": "13-architecture-arches-pyramids-and-change",
-      "url": "chapters/13-architecture-arches-pyramids-and-change.html#p-13-if-software-were-only-a-matter-of-arranging"
-    },
-    {
-      "id": "p-13-a-bridge-does-not-usually-make-people-invent",
-      "type": "paragraph",
-      "label": "A bridge does not usually make people invent a new kind of river.",
-      "chapter": "13-architecture-arches-pyramids-and-change",
-      "url": "chapters/13-architecture-arches-pyramids-and-change.html#p-13-a-bridge-does-not-usually-make-people-invent"
-    },
-    {
-      "id": "p-13-software-does-that-sort-of-thing-all-the",
-      "type": "paragraph",
-      "label": "Software does that sort of thing all the time.",
-      "chapter": "13-architecture-arches-pyramids-and-change",
-      "url": "chapters/13-architecture-arches-pyramids-and-change.html#p-13-software-does-that-sort-of-thing-all-the"
-    },
-    {
-      "id": "p-13-so-perhaps-software-architecture-cannot-be-the-art",
-      "type": "paragraph",
-      "label": "So perhaps software architecture cannot be the art of designing the perfect structure. The perfect structure would have ",
-      "chapter": "13-architecture-arches-pyramids-and-change",
-      "url": "chapters/13-architecture-arches-pyramids-and-change.html#p-13-so-perhaps-software-architecture-cannot-be-the-art"
-    },
-    {
-      "id": "p-13-this-brings-us-to-two-old-essays-that",
-      "type": "paragraph",
-      "label": "This brings us to two old essays that seem, at first, to be about a different question.",
-      "chapter": "13-architecture-arches-pyramids-and-change",
-      "url": "chapters/13-architecture-arches-pyramids-and-change.html#p-13-this-brings-us-to-two-old-essays-that"
+      "url": "chapters/13-architecture-arches-pyramids-and-change.html#p-13-software-history-does-not-have-these-manners"
     },
     {
       "id": "p-13-richard-p-gabriel-wrote-the-rise-of-worse",
       "type": "paragraph",
-      "label": "Richard P. Gabriel wrote The Rise of “Worse is Better”. The uncomfortable claim is that software that is in some ways wo",
+      "label": "Richard P. Gabriel wrote The Rise of \"Worse is Better\", an essay with a title that still makes programmers uncomfortable",
       "chapter": "13-architecture-arches-pyramids-and-change",
       "url": "chapters/13-architecture-arches-pyramids-and-change.html#p-13-richard-p-gabriel-wrote-the-rise-of-worse"
+    },
+    {
+      "id": "p-13-once-it-wins-everyone-else-builds-on-it",
+      "type": "paragraph",
+      "label": "Once it wins, everyone else builds on it.",
+      "chapter": "13-architecture-arches-pyramids-and-change",
+      "url": "chapters/13-architecture-arches-pyramids-and-change.html#p-13-once-it-wins-everyone-else-builds-on-it"
+    },
+    {
+      "id": "p-13-then-the-better-idea-is-no-longer-competing",
+      "type": "paragraph",
+      "label": "Then the better idea is no longer competing with the original problem. It is competing with the installed world.",
+      "chapter": "13-architecture-arches-pyramids-and-change",
+      "url": "chapters/13-architecture-arches-pyramids-and-change.html#p-13-then-the-better-idea-is-no-longer-competing"
+    },
+    {
+      "id": "p-13-this-is-annoying-but-it-is-not-mysterious",
+      "type": "paragraph",
+      "label": "This is annoying, but it is not mysterious. A useful imperfect thing today changes what tomorrow needs. The perfect thin",
+      "chapter": "13-architecture-arches-pyramids-and-change",
+      "url": "chapters/13-architecture-arches-pyramids-and-change.html#p-13-this-is-annoying-but-it-is-not-mysterious"
+    },
+    {
+      "id": "p-13-this-does-not-mean-bad-software-is-noble",
+      "type": "paragraph",
+      "label": "This does not mean bad software is noble. It does not mean quality does not matter. It means timing is part of architect",
+      "chapter": "13-architecture-arches-pyramids-and-change",
+      "url": "chapters/13-architecture-arches-pyramids-and-change.html#p-13-this-does-not-mean-bad-software-is-noble"
+    },
+    {
+      "id": "p-13-once-something-works-people-start-leaning-on-it",
+      "type": "paragraph",
+      "label": "Once something works, people start leaning on it. They write tutorials. They build wrappers. They save files in its form",
+      "chapter": "13-architecture-arches-pyramids-and-change",
+      "url": "chapters/13-architecture-arches-pyramids-and-change.html#p-13-once-something-works-people-start-leaning-on-it"
+    },
+    {
+      "id": "p-13-an-arch-that-arrives-too-late-may-be",
+      "type": "paragraph",
+      "label": "An arch that arrives too late may be admired, studied, and ignored.",
+      "chapter": "13-architecture-arches-pyramids-and-change",
+      "url": "chapters/13-architecture-arches-pyramids-and-change.html#p-13-an-arch-that-arrives-too-late-may-be"
+    },
+    {
+      "id": "p-13-that-is-one-reason-software-architecture-is-harder",
+      "type": "paragraph",
+      "label": "That is one reason software architecture is harder than it looks. You are not only arranging code. You are arranging cod",
+      "chapter": "13-architecture-arches-pyramids-and-change",
+      "url": "chapters/13-architecture-arches-pyramids-and-change.html#p-13-that-is-one-reason-software-architecture-is-harder"
+    },
+    {
+      "id": "h-13-the-bazaar-is-not-the-opposite-of-architecture",
+      "type": "heading",
+      "label": "The bazaar is not the opposite of architecture",
+      "chapter": "13-architecture-arches-pyramids-and-change",
+      "url": "chapters/13-architecture-arches-pyramids-and-change.html#h-13-the-bazaar-is-not-the-opposite-of-architecture"
     },
     {
       "id": "p-13-eric-s-raymond-later-wrote-the-cathedral-and",
@@ -4994,67 +5129,53 @@
       "url": "chapters/13-architecture-arches-pyramids-and-change.html#p-13-eric-s-raymond-later-wrote-the-cathedral-and"
     },
     {
-      "id": "p-13-different-essays-same-warning-they-both-make-software",
+      "id": "p-13-this-image-is-useful-but-it-can-also",
       "type": "paragraph",
-      "label": "Different essays. Same warning. They both make software perfection look suspicious.",
+      "label": "This image is useful, but it can also make people silly.",
       "chapter": "13-architecture-arches-pyramids-and-change",
-      "url": "chapters/13-architecture-arches-pyramids-and-change.html#p-13-different-essays-same-warning-they-both-make-software"
+      "url": "chapters/13-architecture-arches-pyramids-and-change.html#p-13-this-image-is-useful-but-it-can-also"
     },
     {
-      "id": "p-13-a-working-good-enough-solution-now-is-always",
+      "id": "p-13-the-bazaar-is-not-good-because-it-is",
       "type": "paragraph",
-      "label": "A working good-enough solution now is always better than a perfect solution sometime in the future.",
+      "label": "The bazaar is not good because it is messy. Mess by itself is just mess. Anyone who has tried to use an abandoned open s",
       "chapter": "13-architecture-arches-pyramids-and-change",
-      "url": "chapters/13-architecture-arches-pyramids-and-change.html#p-13-a-working-good-enough-solution-now-is-always"
+      "url": "chapters/13-architecture-arches-pyramids-and-change.html#p-13-the-bazaar-is-not-good-because-it-is"
     },
     {
-      "id": "p-13-i-know-always-is-a-dangerous-word-good",
+      "id": "p-13-the-useful-part-is-that-many-people-can",
       "type": "paragraph",
-      "label": "I know. Always is a dangerous word. Good. Dangerous words wake people up.",
+      "label": "The useful part is that many people can react, repair, extend, and redirect the work while the world is still changing. ",
       "chapter": "13-architecture-arches-pyramids-and-change",
-      "url": "chapters/13-architecture-arches-pyramids-and-change.html#p-13-i-know-always-is-a-dangerous-word-good"
+      "url": "chapters/13-architecture-arches-pyramids-and-change.html#p-13-the-useful-part-is-that-many-people-can"
     },
     {
-      "id": "p-13-the-reason-is-not-that-bad-software-is",
+      "id": "p-13-someone-has-to-be-able-to-find-the",
       "type": "paragraph",
-      "label": "The reason is not that bad software is noble. It is not that quality does not matter. It is that the future solution is ",
+      "label": "Someone has to be able to find the code. Someone has to know where a bug report goes. A patch needs somewhere to land, a",
       "chapter": "13-architecture-arches-pyramids-and-change",
-      "url": "chapters/13-architecture-arches-pyramids-and-change.html#p-13-the-reason-is-not-that-bad-software-is"
+      "url": "chapters/13-architecture-arches-pyramids-and-change.html#p-13-someone-has-to-be-able-to-find-the"
     },
     {
-      "id": "p-13-and-by-then-the-world-may-have-learned",
+      "id": "p-13-the-linux-kernel-is-a-good-example-because",
       "type": "paragraph",
-      "label": "And by then the world may have learned to ask another question.",
+      "label": "The Linux kernel is a good example because it refuses to be simple.",
       "chapter": "13-architecture-arches-pyramids-and-change",
-      "url": "chapters/13-architecture-arches-pyramids-and-change.html#p-13-and-by-then-the-world-may-have-learned"
+      "url": "chapters/13-architecture-arches-pyramids-and-change.html#p-13-the-linux-kernel-is-a-good-example-because"
     },
     {
-      "id": "h-13-scale-and-change",
-      "type": "heading",
-      "label": "Scale and change",
+      "id": "p-13-from-far-away-linux-is-the-bazaar-open",
+      "type": "paragraph",
+      "label": "From far away, Linux is the bazaar. Open source. Many contributors. A system shaped by the work of thousands of people a",
       "chapter": "13-architecture-arches-pyramids-and-change",
-      "url": "chapters/13-architecture-arches-pyramids-and-change.html#h-13-scale-and-change"
+      "url": "chapters/13-architecture-arches-pyramids-and-change.html#p-13-from-far-away-linux-is-the-bazaar-open"
     },
     {
-      "id": "p-13-the-linux-kernel-makes-this-wonderfully-confusing",
+      "id": "p-13-from-close-up-it-is-not-a-picnic",
       "type": "paragraph",
-      "label": "The Linux kernel makes this wonderfully confusing.",
+      "label": "From close up, it is not a picnic. It has maintainers, subsystems, rules, review, rituals, arguments, long memories, rel",
       "chapter": "13-architecture-arches-pyramids-and-change",
-      "url": "chapters/13-architecture-arches-pyramids-and-change.html#p-13-the-linux-kernel-makes-this-wonderfully-confusing"
-    },
-    {
-      "id": "p-13-from-far-away-linux-is-the-poster-child",
-      "type": "paragraph",
-      "label": "From far away, Linux is the poster child for the bazaar. Open source. Many contributors. A system shaped by the work of ",
-      "chapter": "13-architecture-arches-pyramids-and-change",
-      "url": "chapters/13-architecture-arches-pyramids-and-change.html#p-13-from-far-away-linux-is-the-poster-child"
-    },
-    {
-      "id": "p-13-from-close-up-it-does-not-look-like",
-      "type": "paragraph",
-      "label": "From close up, it does not look like anarchy. It is an enormous body of carefully reviewed code, with maintainers, subsy",
-      "chapter": "13-architecture-arches-pyramids-and-change",
-      "url": "chapters/13-architecture-arches-pyramids-and-change.html#p-13-from-close-up-it-does-not-look-like"
+      "url": "chapters/13-architecture-arches-pyramids-and-change.html#p-13-from-close-up-it-is-not-a-picnic"
     },
     {
       "id": "p-13-so-is-it-a-cathedral-or-a-bazaar",
@@ -5078,16 +5199,16 @@
       "url": "chapters/13-architecture-arches-pyramids-and-change.html#p-13-that-is-the-wrong-question"
     },
     {
-      "id": "p-13-the-useful-distinction-is-not-whether-software-is",
+      "id": "p-13-the-useful-question-is-whether-the-structure-can",
       "type": "paragraph",
-      "label": "The useful distinction is not whether software is planned or unplanned. Large successful software is almost always both.",
+      "label": "The useful question is whether the structure can keep changing without losing itself completely.",
       "chapter": "13-architecture-arches-pyramids-and-change",
-      "url": "chapters/13-architecture-arches-pyramids-and-change.html#p-13-the-useful-distinction-is-not-whether-software-is"
+      "url": "chapters/13-architecture-arches-pyramids-and-change.html#p-13-the-useful-question-is-whether-the-structure-can"
     },
     {
       "id": "p-13-that-is-the-force-software-architecture-has-to",
       "type": "paragraph",
-      "label": "That is the force software architecture has to handle.",
+      "label": "That is the force software architecture has to carry.",
       "chapter": "13-architecture-arches-pyramids-and-change",
       "url": "chapters/13-architecture-arches-pyramids-and-change.html#p-13-that-is-the-force-software-architecture-has-to"
     },
@@ -5099,16 +5220,37 @@
       "url": "chapters/13-architecture-arches-pyramids-and-change.html#p-13-change"
     },
     {
+      "id": "p-13-not-change-as-a-slogan-not-change-as",
+      "type": "paragraph",
+      "label": "Not change as a slogan. Not change as a slide with arrows on it. Plain, inconvenient change. The kind that arrives after",
+      "chapter": "13-architecture-arches-pyramids-and-change",
+      "url": "chapters/13-architecture-arches-pyramids-and-change.html#p-13-not-change-as-a-slogan-not-change-as"
+    },
+    {
+      "id": "h-13-being-wrong-without-breaking-everything",
+      "type": "heading",
+      "label": "Being wrong without breaking everything",
+      "chapter": "13-architecture-arches-pyramids-and-change",
+      "url": "chapters/13-architecture-arches-pyramids-and-change.html#h-13-being-wrong-without-breaking-everything"
+    },
+    {
       "id": "p-13-software-changes-the-world-and-is-changed-by",
       "type": "paragraph",
-      "label": "Software changes the world, and is changed by it. Any software you create has to live in an environment full of new uses",
+      "label": "Software changes the world, and is changed by it.",
       "chapter": "13-architecture-arches-pyramids-and-change",
       "url": "chapters/13-architecture-arches-pyramids-and-change.html#p-13-software-changes-the-world-and-is-changed-by"
     },
     {
+      "id": "p-13-any-useful-program-will-eventually-meet-new-machines",
+      "type": "paragraph",
+      "label": "Any useful program will eventually meet new machines, new uses, new libraries, new laws, new attacks, new expectations, ",
+      "chapter": "13-architecture-arches-pyramids-and-change",
+      "url": "chapters/13-architecture-arches-pyramids-and-change.html#p-13-any-useful-program-will-eventually-meet-new-machines"
+    },
+    {
       "id": "p-13-this-is-one-of-the-fundamental-differences-between",
       "type": "paragraph",
-      "label": "This is one of the fundamental differences between software and traditional engineering. It is also why software project",
+      "label": "This is one of the fundamental differences between software and older engineering metaphors.",
       "chapter": "13-architecture-arches-pyramids-and-change",
       "url": "chapters/13-architecture-arches-pyramids-and-change.html#p-13-this-is-one-of-the-fundamental-differences-between"
     },
@@ -5120,11 +5262,60 @@
       "url": "chapters/13-architecture-arches-pyramids-and-change.html#p-13-a-building-project-can-be-late-expensive-and"
     },
     {
-      "id": "p-13-architecture-is-not-certainty-it-is-a-way",
+      "id": "p-13-so-architecture-cannot-mean-certainty",
       "type": "paragraph",
-      "label": "Architecture is not certainty; it is a way to survive being wrong.",
+      "label": "So architecture cannot mean certainty.",
       "chapter": "13-architecture-arches-pyramids-and-change",
-      "url": "chapters/13-architecture-arches-pyramids-and-change.html#p-13-architecture-is-not-certainty-it-is-a-way"
+      "url": "chapters/13-architecture-arches-pyramids-and-change.html#p-13-so-architecture-cannot-mean-certainty"
+    },
+    {
+      "id": "p-13-certainty-is-too-expensive-and-usually-fake",
+      "type": "paragraph",
+      "label": "Certainty is too expensive, and usually fake.",
+      "chapter": "13-architecture-arches-pyramids-and-change",
+      "url": "chapters/13-architecture-arches-pyramids-and-change.html#p-13-certainty-is-too-expensive-and-usually-fake"
+    },
+    {
+      "id": "p-13-architecture-is-how-you-survive-being-wrong",
+      "type": "paragraph",
+      "label": "Architecture is how you survive being wrong.",
+      "chapter": "13-architecture-arches-pyramids-and-change",
+      "url": "chapters/13-architecture-arches-pyramids-and-change.html#p-13-architecture-is-how-you-survive-being-wrong"
+    },
+    {
+      "id": "p-13-you-will-choose-the-wrong-database-sometimes-you",
+      "type": "paragraph",
+      "label": "You will choose the wrong database sometimes. You will give a private thing a public name, or a public thing no name at ",
+      "chapter": "13-architecture-arches-pyramids-and-change",
+      "url": "chapters/13-architecture-arches-pyramids-and-change.html#p-13-you-will-choose-the-wrong-database-sometimes-you"
+    },
+    {
+      "id": "p-13-that-is-not-a-moral-failure-it-is",
+      "type": "paragraph",
+      "label": "That is not a moral failure. It is what happens when you have to work before the future has finished introducing itself.",
+      "chapter": "13-architecture-arches-pyramids-and-change",
+      "url": "chapters/13-architecture-arches-pyramids-and-change.html#p-13-that-is-not-a-moral-failure-it-is"
+    },
+    {
+      "id": "p-13-the-question-is-whether-being-wrong-breaks-everything",
+      "type": "paragraph",
+      "label": "The question is whether being wrong breaks everything.",
+      "chapter": "13-architecture-arches-pyramids-and-change",
+      "url": "chapters/13-architecture-arches-pyramids-and-change.html#p-13-the-question-is-whether-being-wrong-breaks-everything"
+    },
+    {
+      "id": "p-13-if-one-piece-is-wrong-can-it-be",
+      "type": "paragraph",
+      "label": "If one piece is wrong, can it be replaced without dragging half the system behind it? If the data has to move, did you l",
+      "chapter": "13-architecture-arches-pyramids-and-change",
+      "url": "chapters/13-architecture-arches-pyramids-and-change.html#p-13-if-one-piece-is-wrong-can-it-be"
+    },
+    {
+      "id": "p-13-the-diagram-may-help-the-vocabulary-may-help",
+      "type": "paragraph",
+      "label": "The diagram may help. The vocabulary may help. Layers may help, if they are honest layers and not just lines drawn throu",
+      "chapter": "13-architecture-arches-pyramids-and-change",
+      "url": "chapters/13-architecture-arches-pyramids-and-change.html#p-13-the-diagram-may-help-the-vocabulary-may-help"
     },
     {
       "id": "rule-13-wizards-eleventh-rule",
@@ -5134,25 +5325,39 @@
       "url": "chapters/13-architecture-arches-pyramids-and-change.html#rule-13-wizards-eleventh-rule"
     },
     {
-      "id": "p-13-if-the-world-keeps-changing-where-do-the",
+      "id": "p-13-if-being-wrong-is-normal-then-a-system",
       "type": "paragraph",
-      "label": "If the world keeps changing, where do the useful answers come from?",
+      "label": "If being wrong is normal, then a system cannot get all its answers from the room where it was designed.",
       "chapter": "13-architecture-arches-pyramids-and-change",
-      "url": "chapters/13-architecture-arches-pyramids-and-change.html#p-13-if-the-world-keeps-changing-where-do-the"
+      "url": "chapters/13-architecture-arches-pyramids-and-change.html#p-13-if-being-wrong-is-normal-then-a-system"
     },
     {
-      "id": "p-13-not-always-from-inside-your-project-not-even",
+      "id": "p-13-some-answers-arrive-later-carried-in-by-users",
       "type": "paragraph",
-      "label": "Not always from inside your project. Not even usually from inside your project, if the project is interesting enough. Ot",
+      "label": "Some answers arrive later, carried in by users, other tools, other communities, or people solving a problem you did not ",
       "chapter": "13-architecture-arches-pyramids-and-change",
-      "url": "chapters/13-architecture-arches-pyramids-and-change.html#p-13-not-always-from-inside-your-project-not-even"
+      "url": "chapters/13-architecture-arches-pyramids-and-change.html#p-13-some-answers-arrive-later-carried-in-by-users"
     },
     {
-      "id": "p-13-we-have-already-seen-one-place-where-small",
+      "id": "p-13-so-the-next-question-is-not-how-to",
       "type": "paragraph",
-      "label": "We have already seen one place where small agreements, visible boundaries, and shared names changed everything: the Web.",
+      "label": "So the next question is not how to make a system clever enough to predict all of that.",
       "chapter": "13-architecture-arches-pyramids-and-change",
-      "url": "chapters/13-architecture-arches-pyramids-and-change.html#p-13-we-have-already-seen-one-place-where-small"
+      "url": "chapters/13-architecture-arches-pyramids-and-change.html#p-13-so-the-next-question-is-not-how-to"
+    },
+    {
+      "id": "p-13-it-is-how-to-make-one-open-enough",
+      "type": "paragraph",
+      "label": "It is how to make one open enough to benefit from work you did not control.",
+      "chapter": "13-architecture-arches-pyramids-and-change",
+      "url": "chapters/13-architecture-arches-pyramids-and-change.html#p-13-it-is-how-to-make-one-open-enough"
+    },
+    {
+      "id": "p-13-that-is-where-the-web-comes-back-into",
+      "type": "paragraph",
+      "label": "That is where the Web comes back into the story: not as something finished, but as shared ground we can still build on.",
+      "chapter": "13-architecture-arches-pyramids-and-change",
+      "url": "chapters/13-architecture-arches-pyramids-and-change.html#p-13-that-is-where-the-web-comes-back-into"
     },
     {
       "id": "h-14-the-web-as-commons-innovation-happens-elsewhere",
@@ -5174,6 +5379,27 @@
       "label": "Software changes the world, and then the changed world comes back for the software. That is annoying, but it is also the",
       "chapter": "14-the-web-as-commons",
       "url": "chapters/14-the-web-as-commons.html#p-14-software-changes-the-world-and-then-the-changed"
+    },
+    {
+      "id": "p-14-the-web-is-one-of-the-best-examples",
+      "type": "paragraph",
+      "label": "The Web is one of the best examples we have of software built for that kind of pressure. Not perfectly. Not innocently. ",
+      "chapter": "14-the-web-as-commons",
+      "url": "chapters/14-the-web-as-commons.html#p-14-the-web-is-one-of-the-best-examples"
+    },
+    {
+      "id": "p-14-that-helped-with-some-kinds-of-reuse-a",
+      "type": "paragraph",
+      "label": "That helped with some kinds of reuse. A page can link to another page. A browser can visit a server it has never seen be",
+      "chapter": "14-the-web-as-commons",
+      "url": "chapters/14-the-web-as-commons.html#p-14-that-helped-with-some-kinds-of-reuse-a"
+    },
+    {
+      "id": "p-14-but-the-web-as-we-actually-use-it",
+      "type": "paragraph",
+      "label": "But the Web as we actually use it has not made software as replaceable as documents. A web service usually arrives as on",
+      "chapter": "14-the-web-as-commons",
+      "url": "chapters/14-the-web-as-commons.html#p-14-but-the-web-as-we-actually-use-it"
     },
     {
       "id": "p-14-so-the-next-question-is-where-the-answers",
@@ -5246,88 +5472,11 @@
       "url": "chapters/14-the-web-as-commons.html#p-14-that-is-a-dangerous-place-to-put-the"
     },
     {
-      "id": "exhibit-innovation-happens-elsewhere",
-      "type": "exhibit",
-      "label": "Innovation Happens Elsewhere",
-      "chapter": "14-the-web-as-commons",
-      "url": "chapters/14-the-web-as-commons.html#exhibit-innovation-happens-elsewhere"
-    },
-    {
-      "id": "h-14-the-castle-and-the-bazaar-again",
-      "type": "heading",
-      "label": "The castle and the bazaar again",
-      "chapter": "14-the-web-as-commons",
-      "url": "chapters/14-the-web-as-commons.html#h-14-the-castle-and-the-bazaar-again"
-    },
-    {
-      "id": "p-14-the-last-chapter-mentioned-the-cathedral-and-the",
+      "id": "p-14-for-our-purposes-that-is-the-useful-part",
       "type": "paragraph",
-      "label": "The last chapter mentioned the cathedral and the bazaar. The image is useful, but it can also mislead.",
+      "label": "For our purposes, that is the useful part of the bazaar image: enough shared ground for strangers to contribute without ",
       "chapter": "14-the-web-as-commons",
-      "url": "chapters/14-the-web-as-commons.html#p-14-the-last-chapter-mentioned-the-cathedral-and-the"
-    },
-    {
-      "id": "p-14-the-bazaar-is-not-magic-because-it-is",
-      "type": "paragraph",
-      "label": "The bazaar is not magic because it is messy. Mess by itself is just mess. Anyone who has tried to use an undocumented pi",
-      "chapter": "14-the-web-as-commons",
-      "url": "chapters/14-the-web-as-commons.html#p-14-the-bazaar-is-not-magic-because-it-is"
-    },
-    {
-      "id": "p-14-the-bazaar-works-when-there-is-enough-shared",
-      "type": "paragraph",
-      "label": "The bazaar works when there is enough shared ground for strangers to contribute without first becoming subjects of the s",
-      "chapter": "14-the-web-as-commons",
-      "url": "chapters/14-the-web-as-commons.html#p-14-the-bazaar-works-when-there-is-enough-shared"
-    },
-    {
-      "id": "p-14-that-shared-ground-can-be-source-code-it",
-      "type": "paragraph",
-      "label": "That shared ground can be source code. It can be a protocol. It can be a file format. It can be a package system. It can",
-      "chapter": "14-the-web-as-commons",
-      "url": "chapters/14-the-web-as-commons.html#p-14-that-shared-ground-can-be-source-code-it"
-    },
-    {
-      "id": "p-14-the-important-part-is-that-the-boundary-is",
-      "type": "paragraph",
-      "label": "The important part is that the boundary is visible. Outsiders can see where to attach their work. They can replace one p",
-      "chapter": "14-the-web-as-commons",
-      "url": "chapters/14-the-web-as-commons.html#p-14-the-important-part-is-that-the-boundary-is"
-    },
-    {
-      "id": "p-14-this-is-why-openness-is-not-the-opposite",
-      "type": "paragraph",
-      "label": "This is why openness is not the opposite of architecture. It is a different demand on architecture.",
-      "chapter": "14-the-web-as-commons",
-      "url": "chapters/14-the-web-as-commons.html#p-14-this-is-why-openness-is-not-the-opposite"
-    },
-    {
-      "id": "p-14-a-closed-architecture-asks-how-do-we-make",
-      "type": "paragraph",
-      "label": "A closed architecture asks: how do we make all the parts work together under our control?",
-      "chapter": "14-the-web-as-commons",
-      "url": "chapters/14-the-web-as-commons.html#p-14-a-closed-architecture-asks-how-do-we-make"
-    },
-    {
-      "id": "p-14-an-open-architecture-asks-what-must-stay-stable",
-      "type": "paragraph",
-      "label": "An open architecture asks: what must stay stable so that people outside our control can still make useful things?",
-      "chapter": "14-the-web-as-commons",
-      "url": "chapters/14-the-web-as-commons.html#p-14-an-open-architecture-asks-what-must-stay-stable"
-    },
-    {
-      "id": "p-14-the-second-question-is-harder-in-a-less",
-      "type": "paragraph",
-      "label": "The second question is harder in a less glamorous way. It means saying no to private shortcuts. It means documenting thi",
-      "chapter": "14-the-web-as-commons",
-      "url": "chapters/14-the-web-as-commons.html#p-14-the-second-question-is-harder-in-a-less"
-    },
-    {
-      "id": "p-14-that-is-the-cost-of-letting-the-outside",
-      "type": "paragraph",
-      "label": "That is the cost of letting the outside world in.",
-      "chapter": "14-the-web-as-commons",
-      "url": "chapters/14-the-web-as-commons.html#p-14-that-is-the-cost-of-letting-the-outside"
+      "url": "chapters/14-the-web-as-commons.html#p-14-for-our-purposes-that-is-the-useful-part"
     },
     {
       "id": "h-14-the-web-was-built-this-way",
@@ -5351,11 +5500,11 @@
       "url": "chapters/14-the-web-as-commons.html#p-14-a-url-let-one-document-point-at-another"
     },
     {
-      "id": "p-14-people-built-browsers-people-built-servers-people-wrote",
+      "id": "p-14-people-built-browsers-and-servers-they-wrote-pages",
       "type": "paragraph",
-      "label": "People built browsers. People built servers. People wrote pages. People invented terrible layout tricks. People created ",
+      "label": "People built browsers and servers. They wrote pages, abused tables for layout, made search engines, blogs, shops, forums",
       "chapter": "14-the-web-as-commons",
-      "url": "chapters/14-the-web-as-commons.html#p-14-people-built-browsers-people-built-servers-people-wrote"
+      "url": "chapters/14-the-web-as-commons.html#p-14-people-built-browsers-and-servers-they-wrote-pages"
     },
     {
       "id": "p-14-some-of-this-was-beautiful-some-of-it",
@@ -5398,6 +5547,27 @@
       "label": "Still, the open ground matters. Without it, the castles would be the whole world.",
       "chapter": "14-the-web-as-commons",
       "url": "chapters/14-the-web-as-commons.html#p-14-still-the-open-ground-matters-without-it-the"
+    },
+    {
+      "id": "p-14-so-perhaps-the-question-is-not-only-whether",
+      "type": "paragraph",
+      "label": "So perhaps the question is not only whether the Web can stay open.",
+      "chapter": "14-the-web-as-commons",
+      "url": "chapters/14-the-web-as-commons.html#p-14-so-perhaps-the-question-is-not-only-whether"
+    },
+    {
+      "id": "p-14-perhaps-the-question-is-whether-we-can-use",
+      "type": "paragraph",
+      "label": "Perhaps the question is whether we can use the Web's own architecture to add more boundaries in the places where service",
+      "chapter": "14-the-web-as-commons",
+      "url": "chapters/14-the-web-as-commons.html#p-14-perhaps-the-question-is-whether-we-can-use"
+    },
+    {
+      "id": "p-14-could-those-pieces-become-smaller-more-independent-and",
+      "type": "paragraph",
+      "label": "Could those pieces become smaller, more independent, and easier to replace, so people can extend the system without beco",
+      "chapter": "14-the-web-as-commons",
+      "url": "chapters/14-the-web-as-commons.html#p-14-could-those-pieces-become-smaller-more-independent-and"
     },
     {
       "id": "h-14-small-software-needs-a-large-outside",
@@ -5470,39 +5640,60 @@
       "url": "chapters/14-the-web-as-commons.html#h-14-the-next-boundary"
     },
     {
-      "id": "p-14-there-is-one-place-where-the-web-still",
+      "id": "p-14-so-this-is-the-first-piece-applications-should",
       "type": "paragraph",
-      "label": "There is one place where the Web still very often gets this wrong.",
+      "label": "So this is the first piece: applications should be able to stay small.",
       "chapter": "14-the-web-as-commons",
-      "url": "chapters/14-the-web-as-commons.html#p-14-there-is-one-place-where-the-web-still"
+      "url": "chapters/14-the-web-as-commons.html#p-14-so-this-is-the-first-piece-applications-should"
     },
     {
-      "id": "p-14-applications-can-point-to-each-other-servers-can",
+      "id": "p-14-a-tool-should-not-have-to-become-a",
       "type": "paragraph",
-      "label": "Applications can point to each other. Servers can talk to each other. Code can depend on code written by strangers. But ",
+      "label": "A tool should not have to become a kingdom before it can be useful. It should be able to arrive from the outside, do its",
       "chapter": "14-the-web-as-commons",
-      "url": "chapters/14-the-web-as-commons.html#p-14-applications-can-point-to-each-other-servers-can"
+      "url": "chapters/14-the-web-as-commons.html#p-14-a-tool-should-not-have-to-become-a"
     },
     {
-      "id": "p-14-that-is-strange-once-you-notice-it",
+      "id": "p-14-but-for-that-to-happen-the-boundary-cannot",
       "type": "paragraph",
-      "label": "That is strange, once you notice it.",
+      "label": "But for that to happen, the boundary cannot only sit between one website and another. It has to move inside the web serv",
       "chapter": "14-the-web-as-commons",
-      "url": "chapters/14-the-web-as-commons.html#p-14-that-is-strange-once-you-notice-it"
+      "url": "chapters/14-the-web-as-commons.html#p-14-but-for-that-to-happen-the-boundary-cannot"
     },
     {
-      "id": "p-14-if-innovation-happens-elsewhere-then-the-user-should",
+      "id": "p-14-the-application-is-one-thing-the-data-it",
       "type": "paragraph",
-      "label": "If innovation happens elsewhere, then the user should be able to benefit from tools that were invented elsewhere. But th",
+      "label": "The application is one thing. The data it works on is another. The identity that grants access is another again.",
       "chapter": "14-the-web-as-commons",
-      "url": "chapters/14-the-web-as-commons.html#p-14-if-innovation-happens-elsewhere-then-the-user-should"
+      "url": "chapters/14-the-web-as-commons.html#p-14-the-application-is-one-thing-the-data-it"
     },
     {
-      "id": "p-14-the-next-chapter-takes-one-more-step-before",
+      "id": "p-14-this-chapter-has-mostly-been-about-the-first",
       "type": "paragraph",
-      "label": "The next chapter takes one more step before we talk about the user's home. If outside tools are supposed to work togethe",
+      "label": "This chapter has mostly been about the first piece: tools that can be replaced, extended, ignored, or improved by people",
       "chapter": "14-the-web-as-commons",
-      "url": "chapters/14-the-web-as-commons.html#p-14-the-next-chapter-takes-one-more-step-before"
+      "url": "chapters/14-the-web-as-commons.html#p-14-this-chapter-has-mostly-been-about-the-first"
+    },
+    {
+      "id": "p-14-the-next-piece-is-data",
+      "type": "paragraph",
+      "label": "The next piece is data.",
+      "chapter": "14-the-web-as-commons",
+      "url": "chapters/14-the-web-as-commons.html#p-14-the-next-piece-is-data"
+    },
+    {
+      "id": "p-14-applications-have-often-been-gatekeepers-for-peoples-data",
+      "type": "paragraph",
+      "label": "Applications have often been gatekeepers for people's data. Write a document in Word, send it to someone, and you may al",
+      "chapter": "14-the-web-as-commons",
+      "url": "chapters/14-the-web-as-commons.html#p-14-applications-have-often-been-gatekeepers-for-peoples-data"
+    },
+    {
+      "id": "p-14-the-web-was-supposed-to-be-different-a",
+      "type": "paragraph",
+      "label": "The Web was supposed to be different. A page did not require the editor that wrote it. A link did not belong to the tool",
+      "chapter": "14-the-web-as-commons",
+      "url": "chapters/14-the-web-as-commons.html#p-14-the-web-was-supposed-to-be-different-a"
     },
     {
       "id": "p-14-if-the-network-becomes-the-place-where-software",
@@ -5512,13 +5703,6 @@
       "url": "chapters/14-the-web-as-commons.html#p-14-if-the-network-becomes-the-place-where-software"
     },
     {
-      "id": "rule-14-wizards-thirteenth-rule",
-      "type": "rule",
-      "label": "Wizard's thirteenth rule",
-      "chapter": "14-the-web-as-commons",
-      "url": "chapters/14-the-web-as-commons.html#rule-14-wizards-thirteenth-rule"
-    },
-    {
       "id": "h-15-the-web-as-data-things-should-have-addresses-too",
       "type": "heading",
       "label": "The Web as data: things should have addresses too",
@@ -5526,23 +5710,30 @@
       "url": "chapters/15-the-web-as-data.html#h-15-the-web-as-data-things-should-have-addresses-too"
     },
     {
-      "id": "p-15-the-previous-chapter-ended-with-a-problem-of",
+      "id": "p-15-the-previous-chapter-ended-with-applications-as-gatekeepers",
       "type": "paragraph",
-      "label": "The previous chapter ended with a problem of openness.",
+      "label": "The previous chapter ended with applications as gatekeepers.",
       "chapter": "15-the-web-as-data",
-      "url": "chapters/15-the-web-as-data.html#p-15-the-previous-chapter-ended-with-a-problem-of"
+      "url": "chapters/15-the-web-as-data.html#p-15-the-previous-chapter-ended-with-applications-as-gatekeepers"
     },
     {
-      "id": "p-15-if-innovation-happens-elsewhere-then-software-must-leave",
+      "id": "p-15-if-you-write-a-document-in-one-application",
       "type": "paragraph",
-      "label": "If innovation happens elsewhere, then software must leave room for outside invention. A browser should be able to talk t",
+      "label": "If you write a document in one application, the next person may need that application too, or something compatible enoug",
       "chapter": "15-the-web-as-data",
-      "url": "chapters/15-the-web-as-data.html#p-15-if-innovation-happens-elsewhere-then-software-must-leave"
+      "url": "chapters/15-the-web-as-data.html#p-15-if-you-write-a-document-in-one-application"
+    },
+    {
+      "id": "p-15-the-web-was-supposed-to-loosen-that-kind",
+      "type": "paragraph",
+      "label": "The Web was supposed to loosen that kind of grip. A browser should be able to talk to servers it did not know in advance",
+      "chapter": "15-the-web-as-data",
+      "url": "chapters/15-the-web-as-data.html#p-15-the-web-was-supposed-to-loosen-that-kind"
     },
     {
       "id": "p-15-but-there-is-a-stubborn-place-where-this",
       "type": "paragraph",
-      "label": "But there is a stubborn place where this still often fails: data.",
+      "label": "But there is a stubborn place where this still often fails: the data itself.",
       "chapter": "15-the-web-as-data",
       "url": "chapters/15-the-web-as-data.html#p-15-but-there-is-a-stubborn-place-where-this"
     },
@@ -5589,272 +5780,6 @@
       "url": "chapters/15-the-web-as-data.html#p-15-the-problem-is-not-only-where-the-data"
     },
     {
-      "id": "exhibit-linked-data-addresses",
-      "type": "exhibit",
-      "label": "Linked Data Addresses",
-      "chapter": "15-the-web-as-data",
-      "url": "chapters/15-the-web-as-data.html#exhibit-linked-data-addresses"
-    },
-    {
-      "id": "h-15-facts-are-older-than-databases",
-      "type": "heading",
-      "label": "Facts are older than databases",
-      "chapter": "15-the-web-as-data",
-      "url": "chapters/15-the-web-as-data.html#h-15-facts-are-older-than-databases"
-    },
-    {
-      "id": "p-15-let-us-start-smaller",
-      "type": "paragraph",
-      "label": "Let us start smaller.",
-      "chapter": "15-the-web-as-data",
-      "url": "chapters/15-the-web-as-data.html#p-15-let-us-start-smaller"
-    },
-    {
-      "id": "p-15-suppose-we-know-this",
-      "type": "paragraph",
-      "label": "Suppose we know this:",
-      "chapter": "15-the-web-as-data",
-      "url": "chapters/15-the-web-as-data.html#p-15-suppose-we-know-this"
-    },
-    {
-      "id": "plain-facts",
-      "type": "code",
-      "label": "text block",
-      "chapter": "15-the-web-as-data",
-      "url": "chapters/15-the-web-as-data.html#plain-facts"
-    },
-    {
-      "id": "p-15-there-are-many-ways-to-write-these-facts",
-      "type": "paragraph",
-      "label": "There are many ways to write these facts down. In a spreadsheet you might make rows and columns. In a database you might",
-      "chapter": "15-the-web-as-data",
-      "url": "chapters/15-the-web-as-data.html#p-15-there-are-many-ways-to-write-these-facts"
-    },
-    {
-      "id": "p-15-each-shape-helps-with-some-questions-and-makes",
-      "type": "paragraph",
-      "label": "Each shape helps with some questions and makes other questions awkward.",
-      "chapter": "15-the-web-as-data",
-      "url": "chapters/15-the-web-as-data.html#p-15-each-shape-helps-with-some-questions-and-makes"
-    },
-    {
-      "id": "p-15-a-language-called-prolog-made-a-very-different",
-      "type": "paragraph",
-      "label": "A language called Prolog made a very different choice. Prolog came out of logic programming work in the early 1970s. Ins",
-      "chapter": "15-the-web-as-data",
-      "url": "chapters/15-the-web-as-data.html#p-15-a-language-called-prolog-made-a-very-different"
-    },
-    {
-      "id": "prolog-facts",
-      "type": "code",
-      "label": "prolog block",
-      "chapter": "15-the-web-as-data",
-      "url": "chapters/15-the-web-as-data.html#prolog-facts"
-    },
-    {
-      "id": "p-15-then-you-can-ask",
-      "type": "paragraph",
-      "label": "Then you can ask:",
-      "chapter": "15-the-web-as-data",
-      "url": "chapters/15-the-web-as-data.html#p-15-then-you-can-ask"
-    },
-    {
-      "id": "prolog-query",
-      "type": "code",
-      "label": "prolog block",
-      "chapter": "15-the-web-as-data",
-      "url": "chapters/15-the-web-as-data.html#prolog-query"
-    },
-    {
-      "id": "p-15-and-prolog-tries-to-find-values-for-person",
-      "type": "paragraph",
-      "label": "And Prolog tries to find values for Person that make the question true.",
-      "chapter": "15-the-web-as-data",
-      "url": "chapters/15-the-web-as-data.html#p-15-and-prolog-tries-to-find-values-for-person"
-    },
-    {
-      "id": "p-15-this-is-a-strange-experience-if-you-are",
-      "type": "paragraph",
-      "label": "This is a strange experience if you are used to ordinary programming. You do not say: loop over the people, check the ci",
-      "chapter": "15-the-web-as-data",
-      "url": "chapters/15-the-web-as-data.html#p-15-this-is-a-strange-experience-if-you-are"
-    },
-    {
-      "id": "p-15-the-important-part-for-this-chapter-is-not",
-      "type": "paragraph",
-      "label": "The important part for this chapter is not Prolog itself. The important part is the shape:",
-      "chapter": "15-the-web-as-data",
-      "url": "chapters/15-the-web-as-data.html#p-15-the-important-part-for-this-chapter-is-not"
-    },
-    {
-      "id": "relation-shape",
-      "type": "code",
-      "label": "text block",
-      "chapter": "15-the-web-as-data",
-      "url": "chapters/15-the-web-as-data.html#relation-shape"
-    },
-    {
-      "id": "p-15-or-sometimes",
-      "type": "paragraph",
-      "label": "Or sometimes:",
-      "chapter": "15-the-web-as-data",
-      "url": "chapters/15-the-web-as-data.html#p-15-or-sometimes"
-    },
-    {
-      "id": "rule-shape",
-      "type": "code",
-      "label": "text block",
-      "chapter": "15-the-web-as-data",
-      "url": "chapters/15-the-web-as-data.html#rule-shape"
-    },
-    {
-      "id": "p-15-a-fact-becomes-a-small-piece-of-the",
-      "type": "paragraph",
-      "label": "A fact becomes a small piece of the world. A query becomes a pattern with holes in it. The machine tries to fill the hol",
-      "chapter": "15-the-web-as-data",
-      "url": "chapters/15-the-web-as-data.html#p-15-a-fact-becomes-a-small-piece-of-the"
-    },
-    {
-      "id": "p-15-that-idea-will-keep-coming-back",
-      "type": "paragraph",
-      "label": "That idea will keep coming back.",
-      "chapter": "15-the-web-as-data",
-      "url": "chapters/15-the-web-as-data.html#p-15-that-idea-will-keep-coming-back"
-    },
-    {
-      "id": "h-15-long-skinny-tables",
-      "type": "heading",
-      "label": "Long skinny tables",
-      "chapter": "15-the-web-as-data",
-      "url": "chapters/15-the-web-as-data.html#h-15-long-skinny-tables"
-    },
-    {
-      "id": "p-15-databases-found-another-version-of-the-same-trick",
-      "type": "paragraph",
-      "label": "Databases found another version of the same trick.",
-      "chapter": "15-the-web-as-data",
-      "url": "chapters/15-the-web-as-data.html#p-15-databases-found-another-version-of-the-same-trick"
-    },
-    {
-      "id": "p-15-a-normal-table-has-columns",
-      "type": "paragraph",
-      "label": "A normal table has columns:",
-      "chapter": "15-the-web-as-data",
-      "url": "chapters/15-the-web-as-data.html#p-15-a-normal-table-has-columns"
-    },
-    {
-      "id": "wide-table",
-      "type": "code",
-      "label": "text block",
-      "chapter": "15-the-web-as-data",
-      "url": "chapters/15-the-web-as-data.html#wide-table"
-    },
-    {
-      "id": "p-15-this-works-beautifully-when-you-know-the-shape",
-      "type": "paragraph",
-      "label": "This works beautifully when you know the shape of the data. Every person has a first name, a last name and a city. The c",
-      "chapter": "15-the-web-as-data",
-      "url": "chapters/15-the-web-as-data.html#p-15-this-works-beautifully-when-you-know-the-shape"
-    },
-    {
-      "id": "p-15-but-what-if-the-shape-keeps-changing",
-      "type": "paragraph",
-      "label": "But what if the shape keeps changing?",
-      "chapter": "15-the-web-as-data",
-      "url": "chapters/15-the-web-as-data.html#p-15-but-what-if-the-shape-keeps-changing"
-    },
-    {
-      "id": "p-15-medical-records-are-a-classic-example-one-patient",
-      "type": "paragraph",
-      "label": "Medical records are a classic example. One patient may have a blood pressure reading, another a glucose value, another a",
-      "chapter": "15-the-web-as-data",
-      "url": "chapters/15-the-web-as-data.html#p-15-medical-records-are-a-classic-example-one-patient"
-    },
-    {
-      "id": "p-15-one-answer-is-entity-attribute-value-usually-shortened",
-      "type": "paragraph",
-      "label": "One answer is Entity-Attribute-Value, usually shortened to EAV.",
-      "chapter": "15-the-web-as-data",
-      "url": "chapters/15-the-web-as-data.html#p-15-one-answer-is-entity-attribute-value-usually-shortened"
-    },
-    {
-      "id": "p-15-instead-of-making-one-column-for-every-possible",
-      "type": "paragraph",
-      "label": "Instead of making one column for every possible attribute, you write each fact as a row:",
-      "chapter": "15-the-web-as-data",
-      "url": "chapters/15-the-web-as-data.html#p-15-instead-of-making-one-column-for-every-possible"
-    },
-    {
-      "id": "eav-table",
-      "type": "code",
-      "label": "text block",
-      "chapter": "15-the-web-as-data",
-      "url": "chapters/15-the-web-as-data.html#eav-table"
-    },
-    {
-      "id": "p-15-this-table-is-long-and-skinny-it-can",
-      "type": "paragraph",
-      "label": "This table is long and skinny. It can accept new attributes without changing the physical table. If tomorrow you need to",
-      "chapter": "15-the-web-as-data",
-      "url": "chapters/15-the-web-as-data.html#p-15-this-table-is-long-and-skinny-it-can"
-    },
-    {
-      "id": "eav-new-row",
-      "type": "code",
-      "label": "text block",
-      "chapter": "15-the-web-as-data",
-      "url": "chapters/15-the-web-as-data.html#eav-new-row"
-    },
-    {
-      "id": "p-15-no-new-column-no-database-migration-no-ceremony",
-      "type": "paragraph",
-      "label": "No new column. No database migration. No ceremony.",
-      "chapter": "15-the-web-as-data",
-      "url": "chapters/15-the-web-as-data.html#p-15-no-new-column-no-database-migration-no-ceremony"
-    },
-    {
-      "id": "p-15-this-is-powerful-and-also-dangerous-a-normal",
-      "type": "paragraph",
-      "label": "This is powerful, and also dangerous. A normal table shows its shape immediately. EAV hides the shape inside the data. T",
-      "chapter": "15-the-web-as-data",
-      "url": "chapters/15-the-web-as-data.html#p-15-this-is-powerful-and-also-dangerous-a-normal"
-    },
-    {
-      "id": "p-15-you-escaped-one-rigidity-and-invited-another-kind",
-      "type": "paragraph",
-      "label": "You escaped one rigidity and invited another kind of confusion.",
-      "chapter": "15-the-web-as-data",
-      "url": "chapters/15-the-web-as-data.html#p-15-you-escaped-one-rigidity-and-invited-another-kind"
-    },
-    {
-      "id": "p-15-still-eav-matters-here-because-it-makes-a",
-      "type": "paragraph",
-      "label": "Still, EAV matters here because it makes a useful move visible:",
-      "chapter": "15-the-web-as-data",
-      "url": "chapters/15-the-web-as-data.html#p-15-still-eav-matters-here-because-it-makes-a"
-    },
-    {
-      "id": "eav-shape",
-      "type": "code",
-      "label": "text block",
-      "chapter": "15-the-web-as-data",
-      "url": "chapters/15-the-web-as-data.html#eav-shape"
-    },
-    {
-      "id": "p-15-a-record-has-been-broken-into-small-statements",
-      "type": "paragraph",
-      "label": "A record has been broken into small statements.",
-      "chapter": "15-the-web-as-data",
-      "url": "chapters/15-the-web-as-data.html#p-15-a-record-has-been-broken-into-small-statements"
-    },
-    {
-      "id": "p-15-that-is-close-to-the-shape-we-need",
-      "type": "paragraph",
-      "label": "That is close to the shape we need, but not quite enough for the Web.",
-      "chapter": "15-the-web-as-data",
-      "url": "chapters/15-the-web-as-data.html#p-15-that-is-close-to-the-shape-we-need"
-    },
-    {
       "id": "h-15-the-private-name-problem",
       "type": "heading",
       "label": "The private-name problem",
@@ -5862,11 +5787,11 @@
       "url": "chapters/15-the-web-as-data.html#h-15-the-private-name-problem"
     },
     {
-      "id": "p-15-imagine-two-systems-both-use-eav",
+      "id": "p-15-imagine-two-systems-store-the-same-simple-kind",
       "type": "paragraph",
-      "label": "Imagine two systems both use EAV.",
+      "label": "Imagine two systems store the same simple kind of fact.",
       "chapter": "15-the-web-as-data",
-      "url": "chapters/15-the-web-as-data.html#p-15-imagine-two-systems-both-use-eav"
+      "url": "chapters/15-the-web-as-data.html#p-15-imagine-two-systems-store-the-same-simple-kind"
     },
     {
       "id": "p-15-the-contacts-app-says",
@@ -5876,11 +5801,11 @@
       "url": "chapters/15-the-web-as-data.html#p-15-the-contacts-app-says"
     },
     {
-      "id": "contacts-eav",
+      "id": "contacts-private-name",
       "type": "code",
       "label": "text block",
       "chapter": "15-the-web-as-data",
-      "url": "chapters/15-the-web-as-data.html#contacts-eav"
+      "url": "chapters/15-the-web-as-data.html#contacts-private-name"
     },
     {
       "id": "p-15-the-calendar-app-says",
@@ -5890,25 +5815,25 @@
       "url": "chapters/15-the-web-as-data.html#p-15-the-calendar-app-says"
     },
     {
-      "id": "calendar-eav",
+      "id": "calendar-private-name",
       "type": "code",
       "label": "text block",
       "chapter": "15-the-web-as-data",
-      "url": "chapters/15-the-web-as-data.html#calendar-eav"
+      "url": "chapters/15-the-web-as-data.html#calendar-private-name"
     },
     {
-      "id": "p-15-both-have-flexible-data-both-can-add-new",
+      "id": "p-15-both-records-have-the-same-rough-shape-something",
       "type": "paragraph",
-      "label": "Both have flexible data. Both can add new attributes. Both can represent facts in the same general shape.",
+      "label": "Both records have the same rough shape. Something has a property with a value.",
       "chapter": "15-the-web-as-data",
-      "url": "chapters/15-the-web-as-data.html#p-15-both-have-flexible-data-both-can-add-new"
+      "url": "chapters/15-the-web-as-data.html#p-15-both-records-have-the-same-rough-shape-something"
     },
     {
-      "id": "p-15-but-the-names-are-still-private",
+      "id": "p-15-but-the-names-are-private",
       "type": "paragraph",
-      "label": "But the names are still private.",
+      "label": "But the names are private.",
       "chapter": "15-the-web-as-data",
-      "url": "chapters/15-the-web-as-data.html#p-15-but-the-names-are-still-private"
+      "url": "chapters/15-the-web-as-data.html#p-15-but-the-names-are-private"
     },
     {
       "id": "p-15-the-contacts-app-says-person-17-the-calendar",
@@ -5946,11 +5871,18 @@
       "url": "chapters/15-the-web-as-data.html#p-15-so-the-next-wizard-question-is-simple"
     },
     {
-      "id": "h-15-things-can-have-addresses",
-      "type": "heading",
-      "label": "Things can have addresses",
+      "id": "p-15-it-is-the-same-trick-again-do-not",
+      "type": "paragraph",
+      "label": "It is the same trick again. Do not fight every private bridge one by one. Change what the pieces are allowed to be.",
       "chapter": "15-the-web-as-data",
-      "url": "chapters/15-the-web-as-data.html#h-15-things-can-have-addresses"
+      "url": "chapters/15-the-web-as-data.html#p-15-it-is-the-same-trick-again-do-not"
+    },
+    {
+      "id": "h-15-names-that-can-travel",
+      "type": "heading",
+      "label": "Names that can travel",
+      "chapter": "15-the-web-as-data",
+      "url": "chapters/15-the-web-as-data.html#h-15-names-that-can-travel"
     },
     {
       "id": "p-15-the-web-already-gave-documents-addresses",
@@ -6072,11 +6004,18 @@
       "url": "chapters/15-the-web-as-data.html#turtle-example"
     },
     {
-      "id": "p-15-this-is-the-prolog-ish-idea-again-little",
+      "id": "p-15-the-idea-of-breaking-knowledge-into-small-statements",
       "type": "paragraph",
-      "label": "This is the Prolog-ish idea again: little statements about the world. It is the EAV-ish idea again: entity, attribute, v",
+      "label": "The idea of breaking knowledge into small statements is not new. Databases, logic programming, file formats and ordinary",
       "chapter": "15-the-web-as-data",
-      "url": "chapters/15-the-web-as-data.html#p-15-this-is-the-prolog-ish-idea-again-little"
+      "url": "chapters/15-the-web-as-data.html#p-15-the-idea-of-breaking-knowledge-into-small-statements"
+    },
+    {
+      "id": "p-15-the-web-contribution-is-different-the-names-inside",
+      "type": "paragraph",
+      "label": "The Web contribution is different: the names inside those statements can be Web names.",
+      "chapter": "15-the-web-as-data",
+      "url": "chapters/15-the-web-as-data.html#p-15-the-web-contribution-is-different-the-names-inside"
     },
     {
       "id": "p-15-that-is-the-small-change",
@@ -6359,18 +6298,11 @@
       "url": "chapters/15-the-web-as-data.html#p-15-where-should-a-persons-own-data-live"
     },
     {
-      "id": "rule-15-wizards-fourteenth-rule",
-      "type": "rule",
-      "label": "Wizard's fourteenth rule",
-      "chapter": "15-the-web-as-data",
-      "url": "chapters/15-the-web-as-data.html#rule-15-wizards-fourteenth-rule"
-    },
-    {
-      "id": "h-16-the-web-as-home-your-data-should-outlive-your-apps",
+      "id": "h-16-the-web-as-home-who-owns-your-home-directory",
       "type": "heading",
-      "label": "The Web as home: your data should outlive your apps",
+      "label": "The Web as home: who owns your home directory?",
       "chapter": "16-the-web-as-home",
-      "url": "chapters/16-the-web-as-home.html#h-16-the-web-as-home-your-data-should-outlive-your-apps"
+      "url": "chapters/16-the-web-as-home.html#h-16-the-web-as-home-who-owns-your-home-directory"
     },
     {
       "id": "p-16-chapter-7-left-a-question-hanging",
@@ -6429,60 +6361,18 @@
       "url": "chapters/16-the-web-as-home.html#p-16-this-is-understandable-it-is-also-strange"
     },
     {
-      "id": "p-16-the-webs-first-great-trick-was-that-a",
+      "id": "p-16-the-private-castle-is-not-only-greed-it",
       "type": "paragraph",
-      "label": "The web's first great trick was that a document could point outside itself. A URL could cross from one machine to anothe",
+      "label": "The private castle is not only greed. It is also easy architecture. When an app owns the interface, the account, the dat",
       "chapter": "16-the-web-as-home",
-      "url": "chapters/16-the-web-as-home.html#p-16-the-webs-first-great-trick-was-that-a"
+      "url": "chapters/16-the-web-as-home.html#p-16-the-private-castle-is-not-only-greed-it"
     },
     {
-      "id": "p-16-but-while-the-software-moved-into-the-network",
+      "id": "p-16-but-the-boundary-is-in-the-wrong-place",
       "type": "paragraph",
-      "label": "But while the software moved into the network, the user's home did not really come with it.",
+      "label": "But the boundary is in the wrong place.",
       "chapter": "16-the-web-as-home",
-      "url": "chapters/16-the-web-as-home.html#p-16-but-while-the-software-moved-into-the-network"
-    },
-    {
-      "id": "p-16-instead-we-got-thousands-of-private-little-castles",
-      "type": "paragraph",
-      "label": "Instead we got thousands of private little castles.",
-      "chapter": "16-the-web-as-home",
-      "url": "chapters/16-the-web-as-home.html#p-16-instead-we-got-thousands-of-private-little-castles"
-    },
-    {
-      "id": "h-16-the-app-owns-the-room",
-      "type": "heading",
-      "label": "The app owns the room",
-      "chapter": "16-the-web-as-home",
-      "url": "chapters/16-the-web-as-home.html#h-16-the-app-owns-the-room"
-    },
-    {
-      "id": "p-16-when-an-app-owns-both-the-interface-and",
-      "type": "paragraph",
-      "label": "When an app owns both the interface and the data, the boundary is convenient for the app. The app knows where everything",
-      "chapter": "16-the-web-as-home",
-      "url": "chapters/16-the-web-as-home.html#p-16-when-an-app-owns-both-the-interface-and"
-    },
-    {
-      "id": "p-16-this-is-why-it-keeps-happening-the-private",
-      "type": "paragraph",
-      "label": "This is why it keeps happening. The private castle is not only greed. It is also easy architecture.",
-      "chapter": "16-the-web-as-home",
-      "url": "chapters/16-the-web-as-home.html#p-16-this-is-why-it-keeps-happening-the-private"
-    },
-    {
-      "id": "p-16-but-it-creates-a-familiar-kind-of-trap",
-      "type": "paragraph",
-      "label": "But it creates a familiar kind of trap. If the app disappears, your data may disappear with it. If the app changes direc",
-      "chapter": "16-the-web-as-home",
-      "url": "chapters/16-the-web-as-home.html#p-16-but-it-creates-a-familiar-kind-of-trap"
-    },
-    {
-      "id": "p-16-the-problem-is-not-merely-that-companies-are",
-      "type": "paragraph",
-      "label": "The problem is not merely that companies are sometimes badly behaved. The deeper problem is that the boundary is in the ",
-      "chapter": "16-the-web-as-home",
-      "url": "chapters/16-the-web-as-home.html#p-16-the-problem-is-not-merely-that-companies-are"
+      "url": "chapters/16-the-web-as-home.html#p-16-but-the-boundary-is-in-the-wrong-place"
     },
     {
       "id": "p-16-the-app-has-become-the-container-for-the",
@@ -6492,18 +6382,18 @@
       "url": "chapters/16-the-web-as-home.html#p-16-the-app-has-become-the-container-for-the"
     },
     {
-      "id": "p-16-a-wizard-should-flinch-at-that",
+      "id": "p-16-software-moved-into-the-network-the-users-home",
       "type": "paragraph",
-      "label": "A wizard should flinch at that.",
+      "label": "Software moved into the network. The user's home did not really come with it.",
       "chapter": "16-the-web-as-home",
-      "url": "chapters/16-the-web-as-home.html#p-16-a-wizard-should-flinch-at-that"
+      "url": "chapters/16-the-web-as-home.html#p-16-software-moved-into-the-network-the-users-home"
     },
     {
-      "id": "exhibit-web-home-directory",
-      "type": "exhibit",
-      "label": "Web Home Directory",
+      "id": "p-16-instead-we-got-thousands-of-private-little-castles",
+      "type": "paragraph",
+      "label": "Instead we got thousands of private little castles.",
       "chapter": "16-the-web-as-home",
-      "url": "chapters/16-the-web-as-home.html#exhibit-web-home-directory"
+      "url": "chapters/16-the-web-as-home.html#p-16-instead-we-got-thousands-of-private-little-castles"
     },
     {
       "id": "h-16-the-old-shape-and-the-hidden-shape",
@@ -6569,18 +6459,25 @@
       "url": "chapters/16-the-web-as-home.html#p-16-in-the-first-shape-replacing-software-means-moving"
     },
     {
-      "id": "p-16-this-does-not-make-the-problem-easy-it",
+      "id": "p-16-this-does-not-make-the-problem-easy-some",
       "type": "paragraph",
-      "label": "This does not make the problem easy. It may even make some parts harder. Permissions become more important. Shared vocab",
+      "label": "This does not make the problem easy. Some parts become harder.",
       "chapter": "16-the-web-as-home",
-      "url": "chapters/16-the-web-as-home.html#p-16-this-does-not-make-the-problem-easy-it"
+      "url": "chapters/16-the-web-as-home.html#p-16-this-does-not-make-the-problem-easy-some"
     },
     {
-      "id": "p-16-but-that-is-also-the-point",
+      "id": "p-16-permissions-can-no-longer-be-an-afterthought-shared",
       "type": "paragraph",
-      "label": "But that is also the point.",
+      "label": "Permissions can no longer be an afterthought. Shared vocabularies and data formats have to do real work. Applications ca",
       "chapter": "16-the-web-as-home",
-      "url": "chapters/16-the-web-as-home.html#p-16-but-that-is-also-the-point"
+      "url": "chapters/16-the-web-as-home.html#p-16-permissions-can-no-longer-be-an-afterthought-shared"
+    },
+    {
+      "id": "p-16-that-difficulty-is-where-the-boundary-becomes-real",
+      "type": "paragraph",
+      "label": "That difficulty is where the boundary becomes real. A boundary is not just a line in a diagram. It is the notation that ",
+      "chapter": "16-the-web-as-home",
+      "url": "chapters/16-the-web-as-home.html#p-16-that-difficulty-is-where-the-boundary-becomes-real"
     },
     {
       "id": "p-16-small-replaceable-software-requires-a-place-where-the",
@@ -6620,37 +6517,9 @@
     {
       "id": "p-16-and-yet-the-obvious-thing-is-not-how",
       "type": "paragraph",
-      "label": "And yet the obvious thing is not how most of the web works.",
+      "label": "And yet the obvious thing is not how most of the web works. The current shape was easier to build. It was convenient for",
       "chapter": "16-the-web-as-home",
       "url": "chapters/16-the-web-as-home.html#p-16-and-yet-the-obvious-thing-is-not-how"
-    },
-    {
-      "id": "p-16-because-the-current-shape-was-easier-to-build",
-      "type": "paragraph",
-      "label": "Because the current shape was easier to build.",
-      "chapter": "16-the-web-as-home",
-      "url": "chapters/16-the-web-as-home.html#p-16-because-the-current-shape-was-easier-to-build"
-    },
-    {
-      "id": "p-16-because-users-follow-convenience",
-      "type": "paragraph",
-      "label": "Because users follow convenience.",
-      "chapter": "16-the-web-as-home",
-      "url": "chapters/16-the-web-as-home.html#p-16-because-users-follow-convenience"
-    },
-    {
-      "id": "p-16-because-developers-follow-the-path-with-the-fewest",
-      "type": "paragraph",
-      "label": "Because developers follow the path with the fewest missing standards.",
-      "chapter": "16-the-web-as-home",
-      "url": "chapters/16-the-web-as-home.html#p-16-because-developers-follow-the-path-with-the-fewest"
-    },
-    {
-      "id": "p-16-because-every-app-that-becomes-successful-has-an",
-      "type": "paragraph",
-      "label": "Because every app that becomes successful has an incentive to become a world.",
-      "chapter": "16-the-web-as-home",
-      "url": "chapters/16-the-web-as-home.html#p-16-because-every-app-that-becomes-successful-has-an"
     },
     {
       "id": "p-16-this-is-where-the-earlier-chapters-start-to",
@@ -6751,53 +6620,102 @@
       "url": "chapters/16-the-web-as-home.html#p-16-and-this-is-the-theme-that-keeps-returning"
     },
     {
-      "id": "rule-16-wizards-fifteenth-rule",
-      "type": "rule",
-      "label": "Wizard's fifteenth rule",
+      "id": "p-16-change-where-you-are-looking-from-and-the",
+      "type": "paragraph",
+      "label": "Change where you are looking from, and the problem changes.",
       "chapter": "16-the-web-as-home",
-      "url": "chapters/16-the-web-as-home.html#rule-16-wizards-fifteenth-rule"
+      "url": "chapters/16-the-web-as-home.html#p-16-change-where-you-are-looking-from-and-the"
     },
     {
-      "id": "h-17-rule-zero-there-are-no-rules",
+      "id": "p-16-if-you-look-from-the-app-everything-else",
+      "type": "paragraph",
+      "label": "If you look from the app, everything else has to orbit the app. The data, the identity, the permissions, the habits, the",
+      "chapter": "16-the-web-as-home",
+      "url": "chapters/16-the-web-as-home.html#p-16-if-you-look-from-the-app-everything-else"
+    },
+    {
+      "id": "p-16-if-the-person-has-a-home-on-the",
+      "type": "paragraph",
+      "label": "If the person has a home on the Web, applications can come and go. They can still matter. They can still be excellent. B",
+      "chapter": "16-the-web-as-home",
+      "url": "chapters/16-the-web-as-home.html#p-16-if-the-person-has-a-home-on-the"
+    },
+    {
+      "id": "h-17-epilogue-shifting-ground",
       "type": "heading",
-      "label": "Rule zero: there are no rules",
+      "label": "Epilogue: shifting ground",
       "chapter": "17-rule-zero-there-are-no-rules",
-      "url": "chapters/17-rule-zero-there-are-no-rules.html#h-17-rule-zero-there-are-no-rules"
+      "url": "chapters/17-rule-zero-there-are-no-rules.html#h-17-epilogue-shifting-ground"
     },
     {
-      "id": "p-17-by-now-the-book-has-left-a-trail",
+      "id": "p-17-most-of-this-book-was-written-from-experience",
       "type": "paragraph",
-      "label": "By now the book has left a trail of wizard's rules behind it. Steal good ideas. Choose representations that do work for ",
+      "label": "Most of this book was written from experience.",
       "chapter": "17-rule-zero-there-are-no-rules",
-      "url": "chapters/17-rule-zero-there-are-no-rules.html#p-17-by-now-the-book-has-left-a-trail"
+      "url": "chapters/17-rule-zero-there-are-no-rules.html#p-17-most-of-this-book-was-written-from-experience"
     },
     {
-      "id": "p-17-these-are-useful-rules-they-are-also-traps",
+      "id": "p-17-that-sounds-sturdier-than-it-is",
       "type": "paragraph",
-      "label": "These are useful rules. They are also traps, if you start treating them like commandments.",
+      "label": "That sounds sturdier than it is.",
       "chapter": "17-rule-zero-there-are-no-rules",
-      "url": "chapters/17-rule-zero-there-are-no-rules.html#p-17-these-are-useful-rules-they-are-also-traps"
+      "url": "chapters/17-rule-zero-there-are-no-rules.html#p-17-that-sounds-sturdier-than-it-is"
     },
     {
-      "id": "p-17-a-rule-is-only-a-compressed-story-about",
+      "id": "p-17-experience-is-not-a-foundation-it-is-a",
       "type": "paragraph",
-      "label": "A rule is only a compressed story about something that worked often enough to be worth remembering. The moment the rule ",
+      "label": "Experience is not a foundation. It is a record of where the ground used to be solid.",
       "chapter": "17-rule-zero-there-are-no-rules",
-      "url": "chapters/17-rule-zero-there-are-no-rules.html#p-17-a-rule-is-only-a-compressed-story-about"
+      "url": "chapters/17-rule-zero-there-are-no-rules.html#p-17-experience-is-not-a-foundation-it-is-a"
     },
     {
-      "id": "p-17-so-keep-the-rules-close-enough-to-use",
+      "id": "p-17-for-years-programming-meant-learning-to-see-through",
       "type": "paragraph",
-      "label": "So keep the rules close enough to use them, and loose enough to break them.",
+      "label": "For years, programming meant learning to see through the machine: the notation, the shape of the data, the hidden bounda",
       "chapter": "17-rule-zero-there-are-no-rules",
-      "url": "chapters/17-rule-zero-there-are-no-rules.html#p-17-so-keep-the-rules-close-enough-to-use"
+      "url": "chapters/17-rule-zero-there-are-no-rules.html#p-17-for-years-programming-meant-learning-to-see-through"
     },
     {
-      "id": "rule-17-wizards-rule-zero",
+      "id": "p-17-those-lessons-still-matter-i-think-they-matter",
+      "type": "paragraph",
+      "label": "Those lessons still matter. I think they matter more than ever.",
+      "chapter": "17-rule-zero-there-are-no-rules",
+      "url": "chapters/17-rule-zero-there-are-no-rules.html#p-17-those-lessons-still-matter-i-think-they-matter"
+    },
+    {
+      "id": "p-17-but-while-this-book-was-being-written-the",
+      "type": "paragraph",
+      "label": "But while this book was being written, the craft moved. Machines became able to write code, explain code, invent code, a",
+      "chapter": "17-rule-zero-there-are-no-rules",
+      "url": "chapters/17-rule-zero-there-are-no-rules.html#p-17-but-while-this-book-was-being-written-the"
+    },
+    {
+      "id": "p-17-maybe-the-old-lessons-will-become-more-important",
+      "type": "paragraph",
+      "label": "Maybe the old lessons will become more important. Maybe some of them will become quaint. Maybe the next useful shape is ",
+      "chapter": "17-rule-zero-there-are-no-rules",
+      "url": "chapters/17-rule-zero-there-are-no-rules.html#p-17-maybe-the-old-lessons-will-become-more-important"
+    },
+    {
+      "id": "p-17-i-do-not-know",
+      "type": "paragraph",
+      "label": "I do not know.",
+      "chapter": "17-rule-zero-there-are-no-rules",
+      "url": "chapters/17-rule-zero-there-are-no-rules.html#p-17-i-do-not-know"
+    },
+    {
+      "id": "p-17-that-is-the-final-lesson",
+      "type": "paragraph",
+      "label": "That is the final lesson.",
+      "chapter": "17-rule-zero-there-are-no-rules",
+      "url": "chapters/17-rule-zero-there-are-no-rules.html#p-17-that-is-the-final-lesson"
+    },
+    {
+      "id": "rule-17-wizards-final-rule",
       "type": "rule",
-      "label": "Wizard's rule zero",
+      "label": "Wizard's final rule",
       "chapter": "17-rule-zero-there-are-no-rules",
-      "url": "chapters/17-rule-zero-there-are-no-rules.html#rule-17-wizards-rule-zero"
+      "url": "chapters/17-rule-zero-there-are-no-rules.html#rule-17-wizards-final-rule"
     }
   ]
 }

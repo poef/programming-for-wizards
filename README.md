@@ -22,7 +22,7 @@ Wizards do not merely write solutions. They learn to notice the world around a p
 
 ## Build
 
-The first build is an enhanced static manuscript. It uses local Node scripts and no package dependencies.
+The first build is an enhanced static manuscript. It uses local Node scripts and a small typography runtime for the optional book-style text setting.
 
 ```sh
 npm run build
@@ -63,12 +63,12 @@ This is a human-readable snapshot. The canonical source for the generated site s
 ### Part I: Representations are spells
 
 - [02. Numbers: bigger than you think](content/chapters/02-numbers-hiding-calculations-in-symbols.md)
-- [03. Logic: the truth is out there.](content/chapters/03-logic-turning-truth-into-machinery.md)
+- [03. Logic: the truth is out there](content/chapters/03-logic-turning-truth-into-machinery.md)
 - [04. Language: the oldest trick](content/chapters/04-language-the-tool-that-changes-the-thinker.md)
 
 ### Part II: The Web, from address to platform
 
-- [05. The Web: one string to rule them all.](content/chapters/05-the-web-as-address.md)
+- [05. The Web: one string to rule them all](content/chapters/05-the-web-as-address.md)
 - [06. The Web: the shape of words](content/chapters/06-the-web-as-document.md)
 - [07. The Web: waking up the words](content/chapters/07-the-web-as-platform.md)
 
@@ -88,11 +88,11 @@ This is a human-readable snapshot. The canonical source for the generated site s
 - [13. Architecture: arches, pyramids, and change](content/chapters/13-architecture-arches-pyramids-and-change.md)
 - [14. The Web as commons: innovation happens elsewhere](content/chapters/14-the-web-as-commons.md)
 - [15. The Web as data: things should have addresses too](content/chapters/15-the-web-as-data.md)
-- [16. The Web as home: your data should outlive your apps](content/chapters/16-the-web-as-home.md)
+- [16. The Web as home: who owns your home directory?](content/chapters/16-the-web-as-home.md)
 
 ### Epilogue
 
-- [17. Rule zero: there are no rules](content/chapters/17-rule-zero-there-are-no-rules.md)
+- [17. Epilogue: shifting ground](content/chapters/17-rule-zero-there-are-no-rules.md)
 
 ### Working notes
 

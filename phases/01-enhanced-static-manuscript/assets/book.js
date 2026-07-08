@@ -3,6 +3,7 @@
   const readerToolsKey = "programming-for-wizards.reader-tools"
   const chapterMapKey = "programming-for-wizards.chapter-map"
   const hasOwn = (object, key) => Object.prototype.hasOwnProperty.call(object, key)
+  const assetBaseUrl = new URL(".", document.currentScript?.src || window.location.href)
 
   const defaults = {
     font: "publication",
@@ -10,6 +11,7 @@
     lineHeight: "160",
     columnWidth: "48",
     flow: "paged",
+    typography: "browser",
     theme: "light",
     motion: "auto"
   }
@@ -75,6 +77,7 @@
     root.dataset.theme = settings.theme
     root.dataset.motion = settings.motion
     root.dataset.flow = settings.flow
+    root.dataset.typography = settings.typography
     root.style.setProperty("--book-font-scale", `${settings.fontScale}%`)
     root.style.setProperty("--book-line-height", String(Number(settings.lineHeight) / 100))
     root.style.setProperty("--book-column-width", `${settings.columnWidth}rem`)
@@ -177,7 +180,7 @@
     const status = document.querySelector("[data-page-status]")
     const progress = document.querySelector("[data-book-progress]")
     const progressBar = document.querySelector("[data-book-progress-bar]")
-    if (!manuscript || !controls || !previous || !next || !status) return
+    if (!manuscript || !controls || !previous || !next) return
 
     const previousChapter = document.querySelector(".chapter-pagination a[rel='prev']")
     const nextChapter = document.querySelector(".chapter-pagination a[rel='next']")
@@ -190,6 +193,11 @@
     let pageIndex = 0
     let resizeFrame = 0
     let effectiveFlow = root.dataset.flow
+    let openAtChapterEnd = window.location.hash === "#book-end"
+
+    if (openAtChapterEnd) {
+      history.replaceState(null, "", `${window.location.pathname}${window.location.search}`)
+    }
 
     const isPaged = () => document.documentElement.dataset.flow === "paged"
     const canUsePagedFlow = () => {
@@ -235,7 +243,9 @@
 
     const navigateToPreviousChapter = () => {
       if (!previousChapter) return
-      window.location.href = previousChapter.href
+      const url = new URL(previousChapter.href)
+      url.hash = "book-end"
+      window.location.href = url.href
     }
 
     const navigateToNextChapter = () => {
@@ -258,7 +268,10 @@
       const stride = pageStride()
       pageCount = Math.max(1, Math.round((manuscript.scrollWidth + pageGap()) / stride))
 
-      if (snap) {
+      if (openAtChapterEnd) {
+        pageIndex = pageCount - 1
+        manuscript.scrollLeft = pageIndex * stride
+      } else if (snap) {
         pageIndex = Math.min(pageCount - 1, Math.max(0, pageIndex))
         manuscript.scrollLeft = pageIndex * stride
       } else {
@@ -268,7 +281,7 @@
       const global = globalPageInfo()
       const progressValue = global.total > 1 ? ((global.current - 1) / (global.total - 1)) * 100 : 100
 
-      status.textContent = `Page ${global.current} of ${global.total}`
+      if (status) status.textContent = `Page ${global.current} of ${global.total}`
       previous.disabled = pageIndex === 0 && !previousChapter
       next.disabled = pageIndex >= pageCount - 1 && !nextChapter
       previous.setAttribute("aria-label", pageIndex === 0 ? "Previous chapter" : "Previous page")
@@ -285,6 +298,7 @@
 
     const goToPage = (index, behavior = settings.motion === "reduced" ? "auto" : "smooth") => {
       if (!isPaged()) return
+      openAtChapterEnd = false
       if (index < 0) {
         navigateToPreviousChapter()
         return
@@ -328,6 +342,7 @@
     resizeObserver.observe(manuscript)
     window.addEventListener("resize", scheduleResizeUpdate)
     document.addEventListener("reader-settings-change", () => update({ snap: true }))
+    document.addEventListener("reader-layout-change", () => update({ snap: true }))
     window.addEventListener("load", () => {
       window.setTimeout(() => {
         update()
@@ -335,6 +350,463 @@
     })
     window.addEventListener("hashchange", () => window.setTimeout(update, 100))
     window.setTimeout(update, 0)
+  }
+
+  const bindPretextTypography = settings => {
+    const targetSelector = [
+      ".manuscript-pages > h1",
+      ".manuscript-pages > h2",
+      ".manuscript-pages > h3",
+      ".manuscript-pages > h4",
+      ".manuscript-pages > p",
+      ".manuscript-index h1",
+      ".manuscript-index .lede"
+    ].join(",")
+    let pretextPromise = null
+    let resizeFrame = 0
+    let renderToken = 0
+
+    const loadPretext = () => {
+      pretextPromise ??= import(new URL("pretext/rich-inline.js", assetBaseUrl).href)
+      return pretextPromise
+    }
+
+    const isMarginAnchor = node =>
+      node.nodeType === Node.ELEMENT_NODE &&
+      (node.classList.contains("margin-anchor") || node.classList.contains("anchor-link"))
+
+    const sourceFor = target => target.querySelector(":scope > .pretext-source")
+    const renderFor = target => target.querySelector(":scope > .pretext-render")
+
+    const canRenderTarget = target => {
+      if (target.closest(".chapter-header, .chapter-pagination, .wizard-rule, .exhibit-placeholder, figure, table")) {
+        return false
+      }
+
+      if (target.matches(".manuscript-pages > h1 + p")) {
+        return false
+      }
+
+      if (target.querySelector("img")) {
+        return false
+      }
+
+      return true
+    }
+
+    const ensurePretextStructure = target => {
+      let source = sourceFor(target)
+      let render = renderFor(target)
+
+      if (!source) {
+        source = document.createElement("span")
+        source.className = "pretext-source"
+        source.setAttribute("aria-hidden", "true")
+        source.inert = true
+
+        for (const node of [...target.childNodes]) {
+          if (!isMarginAnchor(node)) source.append(node)
+        }
+
+        target.prepend(source)
+      }
+
+      if (!render) {
+        render = document.createElement("span")
+        render.className = "pretext-render"
+        source.after(render)
+      }
+
+      return { source, render }
+    }
+
+    const restoreTarget = target => {
+      const source = sourceFor(target)
+      const render = renderFor(target)
+
+      if (source) {
+        while (source.firstChild) {
+          target.insertBefore(source.firstChild, source)
+        }
+        source.remove()
+      }
+
+      render?.remove()
+      target.classList.remove("pretext-active")
+    }
+
+    const restoreAll = () => {
+      for (const target of document.querySelectorAll(".pretext-active")) {
+        restoreTarget(target)
+      }
+    }
+
+    const computedLineHeight = style => {
+      const lineHeight = Number.parseFloat(style.lineHeight)
+      if (Number.isFinite(lineHeight)) return lineHeight
+
+      const fontSize = Number.parseFloat(style.fontSize)
+      return (Number.isFinite(fontSize) ? fontSize : 16) * 1.2
+    }
+
+    const countSpaces = text => {
+      const matches = text.trim().match(/\s+/g)
+      return matches ? matches.length : 0
+    }
+
+    const cloneInlineElement = element => {
+      const tagName = element.tagName.toLowerCase()
+      const allowed = new Set(["a", "em", "strong", "code", "i", "b", "sub", "sup", "small", "mark", "kbd", "samp", "var"])
+      const clone = document.createElement(allowed.has(tagName) ? tagName : "span")
+
+      if (tagName === "a") {
+        for (const attribute of ["href", "title", "target", "rel"]) {
+          const value = element.getAttribute(attribute)
+          if (value) clone.setAttribute(attribute, value)
+        }
+      }
+
+      if (tagName === "code" || tagName === "span") {
+        const className = element.getAttribute("class")
+        if (className) clone.setAttribute("class", className)
+      }
+
+      return clone
+    }
+
+    const ancestorsFor = (node, source) => {
+      const ancestors = []
+      let current = node.parentElement
+
+      while (current && current !== source) {
+        ancestors.unshift(current)
+        current = current.parentElement
+      }
+
+      return ancestors
+    }
+
+    const collectRichItems = source => {
+      const items = []
+
+      const visit = node => {
+        if (node.nodeType === Node.TEXT_NODE) {
+          if (!node.nodeValue) return
+
+          const parent = node.parentElement || source
+          const style = getComputedStyle(parent)
+          const letterSpacing = Number.parseFloat(style.letterSpacing)
+
+          items.push({
+            text: node.nodeValue,
+            font: style.font,
+            letterSpacing: Number.isFinite(letterSpacing) ? letterSpacing : 0,
+            break: parent.closest("code, kbd, samp") ? "never" : "normal",
+            ancestors: ancestorsFor(node, source)
+          })
+          return
+        }
+
+        if (node.nodeType !== Node.ELEMENT_NODE || isMarginAnchor(node)) return
+
+        for (const child of node.childNodes) {
+          visit(child)
+        }
+      }
+
+      for (const child of source.childNodes) {
+        visit(child)
+      }
+
+      return items
+    }
+
+    const appendFragment = (lineNode, item, text) => {
+      if (!item || !text) return
+
+      const textNode = document.createTextNode(text)
+      let outer = null
+      let current = null
+
+      for (const ancestor of item.ancestors) {
+        const clone = cloneInlineElement(ancestor)
+        if (!outer) {
+          outer = clone
+        } else {
+          current.append(clone)
+        }
+        current = clone
+      }
+
+      if (current) {
+        current.append(textNode)
+        lineNode.append(outer)
+      } else {
+        lineNode.append(textNode)
+      }
+    }
+
+    const lineSpaceCount = line =>
+      line.fragments.reduce((total, fragment) => {
+        return total + (fragment.gapBefore > 0 ? 1 : 0) + countSpaces(fragment.text)
+      }, 0)
+
+    const trimLineEnd = lineNode => {
+      let current = lineNode.lastChild
+
+      while (current) {
+        if (current.nodeType === Node.TEXT_NODE) {
+          current.nodeValue = current.nodeValue.replace(/\s+$/, "")
+          if (current.nodeValue) return
+          const previous = current.previousSibling
+          current.remove()
+          current = previous
+          continue
+        }
+
+        if (current.nodeType === Node.ELEMENT_NODE && current.lastChild) {
+          current = current.lastChild
+          continue
+        }
+
+        return
+      }
+    }
+
+    const clearOrphanBreaks = () => {
+      for (const target of document.querySelectorAll(".pretext-orphan-break")) {
+        target.classList.remove("pretext-orphan-break")
+        target.style.breakBefore = ""
+      }
+
+      for (const line of document.querySelectorAll(".pretext-line-break")) {
+        line.classList.remove("pretext-line-break")
+        line.style.breakBefore = ""
+      }
+    }
+
+    const applyOrphanControl = () => {
+      clearOrphanBreaks()
+
+      const root = document.documentElement
+      const scroller = document.querySelector("[data-page-scroller]")
+      if (!scroller || root.dataset.flow !== "paged") return
+
+      const targets = [...scroller.querySelectorAll(":scope > p.pretext-active")]
+      if (!targets.length) return
+
+      const gap = Number.parseFloat(getComputedStyle(scroller).columnGap) || 0
+      const stride = Math.max(1, scroller.clientWidth + gap)
+      const preferredLinesAtSplit = 3
+
+      const lineColumn = line => {
+        const rect = line.getBoundingClientRect()
+        const scrollerRect = scroller.getBoundingClientRect()
+        const x = rect.left - scrollerRect.left + scroller.scrollLeft
+        return Math.max(0, Math.floor((x + gap / 2) / stride))
+      }
+
+      const runLength = (lines, start, column) => {
+        let count = 0
+
+        for (let index = start; index < lines.length; index += 1) {
+          if (lineColumn(lines[index]) !== column) break
+          count += 1
+        }
+
+        return count
+      }
+
+      const addLineBreak = line => {
+        line.classList.add("pretext-line-break")
+        line.style.breakBefore = "column"
+      }
+
+      for (let pass = 0; pass < 8; pass += 1) {
+        let changed = false
+
+        for (const target of targets) {
+          const lines = [...target.querySelectorAll(":scope > .pretext-render > .pretext-line")]
+          const minimumLinesAtSplit = lines.length < preferredLinesAtSplit * 2 ? 2 : preferredLinesAtSplit
+          if (lines.length <= minimumLinesAtSplit) continue
+
+          let runStart = 0
+          let previousColumn = lineColumn(lines[0])
+
+          for (let index = 1; index < lines.length; index += 1) {
+            const column = lineColumn(lines[index])
+            if (column === previousColumn) continue
+
+            const previousCount = index - runStart
+            const nextCount = runLength(lines, index, column)
+
+            if (previousCount > 0 && previousCount < minimumLinesAtSplit && !target.classList.contains("pretext-orphan-break")) {
+              target.classList.add("pretext-orphan-break")
+              target.style.breakBefore = "column"
+              changed = true
+              break
+            }
+
+            if (nextCount > 0 && nextCount < minimumLinesAtSplit) {
+              const breakIndex = Math.max(runStart, index - (minimumLinesAtSplit - nextCount))
+              const breakLine = lines[breakIndex]
+              const previousCountAfterBreak = breakIndex - runStart
+
+              if (breakIndex === 0 && !target.classList.contains("pretext-orphan-break")) {
+                target.classList.add("pretext-orphan-break")
+                target.style.breakBefore = "column"
+                changed = true
+                break
+              }
+
+              if (previousCountAfterBreak < minimumLinesAtSplit) {
+                if (!target.classList.contains("pretext-orphan-break")) {
+                  target.classList.add("pretext-orphan-break")
+                  target.style.breakBefore = "column"
+                  changed = true
+                  break
+                }
+
+                continue
+              }
+
+              if (breakLine && !breakLine.classList.contains("pretext-line-break")) {
+                addLineBreak(breakLine)
+                changed = true
+                break
+              }
+            }
+
+            runStart = index
+            previousColumn = column
+          }
+
+          if (changed) {
+            break
+          }
+        }
+
+        if (!changed) break
+      }
+    }
+
+    const renderTarget = (target, pretext) => {
+      if (!canRenderTarget(target)) {
+        restoreTarget(target)
+        return
+      }
+
+      const { source, render } = ensurePretextStructure(target)
+      const items = collectRichItems(source)
+      const style = getComputedStyle(target)
+      const availableWidth = target.clientWidth
+      const lineHeight = computedLineHeight(style)
+      const isProse = target.tagName === "P"
+
+      if (!availableWidth || !items.some(item => item.text.trim())) {
+        restoreTarget(target)
+        return
+      }
+
+      const prepared = pretext.prepareRichInline(items)
+      const renderAtWidth = maxWidth => {
+        const lines = []
+        let cursor
+        let guard = 0
+
+        while (guard < 1000) {
+          const lineRange = pretext.layoutNextRichInlineLineRange(prepared, maxWidth, cursor)
+          if (!lineRange) break
+          const line = pretext.materializeRichInlineLineRange(prepared, lineRange)
+          lines.push(line)
+          cursor = line.end
+          guard += 1
+        }
+
+        render.textContent = ""
+        render.style.lineHeight = `${lineHeight}px`
+
+        for (const [index, line] of lines.entries()) {
+          const lineNode = document.createElement("span")
+          lineNode.className = "pretext-line"
+
+          for (const fragment of line.fragments) {
+            if (fragment.gapBefore > 0) lineNode.append(" ")
+            appendFragment(lineNode, items[fragment.itemIndex], fragment.text)
+          }
+
+          trimLineEnd(lineNode)
+
+          if (isProse && index < lines.length - 1) {
+            const spaces = lineSpaceCount(line)
+            const extra = spaces > 0 ? Math.max(0, (maxWidth - line.width) / spaces) : 0
+            if (extra > 0) {
+              const fontSize = Number.parseFloat(style.fontSize) || 16
+              lineNode.style.wordSpacing = `${Math.min(extra, fontSize * 0.5)}px`
+            }
+          }
+
+          render.append(lineNode)
+        }
+      }
+
+      let layoutWidth = availableWidth
+      renderAtWidth(layoutWidth)
+      target.classList.add("pretext-active")
+
+      for (let pass = 0; pass < 3; pass += 1) {
+        const overflow = [...render.querySelectorAll(":scope > .pretext-line")]
+          .reduce((maximum, line) => Math.max(maximum, line.scrollWidth - availableWidth), 0)
+
+        if (overflow <= 1) break
+        layoutWidth = Math.max(availableWidth * 0.75, layoutWidth - overflow - 2)
+        renderAtWidth(layoutWidth)
+      }
+    }
+
+    const renderAll = async () => {
+      const token = ++renderToken
+
+      if (settings.typography !== "pretext") {
+        restoreAll()
+        document.dispatchEvent(new CustomEvent("reader-layout-change"))
+        return
+      }
+
+      let pretext
+      try {
+        pretext = await loadPretext()
+      } catch {
+        restoreAll()
+        document.documentElement.dataset.typography = "browser"
+        document.dispatchEvent(new CustomEvent("reader-layout-change"))
+        return
+      }
+
+      if (token !== renderToken) return
+
+      for (const target of document.querySelectorAll(targetSelector)) {
+        renderTarget(target, pretext)
+      }
+
+      applyOrphanControl()
+      document.dispatchEvent(new CustomEvent("reader-layout-change"))
+    }
+
+    const scheduleRender = () => {
+      window.cancelAnimationFrame(resizeFrame)
+      resizeFrame = window.requestAnimationFrame(renderAll)
+    }
+
+    window.addEventListener("resize", scheduleRender)
+    document.addEventListener("reader-settings-change", scheduleRender)
+    window.addEventListener("load", () => window.setTimeout(scheduleRender, 100))
+
+    if (document.fonts?.ready) {
+      document.fonts.ready.then(scheduleRender).catch(() => {})
+    }
+
+    scheduleRender()
   }
 
   const addAnchorLinks = () => {
@@ -362,6 +834,7 @@
     bindControl(control, settings)
   }
 
+  bindPretextTypography(settings)
   bindPageControls(settings)
   addAnchorLinks()
 })()

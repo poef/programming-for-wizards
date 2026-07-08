@@ -9,5 +9,8 @@
     "dev": "node phases/01-enhanced-static-manuscript/src/dev-site.mjs",
     "watch": "node phases/01-enhanced-static-manuscript/src/dev-site.mjs",
     "serve": "node phases/01-enhanced-static-manuscript/src/serve-site.mjs"
+  },
+  "dependencies": {
+    "@chenglou/pretext": "^0.0.8"
   }
 }
