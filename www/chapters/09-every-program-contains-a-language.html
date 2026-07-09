@@ -1,0 +1,243 @@
+<!doctype html>
+<html lang="en" data-font="publication" data-theme="light" data-motion="auto" data-flow="paged" data-page-kind="chapter" data-chapter-map="closed" data-reader-tools="closed">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light dark">
+  <title>Every program grows a language - Programming for Wizards</title>
+  <script>
+    (() => {
+      const root = document.documentElement
+      root.dataset.readerRuntime = "active"
+      if (root.dataset.pageKind === "chapter") root.dataset.readerBoot = "pending"
+      if (window.location.hash === "#book-end") root.dataset.initialPagePosition = "pending"
+      try {
+        const settings = JSON.parse(localStorage.getItem("programming-for-wizards.reader-settings") || "{}")
+        if (typeof settings.font === "string") root.dataset.font = settings.font
+        if (typeof settings.theme === "string") root.dataset.theme = settings.theme
+        if (typeof settings.motion === "string") root.dataset.motion = settings.motion
+        if (typeof settings.flow === "string") root.dataset.flow = settings.flow
+        if (typeof settings.fontScale === "string") root.style.setProperty("--book-font-scale", settings.fontScale + "%")
+        if (typeof settings.lineHeight === "string") root.style.setProperty("--book-line-height", String(Number(settings.lineHeight) / 100))
+        if (typeof settings.columnWidth === "string") root.style.setProperty("--book-column-width", settings.columnWidth + "rem")
+      } catch {}
+    })()
+  </script>
+  <link rel="stylesheet" href="../assets/book.css">
+  <link rel="stylesheet" href="../assets/exhibits/exhibits.css">
+  <script>
+    window.MathJax = {
+      tex: {
+        inlineMath: [["$", "$"], ["\\(", "\\)"]],
+        displayMath: [["$$", "$$"], ["\\[", "\\]"]],
+        processEscapes: true
+      },
+      options: {
+        skipHtmlTags: ["script", "noscript", "style", "textarea", "pre", "code"]
+      }
+    }
+  </script>
+  <script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+  <script defer src="../assets/book.js"></script>
+  <script defer src="../assets/exhibits/exhibit-kit.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/gh/muze-labs/simplyflow@main/packages/simplyflow/dist/simply.flow.js"></script>
+  <script type="module" src="../assets/exhibits/exhibits.js"></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to manuscript</a>
+  <div class="book-shell">
+    <nav class="chapter-map" aria-label="Chapters">
+  <button class="chapter-map-toggle" type="button" aria-expanded="false" aria-controls="chapter-map-panel" aria-label="Show contents" data-chapter-map-toggle>
+    <span>Contents</span>
+    <span class="chapter-map-toggle-state" data-chapter-map-label>Open</span>
+  </button>
+  <div id="chapter-map-panel" class="chapter-map-panel" data-chapter-map-panel hidden>
+  <a class="book-title" href="../index.html">Programming for Wizards</a>
+  
+<section class="map-section">
+  <h2>Prologue</h2>
+  <ol>
+    <li><a href="../chapters/01-this-is-not-a-programming-book.html"><span>01</span>This is not a programming book</a></li>
+  </ol>
+</section>
+<section class="map-section">
+  <h2>Part I: Representations are spells</h2>
+  <ol>
+    <li><a href="../chapters/02-numbers-hiding-calculations-in-symbols.html"><span>02</span>Numbers: bigger than you think</a></li><li><a href="../chapters/03-logic-turning-truth-into-machinery.html"><span>03</span>Logic: the truth is out there</a></li><li><a href="../chapters/04-language-the-tool-that-changes-the-thinker.html"><span>04</span>Language: the oldest trick</a></li>
+  </ol>
+</section>
+<section class="map-section">
+  <h2>Part II: The Web</h2>
+  <ol>
+    <li><a href="../chapters/05-the-web-as-address.html"><span>05</span>The Web: one string to rule them all</a></li><li><a href="../chapters/06-the-web-as-document.html"><span>06</span>The Web: the shape of words</a></li><li><a href="../chapters/07-the-web-as-platform.html"><span>07</span>The Web: waking up the words</a></li>
+  </ol>
+</section>
+<section class="map-section">
+  <h2>Part III: Inventing languages</h2>
+  <ol>
+    <li><a href="../chapters/08-programming-languages-are-for-humans.html"><span>08</span>Teaching machines our words</a></li><li><a aria-current="page" href="../chapters/09-every-program-contains-a-language.html"><span>09</span>Every program grows a language</a></li><li><a href="../chapters/10-code-exhibit-extending-javascript-with-jaqt.html"><span>10</span>Code exhibit: extending JavaScript with JAQT</a></li>
+  </ol>
+</section>
+<section class="map-section">
+  <h2>Part IV: Boundaries</h2>
+  <ol>
+    <li><a href="../chapters/11-the-knitted-castle.html"><span>11</span>The knitted castle</a></li><li><a href="../chapters/12-objects-binding-data-behavior-and-time.html"><span>12</span>Objects: binding data, behavior, and time</a></li><li><a href="../chapters/13-architecture-arches-pyramids-and-change.html"><span>13</span>Architecture: arches, pyramids, and change</a></li>
+  </ol>
+</section>
+<section class="map-section">
+  <h2>Part V: The Next Web</h2>
+  <ol>
+    <li><a href="../chapters/14-the-web-as-commons.html"><span>14</span>The Web as commons: innovation happens elsewhere</a></li><li><a href="../chapters/15-the-web-as-data.html"><span>15</span>The Web as data: things should have addresses too</a></li><li><a href="../chapters/16-the-web-as-home.html"><span>16</span>The Web as home: who owns your home directory?</a></li>
+  </ol>
+</section>
+<section class="map-section">
+  <h2>Epilogue</h2>
+  <ol>
+    <li><a href="../chapters/17-rule-zero-there-are-no-rules.html"><span>17</span>Epilogue: shifting ground</a></li>
+  </ol>
+</section>
+  </div>
+</nav>
+    <main id="main" class="manuscript">
+  <div class="book-progress" role="progressbar" aria-label="Book progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" data-book-progress>
+    <span data-book-progress-bar></span>
+  </div>
+  <div class="manuscript-pages" data-page-scroller data-book-chapter-id="09-every-program-contains-a-language" data-book-chapter-index="8" data-book-page-weights="466,2137,938,931,2137,1864,1422,1466,611,2199,1770,1059,2545,1487,1510,1228,173">
+  <header class="chapter-header">
+    <p class="chapter-kicker">Part III: Inventing languages</p>
+    <p class="chapter-number">Chapter 09</p>
+    <svg class="chapter-glyph" viewBox="0 0 96 96" focusable="false" aria-hidden="true"><path d="M22 31h20v20H22zM54 31h20v20H54zM38 60h20v20H38z"/><path d="M42 41h12M48 51v9"/></svg>
+  </header>
+  <h1 id="h-09-every-program-grows-a-language"><a class="anchor-link" href="#h-09-every-program-grows-a-language" aria-label="Link to Every program grows a language">#</a>Every program grows a language</h1>
+<p id="p-09-a-program-is-not-only-written-in-a" data-note-target>A program is not only written in a language. A program also creates a language.</p>
+<p id="p-09-every-variable-name-function-name-class-name-method" data-note-target>Every variable name, function name, class name, method name, command name, file name, and folder name adds a word to that language. Anyone reading your program must learn that language before they can safely change it.</p>
+<p id="p-09-this-is-why-reading-code-is-hard-it" data-note-target>This is why reading code is hard. It is much easier to write code. When you write code, you already know the language you are inventing. Everyone else has to reverse-engineer it from the traces you leave behind.</p>
+<p id="p-09-most-of-the-time-this-local-language-grows" data-note-target>Most of the time, this local language grows by accident. That is the uncomfortable part. You do not get to choose whether your program has a language. You only get to choose whether you notice it before it grows teeth.</p>
+<p id="p-09-you-add-a-function-because-one-bit-of" data-note-target>You add a function because one bit of code got annoying. You add a class because three things started to look alike. You add a convention because it made one page easier to read. After a while, your program has its own vocabulary. It has things you can say easily, things you can barely say at all, and things that only make sense to people who already live there.</p>
+<p id="p-09-that-is-not-automatically-bad-it-is-how" data-note-target>That is not automatically bad. It is how useful code grows.</p>
+<p id="p-09-but-sometimes-the-local-language-wants-to-stop" data-note-target>But sometimes the local language wants to stop being accidental. Sometimes the problem has a vocabulary of its own, and forcing that vocabulary through the general-purpose language starts to feel like translating a poem through a tax form.</p>
+<p id="p-09-at-that-point-a-wizard-may-decide-to" data-note-target>At that point, a wizard may decide to make the language explicit.</p>
+<aside id="rule-09-wizards-eighth-rule" class="wizard-rule" data-note-target>
+<p class="rule-label">Wizard's eighth rule</p>
+<p>Everything gets a name. It's better if you know it.</p>
+</aside>
+<h2 id="h-09-domain-specific-languages"><a class="anchor-link" href="#h-09-domain-specific-languages" aria-label="Link to Domain Specific Languages">#</a>Domain Specific Languages</h2>
+<p id="p-09-a-domain-specific-language-or-dsl-is-a" data-note-target>A Domain Specific Language, or DSL, is a language made for one kind of problem. A DSL is much more limited than a normal programming language. It is small and simple, focused on a single problem domain.</p>
+<p id="p-09-when-you-start-using-dsls-you-dont-use" data-note-target>When you start using DSLs, you don't use a single programming language anymore. You use many small languages, and glue them together to form your program.</p>
+<p id="p-09-creating-a-true-dsl-means-creating-your-own" data-note-target>Creating a true DSL means creating your own compiler and runtime. It makes the boundary between the DSL and the source programming language extremely clear. Done well, this boundary lines up with a natural boundary in the problem domain.</p>
+<p id="p-09-the-best-dsls-are-so-well-known-that" data-note-target>The best DSLs are so well known that we don't think of them as DSLs anymore.</p>
+<p id="p-09-one-example-is-regular-expressions-any-non-trivial" data-note-target>One example is Regular Expressions. Any non-trivial program will have them. Beginning programmers hate them, because they are so unreadable... for the untrained.<span class="side-links" aria-label="Links in this paragraph">
+<a href="https://en.wikipedia.org/wiki/Regular_expression" title="https://en.wikipedia.org/wiki/Regular_expression">https://en.wikipedia.org/wiki/Regular_expression</a>
+</span></p>
+<p id="p-09-another-example-is-sql-almost-any-software-that" data-note-target>Another example is SQL. Almost any software that uses a database will have some SQL in it. It may be hidden behind an ORM, but it will be there.</p>
+<p id="p-09-done-correctly-a-dsl-allows-you-to-divide" data-note-target>Done correctly, a DSL allows you to divide your problem along natural boundaries in the domain. Then you can solve each sub-problem separately. While you are solving that sub-problem, you don't have to think about the solution for other problems. You will not need to read code that isn't related. Your programming language doesn't need to have tools that aren't related to your current problem. DSLs allow you to have a high level view of the problem and not worry about low level implementation details.</p>
+<p id="p-09-but-the-most-important-thing-to-remember-is" data-note-target>But the most important thing to remember is that you are creating a new language whenever you add any variable, function, class or method. By being conscious of this, you can make sure that the language you are building is easy to learn, simple to use and expressive. Designed for humans, not computers.</p>
+<p id="p-09-most-names-only-need-to-work-inside-one" data-note-target>Most names only need to work inside one program. Some eventually want to leave.</p>
+<p id="p-09-lets-make-that-practical" data-note-target>Let's make that practical.</p>
+  <nav class="chapter-pagination" aria-label="Chapter navigation">
+    <a rel="prev" href="08-programming-languages-are-for-humans.html"><span>Previous</span>Teaching machines our words</a>
+    <a rel="next" href="10-code-exhibit-extending-javascript-with-jaqt.html"><span>Next</span>Code exhibit: extending JavaScript with JAQT</a>
+  </nav>
+  </div>
+  <div class="page-turner" data-page-controls hidden>
+    <button type="button" data-page-prev aria-label="Previous page"></button>
+    <button type="button" data-page-next aria-label="Next page"></button>
+  </div>
+</main>
+    <script>
+    (() => {
+      if (window.location.hash !== "#book-end") return
+      const scroller = document.querySelector("[data-page-scroller]")
+      if (!scroller) {
+        delete document.documentElement.dataset.initialPagePosition
+        return
+      }
+      scroller.style.scrollBehavior = "auto"
+      scroller.scrollLeft = scroller.scrollWidth
+      window.requestAnimationFrame(() => {
+        scroller.style.scrollBehavior = "auto"
+        scroller.scrollLeft = scroller.scrollWidth
+        delete document.documentElement.dataset.initialPagePosition
+      })
+    })()
+  </script>
+    <aside class="reader-margin" aria-label="Reader tools">
+  <button class="reader-toggle" type="button" aria-expanded="false" aria-controls="reader-tools-panel" aria-label="Show reader tools" data-reader-tools-toggle>
+    <span class="reader-toggle-name">
+      <svg class="reader-toggle-ornament" viewBox="0 0 44 32" aria-hidden="true" focusable="false">
+        <path d="M7 22c8-11 18-11 30 0"/>
+        <path d="M13 22V11m9 11V7m9 15V13"/>
+        <circle cx="13" cy="10" r="2"/>
+        <circle cx="22" cy="6" r="2"/>
+        <circle cx="31" cy="12" r="2"/>
+        <path d="M10 25h24"/>
+      </svg>
+      <span>Reader</span>
+    </span>
+    <span class="reader-toggle-state" data-reader-tools-label>Open</span>
+  </button>
+  <div id="reader-tools-panel" class="reader-tools" data-reader-tools-panel hidden>
+    <svg class="reader-panel-ornament" viewBox="0 0 260 120" aria-hidden="true" focusable="false">
+      <path class="ornament-wire" d="M15 82c28-34 54-35 78-3 20 27 47 27 78 0 27-24 51-21 74 9"/>
+      <path class="ornament-wire" d="M31 86V46c0-12 8-20 20-20h20"/>
+      <path class="ornament-wire" d="M101 67V36c0-10 7-17 17-17h31"/>
+      <path class="ornament-wire" d="M187 71V42c0-11 8-18 19-18h22"/>
+      <path class="ornament-leaf" d="M63 25c-12-8-23-6-32 5 12 3 23 1 32-5z"/>
+      <path class="ornament-leaf" d="M143 19c11-9 23-8 34 2-10 5-22 4-34-2z"/>
+      <path class="ornament-leaf" d="M225 23c-8-7-17-6-27 1 8 5 17 5 27-1z"/>
+      <rect class="ornament-chip" x="105" y="74" width="44" height="28" rx="6"/>
+      <path class="ornament-chip-line" d="M113 83h11m8 0h9M113 93h28"/>
+      <path class="ornament-pin" d="M113 74v-8m12 8v-8m12 8v-8m-24 44v-8m12 8v-8m12 8v-8"/>
+      <circle class="ornament-node" cx="31" cy="86" r="3"/>
+      <circle class="ornament-node" cx="101" cy="67" r="3"/>
+      <circle class="ornament-node" cx="187" cy="71" r="3"/>
+      <circle class="ornament-node" cx="244" cy="88" r="3"/>
+    </svg>
+    <section class="reader-panel">
+      <h2>Reader</h2>
+      <label>Font
+        <select data-setting="font">
+          <option value="publication">Publication</option>
+          <option value="simple-serif">Simple serif</option>
+          <option value="simple-sans">Simple sans</option>
+          <option value="high-legibility">High legibility</option>
+        </select>
+      </label>
+      <label>Size
+        <input data-setting="fontScale" type="range" min="92" max="124" step="4" value="100">
+      </label>
+      <label>Line
+        <input data-setting="lineHeight" type="range" min="145" max="185" step="5" value="160">
+      </label>
+      <label>Width
+        <input data-setting="columnWidth" type="range" min="38" max="66" step="2" value="48">
+      </label>
+      <label>Flow
+        <select data-setting="flow">
+          <option value="paged">Paged</option>
+          <option value="scroll">Scrolling</option>
+        </select>
+      </label>
+      <label>Theme
+        <select data-setting="theme">
+          <option value="light">Light</option>
+          <option value="dark">Dark</option>
+          <option value="contrast">Contrast</option>
+        </select>
+      </label>
+      <label>Motion
+        <select data-setting="motion">
+          <option value="auto">Auto</option>
+          <option value="reduced">Reduced</option>
+        </select>
+      </label>
+    </section>
+    <section class="reader-panel">
+      <h2>Book Data</h2>
+      <a href="../data/manifest.json">Manifest</a>
+    </section>
+  </div>
+</aside>
+  </div>
+</body>
+</html>

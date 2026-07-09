@@ -1,0 +1,251 @@
+<!doctype html>
+<html lang="en" data-font="publication" data-theme="light" data-motion="auto" data-flow="paged" data-page-kind="index" data-chapter-map="open" data-reader-tools="open">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light dark">
+  <title>Programming for Wizards</title>
+  <script>
+    (() => {
+      const root = document.documentElement
+      root.dataset.readerRuntime = "active"
+      if (root.dataset.pageKind === "chapter") root.dataset.readerBoot = "pending"
+      if (window.location.hash === "#book-end") root.dataset.initialPagePosition = "pending"
+      try {
+        const settings = JSON.parse(localStorage.getItem("programming-for-wizards.reader-settings") || "{}")
+        if (typeof settings.font === "string") root.dataset.font = settings.font
+        if (typeof settings.theme === "string") root.dataset.theme = settings.theme
+        if (typeof settings.motion === "string") root.dataset.motion = settings.motion
+        if (typeof settings.flow === "string") root.dataset.flow = settings.flow
+        if (typeof settings.fontScale === "string") root.style.setProperty("--book-font-scale", settings.fontScale + "%")
+        if (typeof settings.lineHeight === "string") root.style.setProperty("--book-line-height", String(Number(settings.lineHeight) / 100))
+        if (typeof settings.columnWidth === "string") root.style.setProperty("--book-column-width", settings.columnWidth + "rem")
+      } catch {}
+    })()
+  </script>
+  <link rel="stylesheet" href="assets/book.css">
+  <link rel="stylesheet" href="assets/exhibits/exhibits.css">
+  <script>
+    window.MathJax = {
+      tex: {
+        inlineMath: [["$", "$"], ["\\(", "\\)"]],
+        displayMath: [["$$", "$$"], ["\\[", "\\]"]],
+        processEscapes: true
+      },
+      options: {
+        skipHtmlTags: ["script", "noscript", "style", "textarea", "pre", "code"]
+      }
+    }
+  </script>
+  <script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+  <script defer src="assets/book.js"></script>
+  <script defer src="assets/exhibits/exhibit-kit.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/gh/muze-labs/simplyflow@main/packages/simplyflow/dist/simply.flow.js"></script>
+  <script type="module" src="assets/exhibits/exhibits.js"></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to manuscript</a>
+  <div class="book-shell">
+    <nav class="chapter-map" aria-label="Chapters">
+  <button class="chapter-map-toggle" type="button" aria-expanded="true" aria-controls="chapter-map-panel" aria-label="Hide contents" data-chapter-map-toggle>
+    <span>Contents</span>
+    <span class="chapter-map-toggle-state" data-chapter-map-label>Close</span>
+  </button>
+  <div id="chapter-map-panel" class="chapter-map-panel" data-chapter-map-panel>
+  <a class="book-title" href="index.html">Programming for Wizards</a>
+  
+<section class="map-section">
+  <h2>Prologue</h2>
+  <ol>
+    <li><a href="chapters/01-this-is-not-a-programming-book.html"><span>01</span>This is not a programming book</a></li>
+  </ol>
+</section>
+<section class="map-section">
+  <h2>Part I: Representations are spells</h2>
+  <ol>
+    <li><a href="chapters/02-numbers-hiding-calculations-in-symbols.html"><span>02</span>Numbers: bigger than you think</a></li><li><a href="chapters/03-logic-turning-truth-into-machinery.html"><span>03</span>Logic: the truth is out there</a></li><li><a href="chapters/04-language-the-tool-that-changes-the-thinker.html"><span>04</span>Language: the oldest trick</a></li>
+  </ol>
+</section>
+<section class="map-section">
+  <h2>Part II: The Web</h2>
+  <ol>
+    <li><a href="chapters/05-the-web-as-address.html"><span>05</span>The Web: one string to rule them all</a></li><li><a href="chapters/06-the-web-as-document.html"><span>06</span>The Web: the shape of words</a></li><li><a href="chapters/07-the-web-as-platform.html"><span>07</span>The Web: waking up the words</a></li>
+  </ol>
+</section>
+<section class="map-section">
+  <h2>Part III: Inventing languages</h2>
+  <ol>
+    <li><a href="chapters/08-programming-languages-are-for-humans.html"><span>08</span>Teaching machines our words</a></li><li><a href="chapters/09-every-program-contains-a-language.html"><span>09</span>Every program grows a language</a></li><li><a href="chapters/10-code-exhibit-extending-javascript-with-jaqt.html"><span>10</span>Code exhibit: extending JavaScript with JAQT</a></li>
+  </ol>
+</section>
+<section class="map-section">
+  <h2>Part IV: Boundaries</h2>
+  <ol>
+    <li><a href="chapters/11-the-knitted-castle.html"><span>11</span>The knitted castle</a></li><li><a href="chapters/12-objects-binding-data-behavior-and-time.html"><span>12</span>Objects: binding data, behavior, and time</a></li><li><a href="chapters/13-architecture-arches-pyramids-and-change.html"><span>13</span>Architecture: arches, pyramids, and change</a></li>
+  </ol>
+</section>
+<section class="map-section">
+  <h2>Part V: The Next Web</h2>
+  <ol>
+    <li><a href="chapters/14-the-web-as-commons.html"><span>14</span>The Web as commons: innovation happens elsewhere</a></li><li><a href="chapters/15-the-web-as-data.html"><span>15</span>The Web as data: things should have addresses too</a></li><li><a href="chapters/16-the-web-as-home.html"><span>16</span>The Web as home: who owns your home directory?</a></li>
+  </ol>
+</section>
+<section class="map-section">
+  <h2>Epilogue</h2>
+  <ol>
+    <li><a href="chapters/17-rule-zero-there-are-no-rules.html"><span>17</span>Epilogue: shifting ground</a></li>
+  </ol>
+</section>
+  </div>
+</nav>
+    <main id="main" class="manuscript manuscript-index">
+  <header class="chapter-header">
+    <p class="chapter-kicker">Enhanced Static Manuscript</p>
+    <svg class="chapter-glyph" viewBox="0 0 96 96" focusable="false" aria-hidden="true"><path d="M20 48h56M48 20v56M30 30l36 36M66 30 30 66"/><circle cx="48" cy="48" r="9"/></svg>
+    <h1>Programming for Wizards</h1>
+    <p class="lede">A book about programming as the art of changing the shape of a problem.</p>
+  </header>
+  <section class="index-toc" aria-labelledby="toc-heading">
+    <h2 id="toc-heading">Contents</h2>
+    
+    <section>
+      <h3>Prologue</h3>
+      <ol>
+        <li><a href="chapters/01-this-is-not-a-programming-book.html"><span>01</span>This is not a programming book</a></li>
+      </ol>
+    </section>
+    <section>
+      <h3>Part I: Representations are spells</h3>
+      <ol>
+        <li><a href="chapters/02-numbers-hiding-calculations-in-symbols.html"><span>02</span>Numbers: bigger than you think</a></li><li><a href="chapters/03-logic-turning-truth-into-machinery.html"><span>03</span>Logic: the truth is out there</a></li><li><a href="chapters/04-language-the-tool-that-changes-the-thinker.html"><span>04</span>Language: the oldest trick</a></li>
+      </ol>
+    </section>
+    <section>
+      <h3>Part II: The Web</h3>
+      <ol>
+        <li><a href="chapters/05-the-web-as-address.html"><span>05</span>The Web: one string to rule them all</a></li><li><a href="chapters/06-the-web-as-document.html"><span>06</span>The Web: the shape of words</a></li><li><a href="chapters/07-the-web-as-platform.html"><span>07</span>The Web: waking up the words</a></li>
+      </ol>
+    </section>
+    <section>
+      <h3>Part III: Inventing languages</h3>
+      <ol>
+        <li><a href="chapters/08-programming-languages-are-for-humans.html"><span>08</span>Teaching machines our words</a></li><li><a href="chapters/09-every-program-contains-a-language.html"><span>09</span>Every program grows a language</a></li><li><a href="chapters/10-code-exhibit-extending-javascript-with-jaqt.html"><span>10</span>Code exhibit: extending JavaScript with JAQT</a></li>
+      </ol>
+    </section>
+    <section>
+      <h3>Part IV: Boundaries</h3>
+      <ol>
+        <li><a href="chapters/11-the-knitted-castle.html"><span>11</span>The knitted castle</a></li><li><a href="chapters/12-objects-binding-data-behavior-and-time.html"><span>12</span>Objects: binding data, behavior, and time</a></li><li><a href="chapters/13-architecture-arches-pyramids-and-change.html"><span>13</span>Architecture: arches, pyramids, and change</a></li>
+      </ol>
+    </section>
+    <section>
+      <h3>Part V: The Next Web</h3>
+      <ol>
+        <li><a href="chapters/14-the-web-as-commons.html"><span>14</span>The Web as commons: innovation happens elsewhere</a></li><li><a href="chapters/15-the-web-as-data.html"><span>15</span>The Web as data: things should have addresses too</a></li><li><a href="chapters/16-the-web-as-home.html"><span>16</span>The Web as home: who owns your home directory?</a></li>
+      </ol>
+    </section>
+    <section>
+      <h3>Epilogue</h3>
+      <ol>
+        <li><a href="chapters/17-rule-zero-there-are-no-rules.html"><span>17</span>Epilogue: shifting ground</a></li>
+      </ol>
+    </section>
+  </section>
+</main>
+    <script>
+    (() => {
+      if (window.location.hash !== "#book-end") return
+      const scroller = document.querySelector("[data-page-scroller]")
+      if (!scroller) {
+        delete document.documentElement.dataset.initialPagePosition
+        return
+      }
+      scroller.style.scrollBehavior = "auto"
+      scroller.scrollLeft = scroller.scrollWidth
+      window.requestAnimationFrame(() => {
+        scroller.style.scrollBehavior = "auto"
+        scroller.scrollLeft = scroller.scrollWidth
+        delete document.documentElement.dataset.initialPagePosition
+      })
+    })()
+  </script>
+    <aside class="reader-margin" aria-label="Reader tools">
+  <button class="reader-toggle" type="button" aria-expanded="true" aria-controls="reader-tools-panel" aria-label="Hide reader tools" data-reader-tools-toggle>
+    <span class="reader-toggle-name">
+      <svg class="reader-toggle-ornament" viewBox="0 0 44 32" aria-hidden="true" focusable="false">
+        <path d="M7 22c8-11 18-11 30 0"/>
+        <path d="M13 22V11m9 11V7m9 15V13"/>
+        <circle cx="13" cy="10" r="2"/>
+        <circle cx="22" cy="6" r="2"/>
+        <circle cx="31" cy="12" r="2"/>
+        <path d="M10 25h24"/>
+      </svg>
+      <span>Reader</span>
+    </span>
+    <span class="reader-toggle-state" data-reader-tools-label>Close</span>
+  </button>
+  <div id="reader-tools-panel" class="reader-tools" data-reader-tools-panel>
+    <svg class="reader-panel-ornament" viewBox="0 0 260 120" aria-hidden="true" focusable="false">
+      <path class="ornament-wire" d="M15 82c28-34 54-35 78-3 20 27 47 27 78 0 27-24 51-21 74 9"/>
+      <path class="ornament-wire" d="M31 86V46c0-12 8-20 20-20h20"/>
+      <path class="ornament-wire" d="M101 67V36c0-10 7-17 17-17h31"/>
+      <path class="ornament-wire" d="M187 71V42c0-11 8-18 19-18h22"/>
+      <path class="ornament-leaf" d="M63 25c-12-8-23-6-32 5 12 3 23 1 32-5z"/>
+      <path class="ornament-leaf" d="M143 19c11-9 23-8 34 2-10 5-22 4-34-2z"/>
+      <path class="ornament-leaf" d="M225 23c-8-7-17-6-27 1 8 5 17 5 27-1z"/>
+      <rect class="ornament-chip" x="105" y="74" width="44" height="28" rx="6"/>
+      <path class="ornament-chip-line" d="M113 83h11m8 0h9M113 93h28"/>
+      <path class="ornament-pin" d="M113 74v-8m12 8v-8m12 8v-8m-24 44v-8m12 8v-8m12 8v-8"/>
+      <circle class="ornament-node" cx="31" cy="86" r="3"/>
+      <circle class="ornament-node" cx="101" cy="67" r="3"/>
+      <circle class="ornament-node" cx="187" cy="71" r="3"/>
+      <circle class="ornament-node" cx="244" cy="88" r="3"/>
+    </svg>
+    <section class="reader-panel">
+      <h2>Reader</h2>
+      <label>Font
+        <select data-setting="font">
+          <option value="publication">Publication</option>
+          <option value="simple-serif">Simple serif</option>
+          <option value="simple-sans">Simple sans</option>
+          <option value="high-legibility">High legibility</option>
+        </select>
+      </label>
+      <label>Size
+        <input data-setting="fontScale" type="range" min="92" max="124" step="4" value="100">
+      </label>
+      <label>Line
+        <input data-setting="lineHeight" type="range" min="145" max="185" step="5" value="160">
+      </label>
+      <label>Width
+        <input data-setting="columnWidth" type="range" min="38" max="66" step="2" value="48">
+      </label>
+      <label>Flow
+        <select data-setting="flow">
+          <option value="paged">Paged</option>
+          <option value="scroll">Scrolling</option>
+        </select>
+      </label>
+      <label>Theme
+        <select data-setting="theme">
+          <option value="light">Light</option>
+          <option value="dark">Dark</option>
+          <option value="contrast">Contrast</option>
+        </select>
+      </label>
+      <label>Motion
+        <select data-setting="motion">
+          <option value="auto">Auto</option>
+          <option value="reduced">Reduced</option>
+        </select>
+      </label>
+    </section>
+    <section class="reader-panel">
+      <h2>Book Data</h2>
+      <a href="data/manifest.json">Manifest</a>
+    </section>
+  </div>
+</aside>
+  </div>
+</body>
+</html>
