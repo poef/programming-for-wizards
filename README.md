@@ -13,8 +13,10 @@ Wizards do not merely write solutions. They learn to notice the world around a p
 
 ## Repository layout
 
-- [content/book.json](content/book.json): the explicit book structure used by the static site: title, parts, chapter order, chapter numbers, and source files. Chapter display titles are read from each manuscript H1.
+- [content/book.json](content/book.json): the explicit book structure used by the static site: title, author, cover, parts, chapter order, chapter numbers, back matter, and source files. Chapter and back matter display titles are read from each manuscript H1.
+- [content/frontmatter](content/frontmatter): source for the generated cover page.
 - [content/chapters](content/chapters): the manuscript chapter files. Their reading order is controlled by `content/book.json`, not by filename sorting.
+- [content/backmatter](content/backmatter): end matter such as the author bio.
 - [content/notes](content/notes): presentation, accessibility, exhibit, Solid and restructuring notes.
 - [phases](phases): one home for each product phase, from the static manuscript through the Solid-published edition.
 - [shared/assets](shared/assets): source assets that are shared across phases.
@@ -30,7 +32,7 @@ npm run build
 
 Open [www/index.html](www/index.html) after building.
 
-The generated site table of contents and chapter navigation use the order and parts from [content/book.json](content/book.json), while chapter display titles come from each chapter's H1. To rearrange chapters or move them between parts, edit `content/book.json` and rebuild.
+The generated site table of contents and chapter navigation use the order, cover, parts, and back matter from [content/book.json](content/book.json), while chapter and back matter display titles come from each file's H1. To rearrange chapters, move them between parts, or add/remove back matter pages, edit `content/book.json` and rebuild.
 
 The static site also loads MathJax for TeX-style formulas in the manuscript. Use `$...$` for inline formulas and `$$...$$` for display formulas. Standalone display blocks may also be written as a line containing `$$`, followed by the formula, followed by another `$$` line.
 
@@ -93,6 +95,10 @@ This is a human-readable snapshot. The canonical source for the generated site s
 ### Epilogue
 
 - [17. Epilogue: shifting ground](content/chapters/17-rule-zero-there-are-no-rules.md)
+
+### Back Matter
+
+- [Bio. About the author](content/backmatter/about-the-author.md)
 
 ### Working notes
 

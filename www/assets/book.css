@@ -982,8 +982,281 @@ th {
   overflow-x: auto;
 }
 
+
+
+.screen-reader-only {
+  block-size: 1px;
+  border: 0;
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  inline-size: 1px;
+  margin: -1px;
+  overflow: hidden;
+  padding: 0;
+  position: absolute;
+  white-space: nowrap;
+}
+
+.book-cover {
+  background:
+    linear-gradient(180deg, color-mix(in srgb, var(--color-panel), white 6%), color-mix(in srgb, var(--color-panel), var(--color-page) 18%)),
+    color-mix(in srgb, var(--color-panel), transparent 8%);
+  border: 1px solid var(--color-line);
+  border-radius: 20px;
+  box-shadow: var(--shadow-soft);
+  display: grid;
+  gap: clamp(1.4rem, 4vw, 2.6rem);
+  isolation: isolate;
+  min-block-size: min(65rem, calc(100vh - var(--book-shell-padding) - var(--book-shell-padding)));
+  overflow: hidden;
+  padding: clamp(1.25rem, 4vw, 3rem);
+  position: relative;
+}
+
+.cover-border {
+  color: var(--color-accent);
+  inset: 0;
+  opacity: 0.7;
+  pointer-events: none;
+  position: absolute;
+  z-index: -1;
+}
+
+.cover-ornament {
+  block-size: 100%;
+  display: block;
+  fill: none;
+  inline-size: 100%;
+  stroke: currentColor;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.cover-ornament-frame,
+.cover-ornament-inner {
+  stroke-width: 1.6;
+}
+
+.cover-ornament-inner {
+  opacity: 0.44;
+}
+
+.cover-ornament-corner,
+.cover-ornament-rule {
+  opacity: 0.62;
+  stroke-width: 2;
+}
+
+.cover-ornament-seal {
+  fill: color-mix(in srgb, var(--color-rule), transparent 8%);
+  stroke: none;
+}
+
+.cover-art {
+  align-self: end;
+  background: color-mix(in srgb, var(--color-panel), white 20%);
+  border: 1px solid color-mix(in srgb, var(--color-line), var(--color-ink) 10%);
+  box-shadow: 0 1rem 2.2rem color-mix(in srgb, var(--color-ink), transparent 88%);
+  inline-size: min(100%, 44rem);
+  justify-self: center;
+  margin: 0;
+  padding: clamp(0.45rem, 1.4vw, 0.75rem);
+}
+
+.cover-art img {
+  aspect-ratio: 1280 / 1072;
+  display: block;
+  filter: sepia(0.14) contrast(1.03);
+  inline-size: 100%;
+  object-fit: contain;
+}
+
+.cover-art figcaption {
+  color: var(--color-muted);
+  font-size: 0.72rem;
+  line-height: 1.35;
+  margin-block-start: 0.45rem;
+  text-align: center;
+}
+
+.cover-art figcaption a {
+  color: inherit;
+}
+
+.cover-copy {
+  display: grid;
+  gap: clamp(0.65rem, 2vw, 1rem);
+  justify-items: center;
+  margin: 0 auto;
+  max-inline-size: 44rem;
+  text-align: center;
+}
+
+.cover-copy h1 {
+  display: grid;
+  font-size: clamp(3.3rem, 10vw, 7rem);
+  letter-spacing: 0.045em;
+  line-height: 0.92;
+  margin: 0;
+  text-transform: uppercase;
+}
+
+.cover-title-line {
+  display: block;
+}
+
+.cover-title-small {
+  color: var(--color-muted);
+  display: block;
+  font-family: var(--book-font-heading);
+  font-size: 0.28em;
+  font-style: italic;
+  font-weight: 400;
+  letter-spacing: 0.02em;
+  line-height: 1.4;
+  text-transform: none;
+}
+
+.cover-kicker,
+.cover-author {
+  color: var(--color-muted);
+  font-size: 0.82rem;
+  font-weight: 700;
+  letter-spacing: 0.11em;
+  margin: 0;
+  text-transform: uppercase;
+}
+
+.cover-kicker {
+  border-block: 1px solid color-mix(in srgb, var(--color-line), transparent 24%);
+  padding-block: 0.7rem;
+}
+
+.cover-author {
+  color: var(--color-rule);
+  margin-block-start: 0.35rem;
+}
+
+.cover-icons {
+  align-items: center;
+  color: color-mix(in srgb, var(--color-rule), var(--color-ink) 8%);
+  display: flex;
+  gap: clamp(0.55rem, 2vw, 1.2rem);
+  justify-content: center;
+  margin-block: 0.3rem;
+}
+
+.cover-icons::before,
+.cover-icons::after {
+  background: currentColor;
+  content: "";
+  display: block;
+  block-size: 1px;
+  inline-size: clamp(2rem, 8vw, 6rem);
+  opacity: 0.55;
+}
+
+.cover-icons svg {
+  block-size: clamp(1.6rem, 4vw, 2.1rem);
+  fill: none;
+  inline-size: clamp(1.6rem, 4vw, 2.1rem);
+  stroke: currentColor;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 2;
+}
+
+.cover-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  justify-content: center;
+  margin-block-start: 0.25rem;
+}
+
+.cover-actions a {
+  background: color-mix(in srgb, var(--color-rule), transparent 10%);
+  border: 1px solid color-mix(in srgb, var(--color-rule), transparent 20%);
+  border-radius: 999px;
+  color: var(--color-panel);
+  font-weight: 700;
+  padding: 0.7rem 1rem;
+  text-decoration: none;
+}
+
+.cover-actions a + a {
+  background: transparent;
+  color: var(--color-rule);
+}
+
+.cover-note {
+  border-block-start: 1px solid var(--color-line);
+  color: var(--color-muted);
+  justify-self: center;
+  max-inline-size: 44rem;
+  padding-block-start: 1.25rem;
+  text-align: center;
+}
+
+.cover-note p {
+  font-size: 1.04rem;
+  line-height: 1.55;
+  margin-inline: auto;
+  max-inline-size: 36rem;
+  text-wrap: pretty;
+}
+
+.cover-note .anchor-link {
+  display: none;
+}
+
+.chapter-header-back-matter .chapter-glyph {
+  color: var(--color-accent);
+}
+
+
+.book-cover-fixed {
+  align-content: start;
+  justify-items: center;
+  min-block-size: auto;
+}
+
+.cover-full-art {
+  inline-size: min(100%, 42rem);
+  margin: 0 auto;
+}
+
+.cover-full-art img {
+  background: color-mix(in srgb, var(--color-panel), white 10%);
+  border-radius: 0.7rem;
+  box-shadow: 0 1.4rem 3rem color-mix(in srgb, var(--color-ink), transparent 84%);
+  display: block;
+  block-size: auto;
+  inline-size: 100%;
+}
+
+.cover-full-art figcaption {
+  color: var(--color-muted);
+  font-size: 0.78rem;
+  line-height: 1.4;
+  margin-block-start: 0.75rem;
+  text-align: center;
+}
+
+.cover-full-art figcaption a {
+  color: inherit;
+}
+
+.book-cover-fixed .cover-actions {
+  margin-block-start: 0.3rem;
+}
+
+.book-cover-fixed .cover-note {
+  max-inline-size: 42rem;
+}
+
 .index-toc {
-  margin-top: 2rem;
+  margin-top: clamp(2rem, 6vw, 4rem);
 }
 
 .index-toc section {
@@ -1156,9 +1429,9 @@ th {
 
   .book-shell {
     grid-template-columns: minmax(0, 1fr);
-    inline-size: 100%;
+    inline-size: 100vw;
     justify-content: stretch;
-    max-inline-size: 100%;
+    max-inline-size: 100vw;
     overflow-x: hidden;
   }
 
@@ -1173,8 +1446,9 @@ th {
 
   .chapter-map,
   .reader-margin {
-    inline-size: 100%;
+    inline-size: calc(100vw - var(--book-shell-padding) - var(--book-shell-padding));
     justify-self: stretch;
+    max-inline-size: 100%;
     max-height: none;
     overflow: visible;
     position: static;
@@ -1200,7 +1474,7 @@ th {
   }
 
   .manuscript {
-    inline-size: 100%;
+    inline-size: calc(100vw - var(--book-shell-padding) - var(--book-shell-padding));
     max-inline-size: 100%;
     min-inline-size: 0;
     overflow: visible;
@@ -1261,5 +1535,31 @@ th {
 
   h1 {
     font-size: 2.25rem;
+  }
+}
+
+
+@media (max-width: 40rem) {
+  .book-cover {
+    min-block-size: auto;
+    padding: clamp(2rem, 12vw, 3rem) clamp(1rem, 7vw, 1.5rem);
+  }
+
+  .cover-copy h1 {
+    font-size: clamp(2.7rem, 17vw, 4.1rem);
+  }
+
+  .cover-actions {
+    align-items: stretch;
+    flex-direction: column;
+    inline-size: min(100%, 18rem);
+  }
+
+  .cover-full-art {
+    inline-size: min(100%, 28rem);
+  }
+
+  .cover-actions a {
+    text-align: center;
   }
 }

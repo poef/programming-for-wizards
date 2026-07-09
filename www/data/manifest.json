@@ -1,7 +1,7 @@
 {
   "id": "programming-for-wizards",
   "title": "Programming for Wizards",
-  "generatedAt": "2026-07-09T08:52:44.737Z",
+  "generatedAt": "2026-07-09T12:04:10.945Z",
   "phase": "01-enhanced-static-manuscript",
   "features": {
     "notes": "planned",
@@ -212,9 +212,201 @@
       "partId": "epilogue",
       "url": "chapters/17-rule-zero-there-are-no-rules.html",
       "previous": "16-the-web-as-home",
-      "next": null,
+      "next": "about-the-author",
       "wordCount": 173,
       "rule": "Wizard's final rule"
+    }
+  ],
+  "pages": [
+    {
+      "id": "cover",
+      "kind": "cover",
+      "label": "Cover",
+      "title": "Programming for Wizards",
+      "part": "Cover",
+      "partId": "cover",
+      "url": "index.html",
+      "wordCount": 58
+    },
+    {
+      "id": "01-this-is-not-a-programming-book",
+      "kind": "chapter",
+      "label": "01",
+      "title": "This is not a programming book",
+      "part": "Prologue",
+      "partId": "prologue",
+      "url": "chapters/01-this-is-not-a-programming-book.html",
+      "wordCount": 466
+    },
+    {
+      "id": "02-numbers-hiding-calculations-in-symbols",
+      "kind": "chapter",
+      "label": "02",
+      "title": "Numbers: bigger than you think",
+      "part": "Part I: Representations are spells",
+      "partId": "representations-are-spells",
+      "url": "chapters/02-numbers-hiding-calculations-in-symbols.html",
+      "wordCount": 2137
+    },
+    {
+      "id": "03-logic-turning-truth-into-machinery",
+      "kind": "chapter",
+      "label": "03",
+      "title": "Logic: the truth is out there",
+      "part": "Part I: Representations are spells",
+      "partId": "representations-are-spells",
+      "url": "chapters/03-logic-turning-truth-into-machinery.html",
+      "wordCount": 938
+    },
+    {
+      "id": "04-language-the-tool-that-changes-the-thinker",
+      "kind": "chapter",
+      "label": "04",
+      "title": "Language: the oldest trick",
+      "part": "Part I: Representations are spells",
+      "partId": "representations-are-spells",
+      "url": "chapters/04-language-the-tool-that-changes-the-thinker.html",
+      "wordCount": 931
+    },
+    {
+      "id": "05-the-web-as-address",
+      "kind": "chapter",
+      "label": "05",
+      "title": "The Web: one string to rule them all",
+      "part": "Part II: The Web",
+      "partId": "the-web",
+      "url": "chapters/05-the-web-as-address.html",
+      "wordCount": 2137
+    },
+    {
+      "id": "06-the-web-as-document",
+      "kind": "chapter",
+      "label": "06",
+      "title": "The Web: the shape of words",
+      "part": "Part II: The Web",
+      "partId": "the-web",
+      "url": "chapters/06-the-web-as-document.html",
+      "wordCount": 1864
+    },
+    {
+      "id": "07-the-web-as-platform",
+      "kind": "chapter",
+      "label": "07",
+      "title": "The Web: waking up the words",
+      "part": "Part II: The Web",
+      "partId": "the-web",
+      "url": "chapters/07-the-web-as-platform.html",
+      "wordCount": 1422
+    },
+    {
+      "id": "08-programming-languages-are-for-humans",
+      "kind": "chapter",
+      "label": "08",
+      "title": "Teaching machines our words",
+      "part": "Part III: Inventing languages",
+      "partId": "inventing-languages",
+      "url": "chapters/08-programming-languages-are-for-humans.html",
+      "wordCount": 1466
+    },
+    {
+      "id": "09-every-program-contains-a-language",
+      "kind": "chapter",
+      "label": "09",
+      "title": "Every program grows a language",
+      "part": "Part III: Inventing languages",
+      "partId": "inventing-languages",
+      "url": "chapters/09-every-program-contains-a-language.html",
+      "wordCount": 611
+    },
+    {
+      "id": "10-code-exhibit-extending-javascript-with-jaqt",
+      "kind": "chapter",
+      "label": "10",
+      "title": "Code exhibit: extending JavaScript with JAQT",
+      "part": "Part III: Inventing languages",
+      "partId": "inventing-languages",
+      "url": "chapters/10-code-exhibit-extending-javascript-with-jaqt.html",
+      "wordCount": 2199
+    },
+    {
+      "id": "11-the-knitted-castle",
+      "kind": "chapter",
+      "label": "11",
+      "title": "The knitted castle",
+      "part": "Part IV: Boundaries",
+      "partId": "boundaries",
+      "url": "chapters/11-the-knitted-castle.html",
+      "wordCount": 1770
+    },
+    {
+      "id": "12-objects-binding-data-behavior-and-time",
+      "kind": "chapter",
+      "label": "12",
+      "title": "Objects: binding data, behavior, and time",
+      "part": "Part IV: Boundaries",
+      "partId": "boundaries",
+      "url": "chapters/12-objects-binding-data-behavior-and-time.html",
+      "wordCount": 1012
+    },
+    {
+      "id": "13-architecture-arches-pyramids-and-change",
+      "kind": "chapter",
+      "label": "13",
+      "title": "Architecture: arches, pyramids, and change",
+      "part": "Part IV: Boundaries",
+      "partId": "boundaries",
+      "url": "chapters/13-architecture-arches-pyramids-and-change.html",
+      "wordCount": 2545
+    },
+    {
+      "id": "14-the-web-as-commons",
+      "kind": "chapter",
+      "label": "14",
+      "title": "The Web as commons: innovation happens elsewhere",
+      "part": "Part V: The Next Web",
+      "partId": "the-next-web",
+      "url": "chapters/14-the-web-as-commons.html",
+      "wordCount": 1487
+    },
+    {
+      "id": "15-the-web-as-data",
+      "kind": "chapter",
+      "label": "15",
+      "title": "The Web as data: things should have addresses too",
+      "part": "Part V: The Next Web",
+      "partId": "the-next-web",
+      "url": "chapters/15-the-web-as-data.html",
+      "wordCount": 1510
+    },
+    {
+      "id": "16-the-web-as-home",
+      "kind": "chapter",
+      "label": "16",
+      "title": "The Web as home: who owns your home directory?",
+      "part": "Part V: The Next Web",
+      "partId": "the-next-web",
+      "url": "chapters/16-the-web-as-home.html",
+      "wordCount": 1228
+    },
+    {
+      "id": "17-rule-zero-there-are-no-rules",
+      "kind": "chapter",
+      "label": "17",
+      "title": "Epilogue: shifting ground",
+      "part": "Epilogue",
+      "partId": "epilogue",
+      "url": "chapters/17-rule-zero-there-are-no-rules.html",
+      "wordCount": 173
+    },
+    {
+      "id": "about-the-author",
+      "kind": "back-matter",
+      "label": "Bio",
+      "title": "About the author",
+      "part": "Back Matter",
+      "partId": "back-matter",
+      "url": "chapters/about-the-author.html",
+      "wordCount": 133
     }
   ],
   "exhibits": [],
@@ -6700,6 +6892,34 @@
       "label": "Wizard's final rule",
       "chapter": "17-rule-zero-there-are-no-rules",
       "url": "chapters/17-rule-zero-there-are-no-rules.html#rule-17-wizards-final-rule"
+    },
+    {
+      "id": "h-Bio-about-the-author",
+      "type": "heading",
+      "label": "About the author",
+      "chapter": "about-the-author",
+      "url": "chapters/about-the-author.html#h-Bio-about-the-author"
+    },
+    {
+      "id": "p-Bio-auke-van-slooten-is-the-founder-of-muze",
+      "type": "paragraph",
+      "label": "Auke van Slooten is the founder of Muze, a web software studio built around a stubborn belief: the Web should stay a pla",
+      "chapter": "about-the-author",
+      "url": "chapters/about-the-author.html#p-Bio-auke-van-slooten-is-the-founder-of-muze"
+    },
+    {
+      "id": "p-Bio-his-work-focuses-on-small-understandable-tools-for",
+      "type": "paragraph",
+      "label": "His work focuses on small, understandable tools for the open Web: libraries, editors, teaching material, and experiments",
+      "chapter": "about-the-author",
+      "url": "chapters/about-the-author.html#p-Bio-his-work-focuses-on-small-understandable-tools-for"
+    },
+    {
+      "id": "p-Bio-programming-for-wizards-grew-out-of-that-work",
+      "type": "paragraph",
+      "label": "Programming for Wizards grew out of that work. It is written for people who suspect that computers are not magic, but al",
+      "chapter": "about-the-author",
+      "url": "chapters/about-the-author.html#p-Bio-programming-for-wizards-grew-out-of-that-work"
     }
   ]
 }

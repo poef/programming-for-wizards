@@ -35,6 +35,7 @@ function createManifest(book) {
       staticFallbacks: true
     },
     chapters: [],
+    pages: [],
     exhibits: [],
     rules: [],
     anchors: []
@@ -49,14 +50,23 @@ async function main() {
 
   const book = await readBook()
   const chapters = await readChapters(book)
+  const backMatterPages = await readBackMatter(book)
+  const readingItems = [...chapters, ...backMatterPages]
+  const cover = await readCover(book)
   const wizards = createWizardRegistry(await readWizards())
   const wizardState = { seen: new Set() }
   const manifest = createManifest(book)
-  const renderedChapters = chapters.map((chapter, index) => {
+
+  const coverRenderer = new MarkdownRenderer(cover, { wizards, wizardState })
+  const renderedCover = coverRenderer.render(cover.body)
+  cover.url = "index.html"
+  manifest.pages.push(pageManifestEntry(cover))
+
+  const renderedChapters = readingItems.map((chapter, index) => {
     const renderer = new MarkdownRenderer(chapter, { wizards, wizardState })
     const html = renderer.render(chapter.body)
-    const previous = chapters[index - 1] ?? null
-    const next = chapters[index + 1] ?? null
+    const previous = readingItems[index - 1] ?? null
+    const next = readingItems[index + 1] ?? null
 
     Object.assign(chapter, {
       anchors: renderer.anchors,
@@ -67,18 +77,21 @@ async function main() {
       next: next?.id ?? null
     })
 
-    manifest.chapters.push({
-      id: chapter.id,
-      number: chapter.number,
-      title: chapter.title,
-      part: chapter.part,
-      partId: chapter.partId,
-      url: chapter.url,
-      previous: chapter.previous,
-      next: chapter.next,
-      wordCount: chapter.wordCount,
-      rule: chapter.rules[chapter.rules.length - 1]?.label ?? null
-    })
+    manifest.pages.push(pageManifestEntry(chapter))
+    if (chapter.kind === "chapter") {
+      manifest.chapters.push({
+        id: chapter.id,
+        number: chapter.number,
+        title: chapter.title,
+        part: chapter.part,
+        partId: chapter.partId,
+        url: chapter.url,
+        previous: chapter.previous,
+        next: chapter.next,
+        wordCount: chapter.wordCount,
+        rule: chapter.rules[chapter.rules.length - 1]?.label ?? null
+      })
+    }
     manifest.exhibits.push(...chapter.exhibits)
     manifest.rules.push(...chapter.rules)
     manifest.anchors.push(...chapter.anchors)
@@ -89,8 +102,8 @@ async function main() {
         title: `${chapter.title} - ${book.title}`,
         book,
         currentId: chapter.id,
-        chapters,
-        main: chapterLayout(chapter, html, previous, next, chapters, index),
+        chapters: readingItems,
+        main: chapterLayout(chapter, html, previous, next, readingItems, index),
         pageKind: "chapter"
       })
     }
@@ -109,8 +122,8 @@ async function main() {
       title: book.title,
       book,
       currentId: null,
-      chapters,
-      main: indexLayout(book, chapters),
+      chapters: readingItems,
+      main: indexLayout(book, readingItems, { ...cover, html: renderedCover }),
       pageKind: "index"
     })
   )
@@ -127,7 +140,7 @@ async function main() {
     { recursive: true }
   )
 
-  console.log(`Built ${chapters.length} chapters into ${path.relative(rootDir, siteDir)}`)
+  console.log(`Built ${readingItems.length} reading pages into ${path.relative(rootDir, siteDir)}`)
 }
 
 async function readBook() {
@@ -177,6 +190,93 @@ function normalizeHref(href) {
   }
 }
 
+
+async function readCover(book) {
+  const cover = book.cover ?? {
+    id: "cover",
+    title: book.title,
+    source: "frontmatter/cover.md"
+  }
+
+  return readContentPage(cover, {
+    kind: "cover",
+    id: "cover",
+    title: book.title,
+    part: "Cover",
+    partId: "cover",
+    label: "Cover"
+  })
+}
+
+async function readBackMatter(book) {
+  const pages = book.backMatter ?? []
+  assertArray(pages, "book.backMatter")
+
+  const result = []
+  const seenIds = new Set()
+
+  for (const page of pages) {
+    const item = await readContentPage(page, {
+      kind: "back-matter",
+      part: "Back Matter",
+      partId: "back-matter",
+      label: page.label ?? page.number ?? "Back"
+    })
+
+    if (seenIds.has(item.id)) {
+      throw new Error(`Duplicate back matter id in content/book.json: ${item.id}`)
+    }
+    seenIds.add(item.id)
+    result.push(item)
+  }
+
+  return result
+}
+
+async function readContentPage(pageData, defaults = {}) {
+  const id = pageData.id ?? defaults.id
+  const source = pageData.source ?? defaults.source
+  const part = pageData.part ?? defaults.part ?? "Back Matter"
+  const partId = pageData.partId ?? defaults.partId ?? "back-matter"
+
+  assertText(id, `${defaults.kind ?? "page"}.id`)
+  assertText(source, `${defaults.kind ?? "page"}.source`)
+  assertText(part, `${defaults.kind ?? "page"}.part`)
+  assertText(partId, `${defaults.kind ?? "page"}.partId`)
+
+  const sourcePath = safeContentPath(source)
+  const file = await readFile(sourcePath, "utf8")
+  const { attributes, body } = parseFrontMatter(file)
+  const markdownTitle = body.match(/^#\s+(.+)$/m)?.[1]?.trim()
+
+  return {
+    kind: pageData.kind ?? defaults.kind ?? "page",
+    id,
+    number: pageData.number ?? defaults.number ?? "",
+    label: pageData.label ?? pageData.number ?? defaults.label ?? "",
+    title: markdownTitle ?? pageData.title ?? defaults.title ?? id,
+    part,
+    partId,
+    sourcePath: `content/${source}`,
+    attributes,
+    wordCount: countWords(body),
+    body
+  }
+}
+
+function pageManifestEntry(page) {
+  return {
+    id: page.id,
+    kind: page.kind,
+    label: page.label || page.number || null,
+    title: page.title,
+    part: page.part,
+    partId: page.partId,
+    url: page.url ?? null,
+    wordCount: page.wordCount
+  }
+}
+
 async function readChapters(book) {
   const chapters = []
   const seenParts = new Set()
@@ -216,8 +316,10 @@ async function readChapters(book) {
       const markdownTitle = body.match(/^#\s+(.+)$/m)?.[1]?.trim()
 
       chapters.push({
+        kind: "chapter",
         id: chapterData.id,
         number: chapterData.number,
+        label: chapterData.number,
         title: markdownTitle ?? chapterData.title ?? chapterData.id,
         part: part.title,
         partId: part.id,
@@ -786,7 +888,7 @@ function chapterMap(book, chapters, currentId, relativeRoot, chapterMapDefault) 
   <ol>
     ${partChapters.map(chapter => {
       const isCurrent = chapter.id === currentId
-      return `<li><a${isCurrent ? ` aria-current="page"` : ""} href="${relativeRoot}chapters/${chapter.id}.html" data-chapter-start><span>${chapter.number}</span>${escapeHtml(chapter.title)}</a></li>`
+      return `<li><a${isCurrent ? ` aria-current="page"` : ""} href="${relativeRoot}chapters/${chapter.id}.html" data-chapter-start><span>${escapeHtml(chapter.label || chapter.number)}</span>${escapeHtml(chapter.title)}</a></li>`
     }).join("")}
   </ol>
 </section>`).join("")
@@ -893,45 +995,109 @@ function readerPanelOrnament() {
     </svg>`
 }
 
-function indexLayout(book, chapters) {
+function indexLayout(book, chapters, cover) {
   const grouped = new Map()
   for (const chapter of chapters) {
     if (!grouped.has(chapter.part)) grouped.set(chapter.part, [])
     grouped.get(chapter.part).push(chapter)
   }
 
+  const firstChapter = chapters.find(chapter => chapter.kind === "chapter") ?? chapters[0]
+  const backMatter = chapters.find(chapter => chapter.kind === "back-matter")
+  const artTitle = cover.attributes.artTitle ?? "The Flammarion Engraving"
+  const artCredit = cover.attributes.artCredit ?? "Camille Flammarion, L'atmosphère: météorologie populaire, 1888. Public domain."
+  const artUrl = cover.attributes.artUrl ?? "https://commons.wikimedia.org/wiki/File:The_Flammarion_Engraving_(ca._1888).jpg"
+  const coverImage = cover.attributes.coverImage ?? "assets/images/programming-for-wizards-cover-sideways.png"
+  const coverImageAlt = cover.attributes.coverImageAlt ?? "Cover of Programming for Wizards, with a Flammarion-inspired engraving above the title, subtitle, author name, and small technical manuscript ornaments."
+
   return `<main id="main" class="manuscript manuscript-index">
-  <header class="chapter-header">
-    <p class="chapter-kicker">Enhanced Static Manuscript</p>
-    ${chapterGlyph(0)}
-    <h1>${escapeHtml(book.title)}</h1>
-    <p class="lede">${escapeHtml(book.subtitle ?? "")}</p>
-  </header>
+  <section class="book-cover book-cover-fixed" aria-labelledby="cover-title">
+    <h1 id="cover-title" class="screen-reader-only">${escapeHtml(book.title)}</h1>
+    <figure class="cover-full-art">
+      <img src="${escapeAttribute(coverImage)}" width="1024" height="1536" alt="${escapeAttribute(coverImageAlt)}">
+      <figcaption><a href="${escapeAttribute(artUrl)}">${escapeHtml(artTitle)}</a>. ${escapeHtml(artCredit)} Cover composition uses the public-domain engraving as its visual source.</figcaption>
+    </figure>
+    <div class="cover-actions">
+      ${firstChapter ? `<a href="chapters/${firstChapter.id}.html" data-chapter-start>Start reading</a>` : ""}
+      ${backMatter ? `<a href="chapters/${backMatter.id}.html" data-chapter-start>About the author</a>` : ""}
+    </div>
+    <div class="cover-note">
+      ${cover.html}
+    </div>
+  </section>
   <section class="index-toc" aria-labelledby="toc-heading">
     <h2 id="toc-heading">Contents</h2>
     ${[...grouped.entries()].map(([part, partChapters]) => `
     <section>
       <h3>${escapeHtml(part)}</h3>
       <ol>
-        ${partChapters.map(chapter => `<li><a href="chapters/${chapter.id}.html" data-chapter-start><span>${chapter.number}</span>${escapeHtml(chapter.title)}</a></li>`).join("")}
+        ${partChapters.map(chapter => `<li><a href="chapters/${chapter.id}.html" data-chapter-start><span>${escapeHtml(chapter.label || chapter.number)}</span>${escapeHtml(chapter.title)}</a></li>`).join("")}
       </ol>
     </section>`).join("")}
   </section>
 </main>`
 }
 
+function coverOrnament() {
+  return `<svg class="cover-ornament" viewBox="0 0 640 960" focusable="false" aria-hidden="true">
+    <rect class="cover-ornament-frame" x="28" y="28" width="584" height="904" rx="20"/>
+    <rect class="cover-ornament-inner" x="52" y="52" width="536" height="856" rx="12"/>
+    <path class="cover-ornament-corner" d="M82 82c34 0 56 19 66 58M82 82c0 34 19 56 58 66M558 82c-34 0-56 19-66 58M558 82c0 34-19 56-58 66M82 878c34 0 56-19 66-58M82 878c0-34 19-56 58-66M558 878c-34 0-56-19-66-58M558 878c0-34-19-56-58-66"/>
+    <path class="cover-ornament-rule" d="M180 892h280M180 68h280"/>
+    <circle class="cover-ornament-seal" cx="320" cy="68" r="5"/>
+    <circle class="cover-ornament-seal" cx="320" cy="892" r="5"/>
+  </svg>`
+}
+
+function coverIconTerminal() {
+  return `<svg viewBox="0 0 40 40" focusable="false" aria-hidden="true">
+    <rect x="5" y="8" width="30" height="24" rx="3"/>
+    <path d="M12 17l5 4-5 4M20 26h8"/>
+  </svg>`
+}
+
+function coverIconBraces() {
+  return `<svg viewBox="0 0 40 40" focusable="false" aria-hidden="true">
+    <path d="M17 10c-5 0-5 5-5 7s-2 3-4 3c2 0 4 1 4 3s0 7 5 7M23 10c5 0 5 5 5 7s2 3 4 3c-2 0-4 1-4 3s0 7-5 7"/>
+  </svg>`
+}
+
+function coverIconGraph() {
+  return `<svg viewBox="0 0 40 40" focusable="false" aria-hidden="true">
+    <circle cx="12" cy="28" r="4"/><circle cx="20" cy="12" r="4"/><circle cx="30" cy="26" r="4"/>
+    <path d="M14 25l4-9M23 15l5 8M16 28h10"/>
+  </svg>`
+}
+
+function coverIconBook() {
+  return `<svg viewBox="0 0 40 40" focusable="false" aria-hidden="true">
+    <path d="M8 11h10c3 0 5 2 5 5v15c0-3-2-5-5-5H8zM32 11H22c-3 0-5 2-5 5v15c0-3 2-5 5-5h10z"/>
+    <path d="M12 17h6M12 22h6M26 17h4M26 22h4"/>
+  </svg>`
+}
+
+function coverIconRobot() {
+  return `<svg viewBox="0 0 40 40" focusable="false" aria-hidden="true">
+    <rect x="10" y="13" width="20" height="17" rx="4"/>
+    <path d="M20 13V8M8 22H5M35 22h-3M15 32h10"/>
+    <circle cx="16" cy="21" r="1.8"/><circle cx="24" cy="21" r="1.8"/>
+  </svg>`
+}
+
 function chapterLayout(chapter, renderedBody, previous, next, chapters, chapterIndex) {
   const pageWeights = chapters.map(entry => entry.wordCount || 1).join(",")
+  const glyphNumber = Number.isFinite(Number(chapter.number)) ? Number(chapter.number) : 0
+  const pageLabel = chapter.kind === "chapter" ? `Chapter ${chapter.number}` : (chapter.label || chapter.part)
 
   return `<main id="main" class="manuscript">
   <div class="book-progress" role="progressbar" aria-label="Book progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" data-book-progress>
     <span data-book-progress-bar></span>
   </div>
   <div class="manuscript-pages" data-page-scroller data-book-chapter-id="${escapeAttribute(chapter.id)}" data-book-chapter-index="${chapterIndex}" data-book-page-weights="${escapeAttribute(pageWeights)}">
-  <header class="chapter-header">
+  <header class="chapter-header ${chapter.kind === "back-matter" ? "chapter-header-back-matter" : ""}">
     <p class="chapter-kicker">${escapeHtml(chapter.part)}</p>
-    <p class="chapter-number">Chapter ${escapeHtml(chapter.number)}</p>
-    ${chapterGlyph(Number(chapter.number))}
+    <p class="chapter-number">${escapeHtml(pageLabel)}</p>
+    ${chapterGlyph(glyphNumber)}
   </header>
   ${renderedBody}
   <nav class="chapter-pagination" aria-label="Chapter navigation">

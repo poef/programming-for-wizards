@@ -1,7 +1,7 @@
 {
   "id": "programming-for-wizards",
   "title": "Programming for Wizards",
-  "subtitle": "A book about programming as the art of changing the shape of a problem.",
+  "subtitle": "A sideways look at writing software.",
   "parts": [
     {
       "id": "prologue",
@@ -146,6 +146,20 @@
           "source": "chapters/17-rule-zero-there-are-no-rules.md"
         }
       ]
+    }
+  ],
+  "author": "Auke van Slooten",
+  "cover": {
+    "id": "cover",
+    "title": "Programming for Wizards",
+    "source": "frontmatter/cover.md"
+  },
+  "backMatter": [
+    {
+      "number": "Bio",
+      "id": "about-the-author",
+      "title": "About the author",
+      "source": "backmatter/about-the-author.md"
     }
   ]
 }
