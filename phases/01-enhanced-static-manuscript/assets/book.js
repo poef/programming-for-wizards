@@ -3,6 +3,7 @@
   const readerToolsKey = "programming-for-wizards.reader-tools"
   const chapterMapKey = "programming-for-wizards.chapter-map"
   const readingProgressKey = "programming-for-wizards.reading-progress"
+  const chapterStartKey = "programming-for-wizards.chapter-start"
   const hasOwn = (object, key) => Object.prototype.hasOwnProperty.call(object, key)
 
   const defaults = {
@@ -174,6 +175,24 @@
     })
   }
 
+  const bindChapterStartLinks = () => {
+    document.addEventListener("click", event => {
+      const link = event.target?.closest?.("a[data-chapter-start]")
+      if (!link || event.defaultPrevented || event.button !== 0) return
+      if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return
+      if (link.target && link.target !== "_self") return
+
+      try {
+        const url = new URL(link.href, window.location.href)
+        if (url.origin === window.location.origin) {
+          sessionStorage.setItem(chapterStartKey, url.pathname)
+        }
+      } catch {
+        // TOC navigation still works when session storage is unavailable.
+      }
+    })
+  }
+
   const bindPageControls = settings => {
     const root = document.documentElement
     const manuscript = document.querySelector("[data-page-scroller]")
@@ -203,9 +222,22 @@
     let restoredProgress = false
     let pendingProgressTarget = null
     let lastPageReliefDirty = true
+    let codeStartBreaksDirty = true
 
     if (openAtChapterEnd) {
       history.replaceState(null, "", `${window.location.pathname}${window.location.search}`)
+    }
+
+    const consumeChapterStart = () => {
+      try {
+        const stored = sessionStorage.getItem(chapterStartKey)
+        if (stored !== window.location.pathname) return false
+
+        sessionStorage.removeItem(chapterStartKey)
+        return true
+      } catch {
+        return false
+      }
     }
 
     const readProgress = () => {
@@ -247,7 +279,7 @@
       return readProgress()[id] ?? null
     }
 
-    if (!initialHash) {
+    if (!initialHash && !consumeChapterStart()) {
       pendingProgressTarget = loadChapterProgress(chapterId)?.targetId ?? null
     }
 
@@ -278,6 +310,10 @@
     const pageGap = () => Number.parseFloat(getComputedStyle(manuscript).columnGap) || 0
     const pageStride = () => Math.max(1, manuscript.clientWidth + pageGap())
     const measuredPageCount = () => Math.max(1, Math.round((manuscript.scrollWidth + pageGap()) / pageStride()))
+    const markPagedLayoutDirty = () => {
+      codeStartBreaksDirty = true
+      lastPageReliefDirty = true
+    }
     const setLastPageRelief = value => {
       manuscript.style.setProperty("--book-last-page-extra", `${Math.max(0, value)}px`)
     }
@@ -308,6 +344,63 @@
       }
 
       setLastPageRelief(0)
+    }
+    const codeStartThreshold = figure => {
+      const pre = figure.querySelector("pre")
+      const caption = figure.querySelector("figcaption")
+      const figureStyle = getComputedStyle(figure)
+      const preStyle = pre ? getComputedStyle(pre) : null
+      const captionHeight = caption?.getBoundingClientRect().height ?? 0
+      const preLineHeight = preStyle ? Number.parseFloat(preStyle.lineHeight) : 0
+      const fontSize = preStyle ? Number.parseFloat(preStyle.fontSize) : Number.parseFloat(figureStyle.fontSize)
+      const lineHeight = Number.isFinite(preLineHeight) && preLineHeight > 0
+        ? preLineHeight
+        : (Number.isFinite(fontSize) && fontSize > 0 ? fontSize * 1.5 : textLineHeight())
+      const paddingBlock =
+        (Number.parseFloat(figureStyle.paddingTop) || 0) +
+        (Number.parseFloat(figureStyle.paddingBottom) || 0)
+      const preMarginTop = preStyle ? Number.parseFloat(preStyle.marginTop) || 0 : 0
+
+      return paddingBlock + captionHeight + preMarginTop + lineHeight * 2
+    }
+    const shouldPushCodeStart = figure => {
+      const fragments = [...figure.getClientRects()]
+        .filter(rect => rect.width > 1 && rect.height > 1)
+        .sort((a, b) => a.left - b.left || a.top - b.top)
+      const first = fragments[0]
+      if (!first) return false
+
+      return first.height < codeStartThreshold(figure)
+    }
+    const applyCodeStartBreaks = () => {
+      if (!codeStartBreaksDirty) return
+
+      codeStartBreaksDirty = false
+      setLastPageRelief(0)
+
+      const figures = [...manuscript.querySelectorAll(".code-figure-breakable")]
+      let changed = false
+
+      for (const figure of figures) {
+        figure.classList.remove("code-figure-start-next-page")
+      }
+
+      for (let pass = 0; pass < 3; pass += 1) {
+        let passChanged = false
+
+        for (const figure of figures) {
+          if (figure.classList.contains("code-figure-start-next-page")) continue
+          if (!shouldPushCodeStart(figure)) continue
+
+          figure.classList.add("code-figure-start-next-page")
+          passChanged = true
+          changed = true
+        }
+
+        if (!passChanged) break
+      }
+
+      if (changed) lastPageReliefDirty = true
     }
     const progressTargets = () => [...manuscript.querySelectorAll("p[data-note-target][id]")]
     const pageCounts = () => {
@@ -419,6 +512,7 @@
       if (progress) progress.hidden = false
 
       const stride = pageStride()
+      applyCodeStartBreaks()
       applyLastPageRelief()
       pageCount = measuredPageCount()
 
@@ -498,7 +592,7 @@
 
     const scheduleResizeUpdate = () => {
       saveCurrentPosition()
-      lastPageReliefDirty = true
+      markPagedLayoutDirty()
       window.cancelAnimationFrame(resizeFrame)
       resizeFrame = window.requestAnimationFrame(() => update({ snap: true }))
     }
@@ -507,22 +601,22 @@
     resizeObserver.observe(manuscript)
     window.addEventListener("resize", scheduleResizeUpdate)
     document.addEventListener("reader-settings-change", () => {
-      lastPageReliefDirty = true
+      markPagedLayoutDirty()
       update({ snap: true })
     })
     document.addEventListener("reader-layout-change", () => {
-      lastPageReliefDirty = true
+      markPagedLayoutDirty()
       update({ snap: true })
     })
     window.addEventListener("load", () => {
       window.setTimeout(() => {
-        lastPageReliefDirty = true
+        markPagedLayoutDirty()
         update()
       }, 100)
     })
     if (document.fonts?.ready) {
       document.fonts.ready.then(() => {
-        lastPageReliefDirty = true
+        markPagedLayoutDirty()
         update({ snap: true })
       }).catch(() => {})
     }
@@ -593,6 +687,7 @@
   applySettings(settings)
   bindChapterMapToggle()
   bindReaderToolsToggle()
+  bindChapterStartLinks()
 
   for (const control of controls) {
     syncControl(control, settings)

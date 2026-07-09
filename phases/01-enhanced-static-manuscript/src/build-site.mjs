@@ -740,7 +740,7 @@ function chapterMap(book, chapters, currentId, relativeRoot, chapterMapDefault) 
   <ol>
     ${partChapters.map(chapter => {
       const isCurrent = chapter.id === currentId
-      return `<li><a${isCurrent ? ` aria-current="page"` : ""} href="${relativeRoot}chapters/${chapter.id}.html"><span>${chapter.number}</span>${escapeHtml(chapter.title)}</a></li>`
+      return `<li><a${isCurrent ? ` aria-current="page"` : ""} href="${relativeRoot}chapters/${chapter.id}.html" data-chapter-start><span>${chapter.number}</span>${escapeHtml(chapter.title)}</a></li>`
     }).join("")}
   </ol>
 </section>`).join("")
@@ -867,7 +867,7 @@ function indexLayout(book, chapters) {
     <section>
       <h3>${escapeHtml(part)}</h3>
       <ol>
-        ${partChapters.map(chapter => `<li><a href="chapters/${chapter.id}.html"><span>${chapter.number}</span>${escapeHtml(chapter.title)}</a></li>`).join("")}
+        ${partChapters.map(chapter => `<li><a href="chapters/${chapter.id}.html" data-chapter-start><span>${chapter.number}</span>${escapeHtml(chapter.title)}</a></li>`).join("")}
       </ol>
     </section>`).join("")}
   </section>

@@ -528,6 +528,12 @@ a:hover {
 
 [data-flow="paged"][data-page-kind="chapter"] .book-progress {
   display: block;
+  inline-size: min(calc(100vw - var(--book-shell-padding) - var(--book-shell-padding)), var(--book-page-width));
+  inset-block-start: auto;
+  inset-inline: auto;
+  left: 0;
+  position: fixed;
+  top: 0;
 }
 
 [data-flow="paged"][data-page-kind="chapter"] h1,
@@ -549,6 +555,12 @@ a:hover {
 
 [data-flow="paged"][data-page-kind="chapter"] .code-figure-breakable {
   break-inside: auto;
+}
+
+[data-flow="paged"][data-page-kind="chapter"] .code-figure-start-next-page {
+  break-before: column;
+  page-break-before: always;
+  -webkit-column-break-before: always;
 }
 
 [data-flow="paged"][data-page-kind="chapter"] .code-figure-breakable figcaption {
