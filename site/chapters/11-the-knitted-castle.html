@@ -1,0 +1,266 @@
+<!doctype html>
+<html lang="en" data-font="publication" data-theme="light" data-motion="auto" data-flow="paged" data-page-kind="chapter" data-chapter-map="closed" data-reader-tools="closed">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>The knitted castle - Programming for Wizards</title>
+  <link rel="stylesheet" href="../assets/book.css">
+  <link rel="stylesheet" href="../assets/exhibits/exhibits.css">
+  <script>
+    window.MathJax = {
+      tex: {
+        inlineMath: [["$", "$"], ["\\(", "\\)"]],
+        displayMath: [["$$", "$$"], ["\\[", "\\]"]],
+        processEscapes: true
+      },
+      options: {
+        skipHtmlTags: ["script", "noscript", "style", "textarea", "pre", "code"]
+      }
+    }
+  </script>
+  <script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+  <script defer src="../assets/book.js"></script>
+  <script defer src="../assets/exhibits/exhibit-kit.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/gh/muze-labs/simplyflow@main/packages/simplyflow/dist/simply.flow.js"></script>
+  <script type="module" src="../assets/exhibits/exhibits.js"></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to manuscript</a>
+  <div class="book-shell">
+    <nav class="chapter-map" aria-label="Chapters">
+  <button class="chapter-map-toggle" type="button" aria-expanded="false" aria-controls="chapter-map-panel" aria-label="Show contents" data-chapter-map-toggle>
+    <span>Contents</span>
+    <span class="chapter-map-toggle-state" data-chapter-map-label>Open</span>
+  </button>
+  <div id="chapter-map-panel" class="chapter-map-panel" data-chapter-map-panel hidden>
+  <a class="book-title" href="../index.html">Programming for Wizards</a>
+  
+<section class="map-section">
+  <h2>Prologue: You are allowed to make it up</h2>
+  <ol>
+    <li><a href="../chapters/01-this-is-not-a-programming-book.html"><span>01</span>This is not a programming book</a></li>
+  </ol>
+</section>
+<section class="map-section">
+  <h2>Part I: Representations are spells</h2>
+  <ol>
+    <li><a href="../chapters/02-numbers-hiding-calculations-in-symbols.html"><span>02</span>Numbers: bigger than you think</a></li><li><a href="../chapters/03-logic-turning-truth-into-machinery.html"><span>03</span>Logic: the truth is out there</a></li><li><a href="../chapters/04-language-the-tool-that-changes-the-thinker.html"><span>04</span>Language: the oldest trick</a></li>
+  </ol>
+</section>
+<section class="map-section">
+  <h2>Part II: The Web, from address to platform</h2>
+  <ol>
+    <li><a href="../chapters/05-the-web-as-address.html"><span>05</span>The Web: one string to rule them all</a></li><li><a href="../chapters/06-the-web-as-document.html"><span>06</span>The Web: the shape of words</a></li><li><a href="../chapters/07-the-web-as-platform.html"><span>07</span>The Web: waking up the words</a></li>
+  </ol>
+</section>
+<section class="map-section">
+  <h2>Part III: Inventing languages</h2>
+  <ol>
+    <li><a href="../chapters/08-programming-languages-are-for-humans.html"><span>08</span>Teaching machines our words</a></li><li><a href="../chapters/09-every-program-contains-a-language.html"><span>09</span>Every program grows a language</a></li><li><a href="../chapters/10-code-exhibit-extending-javascript-with-jaqt.html"><span>10</span>Code exhibit: extending JavaScript with JAQT</a></li>
+  </ol>
+</section>
+<section class="map-section">
+  <h2>Part IV: Boundaries and reusable pieces</h2>
+  <ol>
+    <li><a aria-current="page" href="../chapters/11-the-knitted-castle.html"><span>11</span>The knitted castle</a></li><li><a href="../chapters/12-objects-binding-data-behavior-and-time.html"><span>12</span>Objects: binding data, behavior, and time</a></li>
+  </ol>
+</section>
+<section class="map-section">
+  <h2>Part V: Architecture, change, commons, and home</h2>
+  <ol>
+    <li><a href="../chapters/13-architecture-arches-pyramids-and-change.html"><span>13</span>Architecture: arches, pyramids, and change</a></li><li><a href="../chapters/14-the-web-as-commons.html"><span>14</span>The Web as commons: innovation happens elsewhere</a></li><li><a href="../chapters/15-the-web-as-data.html"><span>15</span>The Web as data: things should have addresses too</a></li><li><a href="../chapters/16-the-web-as-home.html"><span>16</span>The Web as home: who owns your home directory?</a></li>
+  </ol>
+</section>
+<section class="map-section">
+  <h2>Epilogue</h2>
+  <ol>
+    <li><a href="../chapters/17-rule-zero-there-are-no-rules.html"><span>17</span>Epilogue: shifting ground</a></li>
+  </ol>
+</section>
+  </div>
+</nav>
+    <main id="main" class="manuscript">
+  <div class="book-progress" role="progressbar" aria-label="Book progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" data-book-progress>
+    <span data-book-progress-bar></span>
+  </div>
+  <div class="manuscript-pages" data-page-scroller data-book-chapter-index="10" data-book-page-weights="466,2137,938,931,2137,1864,1422,1466,611,2199,1770,1059,2545,1487,1510,1228,173">
+  <header class="chapter-header">
+    <p class="chapter-kicker">Part IV: Boundaries and reusable pieces</p>
+    <p class="chapter-number">Chapter 11</p>
+    <svg class="chapter-glyph" viewBox="0 0 96 96" focusable="false" aria-hidden="true"><path d="M20 31c22 4 17 32 39 36 10 2 17-3 17-12"/><path d="M24 62c18-14 33-16 50-7"/><path d="M24 44c21-1 36 6 47 21"/><circle cx="20" cy="31" r="3"/><circle cx="24" cy="62" r="3"/><circle cx="76" cy="55" r="3"/></svg>
+  </header>
+  <h1 id="h-11-the-knitted-castle"><a class="anchor-link" href="#h-11-the-knitted-castle" aria-label="Link to The knitted castle">#</a>The knitted castle</h1>
+<p id="p-11-why-is-it-so-difficult-to-make-reusable" data-note-target>Why is it so difficult to make reusable software?</p>
+<p id="p-11-objects-would-do-it-components-would-do-it" data-note-target><a href="https://en.wikipedia.org/wiki/Object-oriented_programming">Objects</a> would do it. <a href="https://en.wikipedia.org/wiki/Component-based_software_engineering">Components</a> would do it. <a href="https://en.wikipedia.org/wiki/Software_package">Packages</a> would do it. <a href="https://en.wikipedia.org/wiki/Service-oriented_architecture">Services</a> would do it. <a href="https://developer.mozilla.org/en-US/docs/Web/API/Web_components">Web components</a> would do it. Frameworks would do it. Some new build system, package manager, module format, runtime, or architectural style would finally let us write a piece of software once and use it everywhere.</p>
+<p id="p-11-and-then-a-few-years-later-we-discover" data-note-target>And then, a few years later, we discover that we have not built a Lego castle after all. We've made a tangle of yarn.</p>
+<p id="p-11-the-famous-wizard-alan-kay-once-said" data-note-target>The famous wizard <a href="https://en.wikipedia.org/wiki/Alan_Kay">Alan Kay</a> once said:</p>
+<blockquote><p>"Whatever we [in computing] do is more like what the Egyptians did. Building pyramids, piling things on top of each other." <a href="https://www.tele-task.de/lecture/video/2772/">(video)</a></p></blockquote>
+<p id="p-11-i-think-the-situation-is-more-dire-than" data-note-target>I think the situation is more dire than that. We're not stacking bricks. We're knitting castles.</p>
+<blockquote><p><em>Aside:</em> I've stolen the knitted castle example from Rich Hickey. He uses the image in <a href="https://youtu.be/SxdOUGdseq4?t=1287">Simple Made Easy</a>, a talk every wizard should probably watch at least once. His point is that simplicity is not about looking small or familiar. It is about whether the parts are braided together.</p></blockquote>
+<p id="p-11-a-pyramid-is-at-least-made-of-separate" data-note-target>A pyramid is at least made of separate stones. They may be heavy, badly placed, and difficult to move, but you can still point at one and say: there, that is a stone.</p>
+<p id="p-11-a-knitted-castle-is-different-every-part-is" data-note-target>A knitted castle is different. Every part is made out of the same thread as every other part. The wall continues into the tower. The tower continues into the flag. The flag continues into the dragon. Pull one loop too hard and the whole thing starts to change shape.</p>
+<p id="p-11-this-is-funny-when-it-is-yarn" data-note-target>This is funny when it is yarn.</p>
+<p id="p-11-it-is-less-funny-when-it-is-your" data-note-target>It is less funny when it is your application.</p>
+<h2 id="h-11-the-dream-of-lego"><a class="anchor-link" href="#h-11-the-dream-of-lego" aria-label="Link to The dream of Lego">#</a>The dream of Lego</h2>
+<p id="p-11-the-dream-is-obvious-we-want-software-pieces" data-note-target>The dream is obvious. We want software pieces that behave like Lego bricks.</p>
+<p id="p-11-a-lego-brick-does-not-care-whether-it" data-note-target>A Lego brick does not care whether it is used in a castle, a spaceship, a bridge, or a thing a small child insists is definitely a horse. It has a few simple connection points. The measurements are strict. The studs are boring. The brick does not bring a castle architecture with it.</p>
+<p id="p-11-that-boringness-is-part-of-the-magic" data-note-target>That boringness is part of the magic.</p>
+<p id="p-11-a-lego-brick-is-reusable-because-it-makes" data-note-target>A Lego brick is reusable because it makes very few assumptions about the thing you are building. It does not decide the color scheme of the castle. It does not come with a preferred story about who lives there. It does not require the dragon package, the royal-taxation package, and a particular version of the drawbridge runtime.</p>
+<p id="p-11-most-software-components-are-not-like-that" data-note-target>Most software components are not like that.</p>
+<p id="p-11-most-software-components-are-more-like-a-beautifully" data-note-target>Most software components are more like a beautifully carved castle tower with a bit of wall still attached, some electrical wiring dangling from the bottom, and a note saying it works best when placed on the east side of a hill during a full moon.</p>
+<p id="p-11-you-can-reuse-it-but-now-your-project" data-note-target>You can reuse it. But now your project must have the right hill.</p>
+<h2 id="h-11-every-useful-thing-grows-threads"><a class="anchor-link" href="#h-11-every-useful-thing-grows-threads" aria-label="Link to Every useful thing grows threads">#</a>Every useful thing grows threads</h2>
+<p id="p-11-when-you-first-write-a-piece-of-software" data-note-target>When you first write a piece of software, it often starts clean. A function receives values and returns a value. A component receives some data and renders something. A module has a small job.</p>
+<p id="p-11-then-the-real-world-arrives" data-note-target>Then the real world arrives.</p>
+<p id="p-11-the-function-needs-configuration-the-component-needs-styling" data-note-target>The function needs configuration. The component needs styling. The module needs logging. The user must be allowed to cancel. The network might fail. The data is not quite the shape you expected. The application has two kinds of users. Then three. Then there is a feature flag. Then there is an experiment. Then one customer needs a slightly different rule because their workflow is special, and unfortunately they pay the bills.</p>
+<p id="p-11-none-of-these-changes-are-absurd-that-is" data-note-target>None of these changes are absurd. That is the annoying part.</p>
+<p id="p-11-a-knitted-castle-is-usually-not-built-by" data-note-target>A knitted castle is usually not built by foolish decisions. It is built by reasonable decisions made locally.</p>
+<p id="p-11-one-thread-for-the-user-one-thread-for" data-note-target>One thread for the user. One thread for the database. One thread for the framework. One thread for the CSS. One thread for authentication. One thread for analytics. One thread for errors. One thread for backwards compatibility. One thread because Friday afternoon was not the right time to redesign the boundary.</p>
+<p id="p-11-after-a-while-the-component-no-longer-has" data-note-target>After a while, the component no longer has a simple shape. It has a climate.</p>
+<p id="p-11-to-reuse-it-you-do-not-only-need" data-note-target>To reuse it, you do not only need the component. You need the weather system it expects to live in.</p>
+<aside id="rule-11-wizards-ninth-rule" class="wizard-rule" data-note-target>
+<p class="rule-label">Wizard's ninth rule</p>
+<p>Assumptions are threads. Cut the threads.</p>
+</aside>
+<h2 id="h-11-packages-are-not-the-same-as-parts"><a class="anchor-link" href="#h-11-packages-are-not-the-same-as-parts" aria-label="Link to Packages are not the same as parts">#</a>Packages are not the same as parts</h2>
+<p id="p-11-javascript-has-one-of-the-largest-ecosystems-of" data-note-target>JavaScript has one of the largest ecosystems of reusable packages ever created. npm is both a miracle and a warning label.</p>
+<p id="p-11-it-proves-that-reuse-is-possible-you-can" data-note-target>It proves that reuse is possible. You can install a parser, a date library, a test runner, a renderer, a bundler, a color picker, a database client, a state manager, a tiny function that tells you whether a number is odd, and several hundred things you did not know you needed because one of those packages needed them for you.</p>
+<p id="p-11-but-a-package-is-not-automatically-a-lego" data-note-target>But a package is not automatically a Lego brick.</p>
+<p id="p-11-a-package-is-a-unit-of-distribution-it" data-note-target>A package is a unit of distribution. It says: here is a thing you can download and import.</p>
+<p id="p-11-that-is-not-the-same-as-saying-here" data-note-target>That is not the same as saying: here is a thing whose assumptions fit naturally into your problem.</p>
+<p id="p-11-a-package-can-be-reusable-as-a-whole" data-note-target>A package can be reusable as a whole and still be impossible to take apart. You may like its parser but not its data model. You may like its renderer but not its lifecycle. You may like its widget but not its styling system. You may like its storage layer but not the framework it assumes around it.</p>
+<p id="p-11-this-is-where-much-of-the-promise-quietly" data-note-target>This is where much of the promise quietly leaks away. We have become very good at shipping bundles of software around the world. We are less good at making the insides of those bundles fit into other people's thoughts.</p>
+<p id="p-11-the-piece-crosses-the-network-easily-the-idea" data-note-target>The piece crosses the network easily. The idea does not always cross the boundary.</p>
+<h2 id="h-11-reuse-has-a-direction"><a class="anchor-link" href="#h-11-reuse-has-a-direction" aria-label="Link to Reuse has a direction">#</a>Reuse has a direction</h2>
+<p id="p-11-one-reason-the-lego-dream-fails-is-that" data-note-target>One reason the Lego dream fails is that we talk about reuse as if all reuse were the same.</p>
+<p id="p-11-it-is-not" data-note-target>It is not.</p>
+<p id="p-11-a-pure-function-is-often-easy-to-reuse" data-note-target>A pure function is often easy to reuse because it asks for little. Give it input. Receive output. It does not need to know where the input came from or where the output will go.</p>
+<p id="p-11-a-file-format-can-be-reusable-because-many" data-note-target>A file format can be reusable because many programs can agree on it without sharing the same code.</p>
+<p id="p-11-a-protocol-can-be-reusable-because-different-systems" data-note-target>A protocol can be reusable because different systems can meet at a boundary and then go their separate ways again.</p>
+<p id="p-11-a-ui-component-is-harder-it-often-wants" data-note-target>A UI component is harder. It often wants data, styling, events, state, focus rules, accessibility behavior, theme decisions, lifecycle hooks, translations, permissions, and a place in the surrounding application.</p>
+<p id="p-11-an-application-feature-is-harder-still-a-shopping" data-note-target>An application feature is harder still. A shopping cart is not just a list of products. It touches pricing, stock, identity, sessions, shipping, tax, discounts, payments, errors, emails, fraud, analytics, legal requirements, and customer support.</p>
+<p id="p-11-at-some-point-you-are-no-longer-reusing" data-note-target>At some point you are no longer reusing a part. You are importing a small civilization.</p>
+<p id="p-11-so-lets-rephrase-the-question-the-useful-question" data-note-target>So let's rephrase the question. The useful question is not:</p>
+<blockquote><p>Can this be reused?</p></blockquote>
+<p id="p-11-the-useful-question-is" data-note-target>The useful question is:</p>
+<blockquote><p>In what direction can this be reused?</p></blockquote>
+<p id="p-11-can-the-calculation-be-reused-without-the-ui" data-note-target>Can the calculation be reused without the UI? Can the data format be reused without the database? Can the protocol be reused without the server implementation? Can the visual component be reused without the application state? Can the core rule be reused if we wrap it in a different shell?</p>
+<p id="p-11-dont-ask-for-universal-reuse-first-universal-reuse" data-note-target>Don't ask for universal reuse first. Universal reuse is where many good designs go to become enormous.</p>
+<p id="p-11-a-wizard-looks-for-the-boundary" data-note-target>A wizard looks for the boundary.</p>
+<h2 id="h-11-the-boundary-is-the-component"><a class="anchor-link" href="#h-11-the-boundary-is-the-component" aria-label="Link to The boundary is the component">#</a>The boundary is the component</h2>
+<p id="p-11-this-is-the-part-that-is-easy-to" data-note-target>This is the part that is easy to miss.</p>
+<p id="p-11-the-reusable-thing-is-not-only-the-code" data-note-target>The reusable thing is not only the code. It is the boundary around the code.</p>
+<p id="p-11-the-boundary-is-where-the-bargain-is-made" data-note-target>The boundary is where the bargain is made. This data may cross. These names matter. This part stays hidden. This part is someone else's problem.</p>
+<p id="p-11-a-bad-boundary-leaks-the-whole-world" data-note-target>A bad boundary leaks the whole world.</p>
+<p id="p-11-a-good-boundary-is-boring-in-the-right" data-note-target>A good boundary is boring in the right places.</p>
+<p id="p-11-this-is-why-small-libraries-often-age-better" data-note-target>This is why small libraries often age better than clever frameworks. A small library can sometimes say: give me this value, I will give you that value. Or: call this function when this happens. Or: here is a plain data structure. Do with it what you want.</p>
+<p id="p-11-a-framework-often-says-live-here" data-note-target>A framework often says: live here.</p>
+<p id="p-11-living-somewhere-can-be-pleasant-a-framework-can" data-note-target>Living somewhere can be pleasant. A framework can give you roads, plumbing, electricity, building codes, a market square, and a school. But moving one house from that town to another town is not the same as moving a Lego brick.</p>
+<p id="p-11-this-is-also-why-standards-matter-a-standard" data-note-target>This is also why standards matter. A standard creates a boundary that does not belong to one package. HTML, URLs, <a href="https://www.json.org/json-en.html">JSON</a>, HTTP, <a href="https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_selectors">CSS selectors</a>, the DOM, SQL, <a href="https://pubs.opengroup.org/onlinepubs/9699919799/basedefs/V1_chap03.html#tag_03_271">POSIX paths</a>, <a href="https://www.iana.org/assignments/media-types/media-types.xhtml">MIME types</a>. None of these are perfect. Some of them are full of ghosts. But when enough systems agree on the boundary, reuse becomes less dependent on one implementation.</p>
+<p id="p-11-the-web-itself-works-because-many-different-pieces" data-note-target>The Web itself works because many different pieces agree just enough to meet each other.</p>
+<h2 id="h-11-fighting-for-the-lego-castle"><a class="anchor-link" href="#h-11-fighting-for-the-lego-castle" aria-label="Link to Fighting for the Lego castle">#</a>Fighting for the Lego castle</h2>
+<p id="p-11-you-cannot-defeat-complexity-once-and-for-all" data-note-target>You cannot defeat complexity once and for all. That is the sort of promise that sells books, frameworks, and conference talks. The castle will always try to knit itself.</p>
+<p id="p-11-but-you-can-fight" data-note-target>But you can fight.</p>
+<p id="p-11-you-can-keep-asking-what-assumptions-a-piece" data-note-target>You can keep asking what assumptions a piece is carrying. You can make dependencies explicit instead of letting them seep in through globals, singletons, and secret imports.</p>
+<p id="p-11-keep-the-stable-rules-of-a-system-away" data-note-target>Keep the stable rules of a system away from the parts that talk to browsers, databases, networks, and users. Pass plain data across boundaries. Write adapters at the edge instead of making every part know every other part's dialect.</p>
+<p id="p-11-make-small-languages-for-the-stable-parts-of" data-note-target>Make small languages for the stable parts of the problem, as we did with JAQT. Not always new languages with parsers. Sometimes just a shape in data, a few names, a convention that lets the important idea stand apart from the machinery.</p>
+<p id="p-11-also-accept-that-some-things-should-not-be" data-note-target>Also accept that some things should not be reusable. A piece of software that is deeply fitted to one situation may be valuable precisely because it is fitted. The mistake is not writing such code. The mistake is pretending it is a brick.</p>
+<p id="p-11-the-lego-castle-is-not-built-by-magic" data-note-target>The Lego castle is not built by magic universal parts. It is built by choosing where the studs go, and then having the discipline not to put threads through them later.</p>
+<p id="p-11-the-knitted-castle-is-always-waiting-every-feature" data-note-target>The knitted castle is always waiting. Every feature wants to tie one more loop. The wizard's work is not to avoid all loops. That would make software useless. The work is to keep asking which loops belong inside a part, and which ones should become a boundary.</p>
+<p id="p-11-now-lets-talk-about-what-happens-when-blocks" data-note-target>Now let's talk about what happens when blocks start carrying little worlds of their own.</p>
+  <nav class="chapter-pagination" aria-label="Chapter navigation">
+    <a rel="prev" href="10-code-exhibit-extending-javascript-with-jaqt.html"><span>Previous</span>Code exhibit: extending JavaScript with JAQT</a>
+    <a rel="next" href="12-objects-binding-data-behavior-and-time.html"><span>Next</span>Objects: binding data, behavior, and time</a>
+  </nav>
+  </div>
+  <div class="page-turner" data-page-controls hidden>
+    <button type="button" data-page-prev aria-label="Previous page"></button>
+    <button type="button" data-page-next aria-label="Next page"></button>
+  </div>
+</main>
+    <aside class="reader-margin" aria-label="Reader tools">
+  <button class="reader-toggle" type="button" aria-expanded="false" aria-controls="reader-tools-panel" aria-label="Show reader tools" data-reader-tools-toggle>
+    <span class="reader-toggle-name">
+      <svg class="reader-toggle-ornament" viewBox="0 0 44 32" aria-hidden="true" focusable="false">
+        <path d="M7 22c8-11 18-11 30 0"/>
+        <path d="M13 22V11m9 11V7m9 15V13"/>
+        <circle cx="13" cy="10" r="2"/>
+        <circle cx="22" cy="6" r="2"/>
+        <circle cx="31" cy="12" r="2"/>
+        <path d="M10 25h24"/>
+      </svg>
+      <span>Reader</span>
+    </span>
+    <span class="reader-toggle-state" data-reader-tools-label>Open</span>
+  </button>
+  <div id="reader-tools-panel" class="reader-tools" data-reader-tools-panel hidden>
+    <svg class="reader-panel-ornament" viewBox="0 0 260 120" aria-hidden="true" focusable="false">
+      <path class="ornament-wire" d="M15 82c28-34 54-35 78-3 20 27 47 27 78 0 27-24 51-21 74 9"/>
+      <path class="ornament-wire" d="M31 86V46c0-12 8-20 20-20h20"/>
+      <path class="ornament-wire" d="M101 67V36c0-10 7-17 17-17h31"/>
+      <path class="ornament-wire" d="M187 71V42c0-11 8-18 19-18h22"/>
+      <path class="ornament-leaf" d="M63 25c-12-8-23-6-32 5 12 3 23 1 32-5z"/>
+      <path class="ornament-leaf" d="M143 19c11-9 23-8 34 2-10 5-22 4-34-2z"/>
+      <path class="ornament-leaf" d="M225 23c-8-7-17-6-27 1 8 5 17 5 27-1z"/>
+      <rect class="ornament-chip" x="105" y="74" width="44" height="28" rx="6"/>
+      <path class="ornament-chip-line" d="M113 83h11m8 0h9M113 93h28"/>
+      <path class="ornament-pin" d="M113 74v-8m12 8v-8m12 8v-8m-24 44v-8m12 8v-8m12 8v-8"/>
+      <circle class="ornament-node" cx="31" cy="86" r="3"/>
+      <circle class="ornament-node" cx="101" cy="67" r="3"/>
+      <circle class="ornament-node" cx="187" cy="71" r="3"/>
+      <circle class="ornament-node" cx="244" cy="88" r="3"/>
+    </svg>
+    <section class="reader-panel">
+      <h2>Reader</h2>
+      <label>Font
+        <select data-setting="font">
+          <option value="publication">Publication</option>
+          <option value="simple-serif">Simple serif</option>
+          <option value="simple-sans">Simple sans</option>
+          <option value="high-legibility">High legibility</option>
+        </select>
+      </label>
+      <label>Size
+        <input data-setting="fontScale" type="range" min="92" max="124" step="4" value="100">
+      </label>
+      <label>Line
+        <input data-setting="lineHeight" type="range" min="145" max="185" step="5" value="160">
+      </label>
+      <label>Width
+        <input data-setting="columnWidth" type="range" min="38" max="66" step="2" value="48">
+      </label>
+      <label>Flow
+        <select data-setting="flow">
+          <option value="paged">Paged</option>
+          <option value="scroll">Scrolling</option>
+        </select>
+      </label>
+      <label>Typography
+        <select data-setting="typography">
+          <option value="browser">Browser</option>
+          <option value="pretext">Book</option>
+        </select>
+      </label>
+      <label>Theme
+        <select data-setting="theme">
+          <option value="light">Light</option>
+          <option value="dark">Dark</option>
+          <option value="contrast">Contrast</option>
+        </select>
+      </label>
+      <label>Motion
+        <select data-setting="motion">
+          <option value="auto">Auto</option>
+          <option value="reduced">Reduced</option>
+        </select>
+      </label>
+    </section>
+    <section class="reader-panel">
+      <h2>Book Data</h2>
+      <a href="../data/manifest.json">Manifest</a>
+    </section>
+  </div>
+</aside>
+  </div>
+</body>
+</html>

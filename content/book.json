@@ -1,0 +1,151 @@
+{
+  "id": "programming-for-wizards",
+  "title": "Programming for Wizards",
+  "subtitle": "A book about programming as the art of changing the shape of a problem.",
+  "parts": [
+    {
+      "id": "prologue",
+      "title": "Prologue: You are allowed to make it up",
+      "chapters": [
+        {
+          "number": "01",
+          "id": "01-this-is-not-a-programming-book",
+          "title": "This is not a programming book",
+          "source": "chapters/01-this-is-not-a-programming-book.md"
+        }
+      ]
+    },
+    {
+      "id": "representations-are-spells",
+      "title": "Part I: Representations are spells",
+      "chapters": [
+        {
+          "number": "02",
+          "id": "02-numbers-hiding-calculations-in-symbols",
+          "title": "Numbers: bigger than you think",
+          "source": "chapters/02-numbers-hiding-calculations-in-symbols.md"
+        },
+        {
+          "number": "03",
+          "id": "03-logic-turning-truth-into-machinery",
+          "title": "Logic: the truth is out there",
+          "source": "chapters/03-logic-turning-truth-into-machinery.md"
+        },
+        {
+          "number": "04",
+          "id": "04-language-the-tool-that-changes-the-thinker",
+          "title": "Language: the oldest trick",
+          "source": "chapters/04-language-the-tool-that-changes-the-thinker.md"
+        }
+      ]
+    },
+    {
+      "id": "web-address-document-platform",
+      "title": "Part II: The Web, from address to platform",
+      "chapters": [
+        {
+          "number": "05",
+          "id": "05-the-web-as-address",
+          "title": "The Web: one string to rule them all",
+          "source": "chapters/05-the-web-as-address.md"
+        },
+        {
+          "number": "06",
+          "id": "06-the-web-as-document",
+          "title": "The Web: the shape of words",
+          "source": "chapters/06-the-web-as-document.md"
+        },
+        {
+          "number": "07",
+          "id": "07-the-web-as-platform",
+          "title": "The Web: waking up the words",
+          "source": "chapters/07-the-web-as-platform.md"
+        }
+      ]
+    },
+    {
+      "id": "inventing-languages",
+      "title": "Part III: Inventing languages",
+      "chapters": [
+        {
+          "number": "08",
+          "id": "08-programming-languages-are-for-humans",
+          "title": "Teaching machines our words",
+          "source": "chapters/08-programming-languages-are-for-humans.md"
+        },
+        {
+          "number": "09",
+          "id": "09-every-program-contains-a-language",
+          "title": "Every program grows a language",
+          "source": "chapters/09-every-program-contains-a-language.md"
+        },
+        {
+          "number": "10",
+          "id": "10-code-exhibit-extending-javascript-with-jaqt",
+          "title": "Code exhibit: extending JavaScript with JAQT",
+          "source": "chapters/10-code-exhibit-extending-javascript-with-jaqt.md"
+        }
+      ]
+    },
+    {
+      "id": "boundaries-and-reusable-pieces",
+      "title": "Part IV: Boundaries and reusable pieces",
+      "chapters": [
+        {
+          "number": "11",
+          "id": "11-the-knitted-castle",
+          "title": "The knitted castle",
+          "source": "chapters/11-the-knitted-castle.md"
+        },
+        {
+          "number": "12",
+          "id": "12-objects-binding-data-behavior-and-time",
+          "title": "Objects: binding data, behavior, and time",
+          "source": "chapters/12-objects-binding-data-behavior-and-time.md"
+        }
+      ]
+    },
+    {
+      "id": "architecture-change-commons-home",
+      "title": "Part V: Architecture, change, commons, and home",
+      "chapters": [
+        {
+          "number": "13",
+          "id": "13-architecture-arches-pyramids-and-change",
+          "title": "Architecture: arches, pyramids, and change",
+          "source": "chapters/13-architecture-arches-pyramids-and-change.md"
+        },
+        {
+          "number": "14",
+          "id": "14-the-web-as-commons",
+          "title": "The Web as commons: innovation happens elsewhere",
+          "source": "chapters/14-the-web-as-commons.md"
+        },
+        {
+          "number": "15",
+          "id": "15-the-web-as-data",
+          "title": "The Web as data: things should have addresses too",
+          "source": "chapters/15-the-web-as-data.md"
+        },
+        {
+          "number": "16",
+          "id": "16-the-web-as-home",
+          "title": "The Web as home: who owns your home directory?",
+          "source": "chapters/16-the-web-as-home.md"
+        }
+      ]
+    },
+    {
+      "id": "epilogue",
+      "title": "Epilogue",
+      "chapters": [
+        {
+          "number": "17",
+          "id": "17-rule-zero-there-are-no-rules",
+          "title": "Epilogue: shifting ground",
+          "source": "chapters/17-rule-zero-there-are-no-rules.md"
+        }
+      ]
+    }
+  ]
+}

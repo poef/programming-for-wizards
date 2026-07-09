@@ -1,0 +1,319 @@
+<!doctype html>
+<html lang="en" data-font="publication" data-theme="light" data-motion="auto" data-flow="paged" data-page-kind="chapter" data-chapter-map="closed" data-reader-tools="closed">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Teaching machines our words - Programming for Wizards</title>
+  <link rel="stylesheet" href="../assets/book.css">
+  <link rel="stylesheet" href="../assets/exhibits/exhibits.css">
+  <script>
+    window.MathJax = {
+      tex: {
+        inlineMath: [["$", "$"], ["\\(", "\\)"]],
+        displayMath: [["$$", "$$"], ["\\[", "\\]"]],
+        processEscapes: true
+      },
+      options: {
+        skipHtmlTags: ["script", "noscript", "style", "textarea", "pre", "code"]
+      }
+    }
+  </script>
+  <script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+  <script defer src="../assets/book.js"></script>
+  <script defer src="../assets/exhibits/exhibit-kit.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/gh/muze-labs/simplyflow@main/packages/simplyflow/dist/simply.flow.js"></script>
+  <script type="module" src="../assets/exhibits/exhibits.js"></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to manuscript</a>
+  <div class="book-shell">
+    <nav class="chapter-map" aria-label="Chapters">
+  <button class="chapter-map-toggle" type="button" aria-expanded="false" aria-controls="chapter-map-panel" aria-label="Show contents" data-chapter-map-toggle>
+    <span>Contents</span>
+    <span class="chapter-map-toggle-state" data-chapter-map-label>Open</span>
+  </button>
+  <div id="chapter-map-panel" class="chapter-map-panel" data-chapter-map-panel hidden>
+  <a class="book-title" href="../index.html">Programming for Wizards</a>
+  
+<section class="map-section">
+  <h2>Prologue: You are allowed to make it up</h2>
+  <ol>
+    <li><a href="../chapters/01-this-is-not-a-programming-book.html"><span>01</span>This is not a programming book</a></li>
+  </ol>
+</section>
+<section class="map-section">
+  <h2>Part I: Representations are spells</h2>
+  <ol>
+    <li><a href="../chapters/02-numbers-hiding-calculations-in-symbols.html"><span>02</span>Numbers: bigger than you think</a></li><li><a href="../chapters/03-logic-turning-truth-into-machinery.html"><span>03</span>Logic: the truth is out there</a></li><li><a href="../chapters/04-language-the-tool-that-changes-the-thinker.html"><span>04</span>Language: the oldest trick</a></li>
+  </ol>
+</section>
+<section class="map-section">
+  <h2>Part II: The Web, from address to platform</h2>
+  <ol>
+    <li><a href="../chapters/05-the-web-as-address.html"><span>05</span>The Web: one string to rule them all</a></li><li><a href="../chapters/06-the-web-as-document.html"><span>06</span>The Web: the shape of words</a></li><li><a href="../chapters/07-the-web-as-platform.html"><span>07</span>The Web: waking up the words</a></li>
+  </ol>
+</section>
+<section class="map-section">
+  <h2>Part III: Inventing languages</h2>
+  <ol>
+    <li><a aria-current="page" href="../chapters/08-programming-languages-are-for-humans.html"><span>08</span>Teaching machines our words</a></li><li><a href="../chapters/09-every-program-contains-a-language.html"><span>09</span>Every program grows a language</a></li><li><a href="../chapters/10-code-exhibit-extending-javascript-with-jaqt.html"><span>10</span>Code exhibit: extending JavaScript with JAQT</a></li>
+  </ol>
+</section>
+<section class="map-section">
+  <h2>Part IV: Boundaries and reusable pieces</h2>
+  <ol>
+    <li><a href="../chapters/11-the-knitted-castle.html"><span>11</span>The knitted castle</a></li><li><a href="../chapters/12-objects-binding-data-behavior-and-time.html"><span>12</span>Objects: binding data, behavior, and time</a></li>
+  </ol>
+</section>
+<section class="map-section">
+  <h2>Part V: Architecture, change, commons, and home</h2>
+  <ol>
+    <li><a href="../chapters/13-architecture-arches-pyramids-and-change.html"><span>13</span>Architecture: arches, pyramids, and change</a></li><li><a href="../chapters/14-the-web-as-commons.html"><span>14</span>The Web as commons: innovation happens elsewhere</a></li><li><a href="../chapters/15-the-web-as-data.html"><span>15</span>The Web as data: things should have addresses too</a></li><li><a href="../chapters/16-the-web-as-home.html"><span>16</span>The Web as home: who owns your home directory?</a></li>
+  </ol>
+</section>
+<section class="map-section">
+  <h2>Epilogue</h2>
+  <ol>
+    <li><a href="../chapters/17-rule-zero-there-are-no-rules.html"><span>17</span>Epilogue: shifting ground</a></li>
+  </ol>
+</section>
+  </div>
+</nav>
+    <main id="main" class="manuscript">
+  <div class="book-progress" role="progressbar" aria-label="Book progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" data-book-progress>
+    <span data-book-progress-bar></span>
+  </div>
+  <div class="manuscript-pages" data-page-scroller data-book-chapter-index="7" data-book-page-weights="466,2137,938,931,2137,1864,1422,1466,611,2199,1770,1059,2545,1487,1510,1228,173">
+  <header class="chapter-header">
+    <p class="chapter-kicker">Part III: Inventing languages</p>
+    <p class="chapter-number">Chapter 08</p>
+    <svg class="chapter-glyph" viewBox="0 0 96 96" focusable="false" aria-hidden="true"><path d="M25 31c12-10 34-10 46 0"/><path d="M71 31c-12 10-34 10-46 0"/><path d="M25 65c12-10 34-10 46 0"/><path d="M71 65c-12 10-34 10-46 0"/><path d="M35 48h26"/></svg>
+  </header>
+  <h1 id="h-08-teaching-machines-our-words"><a class="anchor-link" href="#h-08-teaching-machines-our-words" aria-label="Link to Teaching machines our words">#</a>Teaching machines our words</h1>
+<p id="p-08-a-few-chapters-ago-we-looked-at-language" data-note-target>A few chapters ago we looked at language as magic. Human language does not merely carry thoughts around; it changes what kinds of thoughts are easy to have.</p>
+<p id="p-08-programming-languages-do-the-same-thing-but-with" data-note-target>Programming languages do the same thing, but with less tolerance for ambiguity and more semicolons.</p>
+<p id="p-08-this-chapter-returns-to-that-idea-but-now" data-note-target>This chapter returns to that idea, but now turns it toward programming proper. A programming language is not primarily a machine interface. It is a human thinking tool that happens to be precise enough for a machine to execute.</p>
+<h2 id="h-08-computer-languages"><a class="anchor-link" href="#h-08-computer-languages" aria-label="Link to Computer languages">#</a>Computer languages</h2>
+<p id="p-08-a-common-misconception-is-that-programming-languages-are" data-note-target>A common misconception is that programming languages are designed to allow you to program computers. If that were the only reason, there wouldn't be that many programming languages. A computer doesn't need a programming language. Humans do. Computers are perfectly fine executing instructions like this:</p>
+<figure id="code-08-013" class="code-figure" data-note-target>
+<figcaption>code</figcaption>
+<pre><code>037744 016701 000026 012702 000352 005211 105711 100376 
+116162 000002 037400 005267 177756 000765 177550</code></pre>
+</figure>
+<p id="p-08-this-machine-code-is-written-in-octal-to" data-note-target>This <a href="https://en.wikipedia.org/wiki/Machine_code">machine code</a> is written in octal, to make it slightly more readable for humans. But the first really usable step is to write it as <a href="https://en.wikipedia.org/wiki/Assembly_language">assembly code</a>:</p>
+<figure id="code-08-020" class="code-figure" data-note-target>
+<figcaption>code</figcaption>
+<pre><code>037744: 016701 000026          MOV   037776,R1
+037750: 012702 000352          MOV   #352,R2
+037754: 005211                 INC   @R1
+037756: 105711                 TSTB  @R1
+037760: 100376                 BPL   037756
+037762: 116162 000002 037400   MOVB  2(R1),37400(R2)
+037770: 005267 177756          INC   037752
+037774: 000765                 BR    037750
+037776: 177550                 .WORD 177550</code></pre>
+</figure>
+<p id="p-08-and-now-with-some-labels-and-comments" data-note-target>And now with some labels and comments:</p>
+<figure id="code-08-034" class="code-figure" data-note-target>
+<figcaption>code</figcaption>
+<pre><code>        LOAD = 0x7400                 ; Buffer address
+
+0x7744  016701  BEGIN: MOV DEVICE, R1 ; Get Device CSR
+0x7746  000026
+0x7750  012702  LOOP:  MOV (PC)+, R2  ; Get buffer offset
+0x7752  000352  OFFSET: .-LOAD
+0x7754  005211         INC @R1        ; Turn on reader
+0x7756  105711  READY: TSTB @R1       ; Done?
+0x7760  100376         BPL READY
+0x7762  116162         MOVB 2(R1), LOAD(R2) ; Transfer
+0x7764  000002
+0x7766  0x7400
+0x7770  005267         INC OFFSET     ; Bump buffer offset
+0x7772  177756
+0x7774  000765         BR LOOP
+0x7776  177550  DEVICE: 177550        ; Input device CSR address</code></pre>
+</figure>
+<p id="p-08-this-is-the-code-to-make-a-pdp" data-note-target>This is the code to <a href="http://gunkies.org/wiki/PDP-11_Bootstrap_Loader">make a PDP-11 computer boot</a>. It is commonly known as <a href="https://en.wikipedia.org/wiki/Bootstrapping">bootstrap</a> code.</p>
+<p id="p-08-even-in-this-enhanced-more-human-form-this" data-note-target>Even in this enhanced, more human form, this code is not very readable. Or expressive. Most humans don't code in assembly language. In the end, the machine still gets instructions. The programming language exists because humans need to think, read, change, and share those instructions.</p>
+<p id="p-08-that-is-why-there-are-so-many-programming" data-note-target>That is why there are so many programming languages. Different humans need different thoughts to be cheap.</p>
+<p id="p-08-cobol-was-designed-to-make-business-programs-look" data-note-target><a href="https://en.wikipedia.org/wiki/COBOL">COBOL</a> was designed to make business programs look more like business language. Its intended use was in offices, banks, governments, and large institutions. That does not make it beautiful. It does make it interesting. COBOL made records, reports, procedures, and money moving through organizations easier to say.</p>
+<figure id="code-08-061" class="code-figure" data-note-target>
+<figcaption>cobol</figcaption>
+<pre><code class="language-cobol">/
+IDENTIFICATION DIVISION.
+*-----------------------
+PROGRAM-ID.    UNLDBCU1
+*
+ENVIRONMENT DIVISION.
+*
+CONFIGURATION SECTION.
+DATA DIVISION.
+*
+WORKING-STORAGE SECTION.
+*
+01  WORKAREA-IND.
+       02  WORKIND PIC S9(4) COMP OCCURS 750 TIMES.
+01  RECWORK.
+       02  RECWORK-LEN PIC S9(8) COMP VALUE 32700.
+       02  RECWORK-CHAR PIC X(1) OCCURS 32700 TIMES.
+*
+PROCEDURE DIVISION.
+*
+        CALL 'UNLDBCU2' USING WORKAREA-IND RECWORK.
+        GOBACK.</code></pre>
+</figure>
+<p id="p-08-believe-it-or-not-cobol-is-still-in" data-note-target>Believe it or not, COBOL is still in use today. The code above is copied from a current manual for <a href="https://www.ibm.com/products/db2">DB2</a>, an IBM database system that runs on <a href="https://www.ibm.com/products/zos">z/OS</a> mainframes. These are descendants of the famous <a href="https://en.wikipedia.org/wiki/OS/360">OS/360</a> mainframes of the 1960s.</p>
+<p id="p-08-that-is-not-an-accident-business-software-tends" data-note-target>That is not an accident. Business software tends to outlive the people who wrote it. Once a language becomes part of the machinery of an institution, replacing it becomes a social, economic, and political problem. Not just a technical one.</p>
+<p id="p-08-fortran-made-a-different-bet-it-was-built" data-note-target><a href="https://en.wikipedia.org/wiki/Fortran">Fortran</a> made a different bet. It was built for scientists and engineers. It made formulas, arrays, loops, and numerical work cheap. Here is an example in Fortran 77:</p>
+<figure id="code-08-092" class="code-figure" data-note-target>
+<figcaption>fortran</figcaption>
+<pre><code class="language-fortran">PROGRAM MAIN
+INTEGER N, X
+EXTERNAL SUB1
+COMMON /GLOBALS/ N
+X = 0
+PRINT *, 'Enter number of repeats'
+READ (*,*) N
+CALL SUB1(X,SUB1)
+END
+
+SUBROUTINE SUB1(X,DUMSUB)
+INTEGER N, X
+EXTERNAL DUMSUB
+COMMON /GLOBALS/ N
+IF(X .LT. N)THEN
+  X = X + 1
+  PRINT *, 'x = ', X
+  CALL DUMSUB(X,DUMSUB)
+END IF
+END</code></pre>
+</figure>
+<p id="p-08-cobol-and-fortran-are-not-just-old-languages" data-note-target>COBOL and Fortran are not just old languages. They are old answers to different questions. What should business code look like? What should scientific code look like? What should the programmer be allowed to say directly?</p>
+<p id="p-08-finally-we-arrive-at-lisp-a-wizard-called" data-note-target>Finally we arrive at <a href="https://en.wikipedia.org/wiki/Lisp_%28programming_language%29">Lisp</a>. A wizard called <a href="https://en.wikipedia.org/wiki/John_McCarthy_%28computer_scientist%29">John McCarthy</a> dreamed up Lisp between 1956 and 1958. Lisp made a stranger bet: code and data could have almost the same shape.</p>
+<p id="p-08-that-sounds-like-a-technical-detail-until-you" data-note-target>That sounds like a technical detail until you feel what it does. Lisp doesn't just make it possible to solve problems. It makes it cheap to build little languages for solving problems.</p>
+<p id="p-08-here-is-a-tiny-example" data-note-target>Here is a tiny example:</p>
+<figure id="code-08-123" class="code-figure" data-note-target>
+<figcaption>lisp</figcaption>
+<pre><code class="language-lisp">(defmacro unless (condition &amp;body body)
+  `(if (not ,condition)
+       (progn ,@body)))</code></pre>
+</figure>
+<p id="p-08-this-adds-a-new-word-to-the-language" data-note-target>This adds a new word to the language: <code>unless</code>. After that, programmers can write code in terms of the idea they mean, instead of spelling out the smaller pieces every time.</p>
+<p id="p-08-that-is-why-lisp-keeps-returning-in-conversations" data-note-target>That is why Lisp keeps returning in conversations about programming languages, not because everyone should use it, or because parentheses are secretly beautiful if you stare long enough. But because Lisp makes language-building visible.</p>
+<p id="p-08-a-lisp-interpreter-can-be-written-in-lisp" data-note-target>A Lisp interpreter can be written in Lisp itself. Paul Graham shows one in <a href="http://www.paulgraham.com/rootsoflisp.html">Roots of Lisp</a>, based on McCarthy's original. That is a very wizardly trick: the language can describe a machine that runs the language.</p>
+<h2 id="h-08-differences-commonalities-and-why-we-cant-have-nice-things"><a class="anchor-link" href="#h-08-differences-commonalities-and-why-we-cant-have-nice-things" aria-label="Link to Differences, commonalities, and why we can&#39;t have nice things">#</a>Differences, commonalities, and why we can't have nice things</h2>
+<p id="p-08-computer-languages-are-more-commonly-known-as-programming" data-note-target>Computer languages are more commonly known as programming languages. They are designed to make a computer do something. Did you spot the lie?</p>
+<p id="p-08-programming-languages-are-designed-unlike-human-languages-however" data-note-target>Programming languages are designed, unlike human languages. However, they aren't designed to make a computer do anything. They are designed so you, a human, can reason and communicate about what it is that you want the computer to do. This may seem like a small difference, but it is in fact the reason behind the proliferation of programming languages.</p>
+<p id="p-08-just-like-human-languages-programming-languages-make-it" data-note-target>Just like human languages, programming languages make it easier for some ideas to be expressed than others. The best programming language allows you to freely express all the ideas you need to solve a problem in as simple and straightforward a way as possible. And it does so with as little required learning as possible.</p>
+<p id="p-08-unfortunately-thats-also-not-true" data-note-target>Unfortunately, that's also not true.</p>
+<p id="p-08-the-problem-is-communication-not-between-the-human" data-note-target>The problem is communication. Not between the human wizard and the computer. The problem is communicating ideas between humans. Small, powerful languages are seductive because they let you create your own vocabulary. But every private vocabulary has a cost. Any other wizard who wants to work with your ideas, your code, will have to learn your version: your implementation, your little country with its own customs, grammar, and strange hand gestures.</p>
+<aside id="rule-08-wizards-seventh-rule" class="wizard-rule" data-note-target>
+<p class="rule-label">Wizard's seventh rule</p>
+<p>The bill always comes due.</p>
+</aside>
+<p id="p-08-reading-code-is-hard-it-is-much-easier" data-note-target>Reading code is hard. It is much easier to write code. This sounds nonsensical, yet it is true. It is the source of the <a href="https://en.wikipedia.org/wiki/Not_invented_here">NIH syndrome</a>: Not Invented Here.</p>
+<p id="p-08-one-answer-is-to-make-programming-languages-bigger" data-note-target>One answer is to make programming languages bigger. Add more standard stuff. Add design patterns. Add frameworks. Make sure all programmers are fed the same cookie-cutter solutions, so all code starts to look roughly the same. Create frameworks that force all problems into a <a href="https://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93controller">Model-View-Controller</a> solution on top of an <a href="https://en.wikipedia.org/wiki/Object%E2%80%93relational_mapping">Object-Relational Mapper</a>. Boom, done!</p>
+<p id="p-08-there-is-a-reason-this-keeps-happening-shared" data-note-target>There is a reason this keeps happening. Shared shapes make code easier to read. If every project invents its own private universe, every project becomes a new country with its own customs, grammar, and strange little hand gestures. A framework gives everyone the same street names.</p>
+<p id="p-08-but-there-is-a-cost-once-the-shared" data-note-target>But there is a cost. Once the shared language becomes too large, the real problem starts to disappear underneath the standard machinery. You are no longer saying what your program means. You are saying how this particular framework wants the meaning to be dressed.</p>
+<p id="p-08-so-the-natural-pressure-on-programming-languages-is" data-note-target>So the natural pressure on programming languages is strange. Small, powerful languages are wonderful for the writer, but dangerous for the reader. Large, standard languages are easier to share, but they also make it harder to say unusual things simply.</p>
+<p id="p-08-just-like-human-languages" data-note-target>Just like human languages.</p>
+<p id="p-08-a-wizard-should-be-aware-of-this-tension" data-note-target>A wizard should be aware of this tension. You do not escape it by choosing the one true language, because the one true language does not exist. You escape it, when you can, by making the language of the program fit the problem more closely.</p>
+<p id="p-08-that-is-where-domain-specific-languages-become-interesting" data-note-target>That is where <a href="https://martinfowler.com/dsl.html">domain-specific languages</a> become interesting.</p>
+<p id="p-08-a-dsl-is-not-automatically-a-separate-language" data-note-target>A DSL is not automatically a separate language with a parser and a manual. Sometimes it is. <a href="https://en.wikipedia.org/wiki/SQL">SQL</a> is its own world, and for good reasons. But sometimes a DSL is smaller than that. It can be a handful of names, a few conventions, a shape in the data, a chain of functions, a way of arranging code so the important ideas stand next to each other.</p>
+<p id="p-08-but-before-we-build-one-we-need-to" data-note-target>But before we build one, we need to notice something stranger: every program already contains a language of its own.</p>
+  <nav class="chapter-pagination" aria-label="Chapter navigation">
+    <a rel="prev" href="07-the-web-as-platform.html"><span>Previous</span>The Web: waking up the words</a>
+    <a rel="next" href="09-every-program-contains-a-language.html"><span>Next</span>Every program grows a language</a>
+  </nav>
+  </div>
+  <div class="page-turner" data-page-controls hidden>
+    <button type="button" data-page-prev aria-label="Previous page"></button>
+    <button type="button" data-page-next aria-label="Next page"></button>
+  </div>
+</main>
+    <aside class="reader-margin" aria-label="Reader tools">
+  <button class="reader-toggle" type="button" aria-expanded="false" aria-controls="reader-tools-panel" aria-label="Show reader tools" data-reader-tools-toggle>
+    <span class="reader-toggle-name">
+      <svg class="reader-toggle-ornament" viewBox="0 0 44 32" aria-hidden="true" focusable="false">
+        <path d="M7 22c8-11 18-11 30 0"/>
+        <path d="M13 22V11m9 11V7m9 15V13"/>
+        <circle cx="13" cy="10" r="2"/>
+        <circle cx="22" cy="6" r="2"/>
+        <circle cx="31" cy="12" r="2"/>
+        <path d="M10 25h24"/>
+      </svg>
+      <span>Reader</span>
+    </span>
+    <span class="reader-toggle-state" data-reader-tools-label>Open</span>
+  </button>
+  <div id="reader-tools-panel" class="reader-tools" data-reader-tools-panel hidden>
+    <svg class="reader-panel-ornament" viewBox="0 0 260 120" aria-hidden="true" focusable="false">
+      <path class="ornament-wire" d="M15 82c28-34 54-35 78-3 20 27 47 27 78 0 27-24 51-21 74 9"/>
+      <path class="ornament-wire" d="M31 86V46c0-12 8-20 20-20h20"/>
+      <path class="ornament-wire" d="M101 67V36c0-10 7-17 17-17h31"/>
+      <path class="ornament-wire" d="M187 71V42c0-11 8-18 19-18h22"/>
+      <path class="ornament-leaf" d="M63 25c-12-8-23-6-32 5 12 3 23 1 32-5z"/>
+      <path class="ornament-leaf" d="M143 19c11-9 23-8 34 2-10 5-22 4-34-2z"/>
+      <path class="ornament-leaf" d="M225 23c-8-7-17-6-27 1 8 5 17 5 27-1z"/>
+      <rect class="ornament-chip" x="105" y="74" width="44" height="28" rx="6"/>
+      <path class="ornament-chip-line" d="M113 83h11m8 0h9M113 93h28"/>
+      <path class="ornament-pin" d="M113 74v-8m12 8v-8m12 8v-8m-24 44v-8m12 8v-8m12 8v-8"/>
+      <circle class="ornament-node" cx="31" cy="86" r="3"/>
+      <circle class="ornament-node" cx="101" cy="67" r="3"/>
+      <circle class="ornament-node" cx="187" cy="71" r="3"/>
+      <circle class="ornament-node" cx="244" cy="88" r="3"/>
+    </svg>
+    <section class="reader-panel">
+      <h2>Reader</h2>
+      <label>Font
+        <select data-setting="font">
+          <option value="publication">Publication</option>
+          <option value="simple-serif">Simple serif</option>
+          <option value="simple-sans">Simple sans</option>
+          <option value="high-legibility">High legibility</option>
+        </select>
+      </label>
+      <label>Size
+        <input data-setting="fontScale" type="range" min="92" max="124" step="4" value="100">
+      </label>
+      <label>Line
+        <input data-setting="lineHeight" type="range" min="145" max="185" step="5" value="160">
+      </label>
+      <label>Width
+        <input data-setting="columnWidth" type="range" min="38" max="66" step="2" value="48">
+      </label>
+      <label>Flow
+        <select data-setting="flow">
+          <option value="paged">Paged</option>
+          <option value="scroll">Scrolling</option>
+        </select>
+      </label>
+      <label>Typography
+        <select data-setting="typography">
+          <option value="browser">Browser</option>
+          <option value="pretext">Book</option>
+        </select>
+      </label>
+      <label>Theme
+        <select data-setting="theme">
+          <option value="light">Light</option>
+          <option value="dark">Dark</option>
+          <option value="contrast">Contrast</option>
+        </select>
+      </label>
+      <label>Motion
+        <select data-setting="motion">
+          <option value="auto">Auto</option>
+          <option value="reduced">Reduced</option>
+        </select>
+      </label>
+    </section>
+    <section class="reader-panel">
+      <h2>Book Data</h2>
+      <a href="../data/manifest.json">Manifest</a>
+    </section>
+  </div>
+</aside>
+  </div>
+</body>
+</html>

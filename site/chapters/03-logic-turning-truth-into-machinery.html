@@ -1,0 +1,293 @@
+<!doctype html>
+<html lang="en" data-font="publication" data-theme="light" data-motion="auto" data-flow="paged" data-page-kind="chapter" data-chapter-map="closed" data-reader-tools="closed">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Logic: the truth is out there - Programming for Wizards</title>
+  <link rel="stylesheet" href="../assets/book.css">
+  <link rel="stylesheet" href="../assets/exhibits/exhibits.css">
+  <script>
+    window.MathJax = {
+      tex: {
+        inlineMath: [["$", "$"], ["\\(", "\\)"]],
+        displayMath: [["$$", "$$"], ["\\[", "\\]"]],
+        processEscapes: true
+      },
+      options: {
+        skipHtmlTags: ["script", "noscript", "style", "textarea", "pre", "code"]
+      }
+    }
+  </script>
+  <script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+  <script defer src="../assets/book.js"></script>
+  <script defer src="../assets/exhibits/exhibit-kit.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/gh/muze-labs/simplyflow@main/packages/simplyflow/dist/simply.flow.js"></script>
+  <script type="module" src="../assets/exhibits/exhibits.js"></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to manuscript</a>
+  <div class="book-shell">
+    <nav class="chapter-map" aria-label="Chapters">
+  <button class="chapter-map-toggle" type="button" aria-expanded="false" aria-controls="chapter-map-panel" aria-label="Show contents" data-chapter-map-toggle>
+    <span>Contents</span>
+    <span class="chapter-map-toggle-state" data-chapter-map-label>Open</span>
+  </button>
+  <div id="chapter-map-panel" class="chapter-map-panel" data-chapter-map-panel hidden>
+  <a class="book-title" href="../index.html">Programming for Wizards</a>
+  
+<section class="map-section">
+  <h2>Prologue: You are allowed to make it up</h2>
+  <ol>
+    <li><a href="../chapters/01-this-is-not-a-programming-book.html"><span>01</span>This is not a programming book</a></li>
+  </ol>
+</section>
+<section class="map-section">
+  <h2>Part I: Representations are spells</h2>
+  <ol>
+    <li><a href="../chapters/02-numbers-hiding-calculations-in-symbols.html"><span>02</span>Numbers: bigger than you think</a></li><li><a aria-current="page" href="../chapters/03-logic-turning-truth-into-machinery.html"><span>03</span>Logic: the truth is out there</a></li><li><a href="../chapters/04-language-the-tool-that-changes-the-thinker.html"><span>04</span>Language: the oldest trick</a></li>
+  </ol>
+</section>
+<section class="map-section">
+  <h2>Part II: The Web, from address to platform</h2>
+  <ol>
+    <li><a href="../chapters/05-the-web-as-address.html"><span>05</span>The Web: one string to rule them all</a></li><li><a href="../chapters/06-the-web-as-document.html"><span>06</span>The Web: the shape of words</a></li><li><a href="../chapters/07-the-web-as-platform.html"><span>07</span>The Web: waking up the words</a></li>
+  </ol>
+</section>
+<section class="map-section">
+  <h2>Part III: Inventing languages</h2>
+  <ol>
+    <li><a href="../chapters/08-programming-languages-are-for-humans.html"><span>08</span>Teaching machines our words</a></li><li><a href="../chapters/09-every-program-contains-a-language.html"><span>09</span>Every program grows a language</a></li><li><a href="../chapters/10-code-exhibit-extending-javascript-with-jaqt.html"><span>10</span>Code exhibit: extending JavaScript with JAQT</a></li>
+  </ol>
+</section>
+<section class="map-section">
+  <h2>Part IV: Boundaries and reusable pieces</h2>
+  <ol>
+    <li><a href="../chapters/11-the-knitted-castle.html"><span>11</span>The knitted castle</a></li><li><a href="../chapters/12-objects-binding-data-behavior-and-time.html"><span>12</span>Objects: binding data, behavior, and time</a></li>
+  </ol>
+</section>
+<section class="map-section">
+  <h2>Part V: Architecture, change, commons, and home</h2>
+  <ol>
+    <li><a href="../chapters/13-architecture-arches-pyramids-and-change.html"><span>13</span>Architecture: arches, pyramids, and change</a></li><li><a href="../chapters/14-the-web-as-commons.html"><span>14</span>The Web as commons: innovation happens elsewhere</a></li><li><a href="../chapters/15-the-web-as-data.html"><span>15</span>The Web as data: things should have addresses too</a></li><li><a href="../chapters/16-the-web-as-home.html"><span>16</span>The Web as home: who owns your home directory?</a></li>
+  </ol>
+</section>
+<section class="map-section">
+  <h2>Epilogue</h2>
+  <ol>
+    <li><a href="../chapters/17-rule-zero-there-are-no-rules.html"><span>17</span>Epilogue: shifting ground</a></li>
+  </ol>
+</section>
+  </div>
+</nav>
+    <main id="main" class="manuscript">
+  <div class="book-progress" role="progressbar" aria-label="Book progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" data-book-progress>
+    <span data-book-progress-bar></span>
+  </div>
+  <div class="manuscript-pages" data-page-scroller data-book-chapter-index="2" data-book-page-weights="466,2137,938,931,2137,1864,1422,1466,611,2199,1770,1059,2545,1487,1510,1228,173">
+  <header class="chapter-header">
+    <p class="chapter-kicker">Part I: Representations are spells</p>
+    <p class="chapter-number">Chapter 03</p>
+    <svg class="chapter-glyph" viewBox="0 0 96 96" focusable="false" aria-hidden="true"><path d="M23 67c12-17 12-31 0-43 17 12 31 12 50 0-12 17-12 31 0 43-19-12-33-12-50 0z"/><path d="M35 48h26M48 35v26"/></svg>
+  </header>
+  <h1 id="h-03-logic-the-truth-is-out-there"><a class="anchor-link" href="#h-03-logic-the-truth-is-out-there" aria-label="Link to Logic: the truth is out there">#</a>Logic: the truth is out there</h1>
+<p id="p-03-in-the-last-chapter-we-saw-that-a" data-note-target>In the last chapter, we saw that a good notation can do some of the calculation for you. Logic does something similar for reasoning.</p>
+<p id="p-03-this-matters-because-your-brain-is-a-wonderful" data-note-target>This matters because your brain is a wonderful machine, but it cheats. It guesses. It skips steps. It sees patterns that aren't there and misses patterns that are. Most of the time this is useful. Sometimes it gets you killed by a door.</p>
+<p id="p-03-you-are-standing-before-two-doors-one-door" data-note-target>You are standing before two doors. One door leads to your desire. The other leads to your doom. Before the doors are two guards. They both know which door leads where. One guard always lies. The other always tells the truth.</p>
+<p id="p-03-you-may-ask-one-question" data-note-target>You may ask one question.</p>
+<p id="p-03-obviously-you-need-to-ask-a-question-that" data-note-target>Obviously, you need to ask a question that reveals which door to use. But the obvious question doesn't work.</p>
+<blockquote><p>Which door should I choose?</p></blockquote>
+<p id="p-03-if-you-ask-the-truthful-guard-shell-point" data-note-target>If you ask the truthful guard, she'll point to your desire. If you ask the lying guard, she'll point to your doom. Since you don't know which guard you're asking, the answer is useless.</p>
+<p id="p-03-the-problem-isnt-that-youre-not-clever-enough" data-note-target>The problem isn't that you're not clever enough. The problem is that the truth has the wrong shape. So we need to put it into a better one: a table.</p>
+<p id="p-03-if-you-ask-a-guard-directly-which-door" data-note-target>If you ask a guard directly which door leads to your desire, the table looks like this:</p>
+<figure id="table-03-021" class="table-figure" data-note-target>
+<table>
+<thead><tr><th>Guard you ask</th><th>Door they point to</th></tr></thead>
+<tbody>
+<tr><td>Truthful</td><td>Desire</td></tr>
+<tr><td>Liar</td><td>Doom</td></tr>
+</tbody>
+</table>
+</figure>
+<p id="p-03-that-doesnt-help-the-answer-depends-on-which" data-note-target>That doesn't help. The answer depends on which guard you asked, and you don't know that. So the famous solution is to ask a different, less direct question:</p>
+<blockquote><p>If I asked the other guard which door leads to my desire, what would she answer?</p></blockquote>
+<p id="p-03-now-whatever-answer-you-get-you-choose-the" data-note-target>Now whatever answer you get, you choose the other door.</p>
+<p id="p-03-if-the-guard-you-ask-tells-the-truth" data-note-target>If the guard you ask tells the truth, she must give you the wrong answer, because that is what the liar would say. If the guard you ask lies, she must also give you the wrong answer, because she lies about the truthful guard's answer.</p>
+<figure id="table-03-034" class="table-figure" data-note-target>
+<table>
+<thead><tr><th>Guard you ask</th><th>What happens</th><th>Door they point to</th></tr></thead>
+<tbody>
+<tr><td>Truthful</td><td>Truthfully reports the liar's answer</td><td>Doom</td></tr>
+<tr><td>Liar</td><td>Lies about the truthful guard's answer</td><td>Doom</td></tr>
+</tbody>
+</table>
+</figure>
+<p id="p-03-no-matter-which-guard-you-ask-you-get" data-note-target>No matter which guard you ask, you get the wrong door. So you choose the other one.</p>
+<p id="p-03-the-trick-isnt-that-you-became-smarter-than" data-note-target>The trick isn't that you became smarter than the guards. It's that you asked a question that made both possible worlds collapse into the same answer. The first question had the wrong shape, the second one revealed a new way of seeing. You made the uncertainty stop mattering. That is logic doing its work.</p>
+<aside id="rule-03-wizards-second-rule" class="wizard-rule" data-note-target>
+<p class="rule-label">Wizard's second rule</p>
+<p>Tables don't lie.</p>
+</aside>
+<h2 id="h-03-boolean-logic"><a class="anchor-link" href="#h-03-boolean-logic" aria-label="Link to Boolean logic">#</a>Boolean logic</h2>
+<p id="p-03-today-we-call-this-boolean-logic-after-george" data-note-target>Today we call this Boolean logic, after <a href="https://en.wikipedia.org/wiki/George_Boole">George Boole</a>. The tables above are called <a href="https://en.wikipedia.org/wiki/Truth_table">truth tables</a>.</p>
+<p id="p-03-boolean-logic-is-brutally-small-everything-gets-squeezed" data-note-target>Boolean logic is brutally small. Everything gets squeezed into two values:</p>
+<figure id="table-03-053" class="table-figure" data-note-target>
+<table>
+<thead><tr><th>Value</th><th>Meaning</th></tr></thead>
+<tbody>
+<tr><td><code>true</code></td><td>yes, on, present, allowed</td></tr>
+<tr><td><code>false</code></td><td>no, off, absent, forbidden</td></tr>
+</tbody>
+</table>
+</figure>
+<p id="p-03-that-should-feel-familiar-in-the-last-chapter" data-note-target>That should feel familiar. In the last chapter, we squeezed numbers into symbols and columns. Here we squeeze reasoning into cases.</p>
+<p id="p-03-and-once-reasoning-fits-into-cases-we-can" data-note-target>And once reasoning fits into cases, we can start building machinery around it.</p>
+<p id="p-03-boolean-logic-is-at-the-core-of-modern" data-note-target>Boolean logic is at the core of modern programming. It is at the core of computers. Everything your computer does for you is built, eventually, on Boolean logic: true and false, 1 and 0.</p>
+<p id="p-03-most-boolean-operations-combine-two-terms-lets-call" data-note-target>Most Boolean operations combine two terms. Let's call them <code>p</code> and <code>q</code>. Just like our guards, we don't know whether they are true or false. But using the power of the truth table, we can reason about them anyway.</p>
+<p id="p-03-the-operations-are-and-or-and-not" data-note-target>The operations are: <code>and</code>, <code>or</code> and <code>not</code>.</p>
+<figure id="table-03-068" class="table-figure" data-note-target>
+<table>
+<thead><tr><th>q</th><th>not q</th></tr></thead>
+<tbody>
+<tr><td>true</td><td>false</td></tr>
+<tr><td>false</td><td>true</td></tr>
+</tbody>
+</table>
+</figure>
+<figure id="table-03-073" class="table-figure" data-note-target>
+<table>
+<thead><tr><th>p or q</th><th>q = true</th><th>q = false</th></tr></thead>
+<tbody>
+<tr><td>p = true</td><td>true</td><td>true</td></tr>
+<tr><td>p = false</td><td>true</td><td>false</td></tr>
+</tbody>
+</table>
+</figure>
+<p id="p-03-and-of-course" data-note-target>And of course:</p>
+<figure id="table-03-080" class="table-figure" data-note-target>
+<table>
+<thead><tr><th>p and q</th><th>q = true</th><th>q = false</th></tr></thead>
+<tbody>
+<tr><td>p = true</td><td>true</td><td>false</td></tr>
+<tr><td>p = false</td><td>false</td><td>false</td></tr>
+</tbody>
+</table>
+</figure>
+<p id="p-03-combining-these-we-can-also-create-nor-and" data-note-target>Combining these, we can also create <code>nor</code> and <code>nand</code>.</p>
+<figure id="table-03-087" class="table-figure" data-note-target>
+<table>
+<thead><tr><th>p nor q</th><th>q = true</th><th>q = false</th></tr></thead>
+<tbody>
+<tr><td>p = true</td><td>false</td><td>false</td></tr>
+<tr><td>p = false</td><td>false</td><td>true</td></tr>
+</tbody>
+</table>
+</figure>
+<figure id="table-03-092" class="table-figure" data-note-target>
+<table>
+<thead><tr><th>p nand q</th><th>q = true</th><th>q = false</th></tr></thead>
+<tbody>
+<tr><td>p = true</td><td>false</td><td>true</td></tr>
+<tr><td>p = false</td><td>true</td><td>true</td></tr>
+</tbody>
+</table>
+</figure>
+<p id="p-03-wait-a-minute-what-is-this-nand-thing" data-note-target>Wait a minute... what is this <code>nand</code> thing? Why not just write <code>not and</code>?</p>
+<p id="p-03-well-it-so-happens-that-your-computer-can" data-note-target>Well... it so happens that your computer can implement everything with just <code>nand</code>. All other operations can be written as combinations of one or more NANDs. Hardware wizards found ways to create tiny <a href="https://en.wikipedia.org/wiki/NAND_gate">NAND <em>gates</em></a>, and from those gates built the tiny parts of modern CPUs.</p>
+<p id="p-03-this-is-the-second-great-trick-in-this" data-note-target>This is the second great trick in this chapter. First we turned a riddle into a table. Then we turned the table into a machine.</p>
+<p id="p-03-tables-dont-lie-but-people-do-and-we" data-note-target>Tables don't lie, but people do. And we like it. So much that we've invented something entirely new. Something clever and diabolical, called language.</p>
+  <nav class="chapter-pagination" aria-label="Chapter navigation">
+    <a rel="prev" href="02-numbers-hiding-calculations-in-symbols.html"><span>Previous</span>Numbers: bigger than you think</a>
+    <a rel="next" href="04-language-the-tool-that-changes-the-thinker.html"><span>Next</span>Language: the oldest trick</a>
+  </nav>
+  </div>
+  <div class="page-turner" data-page-controls hidden>
+    <button type="button" data-page-prev aria-label="Previous page"></button>
+    <button type="button" data-page-next aria-label="Next page"></button>
+  </div>
+</main>
+    <aside class="reader-margin" aria-label="Reader tools">
+  <button class="reader-toggle" type="button" aria-expanded="false" aria-controls="reader-tools-panel" aria-label="Show reader tools" data-reader-tools-toggle>
+    <span class="reader-toggle-name">
+      <svg class="reader-toggle-ornament" viewBox="0 0 44 32" aria-hidden="true" focusable="false">
+        <path d="M7 22c8-11 18-11 30 0"/>
+        <path d="M13 22V11m9 11V7m9 15V13"/>
+        <circle cx="13" cy="10" r="2"/>
+        <circle cx="22" cy="6" r="2"/>
+        <circle cx="31" cy="12" r="2"/>
+        <path d="M10 25h24"/>
+      </svg>
+      <span>Reader</span>
+    </span>
+    <span class="reader-toggle-state" data-reader-tools-label>Open</span>
+  </button>
+  <div id="reader-tools-panel" class="reader-tools" data-reader-tools-panel hidden>
+    <svg class="reader-panel-ornament" viewBox="0 0 260 120" aria-hidden="true" focusable="false">
+      <path class="ornament-wire" d="M15 82c28-34 54-35 78-3 20 27 47 27 78 0 27-24 51-21 74 9"/>
+      <path class="ornament-wire" d="M31 86V46c0-12 8-20 20-20h20"/>
+      <path class="ornament-wire" d="M101 67V36c0-10 7-17 17-17h31"/>
+      <path class="ornament-wire" d="M187 71V42c0-11 8-18 19-18h22"/>
+      <path class="ornament-leaf" d="M63 25c-12-8-23-6-32 5 12 3 23 1 32-5z"/>
+      <path class="ornament-leaf" d="M143 19c11-9 23-8 34 2-10 5-22 4-34-2z"/>
+      <path class="ornament-leaf" d="M225 23c-8-7-17-6-27 1 8 5 17 5 27-1z"/>
+      <rect class="ornament-chip" x="105" y="74" width="44" height="28" rx="6"/>
+      <path class="ornament-chip-line" d="M113 83h11m8 0h9M113 93h28"/>
+      <path class="ornament-pin" d="M113 74v-8m12 8v-8m12 8v-8m-24 44v-8m12 8v-8m12 8v-8"/>
+      <circle class="ornament-node" cx="31" cy="86" r="3"/>
+      <circle class="ornament-node" cx="101" cy="67" r="3"/>
+      <circle class="ornament-node" cx="187" cy="71" r="3"/>
+      <circle class="ornament-node" cx="244" cy="88" r="3"/>
+    </svg>
+    <section class="reader-panel">
+      <h2>Reader</h2>
+      <label>Font
+        <select data-setting="font">
+          <option value="publication">Publication</option>
+          <option value="simple-serif">Simple serif</option>
+          <option value="simple-sans">Simple sans</option>
+          <option value="high-legibility">High legibility</option>
+        </select>
+      </label>
+      <label>Size
+        <input data-setting="fontScale" type="range" min="92" max="124" step="4" value="100">
+      </label>
+      <label>Line
+        <input data-setting="lineHeight" type="range" min="145" max="185" step="5" value="160">
+      </label>
+      <label>Width
+        <input data-setting="columnWidth" type="range" min="38" max="66" step="2" value="48">
+      </label>
+      <label>Flow
+        <select data-setting="flow">
+          <option value="paged">Paged</option>
+          <option value="scroll">Scrolling</option>
+        </select>
+      </label>
+      <label>Typography
+        <select data-setting="typography">
+          <option value="browser">Browser</option>
+          <option value="pretext">Book</option>
+        </select>
+      </label>
+      <label>Theme
+        <select data-setting="theme">
+          <option value="light">Light</option>
+          <option value="dark">Dark</option>
+          <option value="contrast">Contrast</option>
+        </select>
+      </label>
+      <label>Motion
+        <select data-setting="motion">
+          <option value="auto">Auto</option>
+          <option value="reduced">Reduced</option>
+        </select>
+      </label>
+    </section>
+    <section class="reader-panel">
+      <h2>Book Data</h2>
+      <a href="../data/manifest.json">Manifest</a>
+    </section>
+  </div>
+</aside>
+  </div>
+</body>
+</html>

@@ -1,0 +1,304 @@
+<!doctype html>
+<html lang="en" data-font="publication" data-theme="light" data-motion="auto" data-flow="paged" data-page-kind="chapter" data-chapter-map="closed" data-reader-tools="closed">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Numbers: bigger than you think - Programming for Wizards</title>
+  <link rel="stylesheet" href="../assets/book.css">
+  <link rel="stylesheet" href="../assets/exhibits/exhibits.css">
+  <script>
+    window.MathJax = {
+      tex: {
+        inlineMath: [["$", "$"], ["\\(", "\\)"]],
+        displayMath: [["$$", "$$"], ["\\[", "\\]"]],
+        processEscapes: true
+      },
+      options: {
+        skipHtmlTags: ["script", "noscript", "style", "textarea", "pre", "code"]
+      }
+    }
+  </script>
+  <script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+  <script defer src="../assets/book.js"></script>
+  <script defer src="../assets/exhibits/exhibit-kit.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/gh/muze-labs/simplyflow@main/packages/simplyflow/dist/simply.flow.js"></script>
+  <script type="module" src="../assets/exhibits/exhibits.js"></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to manuscript</a>
+  <div class="book-shell">
+    <nav class="chapter-map" aria-label="Chapters">
+  <button class="chapter-map-toggle" type="button" aria-expanded="false" aria-controls="chapter-map-panel" aria-label="Show contents" data-chapter-map-toggle>
+    <span>Contents</span>
+    <span class="chapter-map-toggle-state" data-chapter-map-label>Open</span>
+  </button>
+  <div id="chapter-map-panel" class="chapter-map-panel" data-chapter-map-panel hidden>
+  <a class="book-title" href="../index.html">Programming for Wizards</a>
+  
+<section class="map-section">
+  <h2>Prologue: You are allowed to make it up</h2>
+  <ol>
+    <li><a href="../chapters/01-this-is-not-a-programming-book.html"><span>01</span>This is not a programming book</a></li>
+  </ol>
+</section>
+<section class="map-section">
+  <h2>Part I: Representations are spells</h2>
+  <ol>
+    <li><a aria-current="page" href="../chapters/02-numbers-hiding-calculations-in-symbols.html"><span>02</span>Numbers: bigger than you think</a></li><li><a href="../chapters/03-logic-turning-truth-into-machinery.html"><span>03</span>Logic: the truth is out there</a></li><li><a href="../chapters/04-language-the-tool-that-changes-the-thinker.html"><span>04</span>Language: the oldest trick</a></li>
+  </ol>
+</section>
+<section class="map-section">
+  <h2>Part II: The Web, from address to platform</h2>
+  <ol>
+    <li><a href="../chapters/05-the-web-as-address.html"><span>05</span>The Web: one string to rule them all</a></li><li><a href="../chapters/06-the-web-as-document.html"><span>06</span>The Web: the shape of words</a></li><li><a href="../chapters/07-the-web-as-platform.html"><span>07</span>The Web: waking up the words</a></li>
+  </ol>
+</section>
+<section class="map-section">
+  <h2>Part III: Inventing languages</h2>
+  <ol>
+    <li><a href="../chapters/08-programming-languages-are-for-humans.html"><span>08</span>Teaching machines our words</a></li><li><a href="../chapters/09-every-program-contains-a-language.html"><span>09</span>Every program grows a language</a></li><li><a href="../chapters/10-code-exhibit-extending-javascript-with-jaqt.html"><span>10</span>Code exhibit: extending JavaScript with JAQT</a></li>
+  </ol>
+</section>
+<section class="map-section">
+  <h2>Part IV: Boundaries and reusable pieces</h2>
+  <ol>
+    <li><a href="../chapters/11-the-knitted-castle.html"><span>11</span>The knitted castle</a></li><li><a href="../chapters/12-objects-binding-data-behavior-and-time.html"><span>12</span>Objects: binding data, behavior, and time</a></li>
+  </ol>
+</section>
+<section class="map-section">
+  <h2>Part V: Architecture, change, commons, and home</h2>
+  <ol>
+    <li><a href="../chapters/13-architecture-arches-pyramids-and-change.html"><span>13</span>Architecture: arches, pyramids, and change</a></li><li><a href="../chapters/14-the-web-as-commons.html"><span>14</span>The Web as commons: innovation happens elsewhere</a></li><li><a href="../chapters/15-the-web-as-data.html"><span>15</span>The Web as data: things should have addresses too</a></li><li><a href="../chapters/16-the-web-as-home.html"><span>16</span>The Web as home: who owns your home directory?</a></li>
+  </ol>
+</section>
+<section class="map-section">
+  <h2>Epilogue</h2>
+  <ol>
+    <li><a href="../chapters/17-rule-zero-there-are-no-rules.html"><span>17</span>Epilogue: shifting ground</a></li>
+  </ol>
+</section>
+  </div>
+</nav>
+    <main id="main" class="manuscript">
+  <div class="book-progress" role="progressbar" aria-label="Book progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" data-book-progress>
+    <span data-book-progress-bar></span>
+  </div>
+  <div class="manuscript-pages" data-page-scroller data-book-chapter-index="1" data-book-page-weights="466,2137,938,931,2137,1864,1422,1466,611,2199,1770,1059,2545,1487,1510,1228,173">
+  <header class="chapter-header">
+    <p class="chapter-kicker">Part I: Representations are spells</p>
+    <p class="chapter-number">Chapter 02</p>
+    <svg class="chapter-glyph" viewBox="0 0 96 96" focusable="false" aria-hidden="true"><path d="M22 67h52"/><path d="M30 67V25h36v42"/><path d="M39 67V37h18v30"/><path d="M21 25h54"/><circle cx="35" cy="50" r="2"/><circle cx="61" cy="50" r="2"/></svg>
+  </header>
+  <h1 id="h-02-numbers-bigger-than-you-think"><a class="anchor-link" href="#h-02-numbers-bigger-than-you-think" aria-label="Link to Numbers: bigger than you think">#</a>Numbers: bigger than you think</h1>
+<p id="p-02-how-do-you-make-a-number-bigger-than" data-note-target>How do you make a number bigger than your fingers?</p>
+<p id="p-02-that-sounds-like-a-childish-question-but-it" data-note-target>That sounds like a childish question, but it is one of the first great programming questions. You have a thing in the world. You need to represent it. The first representation works for a while. Then the world grows larger than the representation, and the representation starts fighting you.</p>
+<p id="p-02-numbers-are-a-good-place-to-begin-because" data-note-target>Numbers are a good place to begin because they look natural. They are not. Number systems are inventions. Interfaces. Little machines for doing work in your head.</p>
+<p id="p-02-we-are-going-to-follow-one-idea-as" data-note-target>We are going to follow one idea as it gets stolen, bent, and improved: each new number system hides a little more work inside the notation itself.</p>
+<h2 id="h-02-the-first-interface"><a class="anchor-link" href="#h-02-the-first-interface" aria-label="Link to The first interface">#</a>The first interface</h2>
+<p id="p-02-its-no-secret-that-programming-is-based-on" data-note-target>It's no secret that programming is based on numbers. Two of them: <code>0</code> and <code>1</code>.</p>
+<p id="p-02-it-may-come-as-a-surprise-that-one" data-note-target>It may come as a surprise that one of those numbers is much newer than the other. But before we get to zero, or binary, or computers pretending very convincingly to understand the world, we should start with the oldest number system most people ever use.</p>
+<p id="p-02-hands" data-note-target>Hands.</p>
+<p id="p-02-at-first-the-best-number-system-was-the" data-note-target>At first, the best number system was the one attached to your body.</p>
+<p id="p-02-thats-not-a-joke-fingers-are-portable-visible" data-note-target>That's not a joke. Fingers are portable, visible, hard to lose, and conveniently arranged in groups. For small numbers, they are a pretty good user interface.</p>
+<p id="p-02-you-can-count-to-10-using-two-hands" data-note-target>You can count to 10 using two hands. But what if you want to add numbers to your cave painting? Well, you make <a href="https://en.wikipedia.org/wiki/Tally_marks">tally marks</a>: <code>IIII</code> and so on.</p>
+<p id="p-02-so-the-first-number-we-used-was-1" data-note-target>So the first number we used was <code>1</code>, or the tally mark: <code>I</code>. But tally marks get cumbersome quickly. So someone invented a new symbol to mark 5 tallies: <img src="https://upload.wikimedia.org/wikipedia/commons/1/1d/Tally_marks-Five-bar_Gate.svg" style="height:1em"></p>
+<p id="p-02-and-so-it-stayed-for-quite-a-while" data-note-target>And so it stayed for quite a while. Until a Roman (or probably someone else, and the Romans just stole the idea) had the idea to add symbols for other numbers. So we got <code>X</code> for 10. And the Romans redesigned the tally marks further. <code>I</code>, <code>II</code> and <code>III</code> remained the same, but 4 became <code>IV</code>, 5 became <code>V</code> and 6 became <code>VI</code>.</p>
+<p id="p-02-what-the-romans-invented-here-was-that-you" data-note-target>What the Romans invented here was that you could write a calculation to describe the number. 4 is written as <code>V</code> minus <code>I</code>. The minus operation is indicated by writing the <code>I</code> before the <code>V</code>. If you write it after the <code>V</code>, it is <code>V</code> plus <code>I</code>, or 6.</p>
+<p id="p-02-the-simple-rule-is-that-smaller-marks-before" data-note-target>The simple rule is that smaller marks before larger marks mean subtraction. If they are placed after larger marks, they mean addition. The Romans got creative after <code>X</code> and invented marks for 50, 100, 500, 1000 and 5000. They didn't need numbers bigger than that apparently. (Well, actually, a wizard somewhere says, they also had bars you could add on top of a mark to multiply its value by 1000... so there's that.)</p>
+<p id="p-02-so-as-an-example-what-does-the-roman" data-note-target>So as an example, what does the <a href="https://en.wikipedia.org/wiki/Roman_numerals">Roman numeral</a> <code>MMXXI</code> translate to in our <a href="https://en.wikipedia.org/wiki/Hindu%E2%80%93Arabic_numeral_system">Arabic numerals</a>? Yes, we call them Arabic numerals. No, the story is not quite that simple. Patience.</p>
+<p id="p-02-now-what-about-mcmxcviii-and-were-still-just" data-note-target>Now what about <code>MCMXCVIII</code>? And we're still just around 2000. Roman numerals still get unwieldy fairly quickly. But it's better than tally marks.</p>
+<p id="p-02-notice-weve-come-from-the-age-of-cave" data-note-target>Notice we've come from the age of cave paintings, at least 35,000 years ago, all the way to the Romans, and we still have to do without <code>0</code>.</p>
+<p id="p-02-but-lets-step-back-a-bit-and-introduce" data-note-target>But let's step back a bit and introduce the <a href="https://en.wikipedia.org/wiki/Abacus">abacus</a>. This simple device's origins are unknown. It may have been invented multiple times. We know for certain that it was in use by the Roman era; they probably stole it from the Greeks, who may have gotten it from Egyptians or Babylonians, who probably got it from the Sumerians.</p>
+<p id="p-02-by-now-you-may-have-noticed-a-pattern" data-note-target>By now, you may have noticed a pattern.</p>
+<p id="p-02-everyone-is-stealing-from-everyone-else" data-note-target>Everyone is stealing from everyone else.</p>
+<p id="p-02-that-sounds-worse-than-it-is-good-ideas" data-note-target>That sounds worse than it is. Good ideas travel. They are copied, renamed, misunderstood, improved, translated, simplified, and eventually taught to children as if they had always existed. This isn't a scandal. It's civilization.</p>
+<p id="p-02-wizards-dont-insist-on-inventing-everything-themselves-they" data-note-target>Wizards don't insist on inventing everything themselves. They notice working magic, learn why it works, and carry it somewhere new.</p>
+<aside id="rule-02-wizards-first-rule" class="wizard-rule" data-note-target>
+<p class="rule-label">Wizard's first rule</p>
+<p>Steal the good stuff.</p>
+</aside>
+<p id="p-02-anyway-back-to-the-abacus-roman-numerals-hide" data-note-target>Anyway, back to the abacus. Roman numerals hide small calculations in the order of symbols. The abacus does something more powerful: it hides multiplication in position. Let's show one for those who haven't seen one yet:</p>
+<img src="https://upload.wikimedia.org/wikipedia/commons/a/af/Abacus_6.png">
+<p id="p-02-this-is-a-chinese-version-you-could-probably" data-note-target>This is a Chinese version; you could probably find something like it still in use around the world today. The idea is simple: each column represents one position in a number. The upper beads denote 5, the lower beads denote 1. An observant wizard may spot a discrepancy here. Couldn't you do with one less upper and lower bead? Well, yes you could. It's a kind of magic.</p>
+<p id="p-02-but-much-more-important-is-that-here-again" data-note-target>But much more important is that here, again, the system introduces a calculation into the representation of numbers. It's different from the Roman one, and it's much more consistent and still in use today. It's the idea that each column is multiplied by a number. The rightmost column is multiplied by <code>I</code>, so not much change there. The one next to it is multiplied by <code>X</code>, the next one by <code>C</code>, the next by <code>M</code> and so on. Except of course the Romans had trouble writing numbers bigger than about <code>M</code>, without trickery.</p>
+<p id="p-02-its-a-lot-easier-to-explain-if-i" data-note-target>It's a lot easier to explain if I use Arabic numerals. They use the exact same multiplication by column as the abacus does. The rightmost column is multiplied by 1, the next is multiplied by 10, then 100, then 1000 and so on.</p>
+<p id="p-02-and-here-for-the-first-time-in-our" data-note-target>And here, for the first time in our story, we have the number <code>0</code>. Without it, Arabic numerals are impossible. Positional notation without <code>0</code> cannot work. You can write <code>11</code>, but how do you write 'one ten and no ones'? Zero fills that hole elegantly.</p>
+<p id="p-02-as-a-side-note-the-idea-of-a" data-note-target>As a side note, the idea of a <a href="https://en.wikipedia.org/wiki/0">number 0</a> is much older than this. But its status was not well established. The mathematicians of the time asked how a number, or anything, could be nothing. But with the idea of <a href="https://en.wikipedia.org/wiki/Positional_notation">positional notation</a>, the status of 0 as a true number became standardized.</p>
+<p id="p-02-as-another-aside-i-should-probably-call-arabic" data-note-target>As another aside, I should probably call Arabic numerals Hindu numerals instead. It seems the Arabs got the idea from Indian mathematicians, who had been using these symbols for a few hundred years already. (See the wizard's first rule.)</p>
+<p id="p-02-now-back-to-large-numbers-by-using-position" data-note-target>Now back to large numbers. By using position to multiply each numeral, we can write very large numbers. Much larger than we usually need, say on a market square haggling over the price of a chicken. And all this by multiplying by 10.</p>
+<p id="p-02-but-there-is-another-calculation-hidden-inside-these" data-note-target>But there is another calculation hidden inside these numbers. This is called <a href="https://en.wikipedia.org/wiki/Modular_arithmetic">modular arithmetic</a>. The idea is that we can divide a number by another number, and instead of using the result of that division, we only keep the remainder. So 12 modulo 10 is 2. And in Arabic numerals each position is filled with a number from 0 to 9, which matches the modulo 10 operation exactly.</p>
+<p id="p-02-why-is-this-important-well-this-insight-opens" data-note-target>Why is this important? Well, this insight opens the way for mechanical calculators: devices that can add and subtract numbers. They do so using a carry mechanism. You can see these still in use today in simple counting devices. Each position of a large number is represented with a wheel with the numbers 0 to 9 on it. Each click moves the rightmost wheel one position, using 10 gearing pins attached to the wheel. When the number displayed is 9 and you click the counter, the wheel continues to 0. The wheel to the left of it is then pushed forward by the single gearing pin attached to the first wheel on the other side. This pin only engages when moving from 9 to 0. This is called the carry, and it carries 1 from the right wheel to the left wheel, effectively multiplying it by 10.</p>
+<img src="https://upload.wikimedia.org/wikipedia/commons/b/b7/Detail_of_a_Roth_Calculating_machine.png">
+<p id="p-02-blaise-pascal-is-credited-with-making-one-of" data-note-target><a href="https://en.wikipedia.org/wiki/Blaise_Pascal">Blaise Pascal</a> is credited with making one of the first usable mechanical calculators. It could add and subtract, and with repeated motions also multiply and divide. It's not a computer yet, but we've come a long way from scratch marks.</p>
+<p id="p-02-this-is-not-just-a-history-of-numbers" data-note-target>This is not just a history of numbers. It is a history of moving work around: from fingers, to marks, to positions, to machines. And we're not done yet.</p>
+<p id="p-02-i-should-mention-the-antikythera-device-this-is" data-note-target>I should mention the <a href="https://en.wikipedia.org/wiki/Antikythera_mechanism">Antikythera device</a>. This is a device from the classical Greek era, which is thought to have been able to calculate astronomical positions and eclipses. It is called the earliest analog computer. It has been dated to somewhere between 205 BC and 87 BC. <a href="https://www.nature.com/articles/444534a">The next time we know of that a device of similar complexity was made, we're in the Renaissance in Western Europe</a>.</p>
+<p id="p-02-to-really-understand-how-much-of-a-leap" data-note-target>To really understand how much of a leap this is, just take a look back at our timeline of numbers. Around 100 BC is before the invention of 0, before positional notation and the carry mechanism. Yet some Greek wizard, perhaps from Rhodes, still managed to make this device.</p>
+<p id="p-02-were-getting-pretty-good-at-writing-large-numbers" data-note-target>We're getting pretty good at writing large numbers. We can write down 1,000,000 and read it without blinking an eye. But science is progressing and making up bigger numbers faster than we can write them down. How about the number of atoms in the universe? Or even bigger, all the possible move sequences in the game of chess?</p>
+<p id="p-02-to-write-that-number-down-you-will-need" data-note-target>To write that number down, you will need a number with at least 111 zeros. Clearly that is no longer practical. So enter <a href="https://en.wikipedia.org/wiki/Scientific_notation">scientific notation</a>, where we add another calculation as part of the notation of a number: exponents.</p>
+<figure id="math-02-089" class="math-block" data-note-target>
+<div class="math-display">$$
+2 \times 10^{111}
+$$</div>
+</figure>
+<p id="p-02-but-we-can-also-use-these-to-explain" data-note-target>But we can also use these to explain the positional nature of Arabic numerals:</p>
+<figure id="table-02-095" class="table-figure" data-note-target>
+<table>
+<thead><tr><th>$$ \times 10^{2} $$</th><th>$$ \times 10^{1} $$</th><th>$$ \times 10^{0} $$</th></tr></thead>
+<tbody>
+<tr><td>9</td><td>7</td><td>2</td></tr>
+</tbody>
+</table>
+</figure>
+<p id="p-02-so-the-number-972-is-equal-to-9" data-note-target>So the number 972 is equal to $$ 9 \times 10^2 + 7 \times 10^1 + 2 \times 10^0 $$</p>
+<p id="p-02-so-what-about-our-original-two-numbers-1" data-note-target>So what about our original two numbers, <code>1</code> and <code>0</code>? Well, if you understand the magic of positional notation, it turns out that you don't actually need all 10 numerals in each position.</p>
+<p id="p-02-once-you-see-that-the-base-is-just" data-note-target>Once you see that the base is just another design choice, decimal starts to look less like nature and more like a very successful habit.</p>
+<p id="p-02-you-can-use-any-number-of-numerals-such" data-note-target>You can use any number of numerals, such as 16 for <a href="https://en.wikipedia.org/wiki/Hexadecimal">hexadecimal</a> numbers, for example:</p>
+<figure id="math-02-107" class="math-block" data-note-target>
+<div class="math-display">$$
+0x1F   = 1 \times 16 + 15
+$$</div>
+</figure>
+<p id="p-02-0x-is-just-a-convention-to-say-this" data-note-target><em><code>0x</code> is just a convention to say 'this is a hexadecimal number', and since there are 16 single-position numerals, we've got <code>A</code> to <code>F</code> as placeholders for 10 to 15.</em></p>
+<p id="p-02-or-octal-with-8-numerals-per-position" data-note-target>Or <a href="https://en.wikipedia.org/wiki/Octal">octal</a>, with 8 numerals per position:</p>
+<figure id="math-02-115" class="math-block" data-note-target>
+<div class="math-display">$$
+0o17 = 1 \times 8 + 7
+$$</div>
+</figure>
+<p id="p-02-or-minimize-it-to-two-numbers-1-and" data-note-target>Or minimize it to two numbers, <code>1</code> and <code>0</code>, and you get <a href="https://en.wikipedia.org/wiki/Binary_number">binary</a>:</p>
+<figure id="math-02-121" class="math-block" data-note-target>
+<div class="math-display">$$
+11 = 1 \times 2 + 1
+$$</div>
+</figure>
+<p id="p-02-and-using-exponents-we-can-explain-it-a" data-note-target>And using exponents, we can explain it a bit better:</p>
+<figure id="table-02-127" class="table-figure" data-note-target>
+<table>
+<thead><tr><th>$$ \times 2^{2} $$</th><th>$$ \times 2^{1} $$</th><th>$$ \times 2^{0} $$</th></tr></thead>
+<tbody>
+<tr><td>1</td><td>0</td><td>1</td></tr>
+</tbody>
+</table>
+</figure>
+<p id="p-02-this-means-that-the-binary-number-101-is" data-note-target>This means that the binary number <code>101</code> is equal to</p>
+<figure id="math-02-133" class="math-block" data-note-target>
+<div class="math-display">$$
+1 \times 2^2 + 0 \times 2^1 + 1 \times 2^0
+$$</div>
+</figure>
+<p id="p-02-this-simplifies-to" data-note-target>This simplifies to</p>
+<figure id="math-02-139" class="math-block" data-note-target>
+<div class="math-display">$$
+1 \times 4 + 1 = 5
+$$</div>
+</figure>
+<p id="p-02-binary-numbers-are-so-ubiquitous-in-programming-that" data-note-target>Binary numbers are so ubiquitous in programming that you'll see the powers of 2 often. Here are the first few:</p>
+<figure id="table-02-146" class="table-figure" data-note-target>
+<table>
+<thead><tr><th>$2^{10}$</th><th>$2^9$</th><th>$2^8$</th><th>$2^7$</th><th>$2^6$</th><th>$2^5$</th><th>$2^4$</th><th>$2^3$</th><th>$2^2$</th><th>$2^1$</th><th>$2^0$</th></tr></thead>
+<tbody>
+<tr><td>1024</td><td>512</td><td>256</td><td>128</td><td>64</td><td>32</td><td>16</td><td>8</td><td>4</td><td>2</td><td>1</td></tr>
+</tbody>
+</table>
+</figure>
+<p id="p-02-this-is-a-good-time-to-end-our" data-note-target>This is a good time to end our archaeological dig through numbers. There is quite a bit more to explore, but you can do that yourself. The Web contains all the information you need and more.</p>
+<p id="p-02-the-important-thing-for-now-is-this-every" data-note-target>The important thing for now is this: every number system we saw did work for us. Tally marks counted. Roman numerals embedded small calculations. Positional notation made zero necessary. The carry mechanism turned notation into machinery. Binary made the smallest useful alphabet large enough to build a computer.</p>
+<p id="p-02-so-how-do-you-make-a-number-bigger" data-note-target>So how do you make a number bigger than your fingers?</p>
+<p id="p-02-you-stop-trying-to-make-your-fingers-bigger" data-note-target>You stop trying to make your fingers bigger. You make the notation smarter.</p>
+<p id="p-02-a-notation-is-not-just-a-way-to" data-note-target>A notation is not just a way to write something down. A good notation performs part of the work for you. If you like this, then here's a wizard's thought: What if we could do this not just for quantity, but for truth?</p>
+  <nav class="chapter-pagination" aria-label="Chapter navigation">
+    <a rel="prev" href="01-this-is-not-a-programming-book.html"><span>Previous</span>This is not a programming book</a>
+    <a rel="next" href="03-logic-turning-truth-into-machinery.html"><span>Next</span>Logic: the truth is out there</a>
+  </nav>
+  </div>
+  <div class="page-turner" data-page-controls hidden>
+    <button type="button" data-page-prev aria-label="Previous page"></button>
+    <button type="button" data-page-next aria-label="Next page"></button>
+  </div>
+</main>
+    <aside class="reader-margin" aria-label="Reader tools">
+  <button class="reader-toggle" type="button" aria-expanded="false" aria-controls="reader-tools-panel" aria-label="Show reader tools" data-reader-tools-toggle>
+    <span class="reader-toggle-name">
+      <svg class="reader-toggle-ornament" viewBox="0 0 44 32" aria-hidden="true" focusable="false">
+        <path d="M7 22c8-11 18-11 30 0"/>
+        <path d="M13 22V11m9 11V7m9 15V13"/>
+        <circle cx="13" cy="10" r="2"/>
+        <circle cx="22" cy="6" r="2"/>
+        <circle cx="31" cy="12" r="2"/>
+        <path d="M10 25h24"/>
+      </svg>
+      <span>Reader</span>
+    </span>
+    <span class="reader-toggle-state" data-reader-tools-label>Open</span>
+  </button>
+  <div id="reader-tools-panel" class="reader-tools" data-reader-tools-panel hidden>
+    <svg class="reader-panel-ornament" viewBox="0 0 260 120" aria-hidden="true" focusable="false">
+      <path class="ornament-wire" d="M15 82c28-34 54-35 78-3 20 27 47 27 78 0 27-24 51-21 74 9"/>
+      <path class="ornament-wire" d="M31 86V46c0-12 8-20 20-20h20"/>
+      <path class="ornament-wire" d="M101 67V36c0-10 7-17 17-17h31"/>
+      <path class="ornament-wire" d="M187 71V42c0-11 8-18 19-18h22"/>
+      <path class="ornament-leaf" d="M63 25c-12-8-23-6-32 5 12 3 23 1 32-5z"/>
+      <path class="ornament-leaf" d="M143 19c11-9 23-8 34 2-10 5-22 4-34-2z"/>
+      <path class="ornament-leaf" d="M225 23c-8-7-17-6-27 1 8 5 17 5 27-1z"/>
+      <rect class="ornament-chip" x="105" y="74" width="44" height="28" rx="6"/>
+      <path class="ornament-chip-line" d="M113 83h11m8 0h9M113 93h28"/>
+      <path class="ornament-pin" d="M113 74v-8m12 8v-8m12 8v-8m-24 44v-8m12 8v-8m12 8v-8"/>
+      <circle class="ornament-node" cx="31" cy="86" r="3"/>
+      <circle class="ornament-node" cx="101" cy="67" r="3"/>
+      <circle class="ornament-node" cx="187" cy="71" r="3"/>
+      <circle class="ornament-node" cx="244" cy="88" r="3"/>
+    </svg>
+    <section class="reader-panel">
+      <h2>Reader</h2>
+      <label>Font
+        <select data-setting="font">
+          <option value="publication">Publication</option>
+          <option value="simple-serif">Simple serif</option>
+          <option value="simple-sans">Simple sans</option>
+          <option value="high-legibility">High legibility</option>
+        </select>
+      </label>
+      <label>Size
+        <input data-setting="fontScale" type="range" min="92" max="124" step="4" value="100">
+      </label>
+      <label>Line
+        <input data-setting="lineHeight" type="range" min="145" max="185" step="5" value="160">
+      </label>
+      <label>Width
+        <input data-setting="columnWidth" type="range" min="38" max="66" step="2" value="48">
+      </label>
+      <label>Flow
+        <select data-setting="flow">
+          <option value="paged">Paged</option>
+          <option value="scroll">Scrolling</option>
+        </select>
+      </label>
+      <label>Typography
+        <select data-setting="typography">
+          <option value="browser">Browser</option>
+          <option value="pretext">Book</option>
+        </select>
+      </label>
+      <label>Theme
+        <select data-setting="theme">
+          <option value="light">Light</option>
+          <option value="dark">Dark</option>
+          <option value="contrast">Contrast</option>
+        </select>
+      </label>
+      <label>Motion
+        <select data-setting="motion">
+          <option value="auto">Auto</option>
+          <option value="reduced">Reduced</option>
+        </select>
+      </label>
+    </section>
+    <section class="reader-panel">
+      <h2>Book Data</h2>
+      <a href="../data/manifest.json">Manifest</a>
+    </section>
+  </div>
+</aside>
+  </div>
+</body>
+</html>
