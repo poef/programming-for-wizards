@@ -161,5 +161,67 @@
       "title": "About the author",
       "source": "backmatter/about-the-author.md"
     }
+  ],
+  "interludes": [
+    {
+      "id": "interlude-01-useful-tricks",
+      "afterPartId": "prologue",
+      "title": "Interlude",
+      "label": "",
+      "source": "interludes/01-useful-tricks.md",
+      "theme": "saffron",
+      "image": "interlude-01-useful-tricks.png",
+      "imageAlt": "The wizard raises a warning finger while the apprentice listens with a hand to his chin."
+    },
+    {
+      "id": "interlude-02-meaning-escapes",
+      "afterPartId": "representations-are-spells",
+      "title": "Interlude",
+      "label": "",
+      "source": "interludes/02-meaning-escapes.md",
+      "theme": "sage",
+      "image": "interlude-02-meaning-escapes.png",
+      "imageAlt": "The wizard points at numbers and letters escaping upward like smoke while the apprentice watches from a desk."
+    },
+    {
+      "id": "interlude-03-poor-protocol",
+      "afterPartId": "the-web",
+      "title": "Interlude",
+      "label": "",
+      "source": "interludes/03-poor-protocol.md",
+      "theme": "sky",
+      "image": "interlude-03-poor-protocol.png",
+      "imageAlt": "The wizard and apprentice stand on a tower as a bird carries a scroll across the sky."
+    },
+    {
+      "id": "interlude-04-worse-spell",
+      "afterPartId": "inventing-languages",
+      "title": "Interlude",
+      "label": "",
+      "source": "interludes/04-worse-spell.md",
+      "theme": "rose",
+      "image": "interlude-04-worse-spell.png",
+      "imageAlt": "The apprentice holds up a scroll above a smoking cauldron while the wizard looks suspicious."
+    },
+    {
+      "id": "interlude-05-knitted-castle",
+      "afterPartId": "boundaries",
+      "title": "Interlude",
+      "label": "",
+      "source": "interludes/05-knitted-castle.md",
+      "theme": "parchment",
+      "image": "interlude-05-knitted-castle.png",
+      "imageAlt": "The apprentice sits on a knitted tower while the wizard studies it from below."
+    },
+    {
+      "id": "interlude-06-final-rule",
+      "afterPartId": "the-next-web",
+      "title": "Interlude",
+      "label": "",
+      "source": "interludes/06-final-rule.md",
+      "theme": "violet",
+      "image": "interlude-06-final-rule.png",
+      "imageAlt": "The wizard gestures toward a scroll flying away over distant mountains while the apprentice watches."
+    }
   ]
 }

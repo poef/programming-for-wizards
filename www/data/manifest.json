@@ -1,7 +1,7 @@
 {
   "id": "programming-for-wizards",
   "title": "Programming for Wizards",
-  "generatedAt": "2026-07-09T12:04:10.945Z",
+  "generatedAt": "2026-07-09T13:03:48.198Z",
   "phase": "01-enhanced-static-manuscript",
   "features": {
     "notes": "planned",
@@ -20,7 +20,7 @@
       "partId": "prologue",
       "url": "chapters/01-this-is-not-a-programming-book.html",
       "previous": null,
-      "next": "02-numbers-hiding-calculations-in-symbols",
+      "next": "interlude-01-useful-tricks",
       "wordCount": 466,
       "rule": null
     },
@@ -31,7 +31,7 @@
       "part": "Part I: Representations are spells",
       "partId": "representations-are-spells",
       "url": "chapters/02-numbers-hiding-calculations-in-symbols.html",
-      "previous": "01-this-is-not-a-programming-book",
+      "previous": "interlude-01-useful-tricks",
       "next": "03-logic-turning-truth-into-machinery",
       "wordCount": 2137,
       "rule": "Wizard's first rule"
@@ -56,7 +56,7 @@
       "partId": "representations-are-spells",
       "url": "chapters/04-language-the-tool-that-changes-the-thinker.html",
       "previous": "03-logic-turning-truth-into-machinery",
-      "next": "05-the-web-as-address",
+      "next": "interlude-02-meaning-escapes",
       "wordCount": 931,
       "rule": "Wizard's third rule"
     },
@@ -67,7 +67,7 @@
       "part": "Part II: The Web",
       "partId": "the-web",
       "url": "chapters/05-the-web-as-address.html",
-      "previous": "04-language-the-tool-that-changes-the-thinker",
+      "previous": "interlude-02-meaning-escapes",
       "next": "06-the-web-as-document",
       "wordCount": 2137,
       "rule": "Wizard's fourth rule"
@@ -92,7 +92,7 @@
       "partId": "the-web",
       "url": "chapters/07-the-web-as-platform.html",
       "previous": "06-the-web-as-document",
-      "next": "08-programming-languages-are-for-humans",
+      "next": "interlude-03-poor-protocol",
       "wordCount": 1422,
       "rule": "Wizard's sixth rule"
     },
@@ -103,7 +103,7 @@
       "part": "Part III: Inventing languages",
       "partId": "inventing-languages",
       "url": "chapters/08-programming-languages-are-for-humans.html",
-      "previous": "07-the-web-as-platform",
+      "previous": "interlude-03-poor-protocol",
       "next": "09-every-program-contains-a-language",
       "wordCount": 1466,
       "rule": "Wizard's seventh rule"
@@ -128,7 +128,7 @@
       "partId": "inventing-languages",
       "url": "chapters/10-code-exhibit-extending-javascript-with-jaqt.html",
       "previous": "09-every-program-contains-a-language",
-      "next": "11-the-knitted-castle",
+      "next": "interlude-04-worse-spell",
       "wordCount": 2199,
       "rule": null
     },
@@ -139,7 +139,7 @@
       "part": "Part IV: Boundaries",
       "partId": "boundaries",
       "url": "chapters/11-the-knitted-castle.html",
-      "previous": "10-code-exhibit-extending-javascript-with-jaqt",
+      "previous": "interlude-04-worse-spell",
       "next": "12-objects-binding-data-behavior-and-time",
       "wordCount": 1770,
       "rule": "Wizard's ninth rule"
@@ -164,7 +164,7 @@
       "partId": "boundaries",
       "url": "chapters/13-architecture-arches-pyramids-and-change.html",
       "previous": "12-objects-binding-data-behavior-and-time",
-      "next": "14-the-web-as-commons",
+      "next": "interlude-05-knitted-castle",
       "wordCount": 2545,
       "rule": "Wizard's eleventh rule"
     },
@@ -175,7 +175,7 @@
       "part": "Part V: The Next Web",
       "partId": "the-next-web",
       "url": "chapters/14-the-web-as-commons.html",
-      "previous": "13-architecture-arches-pyramids-and-change",
+      "previous": "interlude-05-knitted-castle",
       "next": "15-the-web-as-data",
       "wordCount": 1487,
       "rule": null
@@ -200,7 +200,7 @@
       "partId": "the-next-web",
       "url": "chapters/16-the-web-as-home.html",
       "previous": "15-the-web-as-data",
-      "next": "17-rule-zero-there-are-no-rules",
+      "next": "interlude-06-final-rule",
       "wordCount": 1228,
       "rule": null
     },
@@ -211,7 +211,7 @@
       "part": "Epilogue",
       "partId": "epilogue",
       "url": "chapters/17-rule-zero-there-are-no-rules.html",
-      "previous": "16-the-web-as-home",
+      "previous": "interlude-06-final-rule",
       "next": "about-the-author",
       "wordCount": 173,
       "rule": "Wizard's final rule"
@@ -237,6 +237,16 @@
       "partId": "prologue",
       "url": "chapters/01-this-is-not-a-programming-book.html",
       "wordCount": 466
+    },
+    {
+      "id": "interlude-01-useful-tricks",
+      "kind": "interlude",
+      "label": null,
+      "title": "Interlude",
+      "part": "Interlude",
+      "partId": "interlude",
+      "url": "chapters/interlude-01-useful-tricks.html",
+      "wordCount": 27
     },
     {
       "id": "02-numbers-hiding-calculations-in-symbols",
@@ -269,6 +279,16 @@
       "wordCount": 931
     },
     {
+      "id": "interlude-02-meaning-escapes",
+      "kind": "interlude",
+      "label": null,
+      "title": "Interlude",
+      "part": "Interlude",
+      "partId": "interlude",
+      "url": "chapters/interlude-02-meaning-escapes.html",
+      "wordCount": 26
+    },
+    {
       "id": "05-the-web-as-address",
       "kind": "chapter",
       "label": "05",
@@ -297,6 +317,16 @@
       "partId": "the-web",
       "url": "chapters/07-the-web-as-platform.html",
       "wordCount": 1422
+    },
+    {
+      "id": "interlude-03-poor-protocol",
+      "kind": "interlude",
+      "label": null,
+      "title": "Interlude",
+      "part": "Interlude",
+      "partId": "interlude",
+      "url": "chapters/interlude-03-poor-protocol.html",
+      "wordCount": 20
     },
     {
       "id": "08-programming-languages-are-for-humans",
@@ -329,6 +359,16 @@
       "wordCount": 2199
     },
     {
+      "id": "interlude-04-worse-spell",
+      "kind": "interlude",
+      "label": null,
+      "title": "Interlude",
+      "part": "Interlude",
+      "partId": "interlude",
+      "url": "chapters/interlude-04-worse-spell.html",
+      "wordCount": 29
+    },
+    {
       "id": "11-the-knitted-castle",
       "kind": "chapter",
       "label": "11",
@@ -359,6 +399,16 @@
       "wordCount": 2545
     },
     {
+      "id": "interlude-05-knitted-castle",
+      "kind": "interlude",
+      "label": null,
+      "title": "Interlude",
+      "part": "Interlude",
+      "partId": "interlude",
+      "url": "chapters/interlude-05-knitted-castle.html",
+      "wordCount": 30
+    },
+    {
       "id": "14-the-web-as-commons",
       "kind": "chapter",
       "label": "14",
@@ -387,6 +437,16 @@
       "partId": "the-next-web",
       "url": "chapters/16-the-web-as-home.html",
       "wordCount": 1228
+    },
+    {
+      "id": "interlude-06-final-rule",
+      "kind": "interlude",
+      "label": null,
+      "title": "Interlude",
+      "part": "Interlude",
+      "partId": "interlude",
+      "url": "chapters/interlude-06-final-rule.html",
+      "wordCount": 37
     },
     {
       "id": "17-rule-zero-there-are-no-rules",

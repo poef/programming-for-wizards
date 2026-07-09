@@ -1563,3 +1563,158 @@ th {
     text-align: center;
   }
 }
+
+/* Untitled dialogue interludes between book parts. */
+.manuscript-interlude {
+  --interlude-bg: #f6e6cb;
+  --interlude-border: color-mix(in srgb, var(--color-accent), transparent 35%);
+  --interlude-ink: #241f1a;
+  --interlude-muted: #6d6050;
+  --interlude-accent: color-mix(in srgb, var(--color-rule), var(--color-ink) 18%);
+  --interlude-soft: color-mix(in srgb, var(--color-accent), transparent 70%);
+}
+
+.manuscript-interlude.interlude-theme-saffron {
+  --interlude-bg: #f6e6cb;
+  --interlude-accent: #8c4b29;
+}
+
+.manuscript-interlude.interlude-theme-sage {
+  --interlude-bg: #d3cfb7;
+  --interlude-accent: #496f55;
+}
+
+.manuscript-interlude.interlude-theme-sky {
+  --interlude-bg: #d7dbdb;
+  --interlude-accent: #315d72;
+}
+
+.manuscript-interlude.interlude-theme-rose {
+  --interlude-bg: #eccfbe;
+  --interlude-accent: #7d2636;
+}
+
+.manuscript-interlude.interlude-theme-parchment {
+  --interlude-bg: #f5e4c7;
+  --interlude-accent: #79603c;
+}
+
+.manuscript-interlude.interlude-theme-violet {
+  --interlude-bg: #d7ccd2;
+  --interlude-accent: #5e4f7a;
+}
+
+[data-theme="contrast"] .manuscript-interlude {
+  --interlude-bg: #ffffff;
+  --interlude-border: #000000;
+  --interlude-ink: #000000;
+  --interlude-muted: #000000;
+  --interlude-accent: #000000;
+  --interlude-soft: #ffffff;
+}
+
+.interlude-pages {
+  background: var(--interlude-bg);
+  border: 1px solid var(--interlude-border);
+  border-radius: 18px;
+  box-shadow: var(--shadow-soft);
+  color: var(--interlude-ink);
+  min-block-size: min(42rem, 100%);
+  padding: clamp(2rem, 5vw, 4.5rem);
+  position: relative;
+}
+
+[data-flow="paged"][data-page-kind="chapter"] .manuscript-interlude .interlude-pages {
+  align-content: center;
+  column-count: auto;
+  display: grid;
+  justify-items: center;
+  overflow: hidden;
+}
+
+.interlude-card {
+  align-items: center;
+  display: grid;
+  gap: clamp(0.9rem, 2.4vw, 1.7rem);
+  justify-items: center;
+  max-inline-size: min(100%, 42rem);
+}
+
+.interlude-illustration {
+  display: grid;
+  inline-size: min(100%, clamp(16rem, 30vh, 29rem));
+  justify-items: center;
+  margin: 0;
+  max-inline-size: min(100%, 34rem);
+}
+
+.manuscript-pages .interlude-illustration > img {
+  block-size: auto;
+  display: block;
+  filter: contrast(1.02);
+  inline-size: 100%;
+  max-block-size: none;
+  mix-blend-mode: normal;
+}
+
+[data-theme="contrast"] .manuscript-pages .interlude-illustration > img {
+  filter: grayscale(1) contrast(1.2);
+  mix-blend-mode: normal;
+}
+
+.interlude-theme-saffron .manuscript-pages .interlude-illustration > img,
+.interlude-theme-sky .manuscript-pages .interlude-illustration > img,
+.interlude-theme-parchment .manuscript-pages .interlude-illustration > img {
+  clip-path: inset(0 1% 0 0);
+}
+
+.interlude-dialogue {
+  display: grid;
+  gap: 0.2rem;
+  inline-size: min(100%, 36rem);
+  justify-self: center;
+}
+
+.manuscript-interlude .interlude-dialogue p {
+  color: var(--interlude-ink);
+  font-size: clamp(1.08rem, 2vw, 1.34rem);
+  line-height: 1.45;
+  margin: 0;
+  overflow-wrap: normal;
+  text-align: start;
+  text-wrap: pretty;
+}
+
+.manuscript-interlude .interlude-dialogue strong {
+  color: var(--interlude-accent);
+  font-variant-caps: small-caps;
+  letter-spacing: 0.03em;
+}
+
+.manuscript-interlude .chapter-pagination {
+  align-self: end;
+  inline-size: min(100%, var(--book-column-width));
+  justify-self: center;
+  margin-block-start: clamp(1.5rem, 4vw, 3rem);
+}
+
+[data-reader-runtime="active"][data-flow="paged"][data-page-kind="chapter"] .manuscript-interlude .chapter-pagination {
+  display: none;
+}
+
+[data-flow="scroll"] .manuscript-interlude .interlude-pages {
+  display: grid;
+  justify-items: center;
+}
+
+@media (max-width: 40rem) {
+  .interlude-pages {
+    border-radius: 14px;
+    min-block-size: 30rem;
+    padding: clamp(1.5rem, 8vw, 2.5rem) clamp(1rem, 7vw, 1.5rem);
+  }
+
+  .manuscript-pages .interlude-illustration > img {
+    inline-size: 100%;
+  }
+}

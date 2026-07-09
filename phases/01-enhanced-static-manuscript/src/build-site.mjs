@@ -50,8 +50,10 @@ async function main() {
 
   const book = await readBook()
   const chapters = await readChapters(book)
+  const interludes = await readInterludes(book)
+  const orderedPages = insertInterludes(chapters, interludes)
   const backMatterPages = await readBackMatter(book)
-  const readingItems = [...chapters, ...backMatterPages]
+  const readingItems = [...orderedPages, ...backMatterPages]
   const cover = await readCover(book)
   const wizards = createWizardRegistry(await readWizards())
   const wizardState = { seen: new Set() }
@@ -228,6 +230,68 @@ async function readBackMatter(book) {
     }
     seenIds.add(item.id)
     result.push(item)
+  }
+
+  return result
+}
+
+async function readInterludes(book) {
+  const pages = book.interludes ?? []
+  assertArray(pages, "book.interludes")
+
+  const result = []
+  const seenIds = new Set()
+
+  for (const [index, page] of pages.entries()) {
+    assertText(page.afterPartId, `book.interludes[${index}].afterPartId`)
+
+    const item = await readContentPage(page, {
+      kind: "interlude",
+      part: "Interlude",
+      partId: "interlude",
+      title: "Interlude",
+      label: ""
+    })
+
+    if (seenIds.has(item.id)) {
+      throw new Error(`Duplicate interlude id in content/book.json: ${item.id}`)
+    }
+
+    seenIds.add(item.id)
+    item.afterPartId = page.afterPartId
+    item.theme = page.theme ?? `theme-${index + 1}`
+    item.image = page.image ?? null
+    item.imageAlt = page.imageAlt ?? ""
+    result.push(item)
+  }
+
+  return result
+}
+
+function insertInterludes(chapters, interludes) {
+  const byPart = new Map()
+
+  for (const interlude of interludes) {
+    if (!byPart.has(interlude.afterPartId)) byPart.set(interlude.afterPartId, [])
+    byPart.get(interlude.afterPartId).push(interlude)
+  }
+
+  const result = []
+
+  for (const [index, chapter] of chapters.entries()) {
+    result.push(chapter)
+
+    const nextChapter = chapters[index + 1] ?? null
+    if (nextChapter?.partId === chapter.partId) continue
+
+    const partInterludes = byPart.get(chapter.partId) ?? []
+    result.push(...partInterludes)
+    byPart.delete(chapter.partId)
+  }
+
+  const unused = [...byPart.values()].flat()
+  if (unused.length) {
+    throw new Error(`Interlude afterPartId does not match a book part: ${unused.map(page => `${page.id} after ${page.afterPartId}`).join(", ")}`)
   }
 
   return result
@@ -878,6 +942,7 @@ function chapterMap(book, chapters, currentId, relativeRoot, chapterMapDefault) 
   const isOpen = chapterMapDefault === "open"
 
   for (const chapter of chapters) {
+    if (chapter.kind === "interlude") continue
     if (!grouped.has(chapter.part)) grouped.set(chapter.part, [])
     grouped.get(chapter.part).push(chapter)
   }
@@ -998,6 +1063,7 @@ function readerPanelOrnament() {
 function indexLayout(book, chapters, cover) {
   const grouped = new Map()
   for (const chapter of chapters) {
+    if (chapter.kind === "interlude") continue
     if (!grouped.has(chapter.part)) grouped.set(chapter.part, [])
     grouped.get(chapter.part).push(chapter)
   }
@@ -1085,6 +1151,10 @@ function coverIconRobot() {
 }
 
 function chapterLayout(chapter, renderedBody, previous, next, chapters, chapterIndex) {
+  if (chapter.kind === "interlude") {
+    return interludeLayout(chapter, renderedBody, previous, next, chapters, chapterIndex)
+  }
+
   const pageWeights = chapters.map(entry => entry.wordCount || 1).join(",")
   const glyphNumber = Number.isFinite(Number(chapter.number)) ? Number(chapter.number) : 0
   const pageLabel = chapter.kind === "chapter" ? `Chapter ${chapter.number}` : (chapter.label || chapter.part)
@@ -1110,6 +1180,44 @@ function chapterLayout(chapter, renderedBody, previous, next, chapters, chapterI
     <button type="button" data-page-next aria-label="Next page"></button>
   </div>
 </main>`
+}
+
+function interludeLayout(chapter, renderedBody, previous, next, chapters, chapterIndex) {
+  const pageWeights = chapters.map(entry => entry.wordCount || 1).join(",")
+  const theme = slugify(chapter.theme || "parchment")
+  const image = interludeImage(chapter)
+
+  return `<main id="main" class="manuscript manuscript-interlude interlude-theme-${escapeAttribute(theme)}">
+  <div class="book-progress" role="progressbar" aria-label="Book progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" data-book-progress>
+    <span data-book-progress-bar></span>
+  </div>
+  <div class="manuscript-pages interlude-pages" data-page-scroller data-book-chapter-id="${escapeAttribute(chapter.id)}" data-book-chapter-index="${chapterIndex}" data-book-page-weights="${escapeAttribute(pageWeights)}">
+    <h1 id="${escapeAttribute(chapter.id)}-title" class="screen-reader-only">Interlude</h1>
+    <article class="interlude-card" aria-labelledby="${escapeAttribute(chapter.id)}-title" data-note-target>
+      ${image}
+      ${renderedBody}
+    </article>
+    <nav class="chapter-pagination" aria-label="Chapter navigation">
+      ${previous ? `<a rel="prev" href="${previous.id}.html"><span>Previous</span>${escapeHtml(previous.title)}</a>` : "<span></span>"}
+      ${next ? `<a rel="next" href="${next.id}.html"><span>Next</span>${escapeHtml(next.title)}</a>` : "<span></span>"}
+    </nav>
+  </div>
+  <div class="page-turner" data-page-controls hidden>
+    <button type="button" data-page-prev aria-label="Previous page"></button>
+    <button type="button" data-page-next aria-label="Next page"></button>
+  </div>
+</main>`
+}
+
+function interludeImage(chapter) {
+  if (!chapter.image) return ""
+
+  const imageName = path.basename(chapter.image)
+  const alt = chapter.imageAlt || ""
+
+  return `<figure class="interlude-illustration">
+    <img src="../assets/images/interludes/${escapeAttribute(imageName)}" alt="${escapeAttribute(alt)}" loading="lazy" decoding="async">
+  </figure>`
 }
 
 function renderInline(source, options = {}) {
