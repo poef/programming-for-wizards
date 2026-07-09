@@ -705,12 +705,24 @@ li {
   display: grid;
   font-size: 0.78rem;
   gap: 0.35rem;
-  inline-size: var(--book-link-margin-width);
-  inset-block-start: 0.25lh;
-  inset-inline-start: calc(100% + var(--book-link-margin-gap));
   line-height: 1.25;
-  position: absolute;
   text-align: start;
+}
+
+.side-links-margin {
+  clear: right;
+  clear: inline-end;
+  float: right;
+  float: inline-end;
+  inline-size: var(--book-link-margin-width);
+  margin-block-start: calc(0.25lh - var(--wizard-portrait-lift, 0px));
+  margin-inline-end: calc((var(--book-link-margin-width) + var(--book-link-margin-gap)) * -1);
+  margin-inline-start: var(--book-link-margin-gap);
+}
+
+.side-links-inline {
+  display: none;
+  margin-block-start: 0.35rem;
 }
 
 .side-links a {
@@ -720,6 +732,59 @@ li {
   text-decoration: none;
   text-overflow: ellipsis;
   white-space: nowrap;
+}
+
+.side-links-margin .wizard-card {
+  display: grid;
+  gap: 0.35rem;
+  inline-size: 100%;
+  overflow: visible;
+  text-overflow: clip;
+  white-space: normal;
+}
+
+.wizard-card-image {
+  aspect-ratio: 4 / 5;
+  background: var(--color-panel);
+  border: 1px solid var(--color-line);
+  border-radius: 6px;
+  display: grid;
+  overflow: hidden;
+  place-items: center;
+}
+
+.wizard-card-image img {
+  block-size: 100%;
+  filter: grayscale(1) contrast(1.05);
+  inline-size: 100%;
+  object-fit: cover;
+  object-position: var(--wizard-portrait-position, 50% 50%);
+}
+
+.wizard-card-name {
+  color: var(--color-rule);
+  font-size: 0.78rem;
+  line-height: 1.2;
+}
+
+.wizard-card-note {
+  color: var(--color-muted);
+  font-size: 0.7rem;
+  line-height: 1.2;
+}
+
+.wizard-card:hover .wizard-card-name {
+  text-decoration: underline;
+  text-decoration-thickness: 0.1em;
+  text-underline-offset: 0.16em;
+}
+
+[data-flow="scroll"] .side-links-margin {
+  display: none;
+}
+
+[data-flow="scroll"] .side-links-inline {
+  display: grid;
 }
 
 p {
@@ -1083,10 +1148,18 @@ th {
     --book-page-padding-inline: clamp(1rem, 5vw, 2rem);
   }
 
+  html,
+  body {
+    max-inline-size: 100%;
+    overflow-x: hidden;
+  }
+
   .book-shell {
     grid-template-columns: minmax(0, 1fr);
-    max-width: 48rem;
+    inline-size: 100vw;
     justify-content: stretch;
+    max-inline-size: 100vw;
+    overflow-x: hidden;
   }
 
   [data-flow="paged"][data-page-kind="chapter"] body {
@@ -1100,8 +1173,9 @@ th {
 
   .chapter-map,
   .reader-margin {
-    inline-size: 100%;
+    inline-size: calc(100vw - var(--book-shell-padding) - var(--book-shell-padding));
     justify-self: stretch;
+    max-inline-size: 100%;
     max-height: none;
     overflow: visible;
     position: static;
@@ -1127,14 +1201,38 @@ th {
   }
 
   .manuscript {
+    inline-size: calc(100vw - var(--book-shell-padding) - var(--book-shell-padding));
+    max-inline-size: 100%;
+    min-inline-size: 0;
+    overflow: visible;
     width: 100%;
     padding: clamp(1rem, 5vw, 2rem);
   }
 
   [data-flow="paged"][data-page-kind="chapter"] .manuscript {
-    height: calc(100svh - 1.5rem);
-    max-height: calc(100svh - 1.5rem);
+    height: auto;
+    max-height: none;
+    overflow: visible;
     padding: clamp(1rem, 5vw, 2rem) clamp(1rem, 5vw, 2rem) 5rem;
+  }
+
+  [data-flow="paged"][data-page-kind="chapter"] .manuscript-pages {
+    column-count: auto;
+    column-gap: normal;
+    height: auto;
+    overflow: visible;
+  }
+
+  .manuscript-pages {
+    inline-size: 100%;
+    max-inline-size: 100%;
+    min-inline-size: 0;
+  }
+
+  .manuscript-pages > :where(h1, h2, h3, h4, h5, h6, p, ul, ol, blockquote, figure, .wizard-rule, .exhibit-placeholder) {
+    inline-size: 100%;
+    max-inline-size: 100%;
+    min-inline-size: 0;
   }
 
   .anchor-link {
@@ -1144,10 +1242,12 @@ th {
     opacity: 1;
   }
 
-  .side-links {
-    inline-size: auto;
-    margin-block-start: 0.35rem;
-    position: static;
+  .side-links-margin {
+    display: none;
+  }
+
+  .side-links-inline {
+    display: grid;
   }
 }
 

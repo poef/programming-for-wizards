@@ -1,0 +1,140 @@
+[
+  {
+    "id": "george-boole",
+    "name": "George Boole",
+    "note": "Boolean logic",
+    "url": "https://en.wikipedia.org/wiki/George_Boole",
+    "hrefs": ["https://en.wikipedia.org/wiki/George_Boole"],
+    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c7/Portrait_of_George_Boole.png/330px-Portrait_of_George_Boole.png",
+    "imagePosition": "50% 38%",
+    "license": "Public domain",
+    "source": "https://commons.wikimedia.org/wiki/File:Portrait_of_George_Boole.png"
+  },
+  {
+    "id": "blaise-pascal",
+    "name": "Blaise Pascal",
+    "note": "Mechanical calculation",
+    "url": "https://en.wikipedia.org/wiki/Blaise_Pascal",
+    "hrefs": ["https://en.wikipedia.org/wiki/Blaise_Pascal"],
+    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/98/Blaise_Pascal_Versailles.JPG/330px-Blaise_Pascal_Versailles.JPG",
+    "imagePosition": "50% 35%",
+    "license": "Public domain",
+    "source": "https://commons.wikimedia.org/wiki/File:Blaise_Pascal_Versailles.JPG"
+  },
+  {
+    "id": "alan-moore",
+    "name": "Alan Moore",
+    "note": "Language as magic",
+    "url": "https://en.wikipedia.org/wiki/Alan_Moore",
+    "hrefs": ["https://en.wikipedia.org/wiki/Alan_Moore"],
+    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2d/Alan_Moore_%282%29.jpg/330px-Alan_Moore_%282%29.jpg",
+    "imagePosition": "50% 32%",
+    "license": "CC BY 2.0",
+    "source": "https://commons.wikimedia.org/wiki/File:Alan_Moore_(2).jpg"
+  },
+  {
+    "id": "guy-steele",
+    "name": "Guy Steele",
+    "note": "Growing a Language",
+    "url": "https://en.wikipedia.org/wiki/Guy_L._Steele_Jr.",
+    "hrefs": ["https://en.wikipedia.org/wiki/Guy_L._Steele_Jr."],
+    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9e/Guy_Steele.jpg/330px-Guy_Steele.jpg",
+    "imagePosition": "50% 24%",
+    "license": "CC BY-SA 3.0",
+    "source": "https://commons.wikimedia.org/wiki/File:Guy_Steele.jpg"
+  },
+  {
+    "id": "tim-berners-lee",
+    "name": "Tim Berners-Lee",
+    "note": "World Wide Web",
+    "url": "https://en.wikipedia.org/wiki/Tim_Berners-Lee",
+    "hrefs": [
+      "https://www.w3.org/People/Berners-Lee/",
+      "https://en.wikipedia.org/wiki/Tim_Berners-Lee"
+    ],
+    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d1/Tim_Berners-Lee_at_the_2025_Web_Summit_%28Cropped%29.jpg/330px-Tim_Berners-Lee_at_the_2025_Web_Summit_%28Cropped%29.jpg",
+    "imagePosition": "50% 30%",
+    "license": "CC BY 2.0",
+    "source": "https://commons.wikimedia.org/wiki/File:Tim_Berners-Lee_at_the_2025_Web_Summit_(Cropped).jpg"
+  },
+  {
+    "id": "ted-nelson",
+    "name": "Ted Nelson",
+    "note": "Hypertext",
+    "url": "https://en.wikipedia.org/wiki/Ted_Nelson",
+    "hrefs": ["https://en.wikipedia.org/wiki/Ted_Nelson"],
+    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e5/Ted_Nelson_cropped.jpg/330px-Ted_Nelson_cropped.jpg",
+    "imagePosition": "50% 32%",
+    "license": "CC BY-SA 4.0",
+    "source": "https://commons.wikimedia.org/wiki/File:Ted_Nelson_cropped.jpg"
+  },
+  {
+    "id": "vannevar-bush",
+    "name": "Vannevar Bush",
+    "note": "As We May Think",
+    "url": "https://en.wikipedia.org/wiki/Vannevar_Bush",
+    "hrefs": ["https://en.wikipedia.org/wiki/Vannevar_Bush"],
+    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f6/Vannevar_Bush%2C_1938%2C_Harris_%26_Ewing_%28cropped%29.jpg/330px-Vannevar_Bush%2C_1938%2C_Harris_%26_Ewing_%28cropped%29.jpg",
+    "imagePosition": "50% 28%",
+    "license": "Public domain",
+    "source": "https://commons.wikimedia.org/wiki/File:Vannevar_Bush,_1938,_Harris_%26_Ewing_(cropped).jpg"
+  },
+  {
+    "id": "brendan-eich",
+    "name": "Brendan Eich",
+    "note": "JavaScript",
+    "url": "https://en.wikipedia.org/wiki/Brendan_Eich",
+    "hrefs": [
+      "https://en.wikipedia.org/wiki/Brendan_Eich",
+      "https://web.archive.org/web/20200204010840/https://brendaneich.com/2008/04/popularity/"
+    ],
+    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d1/Brendan_Eich_Mozilla_Foundation_official_photo.jpg/330px-Brendan_Eich_Mozilla_Foundation_official_photo.jpg",
+    "imagePosition": "50% 38%",
+    "license": "MPL 2.0",
+    "source": "https://commons.wikimedia.org/wiki/File:Brendan_Eich_Mozilla_Foundation_official_photo.jpg"
+  },
+  {
+    "id": "douglas-crockford",
+    "name": "Douglas Crockford",
+    "note": "The Good Parts",
+    "url": "https://en.wikipedia.org/wiki/Douglas_Crockford",
+    "hrefs": ["https://www.goodreads.com/book/show/2998152-javascript"],
+    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/24/Douglas_Crockford%2C_February_2013.jpg/330px-Douglas_Crockford%2C_February_2013.jpg",
+    "imagePosition": "50% 32%",
+    "license": "CC BY-SA 3.0",
+    "source": "https://commons.wikimedia.org/wiki/File:Douglas_Crockford,_February_2013.jpg"
+  },
+  {
+    "id": "john-mccarthy",
+    "name": "John McCarthy",
+    "note": "Lisp",
+    "url": "https://en.wikipedia.org/wiki/John_McCarthy_(computer_scientist)",
+    "hrefs": ["https://en.wikipedia.org/wiki/John_McCarthy_%28computer_scientist%29"],
+    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/49/John_McCarthy_Stanford.jpg/330px-John_McCarthy_Stanford.jpg",
+    "imagePosition": "50% 28%",
+    "license": "CC BY-SA 3.0",
+    "source": "https://commons.wikimedia.org/wiki/File:John_McCarthy_Stanford.jpg"
+  },
+  {
+    "id": "alan-kay",
+    "name": "Alan Kay",
+    "note": "Smalltalk, Dynabook",
+    "url": "https://en.wikipedia.org/wiki/Alan_Kay",
+    "hrefs": ["https://en.wikipedia.org/wiki/Alan_Kay"],
+    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c2/Alan_Kay_and_the_prototype_of_the_Dynabook_%283009206205%29.jpg/330px-Alan_Kay_and_the_prototype_of_the_Dynabook_%283009206205%29.jpg",
+    "imagePosition": "32% 38%",
+    "license": "CC BY 2.0",
+    "source": "https://commons.wikimedia.org/wiki/File:Alan_Kay_and_the_prototype_of_the_Dynabook_(3009206205).jpg"
+  },
+  {
+    "id": "rich-hickey",
+    "name": "Rich Hickey",
+    "note": "Simple Made Easy",
+    "url": "https://en.wikipedia.org/wiki/Rich_Hickey",
+    "hrefs": ["https://youtu.be/SxdOUGdseq4?t=1287"],
+    "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f4/Rich_Hickey.jpg/330px-Rich_Hickey.jpg",
+    "imagePosition": "50% 28%",
+    "license": "CC BY-SA 3.0",
+    "source": "https://commons.wikimedia.org/wiki/File:Rich_Hickey.jpg"
+  }
+]

@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>The Spell That Casts Itself</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <main class="page-shell">
+    <section class="curiosity" aria-labelledby="curiosity-title">
+      <p class="eyebrow">A programmable curiosity</p>
+      <h1 id="curiosity-title">The Spell That Casts Itself</h1>
+
+      <div class="dialogue" aria-label="A small dialogue">
+        <p><span>Apprentice</span> I found a spell.</p>
+        <p><span>Wizard</span> What does it do?</p>
+        <p><span>Apprentice</span> It says what it does.</p>
+        <p><span>Wizard</span> That is dangerous.</p>
+        <p><span>Apprentice</span> It also does what it says.</p>
+        <p><span>Wizard</span> That is worse.</p>
+      </div>
+
+      <div class="spell-card" data-spell-app>
+        <div class="spell-topline">
+          <p class="spell-label">Arrange the sentence, then cast it.</p>
+          <button class="small-button" type="button" data-action="reset">Sweep everything back</button>
+        </div>
+
+        <div class="spell-sentence" data-spell-sentence aria-live="polite"></div>
+
+        <div class="tray-grid" aria-label="Spell word tray">
+          <section class="tray" aria-labelledby="target-tray-title">
+            <h2 id="target-tray-title">thing</h2>
+            <div class="chips" data-target-options></div>
+          </section>
+
+          <section class="tray" aria-labelledby="action-tray-title">
+            <h2 id="action-tray-title">action</h2>
+            <div class="chips" data-action-options></div>
+          </section>
+
+          <section class="tray" aria-labelledby="replacement-tray-title">
+            <h2 id="replacement-tray-title">new name</h2>
+            <div class="chips" data-replacement-options></div>
+          </section>
+        </div>
+
+        <div class="casting-row">
+          <button class="cast-button" type="button" data-action="cast">
+            <span class="tassel" aria-hidden="true"></span>
+            Cast the sentence
+          </button>
+          <button class="small-button" type="button" data-action="self-hide">Try the dangerous spell</button>
+          <button class="small-button" type="button" data-action="self-rename">Try the crooked spell</button>
+        </div>
+
+        <section class="world-panel" aria-labelledby="world-title">
+          <div class="panel-heading">
+            <h2 id="world-title">The small world</h2>
+            <p>Only the words in this little box are in danger.</p>
+          </div>
+          <p class="world" data-world></p>
+        </section>
+
+        <section class="mirror-panel" aria-labelledby="mirror-title">
+          <h2 id="mirror-title">The mirror</h2>
+          <p data-mirror>A quiet mirror. It copies only what a spell asks it to copy.</p>
+        </section>
+
+        <p class="spell-note" data-status role="status" aria-live="polite"></p>
+      </div>
+
+      <p class="afterword">
+        The strange part is not that the page changes. The strange part is that the rule lives on the same page as the things it changes.
+      </p>
+    </section>
+  </main>
+
+  <script type="module" src="spell.js"></script>
+</body>
+</html>

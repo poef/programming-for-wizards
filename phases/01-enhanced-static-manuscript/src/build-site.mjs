@@ -5,6 +5,7 @@ import { fileURLToPath } from "node:url"
 const rootDir = path.resolve(fileURLToPath(new URL("../../../", import.meta.url)))
 const contentDir = path.join(rootDir, "content")
 const bookPath = path.join(contentDir, "book.json")
+const wizardsPath = path.join(contentDir, "wizards.json")
 const phaseDir = path.join(rootDir, "phases", "01-enhanced-static-manuscript")
 const exhibitPhaseDir = path.join(rootDir, "phases", "03-core-explorable-exhibits")
 const siteDir = path.join(rootDir, "www")
@@ -48,9 +49,11 @@ async function main() {
 
   const book = await readBook()
   const chapters = await readChapters(book)
+  const wizards = createWizardRegistry(await readWizards())
+  const wizardState = { seen: new Set() }
   const manifest = createManifest(book)
   const renderedChapters = chapters.map((chapter, index) => {
-    const renderer = new MarkdownRenderer(chapter)
+    const renderer = new MarkdownRenderer(chapter, { wizards, wizardState })
     const html = renderer.render(chapter.body)
     const previous = chapters[index - 1] ?? null
     const next = chapters[index + 1] ?? null
@@ -135,6 +138,43 @@ async function readBook() {
   assertArray(book.parts, "book.parts")
 
   return book
+}
+
+async function readWizards() {
+  try {
+    return JSON.parse(await readFile(wizardsPath, "utf8"))
+  } catch (error) {
+    if (error?.code === "ENOENT") return []
+    throw error
+  }
+}
+
+function createWizardRegistry(entries) {
+  const byHref = new Map()
+
+  for (const entry of entries) {
+    const wizard = {
+      ...entry,
+      hrefs: Array.isArray(entry.hrefs) ? entry.hrefs : []
+    }
+
+    for (const href of [wizard.url, ...wizard.hrefs]) {
+      if (!href) continue
+      byHref.set(normalizeHref(href), wizard)
+    }
+  }
+
+  return { byHref }
+}
+
+function normalizeHref(href) {
+  try {
+    const url = new URL(href)
+    url.hash = ""
+    return url.href.replace(/\/$/, "")
+  } catch {
+    return String(href).replace(/#.*$/, "").replace(/\/$/, "")
+  }
 }
 
 async function readChapters(book) {
@@ -242,8 +282,9 @@ function parseFrontMatter(source) {
 }
 
 class MarkdownRenderer {
-  constructor(chapter) {
+  constructor(chapter, options = {}) {
     this.chapter = chapter
+    this.options = options
     this.usedIds = new Set()
     this.anchors = []
     this.exhibits = []
@@ -407,8 +448,9 @@ $$</div>
       .join("\n")
       .split(/\n{2,}/)
       .map(chunk => {
-        const rendered = renderInlineWithSideLinks(chunk.replace(/\n/g, " "))
-        return `<p>${rendered.html}${renderSideLinks(rendered.links)}</p>`
+        const rendered = renderInlineWithSideLinks(chunk.replace(/\n/g, " "), this.options)
+        const className = hasWizardSideLink(rendered.links) ? ` class="has-side-wizard"` : ""
+        return `<p${className}>${renderMarginSideLinks(rendered.links)}${rendered.html}${renderInlineSideLinks(rendered.links)}</p>`
       })
       .join("\n")
 
@@ -594,10 +636,14 @@ ${bodyRows.map(row => `<tr>${row.map(cell => `<td>${renderInline(cell)}</td>`).j
     const id = this.uniqueId(`p-${this.chapter.number}-${slugify(stripInline(text), 8)}`)
     this.addAnchor(id, "paragraph", stripInline(text).slice(0, 120))
     const isImageBlock = /^!\[[^\]]*]\([^)]+\)$/.test(text.trim())
-    const rendered = renderInlineWithSideLinks(text)
+    const rendered = renderInlineWithSideLinks(text, this.options)
+    const classes = [
+      isImageBlock ? "image-block" : "",
+      hasWizardSideLink(rendered.links) ? "has-side-wizard" : ""
+    ].filter(Boolean).join(" ")
 
     return {
-      html: `<p id="${id}"${isImageBlock ? ` class="image-block"` : ""} data-note-target>${rendered.html}${renderSideLinks(rendered.links)}</p>`,
+      html: `<p id="${id}"${classes ? ` class="${classes}"` : ""} data-note-target>${renderMarginSideLinks(rendered.links)}${rendered.html}${renderInlineSideLinks(rendered.links)}</p>`,
       nextIndex: index
     }
   }
@@ -913,7 +959,8 @@ function renderInline(source, options = {}) {
   text = text.replace(/!\[([^\]]*)\]\(([^)]+)\)/g, (_, alt, href) => hold(`<img src="${escapeAttribute(href)}" alt="${escapeAttribute(alt)}">`))
   text = text.replace(/\[([^\]]+)\]\(([^)]+)\)/g, (_, label, href) => {
     if (options.linkCollector) {
-      options.linkCollector.push(href)
+      const wizard = firstUnseenWizardForHref(href, options)
+      options.linkCollector.push(wizard ? { type: "wizard", wizard } : { type: "link", href })
       return hold(renderInline(label))
     }
 
@@ -940,20 +987,89 @@ function renderInline(source, options = {}) {
   return text
 }
 
-function renderInlineWithSideLinks(source) {
+function renderInlineWithSideLinks(source, options = {}) {
   const links = []
   return {
-    html: renderInline(source, { linkCollector: links }),
+    html: renderInline(source, { ...options, linkCollector: links }),
     links
   }
 }
 
-function renderSideLinks(links) {
+function renderMarginSideLinks(links) {
   if (!links.length) return ""
 
-  return `<span class="side-links" aria-label="Links in this paragraph">
-${links.map(link => `<a href="${escapeAttribute(link)}" title="${escapeAttribute(link)}">${escapeHtml(link)}</a>`).join("\n")}
+  const classes = ["side-links", "side-links-margin", hasWizardSideLink(links) ? "side-links-has-wizard" : ""]
+    .filter(Boolean)
+    .join(" ")
+
+  return `<span class="${classes}" aria-label="Related links for this paragraph">
+${links.map(renderSideLinkItem).join("\n")}
 </span>`
+}
+
+function renderInlineSideLinks(links) {
+  if (!links.length) return ""
+
+  return `<span class="side-links side-links-inline" aria-label="Related links for this paragraph">
+${links.map(renderInlineSideLinkItem).join("\n")}
+</span>`
+}
+
+function hasWizardSideLink(links) {
+  return links.some(link => typeof link === "object" && link?.type === "wizard")
+}
+
+function firstUnseenWizardForHref(href, options) {
+  const wizard = options.wizards?.byHref.get(normalizeHref(href))
+  if (!wizard || !options.wizardState || options.wizardState.seen.has(wizard.id)) {
+    return null
+  }
+
+  options.wizardState.seen.add(wizard.id)
+  return wizard
+}
+
+function renderSideLinkItem(item) {
+  if (typeof item === "string") {
+    return renderSideUrl(item)
+  }
+
+  if (item.type === "wizard") {
+    return renderWizardCard(item.wizard)
+  }
+
+  return renderSideUrl(item.href)
+}
+
+function renderInlineSideLinkItem(item) {
+  if (typeof item === "string") {
+    return renderSideUrl(item)
+  }
+
+  if (item.type === "wizard") {
+    return renderSideUrl(item.wizard.url)
+  }
+
+  return renderSideUrl(item.href)
+}
+
+function renderSideUrl(href) {
+  return `<a href="${escapeAttribute(href)}" title="${escapeAttribute(href)}">${escapeHtml(href)}</a>`
+}
+
+function renderWizardCard(wizard) {
+  const style = wizard.imagePosition
+    ? ` style="--wizard-portrait-position: ${escapeAttribute(wizard.imagePosition)};"`
+    : ""
+  const license = wizard.license ? ` data-license="${escapeAttribute(wizard.license)}"` : ""
+  const source = wizard.source ? ` data-source="${escapeAttribute(wizard.source)}"` : ""
+  const note = wizard.note ? `<span class="wizard-card-note">${escapeHtml(wizard.note)}</span>` : ""
+
+  return `<a class="wizard-card" href="${escapeAttribute(wizard.url)}" aria-label="Wikipedia: ${escapeAttribute(wizard.name)}"${license}${source}>
+<span class="wizard-card-image"><img src="${escapeAttribute(wizard.image)}" alt="" loading="lazy"${style}></span>
+<span class="wizard-card-name">${escapeHtml(wizard.name)}</span>
+${note}
+</a>`
 }
 
 function preserveInlineMath(source, hold) {

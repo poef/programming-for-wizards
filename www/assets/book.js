@@ -223,6 +223,7 @@
     let pendingProgressTarget = null
     let lastPageReliefDirty = true
     let codeStartBreaksDirty = true
+    let portraitLiftsDirty = true
 
     if (openAtChapterEnd) {
       history.replaceState(null, "", `${window.location.pathname}${window.location.search}`)
@@ -313,6 +314,7 @@
     const markPagedLayoutDirty = () => {
       codeStartBreaksDirty = true
       lastPageReliefDirty = true
+      portraitLiftsDirty = true
     }
     const setLastPageRelief = value => {
       manuscript.style.setProperty("--book-last-page-extra", `${Math.max(0, value)}px`)
@@ -393,6 +395,58 @@
           if (!shouldPushCodeStart(figure)) continue
 
           figure.classList.add("code-figure-start-next-page")
+          passChanged = true
+          changed = true
+        }
+
+        if (!passChanged) break
+      }
+
+      if (changed) lastPageReliefDirty = true
+    }
+    const firstFragment = element => {
+      if (!element) return null
+
+      return [...element.getClientRects()]
+        .filter(rect => rect.width > 1 && rect.height > 1)
+        .sort((a, b) => a.left - b.left || a.top - b.top)[0] ?? null
+    }
+    const pageForRect = rect => {
+      const scrollerRect = manuscript.getBoundingClientRect()
+      const left = rect.left - scrollerRect.left + manuscript.scrollLeft
+      return Math.max(0, Math.floor((left + pageGap() / 2) / pageStride()))
+    }
+    const resetPortraitLifts = () => {
+      for (const sideLinks of manuscript.querySelectorAll(".side-links-has-wizard")) {
+        sideLinks.style.removeProperty("--wizard-portrait-lift")
+      }
+    }
+    const applyPortraitLifts = () => {
+      if (!portraitLiftsDirty) return
+
+      portraitLiftsDirty = false
+      resetPortraitLifts()
+      if (!isPaged()) return
+
+      const sideLinksBlocks = [...manuscript.querySelectorAll(".side-links-has-wizard")]
+      const step = textLineHeight()
+      let changed = false
+
+      for (let pass = 0; pass < 10; pass += 1) {
+        let passChanged = false
+
+        for (const sideLinks of sideLinksBlocks) {
+          const paragraph = sideLinks.closest("p")
+          const paragraphRect = firstFragment(paragraph)
+          const sideLinksRect = firstFragment(sideLinks)
+          if (!paragraphRect || !sideLinksRect) continue
+          if (pageForRect(sideLinksRect) <= pageForRect(paragraphRect)) continue
+
+          const currentLift = Number.parseFloat(sideLinks.style.getPropertyValue("--wizard-portrait-lift")) || 0
+          const maxLift = Math.min(sideLinksRect.height * 0.75, manuscript.clientHeight * 0.45)
+          if (currentLift >= maxLift) continue
+
+          sideLinks.style.setProperty("--wizard-portrait-lift", `${Math.min(maxLift, currentLift + step)}px`)
           passChanged = true
           changed = true
         }
@@ -501,6 +555,7 @@
       if (flow !== "paged") {
         controls.hidden = true
         manuscript.scrollLeft = 0
+        resetPortraitLifts()
         if (progress) progress.hidden = true
         restoreSavedPosition(flow)
         scheduleSaveCurrentPosition()
@@ -513,6 +568,7 @@
 
       const stride = pageStride()
       applyCodeStartBreaks()
+      applyPortraitLifts()
       applyLastPageRelief()
       pageCount = measuredPageCount()
 

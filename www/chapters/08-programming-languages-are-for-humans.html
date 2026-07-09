@@ -119,7 +119,10 @@
 <pre><code>037744 016701 000026 012702 000352 005211 105711 100376 
 116162 000002 037400 005267 177756 000765 177550</code></pre>
 </figure>
-<p id="p-08-this-machine-code-is-written-in-octal-to" data-note-target>This machine code is written in octal, to make it slightly more readable for humans. But the first really usable step is to write it as assembly code:<span class="side-links" aria-label="Links in this paragraph">
+<p id="p-08-this-machine-code-is-written-in-octal-to" data-note-target><span class="side-links side-links-margin" aria-label="Related links for this paragraph">
+<a href="https://en.wikipedia.org/wiki/Machine_code" title="https://en.wikipedia.org/wiki/Machine_code">https://en.wikipedia.org/wiki/Machine_code</a>
+<a href="https://en.wikipedia.org/wiki/Assembly_language" title="https://en.wikipedia.org/wiki/Assembly_language">https://en.wikipedia.org/wiki/Assembly_language</a>
+</span>This machine code is written in octal, to make it slightly more readable for humans. But the first really usable step is to write it as assembly code:<span class="side-links side-links-inline" aria-label="Related links for this paragraph">
 <a href="https://en.wikipedia.org/wiki/Machine_code" title="https://en.wikipedia.org/wiki/Machine_code">https://en.wikipedia.org/wiki/Machine_code</a>
 <a href="https://en.wikipedia.org/wiki/Assembly_language" title="https://en.wikipedia.org/wiki/Assembly_language">https://en.wikipedia.org/wiki/Assembly_language</a>
 </span></p>
@@ -155,13 +158,18 @@
 0x7774  000765         BR LOOP
 0x7776  177550  DEVICE: 177550        ; Input device CSR address</code></pre>
 </figure>
-<p id="p-08-this-is-the-code-to-make-a-pdp" data-note-target>This is the code to make a PDP-11 computer boot. It is commonly known as bootstrap code.<span class="side-links" aria-label="Links in this paragraph">
+<p id="p-08-this-is-the-code-to-make-a-pdp" data-note-target><span class="side-links side-links-margin" aria-label="Related links for this paragraph">
+<a href="http://gunkies.org/wiki/PDP-11_Bootstrap_Loader" title="http://gunkies.org/wiki/PDP-11_Bootstrap_Loader">http://gunkies.org/wiki/PDP-11_Bootstrap_Loader</a>
+<a href="https://en.wikipedia.org/wiki/Bootstrapping" title="https://en.wikipedia.org/wiki/Bootstrapping">https://en.wikipedia.org/wiki/Bootstrapping</a>
+</span>This is the code to make a PDP-11 computer boot. It is commonly known as bootstrap code.<span class="side-links side-links-inline" aria-label="Related links for this paragraph">
 <a href="http://gunkies.org/wiki/PDP-11_Bootstrap_Loader" title="http://gunkies.org/wiki/PDP-11_Bootstrap_Loader">http://gunkies.org/wiki/PDP-11_Bootstrap_Loader</a>
 <a href="https://en.wikipedia.org/wiki/Bootstrapping" title="https://en.wikipedia.org/wiki/Bootstrapping">https://en.wikipedia.org/wiki/Bootstrapping</a>
 </span></p>
 <p id="p-08-even-in-this-enhanced-more-human-form-this" data-note-target>Even in this enhanced, more human form, this code is not very readable. Or expressive. Most humans don't code in assembly language. In the end, the machine still gets instructions. The programming language exists because humans need to think, read, change, and share those instructions.</p>
 <p id="p-08-that-is-why-there-are-so-many-programming" data-note-target>That is why there are so many programming languages. Different humans need different thoughts to be cheap.</p>
-<p id="p-08-cobol-was-designed-to-make-business-programs-look" data-note-target>COBOL was designed to make business programs look more like business language. Its intended use was in offices, banks, governments, and large institutions. That does not make it beautiful. It does make it interesting. COBOL made records, reports, procedures, and money moving through organizations easier to say.<span class="side-links" aria-label="Links in this paragraph">
+<p id="p-08-cobol-was-designed-to-make-business-programs-look" data-note-target><span class="side-links side-links-margin" aria-label="Related links for this paragraph">
+<a href="https://en.wikipedia.org/wiki/COBOL" title="https://en.wikipedia.org/wiki/COBOL">https://en.wikipedia.org/wiki/COBOL</a>
+</span>COBOL was designed to make business programs look more like business language. Its intended use was in offices, banks, governments, and large institutions. That does not make it beautiful. It does make it interesting. COBOL made records, reports, procedures, and money moving through organizations easier to say.<span class="side-links side-links-inline" aria-label="Related links for this paragraph">
 <a href="https://en.wikipedia.org/wiki/COBOL" title="https://en.wikipedia.org/wiki/COBOL">https://en.wikipedia.org/wiki/COBOL</a>
 </span></p>
 <figure id="code-08-061" class="code-figure code-figure-breakable" data-note-target data-breakable-code data-code-lines="22">
@@ -189,13 +197,19 @@ PROCEDURE DIVISION.
         CALL 'UNLDBCU2' USING WORKAREA-IND RECWORK.
         GOBACK.</code></pre>
 </figure>
-<p id="p-08-believe-it-or-not-cobol-is-still-in" data-note-target>Believe it or not, COBOL is still in use today. The code above is copied from a current manual for DB2, an IBM database system that runs on z/OS mainframes. These are descendants of the famous OS/360 mainframes of the 1960s.<span class="side-links" aria-label="Links in this paragraph">
+<p id="p-08-believe-it-or-not-cobol-is-still-in" data-note-target><span class="side-links side-links-margin" aria-label="Related links for this paragraph">
+<a href="https://www.ibm.com/products/db2" title="https://www.ibm.com/products/db2">https://www.ibm.com/products/db2</a>
+<a href="https://www.ibm.com/products/zos" title="https://www.ibm.com/products/zos">https://www.ibm.com/products/zos</a>
+<a href="https://en.wikipedia.org/wiki/OS/360" title="https://en.wikipedia.org/wiki/OS/360">https://en.wikipedia.org/wiki/OS/360</a>
+</span>Believe it or not, COBOL is still in use today. The code above is copied from a current manual for DB2, an IBM database system that runs on z/OS mainframes. These are descendants of the famous OS/360 mainframes of the 1960s.<span class="side-links side-links-inline" aria-label="Related links for this paragraph">
 <a href="https://www.ibm.com/products/db2" title="https://www.ibm.com/products/db2">https://www.ibm.com/products/db2</a>
 <a href="https://www.ibm.com/products/zos" title="https://www.ibm.com/products/zos">https://www.ibm.com/products/zos</a>
 <a href="https://en.wikipedia.org/wiki/OS/360" title="https://en.wikipedia.org/wiki/OS/360">https://en.wikipedia.org/wiki/OS/360</a>
 </span></p>
 <p id="p-08-that-is-not-an-accident-business-software-tends" data-note-target>That is not an accident. Business software tends to outlive the people who wrote it. Once a language becomes part of the machinery of an institution, replacing it becomes a social, economic, and political problem. Not just a technical one.</p>
-<p id="p-08-fortran-made-a-different-bet-it-was-built" data-note-target>Fortran made a different bet. It was built for scientists and engineers. It made formulas, arrays, loops, and numerical work cheap. Here is an example in Fortran 77:<span class="side-links" aria-label="Links in this paragraph">
+<p id="p-08-fortran-made-a-different-bet-it-was-built" data-note-target><span class="side-links side-links-margin" aria-label="Related links for this paragraph">
+<a href="https://en.wikipedia.org/wiki/Fortran" title="https://en.wikipedia.org/wiki/Fortran">https://en.wikipedia.org/wiki/Fortran</a>
+</span>Fortran made a different bet. It was built for scientists and engineers. It made formulas, arrays, loops, and numerical work cheap. Here is an example in Fortran 77:<span class="side-links side-links-inline" aria-label="Related links for this paragraph">
 <a href="https://en.wikipedia.org/wiki/Fortran" title="https://en.wikipedia.org/wiki/Fortran">https://en.wikipedia.org/wiki/Fortran</a>
 </span></p>
 <figure id="code-08-092" class="code-figure code-figure-breakable" data-note-target data-breakable-code data-code-lines="20">
@@ -222,9 +236,16 @@ END IF
 END</code></pre>
 </figure>
 <p id="p-08-cobol-and-fortran-are-not-just-old-languages" data-note-target>COBOL and Fortran are not just old languages. They are old answers to different questions. What should business code look like? What should scientific code look like? What should the programmer be allowed to say directly?</p>
-<p id="p-08-finally-we-arrive-at-lisp-a-wizard-called" data-note-target>Finally we arrive at Lisp. A wizard called John McCarthy dreamed up Lisp between 1956 and 1958. Lisp made a stranger bet: code and data could have almost the same shape.<span class="side-links" aria-label="Links in this paragraph">
+<p id="p-08-finally-we-arrive-at-lisp-a-wizard-called" class="has-side-wizard" data-note-target><span class="side-links side-links-margin side-links-has-wizard" aria-label="Related links for this paragraph">
 <a href="https://en.wikipedia.org/wiki/Lisp_%28programming_language%29" title="https://en.wikipedia.org/wiki/Lisp_%28programming_language%29">https://en.wikipedia.org/wiki/Lisp_%28programming_language%29</a>
-<a href="https://en.wikipedia.org/wiki/John_McCarthy_%28computer_scientist%29" title="https://en.wikipedia.org/wiki/John_McCarthy_%28computer_scientist%29">https://en.wikipedia.org/wiki/John_McCarthy_%28computer_scientist%29</a>
+<a class="wizard-card" href="https://en.wikipedia.org/wiki/John_McCarthy_(computer_scientist)" aria-label="Wikipedia: John McCarthy" data-license="CC BY-SA 3.0" data-source="https://commons.wikimedia.org/wiki/File:John_McCarthy_Stanford.jpg">
+<span class="wizard-card-image"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/49/John_McCarthy_Stanford.jpg/330px-John_McCarthy_Stanford.jpg" alt="" loading="lazy" style="--wizard-portrait-position: 50% 28%;"></span>
+<span class="wizard-card-name">John McCarthy</span>
+<span class="wizard-card-note">Lisp</span>
+</a>
+</span>Finally we arrive at Lisp. A wizard called John McCarthy dreamed up Lisp between 1956 and 1958. Lisp made a stranger bet: code and data could have almost the same shape.<span class="side-links side-links-inline" aria-label="Related links for this paragraph">
+<a href="https://en.wikipedia.org/wiki/Lisp_%28programming_language%29" title="https://en.wikipedia.org/wiki/Lisp_%28programming_language%29">https://en.wikipedia.org/wiki/Lisp_%28programming_language%29</a>
+<a href="https://en.wikipedia.org/wiki/John_McCarthy_(computer_scientist)" title="https://en.wikipedia.org/wiki/John_McCarthy_(computer_scientist)">https://en.wikipedia.org/wiki/John_McCarthy_(computer_scientist)</a>
 </span></p>
 <p id="p-08-that-sounds-like-a-technical-detail-until-you" data-note-target>That sounds like a technical detail until you feel what it does. Lisp doesn't just make it possible to solve problems. It makes it cheap to build little languages for solving problems.</p>
 <p id="p-08-here-is-a-tiny-example" data-note-target>Here is a tiny example:</p>
@@ -236,7 +257,9 @@ END</code></pre>
 </figure>
 <p id="p-08-this-adds-a-new-word-to-the-language" data-note-target>This adds a new word to the language: <code>unless</code>. After that, programmers can write code in terms of the idea they mean, instead of spelling out the smaller pieces every time.</p>
 <p id="p-08-that-is-why-lisp-keeps-returning-in-conversations" data-note-target>That is why Lisp keeps returning in conversations about programming languages, not because everyone should use it, or because parentheses are secretly beautiful if you stare long enough. But because Lisp makes language-building visible.</p>
-<p id="p-08-a-lisp-interpreter-can-be-written-in-lisp" data-note-target>A Lisp interpreter can be written in Lisp itself. Paul Graham shows one in Roots of Lisp, based on McCarthy's original. That is a very wizardly trick: the language can describe a machine that runs the language.<span class="side-links" aria-label="Links in this paragraph">
+<p id="p-08-a-lisp-interpreter-can-be-written-in-lisp" data-note-target><span class="side-links side-links-margin" aria-label="Related links for this paragraph">
+<a href="http://www.paulgraham.com/rootsoflisp.html" title="http://www.paulgraham.com/rootsoflisp.html">http://www.paulgraham.com/rootsoflisp.html</a>
+</span>A Lisp interpreter can be written in Lisp itself. Paul Graham shows one in Roots of Lisp, based on McCarthy's original. That is a very wizardly trick: the language can describe a machine that runs the language.<span class="side-links side-links-inline" aria-label="Related links for this paragraph">
 <a href="http://www.paulgraham.com/rootsoflisp.html" title="http://www.paulgraham.com/rootsoflisp.html">http://www.paulgraham.com/rootsoflisp.html</a>
 </span></p>
 <h2 id="h-08-differences-commonalities-and-why-we-cant-have-nice-things"><a class="anchor-link" href="#h-08-differences-commonalities-and-why-we-cant-have-nice-things" aria-label="Link to Differences, commonalities, and why we can&#39;t have nice things">#</a>Differences, commonalities, and why we can't have nice things</h2>
@@ -249,10 +272,15 @@ END</code></pre>
 <p class="rule-label">Wizard's seventh rule</p>
 <p>The bill always comes due.</p>
 </aside>
-<p id="p-08-reading-code-is-hard-it-is-much-easier" data-note-target>Reading code is hard. It is much easier to write code. This sounds nonsensical, yet it is true. It is the source of the NIH syndrome: Not Invented Here.<span class="side-links" aria-label="Links in this paragraph">
+<p id="p-08-reading-code-is-hard-it-is-much-easier" data-note-target><span class="side-links side-links-margin" aria-label="Related links for this paragraph">
+<a href="https://en.wikipedia.org/wiki/Not_invented_here" title="https://en.wikipedia.org/wiki/Not_invented_here">https://en.wikipedia.org/wiki/Not_invented_here</a>
+</span>Reading code is hard. It is much easier to write code. This sounds nonsensical, yet it is true. It is the source of the NIH syndrome: Not Invented Here.<span class="side-links side-links-inline" aria-label="Related links for this paragraph">
 <a href="https://en.wikipedia.org/wiki/Not_invented_here" title="https://en.wikipedia.org/wiki/Not_invented_here">https://en.wikipedia.org/wiki/Not_invented_here</a>
 </span></p>
-<p id="p-08-one-answer-is-to-make-programming-languages-bigger" data-note-target>One answer is to make programming languages bigger. Add more standard stuff. Add design patterns. Add frameworks. Make sure all programmers are fed the same cookie-cutter solutions, so all code starts to look roughly the same. Create frameworks that force all problems into a Model-View-Controller solution on top of an Object-Relational Mapper. Boom, done!<span class="side-links" aria-label="Links in this paragraph">
+<p id="p-08-one-answer-is-to-make-programming-languages-bigger" data-note-target><span class="side-links side-links-margin" aria-label="Related links for this paragraph">
+<a href="https://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93controller" title="https://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93controller">https://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93controller</a>
+<a href="https://en.wikipedia.org/wiki/Object%E2%80%93relational_mapping" title="https://en.wikipedia.org/wiki/Object%E2%80%93relational_mapping">https://en.wikipedia.org/wiki/Object%E2%80%93relational_mapping</a>
+</span>One answer is to make programming languages bigger. Add more standard stuff. Add design patterns. Add frameworks. Make sure all programmers are fed the same cookie-cutter solutions, so all code starts to look roughly the same. Create frameworks that force all problems into a Model-View-Controller solution on top of an Object-Relational Mapper. Boom, done!<span class="side-links side-links-inline" aria-label="Related links for this paragraph">
 <a href="https://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93controller" title="https://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93controller">https://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93controller</a>
 <a href="https://en.wikipedia.org/wiki/Object%E2%80%93relational_mapping" title="https://en.wikipedia.org/wiki/Object%E2%80%93relational_mapping">https://en.wikipedia.org/wiki/Object%E2%80%93relational_mapping</a>
 </span></p>
@@ -261,10 +289,14 @@ END</code></pre>
 <p id="p-08-so-the-natural-pressure-on-programming-languages-is" data-note-target>So the natural pressure on programming languages is strange. Small, powerful languages are wonderful for the writer, but dangerous for the reader. Large, standard languages are easier to share, but they also make it harder to say unusual things simply.</p>
 <p id="p-08-just-like-human-languages" data-note-target>Just like human languages.</p>
 <p id="p-08-a-wizard-should-be-aware-of-this-tension" data-note-target>A wizard should be aware of this tension. You do not escape it by choosing the one true language, because the one true language does not exist. You escape it, when you can, by making the language of the program fit the problem more closely.</p>
-<p id="p-08-that-is-where-domain-specific-languages-become-interesting" data-note-target>That is where domain-specific languages become interesting.<span class="side-links" aria-label="Links in this paragraph">
+<p id="p-08-that-is-where-domain-specific-languages-become-interesting" data-note-target><span class="side-links side-links-margin" aria-label="Related links for this paragraph">
+<a href="https://martinfowler.com/dsl.html" title="https://martinfowler.com/dsl.html">https://martinfowler.com/dsl.html</a>
+</span>That is where domain-specific languages become interesting.<span class="side-links side-links-inline" aria-label="Related links for this paragraph">
 <a href="https://martinfowler.com/dsl.html" title="https://martinfowler.com/dsl.html">https://martinfowler.com/dsl.html</a>
 </span></p>
-<p id="p-08-a-dsl-is-not-automatically-a-separate-language" data-note-target>A DSL is not automatically a separate language with a parser and a manual. Sometimes it is. SQL is its own world, and for good reasons. But sometimes a DSL is smaller than that. It can be a handful of names, a few conventions, a shape in the data, a chain of functions, a way of arranging code so the important ideas stand next to each other.<span class="side-links" aria-label="Links in this paragraph">
+<p id="p-08-a-dsl-is-not-automatically-a-separate-language" data-note-target><span class="side-links side-links-margin" aria-label="Related links for this paragraph">
+<a href="https://en.wikipedia.org/wiki/SQL" title="https://en.wikipedia.org/wiki/SQL">https://en.wikipedia.org/wiki/SQL</a>
+</span>A DSL is not automatically a separate language with a parser and a manual. Sometimes it is. SQL is its own world, and for good reasons. But sometimes a DSL is smaller than that. It can be a handful of names, a few conventions, a shape in the data, a chain of functions, a way of arranging code so the important ideas stand next to each other.<span class="side-links side-links-inline" aria-label="Related links for this paragraph">
 <a href="https://en.wikipedia.org/wiki/SQL" title="https://en.wikipedia.org/wiki/SQL">https://en.wikipedia.org/wiki/SQL</a>
 </span></p>
 <p id="p-08-but-before-we-build-one-we-need-to" data-note-target>But before we build one, we need to notice something stranger: every program already contains a language of its own.</p>
