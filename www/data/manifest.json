@@ -1,7 +1,7 @@
 {
   "id": "programming-for-wizards",
   "title": "Programming for Wizards",
-  "generatedAt": "2026-07-09T07:43:20.566Z",
+  "generatedAt": "2026-07-09T08:05:50.243Z",
   "phase": "01-enhanced-static-manuscript",
   "features": {
     "notes": "planned",
@@ -153,7 +153,7 @@
       "url": "chapters/12-objects-binding-data-behavior-and-time.html",
       "previous": "11-the-knitted-castle",
       "next": "13-architecture-arches-pyramids-and-change",
-      "wordCount": 1059,
+      "wordCount": 1012,
       "rule": "Wizard's tenth rule"
     },
     {
@@ -217,16 +217,7 @@
       "rule": "Wizard's final rule"
     }
   ],
-  "exhibits": [
-    {
-      "id": "binding-time-slider",
-      "anchor": "exhibit-binding-time-slider",
-      "chapter": "12-objects-binding-data-behavior-and-time",
-      "title": "Binding Time Slider",
-      "url": "chapters/12-objects-binding-data-behavior-and-time.html#exhibit-binding-time-slider",
-      "status": "placeholder"
-    }
-  ],
+  "exhibits": [],
   "rules": [
     {
       "id": "02-numbers-hiding-calculations-in-symbols-1",
@@ -4525,13 +4516,6 @@
       "label": "Some of them help. Some of them merely move the mess to a more impressive room.",
       "chapter": "12-objects-binding-data-behavior-and-time",
       "url": "chapters/12-objects-binding-data-behavior-and-time.html#p-12-some-of-them-help-some-of-them-merely"
-    },
-    {
-      "id": "exhibit-binding-time-slider",
-      "type": "exhibit",
-      "label": "Binding Time Slider",
-      "chapter": "12-objects-binding-data-behavior-and-time",
-      "url": "chapters/12-objects-binding-data-behavior-and-time.html#exhibit-binding-time-slider"
     },
     {
       "id": "h-12-shell-and-core",

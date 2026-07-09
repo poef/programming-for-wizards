@@ -13,6 +13,7 @@
   --book-page-padding-inline: 3.5rem;
   --book-page-width: calc(var(--book-readable-width) + var(--book-page-padding-inline) + var(--book-page-padding-inline));
   --book-page-gap: clamp(1.5rem, 4vw, 3.5rem);
+  --book-last-page-extra: 0px;
   --book-shell-padding: clamp(16px, 3vw, 40px);
   --layout-nav-width: 10rem;
   --layout-margin-width: 12rem;
@@ -493,7 +494,7 @@ a:hover {
   column-fill: auto;
   column-gap: var(--book-page-gap);
   column-width: auto;
-  height: 100%;
+  height: calc(100% + var(--book-last-page-extra));
   overflow: hidden;
   transition: opacity 140ms ease;
 }
@@ -544,6 +545,22 @@ a:hover {
 [data-flow="paged"][data-page-kind="chapter"] .chapter-header,
 [data-flow="paged"][data-page-kind="chapter"] .chapter-pagination {
   break-inside: avoid;
+}
+
+[data-flow="paged"][data-page-kind="chapter"] .code-figure-breakable {
+  break-inside: auto;
+}
+
+[data-flow="paged"][data-page-kind="chapter"] .code-figure-breakable figcaption {
+  break-after: avoid;
+}
+
+[data-flow="paged"][data-page-kind="chapter"] .code-figure-breakable pre {
+  break-inside: auto;
+  orphans: 3;
+  overflow-x: visible;
+  white-space: pre-wrap;
+  widows: 3;
 }
 
 .chapter-header {
@@ -666,6 +683,10 @@ li {
   hyphens: auto;
   overflow-wrap: normal;
   text-align: justify;
+}
+
+.manuscript-pages p {
+  position: relative;
 }
 
 .side-links {
@@ -797,6 +818,8 @@ figure {
   background: var(--color-code);
   border: 1px solid var(--color-line);
   border-radius: 8px;
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
   overflow: visible;
   padding: 0.85rem;
 }
@@ -843,8 +866,15 @@ img {
   max-width: 100%;
 }
 
+.manuscript-pages p:not(.image-block) > img {
+  background: #ffffff;
+  border: 1px solid var(--color-line);
+  border-radius: 4px;
+  padding: 0.05em 0.16em;
+  vertical-align: -0.18em;
+}
+
 .manuscript-pages figure:has(img) > img,
-.manuscript-pages > img,
 .manuscript-pages p.image-block > img {
   display: block;
   margin: 0 auto;

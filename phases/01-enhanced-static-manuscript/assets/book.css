@@ -7,9 +7,13 @@
   --book-font-scale: 100%;
   --book-line-height: 1.6;
   --book-column-width: 48rem;
+  --book-link-margin-width: 11rem;
+  --book-link-margin-gap: 1.25rem;
+  --book-readable-width: calc(var(--book-column-width) + var(--book-link-margin-gap) + var(--book-link-margin-width));
   --book-page-padding-inline: 3.5rem;
-  --book-page-width: calc(var(--book-column-width) + var(--book-page-padding-inline) + var(--book-page-padding-inline));
+  --book-page-width: calc(var(--book-readable-width) + var(--book-page-padding-inline) + var(--book-page-padding-inline));
   --book-page-gap: clamp(1.5rem, 4vw, 3.5rem);
+  --book-last-page-extra: 0px;
   --book-shell-padding: clamp(16px, 3vw, 40px);
   --layout-nav-width: 10rem;
   --layout-margin-width: 12rem;
@@ -459,7 +463,7 @@ a:hover {
   min-width: 0;
   overflow: hidden;
   position: relative;
-  width: min(100%, var(--book-column-width));
+  width: min(100%, var(--book-readable-width));
   padding: clamp(1.25rem, 4vw, 4rem) 0 clamp(1.25rem, 4vw, 4rem);
 }
 
@@ -474,10 +478,10 @@ a:hover {
 
 [data-flow="paged"][data-page-kind="chapter"] .manuscript {
   align-self: start;
-  background: color-mix(in srgb, var(--color-panel), transparent 12%);
-  border: 1px solid color-mix(in srgb, var(--color-line), transparent 32%);
-  border-radius: 8px;
-  box-shadow: var(--shadow-soft);
+  background: transparent;
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
   height: calc(100vh - clamp(32px, 6vw, 80px));
   max-height: calc(100vh - clamp(32px, 6vw, 80px));
   overflow: hidden;
@@ -490,7 +494,7 @@ a:hover {
   column-fill: auto;
   column-gap: var(--book-page-gap);
   column-width: auto;
-  height: 100%;
+  height: calc(100% + var(--book-last-page-extra));
   overflow: hidden;
   transition: opacity 140ms ease;
 }
@@ -543,6 +547,22 @@ a:hover {
   break-inside: avoid;
 }
 
+[data-flow="paged"][data-page-kind="chapter"] .code-figure-breakable {
+  break-inside: auto;
+}
+
+[data-flow="paged"][data-page-kind="chapter"] .code-figure-breakable figcaption {
+  break-after: avoid;
+}
+
+[data-flow="paged"][data-page-kind="chapter"] .code-figure-breakable pre {
+  break-inside: auto;
+  orphans: 3;
+  overflow-x: visible;
+  white-space: pre-wrap;
+  widows: 3;
+}
+
 .chapter-header {
   align-items: start;
   border-bottom: 0;
@@ -551,6 +571,10 @@ a:hover {
   grid-template-columns: minmax(0, 1fr) auto;
   margin-bottom: 2rem;
   padding-bottom: 0.25rem;
+}
+
+.manuscript-pages > :where(h1, h2, h3, h4, h5, h6, p, ul, ol, blockquote, figure, .wizard-rule, .exhibit-placeholder) {
+  max-inline-size: var(--book-column-width);
 }
 
 .chapter-header > :not(.chapter-glyph) {
@@ -661,6 +685,31 @@ li {
   text-align: justify;
 }
 
+.manuscript-pages p {
+  position: relative;
+}
+
+.side-links {
+  display: grid;
+  font-size: 0.78rem;
+  gap: 0.35rem;
+  inline-size: var(--book-link-margin-width);
+  inset-block-start: 0.25lh;
+  inset-inline-start: calc(100% + var(--book-link-margin-gap));
+  line-height: 1.25;
+  position: absolute;
+  text-align: start;
+}
+
+.side-links a {
+  color: var(--color-rule);
+  display: block;
+  overflow: hidden;
+  text-decoration: none;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
 p {
   margin-block: 0.5lh;
   orphans: 3;
@@ -769,6 +818,8 @@ figure {
   background: var(--color-code);
   border: 1px solid var(--color-line);
   border-radius: 8px;
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
   overflow: visible;
   padding: 0.85rem;
 }
@@ -815,8 +866,15 @@ img {
   max-width: 100%;
 }
 
+.manuscript-pages p:not(.image-block) > img {
+  background: #ffffff;
+  border: 1px solid var(--color-line);
+  border-radius: 4px;
+  padding: 0.05em 0.16em;
+  vertical-align: -0.18em;
+}
+
 .manuscript-pages figure:has(img) > img,
-.manuscript-pages > img,
 .manuscript-pages p.image-block > img {
   display: block;
   margin: 0 auto;
@@ -1072,6 +1130,12 @@ th {
     margin-left: 0;
     margin-right: 0.35rem;
     opacity: 1;
+  }
+
+  .side-links {
+    inline-size: auto;
+    margin-block-start: 0.35rem;
+    position: static;
   }
 }
 

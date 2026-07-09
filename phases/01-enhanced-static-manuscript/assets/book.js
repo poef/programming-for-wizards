@@ -202,6 +202,7 @@
     let openAtChapterEnd = initialHash === "#book-end"
     let restoredProgress = false
     let pendingProgressTarget = null
+    let lastPageReliefDirty = true
 
     if (openAtChapterEnd) {
       history.replaceState(null, "", `${window.location.pathname}${window.location.search}`)
@@ -276,6 +277,38 @@
 
     const pageGap = () => Number.parseFloat(getComputedStyle(manuscript).columnGap) || 0
     const pageStride = () => Math.max(1, manuscript.clientWidth + pageGap())
+    const measuredPageCount = () => Math.max(1, Math.round((manuscript.scrollWidth + pageGap()) / pageStride()))
+    const setLastPageRelief = value => {
+      manuscript.style.setProperty("--book-last-page-extra", `${Math.max(0, value)}px`)
+    }
+    const textLineHeight = () => {
+      const style = getComputedStyle(manuscript)
+      const lineHeight = Number.parseFloat(style.lineHeight)
+      const fontSize = Number.parseFloat(style.fontSize) || 16
+      return Number.isFinite(lineHeight) && lineHeight > 0 ? lineHeight : fontSize * 1.6
+    }
+    const applyLastPageRelief = () => {
+      if (!lastPageReliefDirty) return
+
+      lastPageReliefDirty = false
+      setLastPageRelief(0)
+
+      const baseCount = measuredPageCount()
+      if (baseCount <= 1) return
+
+      // CSS columns cannot make only the final column taller; this tiny global
+      // adjustment is used only when it removes an otherwise stranded last page.
+      const maxExtra = textLineHeight() * 2
+      const stepCount = 8
+
+      for (let step = 1; step <= stepCount; step += 1) {
+        const extra = (maxExtra / stepCount) * step
+        setLastPageRelief(extra)
+        if (measuredPageCount() < baseCount) return
+      }
+
+      setLastPageRelief(0)
+    }
     const progressTargets = () => [...manuscript.querySelectorAll("p[data-note-target][id]")]
     const pageCounts = () => {
       const currentWeight = pageWeights[chapterIndex] || 1
@@ -386,7 +419,8 @@
       if (progress) progress.hidden = false
 
       const stride = pageStride()
-      pageCount = Math.max(1, Math.round((manuscript.scrollWidth + pageGap()) / stride))
+      applyLastPageRelief()
+      pageCount = measuredPageCount()
 
       if (openAtChapterEnd) {
         pageIndex = pageCount - 1
@@ -464,6 +498,7 @@
 
     const scheduleResizeUpdate = () => {
       saveCurrentPosition()
+      lastPageReliefDirty = true
       window.cancelAnimationFrame(resizeFrame)
       resizeFrame = window.requestAnimationFrame(() => update({ snap: true }))
     }
@@ -471,13 +506,26 @@
     const resizeObserver = new ResizeObserver(scheduleResizeUpdate)
     resizeObserver.observe(manuscript)
     window.addEventListener("resize", scheduleResizeUpdate)
-    document.addEventListener("reader-settings-change", () => update({ snap: true }))
-    document.addEventListener("reader-layout-change", () => update({ snap: true }))
+    document.addEventListener("reader-settings-change", () => {
+      lastPageReliefDirty = true
+      update({ snap: true })
+    })
+    document.addEventListener("reader-layout-change", () => {
+      lastPageReliefDirty = true
+      update({ snap: true })
+    })
     window.addEventListener("load", () => {
       window.setTimeout(() => {
+        lastPageReliefDirty = true
         update()
       }, 100)
     })
+    if (document.fonts?.ready) {
+      document.fonts.ready.then(() => {
+        lastPageReliefDirty = true
+        update({ snap: true })
+      }).catch(() => {})
+    }
     window.addEventListener("hashchange", () => window.setTimeout(update, 100))
     window.setTimeout(update, 0)
   }

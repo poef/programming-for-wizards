@@ -106,10 +106,6 @@ This is where factories, [dependency injection containers](https://en.wikipedia.
 
 Some of them help. Some of them merely move the mess to a more impressive room.
 
-> **Interactive exhibit placeholder: `binding-time-slider`**
->
-> Show the same dependency bound in three places: inside the class, in a factory, and at the application shell. Let the reader swap the database implementation. Count how many pieces change and how much of the program needs to know.
-
 ## Shell and core
 
 One useful boundary is the shell/core split.

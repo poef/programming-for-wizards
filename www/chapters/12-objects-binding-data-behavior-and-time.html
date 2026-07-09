@@ -102,7 +102,7 @@
   <div class="book-progress" role="progressbar" aria-label="Book progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" data-book-progress>
     <span data-book-progress-bar></span>
   </div>
-  <div class="manuscript-pages" data-page-scroller data-book-chapter-id="12-objects-binding-data-behavior-and-time" data-book-chapter-index="11" data-book-page-weights="466,2137,938,931,2137,1864,1422,1466,611,2199,1770,1059,2545,1487,1510,1228,173">
+  <div class="manuscript-pages" data-page-scroller data-book-chapter-id="12-objects-binding-data-behavior-and-time" data-book-chapter-index="11" data-book-page-weights="466,2137,938,931,2137,1864,1422,1466,611,2199,1770,1012,2545,1487,1510,1228,173">
   <header class="chapter-header">
     <p class="chapter-kicker">Part IV: Boundaries</p>
     <p class="chapter-number">Chapter 12</p>
@@ -182,14 +182,6 @@ $order-&gt;cancel($reason);</code></pre>
 <a href="https://martinfowler.com/articles/injection.html#UsingAServiceLocator" title="https://martinfowler.com/articles/injection.html#UsingAServiceLocator">https://martinfowler.com/articles/injection.html#UsingAServiceLocator</a>
 </span></p>
 <p id="p-12-some-of-them-help-some-of-them-merely" data-note-target>Some of them help. Some of them merely move the mess to a more impressive room.</p>
-<aside id="exhibit-binding-time-slider" class="exhibit-placeholder" data-exhibit-id="binding-time-slider" data-note-target>
-<p class="exhibit-kicker">Interactive Exhibit</p>
-<h2>Binding Time Slider</h2>
-<p>Show the same dependency bound in three places: inside the class, in a factory, and at the application shell. Let the reader swap the database implementation. Count how many pieces change and how much of the program needs to know.</p>
-<div class="static-fallback" aria-label="Static fallback">
-<p>Binding Time Slider is planned as an interactive exhibit. This placeholder preserves the explanation and its stable address for the static edition.</p>
-</div>
-</aside>
 <h2 id="h-12-shell-and-core"><a class="anchor-link" href="#h-12-shell-and-core" aria-label="Link to Shell and core">#</a>Shell and core</h2>
 <p id="p-12-one-useful-boundary-is-the-shell-core-split" data-note-target>One useful boundary is the shell/core split.</p>
 <p id="p-12-the-core-contains-the-rules-of-the-program" data-note-target>The core contains the rules of the program. It should know as little as possible about files, databases, networks, frameworks, clocks and random number generators. The shell knows about the outside world. It wires everything together.</p>

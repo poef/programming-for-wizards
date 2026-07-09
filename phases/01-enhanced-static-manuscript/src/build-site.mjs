@@ -343,9 +343,12 @@ class MarkdownRenderer {
     }
 
     this.addAnchor(id, "code", `${language || "code"} block`)
+    const isBreakable = code.length > 8
+    const className = `code-figure${isBreakable ? " code-figure-breakable" : ""}`
+    const breakableAttributes = isBreakable ? ` data-breakable-code data-code-lines="${code.length}"` : ""
 
     return {
-      html: `<figure id="${id}" class="code-figure" data-note-target>
+      html: `<figure id="${id}" class="${className}" data-note-target${breakableAttributes}>
 <figcaption>${escapeHtml(languageLabel(language))}</figcaption>
 <pre><code${language ? ` class="language-${escapeAttribute(language)}"` : ""}>${escapeHtml(code.join("\n"))}</code></pre>
 </figure>`,
@@ -403,7 +406,10 @@ $$</div>
     const inner = quoteLines
       .join("\n")
       .split(/\n{2,}/)
-      .map(chunk => `<p>${renderInline(chunk.replace(/\n/g, " "))}</p>`)
+      .map(chunk => {
+        const rendered = renderInlineWithSideLinks(chunk.replace(/\n/g, " "))
+        return `<p>${rendered.html}${renderSideLinks(rendered.links)}</p>`
+      })
       .join("\n")
 
     return {
@@ -550,8 +556,11 @@ ${bodyRows.map(row => `<tr>${row.map(cell => `<td>${renderInline(cell)}</td>`).j
       if (!lines[index]?.trim()) break
     }
 
+    const html = block.join("\n")
+    const isStandaloneImage = block.length === 1 && /^<img\b/i.test(block[0].trim())
+
     return {
-      html: block.join("\n"),
+      html: isStandaloneImage ? `<figure>${html}</figure>` : html,
       nextIndex: index
     }
   }
@@ -585,9 +594,10 @@ ${bodyRows.map(row => `<tr>${row.map(cell => `<td>${renderInline(cell)}</td>`).j
     const id = this.uniqueId(`p-${this.chapter.number}-${slugify(stripInline(text), 8)}`)
     this.addAnchor(id, "paragraph", stripInline(text).slice(0, 120))
     const isImageBlock = /^!\[[^\]]*]\([^)]+\)$/.test(text.trim())
+    const rendered = renderInlineWithSideLinks(text)
 
     return {
-      html: `<p id="${id}"${isImageBlock ? ` class="image-block"` : ""} data-note-target>${renderInline(text)}</p>`,
+      html: `<p id="${id}"${isImageBlock ? ` class="image-block"` : ""} data-note-target>${rendered.html}${renderSideLinks(rendered.links)}</p>`,
       nextIndex: index
     }
   }
@@ -890,7 +900,7 @@ function chapterLayout(chapter, renderedBody, previous, next, chapters, chapterI
 </main>`
 }
 
-function renderInline(source) {
+function renderInline(source, options = {}) {
   let text = source.replace(/\\([\\`*{}\[\]()#+\-.!_<>|&])/g, "$1")
   const placeholders = []
   const hold = value => {
@@ -901,7 +911,14 @@ function renderInline(source) {
 
   text = text.replace(/`([^`]+)`/g, (_, code) => hold(`<code>${escapeHtml(code)}</code>`))
   text = text.replace(/!\[([^\]]*)\]\(([^)]+)\)/g, (_, alt, href) => hold(`<img src="${escapeAttribute(href)}" alt="${escapeAttribute(alt)}">`))
-  text = text.replace(/\[([^\]]+)\]\(([^)]+)\)/g, (_, label, href) => hold(`<a href="${escapeAttribute(href)}">${renderInline(label)}</a>`))
+  text = text.replace(/\[([^\]]+)\]\(([^)]+)\)/g, (_, label, href) => {
+    if (options.linkCollector) {
+      options.linkCollector.push(href)
+      return hold(renderInline(label))
+    }
+
+    return hold(`<a href="${escapeAttribute(href)}">${renderInline(label)}</a>`)
+  })
   text = preserveInlineMath(text, hold)
   text = text.replace(/<[^>\n]+>/g, tag => hold(tag))
   text = text.replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>")
@@ -921,6 +938,22 @@ function renderInline(source) {
   }
 
   return text
+}
+
+function renderInlineWithSideLinks(source) {
+  const links = []
+  return {
+    html: renderInline(source, { linkCollector: links }),
+    links
+  }
+}
+
+function renderSideLinks(links) {
+  if (!links.length) return ""
+
+  return `<span class="side-links" aria-label="Links in this paragraph">
+${links.map(link => `<a href="${escapeAttribute(link)}" title="${escapeAttribute(link)}">${escapeHtml(link)}</a>`).join("\n")}
+</span>`
 }
 
 function preserveInlineMath(source, hold) {
