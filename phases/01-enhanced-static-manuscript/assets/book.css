@@ -39,6 +39,16 @@
   --shadow-soft: 0 8px 24px rgb(31 36 33 / 0.06);
 }
 
+@view-transition {
+  navigation: auto;
+}
+
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation-duration: 180ms;
+  animation-timing-function: ease;
+}
+
 [data-font="simple-sans"] {
   --book-font-body: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   --book-font-heading: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
@@ -482,7 +492,13 @@ a:hover {
   column-width: auto;
   height: 100%;
   overflow: hidden;
-  scroll-behavior: smooth;
+  transition: opacity 140ms ease;
+}
+
+[data-reader-boot="pending"] .manuscript-pages,
+[data-initial-page-position="pending"] .manuscript-pages {
+  opacity: 0;
+  pointer-events: none;
 }
 
 .book-progress {
@@ -638,8 +654,8 @@ li {
   overflow-wrap: anywhere;
 }
 
-[data-typography="browser"] .manuscript-pages p,
-[data-typography="browser"] .manuscript-pages li {
+.manuscript-pages p,
+.manuscript-pages li {
   hyphens: auto;
   overflow-wrap: normal;
   text-align: justify;
@@ -649,33 +665,6 @@ p {
   margin-block: 0.5lh;
   orphans: 3;
   widows: 3;
-}
-
-.pretext-active {
-  margin-block: 0.5lh;
-  position: relative;
-  text-wrap: auto;
-}
-
-.pretext-source {
-  block-size: 1px;
-  clip-path: inset(50%);
-  inline-size: 1px;
-  overflow: hidden;
-  position: absolute;
-  white-space: nowrap;
-}
-
-.pretext-render {
-  display: block;
-  margin: 0;
-}
-
-.pretext-line {
-  display: block;
-  overflow: visible;
-  text-align: start;
-  white-space: pre;
 }
 
 .manuscript:not(.manuscript-index) > h1 + p::first-letter,
@@ -688,18 +677,6 @@ p {
   line-height: 0.82;
   margin: 0.2rem 0.65rem 0.1rem 0;
   padding: 0.06rem 0.12rem 0 0;
-}
-
-.manuscript-pages > h1 + p.pretext-active::first-letter,
-.manuscript:not(.manuscript-index) > h1 + p.pretext-active::first-letter {
-  color: inherit;
-  float: none;
-  font-family: inherit;
-  font-size: inherit;
-  font-weight: inherit;
-  line-height: inherit;
-  margin: 0;
-  padding: 0;
 }
 
 .anchor-link {
@@ -897,6 +874,10 @@ th {
   padding-top: 0;
 }
 
+[data-reader-runtime="active"][data-flow="paged"][data-page-kind="chapter"] .chapter-pagination {
+  display: none;
+}
+
 .chapter-pagination a {
   background: color-mix(in srgb, var(--color-panel), transparent 16%);
   border: 0;
@@ -985,17 +966,18 @@ th {
   color: var(--color-muted);
   font-family: var(--book-font-mono);
   font-size: 0.75rem;
-  inset-block-start: 0.25lh;
-  inset-inline-start: -1.35rem;
+  left: var(--margin-anchor-left, -100vw);
   line-height: 1;
   margin-left: 0;
   opacity: 0;
-  position: absolute;
+  position: fixed;
   text-decoration: none;
+  top: var(--margin-anchor-top, -100vh);
   z-index: 2;
 }
 
 [data-note-target]:hover > .margin-anchor,
+.margin-anchor:hover,
 .margin-anchor:focus {
   opacity: 1;
 }
@@ -1007,7 +989,9 @@ th {
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
-  *::after {
+  *::after,
+  ::view-transition-old(root),
+  ::view-transition-new(root) {
     animation-duration: 0.001ms !important;
     scroll-behavior: auto !important;
     transition-duration: 0.001ms !important;
@@ -1016,7 +1000,9 @@ th {
 
 [data-motion="reduced"] *,
 [data-motion="reduced"] *::before,
-[data-motion="reduced"] *::after {
+[data-motion="reduced"] *::after,
+[data-motion="reduced"]::view-transition-old(root),
+[data-motion="reduced"]::view-transition-new(root) {
   animation-duration: 0.001ms !important;
   scroll-behavior: auto !important;
   transition-duration: 0.001ms !important;

@@ -7,7 +7,7 @@ import { fileURLToPath } from "node:url"
 
 const rootDir = path.resolve(fileURLToPath(new URL("../../../", import.meta.url)))
 const phaseDir = path.join(rootDir, "phases", "01-enhanced-static-manuscript")
-const siteDir = path.join(rootDir, "site")
+const siteDir = path.join(rootDir, "www")
 const buildScript = path.join(phaseDir, "src", "build-site.mjs")
 const port = Number(process.env.PORT ?? 4173)
 const host = process.env.HOST ?? "127.0.0.1"

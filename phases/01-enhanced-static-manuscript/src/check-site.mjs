@@ -5,7 +5,7 @@ import { fileURLToPath } from "node:url"
 const rootDir = path.resolve(fileURLToPath(new URL("../../../", import.meta.url)))
 const contentDir = path.join(rootDir, "content")
 const bookPath = path.join(contentDir, "book.json")
-const siteDir = path.join(rootDir, "site")
+const siteDir = path.join(rootDir, "www")
 const siteChapterDir = path.join(siteDir, "chapters")
 const manifestPath = path.join(siteDir, "data", "manifest.json")
 
@@ -332,8 +332,8 @@ function checkHtmlPages(htmlByFile) {
     }
 
     const settingControls = [...html.matchAll(/\bdata-setting="/g)].length
-    if (settingControls !== 8) {
-      fail(`${relativeFile} has ${settingControls} reader setting controls, expected 8`)
+    if (settingControls !== 7) {
+      fail(`${relativeFile} has ${settingControls} reader setting controls, expected 7`)
     }
 
     if (relativeFile.includes(`${path.sep}chapters${path.sep}`) && !/\bdata-page-controls\b/.test(html)) {

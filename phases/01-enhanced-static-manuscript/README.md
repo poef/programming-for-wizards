@@ -11,7 +11,7 @@ This phase owns:
 - stable anchors for notes and references;
 - reader settings for font, size, line height, column width, theme and motion.
 
-The generated output is written to `site/`.
+The generated output is written to `www/`.
 
 Useful commands:
 

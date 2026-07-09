@@ -7,21 +7,10 @@ const contentDir = path.join(rootDir, "content")
 const bookPath = path.join(contentDir, "book.json")
 const phaseDir = path.join(rootDir, "phases", "01-enhanced-static-manuscript")
 const exhibitPhaseDir = path.join(rootDir, "phases", "03-core-explorable-exhibits")
-const siteDir = path.join(rootDir, "site")
+const siteDir = path.join(rootDir, "www")
 const siteChapterDir = path.join(siteDir, "chapters")
 const siteAssetDir = path.join(siteDir, "assets")
 const siteDataDir = path.join(siteDir, "data")
-const pretextDistDir = path.join(rootDir, "node_modules", "@chenglou", "pretext", "dist")
-const pretextRuntimeFiles = [
-  "layout.js",
-  "analysis.js",
-  "line-break.js",
-  "line-text.js",
-  "rich-inline.js",
-  "measurement.js",
-  "bidi.js",
-  "generated/bidi-data.js"
-]
 const interactiveExhibits = new Set([
   "same-problem-different-world",
   "numbers-are-machines",
@@ -129,7 +118,6 @@ async function main() {
   )
 
   await cp(path.join(phaseDir, "assets"), siteAssetDir, { recursive: true })
-  await copyPretextRuntime()
   await cp(
     path.join(exhibitPhaseDir, "assets"),
     path.join(siteAssetDir, "exhibits"),
@@ -147,15 +135,6 @@ async function readBook() {
   assertArray(book.parts, "book.parts")
 
   return book
-}
-
-async function copyPretextRuntime() {
-  const pretextAssetDir = path.join(siteAssetDir, "pretext")
-  await mkdir(path.join(pretextAssetDir, "generated"), { recursive: true })
-
-  for (const file of pretextRuntimeFiles) {
-    await cp(path.join(pretextDistDir, file), path.join(pretextAssetDir, file))
-  }
 }
 
 async function readChapters(book) {
@@ -664,7 +643,26 @@ function pageShell({ title, book, currentId, chapters, main, pageKind }) {
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light dark">
   <title>${escapeHtml(title)}</title>
+  <script>
+    (() => {
+      const root = document.documentElement
+      root.dataset.readerRuntime = "active"
+      if (root.dataset.pageKind === "chapter") root.dataset.readerBoot = "pending"
+      if (window.location.hash === "#book-end") root.dataset.initialPagePosition = "pending"
+      try {
+        const settings = JSON.parse(localStorage.getItem("programming-for-wizards.reader-settings") || "{}")
+        if (typeof settings.font === "string") root.dataset.font = settings.font
+        if (typeof settings.theme === "string") root.dataset.theme = settings.theme
+        if (typeof settings.motion === "string") root.dataset.motion = settings.motion
+        if (typeof settings.flow === "string") root.dataset.flow = settings.flow
+        if (typeof settings.fontScale === "string") root.style.setProperty("--book-font-scale", settings.fontScale + "%")
+        if (typeof settings.lineHeight === "string") root.style.setProperty("--book-line-height", String(Number(settings.lineHeight) / 100))
+        if (typeof settings.columnWidth === "string") root.style.setProperty("--book-column-width", settings.columnWidth + "rem")
+      } catch {}
+    })()
+  </script>
   <link rel="stylesheet" href="${relativeRoot}assets/book.css">
   <link rel="stylesheet" href="${relativeRoot}assets/exhibits/exhibits.css">
   <script>
@@ -690,10 +688,31 @@ function pageShell({ title, book, currentId, chapters, main, pageKind }) {
   <div class="book-shell">
     ${chapterMap(book, chapters, currentId, relativeRoot, chapterMapDefault)}
     ${main}
+    ${initialPagePositionScript()}
     ${readerMargin(relativeRoot, readerToolsDefault)}
   </div>
 </body>
 </html>`
+}
+
+function initialPagePositionScript() {
+  return `<script>
+    (() => {
+      if (window.location.hash !== "#book-end") return
+      const scroller = document.querySelector("[data-page-scroller]")
+      if (!scroller) {
+        delete document.documentElement.dataset.initialPagePosition
+        return
+      }
+      scroller.style.scrollBehavior = "auto"
+      scroller.scrollLeft = scroller.scrollWidth
+      window.requestAnimationFrame(() => {
+        scroller.style.scrollBehavior = "auto"
+        scroller.scrollLeft = scroller.scrollWidth
+        delete document.documentElement.dataset.initialPagePosition
+      })
+    })()
+  </script>`
 }
 
 function chapterMap(book, chapters, currentId, relativeRoot, chapterMapDefault) {
@@ -764,12 +783,6 @@ function readerMargin(relativeRoot, readerToolsDefault) {
         <select data-setting="flow">
           <option value="paged">Paged</option>
           <option value="scroll">Scrolling</option>
-        </select>
-      </label>
-      <label>Typography
-        <select data-setting="typography">
-          <option value="browser">Browser</option>
-          <option value="pretext">Book</option>
         </select>
       </label>
       <label>Theme
@@ -858,7 +871,7 @@ function chapterLayout(chapter, renderedBody, previous, next, chapters, chapterI
   <div class="book-progress" role="progressbar" aria-label="Book progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" data-book-progress>
     <span data-book-progress-bar></span>
   </div>
-  <div class="manuscript-pages" data-page-scroller data-book-chapter-index="${chapterIndex}" data-book-page-weights="${escapeAttribute(pageWeights)}">
+  <div class="manuscript-pages" data-page-scroller data-book-chapter-id="${escapeAttribute(chapter.id)}" data-book-chapter-index="${chapterIndex}" data-book-page-weights="${escapeAttribute(pageWeights)}">
   <header class="chapter-header">
     <p class="chapter-kicker">${escapeHtml(chapter.part)}</p>
     <p class="chapter-number">Chapter ${escapeHtml(chapter.number)}</p>

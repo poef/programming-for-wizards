@@ -5,7 +5,7 @@ import path from "node:path"
 import { fileURLToPath } from "node:url"
 
 const rootDir = path.resolve(fileURLToPath(new URL("../../../", import.meta.url)))
-const siteDir = path.join(rootDir, "site")
+const siteDir = path.join(rootDir, "www")
 const port = Number(process.env.PORT ?? 4173)
 const host = process.env.HOST ?? "127.0.0.1"
 

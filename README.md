@@ -18,7 +18,7 @@ Wizards do not merely write solutions. They learn to notice the world around a p
 - [content/notes](content/notes): presentation, accessibility, exhibit, Solid and restructuring notes.
 - [phases](phases): one home for each product phase, from the static manuscript through the Solid-published edition.
 - [shared/assets](shared/assets): source assets that are shared across phases.
-- [site](site): generated static build output.
+- [www](www): generated static build output.
 
 ## Build
 
@@ -28,7 +28,7 @@ The first build is an enhanced static manuscript. It uses local Node scripts and
 npm run build
 ```
 
-Open [site/index.html](site/index.html) after building.
+Open [www/index.html](www/index.html) after building.
 
 The generated site table of contents and chapter navigation use the order and parts from [content/book.json](content/book.json), while chapter display titles come from each chapter's H1. To rearrange chapters or move them between parts, edit `content/book.json` and rebuild.
 

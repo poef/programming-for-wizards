@@ -5,7 +5,7 @@
   "parts": [
     {
       "id": "prologue",
-      "title": "Prologue: You are allowed to make it up",
+      "title": "Prologue",
       "chapters": [
         {
           "number": "01",
@@ -40,8 +40,8 @@
       ]
     },
     {
-      "id": "web-address-document-platform",
-      "title": "Part II: The Web, from address to platform",
+      "id": "the-web",
+      "title": "Part II: The Web",
       "chapters": [
         {
           "number": "05",
@@ -88,8 +88,8 @@
       ]
     },
     {
-      "id": "boundaries-and-reusable-pieces",
-      "title": "Part IV: Boundaries and reusable pieces",
+      "id": "boundaries",
+      "title": "Part IV: Boundaries",
       "chapters": [
         {
           "number": "11",
@@ -102,19 +102,19 @@
           "id": "12-objects-binding-data-behavior-and-time",
           "title": "Objects: binding data, behavior, and time",
           "source": "chapters/12-objects-binding-data-behavior-and-time.md"
-        }
-      ]
-    },
-    {
-      "id": "architecture-change-commons-home",
-      "title": "Part V: Architecture, change, commons, and home",
-      "chapters": [
+        },
         {
           "number": "13",
           "id": "13-architecture-arches-pyramids-and-change",
           "title": "Architecture: arches, pyramids, and change",
           "source": "chapters/13-architecture-arches-pyramids-and-change.md"
-        },
+        }
+      ]
+    },
+    {
+      "id": "the-next-web",
+      "title": "Part V: The Next Web",
+      "chapters": [
         {
           "number": "14",
           "id": "14-the-web-as-commons",
