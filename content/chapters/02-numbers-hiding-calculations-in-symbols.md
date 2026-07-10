@@ -6,25 +6,11 @@ tags: programming for wizards
 
 How do you make a number bigger than your fingers?
 
-That sounds like a childish question, but it is one of the first great programming questions. You have a thing in the world. You need to represent it. The first representation works for a while. Then the world grows larger than the representation, and the representation starts fighting you.
+It's no secret that programming is based on numbers. Two of them, 0 and 1. It may come as a surprise that one of those numbers is much newer than the other. 
 
-Numbers are a good place to begin because they look natural. They are not. Number systems are inventions. Interfaces. Little machines for doing work in your head.
+Let's go back, way back, to the first number system our cave-dwelling ancestors ever used: our fingers.
 
-We are going to follow one idea as it gets stolen, bent, and improved: each new number system hides a little more work inside the notation itself.
-
-## The first interface
-
-It's no secret that programming is based on numbers. Two of them: `0` and `1`.
-
-It may come as a surprise that one of those numbers is much newer than the other. But before we get to zero, or binary, or computers pretending very convincingly to understand the world, we should start with the oldest number system most people ever use.
-
-Hands.
-
-At first, the best number system was the one attached to your body.
-
-That's not a joke. Fingers are portable, visible, hard to lose, and conveniently arranged in groups. For small numbers, they are a pretty good user interface.
-
-You can count to 10 using two hands. But what if you want to add numbers to your cave painting? Well, you make [tally marks](https://en.wikipedia.org/wiki/Tally_marks): `IIII` and so on.
+Hold up your hands and you can count to 10. But what if you want to add a number to your cave painting? Well, you make [tally marks](https://en.wikipedia.org/wiki/Tally_marks): `IIII`.
 
 So the first number we used was `1`, or the tally mark: `I`. But tally marks get cumbersome quickly. So someone invented a new symbol to mark 5 tallies: <img src="https://upload.wikimedia.org/wikipedia/commons/1/1d/Tally_marks-Five-bar_Gate.svg" style="height:1em">
 
@@ -40,21 +26,17 @@ Now what about `MCMXCVIII`? And we're still just around 2000. Roman numerals sti
 
 Notice we've come from the age of cave paintings, at least 35,000 years ago, all the way to the Romans, and we still have to do without `0`.
 
-But let's step back a bit and introduce the [abacus](https://en.wikipedia.org/wiki/Abacus). This simple device's origins are unknown. It may have been invented multiple times. We know for certain that it was in use by the Roman era; they probably stole it from the Greeks, who may have gotten it from Egyptians or Babylonians, who probably got it from the Sumerians. 
+But let's step back a bit and introduce the [abacus](https://en.wikipedia.org/wiki/Abacus). This simple device's origins are unknown, and it may have been invented more than once. We know for certain that it was in use by the Roman era; they probably stole it from the Greeks, who may have gotten it from Egyptians or Babylonians, who probably got it from the Sumerians. 
 
-By now, you may have noticed a pattern.
+By now, you may have noticed a pattern. Everyone is stealing from everyone else.
 
-Everyone is stealing from everyone else.
-
-That sounds worse than it is. Good ideas travel. They are copied, renamed, misunderstood, improved, translated, simplified, and eventually taught to children as if they had always existed. This isn't a scandal. It's civilization.
-
-Wizards don't insist on inventing everything themselves. They notice working magic, learn why it works, and carry it somewhere new.
+That's how good ideas travel. They get copied, renamed, improved and eventually taught to children as if they had always existed.
 
 > **Wizard's first rule**
 >
 > Steal the good stuff.
 
-Anyway, back to the abacus. Roman numerals hide small calculations in the order of symbols. The abacus does something more powerful: it hides multiplication in position. Let's show one for those who haven't seen one yet:
+Anyway, back to the abacus. Let's show one for those who haven't seen one yet:
 
 <img src="https://upload.wikimedia.org/wikipedia/commons/a/af/Abacus_6.png">
 
@@ -64,9 +46,9 @@ But much more important is that here, again, the system introduces a calculation
 
 It's a lot easier to explain if I use Arabic numerals. They use the exact same multiplication by column as the abacus does. The rightmost column is multiplied by 1, the next is multiplied by 10, then 100, then 1000 and so on.
 
-And here, for the first time in our story, we have the number `0`. Without it, Arabic numerals are impossible. Positional notation without `0` cannot work. You can write `11`, but how do you write 'one ten and no ones'? Zero fills that hole elegantly.
+And here, for the first time in our story, we have the number `0`. You can write `11`, but how do you write 'one ten and no ones'? Zero fills that hole elegantly.
 
-As a side note, the idea of a [number 0](https://en.wikipedia.org/wiki/0) is much older than this. But its status was not well established. The mathematicians of the time asked how a number, or anything, could be nothing. But with the idea of [positional notation](https://en.wikipedia.org/wiki/Positional_notation), the status of 0 as a true number became standardized. 
+As a side note, the idea of a [number 0](https://en.wikipedia.org/wiki/0) is much older than this. But its status was not well established. The mathematicians of the time asked how a number, or anything, could be nothing. With [positional notation](https://en.wikipedia.org/wiki/Positional_notation), `0` became not just a placeholder, but as a number in its own right. 
 
 As another aside, I should probably call Arabic numerals Hindu numerals instead. It seems the Arabs got the idea from Indian mathematicians, who had been using these symbols for a few hundred years already. (See the wizard's first rule.)
 
@@ -79,8 +61,6 @@ Why is this important? Well, this insight opens the way for mechanical calculato
 <img src="https://upload.wikimedia.org/wikipedia/commons/b/b7/Detail_of_a_Roth_Calculating_machine.png">
 
 [Blaise Pascal](https://en.wikipedia.org/wiki/Blaise_Pascal) is credited with making one of the first usable mechanical calculators. It could add and subtract, and with repeated motions also multiply and divide. It's not a computer yet, but we've come a long way from scratch marks.
-
-This is not just a history of numbers. It is a history of moving work around: from fingers, to marks, to positions, to machines. And we're not done yet.
 
 I should mention the [Antikythera device](https://en.wikipedia.org/wiki/Antikythera_mechanism). This is a device from the classical Greek era, which is thought to have been able to calculate astronomical positions and eclipses. It is called the earliest analog computer. It has been dated to somewhere between 205 BC and 87 BC. [The next time we know of that a device of similar complexity was made, we're in the Renaissance in Western Europe](https://www.nature.com/articles/444534a).
 
@@ -104,8 +84,6 @@ So the number 972 is equal to $$ 9 \times 10^2 + 7 \times 10^1 + 2 \times 10^0 $
 
 So what about our original two numbers, `1` and `0`? Well, if you understand the magic of positional notation, it turns out that you don't actually need all 10 numerals in each position.
 
-Once you see that the base is just another design choice, decimal starts to look less like nature and more like a very successful habit.
-
 You can use any number of numerals, such as 16 for [hexadecimal](https://en.wikipedia.org/wiki/Hexadecimal) numbers, for example:
 
 $$
@@ -120,7 +98,7 @@ $$
     0o17 = 1 \times 8 + 7
 $$
 
-Or minimize it to two numbers, `1` and `0`, and you get [binary](https://en.wikipedia.org/wiki/Binary_number):
+Or reduce it to two numerals, `1` and `0`, and you get [binary](https://en.wikipedia.org/wiki/Binary_number):
 
 $$
     11 = 1 \times 2 + 1
@@ -151,13 +129,6 @@ Binary numbers are so ubiquitous in programming that you'll see the powers of 2 
 | - | - | - | - | - | - | - | - | - | - | - |
 |1024 | 512 | 256 | 128 | 64 | 32 | 16 | 8 | 4 | 2 | 1 |
 
-This is a good time to end our archaeological dig through numbers. There is quite a bit more to explore, but you can do that yourself. The Web contains all the information you need and more.
+This is a good time to end our archaeological dig through numbers. We started with fingers and tally marks, and ended with two numerals that can represent any number a computer needs.
 
-The important thing for now is this: every number system we saw did work for us. Tally marks counted. Roman numerals embedded small calculations. Positional notation made zero necessary. The carry mechanism turned notation into machinery. Binary made the smallest useful alphabet large enough to build a computer.
-
-So how do you make a number bigger than your fingers?
-
-You stop trying to make your fingers bigger. You make the notation smarter.
-
-A notation is not just a way to write something down. A good notation performs part of the work for you. If you like this, then here's a wizard's thought: What if we could do this not just for quantity, but for truth?
-
+So how do you make a number bigger than your fingers? You invent a better way to write it down.
