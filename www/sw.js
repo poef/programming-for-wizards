@@ -1,4 +1,4 @@
-const CACHE_NAME = "programming-for-wizards-a2fdb9b9d5"
+const CACHE_NAME = "programming-for-wizards-cc83db5390"
 const PRECACHE_URLS = [
   "./assets/book.css",
   "./assets/book.js",
@@ -21,6 +21,7 @@ const PRECACHE_URLS = [
   "./assets/images/flammarion-engraving.jpg",
   "./assets/images/icons/programming-for-wizards-icon-192.png",
   "./assets/images/icons/programming-for-wizards-icon-512.png",
+  "./assets/images/icons/programming-for-wizards-icon-source.png",
   "./assets/images/interludes/interlude-01-useful-tricks.png",
   "./assets/images/interludes/interlude-02-meaning-escapes.png",
   "./assets/images/interludes/interlude-03-poor-protocol.png",

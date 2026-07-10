@@ -4,6 +4,7 @@
   const chapterMapKey = "programming-for-wizards.chapter-map"
   const readingProgressKey = "programming-for-wizards.reading-progress"
   const chapterStartKey = "programming-for-wizards.chapter-start"
+  const pwaLastLocationKey = "programming-for-wizards.pwa-last-location"
   const hasOwn = (object, key) => Object.prototype.hasOwnProperty.call(object, key)
 
   const defaults = {
@@ -74,6 +75,66 @@
   const releasePointerButtonFocus = event => {
     if (event.detail === 0) return
     event.currentTarget?.blur?.()
+  }
+
+  const isStandaloneApp = () => window.matchMedia?.("(display-mode: standalone)")?.matches || window.navigator.standalone
+
+  const appRootUrl = () => {
+    const manifest = document.querySelector('link[rel="manifest"]')
+    return manifest ? new URL(".", manifest.href) : new URL("./", window.location.href)
+  }
+
+  const appRelativeUrl = url => {
+    const root = appRootUrl()
+    if (url.origin !== root.origin) return null
+    if (!url.pathname.startsWith(root.pathname)) return null
+
+    const relativePath = url.pathname.slice(root.pathname.length) || "index.html"
+    return `${relativePath}${url.search}${url.hash}`
+  }
+
+  const rememberPwaLocation = () => {
+    if (!isStandaloneApp()) return
+    if (document.documentElement.dataset.pageKind !== "chapter") return
+
+    try {
+      const relative = appRelativeUrl(new URL(window.location.href))
+      if (relative) localStorage.setItem(pwaLastLocationKey, relative)
+    } catch {
+      // PWA resume should never interfere with ordinary reading.
+    }
+  }
+
+  const bindPwaLaunchResume = () => {
+    const root = document.documentElement
+
+    if (root.dataset.pageKind === "index" && isStandaloneApp()) {
+      const params = new URLSearchParams(window.location.search)
+      if (params.get("app") === "1") {
+        let target = ""
+
+        try {
+          target = localStorage.getItem(pwaLastLocationKey) || ""
+        } catch {
+          target = ""
+        }
+
+        if (!target) {
+          const firstChapter = document.querySelector("a[data-chapter-start]")
+          if (firstChapter) target = appRelativeUrl(new URL(firstChapter.href, window.location.href)) || firstChapter.href
+        }
+
+        if (target) {
+          window.location.replace(new URL(target, appRootUrl()).href)
+          return
+        }
+      }
+    }
+
+    window.addEventListener("pagehide", rememberPwaLocation)
+    document.addEventListener("visibilitychange", () => {
+      if (document.visibilityState === "hidden") rememberPwaLocation()
+    })
   }
 
   const applySettings = settings => {
@@ -219,8 +280,7 @@
     const button = document.querySelector("[data-install-app]")
     if (!button) return
 
-    const standalone = window.matchMedia?.("(display-mode: standalone)")?.matches || window.navigator.standalone
-    if (standalone) return
+    if (isStandaloneApp()) return
 
     let promptEvent = null
 
@@ -850,6 +910,7 @@
   bindChapterMapToggle()
   bindReaderToolsToggle()
   bindChapterStartLinks()
+  bindPwaLaunchResume()
   registerServiceWorker()
   bindInstallButton()
 

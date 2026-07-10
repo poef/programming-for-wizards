@@ -486,7 +486,7 @@ async function writePwaManifest(book) {
     name: book.title,
     short_name: "Wizards",
     description: book.subtitle ?? "A sideways look at writing software.",
-    start_url: "./index.html",
+    start_url: "./index.html?app=1",
     scope: "./",
     display: "standalone",
     background_color: "#f5f5f1",
