@@ -4,8 +4,6 @@ tags: programming for wizards
 
 # Language: the oldest trick
 
-Previously we've discussed numbers and logic. But not language. Which is strange, because language has been doing all the work. 
-
 Language is magic. Old magic.
 
 We're so used to it that we don't see it, but think about it. While you are reading this, I have the capability to inject my thoughts into your mind. I can control your mind! And even more magically, I can do this while being miles away, or I might even be dead. My mind to your mind. You don't need to be a Vulcan, just start writing.
@@ -18,37 +16,23 @@ An interesting question related to this is usually discussed as [linguistic rela
 
 There is an actual wizard who has thought about this.
 
-[Alan Moore](https://en.wikipedia.org/wiki/Alan_Moore), who writes books and comics and also calls himself a magician, has a useful idea of magic. Not stage magic. Not rabbits, hats, or pretending to saw someone in half. Magic as the deliberate use of symbols, words, images, and stories to change consciousness.
+[Alan Moore](https://en.wikipedia.org/wiki/Alan_Moore), who writes books and comics and also calls himself a magician, has a useful idea of magic. But unlike what you may expect, it's not about smoke and mirrors, or pulling rabbits out of a hat. Instead, he says, magic is the deliberate use of stories, language, to change someone's consciousness.
 
-In that view, there is the physical world, made of bodies and stones and rain and hunger. And then there is the imagined world: countries, borders, money, laws, gods, companies, reputations, revolutions, futures. These things are not fake. They can shape your life, ruin your day, start a war, or get you paid. But they do not exist in the same way a stone exists. They exist because enough minds agree to carry them.
+In that view, there is the physical world, made of bodies and stones and rain and hunger. And then there is the imagined world: countries and borders, money, laws, gods, companies. These things are not fake. But they do not exist in the same way a stone exists. They exist because enough people believe in them.
 
-Language is one of the most direct ways to work in that imagined world. A story can make a monster. A treaty can make a country. A manual can make a craft. A book can put a new room inside your head and leave you living there.
+Language is how we imagine our world. And then we make our imagination reality. This is why language is magic in a very practical sense.
 
-This is why language is magic in a very practical sense. It changes the imagined world, and the imagined world keeps reaching back into the physical one.
+Computer programs make this even stranger. A program starts as something imagined. Then the computer runs it. A message is sent, money moves or a robot arm turns. The imaginary is made real. 
 
-Computer programs make this even stranger. A program starts as an imagined structure: names, rules, conditions, promises. Then the machine runs it, and something happens. A door opens. A message is sent. Money moves. A robot arm turns. The imaginary crosses over and touches the world.
+But what if we don't have the words that allow a thought to exist?
 
-So when programmers choose words, they are not decorating the code. They are shaping the imagined machine that other people will have to live inside.
+[Guy Steele](https://en.wikipedia.org/wiki/Guy_L._Steele_Jr.) talks about this, in a very nerdy, maybe even wizardly way in a talk called [*Growing a Language*](https://www.cs.virginia.edu/~evans/cs655/readings/steele.pdf). He starts with an absurdly small language and then slowly grows it while speaking. If he needs a word that isn't already allowed, he first defines it using words that are. The talk is funny, painful, and very effective because you can feel the cost of missing words.
 
-Programmers have their own version of this magic.
-
-[Guy Steele](https://en.wikipedia.org/wiki/Guy_L._Steele_Jr.) gave a talk called [*Growing a Language*](https://www.cs.virginia.edu/~evans/cs655/readings/steele.pdf), in which he started with an absurdly small language and then slowly grew it while speaking. If he needed a word that wasn't already allowed, he first had to define it using words that were. The talk is funny, painful, and very effective because you can feel the cost of missing words.
-
-That is the point.
-
-A thought can be simple in your mind and expensive in your language. If the language has no word for the thing you mean, you have to build the thought out of smaller thoughts. Sometimes that is useful. It forces you to be precise. Sometimes it is terrible. It makes every sentence drag a cart of definitions behind it.
+If the language has no word for the thing you mean, you have to build the thought out of smaller thoughts. You have to define everything in detail. Every time.
 
 That is why naming is not decoration. When you add the right word, you don't just shorten the sentence. You change what can be said easily, and what can be said easily has a much better chance of being said at all.
-
-Whatever the answer, language is not just a way to communicate ideas. Language is part of how ideas become possible to communicate in the first place.
-
-The words people already use decide what feels natural, what feels strange, what feels possible, and what feels like nonsense. Give something a name, and it becomes easier to notice. Give two things different names, and they begin to feel different. Use the wrong words, and the problem starts lying to you.
 
 > **Wizard's third rule**
 >
 > Change the words. Change the world.
-
-This matters when you talk to other people. It will matter later when we talk about programming languages as well. Code is also a kind of language. It also gives names to things, hides some details, exposes others, and makes some thoughts easy while making other thoughts awkward.
-
-But before we get there, we need to look at the Web. Because the Web is one of the great examples of what happens when a few small invented words and symbols become shared by almost everyone.
 
