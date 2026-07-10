@@ -4,68 +4,59 @@ tags: programming for wizards
 
 # The Web: one string to rule them all
 
-In 1989 a wizard called [Tim](https://www.w3.org/People/Berners-Lee/) invented the [World Wide Web](https://www.w3.org/History/1989/proposal-msw.html) and changed the world forever.
+In 1989 a wizard called [Tim](https://www.w3.org/People/Berners-Lee/) invented the [World Wide Web](https://www.w3.org/History/1989/proposal-msw.html) and changed the world forever. There was [quite](https://en.wikipedia.org/wiki/Fall_of_the_Berlin_Wall) a [bit](https://history.state.gov/milestones/1989-1992/apartheid) of [world-changing](https://en.wikipedia.org/wiki/History_of_Poland_%281945%E2%80%931989%29#Final_decade_of_the_Polish_People%27s_Republic_%281980%E2%80%931989%29) going on that year, so this particular change didn't look all that important at the time. A proposal for sharing documents at CERN had to compete with falling walls, collapsing regimes and the end of the Cold War. Looking back, it may have mattered more than any of them.
 
-That sounds dramatic, but 1989 was not exactly short on drama. Walls were falling. Regimes were cracking. The Cold War was entering its final strange act. Compared to all of that, a proposal for sharing documents between physicists at CERN must have looked very small.
-
-That is one of the problems with good magic. When it first appears, it often looks like paperwork.
-
-The [first website](https://info.cern.ch) did not look like the future either. It did not have video, rounded corners, infinite scrolling, cookie banners, or a button asking you to subscribe to a newsletter before you had read the first sentence. It was mostly text and links.
+The [first website](https://info.cern.ch) did not look much like the future. It was mostly text and links, it didn't even have a cookie banner:
 
 ```htmlembedded=
-http://info.cern.ch
+<header>
+<title>http://info.cern.ch</title>
+</header>
 
-# http://info.cern.ch - home of the first website
-
-From here you can:
-
-  * Browse the first website
-  * Browse the first website using the line-mode browser simulator
-  * Learn about the birth of the web
-  * Learn about CERN, the physics laboratory where the web was born
+<h1>http://info.cern.ch - home of the first website</h1>
+<p>From here you can:</p>
+<ul>
+<li><a href="http://info.cern.ch/hypertext/WWW/TheProject.html">Browse the 
+    first website</a></li>
+<li><a href="http://line-mode.cern.ch/www/hypertext/WWW/TheProject.html">
+    Browse the first website using the line-mode browser simulator</a></li>
+<li><a href="http://home.web.cern.ch/topics/birth-web">Learn about the birth
+    of the web</a></li>
+<li><a href="http://home.web.cern.ch/about">Learn about CERN, the 
+    physics laboratory where the web was born</a></li>
+</ul>
+</body>
 ```
 
-It does not look revolutionary today. It barely even looks designed. But there is a little piece of that first page that deserves more attention than it usually gets:
+It does not look revolutionary today. Most of the Web wasn't. But there is one part that is. It is a small thing, a tag with just one letter, `a`. 
 
 ```html
 <a href="http://info.cern.ch/hypertext/WWW/TheProject.html">The World Wide Web project</a>
 ```
 
-The `a` tag is tiny. Almost suspiciously tiny. Just one letter. Hidden inside it is another invention, probably the more important one:
+Hidden inside it is another invention, probably the more important one:
 
 ```url
 http://info.cern.ch/hypertext/WWW/TheProject.html
 ```
 
-The [URL](https://url.spec.whatwg.org/). The Uniform Resource Locator.
+The [URL](https://url.spec.whatwg.org/). The Uniform Resource Locator. To understand why this small invention mattered, we need to go back a little further than 1989.
 
-A spell for pointing anywhere.
+Back then the internet was already a few years old. The idea of [hypertext](https://en.wikipedia.org/wiki/Hypertext) was even older than that. [Ted Nelson](https://en.wikipedia.org/wiki/Ted_Nelson) coined the term in 1965, and you can trace the dream further back to [Vannevar Bush](https://en.wikipedia.org/wiki/Vannevar_Bush)'s 1945 essay [*As We May Think*](https://www.theatlantic.com/magazine/archive/1945/07/as-we-may-think/303881/). 
 
-## Hypertext was already in the air
+But while Hypertext as a concept had been around, nobody had truly made it work. At least not on a global scale.
 
-To understand why the URL mattered, we need to go back a little further than 1989.
+Ted Nelson started [the Xanadu project](https://en.wikipedia.org/wiki/Project_Xanadu) in the 1960s. Apple released [HyperCard](https://en.wikipedia.org/wiki/HyperCard) in 1987.
 
-The idea of [hypertext](https://en.wikipedia.org/wiki/Hypertext) was older than the Web. [Ted Nelson](https://en.wikipedia.org/wiki/Ted_Nelson) coined the term in 1965, and you can trace the dream further back to [Vannevar Bush](https://en.wikipedia.org/wiki/Vannevar_Bush)'s 1945 essay [*As We May Think*](https://www.theatlantic.com/magazine/archive/1945/07/as-we-may-think/303881/). Wizards had been dreaming for decades about systems where documents could point to other documents, where knowledge could become a web instead of a pile.
+Xanadu promised two-way links, worldwide distribution, version history and a payment system. HyperCard had cards, stacks, buttons and links. Just not over the network.
 
-But there is a large gap between dreaming about a global web of knowledge and getting one that ordinary people can actually use.
+Xanadu tried to solve the entire problem of hypertext and never produced a system that ordinary people could use. HyperCard did ship, and it was popular for a while, but never got as big as the Web. It couldn't cross the gap to another computer maintained by someone else.
 
-Ted Nelson started [the Xanadu project](https://en.wikipedia.org/wiki/Project_Xanadu) in the 1960s. It was ambitious, beautiful, and, as ambitious beautiful things often are, very hard to finish. Apple released [HyperCard](https://en.wikipedia.org/wiki/HyperCard) in 1987. HyperCard had cards, stacks, buttons and links. It let ordinary people build little interactive information worlds. In another timeline it might have become the way many people learned to think with computers.
+The Web could.
 
-HyperCard was wonderful inside its own little universe. A card could point to another card. A button could take you somewhere else in the stack. Local magic, and very good local magic too.
+Sir Tim Berners-Lee did not have to invent networking from scratch. The internet existed. [TCP/IP](https://en.wikipedia.org/wiki/Internet_protocol_suite) was there. He did not have to invent a global naming system for computers. [DNS](https://en.wikipedia.org/wiki/Domain_Name_System) existed. He did not have to invent hierarchical file paths. [Unix](https://en.wikipedia.org/wiki/Unix) had made those familiar.
 
-The awkward part was the boundary. What if the thing you wanted to point to was maintained by someone else? What if it lived on another computer? What if it was served by another program? What if it was not part of your carefully prepared stack at all?
-
-Xanadu tried to design a grand hypertext universe. HyperCard made a smaller universe that people could actually play with. The Web took a stranger route. It connected existing worlds using the cheapest-looking piece of machinery imaginable: a string.
-
-That is the part I find interesting. Tim Berners-Lee did not have to invent networking from scratch. [TCP/IP](https://en.wikipedia.org/wiki/Internet_protocol_suite) was there. He did not have to invent a global naming system for computers. [DNS](https://en.wikipedia.org/wiki/Domain_Name_System) was there. He did not have to invent hierarchical file paths. [Unix](https://en.wikipedia.org/wiki/Unix) had made those familiar. He did not have to invent the dream of hypertext either.
-
-The missing piece was a simple way for one document to say:
-
-> The thing I mean is over there.
-
-Over there on that machine. Over there using that protocol. Over there at that path.
-
-A normal-looking address. With a lot of stolen machinery hiding inside it.
+He stole those ideas and packaged them together in this new thing: the URL. 
 
 ## Three stolen pieces
 
@@ -82,30 +73,19 @@ http://    info.cern.ch    /hypertext/WWW/TheProject.html
 protocol  hostname        path
 ```
 
-Then it combines them in one string that binds them all together.
+It combines three pieces of information in a single, human-readable string: 
 
-The protocol tells your computer how to talk.
+- The protocol
+- The hostname
+- The file path
 
-The hostname tells it which name in the global naming system to resolve.
+And just like that, we could now refer to any file on any computer anywhere in the world.
 
-The path tells the other side what you are looking for.
-
-Put those pieces together, and a plain text document can point to a published resource on another computer, maintained by another person, somewhere else in the world.
-
-That is a ridiculous amount of power for one string.
-
-And the string is still readable. This matters. It matters more than programmers sometimes admit. You can copy a URL into an email, print it in a book, write it on a whiteboard, paste it in a chat message, or, if you are feeling particularly cursed, read it aloud over the phone.
+And it is simple, small, readable. You can copy a URL into an e-mail, print it in a book, write it on a whiteboard, paste it in a chat message, or, if you are feeling particularly cursed, read it aloud over the phone.
 
 The URL is an address, but it is also a tiny user interface to the network.
 
-
-> **Wizard's fourth rule**
->
-> Start small, to build big.
-
-## The path: Unix hiding in plain sight
-
-Start with the path:
+## The path
 
 ```text
 /hypertext/WWW/TheProject.html
@@ -125,27 +105,27 @@ This feels obvious now, but it was only one possible way to name files. DOS and 
 NODE"accountname password"::device:[directory.subdirectory]filename.type;ver
 ```
 
-The URL chose the simpler Unix-shaped world.
+The Web was developed by Sir Tim on a Unix machine: a NeXT Cube designed by Steve Jobs. So it is no surprise that the URL follows Unix's path format, the simplest one.
 
 Unix itself had stolen and simplified ideas from earlier systems such as Multics. One of its beautiful tricks is that users do not normally need to care which physical device a file is on. There is a single tree. Disks and devices can be mounted into that tree. The messy physical world disappears behind a simpler name world.
 
-That idea survives inside the URL. The path says:
+Simple ideas often grow more complex threads when they meet the real world. For example, how would you create a file with a name that includes a `/`? The simple answer would be "don't do that." A common solution is to define a special 'escape' character, e.g. `\`:
 
-```text
-/hypertext/WWW/TheProject.html
+```
+/folder\/with_a_slash/
 ```
 
-It does not mention a disk, a controller, a cabinet, a room, a CPU architecture or a filesystem implementation. All of that may exist, but the name does not force you to think about it.
+An escape character says: the next character is special. However, DOS already used that character. So Sir Tim chose a different way, now called URL encoding:
 
-A path is a useful lie. Like many useful lies in programming, it hides the machinery that would only get in the way.
+```
+/folder%2Fwith_a_slash/
+```
 
-Of course, useful lies still need accounting departments. Real names contain spaces, punctuation, accents, and all the other little complications people produce when nobody is watching. URLs had to make room for that too, without giving up the simple slash-shaped path.
+The escape character, that signifies the start of an encoded sequence, is the `%` character. And it is always followed by two hexadecimal digits. So `%2F` is decimal 47, and in the [ASCII encoding](https://en.wikipedia.org/wiki/ASCII) means `/`.
 
-That is not the glamorous part of the Web. It is the kind of small compromise that lets a simple text format survive the outside world.
+Any character can be added to a URL like this, even if it's not normally printable. This allows URLs to become mobile, part of an e-mail, or even books.
 
-## The hostname: a global phone book that is not a book
-
-Now look at the middle part:
+## The hostname
 
 ```url
 //info.cern.ch/
@@ -153,29 +133,23 @@ Now look at the middle part:
 
 The double slash says that what follows is a network location. This convention was borrowed too; Berners-Lee has said he took it from [Apollo workstations](https://en.wikipedia.org/wiki/Apollo_Computer), where `//` was used for network paths.
 
-Again, this is how wizards really work most of the time. They do not produce polished inventions from a vacuum. They notice a shape that already solved part of the problem somewhere else, then move it to a place where it suddenly matters more.
-
-The more important borrowed system here is DNS, the Domain Name System.
+The more important stolen idea here is DNS, the Domain Name System.
 
 Before DNS, the internet was small enough that people could maintain host files: lists of names and IP addresses. Your computer may still have such a file. It is charming in the same way a village phone book is charming. Once the village becomes the whole planet, the charm wears off.
 
-DNS turned naming into a distributed system. One machine no longer needed a complete list of every other machine. Names could be delegated. Different organizations could manage different parts. The naming system itself became a hierarchy, which meant it could grow without asking one poor text file to contain the world.
+A wizard called Paul Mockapetris was tasked with designing a suitable solution. He did so in 1983, and in 1986 it became an internet standard. And for its day it was admirably decentralized.
 
-So `info.cern.ch` is doing more than naming a server. It hooks the URL into a shared global act of naming.
+One machine no longer needed a complete list of every other machine. Names could be delegated. Different organizations could manage different parts. The naming system itself became a hierarchy, which meant it could grow without asking one poor text file to contain the world.
 
-The URL did not solve naming. It gave DNS a place inside the hypertext spell.
+By 1988 DNS was established, Sir Tim did not need to invent a new naming system. He just put the existing one inside the URL.
 
-## The protocol: a slightly mad opening move
-
-Finally, the first part:
+## The protocol
 
 ```url
 http://
 ```
 
-At first this seems like the boring bit. It tells the browser to use [HTTP](https://developer.mozilla.org/en-US/docs/Web/HTTP). Sensible enough.
-
-But putting the scheme at the front was also a wonderfully strange move, because it left the door open for the link to escape HTTP.
+The protocol looks like the least interesting part of the URL. In fact it reveals the almost megalomaniac ambition behind it.
 
 Compare it with [Gopher](https://en.wikipedia.org/wiki/Gopher_%28protocol%29), another worldwide information system that appeared around the same time. For a brief moment, Gopher was a serious contender. A Gopher menu entry might contain a type, a title, a path, a hostname and a port:
 
@@ -187,40 +161,10 @@ A line like that can point to information on another Gopher server. The format i
 
 A URL begins by saying which kind of space you are entering. `http:` is one possibility. A browser might also understand `ftp:`, `file:`, `mailto:`, and later `data:`, `blob:`, `webcal:`, `magnet:`, and a long list of stranger creatures.
 
-Some of these are network protocols. Some are browser instructions. Some are hooks into other applications. Some feel like ideas that escaped before anyone had time to ask whether they should.
+It has such a great design that wizards everywhere steal it and extend it for their own purposes. Not all later schemes were protocols. Some told the browser how to interpret the rest of the string; others opened another application. 
 
-This is one of the reasons URL-shaped strings escaped the Web. APIs use them. Package managers use them. Apps use them. Configuration files use them. Databases use them. Decentralized systems use them. Once people understood the shape, they kept reusing it.
+Almost none of the pieces in a URL were new. The trick was putting existing pieces together in one simple, small, readable string. 
 
-That is usually a good sign. A design has become part of the language when people start using it in places its inventor did not plan.
-
-## The small turn
-
-So the URL is not impressive because every part of it was new. It is impressive because a few existing parts were turned toward each other.
-
-```text
-protocol://hostname/path
-```
-
-That little shape was simple enough to write by hand, simple enough to paste into another document, and open enough that people could use it before anyone had finished arguing about what the Web should become.
-
-This is where the URL feels most wizard-like to me. Xanadu tried to design the whole dream of hypertext. The URL aimed at a much narrower target: make a document point outside itself. Questions about ownership, versioning, permissions, identity, payment, permanence and trust could remain unresolved for the moment. Many of them are still unresolved. Some became worse because the Web made everything so easy to connect.
-
-But the shape of the problem had changed. A document no longer had to contain the world it wanted to point into. It only needed a small piece of text that crossed the boundary. That shift made the original problem smaller, and at the same time made the possible world much larger.
-
-The first version of the Web could be poor, ugly, incomplete, and still useful. Perhaps especially because it was incomplete. People could publish a page without joining a grand knowledge system. They could run a server without asking permission from the authors of the browser. New uses could grow in the gaps, because the boundaries were still visible.
-
-## Why this matters for programming
-
-Programmers often look for the important abstraction in the wrong place. We expect it to be a clever class hierarchy, a sophisticated database model, a perfect framework, a beautiful algorithm.
-
-Sometimes it is. Quite often it is just a string with a few separators in the right places.
-
-The URL works because it crosses boundaries without swallowing the systems on either side. The document can contain a link without understanding DNS. DNS can resolve a name without understanding HTML. The server can answer a request without knowing where the link was printed. The browser can follow the address without knowing who wrote the page.
-
-Each part keeps its own job. The connection between them stays small.
-
-That is much harder to design than it looks. Large systems keep tempting us to make larger abstractions: one model to explain everything, one framework to own everything, one platform to contain everything. The Web went the other way often enough to matter. It left boundaries visible. A boundary is a place where one system can meet another without becoming it.
-
-This is something a wizard is very aware of. A small change in representation can make a problem manageable. Sometimes it makes the old problem disappear. And sometimes, if the shape is right, it opens a door you did not know was there.
-
-The URL gave the Web a way to point at documents. Now the Web needed a way to give those documents shape.
+> **Wizard's fourth rule**
+>
+> Start small, to build big.
