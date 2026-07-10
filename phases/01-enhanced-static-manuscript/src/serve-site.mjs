@@ -11,10 +11,14 @@ const host = process.env.HOST ?? "127.0.0.1"
 
 const types = new Map([
   [".css", "text/css; charset=utf-8"],
+  [".epub", "application/epub+zip"],
   [".html", "text/html; charset=utf-8"],
+  [".jpg", "image/jpeg"],
   [".js", "text/javascript; charset=utf-8"],
   [".json", "application/json; charset=utf-8"],
-  [".svg", "image/svg+xml"]
+  [".png", "image/png"],
+  [".svg", "image/svg+xml"],
+  [".webmanifest", "application/manifest+json; charset=utf-8"]
 ])
 
 const server = createServer(async (request, response) => {

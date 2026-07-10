@@ -1,5 +1,5 @@
 import { createHash } from "node:crypto"
-import { cp, mkdir, readFile, rm, writeFile } from "node:fs/promises"
+import { cp, mkdir, readFile, readdir, rm, writeFile } from "node:fs/promises"
 import path from "node:path"
 import { fileURLToPath } from "node:url"
 import { deflateRawSync } from "node:zlib"
@@ -172,6 +172,8 @@ async function main() {
   )
 
   await buildEpub(book, cover, readingItems)
+  await writePwaManifest(book)
+  await writeServiceWorker()
 
   console.log(`Built ${readingItems.length} reading pages and EPUB into ${path.relative(rootDir, siteDir)}`)
 }
@@ -476,6 +478,129 @@ function parseFrontMatter(source) {
   }
 
   return { attributes, body }
+}
+
+async function writePwaManifest(book) {
+  const manifest = {
+    id: "./",
+    name: book.title,
+    short_name: "Wizards",
+    description: book.subtitle ?? "A sideways look at writing software.",
+    start_url: "./index.html",
+    scope: "./",
+    display: "standalone",
+    background_color: "#f5f5f1",
+    theme_color: "#7d2636",
+    orientation: "any",
+    categories: ["books", "education"],
+    icons: [
+      {
+        src: "assets/images/icons/programming-for-wizards-icon-192.png",
+        sizes: "192x192",
+        type: "image/png",
+        purpose: "any maskable"
+      },
+      {
+        src: "assets/images/icons/programming-for-wizards-icon-512.png",
+        sizes: "512x512",
+        type: "image/png",
+        purpose: "any maskable"
+      }
+    ]
+  }
+
+  await writeFile(
+    path.join(siteDir, "manifest.webmanifest"),
+    `${JSON.stringify(manifest, null, 2)}\n`
+  )
+}
+
+async function writeServiceWorker() {
+  const files = await listSiteFiles(siteDir)
+  const urls = files
+    .map(file => path.relative(siteDir, file).split(path.sep).join("/"))
+    .filter(file => file !== "sw.js")
+    .map(file => `./${file}`)
+    .sort((a, b) => a.localeCompare(b))
+
+  await writeFile(
+    path.join(siteDir, "sw.js"),
+    serviceWorkerSource(urls)
+  )
+}
+
+async function listSiteFiles(directory) {
+  const result = []
+  const entries = await readdir(directory, { withFileTypes: true })
+
+  for (const entry of entries) {
+    const file = path.join(directory, entry.name)
+    if (entry.isDirectory()) {
+      result.push(...await listSiteFiles(file))
+      continue
+    }
+
+    result.push(file)
+  }
+
+  return result
+}
+
+function serviceWorkerSource(urls) {
+  const cacheName = `programming-for-wizards-${createHash("sha1").update(urls.join("\n")).digest("hex").slice(0, 10)}`
+
+  return `const CACHE_NAME = ${JSON.stringify(cacheName)}
+const PRECACHE_URLS = ${JSON.stringify(urls, null, 2)}
+
+self.addEventListener("install", event => {
+  event.waitUntil(
+    caches.open(CACHE_NAME)
+      .then(cache => cache.addAll(PRECACHE_URLS))
+      .then(() => self.skipWaiting())
+  )
+})
+
+self.addEventListener("activate", event => {
+  event.waitUntil(
+    caches.keys()
+      .then(keys => Promise.all(keys
+        .filter(key => key.startsWith("programming-for-wizards-") && key !== CACHE_NAME)
+        .map(key => caches.delete(key))
+      ))
+      .then(() => self.clients.claim())
+  )
+})
+
+self.addEventListener("fetch", event => {
+  const request = event.request
+  if (request.method !== "GET") return
+
+  const url = new URL(request.url)
+  if (url.origin !== self.location.origin) return
+
+  if (request.mode === "navigate") {
+    event.respondWith(
+      fetch(request)
+        .then(response => {
+          const copy = response.clone()
+          caches.open(CACHE_NAME).then(cache => cache.put(request, copy))
+          return response
+        })
+        .catch(() => caches.match(request).then(response => response || caches.match("./index.html")))
+    )
+    return
+  }
+
+  event.respondWith(
+    caches.match(request)
+      .then(cached => cached || fetch(request).then(response => {
+        const copy = response.clone()
+        caches.open(CACHE_NAME).then(cache => cache.put(request, copy))
+        return response
+      }))
+  )
+})
+`
 }
 
 async function buildEpub(book, cover, pages) {
@@ -1894,6 +2019,7 @@ function pageShell({ title, book, currentId, chapters, main, pageKind }) {
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="color-scheme" content="light dark">
+  <meta name="theme-color" content="#7d2636">
   <title>${escapeHtml(title)}</title>
   <script>
     (() => {
@@ -1913,6 +2039,8 @@ function pageShell({ title, book, currentId, chapters, main, pageKind }) {
       } catch {}
     })()
   </script>
+  <link rel="manifest" href="${relativeRoot}manifest.webmanifest">
+  <link rel="apple-touch-icon" href="${relativeRoot}assets/images/icons/programming-for-wizards-icon-192.png">
   <link rel="stylesheet" href="${relativeRoot}assets/book.css">
   <link rel="stylesheet" href="${relativeRoot}assets/exhibits/exhibits.css">
   <script>
@@ -2113,6 +2241,7 @@ function indexLayout(book, chapters, cover) {
     </figure>
     <div class="cover-actions">
       ${firstChapter ? `<a href="chapters/${firstChapter.id}.html" data-chapter-start>Start reading</a>` : ""}
+      <button class="install-button" type="button" data-install-app hidden>Install</button>
       <a href="${epubFileName}" download>Download EPUB</a>
       ${backMatter ? `<a href="chapters/${backMatter.id}.html" data-chapter-start>About the author</a>` : ""}
     </div>

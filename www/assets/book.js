@@ -71,6 +71,11 @@
     }
   }
 
+  const releasePointerButtonFocus = event => {
+    if (event.detail === 0) return
+    event.currentTarget?.blur?.()
+  }
+
   const applySettings = settings => {
     const root = document.documentElement
     root.dataset.font = settings.font
@@ -135,10 +140,11 @@
     let current = loadChapterMapState()
     applyChapterMapState(current)
 
-    toggle.addEventListener("click", () => {
+    toggle.addEventListener("click", event => {
       current = current === "open" ? "closed" : "open"
       applyChapterMapState(current)
       saveChapterMapState(current)
+      releasePointerButtonFocus(event)
     })
   }
 
@@ -168,10 +174,11 @@
     let current = loadReaderToolsState()
     applyReaderToolsState(current)
 
-    toggle.addEventListener("click", () => {
+    toggle.addEventListener("click", event => {
       current = current === "open" ? "closed" : "open"
       applyReaderToolsState(current)
       saveReaderToolsState(current)
+      releasePointerButtonFocus(event)
     })
   }
 
@@ -190,6 +197,58 @@
       } catch {
         // TOC navigation still works when session storage is unavailable.
       }
+    })
+  }
+
+  const registerServiceWorker = () => {
+    if (!("serviceWorker" in navigator)) return
+
+    const manifest = document.querySelector('link[rel="manifest"]')
+    const workerUrl = manifest
+      ? new URL("sw.js", manifest.href)
+      : new URL("sw.js", window.location.href)
+
+    window.addEventListener("load", () => {
+      navigator.serviceWorker.register(workerUrl.href).catch(() => {
+        // The site remains fully usable without service worker support.
+      })
+    })
+  }
+
+  const bindInstallButton = () => {
+    const button = document.querySelector("[data-install-app]")
+    if (!button) return
+
+    const standalone = window.matchMedia?.("(display-mode: standalone)")?.matches || window.navigator.standalone
+    if (standalone) return
+
+    let promptEvent = null
+
+    window.addEventListener("beforeinstallprompt", event => {
+      event.preventDefault()
+      promptEvent = event
+      button.hidden = false
+    })
+
+    button.addEventListener("click", async event => {
+      releasePointerButtonFocus(event)
+      if (!promptEvent) return
+
+      const installPrompt = promptEvent
+      promptEvent = null
+      button.hidden = true
+      installPrompt.prompt()
+
+      try {
+        await installPrompt.userChoice
+      } catch {
+        // Some browsers do not expose a resolved install choice consistently.
+      }
+    })
+
+    window.addEventListener("appinstalled", () => {
+      promptEvent = null
+      button.hidden = true
     })
   }
 
@@ -625,15 +684,52 @@
       window.setTimeout(update, 160)
     }
 
-    previous.addEventListener("click", () => goToPage(pageIndex - 1))
-    next.addEventListener("click", () => goToPage(pageIndex + 1))
+    const targetUsesArrowKeys = target => {
+      const element = target?.closest?.("input, select, textarea, [role]") ?? null
+      if (!element) return false
+
+      const tag = element.tagName?.toLowerCase?.() ?? ""
+      const type = element.getAttribute("type")?.toLowerCase() ?? ""
+      const role = element.getAttribute("role")?.toLowerCase() ?? ""
+
+      if (tag === "select" || tag === "textarea") return true
+      if (tag === "input") {
+        return type !== "button" && type !== "submit" && type !== "reset"
+      }
+
+      return /^(?:combobox|listbox|menu|menubar|radiogroup|scrollbar|slider|spinbutton|tablist|tree|treegrid)$/.test(role)
+    }
+
+    previous.addEventListener("click", event => {
+      goToPage(pageIndex - 1)
+      releasePointerButtonFocus(event)
+    })
+    next.addEventListener("click", event => {
+      goToPage(pageIndex + 1)
+      releasePointerButtonFocus(event)
+    })
     manuscript.addEventListener("scroll", update, { passive: true })
     window.addEventListener("scroll", scheduleSaveCurrentPosition, { passive: true })
     window.addEventListener("pagehide", saveCurrentPosition)
 
     document.addEventListener("keydown", event => {
       if (!isPaged()) return
-      if (/^(?:input|select|textarea|button)$/i.test(event.target?.tagName ?? "")) return
+
+      if ((event.key === "ArrowRight" || event.key === "ArrowLeft") && targetUsesArrowKeys(event.target)) {
+        return
+      }
+
+      if ((event.key === "Home" || event.key === "End") && targetUsesArrowKeys(event.target)) {
+        return
+      }
+
+      if ((event.key === "PageDown" || event.key === " ") && /^(?:input|select|textarea|button)$/i.test(event.target?.tagName ?? "")) {
+        return
+      }
+
+      if (event.key === "PageUp" && /^(?:input|select|textarea|button)$/i.test(event.target?.tagName ?? "")) {
+        return
+      }
 
       if (event.key === "ArrowRight" || event.key === "PageDown" || event.key === " ") {
         event.preventDefault()
@@ -643,6 +739,16 @@
       if (event.key === "ArrowLeft" || event.key === "PageUp") {
         event.preventDefault()
         goToPage(pageIndex - 1)
+      }
+
+      if (event.key === "Home") {
+        event.preventDefault()
+        goToPage(0)
+      }
+
+      if (event.key === "End") {
+        event.preventDefault()
+        goToPage(pageCount - 1)
       }
     })
 
@@ -744,6 +850,8 @@
   bindChapterMapToggle()
   bindReaderToolsToggle()
   bindChapterStartLinks()
+  registerServiceWorker()
+  bindInstallButton()
 
   for (const control of controls) {
     syncControl(control, settings)

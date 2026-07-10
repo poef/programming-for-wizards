@@ -1174,17 +1174,24 @@ th {
   margin-block-start: 0.25rem;
 }
 
-.cover-actions a {
+.cover-actions a,
+.cover-actions button {
   background: color-mix(in srgb, var(--color-rule), transparent 10%);
   border: 1px solid color-mix(in srgb, var(--color-rule), transparent 20%);
   border-radius: 999px;
   color: var(--color-panel);
+  cursor: pointer;
+  font: inherit;
   font-weight: 700;
   padding: 0.7rem 1rem;
   text-decoration: none;
 }
 
-.cover-actions a + a {
+.cover-actions [hidden] {
+  display: none;
+}
+
+.cover-actions :is(a, button) + :is(a, button) {
   background: transparent;
   color: var(--color-rule);
 }
@@ -1559,7 +1566,8 @@ th {
     inline-size: min(100%, 28rem);
   }
 
-  .cover-actions a {
+  .cover-actions a,
+  .cover-actions button {
     text-align: center;
   }
 }
@@ -1572,6 +1580,8 @@ th {
   --interlude-muted: #6d6050;
   --interlude-accent: color-mix(in srgb, var(--color-rule), var(--color-ink) 18%);
   --interlude-soft: color-mix(in srgb, var(--color-accent), transparent 70%);
+  --interlude-card-gap: clamp(0.9rem, 2.4vw, 1.7rem);
+  --interlude-page-padding-block-total: clamp(4rem, 10vw, 9rem);
 }
 
 .manuscript-interlude.interlude-theme-saffron {
@@ -1625,17 +1635,48 @@ th {
 }
 
 [data-flow="paged"][data-page-kind="chapter"] .manuscript-interlude .interlude-pages {
-  align-content: center;
+  align-content: stretch;
   column-count: auto;
   display: grid;
+  grid-template-rows: minmax(0, 1fr);
   justify-items: center;
   overflow: hidden;
+}
+
+[data-flow="paged"][data-page-kind="chapter"] .manuscript-interlude .interlude-card {
+  align-items: stretch;
+  block-size: 100%;
+  grid-template-rows: minmax(0, 1fr) minmax(0, 1fr);
+  max-block-size: 100%;
+  min-block-size: 0;
+}
+
+[data-flow="paged"][data-page-kind="chapter"] .manuscript-interlude .interlude-illustration {
+  align-items: center;
+  block-size: 100%;
+  inline-size: 100%;
+  max-block-size: 100%;
+  overflow: hidden;
+}
+
+[data-flow="paged"][data-page-kind="chapter"] .manuscript-interlude .interlude-illustration > img {
+  block-size: auto;
+  inline-size: auto;
+  max-block-size: calc((100vh - clamp(32px, 6vw, 80px) - var(--interlude-page-padding-block-total) - var(--interlude-card-gap)) / 2);
+  max-inline-size: 100%;
+  object-fit: contain;
+}
+
+[data-flow="paged"][data-page-kind="chapter"] .manuscript-interlude .interlude-dialogue {
+  align-content: center;
+  block-size: 100%;
+  max-block-size: 100%;
 }
 
 .interlude-card {
   align-items: center;
   display: grid;
-  gap: clamp(0.9rem, 2.4vw, 1.7rem);
+  gap: var(--interlude-card-gap);
   justify-items: center;
   max-inline-size: min(100%, 42rem);
 }
