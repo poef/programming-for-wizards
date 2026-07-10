@@ -760,6 +760,66 @@
       return /^(?:combobox|listbox|menu|menubar|radiogroup|scrollbar|slider|spinbutton|tablist|tree|treegrid)$/.test(role)
     }
 
+    const targetHandlesPointer = target => Boolean(target?.closest?.([
+      "a",
+      "button",
+      "input",
+      "select",
+      "textarea",
+      "summary",
+      "label",
+      "iframe",
+      "audio",
+      "video",
+      "[contenteditable]",
+      "[role]",
+      "[data-exhibit-id]",
+      ".margin-anchor"
+    ].join(",")))
+    let pageTapStart = null
+
+    manuscript.addEventListener("pointerdown", event => {
+      if (!isPaged() || event.defaultPrevented || !event.isPrimary) return
+      if (event.button !== 0) return
+      if (targetHandlesPointer(event.target)) return
+
+      pageTapStart = {
+        id: event.pointerId,
+        x: event.clientX,
+        y: event.clientY
+      }
+    }, { passive: true })
+
+    manuscript.addEventListener("pointerup", event => {
+      if (!pageTapStart || pageTapStart.id !== event.pointerId) return
+
+      const start = pageTapStart
+      pageTapStart = null
+
+      if (!isPaged() || event.defaultPrevented || targetHandlesPointer(event.target)) return
+
+      const deltaX = event.clientX - start.x
+      const deltaY = event.clientY - start.y
+      if (Math.hypot(deltaX, deltaY) > 12) return
+
+      const rect = manuscript.getBoundingClientRect()
+      if (
+        event.clientX < rect.left ||
+        event.clientX > rect.right ||
+        event.clientY < rect.top ||
+        event.clientY > rect.bottom
+      ) {
+        return
+      }
+
+      event.preventDefault()
+      goToPage(event.clientX < rect.left + rect.width / 2 ? pageIndex - 1 : pageIndex + 1)
+    })
+
+    manuscript.addEventListener("pointercancel", () => {
+      pageTapStart = null
+    })
+
     previous.addEventListener("click", event => {
       goToPage(pageIndex - 1)
       releasePointerButtonFocus(event)
