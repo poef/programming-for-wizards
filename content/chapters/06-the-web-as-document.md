@@ -97,9 +97,9 @@ This is technically feasible, maybe even simpler. However, for a human this is m
 
 Another consequence of the chosen format is that some characters can not be used in the content anymore. Clearly the `<` character now has a special meaning. And so have the `>` and `"` characters. HTML solves this by allowing you to encode special characters with a special format:
 
-- `<` as \&lt;
-- `>` as \&gt;
-- `"` as \&quot;
+- `<` as `\&lt;`
+- `>` as `\&gt;`
+- `"` as `\&quot;`
 
 However, now we've added the `&` character to the list of special characters as well. This is easily solved:
 
@@ -173,6 +173,6 @@ Now if you really want to open a can of worms, try writing a rich text editor, w
 
 However, what you are seeing is an editor, designed by Microsoft originally for Internet Explorer 5.5, with an API that is derived from WordPad. Its capabilities are dreadfully limited. And yet there is no improved version. The [WHATWG](https://whatwg.org/), the group now in charge of the HTML specification, have created a special workgroup to create an improved standard for `contenteditable`, but this workgroup has disbanded itself after years of trying to create something better.
 
-The only successful in-browser editors, that are capable of editing any HTML and deliver a good end result--as in: clean HTML--, do so by switching away from HTML. Instead they use a different underlying editing format. They convert the HTML to that, then allow you to edit it, and when you press save it is converted back to HTML again.
+The only successful in-browser editors, that are capable of editing any HTML and deliver a good end result, such as clean HTML, do so by switching away from HTML. Instead they use a different underlying editing format. They convert the HTML to that, then allow you to edit it, and when you press save it is converted back to HTML again.
 
 This is a good lesson to learn: All choices have consequences. The less choices you make, the less consequences will haunt you. One choice made quickly is haunting us still: JavaScript.
