@@ -4,9 +4,7 @@ tags: programming for wizards
 
 # Logic: the truth is out there
 
-In the last chapter, we saw that a good notation can do some of the calculation for you. Logic does something similar for reasoning.
-
-This matters because your brain is a wonderful machine, but it cheats. It guesses. It skips steps. It sees patterns that aren't there and misses patterns that are. Most of the time this is useful. Sometimes it gets you killed by a door.
+## Riddle me this
 
 You are standing before two doors. One door leads to your desire. The other leads to your doom. Before the doors are two guards. They both know which door leads where. One guard always lies. The other always tells the truth.
 
@@ -16,11 +14,7 @@ Obviously, you need to ask a question that reveals which door to use. But the ob
 
 > Which door should I choose?
 
-If you ask the truthful guard, she'll point to your desire. If you ask the lying guard, she'll point to your doom. Since you don't know which guard you're asking, the answer is useless.
-
-The problem isn't that you're not clever enough. The problem is that the truth has the wrong shape. So we need to put it into a better one: a table.
-
-If you ask a guard directly which door leads to your desire, the table looks like this:
+If you ask the truthful guard, she'll point to your desire. If you ask the lying guard, she'll point to your doom. Since you don't know which guard you're asking, the answer is useless. Let's put both possibilities in a table:
 
 | Guard you ask | Door they point to |
 | - | - |
@@ -40,9 +34,9 @@ If the guard you ask tells the truth, she must give you the wrong answer, becaus
 | Truthful | Truthfully reports the liar's answer | Doom |
 | Liar | Lies about the truthful guard's answer | Doom |
 
-No matter which guard you ask, you get the wrong door. So you choose the other one.
+No matter which guard you ask, you get the wrong answer. So you choose the other door.
 
-The trick isn't that you became smarter than the guards. It's that you asked a question that made both possible worlds collapse into the same answer. The first question had the wrong shape, the second one revealed a new way of seeing. You made the uncertainty stop mattering. That is logic doing its work.
+Your brain is good at guessing. Logic is what we use when guessing isn’t good enough.
 
 > **Wizard's second rule**
 >
@@ -52,20 +46,18 @@ The trick isn't that you became smarter than the guards. It's that you asked a q
 
 Today we call this Boolean logic, after [George Boole](https://en.wikipedia.org/wiki/George_Boole). The tables above are called [truth tables](https://en.wikipedia.org/wiki/Truth_table).
 
-Boolean logic is brutally small. Everything gets squeezed into two values:
+Logic itself is much older, going back through the 17th century wizard Leibniz, to an ancient Greek wizard called Aristotle. Boolean logic is the smaller, stricter version that computers use today.
+
+Boolean logic has only two values:
 
 | Value   | Meaning                    |
 | ------- | -------------------------- |
 | `true`  | yes, on, present, allowed  |
 | `false` | no, off, absent, forbidden |
 
-That should feel familiar. In the last chapter, we squeezed numbers into symbols and columns. Here we squeeze reasoning into cases.
-
-And once reasoning fits into cases, we can start building machinery around it.
-
 Boolean logic is at the core of modern programming. It is at the core of computers. Everything your computer does for you is built, eventually, on Boolean logic: true and false, 1 and 0.
 
-Most Boolean operations combine two terms. Let's call them `p` and `q`. Just like our guards, we don't know whether they are true or false. But using the power of the truth table, we can reason about them anyway.
+Most Boolean operations combine two terms. Let's call them `p` and `q`. Just like our guards, we don't know whether they are true or false. But using truth tables, we can reason about them anyway.
 
 The operations are: `and`, `or` and `not`.
 
@@ -100,8 +92,6 @@ Combining these, we can also create `nor` and `nand`.
 
 Wait a minute... what is this `nand` thing? Why not just write `not and`?
 
-Well... it so happens that your computer can implement everything with just `nand`. All other operations can be written as combinations of one or more NANDs. Hardware wizards found ways to create tiny [NAND _gates_](https://en.wikipedia.org/wiki/NAND_gate), and from those gates built the tiny parts of modern CPUs.
-
-This is the second great trick in this chapter. First we turned a riddle into a table. Then we turned the table into a machine. 
+Well... it so happens that your computer can implement just about everything with only [`nand` logic](https://en.wikipedia.org/wiki/NAND_logic). All other operations can be written as combinations of one or more NANDs. Hardware wizards found ways to create tiny [NAND _gates_](https://en.wikipedia.org/wiki/NAND_gate), and from those gates built the tiny parts of modern CPUs.
 
 Tables don't lie, but people do. And we like it. So much that we've invented something entirely new. Something clever and diabolical, called language.
