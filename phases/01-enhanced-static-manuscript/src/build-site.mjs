@@ -516,16 +516,25 @@ async function writePwaManifest(book) {
 }
 
 async function writeServiceWorker() {
-  const files = await listSiteFiles(siteDir)
-  const urls = files
-    .map(file => path.relative(siteDir, file).split(path.sep).join("/"))
-    .filter(file => file !== "sw.js")
-    .map(file => `./${file}`)
-    .sort((a, b) => a.localeCompare(b))
+  const entries = (await listSiteFiles(siteDir))
+    .map(file => ({
+      file,
+      url: `./${path.relative(siteDir, file).split(path.sep).join("/")}`
+    }))
+    .filter(entry => entry.url !== "./sw.js")
+    .sort((a, b) => a.url.localeCompare(b.url))
+  const revision = createHash("sha1")
+
+  for (const entry of entries) {
+    revision.update(entry.url)
+    revision.update("\0")
+    revision.update(await readFile(entry.file))
+    revision.update("\0")
+  }
 
   await writeFile(
     path.join(siteDir, "sw.js"),
-    serviceWorkerSource(urls)
+    serviceWorkerSource(entries.map(entry => entry.url), revision.digest("hex").slice(0, 10))
   )
 }
 
@@ -546,8 +555,8 @@ async function listSiteFiles(directory) {
   return result
 }
 
-function serviceWorkerSource(urls) {
-  const cacheName = `programming-for-wizards-${createHash("sha1").update(urls.join("\n")).digest("hex").slice(0, 10)}`
+function serviceWorkerSource(urls, revision) {
+  const cacheName = `programming-for-wizards-${revision}`
 
   return `const CACHE_NAME = ${JSON.stringify(cacheName)}
 const PRECACHE_URLS = ${JSON.stringify(urls, null, 2)}

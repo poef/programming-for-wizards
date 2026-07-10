@@ -362,10 +362,23 @@
 
     const readProgress = () => {
       try {
-        const stored = JSON.parse(localStorage.getItem(readingProgressKey) || "{}")
-        return stored && typeof stored === "object" ? stored : {}
+        const stored = JSON.parse(localStorage.getItem(readingProgressKey) || "null")
+        if (!stored || typeof stored !== "object") return null
+
+        // Older versions stored a separate position for every chapter. Keep only
+        // the global `last` record when reading that format, so moving between
+        // chapters never revives an unrelated position from an earlier visit.
+        const progress = stored.last && typeof stored.last === "object"
+          ? stored.last
+          : stored
+
+        if (typeof progress.chapterId !== "string" || typeof progress.targetId !== "string") {
+          return null
+        }
+
+        return progress
       } catch {
-        return {}
+        return null
       }
     }
 
@@ -377,30 +390,24 @@
       }
     }
 
-    const saveChapterProgress = targetId => {
+    const saveReadingProgress = targetId => {
       if (!targetId) return
 
-      const progress = readProgress()
-      progress[chapterId] = {
-        targetId,
-        path: window.location.pathname,
-        updatedAt: new Date().toISOString()
-      }
-      progress.last = {
+      writeProgress({
         chapterId,
         targetId,
         path: window.location.pathname,
-        updatedAt: progress[chapterId].updatedAt
-      }
-      writeProgress(progress)
+        updatedAt: new Date().toISOString()
+      })
     }
 
-    function loadChapterProgress(id) {
-      return readProgress()[id] ?? null
+    const loadReadingProgress = () => {
+      const progress = readProgress()
+      return progress?.chapterId === chapterId ? progress : null
     }
 
     if (!initialHash && !consumeChapterStart()) {
-      pendingProgressTarget = loadChapterProgress(chapterId)?.targetId ?? null
+      pendingProgressTarget = loadReadingProgress()?.targetId ?? null
     }
 
     const isPaged = () => document.documentElement.dataset.flow === "paged"
@@ -628,7 +635,7 @@
 
     const saveCurrentPosition = () => {
       const target = firstVisibleProgressTarget()
-      if (target) saveChapterProgress(target.id)
+      if (target) saveReadingProgress(target.id)
     }
 
     const scheduleSaveCurrentPosition = () => {

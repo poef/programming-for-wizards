@@ -1,4 +1,4 @@
-const CACHE_NAME = "programming-for-wizards-cc83db5390"
+const CACHE_NAME = "programming-for-wizards-02b0cf0ab3"
 const PRECACHE_URLS = [
   "./assets/book.css",
   "./assets/book.js",

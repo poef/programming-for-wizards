@@ -1,7 +1,7 @@
 {
   "id": "programming-for-wizards",
   "title": "Programming for Wizards",
-  "generatedAt": "2026-07-10T12:03:49.086Z",
+  "generatedAt": "2026-07-10T12:59:18.703Z",
   "phase": "01-enhanced-static-manuscript",
   "features": {
     "notes": "planned",
@@ -1429,6 +1429,13 @@
       "label": "Previously we've discussed numbers and logic. But not language. Which is strange, because language has been doing all th",
       "chapter": "04-language-the-tool-that-changes-the-thinker",
       "url": "chapters/04-language-the-tool-that-changes-the-thinker.html#p-04-previously-weve-discussed-numbers-and-logic-but-not"
+    },
+    {
+      "id": "p-04-language-is-magic-old-magic",
+      "type": "paragraph",
+      "label": "Language is magic. Old magic.",
+      "chapter": "04-language-the-tool-that-changes-the-thinker",
+      "url": "chapters/04-language-the-tool-that-changes-the-thinker.html#p-04-language-is-magic-old-magic"
     },
     {
       "id": "p-04-were-so-used-to-it-that-we-dont",
