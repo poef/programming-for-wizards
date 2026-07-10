@@ -1,7 +1,7 @@
 {
   "id": "programming-for-wizards",
   "title": "Programming for Wizards",
-  "generatedAt": "2026-07-09T13:03:48.198Z",
+  "generatedAt": "2026-07-10T11:21:59.843Z",
   "phase": "01-enhanced-static-manuscript",
   "features": {
     "notes": "planned",
@@ -11,6 +11,13 @@
     "mathRendering": true,
     "staticFallbacks": true
   },
+  "downloads": [
+    {
+      "format": "epub",
+      "title": "EPUB",
+      "url": "programming-for-wizards.epub"
+    }
+  ],
   "chapters": [
     {
       "id": "01-this-is-not-a-programming-book",

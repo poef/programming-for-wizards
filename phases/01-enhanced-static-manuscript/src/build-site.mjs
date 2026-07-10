@@ -1,6 +1,8 @@
+import { createHash } from "node:crypto"
 import { cp, mkdir, readFile, rm, writeFile } from "node:fs/promises"
 import path from "node:path"
 import { fileURLToPath } from "node:url"
+import { deflateRawSync } from "node:zlib"
 
 const rootDir = path.resolve(fileURLToPath(new URL("../../../", import.meta.url)))
 const contentDir = path.join(rootDir, "content")
@@ -12,6 +14,26 @@ const siteDir = path.join(rootDir, "www")
 const siteChapterDir = path.join(siteDir, "chapters")
 const siteAssetDir = path.join(siteDir, "assets")
 const siteDataDir = path.join(siteDir, "data")
+const epubFileName = "programming-for-wizards.epub"
+const epubPath = path.join(siteDir, epubFileName)
+const epubExternalImageAssets = new Map([
+  [
+    "https://upload.wikimedia.org/wikipedia/commons/1/1d/Tally_marks-Five-bar_Gate.svg",
+    "assets/images/epub/tally-marks-five-bar-gate.png"
+  ],
+  [
+    "https://upload.wikimedia.org/wikipedia/commons/a/af/Abacus_6.png",
+    "assets/images/epub/abacus-6.png"
+  ],
+  [
+    "https://upload.wikimedia.org/wikipedia/commons/b/b7/Detail_of_a_Roth_Calculating_machine.png",
+    "assets/images/epub/roth-calculating-machine-detail-small.png"
+  ],
+  [
+    "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ae/Metal_movable_type.jpg/1920px-Metal_movable_type.jpg",
+    "assets/images/epub/metal-movable-type-small.jpg"
+  ]
+])
 const interactiveExhibits = new Set([
   "same-problem-different-world",
   "numbers-are-machines",
@@ -34,6 +56,13 @@ function createManifest(book) {
       mathRendering: true,
       staticFallbacks: true
     },
+    downloads: [
+      {
+        format: "epub",
+        title: "EPUB",
+        url: epubFileName
+      }
+    ],
     chapters: [],
     pages: [],
     exhibits: [],
@@ -142,7 +171,9 @@ async function main() {
     { recursive: true }
   )
 
-  console.log(`Built ${readingItems.length} reading pages into ${path.relative(rootDir, siteDir)}`)
+  await buildEpub(book, cover, readingItems)
+
+  console.log(`Built ${readingItems.length} reading pages and EPUB into ${path.relative(rootDir, siteDir)}`)
 }
 
 async function readBook() {
@@ -445,6 +476,1003 @@ function parseFrontMatter(source) {
   }
 
   return { attributes, body }
+}
+
+async function buildEpub(book, cover, pages) {
+  const assets = new EpubAssetRegistry()
+  const coverImage = await assets.addSiteAsset(cover.attributes.coverImage ?? "assets/images/programming-for-wizards-cover-sideways.png")
+
+  for (const page of pages) {
+    await assets.addImagesFromSource(page.body)
+    if (page.kind === "interlude" && page.image) {
+      await assets.addSiteAsset(`assets/images/interludes/${path.basename(page.image)}`)
+    }
+  }
+
+  const coverDocument = {
+    id: "cover",
+    title: book.title,
+    href: "text/cover.xhtml",
+    html: epubDocument(book.title, epubCoverBody(book, cover, coverImage))
+  }
+
+  const pageDocuments = pages.map(page => {
+    const renderer = new EpubMarkdownRenderer(page, { assets })
+    const body = [
+      epubPageHeader(page),
+      page.kind === "interlude" ? epubInterludeImage(page, assets) : "",
+      renderer.render(page.body)
+    ].filter(Boolean).join("\n")
+
+    return {
+      id: page.id,
+      title: page.title,
+      href: `text/${page.id}.xhtml`,
+      html: epubDocument(page.title, body),
+      hasMath: body.includes("MathML")
+    }
+  })
+
+  const documents = [coverDocument, ...pageDocuments]
+  const modified = new Date().toISOString().replace(/\.\d{3}Z$/, "Z")
+  const publicationId = `urn:uuid:${uuidFromString(book.id)}`
+  const opf = epubPackageDocument(book, documents, assets.entries, coverImage, publicationId, modified)
+  const nav = epubNavDocument(book, documents)
+
+  const zipEntries = [
+    { name: "mimetype", data: "application/epub+zip", compress: false },
+    { name: "META-INF/container.xml", data: epubContainerDocument() },
+    { name: "EPUB/package.opf", data: opf },
+    { name: "EPUB/nav.xhtml", data: nav },
+    { name: "EPUB/styles/epub.css", data: epubCss() },
+    ...documents.map(document => ({
+      name: `EPUB/${document.href}`,
+      data: document.html
+    })),
+    ...assets.entries.map(asset => ({
+      name: `EPUB/${asset.href}`,
+      data: asset.data
+    }))
+  ]
+
+  await writeFile(epubPath, createZip(zipEntries))
+}
+
+class EpubAssetRegistry {
+  constructor() {
+    this.entries = []
+    this.bySiteHref = new Map()
+  }
+
+  async addImagesFromSource(source) {
+    const markdownImages = [...source.matchAll(/!\[[^\]]*]\(([^)]+)\)/g)].map(match => match[1])
+    const htmlImages = [...source.matchAll(/<img\b[^>]*\bsrc=(["']?)([^"'\s>]+)\1[^>]*>/gi)].map(match => match[2])
+
+    for (const href of [...markdownImages, ...htmlImages]) {
+      await this.addSiteAsset(href)
+    }
+  }
+
+  async addSiteAsset(href) {
+    if (!href) return null
+
+    const mappedHref = epubExternalImageAssets.get(href)
+    if (mappedHref) {
+      const asset = await this.addSiteAsset(mappedHref)
+      if (asset) this.bySiteHref.set(href, asset)
+      return asset
+    }
+
+    if (isExternalUrl(href)) return null
+
+    const cleanHref = href.split("#")[0].split("?")[0].replace(/^\.?\//, "")
+    if (!cleanHref.startsWith("assets/images/")) return null
+    if (this.bySiteHref.has(cleanHref)) return this.bySiteHref.get(cleanHref)
+
+    const sourcePath = path.normalize(path.join(phaseDir, "assets", cleanHref.slice("assets/".length)))
+    const distance = path.relative(path.join(phaseDir, "assets"), sourcePath)
+    if (distance.startsWith("..") || path.isAbsolute(distance)) return null
+
+    try {
+      const data = await readFile(sourcePath)
+      const hrefInEpub = `images/${cleanHref.slice("assets/images/".length)}`
+      const asset = {
+        id: `asset-${slugify(hrefInEpub)}`,
+        href: hrefInEpub,
+        textHref: `../${hrefInEpub}`,
+        mediaType: mediaTypeForPath(hrefInEpub),
+        dimensions: imageDimensionsForData(data, hrefInEpub),
+        data
+      }
+      this.bySiteHref.set(cleanHref, asset)
+      this.bySiteHref.set(href, asset)
+      this.entries.push(asset)
+      return asset
+    } catch {
+      return null
+    }
+  }
+
+  textHrefFor(siteHref) {
+    return this.assetFor(siteHref)?.textHref ?? null
+  }
+
+  assetFor(siteHref) {
+    const cleanHref = String(siteHref).split("#")[0].split("?")[0].replace(/^\.?\//, "")
+    return this.bySiteHref.get(cleanHref) ?? null
+  }
+}
+
+class EpubMarkdownRenderer {
+  constructor(page, options = {}) {
+    this.page = page
+    this.options = options
+    this.usedIds = new Set()
+  }
+
+  render(source) {
+    const lines = source.replace(/\r\n/g, "\n").split("\n")
+    const html = []
+
+    for (let index = 0; index < lines.length;) {
+      const line = lines[index]
+      const trimmed = line.trim()
+
+      if (!trimmed) {
+        index += 1
+        continue
+      }
+
+      if (trimmed.startsWith("```")) {
+        const result = this.renderCodeFence(lines, index)
+        html.push(result.html)
+        index = result.nextIndex
+        continue
+      }
+
+      if (trimmed === "$$") {
+        const result = this.renderMathBlock(lines, index)
+        html.push(result.html)
+        index = result.nextIndex
+        continue
+      }
+
+      const heading = line.match(/^(#{1,6})\s+(.+)$/)
+      if (heading) {
+        html.push(this.renderHeading(heading[1].length, heading[2]))
+        index += 1
+        continue
+      }
+
+      if (/^>\s?/.test(line)) {
+        const result = this.renderBlockquote(lines, index)
+        html.push(result.html)
+        index = result.nextIndex
+        continue
+      }
+
+      if (this.isTableStart(lines, index)) {
+        const result = this.renderTable(lines, index)
+        html.push(result.html)
+        index = result.nextIndex
+        continue
+      }
+
+      if (/^\s*[-*]\s+/.test(line)) {
+        const result = this.renderList(lines, index)
+        html.push(result.html)
+        index = result.nextIndex
+        continue
+      }
+
+      if (this.isRawHtmlBlockStart(trimmed)) {
+        const result = this.renderRawHtmlBlock(lines, index)
+        html.push(result.html)
+        index = result.nextIndex
+        continue
+      }
+
+      const result = this.renderParagraph(lines, index)
+      html.push(result.html)
+      index = result.nextIndex
+    }
+
+    return html.join("\n")
+  }
+
+  renderHeading(level, text) {
+    const plain = stripInline(text)
+    const id = this.uniqueId(`h-${this.page.number || this.page.id}-${slugify(plain)}`)
+    return `<h${level} id="${escapeAttribute(id)}">${renderEpubInline(text, this.options)}</h${level}>`
+  }
+
+  renderCodeFence(lines, startIndex) {
+    const code = []
+    let index = startIndex + 1
+
+    while (index < lines.length && lines[index].trim() !== "```") {
+      code.push(lines[index])
+      index += 1
+    }
+
+    return {
+      html: `<pre class="code-block"><code>${escapeHtml(code.join("\n"))}</code></pre>`,
+      nextIndex: index < lines.length ? index + 1 : index
+    }
+  }
+
+  renderMathBlock(lines, startIndex) {
+    const math = []
+    let index = startIndex + 1
+
+    while (index < lines.length && lines[index].trim() !== "$$") {
+      math.push(lines[index])
+      index += 1
+    }
+
+    return {
+      html: renderEpubMath(math.join("\n").trim(), { display: true }),
+      nextIndex: index < lines.length ? index + 1 : index
+    }
+  }
+
+  renderBlockquote(lines, startIndex) {
+    const quoteLines = []
+    let index = startIndex
+
+    while (index < lines.length && /^>\s?/.test(lines[index])) {
+      quoteLines.push(lines[index].replace(/^>\s?/, ""))
+      index += 1
+    }
+
+    const firstLine = quoteLines.find(line => line.trim())?.trim() ?? ""
+    if (/^\*\*Interactive exhibit placeholder:/.test(firstLine)) {
+      return {
+        html: this.renderExhibit(quoteLines),
+        nextIndex: index
+      }
+    }
+
+    if (/^\*\*Wizard/.test(firstLine)) {
+      return {
+        html: this.renderRuleCards(quoteLines),
+        nextIndex: index
+      }
+    }
+
+    const paragraphs = quoteLines
+      .join("\n")
+      .split(/\n{2,}/)
+      .map(chunk => `<p>${renderEpubInline(chunk.replace(/\n/g, " "), this.options)}</p>`)
+      .join("\n")
+
+    return {
+      html: `<blockquote>${paragraphs}</blockquote>`,
+      nextIndex: index
+    }
+  }
+
+  renderExhibit(lines) {
+    const firstLine = lines.find(line => line.trim())?.trim() ?? ""
+    const idMatch = firstLine.match(/`([^`]+)`/)
+    const title = humanizeId(idMatch?.[1] ?? "interactive exhibit")
+    const bodyLines = lines.slice(1).filter(line => line.trim())
+
+    return `<aside class="exhibit-placeholder">
+<p class="exhibit-kicker">Interactive exhibit</p>
+<h2>${escapeHtml(title)}</h2>
+${bodyLines.map(line => `<p>${renderEpubInline(line, this.options)}</p>`).join("\n")}
+</aside>`
+  }
+
+  renderRuleCards(lines) {
+    const sections = []
+    let current = null
+
+    for (const line of lines) {
+      const trimmed = line.trim()
+      const match = trimmed.match(/^\*\*(Wizard[^*]+)\*\*$/)
+
+      if (match) {
+        current = { label: match[1], body: [] }
+        sections.push(current)
+        continue
+      }
+
+      if (current && trimmed) current.body.push(line)
+    }
+
+    return sections.map(section => `<aside class="wizard-rule">
+<p class="rule-label">${escapeHtml(section.label)}</p>
+<p>${renderEpubInline(section.body.join(" ").trim(), this.options)}</p>
+</aside>`).join("\n")
+  }
+
+  isTableStart(lines, index) {
+    return /^\s*\|/.test(lines[index] ?? "") && /^\s*\|?\s*:?-+:?\s*\|/.test(lines[index + 1] ?? "")
+  }
+
+  renderTable(lines, startIndex) {
+    const rows = []
+    let index = startIndex
+
+    while (index < lines.length && /^\s*\|/.test(lines[index])) {
+      rows.push(lines[index])
+      index += 1
+    }
+
+    const cells = rows.map(row => row.trim().replace(/^\|/, "").replace(/\|$/, "").split("|").map(cell => cell.trim()))
+    const header = cells[0] ?? []
+    const bodyRows = cells.slice(2)
+    const renderedFallbackRows = bodyRows.map(row => {
+      const pairs = row.map((cell, cellIndex) => {
+        const label = header[cellIndex] || `Column ${cellIndex + 1}`
+        return `<span class="table-cell"><strong>${renderEpubInline(label, this.options)}:</strong> ${renderEpubInline(cell, this.options)}</span>`
+      })
+
+      return `<p>${pairs.join("; ")}</p>`
+    }).join("\n")
+
+    return {
+      html: `<figure class="table-figure">
+<table>
+<thead><tr>${header.map(cell => `<th scope="col">${renderEpubInline(cell, this.options)}</th>`).join("")}</tr></thead>
+<tbody>
+${bodyRows.map(row => `<tr>${row.map(cell => `<td>${renderEpubInline(cell, this.options)}</td>`).join("")}</tr>`).join("\n")}
+</tbody>
+</table>
+<details class="table-fallback">
+<summary>Table as text</summary>
+${renderedFallbackRows}
+</details>
+</figure>`,
+      nextIndex: index
+    }
+  }
+
+  renderList(lines, startIndex) {
+    const items = []
+    let index = startIndex
+
+    while (index < lines.length && /^\s*[-*]\s+/.test(lines[index])) {
+      items.push(lines[index].replace(/^\s*[-*]\s+/, ""))
+      index += 1
+    }
+
+    return {
+      html: `<ul>${items.map(item => `<li>${renderEpubInline(item, this.options)}</li>`).join("")}</ul>`,
+      nextIndex: index
+    }
+  }
+
+  isRawHtmlBlockStart(trimmed) {
+    return /^<(figure|style|ul|ol|div|p|img|table|section|aside|pre|h[1-6]|br|header|title|body|strong|em)\b/i.test(trimmed)
+  }
+
+  renderRawHtmlBlock(lines, startIndex) {
+    const block = []
+    let index = startIndex
+    const first = lines[startIndex].trim().toLowerCase()
+    const closingTag = first.match(/^<([a-z0-9-]+)/)?.[1]
+    const expectedClose = closingTag && !first.endsWith("/>") ? `</${closingTag}>` : null
+
+    while (index < lines.length) {
+      block.push(lines[index])
+      const current = lines[index].trim().toLowerCase()
+      index += 1
+
+      if (expectedClose && current.includes(expectedClose)) break
+      if (!expectedClose) break
+      if (!lines[index]?.trim()) break
+    }
+
+    const html = block.join("\n")
+    const image = html.match(/^<img\b[^>]*>$/i)
+    if (image) {
+      const attributes = parseHtmlAttributes(image[0])
+      return {
+        html: renderEpubFigure(attributes.src ?? "", attributes.alt ?? "", this.options),
+        nextIndex: index
+      }
+    }
+
+    const figureImage = html.match(/<figure\b[\s\S]*?<img\b[^>]*>[\s\S]*?<\/figure>/i)
+    if (figureImage) {
+      const imageTag = figureImage[0].match(/<img\b[^>]*>/i)?.[0] ?? ""
+      const attributes = parseHtmlAttributes(imageTag)
+      const caption = figureImage[0].match(/<figcaption\b[^>]*>([\s\S]*?)<\/figcaption>/i)?.[1]
+      return {
+        html: renderEpubFigure(attributes.src ?? "", attributes.alt ?? "", this.options, caption),
+        nextIndex: index
+      }
+    }
+
+    if (/^<section\b[^>]*class=["'][^"']*\binterlude-dialogue\b/i.test(block[0].trim())) {
+      return {
+        html: renderEpubDialogue(block),
+        nextIndex: index
+      }
+    }
+
+    return {
+      html: `<pre class="html-example"><code>${escapeHtml(html)}</code></pre>`,
+      nextIndex: index
+    }
+  }
+
+  renderParagraph(lines, startIndex) {
+    const paragraph = []
+    let index = startIndex
+
+    while (index < lines.length) {
+      const line = lines[index]
+      const trimmed = line.trim()
+
+      if (!trimmed) break
+      if (
+        trimmed.startsWith("```") ||
+        trimmed === "$$" ||
+        /^(#{1,6})\s+/.test(line) ||
+        /^>\s?/.test(line) ||
+        this.isTableStart(lines, index) ||
+        /^\s*[-*]\s+/.test(line) ||
+        this.isRawHtmlBlockStart(trimmed)
+      ) {
+        break
+      }
+
+      paragraph.push(trimmed)
+      index += 1
+    }
+
+    const text = paragraph.join(" ")
+    const image = text.trim().match(/^!\[([^\]]*)]\(([^)]+)\)$/)
+
+    return {
+      html: image
+        ? renderEpubFigure(image[2], image[1], this.options)
+        : `<p>${renderEpubInline(text, this.options)}</p>`,
+      nextIndex: index
+    }
+  }
+
+  uniqueId(base) {
+    let id = slugify(base, 16)
+    let suffix = 2
+
+    while (this.usedIds.has(id)) {
+      id = `${slugify(base, 16)}-${suffix}`
+      suffix += 1
+    }
+
+    this.usedIds.add(id)
+    return id
+  }
+}
+
+function epubCoverBody(book, cover, coverImage) {
+  const renderer = new EpubMarkdownRenderer(cover, {})
+  const image = coverImage
+    ? `<figure class="cover-image"><img src="${escapeAttribute(coverImage.textHref)}" alt="${escapeAttribute(cover.attributes.coverImageAlt ?? book.title)}" /></figure>`
+    : ""
+
+  return `<section class="title-page">
+${image}
+<h1>${escapeHtml(book.title)}</h1>
+${book.subtitle ? `<p class="subtitle">${escapeHtml(book.subtitle)}</p>` : ""}
+${book.author ? `<p class="author">${escapeHtml(book.author)}</p>` : ""}
+${renderer.render(cover.body)}
+</section>`
+}
+
+function epubPageHeader(page) {
+  if (page.kind === "interlude") return `<p class="chapter-kicker">Interlude</p>`
+  const label = page.kind === "chapter" ? `Chapter ${page.number}` : (page.label || page.part)
+  return `<header class="chapter-header">
+<p class="chapter-kicker">${escapeHtml(page.part)}</p>
+<p class="chapter-number">${escapeHtml(label)}</p>
+</header>`
+}
+
+function epubInterludeImage(page, assets) {
+  if (!page.image) return ""
+  const href = assets.textHrefFor(`assets/images/interludes/${path.basename(page.image)}`)
+  if (!href) return ""
+  return `<figure class="interlude-image"><img src="${escapeAttribute(href)}" alt="${escapeAttribute(page.imageAlt || "")}" /></figure>`
+}
+
+function epubDocument(title, body, stylesheetHref = "../styles/epub.css") {
+  return `<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:epub="http://www.idpf.org/2007/ops" xml:lang="en" lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>${escapeHtml(title)}</title>
+  <link rel="stylesheet" type="text/css" href="${escapeAttribute(stylesheetHref)}" />
+</head>
+<body>
+${body}
+</body>
+</html>
+`
+}
+
+function epubNavDocument(book, documents) {
+  return epubDocument("Contents", `<nav epub:type="toc" id="toc">
+<h1>${escapeHtml(book.title)}</h1>
+<ol>
+${documents.map(document => `<li><a href="${escapeAttribute(document.href)}">${escapeHtml(document.title)}</a></li>`).join("\n")}
+</ol>
+</nav>`, "styles/epub.css")
+}
+
+function epubPackageDocument(book, documents, assets, coverImage, publicationId, modified) {
+  const metadata = `<metadata xmlns:dc="http://purl.org/dc/elements/1.1/">
+<dc:identifier id="publication-id">${escapeHtml(publicationId)}</dc:identifier>
+<dc:title>${escapeHtml(book.title)}</dc:title>
+${book.subtitle ? `<dc:description>${escapeHtml(book.subtitle)}</dc:description>` : ""}
+${book.author ? `<dc:creator>${escapeHtml(book.author)}</dc:creator>` : ""}
+<dc:language>en</dc:language>
+<meta property="dcterms:modified">${escapeHtml(modified)}</meta>
+${coverImage ? `<meta name="cover" content="${escapeAttribute(coverImage.id)}" />` : ""}
+</metadata>`
+
+  const manifestItems = [
+    `<item id="nav" href="nav.xhtml" media-type="application/xhtml+xml" properties="nav" />`,
+    `<item id="style" href="styles/epub.css" media-type="text/css" />`,
+    ...documents.map(document => `<item id="${escapeAttribute(epubItemId(document.id))}" href="${escapeAttribute(document.href)}" media-type="application/xhtml+xml"${document.hasMath ? ` properties="mathml"` : ""} />`),
+    ...assets.map(asset => `<item id="${escapeAttribute(asset.id)}" href="${escapeAttribute(asset.href)}" media-type="${escapeAttribute(asset.mediaType)}"${coverImage?.href === asset.href ? ` properties="cover-image"` : ""} />`)
+  ].join("\n")
+
+  const spineItems = documents.map(document => `<itemref idref="${escapeAttribute(epubItemId(document.id))}" />`).join("\n")
+
+  return `<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://www.idpf.org/2007/opf" version="3.0" unique-identifier="publication-id">
+${metadata}
+<manifest>
+${manifestItems}
+</manifest>
+<spine>
+${spineItems}
+</spine>
+</package>
+`
+}
+
+function epubContainerDocument() {
+  return `<?xml version="1.0" encoding="utf-8"?>
+<container version="1.0" xmlns="urn:oasis:names:tc:opendocument:xmlns:container">
+  <rootfiles>
+    <rootfile full-path="EPUB/package.opf" media-type="application/oebps-package+xml" />
+  </rootfiles>
+</container>
+`
+}
+
+function epubCss() {
+  return `body {
+  color: #1f2421;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 133%;
+  line-height: 1.55;
+  margin: 0;
+  padding: 0;
+}
+
+h1, h2, h3 {
+  line-height: 1.2;
+}
+
+a {
+  color: #7d2636;
+}
+
+img {
+  height: auto;
+  max-width: 100%;
+}
+
+figure {
+  margin: 1.5rem 0;
+  text-align: center;
+}
+
+figure > img {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  max-height: 12.4em;
+  max-height: 8lh;
+  width: auto;
+}
+
+.inline-image {
+  background: #ffffff;
+  border-radius: 0.15em;
+  height: 1.35em;
+  max-width: none;
+  padding: 0.04em 0.08em;
+  vertical-align: -0.28em;
+  width: auto;
+}
+
+.title-page, .chapter-header {
+  text-align: center;
+}
+
+.cover-image img {
+  max-height: 85vh;
+}
+
+.subtitle, .author, .chapter-kicker, .chapter-number, figcaption {
+  color: #646a61;
+}
+
+.author, .chapter-kicker, .chapter-number, .rule-label, .exhibit-kicker {
+  font-weight: bold;
+}
+
+blockquote, .wizard-rule, .exhibit-placeholder {
+  border-left: 0.2rem solid #dcded6;
+  margin: 1.5rem 0;
+  padding-left: 1rem;
+}
+
+.wizard-rule {
+  background: #f7ecec;
+  padding: 0.8rem 1rem;
+}
+
+.exhibit-placeholder {
+  background: #e8f2ef;
+  padding: 0.8rem 1rem;
+}
+
+pre {
+  background: #f0f1ed;
+  overflow-wrap: anywhere;
+  padding: 0.8rem;
+  white-space: pre-wrap;
+}
+
+math[display="block"] {
+  display: block;
+  margin: 1rem 0;
+  text-align: center;
+}
+
+math[display="inline"] {
+  display: inline;
+}
+
+table {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+td, th {
+  border: 1px solid #dcded6;
+  padding: 0.35rem;
+}
+
+.table-fallback {
+  color: #646a61;
+  font-size: 0.9em;
+  margin-top: 0.75rem;
+  text-align: left;
+}
+
+.table-fallback summary {
+  color: #7d2636;
+  font-weight: bold;
+}
+
+.table-fallback p {
+  margin: 0.35rem 0;
+}
+`
+}
+
+function renderEpubInline(source, options = {}) {
+  let text = source.replace(/\\([\\`*{}\[\]()#+\-.!_<>|&])/g, "$1")
+  const placeholders = []
+  const hold = value => {
+    const key = `\u0000${placeholders.length}\u0000`
+    placeholders.push(value)
+    return key
+  }
+
+  text = text.replace(/`([^`]+)`/g, (_, code) => hold(`<code>${escapeHtml(code)}</code>`))
+  text = text.replace(/<img\b[^>]*>/gi, tag => {
+    const attributes = parseHtmlAttributes(tag)
+    return hold(renderEpubImage(attributes.src ?? "", attributes.alt ?? "", { ...options, inlineImage: true }))
+  })
+  text = text.replace(/<a\b[^>]*\bhref=(["']?)([^"'\s>]+)\1[^>]*>([\s\S]*?)<\/a>/gi, (_, _quote, href, label) => {
+    return hold(`<a href="${escapeAttribute(href)}">${renderEpubInline(stripHtmlTags(label), options)}</a>`)
+  })
+  text = text.replace(/!\[([^\]]*)]\(([^)]+)\)/g, (_, alt, href) => hold(renderEpubImage(href, alt, { ...options, inlineImage: true })))
+  text = text.replace(/\[([^\]]+)]\(([^)]+)\)/g, (_, label, href) => {
+    return hold(`<a href="${escapeAttribute(href)}">${renderEpubInline(label, options)}</a>`)
+  })
+  text = text.replace(/\$\$([\s\S]+?)\$\$/g, (_, math) => hold(renderEpubMath(math, { display: false })))
+  text = text.replace(/(^|[^\\$])\$((?:\\.|[^$\n])+?)\$/g, (_, prefix, math) => {
+    return `${prefix}${hold(renderEpubMath(math, { display: false }))}`
+  })
+
+  text = escapeHtml(text)
+  text = text.replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>")
+  text = text.replace(/_([^_]+)_/g, "<em>$1</em>")
+  text = text.replace(/\*([^*]+)\*/g, "<em>$1</em>")
+
+  let restored = true
+  while (restored) {
+    restored = false
+    for (let index = 0; index < placeholders.length; index += 1) {
+      const key = `\u0000${index}\u0000`
+      if (text.includes(key)) {
+        text = text.split(key).join(placeholders[index])
+        restored = true
+      }
+    }
+  }
+
+  return text
+}
+
+function renderEpubFigure(src, alt, options = {}, caption = "") {
+  const renderedCaption = caption ? `<figcaption>${renderEpubInline(stripHtmlTags(caption), options)}</figcaption>` : ""
+  return `<figure>${renderEpubImage(src, alt, options)}${renderedCaption}</figure>`
+}
+
+function renderEpubMath(source, options = {}) {
+  const display = options.display ? "block" : "inline"
+  const content = renderEpubMathRow(source)
+  return `<math xmlns="http://www.w3.org/1998/Math/MathML" display="${display}"><mrow>${content}</mrow></math>`
+}
+
+function renderEpubMathRow(source) {
+  const normalized = String(source)
+    .replace(/\s+/g, " ")
+    .replace(/^\$\$|\$\$$/g, "")
+    .trim()
+
+  if (!normalized) return "<mtext></mtext>"
+
+  const tokens = normalized.match(/\\times|[+=\-]|[A-Za-z0-9]+(?:\^\{?[A-Za-z0-9]+\}?)?/g) ?? []
+  if (!tokens.length) return `<mtext>${escapeHtml(normalized)}</mtext>`
+
+  return tokens.map(renderEpubMathToken).join("")
+}
+
+function renderEpubMathToken(token) {
+  if (token === "\\times") return "<mo>&#x00D7;</mo>"
+  if (/^[+=\-]$/.test(token)) return `<mo>${escapeHtml(token)}</mo>`
+
+  const power = token.match(/^([A-Za-z0-9]+)\^\{?([A-Za-z0-9]+)\}?$/)
+  if (power) {
+    return `<msup>${renderEpubMathAtom(power[1])}${renderEpubMathAtom(power[2])}</msup>`
+  }
+
+  return renderEpubMathAtom(token)
+}
+
+function renderEpubMathAtom(token) {
+  const tag = /^\d|^0x|^0o/i.test(token) ? "mn" : "mi"
+  return `<${tag}>${escapeHtml(token)}</${tag}>`
+}
+
+function renderEpubImage(src, alt, options = {}) {
+  const asset = options.assets?.assetFor(src)
+  const localHref = asset?.textHref ?? null
+  const className = options.inlineImage ? ` class="inline-image"` : ""
+  const dimensions = !options.inlineImage && asset?.dimensions
+    ? ` width="${asset.dimensions.width}" height="${asset.dimensions.height}"`
+    : ""
+  if (localHref) {
+    return `<img${className} src="${escapeAttribute(localHref)}" alt="${escapeAttribute(alt)}"${dimensions} />`
+  }
+
+  if (isExternalUrl(src)) {
+    const label = alt || src
+    return `<a href="${escapeAttribute(src)}">${escapeHtml(label)}</a>`
+  }
+
+  return `<span>${escapeHtml(alt || src)}</span>`
+}
+
+function renderEpubDialogue(lines) {
+  const paragraphs = lines
+    .map(line => line.trim().match(/^<p[^>]*>([\s\S]*)<\/p>$/i)?.[1])
+    .filter(Boolean)
+    .map(line => `<p>${renderDialogueInline(line)}</p>`)
+    .join("\n")
+
+  return `<section class="interlude-dialogue">${paragraphs}</section>`
+}
+
+function renderDialogueInline(source) {
+  const placeholders = []
+  const hold = value => {
+    const key = `\u0000${placeholders.length}\u0000`
+    placeholders.push(value)
+    return key
+  }
+
+  let text = source.replace(/<strong>([\s\S]*?)<\/strong>/gi, (_, label) => hold(`<strong>${escapeHtml(label)}</strong>`))
+  text = escapeHtml(stripDisallowedInlineHtml(text))
+
+  for (let index = 0; index < placeholders.length; index += 1) {
+    text = text.split(`\u0000${index}\u0000`).join(placeholders[index])
+  }
+
+  return text
+}
+
+function parseHtmlAttributes(tag) {
+  const attributes = {}
+  for (const match of tag.matchAll(/\s([a-zA-Z_:][-a-zA-Z0-9_:.]*)\s*=\s*(?:"([^"]*)"|'([^']*)'|([^\s>]+))/g)) {
+    attributes[match[1].toLowerCase()] = match[2] ?? match[3] ?? match[4] ?? ""
+  }
+  return attributes
+}
+
+function stripHtmlTags(source) {
+  return String(source).replace(/<[^>]+>/g, "")
+}
+
+function stripDisallowedInlineHtml(source) {
+  return String(source).replace(/<(?!\/?(?:strong|em)\b)[^>]+>/gi, "")
+}
+
+function isExternalUrl(href) {
+  return /^(?:[a-z][a-z0-9+.-]*:|\/\/)/i.test(String(href))
+}
+
+function mediaTypeForPath(filePath) {
+  const extension = path.extname(filePath).toLowerCase()
+  if (extension === ".jpg" || extension === ".jpeg") return "image/jpeg"
+  if (extension === ".png") return "image/png"
+  if (extension === ".gif") return "image/gif"
+  if (extension === ".svg") return "image/svg+xml"
+  if (extension === ".webp") return "image/webp"
+  return "application/octet-stream"
+}
+
+function imageDimensionsForData(data, filePath) {
+  const extension = path.extname(filePath).toLowerCase()
+
+  if (extension === ".png" && data.length >= 24) {
+    return {
+      width: data.readUInt32BE(16),
+      height: data.readUInt32BE(20)
+    }
+  }
+
+  if ((extension === ".jpg" || extension === ".jpeg") && data.length >= 4) {
+    let offset = 2
+
+    while (offset < data.length - 9) {
+      if (data[offset] !== 0xff) {
+        offset += 1
+        continue
+      }
+
+      const marker = data[offset + 1]
+      const segmentLength = data.readUInt16BE(offset + 2)
+      if (marker >= 0xc0 && marker <= 0xc3) {
+        return {
+          width: data.readUInt16BE(offset + 7),
+          height: data.readUInt16BE(offset + 5)
+        }
+      }
+
+      offset += 2 + segmentLength
+    }
+  }
+
+  return null
+}
+
+function epubItemId(value) {
+  return `item-${slugify(value, 16)}`
+}
+
+function uuidFromString(value) {
+  const bytes = createHash("sha1").update(String(value)).digest().subarray(0, 16)
+  bytes[6] = (bytes[6] & 0x0f) | 0x50
+  bytes[8] = (bytes[8] & 0x3f) | 0x80
+  const hex = bytes.toString("hex")
+  return `${hex.slice(0, 8)}-${hex.slice(8, 12)}-${hex.slice(12, 16)}-${hex.slice(16, 20)}-${hex.slice(20)}`
+}
+
+function createZip(entries) {
+  const localParts = []
+  const centralParts = []
+  let offset = 0
+
+  for (const entry of entries) {
+    const name = Buffer.from(entry.name)
+    const data = Buffer.isBuffer(entry.data) ? entry.data : Buffer.from(String(entry.data))
+    const compressed = entry.compress === false ? data : deflateRawSync(data)
+    const compressionMethod = entry.compress === false ? 0 : 8
+    const crc = crc32(data)
+    const { time, date } = zipTimestamp(new Date())
+    const localHeader = Buffer.alloc(30)
+
+    localHeader.writeUInt32LE(0x04034b50, 0)
+    localHeader.writeUInt16LE(20, 4)
+    localHeader.writeUInt16LE(0, 6)
+    localHeader.writeUInt16LE(compressionMethod, 8)
+    localHeader.writeUInt16LE(time, 10)
+    localHeader.writeUInt16LE(date, 12)
+    localHeader.writeUInt32LE(crc, 14)
+    localHeader.writeUInt32LE(compressed.length, 18)
+    localHeader.writeUInt32LE(data.length, 22)
+    localHeader.writeUInt16LE(name.length, 26)
+    localHeader.writeUInt16LE(0, 28)
+
+    localParts.push(localHeader, name, compressed)
+
+    const centralHeader = Buffer.alloc(46)
+    centralHeader.writeUInt32LE(0x02014b50, 0)
+    centralHeader.writeUInt16LE(20, 4)
+    centralHeader.writeUInt16LE(20, 6)
+    centralHeader.writeUInt16LE(0, 8)
+    centralHeader.writeUInt16LE(compressionMethod, 10)
+    centralHeader.writeUInt16LE(time, 12)
+    centralHeader.writeUInt16LE(date, 14)
+    centralHeader.writeUInt32LE(crc, 16)
+    centralHeader.writeUInt32LE(compressed.length, 20)
+    centralHeader.writeUInt32LE(data.length, 24)
+    centralHeader.writeUInt16LE(name.length, 28)
+    centralHeader.writeUInt16LE(0, 30)
+    centralHeader.writeUInt16LE(0, 32)
+    centralHeader.writeUInt16LE(0, 34)
+    centralHeader.writeUInt16LE(0, 36)
+    centralHeader.writeUInt32LE(0, 38)
+    centralHeader.writeUInt32LE(offset, 42)
+    centralParts.push(centralHeader, name)
+
+    offset += localHeader.length + name.length + compressed.length
+  }
+
+  const centralDirectory = Buffer.concat(centralParts)
+  const end = Buffer.alloc(22)
+  end.writeUInt32LE(0x06054b50, 0)
+  end.writeUInt16LE(0, 4)
+  end.writeUInt16LE(0, 6)
+  end.writeUInt16LE(entries.length, 8)
+  end.writeUInt16LE(entries.length, 10)
+  end.writeUInt32LE(centralDirectory.length, 12)
+  end.writeUInt32LE(offset, 16)
+  end.writeUInt16LE(0, 20)
+
+  return Buffer.concat([...localParts, centralDirectory, end])
+}
+
+function zipTimestamp(date) {
+  const year = Math.max(date.getFullYear(), 1980)
+  return {
+    time: (date.getHours() << 11) | (date.getMinutes() << 5) | Math.floor(date.getSeconds() / 2),
+    date: ((year - 1980) << 9) | ((date.getMonth() + 1) << 5) | date.getDate()
+  }
+}
+
+const crcTable = new Uint32Array(256)
+for (let index = 0; index < 256; index += 1) {
+  let value = index
+  for (let bit = 0; bit < 8; bit += 1) {
+    value = value & 1 ? 0xedb88320 ^ (value >>> 1) : value >>> 1
+  }
+  crcTable[index] = value >>> 0
+}
+
+function crc32(buffer) {
+  let crc = 0xffffffff
+  for (const byte of buffer) {
+    crc = crcTable[(crc ^ byte) & 0xff] ^ (crc >>> 8)
+  }
+  return (crc ^ 0xffffffff) >>> 0
 }
 
 class MarkdownRenderer {
@@ -1085,6 +2113,7 @@ function indexLayout(book, chapters, cover) {
     </figure>
     <div class="cover-actions">
       ${firstChapter ? `<a href="chapters/${firstChapter.id}.html" data-chapter-start>Start reading</a>` : ""}
+      <a href="${epubFileName}" download>Download EPUB</a>
       ${backMatter ? `<a href="chapters/${backMatter.id}.html" data-chapter-start>About the author</a>` : ""}
     </div>
     <div class="cover-note">
