@@ -737,6 +737,63 @@ class EpubAssetRegistry {
   }
 }
 
+function renderIndentedList(lines, startIndex, renderItem) {
+  const entries = []
+  let index = startIndex
+
+  while (index < lines.length) {
+    const match = lines[index].match(/^([ \t]*)[-*]\s+(.+)$/)
+    if (!match) break
+
+    entries.push({
+      indent: markdownIndentWidth(match[1]),
+      text: match[2].trim(),
+      children: []
+    })
+    index += 1
+  }
+
+  const root = []
+  const stack = [{ indent: entries[0]?.indent ?? 0, items: root }]
+
+  for (const entry of entries) {
+    while (stack.length > 1 && entry.indent < stack.at(-1).indent) {
+      stack.pop()
+    }
+
+    const level = stack.at(-1)
+    if (entry.indent > level.indent) {
+      const parent = level.items.at(-1)
+      if (parent) {
+        stack.push({ indent: entry.indent, items: parent.children })
+      }
+    } else if (entry.indent < level.indent) {
+      level.indent = entry.indent
+    }
+
+    stack.at(-1).items.push(entry)
+  }
+
+  const renderItems = items => `<ul>${items.map(item => (
+    `<li>${renderItem(item.text)}${item.children.length ? renderItems(item.children) : ""}</li>`
+  )).join("")}</ul>`
+
+  return {
+    html: renderItems(root),
+    nextIndex: index
+  }
+}
+
+function markdownIndentWidth(indentation) {
+  let width = 0
+
+  for (const character of indentation) {
+    width += character === "\t" ? 4 - (width % 4) : 1
+  }
+
+  return width
+}
+
 class EpubMarkdownRenderer {
   constructor(page, options = {}) {
     this.page = page
@@ -965,18 +1022,11 @@ ${renderedFallbackRows}
   }
 
   renderList(lines, startIndex) {
-    const items = []
-    let index = startIndex
-
-    while (index < lines.length && /^\s*[-*]\s+/.test(lines[index])) {
-      items.push(lines[index].replace(/^\s*[-*]\s+/, ""))
-      index += 1
-    }
-
-    return {
-      html: `<ul>${items.map(item => `<li>${renderEpubInline(item, this.options)}</li>`).join("")}</ul>`,
-      nextIndex: index
-    }
+    return renderIndentedList(
+      lines,
+      startIndex,
+      item => renderEpubInline(item, this.options)
+    )
   }
 
   isRawHtmlBlockStart(trimmed) {
@@ -1333,6 +1383,7 @@ function renderEpubInline(source, options = {}) {
     return `${prefix}${hold(renderEpubMath(math, { display: false }))}`
   })
 
+  text = applySmartPunctuation(text)
   text = escapeHtml(text)
   text = text.replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>")
   text = text.replace(/_([^_]+)_/g, "<em>$1</em>")
@@ -1891,18 +1942,7 @@ ${bodyRows.map(row => `<tr>${row.map(cell => `<td>${renderInline(cell)}</td>`).j
   }
 
   renderList(lines, startIndex) {
-    const items = []
-    let index = startIndex
-
-    while (index < lines.length && /^\s*[-*]\s+/.test(lines[index])) {
-      items.push(lines[index].replace(/^\s*[-*]\s+/, ""))
-      index += 1
-    }
-
-    return {
-      html: `<ul>${items.map(item => `<li>${renderInline(item)}</li>`).join("")}</ul>`,
-      nextIndex: index
-    }
+    return renderIndentedList(lines, startIndex, renderInline)
   }
 
   isRawHtmlBlockStart(trimmed) {
@@ -2118,7 +2158,7 @@ function chapterMap(book, chapters, currentId, relativeRoot, chapterMapDefault) 
   <ol>
     ${partChapters.map(chapter => {
       const isCurrent = chapter.id === currentId
-      return `<li><a${isCurrent ? ` aria-current="page"` : ""} href="${relativeRoot}chapters/${chapter.id}.html" data-chapter-start><span>${escapeHtml(chapter.label || chapter.number)}</span>${escapeHtml(chapter.title)}</a></li>`
+      return `<li><a${isCurrent ? ` aria-current="page"` : ""} href="${relativeRoot}chapters/${chapter.id}.html#book-start" data-chapter-start><span>${escapeHtml(chapter.label || chapter.number)}</span>${escapeHtml(chapter.title)}</a></li>`
     }).join("")}
   </ol>
 </section>`).join("")
@@ -2129,7 +2169,7 @@ function chapterMap(book, chapters, currentId, relativeRoot, chapterMapDefault) 
     <span class="chapter-map-toggle-state" data-chapter-map-label>${isOpen ? "Close" : "Open"}</span>
   </button>
   <div id="chapter-map-panel" class="chapter-map-panel" data-chapter-map-panel${isOpen ? "" : " hidden"}>
-  <a class="book-title" href="${relativeRoot}index.html">${escapeHtml(book.title)}</a>
+  <a class="book-title" href="${relativeRoot}index.html?cover=1" data-cover-start>${escapeHtml(book.title)}</a>
   ${groups}
   </div>
 </nav>`
@@ -2249,10 +2289,10 @@ function indexLayout(book, chapters, cover) {
       <figcaption><a href="${escapeAttribute(artUrl)}">${escapeHtml(artTitle)}</a>. ${escapeHtml(artCredit)} Cover composition uses the public-domain engraving as its visual source.</figcaption>
     </figure>
     <div class="cover-actions">
-      ${firstChapter ? `<a href="chapters/${firstChapter.id}.html" data-chapter-start>Start reading</a>` : ""}
+      ${firstChapter ? `<a href="chapters/${firstChapter.id}.html#book-start" data-chapter-start>Start reading</a>` : ""}
       <button class="install-button" type="button" data-install-app hidden>Install</button>
       <a href="${epubFileName}" download>Download EPUB</a>
-      ${backMatter ? `<a href="chapters/${backMatter.id}.html" data-chapter-start>About the author</a>` : ""}
+      ${backMatter ? `<a href="chapters/${backMatter.id}.html#book-start" data-chapter-start>About the author</a>` : ""}
     </div>
     <div class="cover-note">
       ${cover.html}
@@ -2264,7 +2304,7 @@ function indexLayout(book, chapters, cover) {
     <section>
       <h3>${escapeHtml(part)}</h3>
       <ol>
-        ${partChapters.map(chapter => `<li><a href="chapters/${chapter.id}.html" data-chapter-start><span>${escapeHtml(chapter.label || chapter.number)}</span>${escapeHtml(chapter.title)}</a></li>`).join("")}
+        ${partChapters.map(chapter => `<li><a href="chapters/${chapter.id}.html#book-start" data-chapter-start><span>${escapeHtml(chapter.label || chapter.number)}</span>${escapeHtml(chapter.title)}</a></li>`).join("")}
       </ol>
     </section>`).join("")}
   </section>
@@ -2330,7 +2370,7 @@ function chapterLayout(chapter, renderedBody, previous, next, chapters, chapterI
   <div class="book-progress" role="progressbar" aria-label="Book progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" data-book-progress>
     <span data-book-progress-bar></span>
   </div>
-  <div class="manuscript-pages" data-page-scroller data-book-chapter-id="${escapeAttribute(chapter.id)}" data-book-chapter-index="${chapterIndex}" data-book-page-weights="${escapeAttribute(pageWeights)}">
+  <div id="book-start" class="manuscript-pages" data-page-scroller data-book-chapter-id="${escapeAttribute(chapter.id)}" data-book-chapter-index="${chapterIndex}" data-book-page-weights="${escapeAttribute(pageWeights)}">
   <header class="chapter-header ${chapter.kind === "back-matter" ? "chapter-header-back-matter" : ""}">
     <p class="chapter-kicker">${escapeHtml(chapter.part)}</p>
     <p class="chapter-number">${escapeHtml(pageLabel)}</p>
@@ -2358,7 +2398,7 @@ function interludeLayout(chapter, renderedBody, previous, next, chapters, chapte
   <div class="book-progress" role="progressbar" aria-label="Book progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" data-book-progress>
     <span data-book-progress-bar></span>
   </div>
-  <div class="manuscript-pages interlude-pages" data-page-scroller data-book-chapter-id="${escapeAttribute(chapter.id)}" data-book-chapter-index="${chapterIndex}" data-book-page-weights="${escapeAttribute(pageWeights)}">
+  <div id="book-start" class="manuscript-pages interlude-pages" data-page-scroller data-book-chapter-id="${escapeAttribute(chapter.id)}" data-book-chapter-index="${chapterIndex}" data-book-page-weights="${escapeAttribute(pageWeights)}">
     <h1 id="${escapeAttribute(chapter.id)}-title" class="screen-reader-only">Interlude</h1>
     <article class="interlude-card" aria-labelledby="${escapeAttribute(chapter.id)}-title" data-note-target>
       ${image}
@@ -2387,6 +2427,10 @@ function interludeImage(chapter) {
   </figure>`
 }
 
+function applySmartPunctuation(source) {
+  return source.replace(/(^|[^-])--(?!-)/g, "$1—")
+}
+
 function renderInline(source, options = {}) {
   let text = source.replace(/\\([\\`*{}\[\]()#+\-.!_<>|&])/g, "$1")
   const placeholders = []
@@ -2409,6 +2453,7 @@ function renderInline(source, options = {}) {
   })
   text = preserveInlineMath(text, hold)
   text = text.replace(/<[^>\n]+>/g, tag => hold(tag))
+  text = applySmartPunctuation(text)
   text = text.replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>")
   text = text.replace(/_([^_]+)_/g, "<em>$1</em>")
   text = text.replace(/\*([^*]+)\*/g, "<em>$1</em>")

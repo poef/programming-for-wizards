@@ -30,6 +30,10 @@ async function main() {
   checkManifestExpectations(book, chapters, manifest)
   checkGeneratedExhibits(chapters, manifest, htmlByFile)
   checkGeneratedRules(chapters, manifest, htmlByFile)
+  checkNestedListRendering(htmlByFile)
+  checkSmartPunctuationRendering(htmlByFile)
+  checkChapterStartNavigation(htmlByFile)
+  checkCoverStartNavigation(htmlByFile)
   checkHtmlPages(htmlByFile)
   await checkLocalLinks(htmlByFile, idsByFile)
   checkManifestAnchors(manifest, idsByFile)
@@ -261,6 +265,89 @@ function checkGeneratedRules(chapters, manifest, htmlByFile) {
   notes.push(`${expected.length} Wizard rule cards are represented in manifest and HTML`)
 }
 
+function checkNestedListRendering(htmlByFile) {
+  const chapterFile = path.join(siteChapterDir, "06-the-web-as-document.html")
+  const html = htmlByFile.get(chapterFile) ?? ""
+  const expectedTree = /<ul><li>strong<ul><li>This is a strong<\/li><li>em<ul><li>and partially emphasized<\/li><\/ul><\/li><\/ul><\/li><li>em<ul><li>text<\/li><\/ul><\/li><\/ul>/
+
+  if (!expectedTree.test(html)) {
+    fail("Chapter 6 Markdown tree should render as nested HTML lists")
+    return
+  }
+
+  notes.push("Indented Markdown lists retain their nested structure")
+}
+
+function checkSmartPunctuationRendering(htmlByFile) {
+  const chapterFile = path.join(siteChapterDir, "06-the-web-as-document.html")
+  const html = htmlByFile.get(chapterFile) ?? ""
+
+  if (!html.includes("the meaning—the semantics—of a text")) {
+    fail("Double hyphens in prose should render as em dashes")
+    return
+  }
+
+  if (!html.includes("SGML—Standard Generalized Markup Language")) {
+    fail("Double hyphens in link labels should render as em dashes")
+    return
+  }
+
+  const codeChapterFile = path.join(siteChapterDir, "08-programming-languages-are-for-humans.html")
+  const codeHtml = htmlByFile.get(codeChapterFile) ?? ""
+  if (!codeHtml.includes("*-----------------------")) {
+    fail("Smart punctuation should not alter hyphen runs inside code blocks")
+    return
+  }
+
+  notes.push("Double hyphens in prose render as em dashes without changing code")
+}
+
+
+function checkChapterStartNavigation(htmlByFile) {
+  let chapterStartLinks = 0
+
+  for (const [file, html] of htmlByFile) {
+    for (const match of html.matchAll(/<a\b[^>]*\bhref="([^"]+)"[^>]*\bdata-chapter-start\b[^>]*>/g)) {
+      chapterStartLinks += 1
+      if (!match[1].endsWith("#book-start")) {
+        fail(`${relative(file)} has a chapter-start link without an explicit #book-start destination`)
+      }
+    }
+
+    if (file.startsWith(siteChapterDir) && !html.includes('id="book-start"')) {
+      fail(`${relative(file)} is missing the chapter-start anchor`)
+    }
+  }
+
+  if (!chapterStartLinks) {
+    fail("Generated pages should contain chapter-start links")
+    return
+  }
+
+  notes.push(`${chapterStartLinks} contents links explicitly open chapters at their beginning`)
+}
+
+function checkCoverStartNavigation(htmlByFile) {
+  let coverStartLinks = 0
+
+  for (const [file, html] of htmlByFile) {
+    for (const match of html.matchAll(/<a\b[^>]*\bhref="([^"]+)"[^>]*\bdata-cover-start\b[^>]*>/g)) {
+      coverStartLinks += 1
+      if (!match[1].endsWith("index.html?cover=1")) {
+        fail(`${relative(file)} has a cover-start link without an explicit ?cover=1 destination`)
+      }
+    }
+  }
+
+  if (!coverStartLinks) {
+    fail("Generated pages should contain explicit cover-start links")
+    return
+  }
+
+  notes.push(`${coverStartLinks} book-title links explicitly open the cover`)
+}
+
+
 function checkHtmlPages(htmlByFile) {
   for (const [file, html] of htmlByFile) {
     const relativeFile = relative(file)
@@ -434,7 +521,8 @@ function shouldSkipUrl(url) {
 }
 
 function resolveLocalUrl(fromFile, url) {
-  const [rawPath, rawFragment = ""] = url.split("#")
+  const [rawPathAndQuery, rawFragment = ""] = url.split("#")
+  const [rawPath] = rawPathAndQuery.split("?")
   const fragment = safeDecode(rawFragment)
 
   if (!rawPath) {

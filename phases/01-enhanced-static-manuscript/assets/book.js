@@ -3,8 +3,8 @@
   const readerToolsKey = "programming-for-wizards.reader-tools"
   const chapterMapKey = "programming-for-wizards.chapter-map"
   const readingProgressKey = "programming-for-wizards.reading-progress"
-  const chapterStartKey = "programming-for-wizards.chapter-start"
   const pwaLastLocationKey = "programming-for-wizards.pwa-last-location"
+  const readerSessionKey = "programming-for-wizards.reader-session"
   const hasOwn = (object, key) => Object.prototype.hasOwnProperty.call(object, key)
 
   const defaults = {
@@ -77,6 +77,46 @@
     event.currentTarget?.blur?.()
   }
 
+  const readReadingProgress = () => {
+    try {
+      const stored = JSON.parse(localStorage.getItem(readingProgressKey) || "null")
+      if (!stored || typeof stored !== "object") return null
+
+      // Older versions stored a separate position for every chapter. Keep only
+      // the global `last` record when reading that format.
+      const progress = stored.last && typeof stored.last === "object"
+        ? stored.last
+        : stored
+
+      if (typeof progress.chapterId !== "string" || typeof progress.targetId !== "string") {
+        return null
+      }
+
+      return progress
+    } catch {
+      return null
+    }
+  }
+
+  const writeReadingProgress = progress => {
+    try {
+      localStorage.setItem(readingProgressKey, JSON.stringify(progress))
+    } catch {
+      // Reading position should not make the reader fail when storage is unavailable.
+    }
+  }
+
+  const beginReaderSession = () => {
+    try {
+      const isFresh = sessionStorage.getItem(readerSessionKey) !== "active"
+      sessionStorage.setItem(readerSessionKey, "active")
+      return isFresh
+    } catch {
+      // Without session storage, resuming is still preferable to losing progress.
+      return true
+    }
+  }
+
   const isStandaloneApp = () => window.matchMedia?.("(display-mode: standalone)")?.matches || window.navigator.standalone
 
   const appRootUrl = () => {
@@ -105,23 +145,79 @@
     }
   }
 
-  const bindPwaLaunchResume = () => {
+  const savedReadingLocation = () => {
+    const progress = readReadingProgress()
+    if (!progress) return ""
+
+    if (typeof progress.path === "string" && progress.path) {
+      try {
+        const relative = appRelativeUrl(new URL(progress.path, appRootUrl()))
+        if (relative && relative !== "index.html") return relative
+      } catch {
+        // Fall back to locating the chapter from its id below.
+      }
+    }
+
+    const suffix = `/chapters/${progress.chapterId}.html`
+    const chapterLink = [...document.querySelectorAll("a[data-chapter-start]")].find(link => {
+      try {
+        return new URL(link.href, window.location.href).pathname.endsWith(suffix)
+      } catch {
+        return false
+      }
+    })
+
+    if (!chapterLink) return ""
+
+    const chapterUrl = new URL(chapterLink.href, window.location.href)
+    chapterUrl.hash = ""
+    return appRelativeUrl(chapterUrl) || chapterUrl.href
+  }
+
+  const bindLaunchResume = () => {
     const root = document.documentElement
+    const isFreshSession = beginReaderSession()
 
-    if (root.dataset.pageKind === "index" && isStandaloneApp()) {
+    if (root.dataset.pageKind === "index") {
       const params = new URLSearchParams(window.location.search)
-      if (params.get("app") === "1") {
-        let target = ""
+      const showCover = params.get("cover") === "1"
+      const appLaunch = params.get("app") === "1" && isStandaloneApp()
+      const navigationEntry = window.performance?.getEntriesByType?.("navigation")?.[0]
+      const navigationType = navigationEntry?.type ?? ""
+      let cameFromThisSite = false
 
-        try {
-          target = localStorage.getItem(pwaLastLocationKey) || ""
-        } catch {
-          target = ""
-        }
+      try {
+        cameFromThisSite = Boolean(document.referrer) && appRelativeUrl(new URL(document.referrer)) !== null
+      } catch {
+        cameFromThisSite = false
+      }
 
-        if (!target) {
-          const firstChapter = document.querySelector("a[data-chapter-start]")
-          if (firstChapter) target = appRelativeUrl(new URL(firstChapter.href, window.location.href)) || firstChapter.href
+      const browserEntry = !cameFromThisSite && (isFreshSession || navigationType === "navigate")
+
+      if (showCover) {
+        params.delete("cover")
+        const search = params.toString()
+        history.replaceState(
+          null,
+          "",
+          `${window.location.pathname}${search ? `?${search}` : ""}${window.location.hash}`
+        )
+      } else if (appLaunch || browserEntry) {
+        let target = savedReadingLocation()
+
+        if (!target && appLaunch) {
+          try {
+            target = localStorage.getItem(pwaLastLocationKey) || ""
+          } catch {
+            target = ""
+          }
+
+          if (!target) {
+            const firstChapter = document.querySelector("a[data-chapter-start]")
+            if (firstChapter) {
+              target = appRelativeUrl(new URL(firstChapter.href, window.location.href)) || firstChapter.href
+            }
+          }
         }
 
         if (target) {
@@ -243,24 +339,6 @@
     })
   }
 
-  const bindChapterStartLinks = () => {
-    document.addEventListener("click", event => {
-      const link = event.target?.closest?.("a[data-chapter-start]")
-      if (!link || event.defaultPrevented || event.button !== 0) return
-      if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return
-      if (link.target && link.target !== "_self") return
-
-      try {
-        const url = new URL(link.href, window.location.href)
-        if (url.origin === window.location.origin) {
-          sessionStorage.setItem(chapterStartKey, url.pathname)
-        }
-      } catch {
-        // TOC navigation still works when session storage is unavailable.
-      }
-    })
-  }
-
   const registerServiceWorker = () => {
     if (!("serviceWorker" in navigator)) return
 
@@ -337,6 +415,7 @@
     let saveFrame = 0
     let effectiveFlow = root.dataset.flow
     const initialHash = window.location.hash
+    const openAtChapterStart = initialHash === "#book-start"
     let openAtChapterEnd = initialHash === "#book-end"
     let restoredProgress = false
     let pendingProgressTarget = null
@@ -344,56 +423,14 @@
     let codeStartBreaksDirty = true
     let portraitLiftsDirty = true
 
-    if (openAtChapterEnd) {
+    if (openAtChapterStart || openAtChapterEnd) {
       history.replaceState(null, "", `${window.location.pathname}${window.location.search}`)
-    }
-
-    const consumeChapterStart = () => {
-      try {
-        const stored = sessionStorage.getItem(chapterStartKey)
-        if (stored !== window.location.pathname) return false
-
-        sessionStorage.removeItem(chapterStartKey)
-        return true
-      } catch {
-        return false
-      }
-    }
-
-    const readProgress = () => {
-      try {
-        const stored = JSON.parse(localStorage.getItem(readingProgressKey) || "null")
-        if (!stored || typeof stored !== "object") return null
-
-        // Older versions stored a separate position for every chapter. Keep only
-        // the global `last` record when reading that format, so moving between
-        // chapters never revives an unrelated position from an earlier visit.
-        const progress = stored.last && typeof stored.last === "object"
-          ? stored.last
-          : stored
-
-        if (typeof progress.chapterId !== "string" || typeof progress.targetId !== "string") {
-          return null
-        }
-
-        return progress
-      } catch {
-        return null
-      }
-    }
-
-    const writeProgress = progress => {
-      try {
-        localStorage.setItem(readingProgressKey, JSON.stringify(progress))
-      } catch {
-        // Reading position should not make the reader fail when storage is unavailable.
-      }
     }
 
     const saveReadingProgress = targetId => {
       if (!targetId) return
 
-      writeProgress({
+      writeReadingProgress({
         chapterId,
         targetId,
         path: window.location.pathname,
@@ -402,11 +439,11 @@
     }
 
     const loadReadingProgress = () => {
-      const progress = readProgress()
+      const progress = readReadingProgress()
       return progress?.chapterId === chapterId ? progress : null
     }
 
-    if (!initialHash && !consumeChapterStart()) {
+    if (!initialHash) {
       pendingProgressTarget = loadReadingProgress()?.targetId ?? null
     }
 
@@ -976,8 +1013,7 @@
   applySettings(settings)
   bindChapterMapToggle()
   bindReaderToolsToggle()
-  bindChapterStartLinks()
-  bindPwaLaunchResume()
+  bindLaunchResume()
   registerServiceWorker()
   bindInstallButton()
 

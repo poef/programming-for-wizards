@@ -1,7 +1,7 @@
 {
   "id": "programming-for-wizards",
   "title": "Programming for Wizards",
-  "generatedAt": "2026-07-10T12:59:18.703Z",
+  "generatedAt": "2026-07-10T14:15:58.988Z",
   "phase": "01-enhanced-static-manuscript",
   "features": {
     "notes": "planned",
@@ -88,7 +88,7 @@
       "url": "chapters/06-the-web-as-document.html",
       "previous": "05-the-web-as-address",
       "next": "07-the-web-as-platform",
-      "wordCount": 1864,
+      "wordCount": 1865,
       "rule": "Wizard's fifth rule"
     },
     {
@@ -313,7 +313,7 @@
       "part": "Part II: The Web",
       "partId": "the-web",
       "url": "chapters/06-the-web-as-document.html",
-      "wordCount": 1864
+      "wordCount": 1865
     },
     {
       "id": "07-the-web-as-platform",
@@ -2567,7 +2567,7 @@
     {
       "id": "p-06-the-only-successful-in-browser-editors-that-are",
       "type": "paragraph",
-      "label": "The only successful in-browser editors, that are capable of editing any HTML and deliver a good end result--as in: clean",
+      "label": "The only successful in-browser editors, that are capable of editing any HTML and deliver a good end result, such as clea",
       "chapter": "06-the-web-as-document",
       "url": "chapters/06-the-web-as-document.html#p-06-the-only-successful-in-browser-editors-that-are"
     },
