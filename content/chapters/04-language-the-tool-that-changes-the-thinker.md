@@ -4,7 +4,9 @@ tags: programming for wizards
 
 # Language: the oldest trick
 
-Previously we've discussed numbers and logic. But not language. Which is strange, because language has been doing all the work. Language is magic. Old magic.
+Previously we've discussed numbers and logic. But not language. Which is strange, because language has been doing all the work. 
+
+Language is magic. Old magic.
 
 We're so used to it that we don't see it, but think about it. While you are reading this, I have the capability to inject my thoughts into your mind. I can control your mind! And even more magically, I can do this while being miles away, or I might even be dead. My mind to your mind. You don't need to be a Vulcan, just start writing.
 
