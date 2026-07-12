@@ -2,11 +2,11 @@
 tags: programming for wizards
 ---
 
-# Objects: binding data, behavior, and time
+# Boundaries: Data, behavior, and time
 
 In the previous chapter we looked at the knitted castle: the strange tendency of software to grow threads. Every useful piece starts to depend on data shapes, frameworks, databases, styling, configuration, lifecycles, users, errors and history. Before long, the piece is no longer a brick. It is a tower with half the castle still attached.
 
-Object Oriented Programming is one of the great historical answers to that problem. Perhaps the most successful one.
+Object-Oriented Programming is one of the great historical answers to that problem. Perhaps the most successful one.
 
 It promised a way to make software out of reusable pieces. Pieces that were not just functions, but little things that carried their own data and behavior around with them. Objects could be combined. Classes could be extended. The internal mess could be hidden. The outside world could talk to a smaller public surface.
 
@@ -125,10 +125,22 @@ Some of them help. Some of them merely move the mess to a more impressive room.
 
 Passing a container into every object looks flexible, but it hides what each object actually needs. The dependencies become visible only after you read the implementation.
 
+## Binding reveals boundaries
+
+Dependencies are not a problem if they live their entire life inside the boundary of a single part. They become a problem when they escape.
+
+It is your job to identify potential boundaries, and keep the threads from crossing.
+
+A potential boundary appears when two things change for different reasons. The rules of an order change when the business changes. The repository changes when the database or storage changes. The factory changes when we decide to connect the parts differently.
+
+Look for code that knows something only because two other parts need to meet. That code may be a bridge. Look for decisions that one part uses but should not own. That may be a boundary. Look for things that change at different times, or for different people. They probably should not be tied together.
+
 ## Shell and core
 
 One useful boundary is the shell/core split.
 
 The core contains the rules of the program. It should know as little as possible about files, databases, networks, frameworks, clocks and random number generators. The shell knows about the outside world. It wires everything together.
 
-Factory spells clearly belong in the shell. This is where the lego blocks are connected. I sometimes use the term 'glue layer', but gluing lego bricks together is frowned upon. A factory is a specific version of a pattern I've been using a lot: the bridge. Instead of two or more components having to know about each other, with threads connecting them, only the bridge knows how to tie the knots.
+Factory spells clearly belong in the shell. This is where the Lego blocks are connected. I sometimes use the term "glue layer", but gluing Lego bricks together is frowned upon. A factory is a specific version of a pattern I've been using a lot: the bridge. Instead of two or more components having to know about each other, with threads connecting them, only the bridge knows how to tie the knots.
+
+Boundaries are not found by drawing boxes first. They appear when you notice that two things know too much about each other, change for different reasons, or must be connected by knowledge that belongs to neither.
