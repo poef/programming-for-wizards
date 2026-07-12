@@ -33,3 +33,7 @@ One place worth stealing from is the Web. It's one of the very few examples of a
 The Web is a chaotic place, full of shining new buildings, patched machinery, forgotten corridors, and ruins that still somehow work. All of this, including the ruins, is worth studying. That is why this book will talk about the Web a lot. What problems did it solve? And more importantly, what did it fail to solve? Can we steal its magic to build something even greater?
 
 Let's find out.
+
+> **Write in the margins**
+>
+> If you are reading the web version of this book, you can add personal notes in the margins as you read. These notes are stored in your browser. They are not sent to me or anybody else. Clearing the browser's storage will remove them.
