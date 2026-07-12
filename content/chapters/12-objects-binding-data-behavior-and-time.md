@@ -10,7 +10,7 @@ Object Oriented Programming is one of the great historical answers to that probl
 
 It promised a way to make software out of reusable pieces. Pieces that were not just functions, but little things that carried their own data and behavior around with them. Objects could be combined. Classes could be extended. The internal mess could be hidden. The outside world could talk to a smaller public surface.
 
-That promise was powerful enough that OOP took over much of the programming world. For many programmers, programming became object-oriented programming. Classes, methods, inheritance, interfaces, constructors, services, factories: this became the normal furniture of software.
+That promise was powerful enough that OOP took over much of the programming world. For many programmers, programming became object-oriented programming.
 
 And yet the knitted castle did not go away.
 
@@ -69,7 +69,7 @@ class Order {
 }
 ```
 
-Or to inject the dependency when the object is created.
+Or even better: inject the dependency when the object is created.
 
 ```php
 class OrderService {
@@ -88,7 +88,24 @@ Instead the useful idea is simple:
 
 > The place that uses a dependency does not have to be the place that chooses it.
 
-That lets you bind later.
+That lets you bind later. The simplest version of this is:
+
+```php
+$orders = new SqlOrderRepository($database);
+$service = new OrderService($orders);
+```
+
+Or encapsulated in a factory function:
+
+```php
+function createOrderService(DatabaseConnection $database) {
+    return new OrderService(
+        new SqlOrderRepository($database)
+    );
+}
+```
+
+The key idea: the factory is separate from the `SqlOrderRepository` and the `OrderService`. You can replace it or add different versions. You can bind the parts together when you need them, rather than having that choice built into one of the parts.
 
 ## Binding time
 
@@ -106,18 +123,12 @@ This is where factories, [dependency injection containers](https://en.wikipedia.
 
 Some of them help. Some of them merely move the mess to a more impressive room.
 
+Passing a container into every object looks flexible, but it hides what each object actually needs. The dependencies become visible only after you read the implementation.
+
 ## Shell and core
 
 One useful boundary is the shell/core split.
 
 The core contains the rules of the program. It should know as little as possible about files, databases, networks, frameworks, clocks and random number generators. The shell knows about the outside world. It wires everything together.
 
-The shell is where many decisions are allowed to be late.
-
-This is not because the outside world is dirty and the core is pure. That sounds moralistic, and software is already full of enough false morality.
-
-The reason is more practical. The outside world changes in different ways than the rules of your program. Databases change. Frameworks change. APIs change. Files move. Users do strange things. The core should be protected from that weather where possible.
-
-This is the same move we have seen before. Change the boundary, and the problem changes shape. Then the problem gets bigger. Not one object, but the whole structure. Not one dependency, but change itself.
-
-At a large enough scale, architecture is also a question of when things are allowed to become fixed.
+Factory spells clearly belong in the shell. This is where the lego blocks are connected. I sometimes use the term 'glue layer', but gluing lego bricks together is frowned upon. A factory is a specific version of a pattern I've been using a lot: the bridge. Instead of two or more components having to know about each other, with threads connecting them, only the bridge knows how to tie the knots.
