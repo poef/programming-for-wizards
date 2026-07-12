@@ -4,98 +4,118 @@ tags: programming for wizards
 
 # The Web as commons: innovation happens elsewhere
 
-The previous chapter ended with change.
+The previous chapter ended with an admission: you will be wrong.
 
-Software changes the world, and then the changed world comes back for the software. That is annoying, but it is also the thing that makes software interesting. A bridge, once built, can mostly go on being a bridge. A program lives in a world full of people, habits, other programs, new devices, strange edge cases, regulations, fashions, accidents and other wizards.
+That creates another problem. If every useful answer has to be predicted inside the original system, then every wrong decision becomes part of the walls. A system designed by one person or one organization can only contain the ideas that reached that room in time.
 
-The Web is one of the best examples we have of software built for that kind of pressure. Not perfectly. Not innocently. But deeply. It was made from small agreements that let strangers connect things across distance, ownership, and time.
-
-That helped with some kinds of reuse. A page can link to another page. A browser can visit a server it has never seen before. A site can load an image, a script, a stylesheet, an API, a payment form, a map.
-
-But the Web as we actually use it has not made software as replaceable as documents. A web service usually arrives as one bundle: application, account, data, identity, permissions, interface, business model. You can use the bundle. You can sometimes export from the bundle. But replacing one piece without accepting the whole little world is still harder than it ought to be.
-
-So the next question is where the answers are supposed to come from.
-
-The tempting answer is: from inside the system. Hire the right people. Build the complete platform. Design the perfect extension mechanism. Add every feature the users might need. Make the castle large enough that nobody has to leave.
-
-This is a very natural dream for programmers. We like complete worlds. We like systems where the parts fit together because one mind, or at least one organization, decided how they should fit. It feels safer. It feels cleaner. It makes the diagrams look better.
-
-But the world is larger than your diagram.
+Most ideas are somewhere else.
 
 There is an old open source book by Ron Goldman and Richard P. Gabriel called [*Innovation Happens Elsewhere*](https://dreamsongs.com/IHE/). The title is the important part. It sounds like business advice, and it is, but it is also software architecture advice.
 
-No matter how clever your team is, most of the clever people are somewhere else. No matter how carefully you study your users, most of their lives happen outside your product. No matter how broad your platform becomes, most of the next good ideas will be born beyond its walls.
+No matter how clever your team is, most clever people do not work there. No matter how carefully you study your users, most of their lives happen outside your product. The next useful tool may be written by someone you have never met, for a reason you did not predict.
 
-A closed system can still be wonderful. Sometimes the closed system is exactly why the experience feels polished. Everything can be tuned together. The defaults can be chosen. The buttons can be in the right place. The rough edges can be hidden.
+A closed system can still be wonderful. Sometimes the closed system is exactly why an experience feels polished. Everything can be tuned together. The defaults can be chosen. The rough edges can be hidden.
 
-But the price is that the future has to arrive through the front gate.
+But the future has to arrive through the front gate.
 
-If the owner of the system does not build the thing, the thing does not exist there. If an outside wizard has a better idea, that idea must either be accepted by the castle, copied by the castle, or live outside the castle where the users may never find it.
+If the owner of the system does not build the thing, the thing does not exist there. An outside wizard with a better idea must convince the owner, copy the system, or build somewhere else and hope the users find it.
 
 That is a dangerous place to put the future.
 
-For our purposes, that is the useful part of the bazaar image: enough shared ground for strangers to contribute without first becoming subjects of the same king.
+## The bazaar needs streets
+
+Eric S. Raymond wrote [*The Cathedral and the Bazaar*](http://www.catb.org/~esr/writings/cathedral-bazaar/cathedral-bazaar/), contrasting carefully planned cathedral-style development with the messy, adaptive energy of open source.
+
+The useful part of the bazaar is not the mess. Mess by itself is just mess.
+
+A bazaar still needs streets. A stall needs somewhere to stand. People need to know where the entrance is. Someone has to stop a new stall from blocking it.
+
+Open source works the same way. Code needs names, interfaces and conventions. A patch needs somewhere to land. A bug report needs an address. Someone has to remember why the strange part is strange, and someone grumpy enough has to say no when a change would make it stranger.
+
+The Linux kernel is built by thousands of people, but those people do not all edit every part at will. It has maintainers, subsystems, rules and boundaries. The bazaar works because outside work has somewhere to connect.
+
+That is the architectural lesson.
+
+Innovation can come from elsewhere only when the structure gives it a place to arrive.
+
+## Standards are public boundaries
+
+A closed system can coordinate through ownership. One organization controls the pieces and can make them fit.
+
+A commons cannot rely on that. Independent tools, people and organizations need agreements.
+
+A standard is a boundary that does not belong to one implementation. It says: this name, format or behaviour can be relied on by things that were built separately.
+
+Standards are often boring. That is part of their value. A standard should not require everyone to admire the same library, framework or company. It gives different implementations just enough shared ground to meet.
+
+This is how small, reusable software becomes possible.
+
+A small tool does not need to implement the whole world if it can rely on addresses, protocols and formats outside itself. It can use a URL instead of inventing its own addressing system. It can speak HTTP instead of arranging a private conversation with every server. It can produce HTML instead of shipping its own browser.
+
+The application stays small because the outside is large and stable enough.
 
 ## The Web was built this way
 
-The Web won partly because it did not require one owner to finish the whole idea.
+The Web did not require one owner to finish the whole idea.
 
-A URL let one document point at another thing somewhere else. HTML gave documents a rough shared shape. HTTP gave browsers and servers a way to talk. Later JavaScript made the page programmable. None of these pieces had to contain the whole future.
+A URL let one document point to another thing somewhere else. HTTP gave browsers and servers a way to talk. HTML gave documents a shared shape. None of these required one program to own both ends.
 
-People built browsers and servers. They wrote pages, abused tables for layout, made search engines, blogs, shops, forums, wikis, maps, webmail, package registries, and then a great many ways of asking you to create an account before you can read anything.
+A new server could appear without asking every browser for permission. A new browser could read existing pages. A new page could link to an old one. A new site did not need permission from the old sites before it could exist.
 
-Some of this was beautiful. Some of it was regrettable. That is what happens when the world gets involved.
+People built search engines, blogs, shops, forums, wikis, maps, webmail and many things nobody had thought to include in the original design. Some of it was beautiful. Some of it was regrettable. That is what happens when the world gets involved.
 
 The important point is that the Web did not have to predict all of it first.
 
-This is also why the Web keeps absorbing other ideas. It is not because the Web is the best possible form for every kind of software. It plainly is not. It is because the Web has boundaries that many different people can reach. A link can be shared. A page can be inspected. A server can be replaced. A browser can be written by someone else, at least in principle. A new site does not need permission from the old sites before it can exist.
+It had reachable boundaries. A link could be shared. A page could be inspected. A server could be replaced. Someone else could build another implementation of the same agreement.
 
-That last phrase, "at least in principle", is doing some work.
+The Web as we live in it is not entirely open ground. Search engines, social networks, app stores, cloud platforms, ad networks and identity providers have built castles on top of it.
 
-The Web as actually lived has many castles. Search engines, social networks, app stores, cloud platforms, ad networks and identity providers have all built walls on top of the open ground. This is not surprising. Castles are convenient. They are profitable. They reduce friction. They give users one button to press instead of a small lecture about standards.
+Castles are convenient. They reduce friction. They give users one button to press instead of a lecture about standards. They are also profitable.
 
-Still, the open ground matters. Without it, the castles would be the whole world.
-
-So perhaps the question is not only whether the Web can stay open.
-
-Perhaps the question is whether we can use the Web's own architecture to add more boundaries in the places where services usually bundle things together: the application, the user's data, and the user's identity.
-
-Could those pieces become smaller, more independent, and easier to replace, so people can extend the system without becoming subjects of the same kingdom?
+But the open ground still matters. Without it, the castles would be the whole world.
 
 ## Small software needs a large outside
 
-This brings us back to the knitted castle.
+If a program has to do everything itself, it will grow.
 
-If a program has to do everything itself, it will grow. If it has to own the data, the identity, the editor, the storage, the sharing model, the plugin system, the export format, the user interface and the business model, then it will become a world. Perhaps a good world. But still a world.
+If it has to own the data, identity, storage, sharing, editor, export format, interface and extension system, it will become a world. Perhaps a good world. But still a world.
 
-Small replaceable software needs the opposite assumption. It needs to assume that important things live outside it.
+Small, reusable software needs the opposite assumption. It has to assume that important things live outside it.
 
-The address is outside it. The data may be outside it. The identity may be outside it. The next tool may be written by someone else. The user may prefer another interface. The useful extension may be a weekend project by a person you have never met.
+The address is outside it. The protocol is outside it. The next tool may be written by someone else. The useful extension may be a weekend project by a person the original authors have never met.
 
 This does not remove design work. It changes the design work.
 
-Instead of designing the entire kingdom, you design the border crossings. You decide what needs a shared name, what needs a stable format, what needs permission, what needs to be private, what needs to be replaceable. You do not make the system powerful by making it contain everything. You make it powerful by letting it cooperate with things that are not itself.
+Instead of designing the entire world, you design where another thing can meet it. What needs a public name? Which format must survive the current implementation? Which agreement allows an independent tool to participate?
 
-This is one of the reasons open source matters, but it is not only about source code. Source code is one way to let the outside world participate. Protocols, data formats, public APIs, documentation, permissive licenses, view-source culture and boring standards are also ways to admit that useful ideas may arrive from elsewhere.
+Open source is one way to let the outside world in, but it is not the only one. Protocols, data formats, documentation, public APIs, permissive licenses, view-source culture and boring standards all admit that useful ideas may arrive from elsewhere.
 
 A wizard should not be ashamed of using other people's magic. That is how the craft advances. The shame is building a system that can only use your own.
 
-## The next boundary
+## Moving data is not enough
 
-So this is the first piece: applications should be able to stay small.
+Standards let independent tools meet, but not every shared format creates understanding.
 
-A tool should not have to become a kingdom before it can be useful. It should be able to arrive from the outside, do its work, and leave the user's world behind when it goes.
+Two applications can both export JSON:
 
-But for that to happen, the boundary cannot only sit between one website and another. It has to move inside the web service itself.
+```json id="portable-not-interoperable-a"
+{
+    "author": "person-17",
+    "city": "Manchester"
+}
+```
 
-The application is one thing. The data it works on is another. The identity that grants access is another again.
+```json id="portable-not-interoperable-b"
+{
+    "creator": "user-882",
+    "addressLocality": "Manchester"
+}
+```
 
-This chapter has mostly been about the first piece: tools that can be replaced, extended, ignored, or improved by people outside the original design.
+The files are portable. They can be copied, downloaded and opened.
 
-The next piece is data.
+But are `person-17` and `user-882` the same person? Do `author` and `creator` mean the same thing? Is `city` the same property as `addressLocality`?
 
-Applications have often been gatekeepers for people's data. Write a document in Word, send it to someone, and you may also be sending a quiet requirement: use Word too, or at least something compatible enough to pretend. That is not only a technical shape. It is a business shape. It keeps the user close to the application, the ecosystem, the account.
+The format cannot tell us.
 
-The Web was supposed to be different. A page did not require the editor that wrote it. A link did not belong to the tool that made the link. But web applications have often rebuilt the old gate in a new place.
-
-If the network becomes the place where software happens, then the facts inside our software cannot remain trapped behind private names forever. Otherwise the castle has merely learned to export a few files through a gate.
+The Web gave documents names that can cross boundaries. The next question is whether the names and meanings inside the data can travel as well.
