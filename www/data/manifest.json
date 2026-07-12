@@ -1,7 +1,7 @@
 {
   "id": "programming-for-wizards",
   "title": "Programming for Wizards",
-  "generatedAt": "2026-07-12T16:27:18.696Z",
+  "generatedAt": "2026-07-12T21:41:25.877Z",
   "phase": "01-enhanced-static-manuscript",
   "features": {
     "notes": "planned",
@@ -28,7 +28,7 @@
       "url": "chapters/01-this-is-not-a-programming-book.html",
       "previous": null,
       "next": "interlude-01-useful-tricks",
-      "wordCount": 517,
+      "wordCount": 563,
       "rule": null
     },
     {
@@ -148,7 +148,7 @@
       "url": "chapters/11-the-knitted-castle.html",
       "previous": "interlude-04-worse-spell",
       "next": "12-objects-binding-data-behavior-and-time",
-      "wordCount": 1554,
+      "wordCount": 1587,
       "rule": "Wizard's ninth rule"
     },
     {
@@ -208,7 +208,7 @@
       "url": "chapters/16-the-web-as-home.html",
       "previous": "15-the-web-as-data",
       "next": "interlude-06-final-rule",
-      "wordCount": 1461,
+      "wordCount": 1477,
       "rule": null
     },
     {
@@ -243,7 +243,7 @@
       "part": "Prologue",
       "partId": "prologue",
       "url": "chapters/01-this-is-not-a-programming-book.html",
-      "wordCount": 517
+      "wordCount": 563
     },
     {
       "id": "interlude-01-useful-tricks",
@@ -383,7 +383,7 @@
       "part": "Part IV: Boundaries",
       "partId": "boundaries",
       "url": "chapters/11-the-knitted-castle.html",
-      "wordCount": 1554
+      "wordCount": 1587
     },
     {
       "id": "12-objects-binding-data-behavior-and-time",
@@ -443,7 +443,7 @@
       "part": "Part V: The Next Web",
       "partId": "the-next-web",
       "url": "chapters/16-the-web-as-home.html",
-      "wordCount": 1461
+      "wordCount": 1477
     },
     {
       "id": "interlude-06-final-rule",
@@ -626,6 +626,13 @@
       "url": "chapters/01-this-is-not-a-programming-book.html#p-01-that-is-the-point-of-this-book"
     },
     {
+      "id": "p-01-you-may-already-have-good-tools-a-productive",
+      "type": "paragraph",
+      "label": "You may already have good tools, a productive framework and years of experience using them. This book is not an argument",
+      "chapter": "01-this-is-not-a-programming-book",
+      "url": "chapters/01-this-is-not-a-programming-book.html#p-01-you-may-already-have-good-tools-a-productive"
+    },
+    {
       "id": "p-01-now-this-doesnt-mean-we-should-just-go",
       "type": "paragraph",
       "label": "Now, this doesn't mean we should just go about changing anything we like. For one thing, you will find it difficult to c",
@@ -687,6 +694,13 @@
       "label": "Let's find out.",
       "chapter": "01-this-is-not-a-programming-book",
       "url": "chapters/01-this-is-not-a-programming-book.html#p-01-lets-find-out"
+    },
+    {
+      "id": "aside-01-write-in-the-margins",
+      "type": "aside",
+      "label": "Write in the margins",
+      "chapter": "01-this-is-not-a-programming-book",
+      "url": "chapters/01-this-is-not-a-programming-book.html#aside-01-write-in-the-margins"
     },
     {
       "id": "h-02-numbers-bigger-than-you-think",
@@ -808,6 +822,13 @@
       "url": "chapters/02-numbers-hiding-calculations-in-symbols.html#p-02-anyway-back-to-the-abacus-lets-show-one"
     },
     {
+      "id": "image-02-abacus6-png",
+      "type": "image",
+      "label": "Abacus_6.png",
+      "chapter": "02-numbers-hiding-calculations-in-symbols",
+      "url": "chapters/02-numbers-hiding-calculations-in-symbols.html#image-02-abacus6-png"
+    },
+    {
       "id": "p-02-this-is-a-chinese-version-you-could-probably",
       "type": "paragraph",
       "label": "This is a Chinese version; you could probably find something like it still in use around the world today. The idea is si",
@@ -869,6 +890,13 @@
       "label": "Why is this important? Well, this insight opens the way for mechanical calculators: devices that can add and subtract nu",
       "chapter": "02-numbers-hiding-calculations-in-symbols",
       "url": "chapters/02-numbers-hiding-calculations-in-symbols.html#p-02-why-is-this-important-well-this-insight-opens"
+    },
+    {
+      "id": "image-02-detailofarothcalculatingmachine-png",
+      "type": "image",
+      "label": "Detail_of_a_Roth_Calculating_machine.png",
+      "chapter": "02-numbers-hiding-calculations-in-symbols",
+      "url": "chapters/02-numbers-hiding-calculations-in-symbols.html#image-02-detailofarothcalculatingmachine-png"
     },
     {
       "id": "p-02-blaise-pascal-is-credited-with-making-one-of",
@@ -1095,6 +1123,13 @@
       "url": "chapters/03-logic-turning-truth-into-machinery.html#p-03-obviously-you-need-to-ask-a-question-that"
     },
     {
+      "id": "aside-03-which-door-should-i-choose",
+      "type": "aside",
+      "label": "Which door should I choose?",
+      "chapter": "03-logic-turning-truth-into-machinery",
+      "url": "chapters/03-logic-turning-truth-into-machinery.html#aside-03-which-door-should-i-choose"
+    },
+    {
       "id": "p-03-if-you-ask-the-truthful-guard-shell-point",
       "type": "paragraph",
       "label": "If you ask the truthful guard, she'll point to your desire. If you ask the lying guard, she'll point to your doom. Since",
@@ -1114,6 +1149,13 @@
       "label": "That doesn't help. The answer depends on which guard you asked, and you don't know that. So the famous solution is to as",
       "chapter": "03-logic-turning-truth-into-machinery",
       "url": "chapters/03-logic-turning-truth-into-machinery.html#p-03-that-doesnt-help-the-answer-depends-on-which"
+    },
+    {
+      "id": "aside-03-if-i-asked-the-other-guard-which-door",
+      "type": "aside",
+      "label": "If I asked the other guard which door leads to my desire, what would she answer?",
+      "chapter": "03-logic-turning-truth-into-machinery",
+      "url": "chapters/03-logic-turning-truth-into-machinery.html#aside-03-if-i-asked-the-other-guard-which-door"
     },
     {
       "id": "p-03-now-whatever-answer-you-get-you-choose-the",
@@ -1417,11 +1459,11 @@
       "url": "chapters/05-the-web-as-address.html#p-05-the-first-website-did-not-look-much-like"
     },
     {
-      "id": "code-05-007",
+      "id": "code-05-html",
       "type": "code",
       "label": "html block",
       "chapter": "05-the-web-as-address",
-      "url": "chapters/05-the-web-as-address.html#code-05-007"
+      "url": "chapters/05-the-web-as-address.html#code-05-html"
     },
     {
       "id": "p-05-it-does-not-look-revolutionary-today-most-of",
@@ -1431,11 +1473,11 @@
       "url": "chapters/05-the-web-as-address.html#p-05-it-does-not-look-revolutionary-today-most-of"
     },
     {
-      "id": "code-05-029",
+      "id": "code-05-html-the-world-wide-web-project",
       "type": "code",
       "label": "html block",
       "chapter": "05-the-web-as-address",
-      "url": "chapters/05-the-web-as-address.html#code-05-029"
+      "url": "chapters/05-the-web-as-address.html#code-05-html-the-world-wide-web-project"
     },
     {
       "id": "p-05-hidden-inside-it-is-another-invention-probably-the",
@@ -1445,11 +1487,11 @@
       "url": "chapters/05-the-web-as-address.html#p-05-hidden-inside-it-is-another-invention-probably-the"
     },
     {
-      "id": "code-05-035",
+      "id": "code-05-url-http-info-cern-ch-hypertext-www-theproject",
       "type": "code",
       "label": "url block",
       "chapter": "05-the-web-as-address",
-      "url": "chapters/05-the-web-as-address.html#code-05-035"
+      "url": "chapters/05-the-web-as-address.html#code-05-url-http-info-cern-ch-hypertext-www-theproject"
     },
     {
       "id": "p-05-the-url-the-uniform-resource-locator-to-understand",
@@ -1529,11 +1571,11 @@
       "url": "chapters/05-the-web-as-address.html#p-05-look-again-at-the-url"
     },
     {
-      "id": "code-05-061",
+      "id": "code-05-url-http-info-cern-ch-hypertext-www-theproject-2",
       "type": "code",
       "label": "url block",
       "chapter": "05-the-web-as-address",
-      "url": "chapters/05-the-web-as-address.html#code-05-061"
+      "url": "chapters/05-the-web-as-address.html#code-05-url-http-info-cern-ch-hypertext-www-theproject-2"
     },
     {
       "id": "p-05-it-has-three-obvious-parts",
@@ -1543,11 +1585,11 @@
       "url": "chapters/05-the-web-as-address.html#p-05-it-has-three-obvious-parts"
     },
     {
-      "id": "code-05-067",
+      "id": "code-05-text-http-info-cern-ch-hypertext-www-theproject",
       "type": "code",
       "label": "text block",
       "chapter": "05-the-web-as-address",
-      "url": "chapters/05-the-web-as-address.html#code-05-067"
+      "url": "chapters/05-the-web-as-address.html#code-05-text-http-info-cern-ch-hypertext-www-theproject"
     },
     {
       "id": "p-05-it-combines-three-pieces-of-information-in-a",
@@ -1585,11 +1627,11 @@
       "url": "chapters/05-the-web-as-address.html#h-05-the-path"
     },
     {
-      "id": "code-05-086",
+      "id": "code-05-text-hypertext-www-theproject-html",
       "type": "code",
       "label": "text block",
       "chapter": "05-the-web-as-address",
-      "url": "chapters/05-the-web-as-address.html#code-05-086"
+      "url": "chapters/05-the-web-as-address.html#code-05-text-hypertext-www-theproject-html"
     },
     {
       "id": "p-05-if-you-have-used-a-unix-like-system",
@@ -1599,11 +1641,11 @@
       "url": "chapters/05-the-web-as-address.html#p-05-if-you-have-used-a-unix-like-system"
     },
     {
-      "id": "code-05-092",
+      "id": "code-05-text-hypertext",
       "type": "code",
       "label": "text block",
       "chapter": "05-the-web-as-address",
-      "url": "chapters/05-the-web-as-address.html#code-05-092"
+      "url": "chapters/05-the-web-as-address.html#code-05-text-hypertext"
     },
     {
       "id": "p-05-this-feels-obvious-now-but-it-was-only",
@@ -1613,11 +1655,11 @@
       "url": "chapters/05-the-web-as-address.html#p-05-this-feels-obvious-now-but-it-was-only"
     },
     {
-      "id": "code-05-100",
+      "id": "code-05-text-node-accountname-password-device-directory-subdirectory-filename",
       "type": "code",
       "label": "text block",
       "chapter": "05-the-web-as-address",
-      "url": "chapters/05-the-web-as-address.html#code-05-100"
+      "url": "chapters/05-the-web-as-address.html#code-05-text-node-accountname-password-device-directory-subdirectory-filename"
     },
     {
       "id": "p-05-the-web-was-developed-by-sir-tim-on",
@@ -1641,11 +1683,11 @@
       "url": "chapters/05-the-web-as-address.html#p-05-simple-ideas-often-grow-more-complex-threads-when"
     },
     {
-      "id": "code-05-110",
+      "id": "code-05-code-folder-withaslash",
       "type": "code",
       "label": "code block",
       "chapter": "05-the-web-as-address",
-      "url": "chapters/05-the-web-as-address.html#code-05-110"
+      "url": "chapters/05-the-web-as-address.html#code-05-code-folder-withaslash"
     },
     {
       "id": "p-05-an-escape-character-says-the-next-character-is",
@@ -1655,11 +1697,11 @@
       "url": "chapters/05-the-web-as-address.html#p-05-an-escape-character-says-the-next-character-is"
     },
     {
-      "id": "code-05-116",
+      "id": "code-05-code-folder-2fwithaslash",
       "type": "code",
       "label": "code block",
       "chapter": "05-the-web-as-address",
-      "url": "chapters/05-the-web-as-address.html#code-05-116"
+      "url": "chapters/05-the-web-as-address.html#code-05-code-folder-2fwithaslash"
     },
     {
       "id": "p-05-the-escape-character-that-signifies-the-start-of",
@@ -1683,11 +1725,11 @@
       "url": "chapters/05-the-web-as-address.html#h-05-the-hostname"
     },
     {
-      "id": "code-05-126",
+      "id": "code-05-url-info-cern-ch",
       "type": "code",
       "label": "url block",
       "chapter": "05-the-web-as-address",
-      "url": "chapters/05-the-web-as-address.html#code-05-126"
+      "url": "chapters/05-the-web-as-address.html#code-05-url-info-cern-ch"
     },
     {
       "id": "p-05-the-double-slash-says-that-what-follows-is",
@@ -1739,11 +1781,11 @@
       "url": "chapters/05-the-web-as-address.html#h-05-the-protocol"
     },
     {
-      "id": "code-05-144",
+      "id": "code-05-url-http",
       "type": "code",
       "label": "url block",
       "chapter": "05-the-web-as-address",
-      "url": "chapters/05-the-web-as-address.html#code-05-144"
+      "url": "chapters/05-the-web-as-address.html#code-05-url-http"
     },
     {
       "id": "p-05-the-protocol-looks-like-the-least-interesting-part",
@@ -1760,11 +1802,11 @@
       "url": "chapters/05-the-web-as-address.html#p-05-compare-it-with-gopher-another-worldwide-information-system"
     },
     {
-      "id": "code-05-152",
+      "id": "code-05-text-1cia-world-factbook-archives-politics-cia-gopher",
       "type": "code",
       "label": "text block",
       "chapter": "05-the-web-as-address",
-      "url": "chapters/05-the-web-as-address.html#code-05-152"
+      "url": "chapters/05-the-web-as-address.html#code-05-text-1cia-world-factbook-archives-politics-cia-gopher"
     },
     {
       "id": "p-05-a-line-like-that-can-point-to-information",
@@ -1830,6 +1872,13 @@
       "url": "chapters/06-the-web-as-document.html#p-06-markup-is-simply-an-additional-marking-on-a"
     },
     {
+      "id": "image-06-1920px-metalmovabletype-jpg",
+      "type": "image",
+      "label": "1920px-Metal_movable_type.jpg",
+      "chapter": "06-the-web-as-document",
+      "url": "chapters/06-the-web-as-document.html#image-06-1920px-metalmovabletype-jpg"
+    },
+    {
       "id": "p-06-the-editor-added-markup-to-tell-the-typesetter",
       "type": "paragraph",
       "label": "The editor added markup to tell the typesetter what font and font size to use, as well as other layout decisions.",
@@ -1893,11 +1942,11 @@
       "url": "chapters/06-the-web-as-document.html#p-06-this-is-where-things-get-interesting-sometime-in"
     },
     {
-      "id": "code-06-031",
+      "id": "code-06-gml-h1-chapter-1-introduction",
       "type": "code",
       "label": "gml block",
       "chapter": "06-the-web-as-document",
-      "url": "chapters/06-the-web-as-document.html#code-06-031"
+      "url": "chapters/06-the-web-as-document.html#code-06-gml-h1-chapter-1-introduction"
     },
     {
       "id": "p-06-unfortunately-their-work-only-made-it-out-of",
@@ -1921,11 +1970,11 @@
       "url": "chapters/06-the-web-as-document.html#p-06-here-is-that-first-html-page-again"
     },
     {
-      "id": "code-06-050",
+      "id": "code-06-html",
       "type": "code",
       "label": "html block",
       "chapter": "06-the-web-as-document",
-      "url": "chapters/06-the-web-as-document.html#code-06-050"
+      "url": "chapters/06-the-web-as-document.html#code-06-html"
     },
     {
       "id": "p-06-this-is-not-an-sgml-document-it-doesnt",
@@ -1956,11 +2005,11 @@
       "url": "chapters/06-the-web-as-document.html#p-06-imagine-an-html-version-without-named-end-tags"
     },
     {
-      "id": "code-06-078",
+      "id": "code-06-code-this-is-an-example-text",
       "type": "code",
       "label": "code block",
       "chapter": "06-the-web-as-document",
-      "url": "chapters/06-the-web-as-document.html#code-06-078"
+      "url": "chapters/06-the-web-as-document.html#code-06-code-this-is-an-example-text"
     },
     {
       "id": "p-06-this-is-technically-feasible-maybe-even-simpler-however",
@@ -1998,11 +2047,11 @@
       "url": "chapters/06-the-web-as-document.html#p-06-now-for-the-tricky-parts-as-youve-seen"
     },
     {
-      "id": "code-06-098",
+      "id": "code-06-html-this-is-a-strong-and-partially-emphasized",
       "type": "code",
       "label": "html block",
       "chapter": "06-the-web-as-document",
-      "url": "chapters/06-the-web-as-document.html#code-06-098"
+      "url": "chapters/06-the-web-as-document.html#code-06-html-this-is-a-strong-and-partially-emphasized"
     },
     {
       "id": "p-06-instead-you-are-supposed-to-write-this",
@@ -2012,11 +2061,11 @@
       "url": "chapters/06-the-web-as-document.html#p-06-instead-you-are-supposed-to-write-this"
     },
     {
-      "id": "code-06-104",
+      "id": "code-06-html-this-is-a-strong-and-partially-emphasized-2",
       "type": "code",
       "label": "html block",
       "chapter": "06-the-web-as-document",
-      "url": "chapters/06-the-web-as-document.html#code-06-104"
+      "url": "chapters/06-the-web-as-document.html#code-06-html-this-is-a-strong-and-partially-emphasized-2"
     },
     {
       "id": "p-06-and-this-html-can-be-represented-as-a",
@@ -2047,11 +2096,11 @@
       "url": "chapters/06-the-web-as-document.html#p-06-this-tree-structure-does-have-benefits-you-can"
     },
     {
-      "id": "code-06-123",
+      "id": "code-06-html-2",
       "type": "code",
       "label": "html block",
       "chapter": "06-the-web-as-document",
-      "url": "chapters/06-the-web-as-document.html#code-06-123"
+      "url": "chapters/06-the-web-as-document.html#code-06-html-2"
     },
     {
       "id": "p-06-and-it-would-render-the-same-the-tree",
@@ -2075,11 +2124,11 @@
       "url": "chapters/06-the-web-as-document.html#p-06-for-example-both-lines-in-the-example-below"
     },
     {
-      "id": "code-06-141",
+      "id": "code-06-html-this-renders-exactly-the-same",
       "type": "code",
       "label": "html block",
       "chapter": "06-the-web-as-document",
-      "url": "chapters/06-the-web-as-document.html#code-06-141"
+      "url": "chapters/06-the-web-as-document.html#code-06-html-this-renders-exactly-the-same"
     },
     {
       "id": "p-06-even-the-extra-3-spaces-at-the-start",
@@ -2096,11 +2145,11 @@
       "url": "chapters/06-the-web-as-document.html#p-06-now-if-you-really-want-to-open-a"
     },
     {
-      "id": "code-06-150",
+      "id": "code-06-html-3",
       "type": "code",
       "label": "html block",
       "chapter": "06-the-web-as-document",
-      "url": "chapters/06-the-web-as-document.html#code-06-150"
+      "url": "chapters/06-the-web-as-document.html#code-06-html-3"
     },
     {
       "id": "p-06-however-what-you-are-seeing-is-an-editor",
@@ -2194,6 +2243,13 @@
       "url": "chapters/07-the-web-as-platform.html#p-07-enter-brendan-eich-as-he-later-described-it"
     },
     {
+      "id": "aside-07-at-least-client-engineering-management-including-tom-paquin",
+      "type": "aside",
+      "label": "\"At least client engineering management including Tom Paquin, Michael Toy, and Rick Schell, along with some guy named Ma",
+      "chapter": "07-the-web-as-platform",
+      "url": "chapters/07-the-web-as-platform.html#aside-07-at-least-client-engineering-management-including-tom-paquin"
+    },
+    {
       "id": "p-07-that-prototype-became-the-programming-language-of-the",
       "type": "paragraph",
       "label": "That prototype became the programming language of the Web.",
@@ -2220,6 +2276,13 @@
       "label": "Scheme is a descendant of Lisp (and Algol.) It is nothing like Java. But as any Lisp-like language, you can change the l",
       "chapter": "07-the-web-as-platform",
       "url": "chapters/07-the-web-as-platform.html#p-07-scheme-is-a-descendant-of-lisp-and-algol"
+    },
+    {
+      "id": "aside-07-brendan-eich-im-not-proud-but-im-happy",
+      "type": "aside",
+      "label": "Brendan Eich - \"I’m not proud, but I’m happy that I chose Scheme-ish first-class functions and Self-ish (albeit singular",
+      "chapter": "07-the-web-as-platform",
+      "url": "chapters/07-the-web-as-platform.html#aside-07-brendan-eich-im-not-proud-but-im-happy"
     },
     {
       "id": "p-07-like-any-prototype-that-is-pushed-into-production",
@@ -2376,11 +2439,11 @@
       "url": "chapters/08-programming-languages-are-for-humans.html#p-08-computers-are-perfectly-fine-executing-instructions-like-this"
     },
     {
-      "id": "code-08-009",
+      "id": "code-08-code-037744-016701-000026-012702-000352-005211-105711",
       "type": "code",
       "label": "code block",
       "chapter": "08-programming-languages-are-for-humans",
-      "url": "chapters/08-programming-languages-are-for-humans.html#code-08-009"
+      "url": "chapters/08-programming-languages-are-for-humans.html#code-08-code-037744-016701-000026-012702-000352-005211-105711"
     },
     {
       "id": "p-08-this-machine-code-is-written-in-octal-to",
@@ -2390,11 +2453,11 @@
       "url": "chapters/08-programming-languages-are-for-humans.html#p-08-this-machine-code-is-written-in-octal-to"
     },
     {
-      "id": "code-08-016",
+      "id": "code-08-code-037744-016701-000026-mov-037776-r1",
       "type": "code",
       "label": "code block",
       "chapter": "08-programming-languages-are-for-humans",
-      "url": "chapters/08-programming-languages-are-for-humans.html#code-08-016"
+      "url": "chapters/08-programming-languages-are-for-humans.html#code-08-code-037744-016701-000026-mov-037776-r1"
     },
     {
       "id": "p-08-and-now-with-some-labels-and-comments",
@@ -2404,11 +2467,11 @@
       "url": "chapters/08-programming-languages-are-for-humans.html#p-08-and-now-with-some-labels-and-comments"
     },
     {
-      "id": "code-08-030",
+      "id": "code-08-code-load-0x7400-buffer-address",
       "type": "code",
       "label": "code block",
       "chapter": "08-programming-languages-are-for-humans",
-      "url": "chapters/08-programming-languages-are-for-humans.html#code-08-030"
+      "url": "chapters/08-programming-languages-are-for-humans.html#code-08-code-load-0x7400-buffer-address"
     },
     {
       "id": "p-08-this-is-the-code-to-make-a-pdp",
@@ -2439,11 +2502,11 @@
       "url": "chapters/08-programming-languages-are-for-humans.html#p-08-cobol-was-designed-to-make-business-programs-look"
     },
     {
-      "id": "code-08-057",
+      "id": "code-08-cobol",
       "type": "code",
       "label": "cobol block",
       "chapter": "08-programming-languages-are-for-humans",
-      "url": "chapters/08-programming-languages-are-for-humans.html#code-08-057"
+      "url": "chapters/08-programming-languages-are-for-humans.html#code-08-cobol"
     },
     {
       "id": "p-08-believe-it-or-not-cobol-is-still-in",
@@ -2474,11 +2537,11 @@
       "url": "chapters/08-programming-languages-are-for-humans.html#p-08-here-is-an-example-in-fortran-77"
     },
     {
-      "id": "code-08-090",
+      "id": "code-08-fortran-program-main",
       "type": "code",
       "label": "fortran block",
       "chapter": "08-programming-languages-are-for-humans",
-      "url": "chapters/08-programming-languages-are-for-humans.html#code-08-090"
+      "url": "chapters/08-programming-languages-are-for-humans.html#code-08-fortran-program-main"
     },
     {
       "id": "p-08-finally-we-arrive-at-lisp-a-wizard-called",
@@ -2502,11 +2565,11 @@
       "url": "chapters/08-programming-languages-are-for-humans.html#p-08-here-is-a-tiny-example"
     },
     {
-      "id": "code-08-119",
+      "id": "code-08-lisp-defmacro-unless-condition-body-body",
       "type": "code",
       "label": "lisp block",
       "chapter": "08-programming-languages-are-for-humans",
-      "url": "chapters/08-programming-languages-are-for-humans.html#code-08-119"
+      "url": "chapters/08-programming-languages-are-for-humans.html#code-08-lisp-defmacro-unless-condition-body-body"
     },
     {
       "id": "p-08-that-is-why-lisp-keeps-returning-in-conversations",
@@ -2838,6 +2901,13 @@
       "url": "chapters/10-code-exhibit-extending-javascript-with-jaqt.html#p-10-but-borders-are-expensive-so-before-we-build"
     },
     {
+      "id": "aside-10-what-if-the-language-we-need-is-already",
+      "type": "aside",
+      "label": "What if the language we need is already hiding inside the language we have?",
+      "chapter": "10-code-exhibit-extending-javascript-with-jaqt",
+      "url": "chapters/10-code-exhibit-extending-javascript-with-jaqt.html#aside-10-what-if-the-language-we-need-is-already"
+    },
+    {
       "id": "p-10-now-for-this-example-well-wade-into-the",
       "type": "paragraph",
       "label": "Now, for this example, we'll wade into the deeper waters of JavaScript. Don't worry if you didn't bring your wellies. Yo",
@@ -2878,6 +2948,13 @@
       "label": "For example:",
       "chapter": "10-code-exhibit-extending-javascript-with-jaqt",
       "url": "chapters/10-code-exhibit-extending-javascript-with-jaqt.html#p-10-for-example"
+    },
+    {
+      "id": "aside-10-give-me-the-people-whose-last-name-starts",
+      "type": "aside",
+      "label": "Give me the people whose last name starts with O and who live in Manchester. Then return only the bits I want to show.",
+      "chapter": "10-code-exhibit-extending-javascript-with-jaqt",
+      "url": "chapters/10-code-exhibit-extending-javascript-with-jaqt.html#aside-10-give-me-the-people-whose-last-name-starts"
     },
     {
       "id": "p-10-the-most-direct-version-is-a-loop",
@@ -3454,11 +3531,25 @@
       "url": "chapters/11-the-knitted-castle.html#p-11-the-famous-wizard-alan-kay-once-said"
     },
     {
+      "id": "aside-11-whatever-we-in-computing-do-is-more-like",
+      "type": "aside",
+      "label": "\"Whatever we [in computing] do is more like what the Egyptians did. Building pyramids, piling things on top of each othe",
+      "chapter": "11-the-knitted-castle",
+      "url": "chapters/11-the-knitted-castle.html#aside-11-whatever-we-in-computing-do-is-more-like"
+    },
+    {
       "id": "p-11-i-think-the-situation-is-more-dire-than",
       "type": "paragraph",
       "label": "I think the situation is more dire than that. We're not stacking bricks. We're knitting castles.",
       "chapter": "11-the-knitted-castle",
       "url": "chapters/11-the-knitted-castle.html#p-11-i-think-the-situation-is-more-dire-than"
+    },
+    {
+      "id": "aside-11-aside-ive-stolen-the-knitted-castle-example-from-rich",
+      "type": "aside",
+      "label": "Aside: I've stolen the knitted castle example from Rich Hickey. He uses the image in Simple Made Easy, a talk every wiza",
+      "chapter": "11-the-knitted-castle",
+      "url": "chapters/11-the-knitted-castle.html#aside-11-aside-ive-stolen-the-knitted-castle-example-from-rich"
     },
     {
       "id": "p-11-lets-take-a-step-back-first-go-back",
@@ -3489,11 +3580,11 @@
       "url": "chapters/11-the-knitted-castle.html#p-11-most-software-projects-at-some-point-end-up"
     },
     {
-      "id": "p-11-a-knitted-castle",
-      "type": "paragraph",
+      "id": "image-11-a-knitted-castle",
+      "type": "image",
       "label": "A knitted castle",
       "chapter": "11-the-knitted-castle",
-      "url": "chapters/11-the-knitted-castle.html#p-11-a-knitted-castle"
+      "url": "chapters/11-the-knitted-castle.html#image-11-a-knitted-castle"
     },
     {
       "id": "p-11-a-pyramid-is-at-least-made-of-separate",
@@ -3615,6 +3706,13 @@
       "url": "chapters/11-the-knitted-castle.html#h-11-packages-are-not-the-same-as-parts"
     },
     {
+      "id": "p-11-you-install-one-small-package-it-needs-a",
+      "type": "paragraph",
+      "label": "You install one small package. It needs a framework plugin, a state library, a build step and three neighbouring package",
+      "chapter": "11-the-knitted-castle",
+      "url": "chapters/11-the-knitted-castle.html#p-11-you-install-one-small-package-it-needs-a"
+    },
+    {
       "id": "p-11-javascript-has-one-of-the-largest-ecosystems-of",
       "type": "paragraph",
       "label": "JavaScript has one of the largest ecosystems of reusable packages ever created. npm is both a miracle and a warning labe",
@@ -3727,11 +3825,25 @@
       "url": "chapters/11-the-knitted-castle.html#p-11-so-lets-rephrase-the-question-the-useful-question"
     },
     {
+      "id": "aside-11-can-this-be-reused",
+      "type": "aside",
+      "label": "Can this be reused?",
+      "chapter": "11-the-knitted-castle",
+      "url": "chapters/11-the-knitted-castle.html#aside-11-can-this-be-reused"
+    },
+    {
       "id": "p-11-the-useful-question-is",
       "type": "paragraph",
       "label": "The useful question is:",
       "chapter": "11-the-knitted-castle",
       "url": "chapters/11-the-knitted-castle.html#p-11-the-useful-question-is"
+    },
+    {
+      "id": "aside-11-in-what-direction-can-this-be-reused",
+      "type": "aside",
+      "label": "In what direction can this be reused?",
+      "chapter": "11-the-knitted-castle",
+      "url": "chapters/11-the-knitted-castle.html#aside-11-in-what-direction-can-this-be-reused"
     },
     {
       "id": "p-11-can-the-calculation-be-reused-without-the-ui",
@@ -3993,11 +4105,11 @@
       "url": "chapters/12-objects-binding-data-behavior-and-time.html#p-12-that-language-can-be-pleasant-it-can-also"
     },
     {
-      "id": "code-12-031",
+      "id": "code-12-php-order-pay-payment",
       "type": "code",
       "label": "php block",
       "chapter": "12-objects-binding-data-behavior-and-time",
-      "url": "chapters/12-objects-binding-data-behavior-and-time.html#code-12-031"
+      "url": "chapters/12-objects-binding-data-behavior-and-time.html#code-12-php-order-pay-payment"
     },
     {
       "id": "p-12-this-code-tells-a-little-story-it-is",
@@ -4028,11 +4140,11 @@
       "url": "chapters/12-objects-binding-data-behavior-and-time.html#p-12-for-example-an-order-may-need-to-save"
     },
     {
-      "id": "code-12-045",
+      "id": "code-12-php-class-order",
       "type": "code",
       "label": "php block",
       "chapter": "12-objects-binding-data-behavior-and-time",
-      "url": "chapters/12-objects-binding-data-behavior-and-time.html#code-12-045"
+      "url": "chapters/12-objects-binding-data-behavior-and-time.html#code-12-php-class-order"
     },
     {
       "id": "p-12-this-looks-convenient-and-convenience-is-one-of",
@@ -4056,11 +4168,11 @@
       "url": "chapters/12-objects-binding-data-behavior-and-time.html#p-12-a-cleaner-version-is-to-ask-for-what"
     },
     {
-      "id": "code-12-060",
+      "id": "code-12-php-class-order-2",
       "type": "code",
       "label": "php block",
       "chapter": "12-objects-binding-data-behavior-and-time",
-      "url": "chapters/12-objects-binding-data-behavior-and-time.html#code-12-060"
+      "url": "chapters/12-objects-binding-data-behavior-and-time.html#code-12-php-class-order-2"
     },
     {
       "id": "p-12-or-even-better-inject-the-dependency-when-the",
@@ -4070,11 +4182,11 @@
       "url": "chapters/12-objects-binding-data-behavior-and-time.html#p-12-or-even-better-inject-the-dependency-when-the"
     },
     {
-      "id": "code-12-070",
+      "id": "code-12-php-class-orderservice",
       "type": "code",
       "label": "php block",
       "chapter": "12-objects-binding-data-behavior-and-time",
-      "url": "chapters/12-objects-binding-data-behavior-and-time.html#code-12-070"
+      "url": "chapters/12-objects-binding-data-behavior-and-time.html#code-12-php-class-orderservice"
     },
     {
       "id": "p-12-forget-the-frameworks-the-annotations-and-the-containers",
@@ -4091,6 +4203,13 @@
       "url": "chapters/12-objects-binding-data-behavior-and-time.html#p-12-instead-the-useful-idea-is-simple"
     },
     {
+      "id": "aside-12-the-place-that-uses-a-dependency-does-not",
+      "type": "aside",
+      "label": "The place that uses a dependency does not have to be the place that chooses it.",
+      "chapter": "12-objects-binding-data-behavior-and-time",
+      "url": "chapters/12-objects-binding-data-behavior-and-time.html#aside-12-the-place-that-uses-a-dependency-does-not"
+    },
+    {
       "id": "p-12-that-lets-you-bind-later-the-simplest-version",
       "type": "paragraph",
       "label": "That lets you bind later. The simplest version of this is:",
@@ -4098,11 +4217,11 @@
       "url": "chapters/12-objects-binding-data-behavior-and-time.html#p-12-that-lets-you-bind-later-the-simplest-version"
     },
     {
-      "id": "code-12-089",
+      "id": "code-12-php-orders-new-sqlorderrepository-database",
       "type": "code",
       "label": "php block",
       "chapter": "12-objects-binding-data-behavior-and-time",
-      "url": "chapters/12-objects-binding-data-behavior-and-time.html#code-12-089"
+      "url": "chapters/12-objects-binding-data-behavior-and-time.html#code-12-php-orders-new-sqlorderrepository-database"
     },
     {
       "id": "p-12-or-encapsulated-in-a-factory-function",
@@ -4112,11 +4231,11 @@
       "url": "chapters/12-objects-binding-data-behavior-and-time.html#p-12-or-encapsulated-in-a-factory-function"
     },
     {
-      "id": "code-12-096",
+      "id": "code-12-php-function-createorderservice-databaseconnection-database",
       "type": "code",
       "label": "php block",
       "chapter": "12-objects-binding-data-behavior-and-time",
-      "url": "chapters/12-objects-binding-data-behavior-and-time.html#code-12-096"
+      "url": "chapters/12-objects-binding-data-behavior-and-time.html#code-12-php-function-createorderservice-databaseconnection-database"
     },
     {
       "id": "p-12-the-key-idea-the-factory-is-separate-from",
@@ -5141,6 +5260,13 @@
       "url": "chapters/15-the-web-as-data.html#p-15-so-the-next-wizard-question-is-simple"
     },
     {
+      "id": "aside-15-what-if-names-inside-the-data-could-cross",
+      "type": "aside",
+      "label": "What if names inside the data could cross the same boundaries as documents?",
+      "chapter": "15-the-web-as-data",
+      "url": "chapters/15-the-web-as-data.html#aside-15-what-if-names-inside-the-data-could-cross"
+    },
+    {
       "id": "h-15-names-that-can-travel",
       "type": "heading",
       "label": "Names that can travel",
@@ -5167,6 +5293,13 @@
       "label": "Linked data extends that trick:",
       "chapter": "15-the-web-as-data",
       "url": "chapters/15-the-web-as-data.html#p-15-linked-data-extends-that-trick"
+    },
+    {
+      "id": "aside-15-things-can-have-web-addresses-too",
+      "type": "aside",
+      "label": "Things can have Web addresses too.",
+      "chapter": "15-the-web-as-data",
+      "url": "chapters/15-the-web-as-data.html#aside-15-things-can-have-web-addresses-too"
     },
     {
       "id": "p-15-hilda-can-have-an-identifier",
@@ -5785,6 +5918,13 @@
       "url": "chapters/16-the-web-as-home.html#p-16-there-is-a-project-called-solid-that-explores"
     },
     {
+      "id": "p-16-solid-does-not-have-to-conquer-the-web",
+      "type": "paragraph",
+      "label": "Solid does not have to conquer the Web for the boundary it demonstrates to be useful.",
+      "chapter": "16-the-web-as-home",
+      "url": "chapters/16-the-web-as-home.html#p-16-solid-does-not-have-to-conquer-the-web"
+    },
+    {
       "id": "p-16-solid-separates-identity-and-data-from-applications-a",
       "type": "paragraph",
       "label": "Solid separates identity and data from applications. A person has an identity on the Web. Their data can live in storage",
@@ -6212,11 +6352,25 @@
       "url": "chapters/16-the-web-as-home.html#p-16-a-private-application-asks"
     },
     {
+      "id": "aside-16-how-can-we-keep-the-user-inside",
+      "type": "aside",
+      "label": "How can we keep the user inside?",
+      "chapter": "16-the-web-as-home",
+      "url": "chapters/16-the-web-as-home.html#aside-16-how-can-we-keep-the-user-inside"
+    },
+    {
       "id": "p-16-a-personal-web-asks",
       "type": "paragraph",
       "label": "A personal Web asks:",
       "chapter": "16-the-web-as-home",
       "url": "chapters/16-the-web-as-home.html#p-16-a-personal-web-asks"
+    },
+    {
+      "id": "aside-16-how-can-this-tool-remain-useful-after-the",
+      "type": "aside",
+      "label": "How can this tool remain useful after the user replaces it?",
+      "chapter": "16-the-web-as-home",
+      "url": "chapters/16-the-web-as-home.html#aside-16-how-can-this-tool-remain-useful-after-the"
     },
     {
       "id": "p-16-those-questions-produce-different-software",

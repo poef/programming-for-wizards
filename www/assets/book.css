@@ -886,7 +886,7 @@ figure {
 }
 
 .manuscript-pages > img,
-.manuscript-pages p.image-block {
+.manuscript-pages :where(p, figure).image-block {
   margin-block: 1lh;
   text-align: center;
 }
@@ -952,7 +952,7 @@ img {
 }
 
 .manuscript-pages figure:has(img) > img,
-.manuscript-pages p.image-block > img {
+.manuscript-pages :where(p, figure).image-block > img {
   display: block;
   margin: 0 auto;
   max-block-size: 8lh;

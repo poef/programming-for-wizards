@@ -111,7 +111,7 @@
   <div class="book-progress" role="progressbar" aria-label="Book progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" data-book-progress>
     <span data-book-progress-bar></span>
   </div>
-  <div id="book-start" class="manuscript-pages" data-page-scroller data-book-chapter-id="10-code-exhibit-extending-javascript-with-jaqt" data-book-chapter-index="12" data-book-page-weights="517,27,1761,763,630,26,1305,1676,1260,20,1090,485,1924,29,1554,1216,1346,30,1179,1184,1461,37,173,133">
+  <div id="book-start" class="manuscript-pages" data-page-scroller data-book-chapter-id="10-code-exhibit-extending-javascript-with-jaqt" data-book-chapter-index="12" data-book-page-weights="563,27,1761,763,630,26,1305,1676,1260,20,1090,485,1924,29,1587,1216,1346,30,1179,1184,1477,37,173,133">
   <header class="chapter-header ">
     <p class="chapter-kicker">Part III: Inventing languages</p>
     <p class="chapter-number">Chapter 10</p>
@@ -124,7 +124,7 @@
 <p id="p-10-that-distinction-matters-a-separate-parser-creates-a" data-note-target>That distinction matters. A separate parser creates a hard border. On one side is PHP, JavaScript, Python, or whatever language your program is written in. On the other side is your new little language. Once you cross that boundary, you no longer have access to all the useful things from the host language. Functions, imports, editor help, error messages, test tools, and familiar habits.</p>
 <p id="p-10-sometimes-that-border-is-worth-it-sql-is" data-note-target>Sometimes that border is worth it. SQL is not JavaScript, and that is part of its power. Regular expressions are their own dense, cursed little world, and we keep using them because the curse is useful.</p>
 <p id="p-10-but-borders-are-expensive-so-before-we-build" data-note-target>But borders are expensive. So before we build one, it is worth asking a wizard's question:</p>
-<blockquote><p>What if the language we need is already hiding inside the language we have?</p></blockquote>
+<blockquote id="aside-10-what-if-the-language-we-need-is-already" data-note-target><p>What if the language we need is already hiding inside the language we have?</p></blockquote>
 <p id="p-10-now-for-this-example-well-wade-into-the" data-note-target>Now, for this example, we'll wade into the deeper waters of JavaScript. Don't worry if you didn't bring your wellies. You can watch from the bank. The code should reveal the trick anyway.</p>
 <h2 id="h-10-a-pile-of-little-records"><a class="anchor-link" href="#h-10-a-pile-of-little-records" aria-label="Link to A pile of little records">#</a>A pile of little records</h2>
 <p id="p-10-imagine-we-have-some-people" data-note-target>Imagine we have some people:</p>
@@ -156,7 +156,7 @@
 </figure>
 <p id="p-10-a-list-of-objects-like-this-is-not" data-note-target>A list of objects like this is not a database, but it starts to smell like one. We have records. They have fields. Some fields contain other records. Sooner or later we want to ask questions.</p>
 <p id="p-10-for-example" data-note-target>For example:</p>
-<blockquote><p>Give me the people whose last name starts with <code>O</code> and who live in Manchester. Then return only the bits I want to show.</p></blockquote>
+<blockquote id="aside-10-give-me-the-people-whose-last-name-starts" data-note-target><p>Give me the people whose last name starts with <code>O</code> and who live in Manchester. Then return only the bits I want to show.</p></blockquote>
 <p id="p-10-the-most-direct-version-is-a-loop" data-note-target>The most direct version is a loop:</p>
 <figure id="h7p0ep" class="code-figure code-figure-breakable" data-note-target data-breakable-code data-code-lines="17">
 <figcaption>js</figcaption>

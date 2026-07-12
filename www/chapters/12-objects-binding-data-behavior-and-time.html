@@ -111,7 +111,7 @@
   <div class="book-progress" role="progressbar" aria-label="Book progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" data-book-progress>
     <span data-book-progress-bar></span>
   </div>
-  <div id="book-start" class="manuscript-pages" data-page-scroller data-book-chapter-id="12-objects-binding-data-behavior-and-time" data-book-chapter-index="15" data-book-page-weights="517,27,1761,763,630,26,1305,1676,1260,20,1090,485,1924,29,1554,1216,1346,30,1179,1184,1461,37,173,133">
+  <div id="book-start" class="manuscript-pages" data-page-scroller data-book-chapter-id="12-objects-binding-data-behavior-and-time" data-book-chapter-index="15" data-book-page-weights="563,27,1761,763,630,26,1305,1676,1260,20,1090,485,1924,29,1587,1216,1346,30,1179,1184,1477,37,173,133">
   <header class="chapter-header ">
     <p class="chapter-kicker">Part IV: Boundaries</p>
     <p class="chapter-number">Chapter 12</p>
@@ -132,7 +132,7 @@
 <p id="p-12-a-class-is-often-explained-as-a-blueprint" data-note-target>A class is often explained as a blueprint. An object is the thing built from that blueprint. This is good enough for a first approximation, and dangerous if you believe it too deeply.</p>
 <p id="p-12-the-more-important-idea-is-that-an-object" data-note-target>The more important idea is that an object carries a small world around with it. It has state, and it has behavior that is allowed to touch that state. A good object hides its messy insides and exposes a smaller language to the rest of the program.</p>
 <p id="p-12-that-language-can-be-pleasant-it-can-also" data-note-target>That language can be pleasant. It can also become a trap.</p>
-<figure id="code-12-031" class="code-figure" data-note-target>
+<figure id="code-12-php-order-pay-payment" class="code-figure" data-note-target>
 <figcaption>php</figcaption>
 <pre><code class="language-php">$order-&gt;pay($payment);
 $order-&gt;ship($address);
@@ -142,7 +142,7 @@ $order-&gt;cancel($reason);</code></pre>
 <h2 id="h-12-dependencies"><a class="anchor-link" href="#h-12-dependencies" aria-label="Link to Dependencies">#</a>Dependencies</h2>
 <p id="p-12-the-real-trouble-often-starts-when-an-object" data-note-target>The real trouble often starts when an object needs something from the outside world.</p>
 <p id="p-12-for-example-an-order-may-need-to-save" data-note-target>For example, an order may need to save itself. The tempting thing is to let it create the thing it needs.</p>
-<figure id="code-12-045" class="code-figure" data-note-target>
+<figure id="code-12-php-class-order" class="code-figure" data-note-target>
 <figcaption>php</figcaption>
 <pre><code class="language-php">class Order {
     public function save() {
@@ -154,7 +154,7 @@ $order-&gt;cancel($reason);</code></pre>
 <p id="p-12-this-looks-convenient-and-convenience-is-one-of" data-note-target>This looks convenient, and convenience is one of the most dangerous forms of magic. The <code>Order</code> class now decides not only what an order is, but also where databases come from. If the database changes, the order changes. If you want to test the order, you need a database or a trick.</p>
 <p id="p-12-the-dependency-is-hidden" data-note-target>The dependency is hidden.</p>
 <p id="p-12-a-cleaner-version-is-to-ask-for-what" data-note-target>A cleaner version is to ask for what you need.</p>
-<figure id="code-12-060" class="code-figure" data-note-target>
+<figure id="code-12-php-class-order-2" class="code-figure" data-note-target>
 <figcaption>php</figcaption>
 <pre><code class="language-php">class Order {
     public function save(OrderRepository $orders) {
@@ -163,7 +163,7 @@ $order-&gt;cancel($reason);</code></pre>
 }</code></pre>
 </figure>
 <p id="p-12-or-even-better-inject-the-dependency-when-the" data-note-target>Or even better: inject the dependency when the object is created.</p>
-<figure id="code-12-070" class="code-figure" data-note-target>
+<figure id="code-12-php-class-orderservice" class="code-figure" data-note-target>
 <figcaption>php</figcaption>
 <pre><code class="language-php">class OrderService {
     public function __construct(private OrderRepository $orders) {}
@@ -176,15 +176,15 @@ $order-&gt;cancel($reason);</code></pre>
 </figure>
 <p id="p-12-forget-the-frameworks-the-annotations-and-the-containers" data-note-target>Forget the frameworks, the annotations, and the containers with configuration files so large that they need their own weather report.</p>
 <p id="p-12-instead-the-useful-idea-is-simple" data-note-target>Instead the useful idea is simple:</p>
-<blockquote><p>The place that uses a dependency does not have to be the place that chooses it.</p></blockquote>
+<blockquote id="aside-12-the-place-that-uses-a-dependency-does-not" data-note-target><p>The place that uses a dependency does not have to be the place that chooses it.</p></blockquote>
 <p id="p-12-that-lets-you-bind-later-the-simplest-version" data-note-target>That lets you bind later. The simplest version of this is:</p>
-<figure id="code-12-089" class="code-figure" data-note-target>
+<figure id="code-12-php-orders-new-sqlorderrepository-database" class="code-figure" data-note-target>
 <figcaption>php</figcaption>
 <pre><code class="language-php">$orders = new SqlOrderRepository($database);
 $service = new OrderService($orders);</code></pre>
 </figure>
 <p id="p-12-or-encapsulated-in-a-factory-function" data-note-target>Or encapsulated in a factory function:</p>
-<figure id="code-12-096" class="code-figure" data-note-target>
+<figure id="code-12-php-function-createorderservice-databaseconnection-database" class="code-figure" data-note-target>
 <figcaption>php</figcaption>
 <pre><code class="language-php">function createOrderService(DatabaseConnection $database) {
     return new OrderService(

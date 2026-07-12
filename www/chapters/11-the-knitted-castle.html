@@ -111,7 +111,7 @@
   <div class="book-progress" role="progressbar" aria-label="Book progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" data-book-progress>
     <span data-book-progress-bar></span>
   </div>
-  <div id="book-start" class="manuscript-pages" data-page-scroller data-book-chapter-id="11-the-knitted-castle" data-book-chapter-index="14" data-book-page-weights="517,27,1761,763,630,26,1305,1676,1260,20,1090,485,1924,29,1554,1216,1346,30,1179,1184,1461,37,173,133">
+  <div id="book-start" class="manuscript-pages" data-page-scroller data-book-chapter-id="11-the-knitted-castle" data-book-chapter-index="14" data-book-page-weights="563,27,1761,763,630,26,1305,1676,1260,20,1090,485,1924,29,1587,1216,1346,30,1179,1184,1477,37,173,133">
   <header class="chapter-header ">
     <p class="chapter-kicker">Part IV: Boundaries</p>
     <p class="chapter-number">Chapter 11</p>
@@ -128,13 +128,13 @@
 </span>The famous wizard Alan Kay once said:<span class="side-links side-links-inline" aria-label="Related links for this paragraph">
 <a href="https://en.wikipedia.org/wiki/Alan_Kay" title="https://en.wikipedia.org/wiki/Alan_Kay">https://en.wikipedia.org/wiki/Alan_Kay</a>
 </span></p>
-<blockquote><p><span class="side-links side-links-margin" aria-label="Related links for this paragraph">
+<blockquote id="aside-11-whatever-we-in-computing-do-is-more-like" data-note-target><p><span class="side-links side-links-margin" aria-label="Related links for this paragraph">
 <a href="https://www.tele-task.de/lecture/video/2772/" title="https://www.tele-task.de/lecture/video/2772/">https://www.tele-task.de/lecture/video/2772/</a>
 </span>"Whatever we [in computing] do is more like what the Egyptians did. Building pyramids, piling things on top of each other." (video)<span class="side-links side-links-inline" aria-label="Related links for this paragraph">
 <a href="https://www.tele-task.de/lecture/video/2772/" title="https://www.tele-task.de/lecture/video/2772/">https://www.tele-task.de/lecture/video/2772/</a>
 </span></p></blockquote>
 <p id="p-11-i-think-the-situation-is-more-dire-than" data-note-target>I think the situation is more dire than that. We're not stacking bricks. We're knitting castles.</p>
-<blockquote><p class="has-side-wizard"><span class="side-links side-links-margin side-links-has-wizard" aria-label="Related links for this paragraph">
+<blockquote id="aside-11-aside-ive-stolen-the-knitted-castle-example-from-rich" data-note-target><p class="has-side-wizard"><span class="side-links side-links-margin side-links-has-wizard" aria-label="Related links for this paragraph">
 <a class="wizard-card" href="https://en.wikipedia.org/wiki/Rich_Hickey" aria-label="Wikipedia: Rich Hickey" data-license="CC BY-SA 3.0" data-source="https://commons.wikimedia.org/wiki/File:Rich_Hickey.jpg">
 <span class="wizard-card-image"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/f4/Rich_Hickey.jpg/330px-Rich_Hickey.jpg" alt="" loading="lazy" style="--wizard-portrait-position: 50% 28%;"></span>
 <span class="wizard-card-name">Rich Hickey</span>
@@ -151,7 +151,7 @@
 <a href="https://en.wikipedia.org/wiki/Second_law_of_thermodynamics" title="https://en.wikipedia.org/wiki/Second_law_of_thermodynamics">https://en.wikipedia.org/wiki/Second_law_of_thermodynamics</a>
 </span></p>
 <p id="p-11-most-software-projects-at-some-point-end-up" data-note-target>Most software projects at some point end up looking like this:</p>
-<p id="p-11-a-knitted-castle" class="image-block" data-note-target><img src="../assets/images/knitted-castle.png" alt="A knitted castle"></p>
+<p id="image-11-a-knitted-castle" class="image-block" data-note-target><img src="../assets/images/knitted-castle.png" alt="A knitted castle"></p>
 <p id="p-11-a-pyramid-is-at-least-made-of-separate" data-note-target>A pyramid is at least made of separate stones. They may be heavy, badly placed, and difficult to move, but you can still point at one and say: there, that is a stone.</p>
 <p id="p-11-a-knitted-castle-is-different-every-part-is" data-note-target>A knitted castle is different. Every part is made out of the same thread as every other part. The wall continues into the tower. The tower continues into the flag. The flag continues into the dragon. Pull one loop too hard and the whole thing starts to change shape.</p>
 <p id="p-11-this-is-funny-when-it-is-yarn" data-note-target>This is funny when it is yarn.</p>
@@ -172,6 +172,7 @@
 <p>Assumptions are threads. Cut the threads.</p>
 </aside>
 <h2 id="h-11-packages-are-not-the-same-as-parts"><a class="anchor-link" href="#h-11-packages-are-not-the-same-as-parts" aria-label="Link to Packages are not the same as parts">#</a>Packages are not the same as parts</h2>
+<p id="p-11-you-install-one-small-package-it-needs-a" data-note-target>You install one small package. It needs a framework plugin, a state library, a build step and three neighbouring packages. Nothing has gone wrong. This is simply what software reuse often looks like.</p>
 <p id="p-11-javascript-has-one-of-the-largest-ecosystems-of" data-note-target>JavaScript has one of the largest ecosystems of reusable packages ever created. npm is both a miracle and a warning label.</p>
 <p id="p-11-it-proves-that-reuse-is-possible-you-can" data-note-target>It proves that reuse is possible. You can install a parser, a date library, a test runner, a bundler, a color picker, a database client. Then you get several hundred things you did not know you needed for free because one of those packages needed them for you.</p>
 <p id="p-11-but-a-package-is-not-automatically-a-lego" data-note-target>But a package is not automatically a Lego brick.</p>
@@ -188,9 +189,9 @@
 <p id="p-11-a-ui-component-is-harder-it-often-wants" data-note-target>A UI component is harder. It often wants data, styling, events, state, and then some. You need to carefully carve a place for it in the surrounding application.</p>
 <p id="p-11-an-application-feature-is-harder-still-a-shopping" data-note-target>An application feature is harder still. A shopping cart is not just a list of products. It touches pricing, stock, identity, sessions, shipping, tax, etc.</p>
 <p id="p-11-so-lets-rephrase-the-question-the-useful-question" data-note-target>So let's rephrase the question. The useful question is not:</p>
-<blockquote><p>Can this be reused?</p></blockquote>
+<blockquote id="aside-11-can-this-be-reused" data-note-target><p>Can this be reused?</p></blockquote>
 <p id="p-11-the-useful-question-is" data-note-target>The useful question is:</p>
-<blockquote><p>In what direction can this be reused?</p></blockquote>
+<blockquote id="aside-11-in-what-direction-can-this-be-reused" data-note-target><p>In what direction can this be reused?</p></blockquote>
 <p id="p-11-can-the-calculation-be-reused-without-the-ui" data-note-target>Can the calculation be reused without the UI? Can the data format be reused without the database? Can the protocol be reused without the server implementation? Can the visual component be reused without the application state?</p>
 <p id="p-11-dont-ask-for-universal-reuse-that-is-how" data-note-target>Don't ask for universal reuse. That is how most reusability ideas become enormous.</p>
 <p id="p-11-instead-look-for-the-boundary" data-note-target>Instead, look for the boundary.</p>

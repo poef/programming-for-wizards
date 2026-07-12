@@ -111,7 +111,7 @@
   <div class="book-progress" role="progressbar" aria-label="Book progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" data-book-progress>
     <span data-book-progress-bar></span>
   </div>
-  <div id="book-start" class="manuscript-pages" data-page-scroller data-book-chapter-id="05-the-web-as-address" data-book-chapter-index="6" data-book-page-weights="517,27,1761,763,630,26,1305,1676,1260,20,1090,485,1924,29,1554,1216,1346,30,1179,1184,1461,37,173,133">
+  <div id="book-start" class="manuscript-pages" data-page-scroller data-book-chapter-id="05-the-web-as-address" data-book-chapter-index="6" data-book-page-weights="563,27,1761,763,630,26,1305,1676,1260,20,1090,485,1924,29,1587,1216,1346,30,1179,1184,1477,37,173,133">
   <header class="chapter-header ">
     <p class="chapter-kicker">Part II: The Web</p>
     <p class="chapter-number">Chapter 05</p>
@@ -140,7 +140,7 @@
 </span>The first website did not look much like the future. It was mostly text and links, it didn't even have a cookie banner:<span class="side-links side-links-inline" aria-label="Related links for this paragraph">
 <a href="https://info.cern.ch" title="https://info.cern.ch">https://info.cern.ch</a>
 </span></p>
-<figure id="code-05-007" class="code-figure code-figure-breakable" data-note-target data-breakable-code data-code-lines="17">
+<figure id="code-05-html" class="code-figure code-figure-breakable" data-note-target data-breakable-code data-code-lines="17">
 <figcaption>html</figcaption>
 <pre><code class="language-html">&lt;header&gt;
 &lt;title&gt;http://info.cern.ch&lt;/title&gt;
@@ -161,12 +161,12 @@
 &lt;/body&gt;</code></pre>
 </figure>
 <p id="p-05-it-does-not-look-revolutionary-today-most-of" data-note-target>It does not look revolutionary today. Most of the Web wasn't. But there is one part that is. It is a small thing, a tag with just one letter, <code>a</code>.</p>
-<figure id="code-05-029" class="code-figure" data-note-target>
+<figure id="code-05-html-the-world-wide-web-project" class="code-figure" data-note-target>
 <figcaption>html</figcaption>
 <pre><code class="language-html">&lt;a href=&quot;http://info.cern.ch/hypertext/WWW/TheProject.html&quot;&gt;The World Wide Web project&lt;/a&gt;</code></pre>
 </figure>
 <p id="p-05-hidden-inside-it-is-another-invention-probably-the" data-note-target>Hidden inside it is another invention, probably the more important one:</p>
-<figure id="code-05-035" class="code-figure" data-note-target>
+<figure id="code-05-url-http-info-cern-ch-hypertext-www-theproject" class="code-figure" data-note-target>
 <figcaption>url</figcaption>
 <pre><code class="language-url">http://info.cern.ch/hypertext/WWW/TheProject.html</code></pre>
 </figure>
@@ -217,12 +217,12 @@
 <p id="p-05-he-stole-those-ideas-and-packaged-them-together" data-note-target>He stole those ideas and packaged them together in this new thing: the URL.</p>
 <h2 id="h-05-three-stolen-pieces"><a class="anchor-link" href="#h-05-three-stolen-pieces" aria-label="Link to Three stolen pieces">#</a>Three stolen pieces</h2>
 <p id="p-05-look-again-at-the-url" data-note-target>Look again at the URL:</p>
-<figure id="code-05-061" class="code-figure" data-note-target>
+<figure id="code-05-url-http-info-cern-ch-hypertext-www-theproject-2" class="code-figure" data-note-target>
 <figcaption>url</figcaption>
 <pre><code class="language-url">http://info.cern.ch/hypertext/WWW/TheProject.html</code></pre>
 </figure>
 <p id="p-05-it-has-three-obvious-parts" data-note-target>It has three obvious parts:</p>
-<figure id="code-05-067" class="code-figure" data-note-target>
+<figure id="code-05-text-http-info-cern-ch-hypertext-www-theproject" class="code-figure" data-note-target>
 <figcaption>text</figcaption>
 <pre><code class="language-text">http://    info.cern.ch    /hypertext/WWW/TheProject.html
 protocol  hostname        path</code></pre>
@@ -233,31 +233,31 @@ protocol  hostname        path</code></pre>
 <p id="p-05-and-it-is-simple-small-readable-you-can" data-note-target>And it is simple, small, readable. You can copy a URL into an e-mail, print it in a book, write it on a whiteboard, paste it in a chat message, or, if you are feeling particularly cursed, read it aloud over the phone.</p>
 <p id="p-05-the-url-is-an-address-but-it-is" data-note-target>The URL is an address, but it is also a tiny user interface to the network.</p>
 <h2 id="h-05-the-path"><a class="anchor-link" href="#h-05-the-path" aria-label="Link to The path">#</a>The path</h2>
-<figure id="code-05-086" class="code-figure" data-note-target>
+<figure id="code-05-text-hypertext-www-theproject-html" class="code-figure" data-note-target>
 <figcaption>text</figcaption>
 <pre><code class="language-text">/hypertext/WWW/TheProject.html</code></pre>
 </figure>
 <p id="p-05-if-you-have-used-a-unix-like-system" data-note-target>If you have used a Unix-like system, this shape is familiar. A slash separates folders and files. A path starts at a root, then moves down through names until it reaches the thing you want.</p>
-<figure id="code-05-092" class="code-figure" data-note-target>
+<figure id="code-05-text-hypertext" class="code-figure" data-note-target>
 <figcaption>text</figcaption>
 <pre><code class="language-text">/hypertext
 /hypertext/WWW
 /hypertext/WWW/TheProject.html</code></pre>
 </figure>
 <p id="p-05-this-feels-obvious-now-but-it-was-only" data-note-target>This feels obvious now, but it was only one possible way to name files. DOS and Windows used backslashes and drive letters. VMS had paths that looked like they had escaped from an engineering manual:</p>
-<figure id="code-05-100" class="code-figure" data-note-target>
+<figure id="code-05-text-node-accountname-password-device-directory-subdirectory-filename" class="code-figure" data-note-target>
 <figcaption>text</figcaption>
 <pre><code class="language-text">NODE&quot;accountname password&quot;::device:[directory.subdirectory]filename.type;ver</code></pre>
 </figure>
 <p id="p-05-the-web-was-developed-by-sir-tim-on" data-note-target>The Web was developed by Sir Tim on a Unix machine: a NeXT Cube designed by Steve Jobs. So it is no surprise that the URL follows Unix's path format, the simplest one.</p>
 <p id="p-05-unix-itself-had-stolen-and-simplified-ideas-from" data-note-target>Unix itself had stolen and simplified ideas from earlier systems such as Multics. One of its beautiful tricks is that users do not normally need to care which physical device a file is on. There is a single tree. Disks and devices can be mounted into that tree. The messy physical world disappears behind a simpler name world.</p>
 <p id="p-05-simple-ideas-often-grow-more-complex-threads-when" data-note-target>Simple ideas often grow more complex threads when they meet the real world. For example, how would you create a file with a name that includes a <code>/</code>? The simple answer would be "don't do that." A common solution is to define a special 'escape' character, e.g. ``:</p>
-<figure id="code-05-110" class="code-figure" data-note-target>
+<figure id="code-05-code-folder-withaslash" class="code-figure" data-note-target>
 <figcaption>code</figcaption>
 <pre><code>/folder\/with_a_slash/</code></pre>
 </figure>
 <p id="p-05-an-escape-character-says-the-next-character-is" data-note-target>An escape character says: the next character is special. However, DOS already used that character. So Sir Tim chose a different way, now called URL encoding:</p>
-<figure id="code-05-116" class="code-figure" data-note-target>
+<figure id="code-05-code-folder-2fwithaslash" class="code-figure" data-note-target>
 <figcaption>code</figcaption>
 <pre><code>/folder%2Fwith_a_slash/</code></pre>
 </figure>
@@ -268,7 +268,7 @@ protocol  hostname        path</code></pre>
 </span></p>
 <p id="p-05-any-character-can-be-added-to-a-url" data-note-target>Any character can be added to a URL like this, even if it's not normally printable. This allows URLs to become mobile, part of an e-mail, or even books.</p>
 <h2 id="h-05-the-hostname"><a class="anchor-link" href="#h-05-the-hostname" aria-label="Link to The hostname">#</a>The hostname</h2>
-<figure id="code-05-126" class="code-figure" data-note-target>
+<figure id="code-05-url-info-cern-ch" class="code-figure" data-note-target>
 <figcaption>url</figcaption>
 <pre><code class="language-url">//info.cern.ch/</code></pre>
 </figure>
@@ -283,7 +283,7 @@ protocol  hostname        path</code></pre>
 <p id="p-05-one-machine-no-longer-needed-a-complete-list" data-note-target>One machine no longer needed a complete list of every other machine. Names could be delegated. Different organizations could manage different parts. The naming system itself became a hierarchy, which meant it could grow without asking one poor text file to contain the world.</p>
 <p id="p-05-by-1988-dns-was-established-sir-tim-did" data-note-target>By 1988 DNS was established, Sir Tim did not need to invent a new naming system. He just put the existing one inside the URL.</p>
 <h2 id="h-05-the-protocol"><a class="anchor-link" href="#h-05-the-protocol" aria-label="Link to The protocol">#</a>The protocol</h2>
-<figure id="code-05-144" class="code-figure" data-note-target>
+<figure id="code-05-url-http" class="code-figure" data-note-target>
 <figcaption>url</figcaption>
 <pre><code class="language-url">http://</code></pre>
 </figure>
@@ -293,7 +293,7 @@ protocol  hostname        path</code></pre>
 </span>Compare it with Gopher, another worldwide information system that appeared around the same time. For a brief moment, Gopher was a serious contender. A Gopher menu entry might contain a type, a title, a path, a hostname and a port:<span class="side-links side-links-inline" aria-label="Related links for this paragraph">
 <a href="https://en.wikipedia.org/wiki/Gopher_%28protocol%29" title="https://en.wikipedia.org/wiki/Gopher_%28protocol%29">https://en.wikipedia.org/wiki/Gopher_%28protocol%29</a>
 </span></p>
-<figure id="code-05-152" class="code-figure" data-note-target>
+<figure id="code-05-text-1cia-world-factbook-archives-politics-cia-gopher" class="code-figure" data-note-target>
 <figcaption>text</figcaption>
 <pre><code class="language-text">1CIA World Factbook    /Archives/politics/CIA    gopher.example.org    70</code></pre>
 </figure>

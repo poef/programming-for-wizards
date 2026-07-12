@@ -111,7 +111,7 @@
   <div class="book-progress" role="progressbar" aria-label="Book progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" data-book-progress>
     <span data-book-progress-bar></span>
   </div>
-  <div id="book-start" class="manuscript-pages" data-page-scroller data-book-chapter-id="08-programming-languages-are-for-humans" data-book-chapter-index="10" data-book-page-weights="517,27,1761,763,630,26,1305,1676,1260,20,1090,485,1924,29,1554,1216,1346,30,1179,1184,1461,37,173,133">
+  <div id="book-start" class="manuscript-pages" data-page-scroller data-book-chapter-id="08-programming-languages-are-for-humans" data-book-chapter-index="10" data-book-page-weights="563,27,1761,763,630,26,1305,1676,1260,20,1090,485,1924,29,1587,1216,1346,30,1179,1184,1477,37,173,133">
   <header class="chapter-header ">
     <p class="chapter-kicker">Part III: Inventing languages</p>
     <p class="chapter-number">Chapter 08</p>
@@ -121,7 +121,7 @@
 <p id="p-08-a-common-misconception-is-that-programming-languages-are" data-note-target>A common misconception is that programming languages are designed to allow you to program computers. If that were the only reason, there wouldn't be that many programming languages.</p>
 <p id="p-08-a-computer-doesnt-need-a-programming-language-humans" data-note-target>A computer doesn't need a programming language. Humans do.</p>
 <p id="p-08-computers-are-perfectly-fine-executing-instructions-like-this" data-note-target>Computers are perfectly fine executing instructions like this:</p>
-<figure id="code-08-009" class="code-figure" data-note-target>
+<figure id="code-08-code-037744-016701-000026-012702-000352-005211-105711" class="code-figure" data-note-target>
 <figcaption>code</figcaption>
 <pre><code>037744 016701 000026 012702 000352 005211 105711 100376 
 116162 000002 037400 005267 177756 000765 177550</code></pre>
@@ -133,7 +133,7 @@
 <a href="https://en.wikipedia.org/wiki/Machine_code" title="https://en.wikipedia.org/wiki/Machine_code">https://en.wikipedia.org/wiki/Machine_code</a>
 <a href="https://en.wikipedia.org/wiki/Assembly_language" title="https://en.wikipedia.org/wiki/Assembly_language">https://en.wikipedia.org/wiki/Assembly_language</a>
 </span></p>
-<figure id="code-08-016" class="code-figure code-figure-breakable" data-note-target data-breakable-code data-code-lines="9">
+<figure id="code-08-code-037744-016701-000026-mov-037776-r1" class="code-figure code-figure-breakable" data-note-target data-breakable-code data-code-lines="9">
 <figcaption>code</figcaption>
 <pre><code>037744: 016701 000026          MOV   037776,R1
 037750: 012702 000352          MOV   #352,R2
@@ -146,7 +146,7 @@
 037776: 177550                 .WORD 177550</code></pre>
 </figure>
 <p id="p-08-and-now-with-some-labels-and-comments" data-note-target>And now with some labels and comments:</p>
-<figure id="code-08-030" class="code-figure code-figure-breakable" data-note-target data-breakable-code data-code-lines="16">
+<figure id="code-08-code-load-0x7400-buffer-address" class="code-figure code-figure-breakable" data-note-target data-breakable-code data-code-lines="16">
 <figcaption>code</figcaption>
 <pre><code>        LOAD = 0x7400                 ; Buffer address
 
@@ -179,7 +179,7 @@
 </span>COBOL was designed to make business programs look more like business language. It was very successful and almost universally hated.<span class="side-links side-links-inline" aria-label="Related links for this paragraph">
 <a href="https://en.wikipedia.org/wiki/COBOL" title="https://en.wikipedia.org/wiki/COBOL">https://en.wikipedia.org/wiki/COBOL</a>
 </span></p>
-<figure id="code-08-057" class="code-figure code-figure-breakable" data-note-target data-breakable-code data-code-lines="22">
+<figure id="code-08-cobol" class="code-figure code-figure-breakable" data-note-target data-breakable-code data-code-lines="22">
 <figcaption>cobol</figcaption>
 <pre><code class="language-cobol">/
 IDENTIFICATION DIVISION.
@@ -220,7 +220,7 @@ PROCEDURE DIVISION.
 <a href="https://en.wikipedia.org/wiki/Fortran" title="https://en.wikipedia.org/wiki/Fortran">https://en.wikipedia.org/wiki/Fortran</a>
 </span></p>
 <p id="p-08-here-is-an-example-in-fortran-77" data-note-target>Here is an example in Fortran 77:</p>
-<figure id="code-08-090" class="code-figure code-figure-breakable" data-note-target data-breakable-code data-code-lines="20">
+<figure id="code-08-fortran-program-main" class="code-figure code-figure-breakable" data-note-target data-breakable-code data-code-lines="20">
 <figcaption>fortran</figcaption>
 <pre><code class="language-fortran">PROGRAM MAIN
 INTEGER N, X
@@ -256,7 +256,7 @@ END</code></pre>
 </span></p>
 <p id="p-08-lisp-is-both-very-small-and-absurdly-expressive" data-note-target>Lisp is both very small and absurdly expressive. More importantly for this chapter, it makes it unusually easy to add new words to the language.</p>
 <p id="p-08-here-is-a-tiny-example" data-note-target>Here is a tiny example:</p>
-<figure id="code-08-119" class="code-figure" data-note-target>
+<figure id="code-08-lisp-defmacro-unless-condition-body-body" class="code-figure" data-note-target>
 <figcaption>lisp</figcaption>
 <pre><code class="language-lisp">(defmacro unless (condition &amp;body body)
   `(if (not ,condition)

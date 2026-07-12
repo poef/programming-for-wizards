@@ -111,7 +111,7 @@
   <div class="book-progress" role="progressbar" aria-label="Book progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" data-book-progress>
     <span data-book-progress-bar></span>
   </div>
-  <div id="book-start" class="manuscript-pages" data-page-scroller data-book-chapter-id="06-the-web-as-document" data-book-chapter-index="7" data-book-page-weights="517,27,1761,763,630,26,1305,1676,1260,20,1090,485,1924,29,1554,1216,1346,30,1179,1184,1461,37,173,133">
+  <div id="book-start" class="manuscript-pages" data-page-scroller data-book-chapter-id="06-the-web-as-document" data-book-chapter-index="7" data-book-page-weights="563,27,1761,763,630,26,1305,1676,1260,20,1090,485,1924,29,1587,1216,1346,30,1179,1184,1477,37,173,133">
   <header class="chapter-header ">
     <p class="chapter-kicker">Part II: The Web</p>
     <p class="chapter-number">Chapter 06</p>
@@ -131,7 +131,7 @@
 <a href="https://en.wikipedia.org/wiki/Letterpress_printing" title="https://en.wikipedia.org/wiki/Letterpress_printing">https://en.wikipedia.org/wiki/Letterpress_printing</a>
 <a href="https://en.wikipedia.org/wiki/Offset_printing" title="https://en.wikipedia.org/wiki/Offset_printing">https://en.wikipedia.org/wiki/Offset_printing</a>
 </span></p>
-<figure><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/ae/Metal_movable_type.jpg/1920px-Metal_movable_type.jpg">
+<figure id="image-06-1920px-metalmovabletype-jpg" class="image-block" data-note-target><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/ae/Metal_movable_type.jpg/1920px-Metal_movable_type.jpg">
     <caption>An example of movable type</caption>
 </figure>
 <p id="p-06-the-editor-added-markup-to-tell-the-typesetter" data-note-target>The editor added markup to tell the typesetter what font and font size to use, as well as other layout decisions.</p>
@@ -161,7 +161,7 @@
 </span>This is where things get interesting. Sometime in the 1970s some wizards from IBM created a system called GML. This either means Generalized Markup Language, or it might mean Goldfarb, Mosher and Lorie, who were the aforementioned wizards. Here is an example of a text with GML markup:<span class="side-links side-links-inline" aria-label="Related links for this paragraph">
 <a href="https://en.wikipedia.org/wiki/IBM_Generalized_Markup_Language" title="https://en.wikipedia.org/wiki/IBM_Generalized_Markup_Language">https://en.wikipedia.org/wiki/IBM_Generalized_Markup_Language</a>
 </span></p>
-<figure id="code-06-031" class="code-figure code-figure-breakable" data-note-target data-breakable-code data-code-lines="10">
+<figure id="code-06-gml-h1-chapter-1-introduction" class="code-figure code-figure-breakable" data-note-target data-breakable-code data-code-lines="10">
 <figcaption>gml</figcaption>
 <pre><code class="language-gml">:h1.Chapter 1:  Introduction
 :p.GML supported hierarchical containers, such as
@@ -187,7 +187,7 @@ allowed the end-tags to be omitted for the &quot;h1&quot; and &quot;p&quot; elem
 <a href="https://html.spec.whatwg.org/" title="https://html.spec.whatwg.org/">https://html.spec.whatwg.org/</a>
 </span></p>
 <p id="p-06-here-is-that-first-html-page-again" data-note-target>Here is that first HTML page again:</p>
-<figure id="code-06-050" class="code-figure code-figure-breakable" data-note-target data-breakable-code data-code-lines="17">
+<figure id="code-06-html" class="code-figure code-figure-breakable" data-note-target data-breakable-code data-code-lines="17">
 <figcaption>html</figcaption>
 <pre><code class="language-html">&lt;header&gt;
 &lt;title&gt;http://info.cern.ch&lt;/title&gt;
@@ -215,7 +215,7 @@ allowed the end-tags to be omitted for the &quot;h1&quot; and &quot;p&quot; elem
 <p id="p-06-it-does-use-the-same-syntax-to-differentiate" data-note-target>It does use the same syntax to differentiate between markup and content. All markup tags are enclosed in <code>&lt;</code> and <code>&gt;</code> characters.</p>
 <p id="p-06-lets-take-a-closer-look-at-the-reasons" data-note-target>Let's take a closer look at the reasons behind this format. One of the goals of the web was to make HTML easy to write using an ordinary text editor. That means the source itself had to remain readable. Named closing tags make it clear which element is ending.</p>
 <p id="p-06-imagine-an-html-version-without-named-end-tags" data-note-target>Imagine an HTML version without named end tags, something like this:</p>
-<figure id="code-06-078" class="code-figure" data-note-target>
+<figure id="code-06-code-this-is-an-example-text" class="code-figure" data-note-target>
 <figcaption>code</figcaption>
 <pre><code>&lt;strong&gt;This is an &lt;/em&gt;example&lt;/&gt; text&lt;/&gt;</code></pre>
 </figure>
@@ -226,12 +226,12 @@ allowed the end-tags to be omitted for the &quot;h1&quot; and &quot;p&quot; elem
 <ul><li><code>&amp;</code> as <code>&amp;amp;</code></li></ul>
 <p id="p-06-and-these-are-the-basics-of-html" data-note-target>And these are the basics of HTML.</p>
 <p id="p-06-now-for-the-tricky-parts-as-youve-seen" data-note-target>Now for the tricky parts. As you've seen, HTML has elements that have a start and end tags. This means you can enclose other tags, or nest them. You cannot overlap tags. The following example is incorrect use of HTML:</p>
-<figure id="code-06-098" class="code-figure" data-note-target>
+<figure id="code-06-html-this-is-a-strong-and-partially-emphasized" class="code-figure" data-note-target>
 <figcaption>html</figcaption>
 <pre><code class="language-html">&lt;strong&gt;This is a strong &lt;em&gt;and partially emphasized&lt;/strong&gt; text&lt;/em&gt;</code></pre>
 </figure>
 <p id="p-06-instead-you-are-supposed-to-write-this" data-note-target>Instead, you are supposed to write this:</p>
-<figure id="code-06-104" class="code-figure" data-note-target>
+<figure id="code-06-html-this-is-a-strong-and-partially-emphasized-2" class="code-figure" data-note-target>
 <figcaption>html</figcaption>
 <pre><code class="language-html">&lt;strong&gt;This is a strong &lt;em&gt;and partially emphasized&lt;/em&gt;&lt;/strong&gt;&lt;em&gt; text&lt;/em&gt;</code></pre>
 </figure>
@@ -244,7 +244,7 @@ allowed the end-tags to be omitted for the &quot;h1&quot; and &quot;p&quot; elem
 </span></p>
 <p id="p-06-the-html-specification-forces-you-to-create-a" data-note-target>The HTML specification forces you to create a tree structure of your document. There can be no overlapping markup.</p>
 <p id="p-06-this-tree-structure-does-have-benefits-you-can" data-note-target>This tree structure does have benefits. You can also write the above HTML as follows:</p>
-<figure id="code-06-123" class="code-figure code-figure-breakable" data-note-target data-breakable-code data-code-lines="9">
+<figure id="code-06-html-2" class="code-figure code-figure-breakable" data-note-target data-breakable-code data-code-lines="9">
 <figcaption>html</figcaption>
 <pre><code class="language-html">&lt;strong&gt;
     This is a strong 
@@ -263,7 +263,7 @@ allowed the end-tags to be omitted for the &quot;h1&quot; and &quot;p&quot; elem
 <a href="https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_text/Whitespace" title="https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_text/Whitespace">https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_text/Whitespace</a>
 </span></p>
 <p id="p-06-for-example-both-lines-in-the-example-below" data-note-target>For example, both lines in the example below will line out perfectly:</p>
-<figure id="code-06-141" class="code-figure" data-note-target>
+<figure id="code-06-html-this-renders-exactly-the-same" class="code-figure" data-note-target>
 <figcaption>html</figcaption>
 <pre><code class="language-html">This renders exactly the same.&lt;br&gt;
    This    renders exactly    the      same.</code></pre>
@@ -276,7 +276,7 @@ allowed the end-tags to be omitted for the &quot;h1&quot; and &quot;p&quot; elem
 <a href="https://en.wikipedia.org/wiki/WYSIWYG" title="https://en.wikipedia.org/wiki/WYSIWYG">https://en.wikipedia.org/wiki/WYSIWYG</a>
 <a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Global_attributes/contenteditable" title="https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Global_attributes/contenteditable">https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Global_attributes/contenteditable</a>
 </span></p>
-<figure id="code-06-150" class="code-figure" data-note-target>
+<figure id="code-06-html-3" class="code-figure" data-note-target>
 <figcaption>html</figcaption>
 <pre><code class="language-html">&lt;div contenteditable=true&gt;
     Type here
