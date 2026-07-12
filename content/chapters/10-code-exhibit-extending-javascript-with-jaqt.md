@@ -4,13 +4,13 @@ tags: programming for wizards
 
 # Code exhibit: extending JavaScript with JAQT
 
-Every program builds its own language. That is what we learned from the previous two chapters. If you're not careful, the language is hard to read or too large to fit in your head. But if you create an entirely new language, you end up with lots of tiny languages that don't work together at all.
+The previous chapter introduced the concept of a domain-specific language as a way to focus on a specific problem, without worrying about the outside world. But it left out a little trick. 
 
-That's where the previous chapter left out a little trick. You can create a DSL with its own parser or compiler. But you don't always have to.
+You can create a DSL with its own parser or compiler. But you don't always have to.
 
 Sometimes the language you need is already hiding inside the language you're using. You add a few conventions, a few helper functions, and suddenly ordinary JavaScript starts to read like a little query language.
 
-That distinction matters. A separate parser creates a border. On one side is PHP, JavaScript, Python, or whatever language your program is written in. On the other side is your new little language. Once you cross that border, the things from the host language no longer come with you for free. Functions, imports, editor help, error messages, test tools, and familiar habits. They all need a passport.
+That distinction matters. A separate parser creates a hard border. On one side is PHP, JavaScript, Python, or whatever language your program is written in. On the other side is your new little language. Once you cross that boundary, you no longer have access to all the useful things from the host language. Functions, imports, editor help, error messages, test tools, and familiar habits.
 
 Sometimes that border is worth it. SQL is not JavaScript, and that is part of its power. Regular expressions are their own dense, cursed little world, and we keep using them because the curse is useful.
 
@@ -18,7 +18,7 @@ But borders are expensive. So before we build one, it is worth asking a wizard's
 
 > What if the language we need is already hiding inside the language we have?
 
-Now, for this example, we'll wade into the deeper waters of JavaScript. Don't worry if you didn't bring your wellies. You can watch from the bank; the code should reveal the trick anyway.
+Now, for this example, we'll wade into the deeper waters of JavaScript. Don't worry if you didn't bring your wellies. You can watch from the bank. The code should reveal the trick anyway.
 
 ## A pile of little records
 
@@ -50,7 +50,7 @@ const people = [
 ]
 ```
 
-A pile of objects like this is not a database, but it starts to smell like one. We have records. They have fields. Some fields contain other records. Sooner or later we want to ask questions.
+A list of objects like this is not a database, but it starts to smell like one. We have records. They have fields. Some fields contain other records. Sooner or later we want to ask questions.
 
 For example:
 
@@ -100,9 +100,9 @@ const result = people
 
 This is better. `filter()` says which records survive. `map()` says what shape they become.
 
-Still, there is a small itch. The word `person` is everywhere. The input shape and the output shape are present, but buried in repeated property access. The query is visible, but it has not quite stepped forward.
+Still, there is a small itch. The word `person` is everywhere. The input shape and the output shape are present, but buried in repeated property access. 
 
-A common wizard mistake is to notice this itch and immediately summon a parser.
+A common mistake is to notice this itch and immediately summon a parser.
 
 ## The tempting new language
 
@@ -127,7 +127,7 @@ So let's try a smaller spell.
 
 ## A question can be a function
 
-JavaScript functions are values. That ordinary fact opens a useful door.
+JavaScript functions are themselves values. That fact gives us a useful opportunity.
 
 ```js id="oa4e35"
 const startsWith = prefix => value => value.startsWith(prefix)
@@ -138,7 +138,7 @@ const fullName = person => `${person.firstName} ${person.lastName}`
 
 So instead of inventing syntax for every operation, we can carry little pieces of behavior around as JavaScript values.
 
-That is the first small step. We have not made a DSL yet. We have only noticed that JavaScript already has a way to treat behavior as data.
+This is not a DSL yet, but it opens the door to making one.
 
 ## A shape can be a question
 
@@ -193,9 +193,7 @@ And now we can use it with normal `filter()`:
 const result = people.filter(person => matches(pattern, person))
 ```
 
-This is already interesting. We did not parse a string. We did not create a second language. We gave an ordinary JavaScript object a new meaning.
-
-This is one of those moments where naming changes the problem. We did not add much code. We gave a shape a job.
+Still not a DSL, but the question is already easier to see.
 
 ## The result also has a shape
 
@@ -207,7 +205,7 @@ We need one tiny marker:
 const _ = Symbol("copy this property")
 ```
 
-In the real JAQT, `_` does more. In this exhibit version, it only means: copy the property with this name.
+In the real [JAQT](https://github.com/muze-nl/jaqt/), which this is inspired by, `_` does more. In this exhibit version, it only means: copy the property with this name.
 
 Now we can describe the result:
 
@@ -256,15 +254,7 @@ const result = people
     .map(person => project(personCard, person))
 ```
 
-We are now close to a query language, but we arrived one small step at a time.
-
-A question became a function.
-
-A pattern became an object.
-
-A result shape became an object.
-
-The host language did not disappear. It became the material.
+We are now close to a query language, but every part of it is still JavaScript. We did not create a new border--we've extended the territory.
 
 ## Giving the shape a few words
 
@@ -340,8 +330,6 @@ This is not real JAQT. It is a small wooden model of the bridge. Real JAQT has a
 
 The point of the model is the shape.
 
-The query looks like a query, but every piece of it is still JavaScript. The object literals are JavaScript. The nested objects are JavaScript. The functions are JavaScript. The method chain is JavaScript. The helper functions can be imported, named, tested, and reused with no special bridge.
-
 ## The whole exhibit version
 
 Here is the complete tiny version in one place:
@@ -409,12 +397,6 @@ const fullName = person => `${person.firstName} ${person.lastName}`
 
 It is small enough to be disappointing, which is usually a good sign.
 
-A parser would have felt more impressive. There would have been tokens, grammar rules, parse trees, maybe a compiler. We could have built a tiny kingdom.
-
-Instead we moved the problem slightly.
-
-The query is no longer a string that must be understood by a new language. It is a JavaScript object whose shape carries meaning. The places where the query needs behavior are filled with JavaScript functions. The chain gives the object-shapes a readable path: start here, keep these, make this shape, give me the value.
-
 ## Composing inside the host language
 
 The reward for staying inside JavaScript is that composition keeps working.
@@ -451,7 +433,7 @@ const result = from(people)
 
 The spread operator did not need to be added to our DSL. It was already in JavaScript. Arrow functions did not need to be added. Imports did not need to be added. Tests did not need to be added. The surrounding language remains available.
 
-The little query language did not become useful because we cut it loose from JavaScript. It became useful because we found a small query-shaped hollow inside JavaScript and gave it a name.
+Every piece of it is still JavaScript, so it works with all the other JavaScript you already have. It can be tested and reused like any other code. There are just a few new words to learn.
 
 ## The border question
 
@@ -461,10 +443,8 @@ Sometimes you want the hard border. A database server cannot run arbitrary JavaS
 
 A host-language DSL has its own dangers. If the conventions are too weak, it dissolves back into ordinary code. If the tricks are too clever, readers have to learn JavaScript and your secret dialect of JavaScript at the same time.
 
-So the question is not whether separate DSLs are bad and embedded DSLs are good. That would be too easy, and therefore suspicious.
+So the question is not whether separate DSLs are bad and embedded DSLs are good.
 
 The question is where the boundary belongs.
 
-A parser version of a DSL puts the boundary around a new query language. The JAQT-shaped version moves the boundary inward. JavaScript remains the language. The DSL is the shape of a few objects, a handful of functions, and the agreement that certain positions in the shape mean certain things.
-
-That smaller change gives us enough of the query idea to be useful, without making us leave the world we are already in.
+A parser version of a DSL puts the boundary around a new query language. The JAQT-shaped version moves the boundary inward. JavaScript remains the language. The DSL is the shape of a few objects, a handful of functions, and an agreement about what certain positions mean.
