@@ -68,4 +68,4 @@ A lot of what people now call "using the computer" is really using the browser. 
 
 None of these has replaced the operating system. We're still divided into an Apple and Windows world, with a little sprinkling of Linux in between. But more and more traditional OS concerns are moving to the Web. And maybe not always in the way we'd like.
 
-Netscape wanted the browser to become the operating system. In many ways it did. The network is becoming the OS. The question is whether this new OS serves you, or someone else?
+Netscape wanted the browser to become the operating system. In many ways it did. The network is becoming the OS. The question is whether this new OS serves you or someone else?
