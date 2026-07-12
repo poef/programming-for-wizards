@@ -60,6 +60,8 @@ A knitted castle is usually not built by foolish decisions. It is built by reaso
 
 ## Packages are not the same as parts
 
+You install one small package. It needs a framework plugin, a state library, a build step and three neighbouring packages. Nothing has gone wrong. This is simply what software reuse often looks like.
+
 JavaScript has one of the largest ecosystems of reusable packages ever created. npm is both a miracle and a warning label.
 
 It proves that reuse is possible. You can install a parser, a date library, a test runner, a bundler, a color picker, a database client. Then you get several hundred things you did not know you needed for free because one of those packages needed them for you.

@@ -60,6 +60,8 @@ Linked data helps different tools understand the same things. It does not create
 
 There is a project called [Solid](https://solidproject.org/) that explores this second shape.
 
+Solid does not have to conquer the Web for the boundary it demonstrates to be useful.
+
 Solid separates identity and data from applications. A person has an identity on the Web. Their data can live in storage they choose, usually called a pod. Applications ask for permission to read or change parts of it.
 
 The application is no longer automatically the place where the data lives.
