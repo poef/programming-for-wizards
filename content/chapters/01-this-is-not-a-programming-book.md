@@ -16,6 +16,8 @@ But to understand where and how to change the world, you must first understand h
 
 That is the point of this book.
 
+You may already have good tools, a productive framework and years of experience using them. This book is not an argument for throwing them away. It is an attempt to look at the choices underneath them: the names, assumptions and boundaries that made those tools possible.
+
 Now, this doesn't mean we should just go about changing anything we like. For one thing, you will find it difficult to convince other people to join you in this mad quest. But if you understand the world, how it got here, and what problem it attempted to solve, then maybe you can find a different way to look at it. A different place to stand, that will show you a new solution.
 
 And the best way to do that is to look at what other wizards have done, and are doing.
