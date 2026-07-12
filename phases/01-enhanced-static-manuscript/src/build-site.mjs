@@ -333,6 +333,7 @@ function insertInterludes(chapters, interludes) {
 async function readContentPage(pageData, defaults = {}) {
   const id = pageData.id ?? defaults.id
   const source = pageData.source ?? defaults.source
+  const kind = pageData.kind ?? defaults.kind ?? "page"
   const part = pageData.part ?? defaults.part ?? "Back Matter"
   const partId = pageData.partId ?? defaults.partId ?? "back-matter"
 
@@ -342,12 +343,14 @@ async function readContentPage(pageData, defaults = {}) {
   assertText(partId, `${defaults.kind ?? "page"}.partId`)
 
   const sourcePath = safeContentPath(source)
-  const file = await readFile(sourcePath, "utf8")
+  const file = kind === "cover"
+    ? await readFile(sourcePath, "utf8")
+    : await readStableContentSource(sourcePath, { id, number: pageData.number ?? defaults.number ?? "" })
   const { attributes, body } = parseFrontMatter(file)
   const markdownTitle = body.match(/^#\s+(.+)$/m)?.[1]?.trim()
 
   return {
-    kind: pageData.kind ?? defaults.kind ?? "page",
+    kind,
     id,
     number: pageData.number ?? defaults.number ?? "",
     label: pageData.label ?? pageData.number ?? defaults.label ?? "",
@@ -408,7 +411,10 @@ async function readChapters(book) {
       seenNumbers.add(chapterData.number)
 
       const sourcePath = safeContentPath(chapterData.source)
-      const source = await readFile(sourcePath, "utf8")
+      const source = await readStableContentSource(sourcePath, {
+        id: chapterData.id,
+        number: chapterData.number
+      })
       const { attributes, body } = parseFrontMatter(source)
       const markdownTitle = body.match(/^#\s+(.+)$/m)?.[1]?.trim()
 
@@ -453,7 +459,11 @@ function assertArray(value, label) {
 }
 
 function countWords(source) {
-  return stripInline(source).split(/\s+/).filter(Boolean).length
+  return stripInline(removeStableIdComments(source)).split(/\s+/).filter(Boolean).length
+}
+
+function removeStableIdComments(source) {
+  return String(source).replace(/^<!--\s*(?:paragraph|code|image|rule|aside)-id:\s*[A-Za-z][A-Za-z0-9_.:-]*\s*-->\n?/gm, "")
 }
 
 function parseFrontMatter(source) {
@@ -478,6 +488,371 @@ function parseFrontMatter(source) {
   }
 
   return { attributes, body }
+}
+
+async function readStableContentSource(sourcePath, page) {
+  const source = await readFile(sourcePath, "utf8")
+  const normalized = addStableBlockIds(source, page)
+
+  if (normalized !== source) {
+    await writeFile(sourcePath, normalized)
+  }
+
+  return normalized
+}
+
+function addStableBlockIds(source, page) {
+  const { prefix, body } = splitFrontMatterSource(source)
+  const lines = body.replace(/\r\n/g, "\n").split("\n")
+  const result = []
+  const usedIds = collectStableIds(lines)
+
+  for (let index = 0; index < lines.length;) {
+    const line = lines[index]
+    const trimmed = line.trim()
+    const marker = stableIdFromComment(trimmed)
+
+    if (marker) {
+      const nextIndex = nextNonBlankLineIndex(lines, index + 1)
+      const nextBlock = nextIndex === null ? null : markdownAddressableBlock(lines, nextIndex)
+      if (nextBlock?.type === marker.type) {
+        result.push(stableIdComment(marker.type, nextBlock.explicitId ?? marker.id))
+      }
+      index += 1
+      continue
+    }
+
+    const block = markdownAddressableBlock(lines, index)
+
+    if (block) {
+      const previousMarker = stableIdFromComment(lastNonBlankLine(result)?.trim() ?? "")
+
+      if (previousMarker?.type !== block.type) {
+        const id = uniqueStableId(stableIdBase(block, page), usedIds)
+        result.push(stableIdComment(block.type, id))
+      }
+
+      while (index < block.nextIndex) {
+        result.push(lines[index])
+        index += 1
+      }
+      continue
+    }
+
+    const nextIndex = nextMarkdownBlockIndex(lines, index)
+    while (index < nextIndex) {
+      result.push(lines[index])
+      index += 1
+    }
+  }
+
+  return `${prefix}${result.join("\n")}`
+}
+
+function splitFrontMatterSource(source) {
+  if (!source.startsWith("---\n")) {
+    return { prefix: "", body: source }
+  }
+
+  const end = source.indexOf("\n---", 4)
+  if (end === -1) {
+    return { prefix: "", body: source }
+  }
+
+  const closingLineEnd = source.indexOf("\n", end + 4)
+  if (closingLineEnd === -1) {
+    return { prefix: `${source}\n`, body: "" }
+  }
+
+  return {
+    prefix: source.slice(0, closingLineEnd + 1),
+    body: source.slice(closingLineEnd + 1)
+  }
+}
+
+function collectStableIds(lines) {
+  return new Set(lines.map(line => stableIdFromComment(line.trim())?.id).filter(Boolean))
+}
+
+function stableIdComment(type, id) {
+  return `<!-- ${type}-id: ${id} -->`
+}
+
+function paragraphIdFromComment(line) {
+  const marker = stableIdFromComment(line)
+  return marker?.type === "paragraph" ? marker.id : null
+}
+
+function stableIdFromComment(line) {
+  const match = line.match(/^<!--\s*(paragraph|code|image|rule|aside)-id:\s*([A-Za-z][A-Za-z0-9_.:-]*)\s*-->$/)
+  return match ? { type: match[1], id: match[2] } : null
+}
+
+function markdownSourceLineNumber(lines, sourceIndex) {
+  let lineNumber = 1
+
+  for (let index = 0; index < sourceIndex; index += 1) {
+    if (!stableIdFromComment(lines[index].trim())) {
+      lineNumber += 1
+    }
+  }
+
+  return lineNumber
+}
+
+function uniqueStableId(base, usedIds) {
+  let id = base
+  let suffix = 2
+
+  while (usedIds.has(id)) {
+    id = `${base}-${suffix}`
+    suffix += 1
+  }
+
+  usedIds.add(id)
+  return id
+}
+
+function lastNonBlankLine(lines) {
+  for (let index = lines.length - 1; index >= 0; index -= 1) {
+    if (lines[index].trim()) return lines[index]
+  }
+
+  return null
+}
+
+function nextNonBlankLineIndex(lines, startIndex) {
+  for (let index = startIndex; index < lines.length; index += 1) {
+    if (lines[index].trim()) return index
+  }
+
+  return null
+}
+
+function collectMarkdownParagraph(lines, startIndex) {
+  const paragraph = []
+  let index = startIndex
+
+  while (index < lines.length && isMarkdownParagraphContinuation(lines, index)) {
+    paragraph.push(lines[index].trim())
+    index += 1
+  }
+
+  return {
+    text: paragraph.join(" "),
+    nextIndex: index
+  }
+}
+
+function markdownAddressableBlock(lines, index) {
+  const line = lines[index] ?? ""
+  const trimmed = line.trim()
+
+  if (!trimmed || stableIdFromComment(trimmed)) return null
+
+  if (trimmed.startsWith("```")) {
+    const explicitId = codeFenceExplicitId(lines, index)
+    return {
+      type: "code",
+      text: explicitId ?? codeFenceLabel(lines, index),
+      explicitId,
+      nextIndex: nextMarkdownBlockIndex(lines, index)
+    }
+  }
+
+  if (/^>\s?/.test(line)) {
+    const quoteLines = collectBlockquoteLines(lines, index)
+    const firstLine = quoteLines.find(quoteLine => quoteLine.trim())?.trim() ?? ""
+
+    if (/^\*\*Interactive exhibit placeholder:/.test(firstLine)) return null
+
+    return {
+      type: /^\*\*Wizard/.test(firstLine) ? "rule" : "aside",
+      text: stripInline(firstLine.replace(/^\*Aside:\*\s*/i, "Aside ")),
+      nextIndex: index + quoteLines.length
+    }
+  }
+
+  if (isMarkdownImageBlockStart(lines, index)) {
+    const { text, nextIndex } = collectMarkdownParagraph(lines, index)
+    return {
+      type: "image",
+      text: markdownImageLabel(text),
+      nextIndex
+    }
+  }
+
+  if (isMarkdownRawImageBlockStart(trimmed)) {
+    return {
+      type: "image",
+      text: rawImageLabel(lines, index),
+      nextIndex: nextMarkdownBlockIndex(lines, index)
+    }
+  }
+
+  if (isMarkdownParagraphStart(lines, index)) {
+    const { text, nextIndex } = collectMarkdownParagraph(lines, index)
+    return {
+      type: "paragraph",
+      text,
+      nextIndex
+    }
+  }
+
+  return null
+}
+
+function stableIdBase(block, page) {
+  if (block.explicitId) return block.explicitId
+
+  const prefixByType = {
+    paragraph: "p",
+    code: "code",
+    image: "image",
+    rule: "rule",
+    aside: "aside"
+  }
+  const pagePrefix = page.number || slugify(page.id, 4)
+  const text = block.text || block.type
+
+  return `${prefixByType[block.type]}-${pagePrefix}-${slugify(stripInline(text), 8)}`
+}
+
+function codeFenceLabel(lines, startIndex) {
+  const opening = lines[startIndex].trim()
+  const info = opening.slice(3).trim()
+  const explicitId = codeFenceExplicitId(lines, startIndex)
+  if (explicitId) return explicitId
+
+  const language = normalizeLanguage(info)
+  const firstCodeLine = lines.slice(startIndex + 1).find(line => line.trim() && line.trim() !== "```")?.trim()
+  return [languageLabel(language), firstCodeLine].filter(Boolean).join(" ")
+}
+
+function codeFenceExplicitId(lines, startIndex) {
+  const opening = lines[startIndex].trim()
+  return opening.slice(3).trim().match(/\bid="([^"]+)"/)?.[1] ?? null
+}
+
+function collectBlockquoteLines(lines, startIndex) {
+  const quoteLines = []
+  let index = startIndex
+
+  while (index < lines.length && /^>\s?/.test(lines[index])) {
+    quoteLines.push(lines[index].replace(/^>\s?/, ""))
+    index += 1
+  }
+
+  return quoteLines
+}
+
+function isMarkdownImageBlockStart(lines, index) {
+  if (!isMarkdownParagraphStart(lines, index)) return false
+  const { text } = collectMarkdownParagraph(lines, index)
+  return /^!\[[^\]]*]\([^)]+\)$/.test(text.trim())
+}
+
+function markdownImageLabel(text) {
+  const match = text.trim().match(/^!\[([^\]]*)]\(([^)]+)\)$/)
+  return match ? (match[1] || path.basename(match[2]) || match[2]) : text
+}
+
+function isMarkdownRawImageBlockStart(trimmed) {
+  return /^<img\b/i.test(trimmed) || /^<figure\b[\s\S]*<img\b/i.test(trimmed)
+}
+
+function rawImageLabel(lines, startIndex) {
+  const endIndex = nextMarkdownBlockIndex(lines, startIndex)
+  const html = lines.slice(startIndex, endIndex).join("\n")
+  const imageTag = html.match(/<img\b[^>]*>/i)?.[0] ?? ""
+  const attributes = parseHtmlAttributes(imageTag)
+  return attributes.alt || path.basename(attributes.src || "") || "image"
+}
+
+function isMarkdownParagraphContinuation(lines, index) {
+  const line = lines[index]
+  const trimmed = line.trim()
+
+  return Boolean(trimmed) && isMarkdownParagraphStart(lines, index)
+}
+
+function isMarkdownParagraphStart(lines, index) {
+  const line = lines[index] ?? ""
+  const trimmed = line.trim()
+
+  return Boolean(trimmed) &&
+    !stableIdFromComment(trimmed) &&
+    !trimmed.startsWith("```") &&
+    trimmed !== "$$" &&
+    !/^(#{1,6})\s+/.test(line) &&
+    !/^>\s?/.test(line) &&
+    !isMarkdownTableStart(lines, index) &&
+    !/^\s*[-*]\s+/.test(line) &&
+    !isMarkdownRawHtmlBlockStart(trimmed)
+}
+
+function nextMarkdownBlockIndex(lines, startIndex) {
+  const trimmed = lines[startIndex]?.trim() ?? ""
+
+  if (!trimmed) return startIndex + 1
+
+  if (trimmed.startsWith("```")) {
+    let index = startIndex + 1
+    while (index < lines.length && lines[index].trim() !== "```") index += 1
+    return index < lines.length ? index + 1 : index
+  }
+
+  if (trimmed === "$$") {
+    let index = startIndex + 1
+    while (index < lines.length && lines[index].trim() !== "$$") index += 1
+    return index < lines.length ? index + 1 : index
+  }
+
+  if (/^>\s?/.test(lines[startIndex])) {
+    let index = startIndex
+    while (index < lines.length && /^>\s?/.test(lines[index])) index += 1
+    return index
+  }
+
+  if (isMarkdownTableStart(lines, startIndex)) {
+    let index = startIndex
+    while (index < lines.length && /^\s*\|/.test(lines[index])) index += 1
+    return index
+  }
+
+  if (/^\s*[-*]\s+/.test(lines[startIndex])) {
+    let index = startIndex
+    while (index < lines.length && /^\s*[-*]\s+/.test(lines[index])) index += 1
+    return index
+  }
+
+  if (isMarkdownRawHtmlBlockStart(trimmed)) {
+    let index = startIndex
+    const first = trimmed.toLowerCase()
+    const closingTag = first.match(/^<([a-z0-9-]+)/)?.[1]
+    const expectedClose = closingTag && !first.endsWith("/>") ? `</${closingTag}>` : null
+
+    while (index < lines.length) {
+      const current = lines[index].trim().toLowerCase()
+      index += 1
+
+      if (expectedClose && current.includes(expectedClose)) break
+      if (!expectedClose) break
+      if (!lines[index]?.trim()) break
+    }
+
+    return index
+  }
+
+  return startIndex + 1
+}
+
+function isMarkdownTableStart(lines, index) {
+  return /^\s*\|/.test(lines[index] ?? "") && /^\s*\|?\s*:?-+:?\s*\|/.test(lines[index + 1] ?? "")
+}
+
+function isMarkdownRawHtmlBlockStart(trimmed) {
+  return /^<(figure|style|ul|ol|div|p|img|table|section|aside|pre|h[1-6]|br)\b/i.test(trimmed)
 }
 
 async function writePwaManifest(book) {
@@ -814,6 +1189,11 @@ class EpubMarkdownRenderer {
         continue
       }
 
+      if (stableIdFromComment(trimmed)) {
+        index += 1
+        continue
+      }
+
       if (trimmed.startsWith("```")) {
         const result = this.renderCodeFence(lines, index)
         html.push(result.html)
@@ -1096,6 +1476,7 @@ ${renderedFallbackRows}
       if (
         trimmed.startsWith("```") ||
         trimmed === "$$" ||
+        stableIdFromComment(trimmed) ||
         /^(#{1,6})\s+/.test(line) ||
         /^>\s?/.test(line) ||
         this.isTableStart(lines, index) ||
@@ -1501,6 +1882,26 @@ function parseHtmlAttributes(tag) {
   return attributes
 }
 
+function addAttributesToHtmlTag(html, attributes) {
+  return String(html).replace(/^<([a-zA-Z][-\w]*)([^>]*)>/, (tag, tagName, rawAttributes) => {
+    let nextAttributes = rawAttributes
+
+    for (const [name, value] of Object.entries(attributes)) {
+      const pattern = new RegExp(`\\s${name}\\s*=\\s*(?:"[^"]*"|'[^']*'|[^\\s>]+)`, "i")
+      if (name === "class" && pattern.test(nextAttributes)) {
+        nextAttributes = nextAttributes.replace(pattern, match => `${match.replace(/(["'])$/, ` ${value}$1`)}`)
+        continue
+      }
+
+      nextAttributes = pattern.test(nextAttributes)
+        ? nextAttributes.replace(pattern, value === "" ? ` ${name}` : ` ${name}="${escapeAttribute(value)}"`)
+        : `${nextAttributes} ${value === "" ? name : `${name}="${escapeAttribute(value)}"`}`
+    }
+
+    return `<${tagName}${nextAttributes}>`
+  })
+}
+
 function stripHtmlTags(source) {
   return String(source).replace(/<[^>]+>/g, "")
 }
@@ -1668,6 +2069,8 @@ class MarkdownRenderer {
     this.anchors = []
     this.exhibits = []
     this.rules = []
+    this.pendingParagraphId = null
+    this.pendingBlockId = null
   }
 
   render(source) {
@@ -1683,7 +2086,18 @@ class MarkdownRenderer {
         continue
       }
 
+      const stableMarker = stableIdFromComment(trimmed)
+      if (stableMarker) {
+        const nextIndex = nextNonBlankLineIndex(lines, index + 1)
+        const nextBlock = nextIndex === null ? null : markdownAddressableBlock(lines, nextIndex)
+        this.pendingBlockId = nextBlock?.type === stableMarker.type ? stableMarker : null
+        this.pendingParagraphId = this.pendingBlockId?.type === "paragraph" ? this.pendingBlockId.id : null
+        index += 1
+        continue
+      }
+
       if (trimmed.startsWith("```")) {
+        this.pendingParagraphId = null
         const result = this.renderCodeFence(lines, index)
         html.push(result.html)
         index = result.nextIndex
@@ -1691,6 +2105,8 @@ class MarkdownRenderer {
       }
 
       if (trimmed === "$$") {
+        this.pendingParagraphId = null
+        this.pendingBlockId = null
         const result = this.renderMathBlock(lines, index)
         html.push(result.html)
         index = result.nextIndex
@@ -1699,12 +2115,15 @@ class MarkdownRenderer {
 
       const heading = line.match(/^(#{1,6})\s+(.+)$/)
       if (heading) {
+        this.pendingParagraphId = null
+        this.pendingBlockId = null
         html.push(this.renderHeading(heading[1].length, heading[2]))
         index += 1
         continue
       }
 
       if (/^>\s?/.test(line)) {
+        this.pendingParagraphId = null
         const result = this.renderBlockquote(lines, index)
         html.push(result.html)
         index = result.nextIndex
@@ -1712,6 +2131,8 @@ class MarkdownRenderer {
       }
 
       if (this.isTableStart(lines, index)) {
+        this.pendingParagraphId = null
+        this.pendingBlockId = null
         const result = this.renderTable(lines, index)
         html.push(result.html)
         index = result.nextIndex
@@ -1719,6 +2140,8 @@ class MarkdownRenderer {
       }
 
       if (/^\s*[-*]\s+/.test(line)) {
+        this.pendingParagraphId = null
+        this.pendingBlockId = null
         const result = this.renderList(lines, index)
         html.push(result.html)
         index = result.nextIndex
@@ -1726,6 +2149,7 @@ class MarkdownRenderer {
       }
 
       if (this.isRawHtmlBlockStart(trimmed)) {
+        this.pendingParagraphId = null
         const result = this.renderRawHtmlBlock(lines, index)
         html.push(result.html)
         index = result.nextIndex
@@ -1752,7 +2176,9 @@ class MarkdownRenderer {
     const opening = lines[startIndex].trim()
     const info = opening.slice(3).trim()
     const idMatch = info.match(/\bid="([^"]+)"/)
-    const id = this.uniqueId(idMatch?.[1] ?? `code-${this.chapter.number}-${String(startIndex + 1).padStart(3, "0")}`)
+    const lineNumber = markdownSourceLineNumber(lines, startIndex)
+    const stableId = this.consumePendingBlockId("code")
+    const id = this.uniqueId(idMatch?.[1] ?? stableId ?? `code-${this.chapter.number}-${String(lineNumber).padStart(3, "0")}`)
     const language = normalizeLanguage(info)
     const code = []
     let index = startIndex + 1
@@ -1785,7 +2211,8 @@ class MarkdownRenderer {
       index += 1
     }
 
-    const id = this.uniqueId(`math-${this.chapter.number}-${String(startIndex + 1).padStart(3, "0")}`)
+    const lineNumber = markdownSourceLineNumber(lines, startIndex)
+    const id = this.uniqueId(`math-${this.chapter.number}-${String(lineNumber).padStart(3, "0")}`)
     this.addAnchor(id, "math", "math block")
 
     return {
@@ -1832,9 +2259,11 @@ $$</div>
         return `<p${className}>${renderMarginSideLinks(rendered.links)}${rendered.html}${renderInlineSideLinks(rendered.links)}</p>`
       })
       .join("\n")
+    const id = this.uniqueId(this.consumePendingBlockId("aside") ?? `aside-${this.chapter.number}-${slugify(stripInline(firstLine), 8)}`)
+    this.addAnchor(id, "aside", stripInline(firstLine).slice(0, 120) || "aside")
 
     return {
-      html: `<blockquote>${inner}</blockquote>`,
+      html: `<blockquote id="${id}" data-note-target>${inner}</blockquote>`,
       nextIndex: index
     }
   }
@@ -1842,7 +2271,8 @@ $$</div>
   renderExhibit(lines, startIndex) {
     const firstLine = lines.find(line => line.trim())?.trim() ?? ""
     const idMatch = firstLine.match(/`([^`]+)`/)
-    const exhibitId = idMatch?.[1] ?? `exhibit-${this.chapter.number}-${startIndex + 1}`
+    const lineNumber = markdownSourceLineNumber(lines, startIndex)
+    const exhibitId = idMatch?.[1] ?? `exhibit-${this.chapter.number}-${lineNumber}`
     const id = this.uniqueId(`exhibit-${exhibitId}`)
     const bodyLines = lines.slice(1).filter(line => line.trim())
     const title = humanizeId(exhibitId)
@@ -1887,7 +2317,9 @@ ${bodyLines.map(line => `<p>${renderInline(line)}</p>`).join("\n")}
     }
 
     return sections.map((section, offset) => {
-      const id = this.uniqueId(`rule-${this.chapter.number}-${slugify(section.label)}`)
+      const id = this.uniqueId(offset === 0
+        ? this.consumePendingBlockId("rule") ?? `rule-${this.chapter.number}-${slugify(section.label)}`
+        : `rule-${this.chapter.number}-${slugify(section.label)}`)
       const ruleId = `${this.chapter.id}-${offset + 1}`
       const text = section.body.join(" ").trim()
 
@@ -1912,6 +2344,21 @@ ${bodyLines.map(line => `<p>${renderInline(line)}</p>`).join("\n")}
     return /^\s*\|/.test(lines[index] ?? "") && /^\s*\|?\s*:?-+:?\s*\|/.test(lines[index + 1] ?? "")
   }
 
+  isParagraphStart(lines, index) {
+    const line = lines[index] ?? ""
+    const trimmed = line.trim()
+
+    return Boolean(trimmed) &&
+      !paragraphIdFromComment(trimmed) &&
+      !trimmed.startsWith("```") &&
+      trimmed !== "$$" &&
+      !/^(#{1,6})\s+/.test(line) &&
+      !/^>\s?/.test(line) &&
+      !this.isTableStart(lines, index) &&
+      !/^\s*[-*]\s+/.test(line) &&
+      !this.isRawHtmlBlockStart(trimmed)
+  }
+
   renderTable(lines, startIndex) {
     const rows = []
     let index = startIndex
@@ -1921,7 +2368,8 @@ ${bodyLines.map(line => `<p>${renderInline(line)}</p>`).join("\n")}
       index += 1
     }
 
-    const id = this.uniqueId(`table-${this.chapter.number}-${String(startIndex + 1).padStart(3, "0")}`)
+    const lineNumber = markdownSourceLineNumber(lines, startIndex)
+    const id = this.uniqueId(`table-${this.chapter.number}-${String(lineNumber).padStart(3, "0")}`)
     this.addAnchor(id, "table", "table")
 
     const cells = rows.map(row => row.trim().replace(/^\|/, "").replace(/\|$/, "").split("|").map(cell => cell.trim()))
@@ -1968,9 +2416,21 @@ ${bodyRows.map(row => `<tr>${row.map(cell => `<td>${renderInline(cell)}</td>`).j
 
     const html = block.join("\n")
     const isStandaloneImage = block.length === 1 && /^<img\b/i.test(block[0].trim())
+    const isImageFigure = /^<figure\b/i.test(block[0].trim()) && /<img\b/i.test(html)
+    if (isStandaloneImage || isImageFigure) {
+      const id = this.uniqueId(this.consumePendingBlockId("image") ?? `image-${this.chapter.number}-${String(markdownSourceLineNumber(lines, startIndex)).padStart(3, "0")}`)
+      this.addAnchor(id, "image", rawImageLabel(lines, startIndex).slice(0, 120))
+
+      return {
+        html: isStandaloneImage
+          ? `<figure id="${id}" class="image-block" data-note-target>${html}</figure>`
+          : addAttributesToHtmlTag(html, { id, class: "image-block", "data-note-target": "" }),
+        nextIndex: index
+      }
+    }
 
     return {
-      html: isStandaloneImage ? `<figure>${html}</figure>` : html,
+      html,
       nextIndex: index
     }
   }
@@ -1987,6 +2447,7 @@ ${bodyRows.map(row => `<tr>${row.map(cell => `<td>${renderInline(cell)}</td>`).j
       if (
         trimmed.startsWith("```") ||
         trimmed === "$$" ||
+        stableIdFromComment(trimmed) ||
         /^(#{1,6})\s+/.test(line) ||
         /^>\s?/.test(line) ||
         this.isTableStart(lines, index) ||
@@ -2001,9 +2462,15 @@ ${bodyRows.map(row => `<tr>${row.map(cell => `<td>${renderInline(cell)}</td>`).j
     }
 
     const text = paragraph.join(" ")
-    const id = this.uniqueId(`p-${this.chapter.number}-${slugify(stripInline(text), 8)}`)
-    this.addAnchor(id, "paragraph", stripInline(text).slice(0, 120))
     const isImageBlock = /^!\[[^\]]*]\([^)]+\)$/.test(text.trim())
+    const markerType = isImageBlock ? "image" : "paragraph"
+    const id = this.uniqueId(
+      this.consumePendingBlockId(markerType) ??
+      this.pendingParagraphId ??
+      `${isImageBlock ? "image" : "p"}-${this.chapter.number}-${slugify(stripInline(isImageBlock ? markdownImageLabel(text) : text), 8)}`
+    )
+    this.pendingParagraphId = null
+    this.addAnchor(id, isImageBlock ? "image" : "paragraph", stripInline(isImageBlock ? markdownImageLabel(text) : text).slice(0, 120))
     const rendered = renderInlineWithSideLinks(text, this.options)
     const classes = [
       isImageBlock ? "image-block" : "",
@@ -2036,6 +2503,15 @@ ${bodyRows.map(row => `<tr>${row.map(cell => `<td>${renderInline(cell)}</td>`).j
     }
 
     this.usedIds.add(id)
+    return id
+  }
+
+  consumePendingBlockId(type) {
+    if (this.pendingBlockId?.type !== type) return null
+
+    const id = this.pendingBlockId.id
+    this.pendingBlockId = null
+    if (type === "paragraph") this.pendingParagraphId = null
     return id
   }
 }
