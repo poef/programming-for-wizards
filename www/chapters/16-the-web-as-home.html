@@ -84,7 +84,7 @@
 <section class="map-section">
   <h2>Part IV: Boundaries</h2>
   <ol>
-    <li><a href="../chapters/11-the-knitted-castle.html#book-start" data-chapter-start><span>11</span>The knitted castle</a></li><li><a href="../chapters/12-objects-binding-data-behavior-and-time.html#book-start" data-chapter-start><span>12</span>Objects: binding data, behavior, and time</a></li><li><a href="../chapters/13-architecture-arches-pyramids-and-change.html#book-start" data-chapter-start><span>13</span>Architecture: arches, pyramids, and change</a></li>
+    <li><a href="../chapters/11-the-knitted-castle.html#book-start" data-chapter-start><span>11</span>The knitted castle</a></li><li><a href="../chapters/12-objects-binding-data-behavior-and-time.html#book-start" data-chapter-start><span>12</span>Boundaries: Data, behavior, and time</a></li><li><a href="../chapters/13-architecture-arches-pyramids-and-change.html#book-start" data-chapter-start><span>13</span>Architecture: arches and change</a></li>
   </ol>
 </section>
 <section class="map-section">
@@ -111,77 +111,120 @@
   <div class="book-progress" role="progressbar" aria-label="Book progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" data-book-progress>
     <span data-book-progress-bar></span>
   </div>
-  <div id="book-start" class="manuscript-pages" data-page-scroller data-book-chapter-id="16-the-web-as-home" data-book-chapter-index="20" data-book-page-weights="466,27,1761,763,630,26,1305,1676,1260,20,1090,485,1924,29,1554,1012,2545,30,1487,1510,1228,37,173,133">
+  <div id="book-start" class="manuscript-pages" data-page-scroller data-book-chapter-id="16-the-web-as-home" data-book-chapter-index="20" data-book-page-weights="517,27,1761,763,630,26,1305,1676,1260,20,1090,485,1924,29,1554,1216,1346,30,1179,1184,1461,37,173,133">
   <header class="chapter-header ">
     <p class="chapter-kicker">Part V: The Next Web</p>
     <p class="chapter-number">Chapter 16</p>
     <svg class="chapter-glyph" viewBox="0 0 96 96" focusable="false" aria-hidden="true"><path d="M22 50 48 28l26 22"/><path d="M31 48v22h34V48"/><path d="M41 70V55h14v15"/><path d="M24 70h48"/><circle cx="62" cy="34" r="4"/></svg>
   </header>
   <h1 id="h-16-the-web-as-home-who-owns-your-home-directory"><a class="anchor-link" href="#h-16-the-web-as-home-who-owns-your-home-directory" aria-label="Link to The Web as home: who owns your home directory?">#</a>The Web as home: who owns your home directory?</h1>
-<p id="p-16-chapter-7-left-a-question-hanging" data-note-target>Chapter 7 left a question hanging.</p>
-<p id="p-16-if-the-web-becomes-the-operating-system-who" data-note-target>If the web becomes the operating system, who owns the home directory?</p>
-<p id="p-16-the-previous-two-chapters-added-pressure-from-two" data-note-target>The previous two chapters added pressure from two sides. If innovation happens elsewhere, users should be able to benefit from tools that were invented elsewhere. And if linked data lets facts and meanings cross boundaries, then it becomes harder to accept that each application should own its own little copy of the user's life.</p>
-<p id="p-16-on-a-normal-computer-the-home-directory-question" data-note-target>On a normal computer the home-directory question has an obvious answer, at least in theory. There is a place where your files live. Your documents, photos, music, projects, notes, saved games, half-written novels and badly named folders all sit somewhere that is more yours than the applications are.</p>
-<p id="p-16-you-can-install-a-different-text-editor-without" data-note-target>You can install a different text editor without rewriting all your text files. You can open an image in another program. You can delete an application and, if the world is not too cursed, your documents remain.</p>
-<p id="p-16-the-web-grew-up-differently" data-note-target>The web grew up differently.</p>
-<p id="p-16-on-the-web-each-application-tends-to-bring" data-note-target>On the web, each application tends to bring its own little home with it. Your mail lives in the mail app. Your photos live in the photo app. Your calendar lives in the calendar app. Your contacts live wherever your phone, mail provider or social network decided they should live. Every service gives you an account, a profile, a storage area, a permission model, an export button if you are lucky, and a terms-of-service document nobody reads until something has gone wrong.</p>
+<p id="p-16-earlier-we-saw-the-network-becoming-the-operating" data-note-target>Earlier we saw the network becoming the operating system.</p>
+<p id="p-16-but-where-is-the-users-home-directory-and" data-note-target>But where is the user's home directory, and who controls it?</p>
+<p id="p-16-linked-data-gave-us-names-and-meanings-that" data-note-target>Linked data gave us names and meanings that can cross application boundaries. It did not give the data a home.</p>
+<p id="p-16-on-a-normal-computer-the-home-directory-question" data-note-target>On a normal computer, the home-directory question has an obvious answer, at least in theory. Your documents, photos, music, projects, notes, saved games, half-written novels and badly named folders live somewhere that is more yours than the applications are.</p>
+<p id="p-16-you-can-install-another-text-editor-without-rewriting" data-note-target>You can install another text editor without rewriting every document. You can open an image in a different program. You can remove an application and, if the world is not too cursed, your files remain.</p>
+<p id="p-16-the-web-grew-up-differently" data-note-target>The Web grew up differently.</p>
+<p id="p-16-your-mail-lives-in-the-mail-application-your" data-note-target>Your mail lives in the mail application. Your photos live in the photo application. Your calendar lives in the calendar application. Each service brings its own account, storage, permissions, interface, business model and export button if you are lucky.</p>
 <p id="p-16-this-is-understandable-it-is-also-strange" data-note-target>This is understandable. It is also strange.</p>
-<p id="p-16-the-private-castle-is-not-only-greed-it" data-note-target>The private castle is not only greed. It is also easy architecture. When an app owns the interface, the account, the data, and the permissions, it can arrange the whole little room around itself.</p>
+<p id="p-16-when-an-application-owns-the-interface-account-data" data-note-target>When an application owns the interface, account, data and permissions, it can arrange the whole room around itself. That is convenient architecture.</p>
 <p id="p-16-but-the-boundary-is-in-the-wrong-place" data-note-target>But the boundary is in the wrong place.</p>
-<p id="p-16-the-app-has-become-the-container-for-the" data-note-target>The app has become the container for the user's life.</p>
-<p id="p-16-software-moved-into-the-network-the-users-home" data-note-target>Software moved into the network. The user's home did not really come with it.</p>
-<p id="p-16-instead-we-got-thousands-of-private-little-castles" data-note-target>Instead we got thousands of private little castles.</p>
-<h2 id="h-16-the-old-shape-and-the-hidden-shape"><a class="anchor-link" href="#h-16-the-old-shape-and-the-hidden-shape" aria-label="Link to The old shape and the hidden shape">#</a>The old shape and the hidden shape</h2>
-<p id="p-16-one-way-to-describe-the-modern-web-is" data-note-target>One way to describe the modern web is this:</p>
+<p id="p-16-the-application-has-become-the-container-for-the" data-note-target>The application has become the container for the user's life.</p>
+<p id="p-16-software-moved-into-the-network-the-users-home" data-note-target>Software moved into the network. The user's home did not come with it.</p>
+<h2 id="h-16-the-old-shape-and-another-shape"><a class="anchor-link" href="#h-16-the-old-shape-and-another-shape" aria-label="Link to The old shape and another shape">#</a>The old shape and another shape</h2>
+<p id="p-16-one-way-to-describe-the-modern-web-is" data-note-target>One way to describe the modern Web is:</p>
 <figure id="app-owned-world" class="code-figure" data-note-target>
 <figcaption>text</figcaption>
 <pre><code class="language-text">application -&gt; account -&gt; data</code></pre>
 </figure>
-<p id="p-16-the-application-is-the-starting-point-you-choose" data-note-target>The application is the starting point. You choose an app, create an account inside it, and then your data begins to accumulate there. The app is the room. Your data is the furniture.</p>
+<p id="p-16-the-application-is-the-starting-point-you-choose" data-note-target>The application is the starting point. You choose an application, create an account inside it, and your data begins to accumulate there.</p>
 <p id="p-16-there-is-another-possible-shape" data-note-target>There is another possible shape:</p>
 <figure id="user-owned-world" class="code-figure" data-note-target>
 <figcaption>text</figcaption>
 <pre><code class="language-text">identity -&gt; data -&gt; applications</code></pre>
 </figure>
-<p id="p-16-the-user-is-the-starting-point-the-data" data-note-target>The user is the starting point. The data belongs near the user. Applications become tools that are allowed to read, write or change parts of that data.</p>
-<p id="p-16-that-may-look-like-a-small-rearrangement-it" data-note-target>That may look like a small rearrangement. It is not.</p>
-<p id="p-16-in-the-first-shape-replacing-software-means-moving" data-note-target>In the first shape, replacing software means moving your life from one castle to another. In the second shape, replacing software can be closer to changing tools on your workbench.</p>
-<p id="p-16-this-does-not-make-the-problem-easy-some" data-note-target>This does not make the problem easy. Some parts become harder.</p>
-<p id="p-16-permissions-can-no-longer-be-an-afterthought-shared" data-note-target>Permissions can no longer be an afterthought. Shared vocabularies and data formats have to do real work. Applications can no longer quietly assume that their private database is the universe. They have to deal with data written somewhere else, by a tool they did not control.</p>
-<p id="p-16-that-difficulty-is-where-the-boundary-becomes-real" data-note-target>That difficulty is where the boundary becomes real. A boundary is not just a line in a diagram. It is the notation that crosses the line: the address, the format, the vocabulary, the permission, the thing another program can read, inspect, parse, and use.</p>
+<p id="p-16-the-person-is-the-starting-point-the-data" data-note-target>The person is the starting point. The data lives near that person. Applications receive permission to read or change parts of it.</p>
+<p id="p-16-that-looks-like-a-small-rearrangement-it-is" data-note-target>That looks like a small rearrangement. It is not.</p>
+<p id="p-16-in-the-first-shape-replacing-an-application-means" data-note-target>In the first shape, replacing an application means moving your life from one system to another.</p>
+<p id="p-16-in-the-second-replacing-an-application-can-be" data-note-target>In the second, replacing an application can be closer to changing tools on a workbench.</p>
 <p id="p-16-small-replaceable-software-requires-a-place-where-the" data-note-target>Small, replaceable software requires a place where the important things are not owned by the software.</p>
-<h2 id="h-16-a-web-with-a-home-directory"><a class="anchor-link" href="#h-16-a-web-with-a-home-directory" aria-label="Link to A web with a home directory">#</a>A web with a home directory</h2>
-<p id="p-16-there-is-a-project-called-solid-that-tries" data-note-target><span class="side-links side-links-margin" aria-label="Related links for this paragraph">
+<p id="p-16-linked-data-helps-different-tools-understand-the-same" data-note-target>Linked data helps different tools understand the same things. It does not create this second shape by itself. We still need identity, storage and permission to exist independently of the application.</p>
+<h2 id="h-16-connecting-to-solid"><a class="anchor-link" href="#h-16-connecting-to-solid" aria-label="Link to Connecting to Solid">#</a>Connecting to Solid</h2>
+<p id="p-16-there-is-a-project-called-solid-that-explores" data-note-target><span class="side-links side-links-margin" aria-label="Related links for this paragraph">
 <a href="https://solidproject.org/" title="https://solidproject.org/">https://solidproject.org/</a>
-</span>There is a project called Solid that tries to explore this direction. I do not want to turn this chapter into a manual for it. The details matter, but the wizardly part is the change of shape.<span class="side-links side-links-inline" aria-label="Related links for this paragraph">
+</span>There is a project called Solid that explores this second shape.<span class="side-links side-links-inline" aria-label="Related links for this paragraph">
 <a href="https://solidproject.org/" title="https://solidproject.org/">https://solidproject.org/</a>
 </span></p>
-<p id="p-16-solid-asks-what-would-happen-if-identity-and" data-note-target><span class="side-links side-links-margin" aria-label="Related links for this paragraph">
-<a href="https://solidproject.org/FAQ" title="https://solidproject.org/FAQ">https://solidproject.org/FAQ</a>
-<a href="https://solidproject.org/FAQ" title="https://solidproject.org/FAQ">https://solidproject.org/FAQ</a>
-</span>Solid asks what would happen if identity and data were separated from applications. A person has an identity on the web. Their data can live in a place they control. Applications ask for access. The app is no longer automatically the place where the data lives.<span class="side-links side-links-inline" aria-label="Related links for this paragraph">
-<a href="https://solidproject.org/FAQ" title="https://solidproject.org/FAQ">https://solidproject.org/FAQ</a>
-<a href="https://solidproject.org/FAQ" title="https://solidproject.org/FAQ">https://solidproject.org/FAQ</a>
-</span></p>
-<p id="p-16-this-sounds-almost-too-obvious-once-said-aloud" data-note-target>This sounds almost too obvious, once said aloud. Of course your contacts should be yours. Of course your calendar should not belong to one calendar interface. Of course your notes should not become unreadable because a company pivoted, merged, shut down, rebranded, or discovered artificial intelligence in a board meeting.</p>
-<p id="p-16-and-yet-the-obvious-thing-is-not-how" data-note-target>And yet the obvious thing is not how most of the web works. The current shape was easier to build. It was convenient for users. It gave developers fewer missing standards to trip over. And every app that becomes successful has a quiet incentive to become a world.</p>
-<p id="p-16-this-is-where-the-earlier-chapters-start-to" data-note-target>This is where the earlier chapters start to matter. A URL is powerful because it lets worlds point at each other. HTML is powerful because it gives documents a shared shape, even though that shape has consequences. A small embedded language is powerful because it stays close to the host language instead of building a border too early. A reusable component is powerful because it has few assumptions and a clear boundary.</p>
-<p id="p-16-the-personal-web-needs-the-same-kind-of" data-note-target>The personal web needs the same kind of thinking.</p>
-<p id="p-16-it-is-not-enough-to-say-that-users" data-note-target>It is not enough to say that users should own their data. Ownership is an important word, but by itself it does not design an architecture. You need addresses. You need identity. You need permissions. You need linked data, or something very much like it, so meanings can travel between tools. You need ways for small applications to cooperate without becoming one large application.</p>
-<p id="p-16-you-need-boundaries-that-make-replacement-normal" data-note-target>You need boundaries that make replacement normal.</p>
+<p id="p-16-solid-separates-identity-and-data-from-applications-a" data-note-target>Solid separates identity and data from applications. A person has an identity on the Web. Their data can live in storage they choose, usually called a pod. Applications ask for permission to read or change parts of it.</p>
+<p id="p-16-the-application-is-no-longer-automatically-the-place" data-note-target>The application is no longer automatically the place where the data lives.</p>
+<p id="p-16-this-is-not-a-solid-manual-the-details" data-note-target>This is not a Solid manual. The details matter, but the wizardly part is the boundary it proposes.</p>
+<p id="p-16-linked-data-describes-what-the-data-means-and" data-note-target>Linked data describes what the data means and how it relates to other things.</p>
+<p id="p-16-solid-determines-where-that-data-lives-who-controls" data-note-target>Solid determines where that data lives, who controls it, and which applications may use it.</p>
+<p id="p-16-linked-data-lets-the-meaning-travel" data-note-target>Linked data lets the meaning travel.</p>
+<p id="p-16-solid-gives-the-data-a-home" data-note-target>Solid gives the data a home.</p>
+<h2 id="h-16-the-margin-you-have-been-using"><a class="anchor-link" href="#h-16-the-margin-you-have-been-using" aria-label="Link to The margin you have been using">#</a>The margin you have been using</h2>
+<p id="p-16-this-is-not-only-a-proposal-for-some" data-note-target>This is not only a proposal for some future Web.</p>
+<p id="p-16-this-book-is-already-trying-to-work-this" data-note-target>This book is already trying to work this way.</p>
+<p id="p-16-you-may-have-written-notes-in-its-margins" data-note-target>You may have written notes in its margins. To the reader, the margin is simply part of the book. Underneath, it is provided by a small software component that can be included on any Web page.</p>
+<p id="p-16-at-first-the-notes-are-stored-in-your" data-note-target>At first, the notes are stored in your browser. You do not need an account, and the book does not receive everything you write.</p>
+<p id="p-16-browser-storage-is-useful-but-it-is-not" data-note-target>Browser storage is useful, but it is not much of a home directory. The notes remain tied to one browser on one device. Clear the browser data and they disappear. Open the book somewhere else and the margin is empty.</p>
+<p id="p-16-that-is-why-the-margin-also-lets-you" data-note-target>That is why the margin also lets you connect to Solid.</p>
+<p id="p-16-once-connected-the-component-can-store-your-notes" data-note-target>Once connected, the component can store your notes in your pod. The margin remains here in the book, but the notes no longer live inside the book or belong to the software that displays them.</p>
+<p id="p-16-open-the-book-on-another-device-and-they" data-note-target>Open the book on another device and they can still be there.</p>
+<p id="p-16-use-the-same-notes-component-on-another-website" data-note-target>Use the same notes component on another website and it can work with the same collection.</p>
+<p id="p-16-replace-the-component-and-another-one-can-read" data-note-target>Replace the component and another one can read the notes, provided it understands their shape and you give it permission.</p>
+<p id="p-16-each-passage-in-the-book-has-a-stable" data-note-target>Each passage in the book has a stable address. A note can say which passage it belongs to without becoming part of the book itself.</p>
+<p id="p-16-solid-determines-where-the-note-lives-which-identity" data-note-target>Solid determines where the note lives, which identity it belongs to, and which applications may read or change it.</p>
+<p id="p-16-linked-data-describes-what-the-note-means-who" data-note-target>Linked data describes what the note means: who wrote it, which passage it annotates, when it was written, and whether it replies to another note.</p>
+<p id="p-16-the-two-ideas-work-together-but-they-do" data-note-target>The two ideas work together, but they do different jobs.</p>
+<p id="p-16-if-you-have-connected-the-margin-to-your" data-note-target>If you have connected the margin to your pod, you are not reading about a theoretical architecture.</p>
+<p id="p-16-you-are-already-using-it" data-note-target>You are already using it.</p>
+<h2 id="h-16-sharing-one-note"><a class="anchor-link" href="#h-16-sharing-one-note" aria-label="Link to Sharing one note">#</a>Sharing one note</h2>
+<p id="p-16-private-notes-are-useful-but-readers-sometimes-write" data-note-target>Private notes are useful, but readers sometimes write something that should become part of the wider book.</p>
+<p id="p-16-perhaps-you-notice-an-error-perhaps-you-know" data-note-target>Perhaps you notice an error. Perhaps you know a better example. Perhaps the chapter reminds you of a paper I missed, or you disagree so precisely that the disagreement improves the argument.</p>
+<p id="p-16-innovation-happens-elsewhere" data-note-target>Innovation happens elsewhere.</p>
+<p id="p-16-the-notes-component-can-let-you-share-one" data-note-target>The notes component can let you share one selected note with the book.</p>
+<p id="p-16-not-the-whole-notebook-not-every-unfinished-thought" data-note-target>Not the whole notebook. Not every unfinished thought in the margin. One note, deliberately chosen.</p>
+<p id="p-16-that-note-is-sent-to-the-books-inbox" data-note-target>That note is sent to the book's inbox. It can then be read and curated by me, or by a suitably impressive artificial imitation of me working under close supervision.</p>
+<p id="p-16-accepted-notes-can-be-indexed-and-made-visible" data-note-target>Accepted notes can be indexed and made visible to readers who opt in to the shared notes layer.</p>
+<p id="p-16-this-creates-another-boundary" data-note-target>This creates another boundary.</p>
+<p id="p-16-you-own-the-private-note-collection-the-book" data-note-target>You own the private note collection. The book owns its curation. Sharing is the act that crosses between them.</p>
+<p id="p-16-a-submitted-note-may-be-edited-rejected-answered" data-note-target>A submitted note may be edited, rejected, answered or grouped with other notes. That editorial work does not need to happen inside the margin component. A separate tool can manage the inbox. Another can build the index. Another can display approved notes beside the relevant passages.</p>
+<p id="p-16-the-tool-that-writes-a-note-does-not" data-note-target>The tool that writes a note does not have to be the tool that publishes it.</p>
+<p id="p-16-the-application-that-publishes-it-does-not-have" data-note-target>The application that publishes it does not have to own the original notebook.</p>
+<p id="p-16-the-parts-meet-through-identities-addresses-permissions-and" data-note-target>The parts meet through identities, addresses, permissions and shared meaning.</p>
+<h2 id="h-16-the-book-follows-its-own-advice"><a class="anchor-link" href="#h-16-the-book-follows-its-own-advice" aria-label="Link to The book follows its own advice">#</a>The book follows its own advice</h2>
+<p id="p-16-this-is-not-an-example-added-after-the" data-note-target>This is not an example added after the argument.</p>
+<p id="p-16-it-is-part-of-the-book" data-note-target>It is part of the book.</p>
+<p id="p-16-the-margin-component-stays-small-because-it-does" data-note-target>The margin component stays small because it does not have to become a publishing platform, identity provider, storage company and social network before it can be useful.</p>
+<p id="p-16-the-book-stays-a-book-it-does-not" data-note-target>The book stays a book. It does not need to contain every reader's private notebook.</p>
+<p id="p-16-the-inbox-does-not-need-to-become-the" data-note-target>The inbox does not need to become the editor.</p>
+<p id="p-16-the-public-notes-viewer-does-not-need-to" data-note-target>The public notes viewer does not need to know how the notes were originally written.</p>
+<p id="p-16-each-part-has-a-boundary" data-note-target>Each part has a boundary.</p>
+<p id="p-16-the-book-and-the-notes-component-meet-at" data-note-target>The book and the notes component meet at the address of a passage.</p>
+<p id="p-16-the-notes-component-and-the-pod-meet-through" data-note-target>The notes component and the pod meet through Solid.</p>
+<p id="p-16-the-private-notes-and-the-books-editorial-process" data-note-target>The private notes and the book's editorial process meet through one deliberate act of sharing.</p>
+<p id="p-16-the-curated-notes-and-later-readers-meet-through" data-note-target>The curated notes and later readers meet through an optional public layer.</p>
+<p id="p-16-none-of-these-boundaries-removes-complexity-permissions-can" data-note-target>None of these boundaries removes complexity. Permissions can be confusing. Applications may disagree about data. Vocabularies can drift. Storage providers can fail. A note may point to a passage that changes or disappears.</p>
+<p id="p-16-separating-the-parts-makes-these-problems-visible" data-note-target>Separating the parts makes these problems visible.</p>
+<p id="p-16-the-knitted-castle-hid-them-by-tying-everything" data-note-target>The knitted castle hid them by tying everything into one application.</p>
 <h2 id="h-16-small-tools-not-kingdoms"><a class="anchor-link" href="#h-16-small-tools-not-kingdoms" aria-label="Link to Small tools, not kingdoms">#</a>Small tools, not kingdoms</h2>
-<p id="p-16-if-data-and-identity-can-outlive-applications-software" data-note-target>If data and identity can outlive applications, software can become smaller.</p>
-<p id="p-16-a-notes-app-does-not-have-to-become" data-note-target>A notes app does not have to become a complete platform for every thought you will ever have. It can be a good editor for notes. Another app can be a better viewer. Another can search them. Another can publish some of them. Another can connect them to a project. These tools can be small because none of them has to own the entire world in order to be useful.</p>
-<p id="p-16-this-is-the-lego-castle-trying-to-escape" data-note-target>This is the Lego castle trying to escape from the knitted castle again.</p>
-<p id="p-16-of-course-it-will-not-escape-completely-real" data-note-target>Of course, it will not escape completely. Real software always grows threads. Applications need assumptions. Data shapes drift. Permissions become complicated. People want convenience more than purity, and they are usually right to want that.</p>
+<p id="p-16-if-identity-and-data-can-outlive-applications-software" data-note-target>If identity and data can outlive applications, software can become smaller.</p>
+<p id="p-16-a-notes-component-can-concentrate-on-being-a" data-note-target>A notes component can concentrate on being a good margin. Another application can search the notes. Another can display them differently. Another can connect them to books, tasks or projects.</p>
+<p id="p-16-none-of-them-has-to-own-the-entire" data-note-target>None of them has to own the entire world to be useful.</p>
+<p id="p-16-this-changes-what-replacement-means" data-note-target>This changes what replacement means.</p>
+<p id="p-16-a-better-notes-tool-does-not-first-have" data-note-target>A better notes tool does not first have to persuade you to abandon the notes you already wrote. It can ask for access and try to be better.</p>
+<p id="p-16-innovation-can-arrive-from-elsewhere-because-your-world" data-note-target>Innovation can arrive from elsewhere because your world is not sealed inside the original application.</p>
+<p id="p-16-a-private-application-asks" data-note-target>A private application asks:</p>
+<blockquote><p>How can we keep the user inside?</p></blockquote>
+<p id="p-16-a-personal-web-asks" data-note-target>A personal Web asks:</p>
+<blockquote><p>How can this tool remain useful after the user replaces it?</p></blockquote>
+<p id="p-16-those-questions-produce-different-software" data-note-target>Those questions produce different software.</p>
+<p id="p-16-solid-may-or-may-not-become-the-final" data-note-target>Solid may or may not become the final form of this idea. Final forms have not done very well in this book.</p>
 <p id="p-16-but-the-direction-matters" data-note-target>But the direction matters.</p>
-<p id="p-16-a-private-app-castle-asks-how-can-we" data-note-target>A private app castle asks: how can we keep the user inside?</p>
-<p id="p-16-a-personal-web-asks-how-can-this-tool" data-note-target>A personal web asks: how can this tool remain useful after the user replaces it?</p>
-<p id="p-16-that-is-a-very-different-question-it-points" data-note-target>That is a very different question. It points to different designs. It rewards different behavior. It makes different futures possible.</p>
-<p id="p-16-and-this-is-the-theme-that-keeps-returning" data-note-target>And this is the theme that keeps returning throughout this book. The hard problem may not be the thing you first thought it was. Sometimes the hard problem is caused by the shape of the world around it.</p>
-<p id="p-16-change-where-you-are-looking-from-and-the" data-note-target>Change where you are looking from, and the problem changes.</p>
-<p id="p-16-if-you-look-from-the-app-everything-else" data-note-target>If you look from the app, everything else has to orbit the app. The data, the identity, the permissions, the habits, the little bits of personal history.</p>
-<p id="p-16-if-the-person-has-a-home-on-the" data-note-target>If the person has a home on the Web, applications can come and go. They can still matter. They can still be excellent. But they no longer have to be the place where the user's life is kept.</p>
+<p id="p-16-the-web-has-become-an-operating-system" data-note-target>The Web has become an operating system.</p>
+<p id="p-16-the-book-provides-the-text" data-note-target>The book provides the text.</p>
+<p id="p-16-the-component-provides-the-margin" data-note-target>The component provides the margin.</p>
+<p id="p-16-solid-gives-the-reader-a-home" data-note-target>Solid gives the reader a home.</p>
   <nav class="chapter-pagination" aria-label="Chapter navigation">
     <a rel="prev" href="15-the-web-as-data.html"><span>Previous</span>The Web as data: things should have addresses too</a>
     <a rel="next" href="interlude-06-final-rule.html"><span>Next</span>Interlude</a>

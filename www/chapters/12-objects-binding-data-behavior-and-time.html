@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="color-scheme" content="light dark">
   <meta name="theme-color" content="#7d2636">
-  <title>Objects: binding data, behavior, and time - Programming for Wizards</title>
+  <title>Boundaries: Data, behavior, and time - Programming for Wizards</title>
   <script>
     (() => {
       const root = document.documentElement
@@ -84,7 +84,7 @@
 <section class="map-section">
   <h2>Part IV: Boundaries</h2>
   <ol>
-    <li><a href="../chapters/11-the-knitted-castle.html#book-start" data-chapter-start><span>11</span>The knitted castle</a></li><li><a aria-current="page" href="../chapters/12-objects-binding-data-behavior-and-time.html#book-start" data-chapter-start><span>12</span>Objects: binding data, behavior, and time</a></li><li><a href="../chapters/13-architecture-arches-pyramids-and-change.html#book-start" data-chapter-start><span>13</span>Architecture: arches, pyramids, and change</a></li>
+    <li><a href="../chapters/11-the-knitted-castle.html#book-start" data-chapter-start><span>11</span>The knitted castle</a></li><li><a aria-current="page" href="../chapters/12-objects-binding-data-behavior-and-time.html#book-start" data-chapter-start><span>12</span>Boundaries: Data, behavior, and time</a></li><li><a href="../chapters/13-architecture-arches-pyramids-and-change.html#book-start" data-chapter-start><span>13</span>Architecture: arches and change</a></li>
   </ol>
 </section>
 <section class="map-section">
@@ -111,17 +111,17 @@
   <div class="book-progress" role="progressbar" aria-label="Book progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" data-book-progress>
     <span data-book-progress-bar></span>
   </div>
-  <div id="book-start" class="manuscript-pages" data-page-scroller data-book-chapter-id="12-objects-binding-data-behavior-and-time" data-book-chapter-index="15" data-book-page-weights="466,27,1761,763,630,26,1305,1676,1260,20,1090,485,1924,29,1554,1012,2545,30,1487,1510,1228,37,173,133">
+  <div id="book-start" class="manuscript-pages" data-page-scroller data-book-chapter-id="12-objects-binding-data-behavior-and-time" data-book-chapter-index="15" data-book-page-weights="517,27,1761,763,630,26,1305,1676,1260,20,1090,485,1924,29,1554,1216,1346,30,1179,1184,1461,37,173,133">
   <header class="chapter-header ">
     <p class="chapter-kicker">Part IV: Boundaries</p>
     <p class="chapter-number">Chapter 12</p>
     <svg class="chapter-glyph" viewBox="0 0 96 96" focusable="false" aria-hidden="true"><circle cx="48" cy="48" r="14"/><path d="M48 20v14m0 28v14M20 48h14m28 0h14"/><circle cx="48" cy="20" r="4"/><circle cx="76" cy="48" r="4"/><circle cx="48" cy="76" r="4"/><circle cx="20" cy="48" r="4"/></svg>
   </header>
-  <h1 id="h-12-objects-binding-data-behavior-and-time"><a class="anchor-link" href="#h-12-objects-binding-data-behavior-and-time" aria-label="Link to Objects: binding data, behavior, and time">#</a>Objects: binding data, behavior, and time</h1>
+  <h1 id="h-12-boundaries-data-behavior-and-time"><a class="anchor-link" href="#h-12-boundaries-data-behavior-and-time" aria-label="Link to Boundaries: Data, behavior, and time">#</a>Boundaries: Data, behavior, and time</h1>
 <p id="p-12-in-the-previous-chapter-we-looked-at-the" data-note-target>In the previous chapter we looked at the knitted castle: the strange tendency of software to grow threads. Every useful piece starts to depend on data shapes, frameworks, databases, styling, configuration, lifecycles, users, errors and history. Before long, the piece is no longer a brick. It is a tower with half the castle still attached.</p>
-<p id="p-12-object-oriented-programming-is-one-of-the-great" data-note-target>Object Oriented Programming is one of the great historical answers to that problem. Perhaps the most successful one.</p>
+<p id="p-12-object-oriented-programming-is-one-of-the-great" data-note-target>Object-Oriented Programming is one of the great historical answers to that problem. Perhaps the most successful one.</p>
 <p id="p-12-it-promised-a-way-to-make-software-out" data-note-target>It promised a way to make software out of reusable pieces. Pieces that were not just functions, but little things that carried their own data and behavior around with them. Objects could be combined. Classes could be extended. The internal mess could be hidden. The outside world could talk to a smaller public surface.</p>
-<p id="p-12-that-promise-was-powerful-enough-that-oop-took" data-note-target>That promise was powerful enough that OOP took over much of the programming world. For many programmers, programming became object-oriented programming. Classes, methods, inheritance, interfaces, constructors, services, factories: this became the normal furniture of software.</p>
+<p id="p-12-that-promise-was-powerful-enough-that-oop-took" data-note-target>That promise was powerful enough that OOP took over much of the programming world. For many programmers, programming became object-oriented programming.</p>
 <p id="p-12-and-yet-the-knitted-castle-did-not-go" data-note-target>And yet the knitted castle did not go away.</p>
 <p id="p-12-so-i-will-not-start-with-a-definition" data-note-target>So I will not start with a definition of OOP. Definitions are where this subject goes to become religious. I will start with the promise, and with the part of the promise that still matters.</p>
 <p id="p-12-where-should-behavior-live" data-note-target>Where should behavior live?</p>
@@ -162,7 +162,7 @@ $order-&gt;cancel($reason);</code></pre>
     }
 }</code></pre>
 </figure>
-<p id="p-12-or-to-inject-the-dependency-when-the-object" data-note-target>Or to inject the dependency when the object is created.</p>
+<p id="p-12-or-even-better-inject-the-dependency-when-the" data-note-target>Or even better: inject the dependency when the object is created.</p>
 <figure id="code-12-070" class="code-figure" data-note-target>
 <figcaption>php</figcaption>
 <pre><code class="language-php">class OrderService {
@@ -177,7 +177,22 @@ $order-&gt;cancel($reason);</code></pre>
 <p id="p-12-forget-the-frameworks-the-annotations-and-the-containers" data-note-target>Forget the frameworks, the annotations, and the containers with configuration files so large that they need their own weather report.</p>
 <p id="p-12-instead-the-useful-idea-is-simple" data-note-target>Instead the useful idea is simple:</p>
 <blockquote><p>The place that uses a dependency does not have to be the place that chooses it.</p></blockquote>
-<p id="p-12-that-lets-you-bind-later" data-note-target>That lets you bind later.</p>
+<p id="p-12-that-lets-you-bind-later-the-simplest-version" data-note-target>That lets you bind later. The simplest version of this is:</p>
+<figure id="code-12-089" class="code-figure" data-note-target>
+<figcaption>php</figcaption>
+<pre><code class="language-php">$orders = new SqlOrderRepository($database);
+$service = new OrderService($orders);</code></pre>
+</figure>
+<p id="p-12-or-encapsulated-in-a-factory-function" data-note-target>Or encapsulated in a factory function:</p>
+<figure id="code-12-096" class="code-figure" data-note-target>
+<figcaption>php</figcaption>
+<pre><code class="language-php">function createOrderService(DatabaseConnection $database) {
+    return new OrderService(
+        new SqlOrderRepository($database)
+    );
+}</code></pre>
+</figure>
+<p id="p-12-the-key-idea-the-factory-is-separate-from" data-note-target>The key idea: the factory is separate from the <code>SqlOrderRepository</code> and the <code>OrderService</code>. You can replace it or add different versions. You can bind the parts together when you need them, rather than having that choice built into one of the parts.</p>
 <h2 id="h-12-binding-time"><a class="anchor-link" href="#h-12-binding-time" aria-label="Link to Binding time">#</a>Binding time</h2>
 <p id="p-12-we-dont-think-enough-about-time-but-ignoring" data-note-target>We don't think enough about time. But ignoring it doesn't make it disappear. Instead it infects your careful design in unexpected places, then pops up when you no longer have the time to fix it.</p>
 <p id="p-12-when-do-we-decide-which-database-to-use" data-note-target>When do we decide which database to use? When do we decide which template renders this page? When do we decide which implementation of an interface belongs in production and which one belongs in tests?</p>
@@ -194,17 +209,20 @@ $order-&gt;cancel($reason);</code></pre>
 <a href="https://martinfowler.com/articles/injection.html#UsingAServiceLocator" title="https://martinfowler.com/articles/injection.html#UsingAServiceLocator">https://martinfowler.com/articles/injection.html#UsingAServiceLocator</a>
 </span></p>
 <p id="p-12-some-of-them-help-some-of-them-merely" data-note-target>Some of them help. Some of them merely move the mess to a more impressive room.</p>
+<p id="p-12-passing-a-container-into-every-object-looks-flexible" data-note-target>Passing a container into every object looks flexible, but it hides what each object actually needs. The dependencies become visible only after you read the implementation.</p>
+<h2 id="h-12-binding-reveals-boundaries"><a class="anchor-link" href="#h-12-binding-reveals-boundaries" aria-label="Link to Binding reveals boundaries">#</a>Binding reveals boundaries</h2>
+<p id="p-12-dependencies-are-not-a-problem-if-they-live" data-note-target>Dependencies are not a problem if they live their entire life inside the boundary of a single part. They become a problem when they escape.</p>
+<p id="p-12-it-is-your-job-to-identify-potential-boundaries" data-note-target>It is your job to identify potential boundaries, and keep the threads from crossing.</p>
+<p id="p-12-a-potential-boundary-appears-when-two-things-change" data-note-target>A potential boundary appears when two things change for different reasons. The rules of an order change when the business changes. The repository changes when the database or storage changes. The factory changes when we decide to connect the parts differently.</p>
+<p id="p-12-look-for-code-that-knows-something-only-because" data-note-target>Look for code that knows something only because two other parts need to meet. That code may be a bridge. Look for decisions that one part uses but should not own. That may be a boundary. Look for things that change at different times, or for different people. They probably should not be tied together.</p>
 <h2 id="h-12-shell-and-core"><a class="anchor-link" href="#h-12-shell-and-core" aria-label="Link to Shell and core">#</a>Shell and core</h2>
 <p id="p-12-one-useful-boundary-is-the-shell-core-split" data-note-target>One useful boundary is the shell/core split.</p>
 <p id="p-12-the-core-contains-the-rules-of-the-program" data-note-target>The core contains the rules of the program. It should know as little as possible about files, databases, networks, frameworks, clocks and random number generators. The shell knows about the outside world. It wires everything together.</p>
-<p id="p-12-the-shell-is-where-many-decisions-are-allowed" data-note-target>The shell is where many decisions are allowed to be late.</p>
-<p id="p-12-this-is-not-because-the-outside-world-is" data-note-target>This is not because the outside world is dirty and the core is pure. That sounds moralistic, and software is already full of enough false morality.</p>
-<p id="p-12-the-reason-is-more-practical-the-outside-world" data-note-target>The reason is more practical. The outside world changes in different ways than the rules of your program. Databases change. Frameworks change. APIs change. Files move. Users do strange things. The core should be protected from that weather where possible.</p>
-<p id="p-12-this-is-the-same-move-we-have-seen" data-note-target>This is the same move we have seen before. Change the boundary, and the problem changes shape. Then the problem gets bigger. Not one object, but the whole structure. Not one dependency, but change itself.</p>
-<p id="p-12-at-a-large-enough-scale-architecture-is-also" data-note-target>At a large enough scale, architecture is also a question of when things are allowed to become fixed.</p>
+<p id="p-12-factory-spells-clearly-belong-in-the-shell-this" data-note-target>Factory spells clearly belong in the shell. This is where the Lego blocks are connected. I sometimes use the term "glue layer", but gluing Lego bricks together is frowned upon. A factory is a specific version of a pattern I've been using a lot: the bridge. Instead of two or more components having to know about each other, with threads connecting them, only the bridge knows how to tie the knots.</p>
+<p id="p-12-boundaries-are-not-found-by-drawing-boxes-first" data-note-target>Boundaries are not found by drawing boxes first. They appear when you notice that two things know too much about each other, change for different reasons, or must be connected by knowledge that belongs to neither.</p>
   <nav class="chapter-pagination" aria-label="Chapter navigation">
     <a rel="prev" href="11-the-knitted-castle.html"><span>Previous</span>The knitted castle</a>
-    <a rel="next" href="13-architecture-arches-pyramids-and-change.html"><span>Next</span>Architecture: arches, pyramids, and change</a>
+    <a rel="next" href="13-architecture-arches-pyramids-and-change.html"><span>Next</span>Architecture: arches and change</a>
   </nav>
   </div>
   <div class="page-turner" data-page-controls hidden>

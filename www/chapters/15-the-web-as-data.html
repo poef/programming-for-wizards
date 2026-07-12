@@ -84,7 +84,7 @@
 <section class="map-section">
   <h2>Part IV: Boundaries</h2>
   <ol>
-    <li><a href="../chapters/11-the-knitted-castle.html#book-start" data-chapter-start><span>11</span>The knitted castle</a></li><li><a href="../chapters/12-objects-binding-data-behavior-and-time.html#book-start" data-chapter-start><span>12</span>Objects: binding data, behavior, and time</a></li><li><a href="../chapters/13-architecture-arches-pyramids-and-change.html#book-start" data-chapter-start><span>13</span>Architecture: arches, pyramids, and change</a></li>
+    <li><a href="../chapters/11-the-knitted-castle.html#book-start" data-chapter-start><span>11</span>The knitted castle</a></li><li><a href="../chapters/12-objects-binding-data-behavior-and-time.html#book-start" data-chapter-start><span>12</span>Boundaries: Data, behavior, and time</a></li><li><a href="../chapters/13-architecture-arches-pyramids-and-change.html#book-start" data-chapter-start><span>13</span>Architecture: arches and change</a></li>
   </ol>
 </section>
 <section class="map-section">
@@ -111,30 +111,19 @@
   <div class="book-progress" role="progressbar" aria-label="Book progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" data-book-progress>
     <span data-book-progress-bar></span>
   </div>
-  <div id="book-start" class="manuscript-pages" data-page-scroller data-book-chapter-id="15-the-web-as-data" data-book-chapter-index="19" data-book-page-weights="466,27,1761,763,630,26,1305,1676,1260,20,1090,485,1924,29,1554,1012,2545,30,1487,1510,1228,37,173,133">
+  <div id="book-start" class="manuscript-pages" data-page-scroller data-book-chapter-id="15-the-web-as-data" data-book-chapter-index="19" data-book-page-weights="517,27,1761,763,630,26,1305,1676,1260,20,1090,485,1924,29,1554,1216,1346,30,1179,1184,1461,37,173,133">
   <header class="chapter-header ">
     <p class="chapter-kicker">Part V: The Next Web</p>
     <p class="chapter-number">Chapter 15</p>
     <svg class="chapter-glyph" viewBox="0 0 96 96" focusable="false" aria-hidden="true"><path d="M22 61h52"/><path d="M28 61V33h16v28M52 61V25h16v36"/><path d="M31 42h10m14-7h10M31 51h10m24-6H55"/></svg>
   </header>
   <h1 id="h-15-the-web-as-data-things-should-have-addresses-too"><a class="anchor-link" href="#h-15-the-web-as-data-things-should-have-addresses-too" aria-label="Link to The Web as data: things should have addresses too">#</a>The Web as data: things should have addresses too</h1>
-<p id="p-15-the-previous-chapter-ended-with-applications-as-gatekeepers" data-note-target>The previous chapter ended with applications as gatekeepers.</p>
-<p id="p-15-if-you-write-a-document-in-one-application" data-note-target>If you write a document in one application, the next person may need that application too, or something compatible enough to pretend. If your calendar lives inside one service, a better calendar tool cannot simply arrive and be better. It first has to get past the gate.</p>
-<p id="p-15-the-web-was-supposed-to-loosen-that-kind" data-note-target>The Web was supposed to loosen that kind of grip. A browser should be able to talk to servers it did not know in advance. A page should be able to link to a document written by a stranger. A tool should be replaceable without rebuilding the whole world around it.</p>
-<p id="p-15-but-there-is-a-stubborn-place-where-this" data-note-target>But there is a stubborn place where this still often fails: the data itself.</p>
-<p id="p-15-a-contacts-app-knows-your-friends-a-calendar" data-note-target>A contacts app knows your friends. A calendar app knows who attends your meetings. A photo app knows who appears in your pictures. A school system knows which learning goals belong to which subject. A project tool knows who works on what. Each program may know something true about the same world.</p>
-<p id="p-15-yet-to-the-software-these-truths-often-live" data-note-target>Yet to the software, these truths often live in separate little rooms.</p>
-<figure id="private-records" class="code-figure" data-note-target>
-<figcaption>text</figcaption>
-<pre><code class="language-text">contacts: person-17
-calendar: attendee-4
-photos: face-91</code></pre>
-</figure>
-<p id="p-15-a-human-can-see-that-these-records-may" data-note-target>A human can see that these records may all be talking about the same person. The software usually cannot, unless someone builds a special bridge between those exact systems. And then another bridge. And another. And another.</p>
-<p id="p-15-this-is-the-knitted-castle-again-but-now" data-note-target>This is the knitted castle again, but now the threads run through the data.</p>
-<p id="p-15-the-problem-is-not-only-where-the-data" data-note-target>The problem is not only where the data lives. The problem is how the data points.</p>
+<p id="p-15-portability-is-not-interoperability" data-note-target>Portability is not interoperability.</p>
+<p id="p-15-portability-means-that-data-can-leave-one-application" data-note-target>Portability means that data can leave one application. Interoperability means that another application can understand and use it without a special translator written for those exact two systems.</p>
+<p id="p-15-json-is-portable-it-can-carry-almost-any" data-note-target>JSON is portable. It can carry almost any shape of data. But JSON does not tell another program what the names inside it mean.</p>
+<p id="p-15-a-contacts-app-calendar-app-and-photo-app" data-note-target>A contacts app, calendar app and photo app may all know something about the same person. Unless their names line up, the data still lives in separate little rooms.</p>
 <h2 id="h-15-the-private-name-problem"><a class="anchor-link" href="#h-15-the-private-name-problem" aria-label="Link to The private-name problem">#</a>The private-name problem</h2>
-<p id="p-15-imagine-two-systems-store-the-same-simple-kind" data-note-target>Imagine two systems store the same simple kind of fact.</p>
+<p id="p-15-imagine-two-systems-store-the-same-fact" data-note-target>Imagine two systems store the same fact.</p>
 <p id="p-15-the-contacts-app-says" data-note-target>The contacts app says:</p>
 <figure id="contacts-private-name" class="code-figure" data-note-target>
 <figcaption>text</figcaption>
@@ -143,35 +132,34 @@ photos: face-91</code></pre>
 <p id="p-15-the-calendar-app-says" data-note-target>The calendar app says:</p>
 <figure id="calendar-private-name" class="code-figure" data-note-target>
 <figcaption>text</figcaption>
-<pre><code class="language-text">attendee-4 | city | Manchester</code></pre>
+<pre><code class="language-text">attendee-4 | addressLocality | Manchester</code></pre>
 </figure>
 <p id="p-15-both-records-have-the-same-rough-shape-something" data-note-target>Both records have the same rough shape. Something has a property with a value.</p>
 <p id="p-15-but-the-names-are-private" data-note-target>But the names are private.</p>
-<p id="p-15-the-contacts-app-says-person-17-the-calendar" data-note-target>The contacts app says <code>person-17</code>. The calendar app says <code>attendee-4</code>. The photo app says <code>face-91</code>. These identifiers may all refer to Hilda, but nothing in the data tells another program that. And even if the subject names matched, the property names may not. One app says <code>city</code>. Another says <code>town</code>. Another says <code>addressLocality</code>. Another says <code>municipality</code>, because someone had a meeting.</p>
-<p id="p-15-inside-one-application-private-names-are-fine-they" data-note-target>Inside one application, private names are fine. They are cheap. They are convenient. You can keep a dictionary somewhere and know what they mean.</p>
-<p id="p-15-across-boundaries-private-names-become-expensive" data-note-target>Across boundaries, private names become expensive.</p>
-<p id="p-15-every-bridge-has-to-learn-the-private-names" data-note-target>Every bridge has to learn the private names on both sides. Every import script becomes a little translator. Every export format becomes a negotiation. And when one side changes, the bridge frays.</p>
+<p id="p-15-person-17-only-means-something-inside-the-contacts" data-note-target><code>person-17</code> only means something inside the contacts app. <code>attendee-4</code> only means something inside the calendar app. They may both refer to Hilda, but nothing in either identifier says so.</p>
+<p id="p-15-the-properties-have-the-same-problem-one-application" data-note-target>The properties have the same problem. One application says <code>city</code>. Another says <code>town</code>. Another says <code>addressLocality</code>. Another says <code>municipality</code>, because someone had a meeting.</p>
+<p id="p-15-inside-one-application-private-names-are-fine-you" data-note-target>Inside one application, private names are fine. You control the dictionary.</p>
+<p id="p-15-across-a-boundary-each-private-name-needs-a" data-note-target>Across a boundary, each private name needs a translator. Every import script has to learn both sides. When either side changes, the bridge changes too.</p>
 <p id="p-15-so-the-next-wizard-question-is-simple" data-note-target>So the next wizard question is simple:</p>
-<blockquote><p>What if the names in the data could cross the same boundaries as the documents?</p></blockquote>
-<p id="p-15-it-is-the-same-trick-again-do-not" data-note-target>It is the same trick again. Do not fight every private bridge one by one. Change what the pieces are allowed to be.</p>
+<blockquote><p>What if names inside the data could cross the same boundaries as documents?</p></blockquote>
 <h2 id="h-15-names-that-can-travel"><a class="anchor-link" href="#h-15-names-that-can-travel" aria-label="Link to Names that can travel">#</a>Names that can travel</h2>
 <p id="p-15-the-web-already-gave-documents-addresses" data-note-target>The Web already gave documents addresses.</p>
 <figure id="document-address" class="code-figure" data-note-target>
 <figcaption>url</figcaption>
 <pre><code class="language-url">https://solid.muze.nl/example/data/people/hilda.html</code></pre>
 </figure>
-<p id="p-15-linked-data-asks-for-a-small-but-important" data-note-target><span class="side-links side-links-margin" aria-label="Related links for this paragraph">
+<p id="p-15-linked-data-extends-that-trick" data-note-target><span class="side-links side-links-margin" aria-label="Related links for this paragraph">
 <a href="https://www.w3.org/DesignIssues/LinkedData.html" title="https://www.w3.org/DesignIssues/LinkedData.html">https://www.w3.org/DesignIssues/LinkedData.html</a>
-</span>Linked data asks for a small but important change in ambition:<span class="side-links side-links-inline" aria-label="Related links for this paragraph">
+</span>Linked data extends that trick:<span class="side-links side-links-inline" aria-label="Related links for this paragraph">
 <a href="https://www.w3.org/DesignIssues/LinkedData.html" title="https://www.w3.org/DesignIssues/LinkedData.html">https://www.w3.org/DesignIssues/LinkedData.html</a>
 </span></p>
-<blockquote><p>not only documents should have addresses; things should have addresses too.</p></blockquote>
-<p id="p-15-the-person-hilda-can-have-an-address-like" data-note-target>The person Hilda can have an address-like identifier:</p>
+<blockquote><p>Things can have Web addresses too.</p></blockquote>
+<p id="p-15-hilda-can-have-an-identifier" data-note-target>Hilda can have an identifier:</p>
 <figure id="hilda-uri" class="code-figure" data-note-target>
 <figcaption>url</figcaption>
 <pre><code class="language-url">https://solid.muze.nl/example/data/hilda-ogden</code></pre>
 </figure>
-<p id="p-15-the-idea-of-a-city-can-have-one" data-note-target>The idea of a city can have one:</p>
+<p id="p-15-manchester-can-have-one" data-note-target>Manchester can have one:</p>
 <figure id="manchester-uri" class="code-figure" data-note-target>
 <figcaption>url</figcaption>
 <pre><code class="language-url">https://solid.muze.nl/example/data/manchester</code></pre>
@@ -181,28 +169,29 @@ photos: face-91</code></pre>
 <figcaption>url</figcaption>
 <pre><code class="language-url">https://solid.muze.nl/example/ns/livesIn</code></pre>
 </figure>
-<p id="p-15-now-a-fact-can-be-written-as-three" data-note-target>Now a fact can be written as three pieces:</p>
+<p id="p-15-now-the-fact-can-be-written-as-three" data-note-target>Now the fact can be written as three pieces:</p>
 <figure id="triple-shape" class="code-figure" data-note-target>
 <figcaption>text</figcaption>
 <pre><code class="language-text">subject    predicate    object
 Hilda      lives in     Manchester</code></pre>
 </figure>
-<p id="p-15-or-with-web-names" data-note-target>Or, with Web names:</p>
+<p id="p-15-or-with-web-names" data-note-target>Or with Web names:</p>
 <figure id="linked-triple" class="code-figure" data-note-target>
 <figcaption>text</figcaption>
 <pre><code class="language-text">https://solid.muze.nl/example/data/hilda-ogden
 https://solid.muze.nl/example/ns/livesIn
 https://solid.muze.nl/example/data/manchester</code></pre>
 </figure>
-<p id="p-15-this-is-not-pretty-yet-it-is-not" data-note-target>This is not pretty yet. It is not meant to be pretty. It is meant to cross boundaries.</p>
-<p id="p-15-the-resource-description-framework-rdf-gives-this-idea" data-note-target><span class="side-links side-links-margin" aria-label="Related links for this paragraph">
+<p id="p-15-this-is-not-pretty-it-is-meant-to" data-note-target>This is not pretty. It is meant to be unambiguous and able to cross boundaries.</p>
+<p id="p-15-the-resource-description-framework-rdf-gives-this-shape" data-note-target><span class="side-links side-links-margin" aria-label="Related links for this paragraph">
 <a href="https://www.w3.org/TR/rdf11-concepts/" title="https://www.w3.org/TR/rdf11-concepts/">https://www.w3.org/TR/rdf11-concepts/</a>
-</span>The Resource Description Framework, RDF, gives this idea a formal shape. An RDF graph is made of subject-predicate-object triples. Subjects and objects are nodes. Predicates are the arcs between them. In less specification-shaped language: RDF lets you write small facts that join into a graph.<span class="side-links side-links-inline" aria-label="Related links for this paragraph">
+</span>The Resource Description Framework, RDF, gives this shape a formal name: a subject-predicate-object triple. Many triples together form a graph.<span class="side-links side-links-inline" aria-label="Related links for this paragraph">
 <a href="https://www.w3.org/TR/rdf11-concepts/" title="https://www.w3.org/TR/rdf11-concepts/">https://www.w3.org/TR/rdf11-concepts/</a>
 </span></p>
-<p id="p-15-here-is-a-friendlier-syntax-turtle" data-note-target><span class="side-links side-links-margin" aria-label="Related links for this paragraph">
+<p id="p-15-in-less-specification-shaped-language-rdf-lets-you" data-note-target>In less specification-shaped language: RDF lets you write small facts that can join other small facts.</p>
+<p id="p-15-here-is-the-same-data-in-a-friendlier" data-note-target><span class="side-links side-links-margin" aria-label="Related links for this paragraph">
 <a href="https://www.w3.org/TR/turtle/" title="https://www.w3.org/TR/turtle/">https://www.w3.org/TR/turtle/</a>
-</span>Here is a friendlier syntax, Turtle:<span class="side-links side-links-inline" aria-label="Related links for this paragraph">
+</span>Here is the same data in a friendlier syntax, Turtle:<span class="side-links side-links-inline" aria-label="Related links for this paragraph">
 <a href="https://www.w3.org/TR/turtle/" title="https://www.w3.org/TR/turtle/">https://www.w3.org/TR/turtle/</a>
 </span></p>
 <figure id="turtle-example" class="code-figure" data-note-target>
@@ -216,15 +205,14 @@ data:hilda-ogden
     ns:livesIn data:manchester ;
     ns:knows data:stan-ogden .</code></pre>
 </figure>
-<p id="p-15-the-idea-of-breaking-knowledge-into-small-statements" data-note-target>The idea of breaking knowledge into small statements is not new. Databases, logic programming, file formats and ordinary notes have all found versions of it.</p>
-<p id="p-15-the-web-contribution-is-different-the-names-inside" data-note-target>The Web contribution is different: the names inside those statements can be Web names.</p>
-<p id="p-15-that-is-the-small-change" data-note-target>That is the small change.</p>
-<p id="p-15-and-it-is-not-small" data-note-target>And it is not small.</p>
-<h2 id="h-15-a-graph-without-a-center"><a class="anchor-link" href="#h-15-a-graph-without-a-center" aria-label="Link to A graph without a center">#</a>A graph without a center</h2>
-<p id="p-15-a-table-has-a-home-it-lives-in" data-note-target>A table has a home. It lives in a database. The database belongs to an application, or at least to an organization. The table has a schema. The schema says what the columns mean.</p>
-<p id="p-15-a-graph-can-be-more-slippery" data-note-target>A graph can be more slippery.</p>
-<p id="p-15-i-can-say-something-about-hilda-in-my" data-note-target>I can say something about Hilda in my address book. You can say something about Hilda in a calendar invitation. A school can say something about Hilda in a class list. A photo archive can say something about Hilda in an annotation. None of us has to own the complete record.</p>
-<p id="p-15-we-can-each-write-a-few-statements" data-note-target>We can each write a few statements.</p>
+<p id="p-15-breaking-knowledge-into-small-statements-is-not-new" data-note-target>Breaking knowledge into small statements is not new. Databases and logic languages have done versions of it for a long time.</p>
+<p id="p-15-the-web-contribution-is-that-the-names-inside" data-note-target>The Web contribution is that the names inside those statements can be Web names.</p>
+<p id="p-15-that-is-a-small-change-with-large-consequences" data-note-target>That is a small change with large consequences.</p>
+<h2 id="h-15-a-graph-without-a-centre"><a class="anchor-link" href="#h-15-a-graph-without-a-centre" aria-label="Link to A graph without a centre">#</a>A graph without a centre</h2>
+<p id="p-15-a-table-usually-has-a-home-it-lives" data-note-target>A table usually has a home. It lives in a database, under one schema, inside one system.</p>
+<p id="p-15-a-graph-can-be-assembled-from-facts-written" data-note-target>A graph can be assembled from facts written in different places.</p>
+<p id="p-15-i-can-say-something-about-hilda-in-an" data-note-target>I can say something about Hilda in an address book. You can say something about Hilda in a calendar invitation. A photo archive can say that Hilda appears in a picture.</p>
+<p id="p-15-none-of-us-has-to-own-the-complete" data-note-target>None of us has to own the complete record.</p>
 <figure id="distributed-facts" class="code-figure" data-note-target>
 <figcaption>turtle</figcaption>
 <pre><code class="language-turtle"># In a contacts document
@@ -237,40 +225,45 @@ data:meeting-123 ns:attendee data:hilda-ogden .
 data:photo-7 ns:depicts data:hilda-ogden .</code></pre>
 </figure>
 <p id="p-15-if-the-names-line-up-software-can-follow" data-note-target>If the names line up, software can follow them.</p>
-<p id="p-15-this-is-where-linked-data-gets-its-name" data-note-target>This is where linked data gets its name. The data is not just structured. It points. A fact can point to a thing, and that thing can point to more facts, and those facts can point outward again.</p>
-<p id="p-15-tim-berners-lee-described-linked-data-with-a" data-note-target>Tim Berners-Lee described linked data with a few deliberately simple rules: use URIs as names for things, use HTTP URIs so people can look them up, provide useful information when they are looked up, and include links to other URIs so people and machines can discover more.</p>
-<p id="p-15-this-is-the-url-chapter-coming-back-in" data-note-target>This is the URL chapter coming back in another costume.</p>
-<p id="p-15-a-url-let-one-document-point-outside-itself" data-note-target>A URL let one document point outside itself. Linked data lets one fact point outside itself.</p>
+<p id="p-15-this-is-where-linked-data-gets-its-name" data-note-target>This is where linked data gets its name. The data is not only structured. It points. A fact can point to a thing, which can lead to more facts somewhere else.</p>
+<p id="p-15-tim-berners-lee-described-linked-data-with-deliberately" data-note-target>Tim Berners-Lee described linked data with deliberately simple rules: use URIs as names for things, use HTTP URIs so they can be looked up, provide useful information when they are looked up, and include links to other URIs.</p>
+<p id="p-15-this-is-the-url-chapter-returning-in-another" data-note-target>This is the URL chapter returning in another costume.</p>
+<p id="p-15-a-url-lets-one-document-point-outside-itself" data-note-target>A URL lets one document point outside itself. Linked data lets one fact point outside itself.</p>
 <h2 id="h-15-meaning-needs-names-too"><a class="anchor-link" href="#h-15-meaning-needs-names-too" aria-label="Link to Meaning needs names too">#</a>Meaning needs names too</h2>
-<p id="p-15-there-is-a-catch-of-course-there-is" data-note-target>There is a catch, of course. There is always a catch.</p>
-<p id="p-15-it-is-not-enough-to-give-hilda-a" data-note-target>It is not enough to give Hilda a Web identifier. The properties need meaning as well.</p>
+<p id="p-15-giving-hilda-an-identifier-is-not-enough-the" data-note-target>Giving Hilda an identifier is not enough. The properties need identities too.</p>
 <p id="p-15-if-i-write" data-note-target>If I write:</p>
 <figure id="unclear-term" class="code-figure" data-note-target>
 <figcaption>turtle</figcaption>
 <pre><code class="language-turtle">data:hilda-ogden ns:knows data:stan-ogden .</code></pre>
 </figure>
 <p id="p-15-what-does-knows-mean" data-note-target>what does <code>knows</code> mean?</p>
-<p id="p-15-met-once-friends-with-can-recognize-in-a" data-note-target>Met once? Friends with? Can recognize in a police lineup? Has a phone number for? Follows on a social network? Once shared a tram in Manchester?</p>
-<p id="p-15-a-word-that-looks-obvious-to-a-human" data-note-target>A word that looks obvious to a human may be too vague for software. Or worse, it may be obvious in two different ways to two different humans.</p>
-<p id="p-15-so-linked-data-also-needs-vocabularies-shared-sets" data-note-target>So linked data also needs vocabularies: shared sets of terms with addresses and definitions. This is where the dream becomes powerful and irritating at the same time. Powerful, because a shared vocabulary lets different software talk about the same kind of thing. Irritating, because shared meaning is social work pretending to be technical work.</p>
-<p id="p-15-the-machine-can-follow-the-link-people-still" data-note-target>The machine can follow the link. People still have to agree, enough, about what the link means.</p>
-<p id="p-15-this-is-why-linked-data-is-not-fairy" data-note-target>This is why linked data is not fairy dust. You cannot sprinkle RDF on a pile of confusion and get wisdom. You can still make a knitted castle out of triples. You can still use private terms no one else understands. You can still create vocabularies so large that every simple statement has to pass through a maze of definitions first.</p>
-<p id="p-15-the-wizardly-part-is-not-the-format-by" data-note-target>The wizardly part is not the format by itself.</p>
-<p id="p-15-the-wizardly-part-is-the-boundary-it-makes" data-note-target>The wizardly part is the boundary it makes possible.</p>
-<h2 id="h-15-data-that-can-travel"><a class="anchor-link" href="#h-15-data-that-can-travel" aria-label="Link to Data that can travel">#</a>Data that can travel</h2>
-<p id="p-15-think-again-about-small-replaceable-software" data-note-target>Think again about small replaceable software.</p>
-<p id="p-15-a-small-calendar-app-can-be-small-only" data-note-target>A small calendar app can be small only if it does not have to own the whole identity system, contact list and notification universe. A small photo app can be small only if it can talk about people, albums, permissions and locations without inventing a private universe for each one. A small learning tool can be small only if learning goals, subjects, exercises and progress can be understood outside the one tool that first wrote them.</p>
-<p id="p-15-for-that-to-work-the-data-needs-to" data-note-target>For that to work, the data needs to travel farther than the program.</p>
-<p id="p-15-not-all-of-it-not-always-publicly-not" data-note-target>Not all of it. Not always publicly. Not without permission. Not without care. But conceptually, the data must be able to survive outside the private memory of one application.</p>
-<p id="p-15-this-is-where-linked-data-belongs-in-the" data-note-target>This is where linked data belongs in the story of the Web.</p>
-<p id="p-15-the-url-made-documents-reachable" data-note-target>The URL made documents reachable.</p>
-<p id="p-15-html-made-documents-understandable-enough-for-browsers-to" data-note-target>HTML made documents understandable enough for browsers to render and programs to inspect.</p>
-<p id="p-15-javascript-made-documents-programmable" data-note-target>JavaScript made documents programmable.</p>
-<p id="p-15-linked-data-asks-whether-the-things-described-by" data-note-target>Linked data asks whether the things described by those documents can become reachable and understandable too.</p>
-<p id="p-15-if-they-can-software-gets-a-different-shape" data-note-target>If they can, software gets a different shape. Applications do not have to be kingdoms that contain all meaning. They can become visitors, editors, viewers, filters, assistants, translators, little tools with opinions. They can arrive, do useful work, and leave without taking the user's world with them.</p>
-<p id="p-15-that-is-the-bridge-to-the-next-chapter" data-note-target>That is the bridge to the next chapter.</p>
-<p id="p-15-if-data-can-have-addresses-if-facts-can" data-note-target>If data can have addresses, if facts can link to other facts, and if meanings can be shared across boundaries, then the next question becomes unavoidable:</p>
-<p id="p-15-where-should-a-persons-own-data-live" data-note-target>where should a person's own data live?</p>
+<p id="p-15-met-once-friends-with-can-recognise-in-a" data-note-target>Met once? Friends with? Can recognise in a police lineup? Has a phone number for? Once shared a tram in Manchester?</p>
+<p id="p-15-a-word-that-looks-obvious-to-a-human" data-note-target>A word that looks obvious to a human may be vague to software. It may even be obvious in two different ways to two different humans.</p>
+<p id="p-15-linked-data-therefore-uses-vocabularies-shared-sets-of" data-note-target>Linked data therefore uses vocabularies: shared sets of terms with public identifiers and definitions. Different applications can use the same property name because that property does not belong to either application.</p>
+<p id="p-15-this-is-powerful-and-irritating" data-note-target>This is powerful and irritating.</p>
+<p id="p-15-powerful-because-independent-tools-can-recognise-the-same" data-note-target>Powerful, because independent tools can recognise the same kind of fact.</p>
+<p id="p-15-irritating-because-shared-meaning-is-social-work-pretending" data-note-target>Irritating, because shared meaning is social work pretending to be technical work. The machine can follow the link. People still have to agree, enough, about what the link means.</p>
+<p id="p-15-linked-data-is-not-fairy-dust-you-can" data-note-target>Linked data is not fairy dust. You can make a knitted castle out of triples. You can invent private vocabularies nobody else understands. You can create a vocabulary so elaborate that a simple fact needs an expedition.</p>
+<p id="p-15-the-format-is-not-the-point-by-itself" data-note-target>The format is not the point by itself.</p>
+<p id="p-15-the-boundary-is-the-point-names-and-meanings" data-note-target>The boundary is the point. Names and meanings can survive the application that first used them.</p>
+<h2 id="h-15-what-linked-data-does-not-solve"><a class="anchor-link" href="#h-15-what-linked-data-does-not-solve" aria-label="Link to What linked data does not solve">#</a>What linked data does not solve</h2>
+<p id="p-15-linked-data-does-not-decide-where-data-lives" data-note-target>Linked data does not decide where data lives.</p>
+<p id="p-15-it-does-not-decide-who-owns-the-storage" data-note-target>It does not decide who owns the storage, who may read a fact, who may change it, or which copy is authoritative. A company can keep RDF in a private database. A locked service can offer a Turtle export button.</p>
+<p id="p-15-the-data-may-be-interoperable-and-still-be" data-note-target>The data may be interoperable and still be trapped.</p>
+<p id="p-15-linked-data-solves-a-different-part-of-the" data-note-target>Linked data solves a different part of the problem. It gives independently written tools a way to identify the same things and understand the same properties.</p>
+<p id="p-15-that-distinction-matters" data-note-target>That distinction matters.</p>
+<p id="p-15-a-shared-storage-system-without-shared-meaning-becomes" data-note-target>A shared storage system without shared meaning becomes a folder full of files that only their original applications understand.</p>
+<p id="p-15-shared-meaning-without-control-over-storage-leaves-the" data-note-target>Shared meaning without control over storage leaves the application holding the only useful copy.</p>
+<p id="p-15-we-need-both-boundaries-but-they-are-not" data-note-target>We need both boundaries, but they are not the same boundary.</p>
+<h2 id="h-15-data-that-outlives-the-application"><a class="anchor-link" href="#h-15-data-that-outlives-the-application" aria-label="Link to Data that outlives the application">#</a>Data that outlives the application</h2>
+<p id="p-15-think-again-about-small-reusable-software" data-note-target>Think again about small, reusable software.</p>
+<p id="p-15-a-small-calendar-tool-can-stay-small-if" data-note-target>A small calendar tool can stay small if it can refer to people and events without inventing a private universe for them. A photo tool can talk about the same people and places. A learning tool can use goals and subjects written by another tool.</p>
+<p id="p-15-the-application-does-not-need-to-own-all" data-note-target>The application does not need to own all meaning.</p>
+<p id="p-15-it-can-become-an-editor-viewer-filter-search" data-note-target>It can become an editor, viewer, filter, search tool or translator. It can arrive, do useful work, and leave without taking the vocabulary of the user's world with it.</p>
+<p id="p-15-linked-data-makes-that-shape-possible-it-does" data-note-target>Linked data makes that shape possible. It does not guarantee that anyone will choose the same names, or that the resulting software will be simple. It gives names somewhere to meet.</p>
+<p id="p-15-but-one-question-remains" data-note-target>But one question remains.</p>
+<p id="p-15-if-the-applications-meanings-can-live-outside-it" data-note-target>If the application's meanings can live outside it, why should the application own the only copy of the data?</p>
+<p id="p-15-where-should-a-persons-data-live" data-note-target>Where should a person's data live?</p>
   <nav class="chapter-pagination" aria-label="Chapter navigation">
     <a rel="prev" href="14-the-web-as-commons.html"><span>Previous</span>The Web as commons: innovation happens elsewhere</a>
     <a rel="next" href="16-the-web-as-home.html"><span>Next</span>The Web as home: who owns your home directory?</a>
