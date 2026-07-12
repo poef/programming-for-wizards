@@ -22,7 +22,7 @@ You cannot win. The problem is complexity. In software development, growing comp
 
 Most software projects at some point end up looking like this:
 
-<img src="/assets/images/knitted-castle.png" alt="A knitted castle">
+![A knitted castle](../assets/images/knitted-castle.png)
 
 A pyramid is at least made of separate stones. They may be heavy, badly placed, and difficult to move, but you can still point at one and say: there, that is a stone.
 
