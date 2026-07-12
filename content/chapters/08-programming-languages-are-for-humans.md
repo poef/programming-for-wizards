@@ -4,15 +4,11 @@ tags: programming for wizards
 
 # Teaching machines our words
 
-A few chapters ago we looked at language as magic. Human language does not merely carry thoughts around; it changes what kinds of thoughts are easy to have.
+A common misconception is that programming languages are designed to allow you to program computers. If that were the only reason, there wouldn't be that many programming languages. 
 
-Programming languages do the same thing, but with less tolerance for ambiguity and more semicolons.
+A computer doesn't need a programming language. Humans do. 
 
-This chapter returns to that idea, but now turns it toward programming proper. A programming language is not primarily a machine interface. It is a human thinking tool that happens to be precise enough for a machine to execute.
-
-## Computer languages
-
-A common misconception is that programming languages are designed to allow you to program computers. If that were the only reason, there wouldn't be that many programming languages. A computer doesn't need a programming language. Humans do. Computers are perfectly fine executing instructions like this:
+Computers are perfectly fine executing instructions like this:
 
 ```
 037744 016701 000026 012702 000352 005211 105711 100376 
@@ -56,11 +52,11 @@ And now with some labels and comments:
 
 This is the code to [make a PDP-11 computer boot](http://gunkies.org/wiki/PDP-11_Bootstrap_Loader). It is commonly known as [bootstrap](https://en.wikipedia.org/wiki/Bootstrapping) code.
 
-Even in this enhanced, more human form, this code is not very readable. Or expressive. Most humans don't code in assembly language. In the end, the machine still gets instructions. The programming language exists because humans need to think, read, change, and share those instructions.
+Even in this enhanced, more human form, this code is not very readable. Or expressive. Most humans don't code in assembly language. In the end, the machine still receives instructions. 
 
-That is why there are so many programming languages. Different humans need different thoughts to be cheap.
+The programming language is there for the humans who have to write and understand those instructions.
 
-[COBOL](https://en.wikipedia.org/wiki/COBOL) was designed to make business programs look more like business language. Its intended use was in offices, banks, governments, and large institutions. That does not make it beautiful. It does make it interesting. COBOL made records, reports, procedures, and money moving through organizations easier to say.
+[COBOL](https://en.wikipedia.org/wiki/COBOL) was designed to make business programs look more like business language. It was very successful and almost universally hated.
 
 ```cobol
 /
@@ -91,7 +87,9 @@ Believe it or not, COBOL is still in use today. The code above is copied from a 
 
 That is not an accident. Business software tends to outlive the people who wrote it. Once a language becomes part of the machinery of an institution, replacing it becomes a social, economic, and political problem. Not just a technical one.
 
-[Fortran](https://en.wikipedia.org/wiki/Fortran) made a different bet. It was built for scientists and engineers. It made formulas, arrays, loops, and numerical work cheap. Here is an example in Fortran 77:
+[Fortran](https://en.wikipedia.org/wiki/Fortran) was built for scientists and engineers. It made formulas, arrays, loops, and numerical work easier to express. 
+
+Here is an example in Fortran 77:
 
 ```fortran
 PROGRAM MAIN
@@ -116,11 +114,9 @@ END IF
 END
 ```
 
-COBOL and Fortran are not just old languages. They are old answers to different questions. What should business code look like? What should scientific code look like? What should the programmer be allowed to say directly?
+Finally we arrive at [Lisp](https://en.wikipedia.org/wiki/Lisp_%28programming_language%29). A wizard called [John McCarthy](https://en.wikipedia.org/wiki/John_McCarthy_%28computer_scientist%29) dreamed up Lisp between 1956 and 1958. 
 
-Finally we arrive at [Lisp](https://en.wikipedia.org/wiki/Lisp_%28programming_language%29). A wizard called [John McCarthy](https://en.wikipedia.org/wiki/John_McCarthy_%28computer_scientist%29) dreamed up Lisp between 1956 and 1958. Lisp made a stranger bet: code and data could have almost the same shape.
-
-That sounds like a technical detail until you feel what it does. Lisp doesn't just make it possible to solve problems. It makes it cheap to build little languages for solving problems.
+Lisp is both very small and absurdly expressive. More importantly for this chapter, it makes it unusually easy to add new words to the language.
 
 Here is a tiny example:
 
@@ -130,44 +126,40 @@ Here is a tiny example:
        (progn ,@body)))
 ```
 
-This adds a new word to the language: `unless`. After that, programmers can write code in terms of the idea they mean, instead of spelling out the smaller pieces every time.
-
 That is why Lisp keeps returning in conversations about programming languages, not because everyone should use it, or because parentheses are secretly beautiful if you stare long enough. But because Lisp makes language-building visible.
 
-A Lisp interpreter can be written in Lisp itself. Paul Graham shows one in [Roots of Lisp](http://www.paulgraham.com/rootsoflisp.html), based on McCarthy's original. That is a very wizardly trick: the language can describe a machine that runs the language.
+A Lisp interpreter can be written in Lisp itself. Paul Graham shows one in [Roots of Lisp](http://www.paulgraham.com/rootsoflisp.html), based on McCarthy's original. 
 
 ## Differences, commonalities, and why we can't have nice things
 
 Computer languages are more commonly known as programming languages. They are designed to make a computer do something. Did you spot the lie?
 
-Programming languages are designed, unlike human languages. However, they aren't designed to make a computer do anything. They are designed so you, a human, can reason and communicate about what it is that you want the computer to do. This may seem like a small difference, but it is in fact the reason behind the proliferation of programming languages.
+Unlike human languages, programming languages are designed. However, they aren't designed to make a computer do anything. They are designed so you, a human, can reason and communicate about what it is that you want the computer to do. This may seem like a small difference, but it is in fact the reason behind the proliferation of programming languages.
 
 Just like human languages, programming languages make it easier for some ideas to be expressed than others. The best programming language allows you to freely express all the ideas you need to solve a problem in as simple and straightforward a way as possible. And it does so with as little required learning as possible.
 
 Unfortunately, that's also not true.
 
-The problem is communication. Not between the human wizard and the computer. The problem is communicating ideas between humans. Small, powerful languages are seductive because they let you create your own vocabulary. But every private vocabulary has a cost. Any other wizard who wants to work with your ideas, your code, will have to learn your version: your implementation, your little country with its own customs, grammar, and strange hand gestures.
-
-> **Wizard's seventh rule**
->
-> The bill always comes due.
+The problem is communication. Any other wizard who wants to work with your ideas, your code, will have to learn your version, your implementation of these ideas. And lord help them if you thought up some crazy new ideas.
 
 Reading code is hard. It is much easier to write code. This sounds nonsensical, yet it is true. It is the source of the [NIH syndrome](https://en.wikipedia.org/wiki/Not_invented_here): Not Invented Here.
 
 One answer is to make programming languages bigger. Add more standard stuff. Add design patterns. Add frameworks. Make sure all programmers are fed the same cookie-cutter solutions, so all code starts to look roughly the same. Create frameworks that force all problems into a [Model-View-Controller](https://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93controller) solution on top of an [Object-Relational Mapper](https://en.wikipedia.org/wiki/Object%E2%80%93relational_mapping). Boom, done!
 
-There is a reason this keeps happening. Shared shapes make code easier to read. If every project invents its own private universe, every project becomes a new country with its own customs, grammar, and strange little hand gestures. A framework gives everyone the same street names.
+There is a reason this keeps happening. Code is easier to read when everyone uses the same patterns.
 
-But there is a cost. Once the shared language becomes too large, the real problem starts to disappear underneath the standard machinery. You are no longer saying what your program means. You are saying how this particular framework wants the meaning to be dressed.
+But there is a cost. Eventually the patterns become the language. Instead of writing code to solve the problem, you are adding controllers, models, maps and whatever else the framework requires, so that it can solve the problem for you.
 
-So the natural pressure on programming languages is strange. Small, powerful languages are wonderful for the writer, but dangerous for the reader. Large, standard languages are easier to share, but they also make it harder to say unusual things simply.
+So the natural pressure on programming languages is not to become smaller and more powerful, but bigger and less powerful.
+
+Small, powerful languages are wonderful for the writer, but dangerous for the reader. Large, standard languages are easier to share, but they also make it harder to say unusual things simply.
 
 Just like human languages.
 
-A wizard should be aware of this tension. You do not escape it by choosing the one true language, because the one true language does not exist. You escape it, when you can, by making the language of the program fit the problem more closely.
+> **Wizard's seventh rule**
+>
+> The bill always comes due.
 
-That is where [domain-specific languages](https://martinfowler.com/dsl.html) become interesting.
+You should be aware of this tension. You do not escape it by choosing the one true language, because the one true language does not exist. You escape it, when you can, by making the language of the program fit the problem more closely.
 
-A DSL is not automatically a separate language with a parser and a manual. Sometimes it is. [SQL](https://en.wikipedia.org/wiki/SQL) is its own world, and for good reasons. But sometimes a DSL is smaller than that. It can be a handful of names, a few conventions, a shape in the data, a chain of functions, a way of arranging code so the important ideas stand next to each other.
-
-But before we build one, we need to notice something stranger: every program already contains a language of its own.
+That is where [domain-specific languages](https://martinfowler.com/dsl.html) come in.
