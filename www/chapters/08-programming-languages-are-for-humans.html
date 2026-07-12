@@ -111,19 +111,17 @@
   <div class="book-progress" role="progressbar" aria-label="Book progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" data-book-progress>
     <span data-book-progress-bar></span>
   </div>
-  <div id="book-start" class="manuscript-pages" data-page-scroller data-book-chapter-id="08-programming-languages-are-for-humans" data-book-chapter-index="10" data-book-page-weights="466,27,1761,763,630,26,1305,1676,1265,20,1466,611,2199,29,1770,1012,2545,30,1487,1510,1228,37,173,133">
+  <div id="book-start" class="manuscript-pages" data-page-scroller data-book-chapter-id="08-programming-languages-are-for-humans" data-book-chapter-index="10" data-book-page-weights="466,27,1761,763,630,26,1305,1676,1260,20,1090,485,1924,29,1554,1012,2545,30,1487,1510,1228,37,173,133">
   <header class="chapter-header ">
     <p class="chapter-kicker">Part III: Inventing languages</p>
     <p class="chapter-number">Chapter 08</p>
     <svg class="chapter-glyph" viewBox="0 0 96 96" focusable="false" aria-hidden="true"><path d="M25 31c12-10 34-10 46 0"/><path d="M71 31c-12 10-34 10-46 0"/><path d="M25 65c12-10 34-10 46 0"/><path d="M71 65c-12 10-34 10-46 0"/><path d="M35 48h26"/></svg>
   </header>
   <h1 id="h-08-teaching-machines-our-words"><a class="anchor-link" href="#h-08-teaching-machines-our-words" aria-label="Link to Teaching machines our words">#</a>Teaching machines our words</h1>
-<p id="p-08-a-few-chapters-ago-we-looked-at-language" data-note-target>A few chapters ago we looked at language as magic. Human language does not merely carry thoughts around; it changes what kinds of thoughts are easy to have.</p>
-<p id="p-08-programming-languages-do-the-same-thing-but-with" data-note-target>Programming languages do the same thing, but with less tolerance for ambiguity and more semicolons.</p>
-<p id="p-08-this-chapter-returns-to-that-idea-but-now" data-note-target>This chapter returns to that idea, but now turns it toward programming proper. A programming language is not primarily a machine interface. It is a human thinking tool that happens to be precise enough for a machine to execute.</p>
-<h2 id="h-08-computer-languages"><a class="anchor-link" href="#h-08-computer-languages" aria-label="Link to Computer languages">#</a>Computer languages</h2>
-<p id="p-08-a-common-misconception-is-that-programming-languages-are" data-note-target>A common misconception is that programming languages are designed to allow you to program computers. If that were the only reason, there wouldn't be that many programming languages. A computer doesn't need a programming language. Humans do. Computers are perfectly fine executing instructions like this:</p>
-<figure id="code-08-013" class="code-figure" data-note-target>
+<p id="p-08-a-common-misconception-is-that-programming-languages-are" data-note-target>A common misconception is that programming languages are designed to allow you to program computers. If that were the only reason, there wouldn't be that many programming languages.</p>
+<p id="p-08-a-computer-doesnt-need-a-programming-language-humans" data-note-target>A computer doesn't need a programming language. Humans do.</p>
+<p id="p-08-computers-are-perfectly-fine-executing-instructions-like-this" data-note-target>Computers are perfectly fine executing instructions like this:</p>
+<figure id="code-08-009" class="code-figure" data-note-target>
 <figcaption>code</figcaption>
 <pre><code>037744 016701 000026 012702 000352 005211 105711 100376 
 116162 000002 037400 005267 177756 000765 177550</code></pre>
@@ -135,7 +133,7 @@
 <a href="https://en.wikipedia.org/wiki/Machine_code" title="https://en.wikipedia.org/wiki/Machine_code">https://en.wikipedia.org/wiki/Machine_code</a>
 <a href="https://en.wikipedia.org/wiki/Assembly_language" title="https://en.wikipedia.org/wiki/Assembly_language">https://en.wikipedia.org/wiki/Assembly_language</a>
 </span></p>
-<figure id="code-08-020" class="code-figure code-figure-breakable" data-note-target data-breakable-code data-code-lines="9">
+<figure id="code-08-016" class="code-figure code-figure-breakable" data-note-target data-breakable-code data-code-lines="9">
 <figcaption>code</figcaption>
 <pre><code>037744: 016701 000026          MOV   037776,R1
 037750: 012702 000352          MOV   #352,R2
@@ -148,7 +146,7 @@
 037776: 177550                 .WORD 177550</code></pre>
 </figure>
 <p id="p-08-and-now-with-some-labels-and-comments" data-note-target>And now with some labels and comments:</p>
-<figure id="code-08-034" class="code-figure code-figure-breakable" data-note-target data-breakable-code data-code-lines="16">
+<figure id="code-08-030" class="code-figure code-figure-breakable" data-note-target data-breakable-code data-code-lines="16">
 <figcaption>code</figcaption>
 <pre><code>        LOAD = 0x7400                 ; Buffer address
 
@@ -174,14 +172,14 @@
 <a href="http://gunkies.org/wiki/PDP-11_Bootstrap_Loader" title="http://gunkies.org/wiki/PDP-11_Bootstrap_Loader">http://gunkies.org/wiki/PDP-11_Bootstrap_Loader</a>
 <a href="https://en.wikipedia.org/wiki/Bootstrapping" title="https://en.wikipedia.org/wiki/Bootstrapping">https://en.wikipedia.org/wiki/Bootstrapping</a>
 </span></p>
-<p id="p-08-even-in-this-enhanced-more-human-form-this" data-note-target>Even in this enhanced, more human form, this code is not very readable. Or expressive. Most humans don't code in assembly language. In the end, the machine still gets instructions. The programming language exists because humans need to think, read, change, and share those instructions.</p>
-<p id="p-08-that-is-why-there-are-so-many-programming" data-note-target>That is why there are so many programming languages. Different humans need different thoughts to be cheap.</p>
+<p id="p-08-even-in-this-enhanced-more-human-form-this" data-note-target>Even in this enhanced, more human form, this code is not very readable. Or expressive. Most humans don't code in assembly language. In the end, the machine still receives instructions.</p>
+<p id="p-08-the-programming-language-is-there-for-the-humans" data-note-target>The programming language is there for the humans who have to write and understand those instructions.</p>
 <p id="p-08-cobol-was-designed-to-make-business-programs-look" data-note-target><span class="side-links side-links-margin" aria-label="Related links for this paragraph">
 <a href="https://en.wikipedia.org/wiki/COBOL" title="https://en.wikipedia.org/wiki/COBOL">https://en.wikipedia.org/wiki/COBOL</a>
-</span>COBOL was designed to make business programs look more like business language. Its intended use was in offices, banks, governments, and large institutions. That does not make it beautiful. It does make it interesting. COBOL made records, reports, procedures, and money moving through organizations easier to say.<span class="side-links side-links-inline" aria-label="Related links for this paragraph">
+</span>COBOL was designed to make business programs look more like business language. It was very successful and almost universally hated.<span class="side-links side-links-inline" aria-label="Related links for this paragraph">
 <a href="https://en.wikipedia.org/wiki/COBOL" title="https://en.wikipedia.org/wiki/COBOL">https://en.wikipedia.org/wiki/COBOL</a>
 </span></p>
-<figure id="code-08-061" class="code-figure code-figure-breakable" data-note-target data-breakable-code data-code-lines="22">
+<figure id="code-08-057" class="code-figure code-figure-breakable" data-note-target data-breakable-code data-code-lines="22">
 <figcaption>cobol</figcaption>
 <pre><code class="language-cobol">/
 IDENTIFICATION DIVISION.
@@ -216,12 +214,13 @@ PROCEDURE DIVISION.
 <a href="https://en.wikipedia.org/wiki/OS/360" title="https://en.wikipedia.org/wiki/OS/360">https://en.wikipedia.org/wiki/OS/360</a>
 </span></p>
 <p id="p-08-that-is-not-an-accident-business-software-tends" data-note-target>That is not an accident. Business software tends to outlive the people who wrote it. Once a language becomes part of the machinery of an institution, replacing it becomes a social, economic, and political problem. Not just a technical one.</p>
-<p id="p-08-fortran-made-a-different-bet-it-was-built" data-note-target><span class="side-links side-links-margin" aria-label="Related links for this paragraph">
+<p id="p-08-fortran-was-built-for-scientists-and-engineers-it" data-note-target><span class="side-links side-links-margin" aria-label="Related links for this paragraph">
 <a href="https://en.wikipedia.org/wiki/Fortran" title="https://en.wikipedia.org/wiki/Fortran">https://en.wikipedia.org/wiki/Fortran</a>
-</span>Fortran made a different bet. It was built for scientists and engineers. It made formulas, arrays, loops, and numerical work cheap. Here is an example in Fortran 77:<span class="side-links side-links-inline" aria-label="Related links for this paragraph">
+</span>Fortran was built for scientists and engineers. It made formulas, arrays, loops, and numerical work easier to express.<span class="side-links side-links-inline" aria-label="Related links for this paragraph">
 <a href="https://en.wikipedia.org/wiki/Fortran" title="https://en.wikipedia.org/wiki/Fortran">https://en.wikipedia.org/wiki/Fortran</a>
 </span></p>
-<figure id="code-08-092" class="code-figure code-figure-breakable" data-note-target data-breakable-code data-code-lines="20">
+<p id="p-08-here-is-an-example-in-fortran-77" data-note-target>Here is an example in Fortran 77:</p>
+<figure id="code-08-090" class="code-figure code-figure-breakable" data-note-target data-breakable-code data-code-lines="20">
 <figcaption>fortran</figcaption>
 <pre><code class="language-fortran">PROGRAM MAIN
 INTEGER N, X
@@ -244,7 +243,6 @@ IF(X .LT. N)THEN
 END IF
 END</code></pre>
 </figure>
-<p id="p-08-cobol-and-fortran-are-not-just-old-languages" data-note-target>COBOL and Fortran are not just old languages. They are old answers to different questions. What should business code look like? What should scientific code look like? What should the programmer be allowed to say directly?</p>
 <p id="p-08-finally-we-arrive-at-lisp-a-wizard-called" class="has-side-wizard" data-note-target><span class="side-links side-links-margin side-links-has-wizard" aria-label="Related links for this paragraph">
 <a href="https://en.wikipedia.org/wiki/Lisp_%28programming_language%29" title="https://en.wikipedia.org/wiki/Lisp_%28programming_language%29">https://en.wikipedia.org/wiki/Lisp_%28programming_language%29</a>
 <a class="wizard-card" href="https://en.wikipedia.org/wiki/John_McCarthy_(computer_scientist)" aria-label="Wikipedia: John McCarthy" data-license="CC BY-SA 3.0" data-source="https://commons.wikimedia.org/wiki/File:John_McCarthy_Stanford.jpg">
@@ -252,35 +250,30 @@ END</code></pre>
 <span class="wizard-card-name">John McCarthy</span>
 <span class="wizard-card-note">Lisp</span>
 </a>
-</span>Finally we arrive at Lisp. A wizard called John McCarthy dreamed up Lisp between 1956 and 1958. Lisp made a stranger bet: code and data could have almost the same shape.<span class="side-links side-links-inline" aria-label="Related links for this paragraph">
+</span>Finally we arrive at Lisp. A wizard called John McCarthy dreamed up Lisp between 1956 and 1958.<span class="side-links side-links-inline" aria-label="Related links for this paragraph">
 <a href="https://en.wikipedia.org/wiki/Lisp_%28programming_language%29" title="https://en.wikipedia.org/wiki/Lisp_%28programming_language%29">https://en.wikipedia.org/wiki/Lisp_%28programming_language%29</a>
 <a href="https://en.wikipedia.org/wiki/John_McCarthy_(computer_scientist)" title="https://en.wikipedia.org/wiki/John_McCarthy_(computer_scientist)">https://en.wikipedia.org/wiki/John_McCarthy_(computer_scientist)</a>
 </span></p>
-<p id="p-08-that-sounds-like-a-technical-detail-until-you" data-note-target>That sounds like a technical detail until you feel what it does. Lisp doesn't just make it possible to solve problems. It makes it cheap to build little languages for solving problems.</p>
+<p id="p-08-lisp-is-both-very-small-and-absurdly-expressive" data-note-target>Lisp is both very small and absurdly expressive. More importantly for this chapter, it makes it unusually easy to add new words to the language.</p>
 <p id="p-08-here-is-a-tiny-example" data-note-target>Here is a tiny example:</p>
-<figure id="code-08-123" class="code-figure" data-note-target>
+<figure id="code-08-119" class="code-figure" data-note-target>
 <figcaption>lisp</figcaption>
 <pre><code class="language-lisp">(defmacro unless (condition &amp;body body)
   `(if (not ,condition)
        (progn ,@body)))</code></pre>
 </figure>
-<p id="p-08-this-adds-a-new-word-to-the-language" data-note-target>This adds a new word to the language: <code>unless</code>. After that, programmers can write code in terms of the idea they mean, instead of spelling out the smaller pieces every time.</p>
 <p id="p-08-that-is-why-lisp-keeps-returning-in-conversations" data-note-target>That is why Lisp keeps returning in conversations about programming languages, not because everyone should use it, or because parentheses are secretly beautiful if you stare long enough. But because Lisp makes language-building visible.</p>
 <p id="p-08-a-lisp-interpreter-can-be-written-in-lisp" data-note-target><span class="side-links side-links-margin" aria-label="Related links for this paragraph">
 <a href="http://www.paulgraham.com/rootsoflisp.html" title="http://www.paulgraham.com/rootsoflisp.html">http://www.paulgraham.com/rootsoflisp.html</a>
-</span>A Lisp interpreter can be written in Lisp itself. Paul Graham shows one in Roots of Lisp, based on McCarthy's original. That is a very wizardly trick: the language can describe a machine that runs the language.<span class="side-links side-links-inline" aria-label="Related links for this paragraph">
+</span>A Lisp interpreter can be written in Lisp itself. Paul Graham shows one in Roots of Lisp, based on McCarthy's original.<span class="side-links side-links-inline" aria-label="Related links for this paragraph">
 <a href="http://www.paulgraham.com/rootsoflisp.html" title="http://www.paulgraham.com/rootsoflisp.html">http://www.paulgraham.com/rootsoflisp.html</a>
 </span></p>
 <h2 id="h-08-differences-commonalities-and-why-we-cant-have-nice-things"><a class="anchor-link" href="#h-08-differences-commonalities-and-why-we-cant-have-nice-things" aria-label="Link to Differences, commonalities, and why we can&#39;t have nice things">#</a>Differences, commonalities, and why we can't have nice things</h2>
 <p id="p-08-computer-languages-are-more-commonly-known-as-programming" data-note-target>Computer languages are more commonly known as programming languages. They are designed to make a computer do something. Did you spot the lie?</p>
-<p id="p-08-programming-languages-are-designed-unlike-human-languages-however" data-note-target>Programming languages are designed, unlike human languages. However, they aren't designed to make a computer do anything. They are designed so you, a human, can reason and communicate about what it is that you want the computer to do. This may seem like a small difference, but it is in fact the reason behind the proliferation of programming languages.</p>
+<p id="p-08-unlike-human-languages-programming-languages-are-designed-however" data-note-target>Unlike human languages, programming languages are designed. However, they aren't designed to make a computer do anything. They are designed so you, a human, can reason and communicate about what it is that you want the computer to do. This may seem like a small difference, but it is in fact the reason behind the proliferation of programming languages.</p>
 <p id="p-08-just-like-human-languages-programming-languages-make-it" data-note-target>Just like human languages, programming languages make it easier for some ideas to be expressed than others. The best programming language allows you to freely express all the ideas you need to solve a problem in as simple and straightforward a way as possible. And it does so with as little required learning as possible.</p>
 <p id="p-08-unfortunately-thats-also-not-true" data-note-target>Unfortunately, that's also not true.</p>
-<p id="p-08-the-problem-is-communication-not-between-the-human" data-note-target>The problem is communication. Not between the human wizard and the computer. The problem is communicating ideas between humans. Small, powerful languages are seductive because they let you create your own vocabulary. But every private vocabulary has a cost. Any other wizard who wants to work with your ideas, your code, will have to learn your version: your implementation, your little country with its own customs, grammar, and strange hand gestures.</p>
-<aside id="rule-08-wizards-seventh-rule" class="wizard-rule" data-note-target>
-<p class="rule-label">Wizard's seventh rule</p>
-<p>The bill always comes due.</p>
-</aside>
+<p id="p-08-the-problem-is-communication-any-other-wizard-who" data-note-target>The problem is communication. Any other wizard who wants to work with your ideas, your code, will have to learn your version, your implementation of these ideas. And lord help them if you thought up some crazy new ideas.</p>
 <p id="p-08-reading-code-is-hard-it-is-much-easier" data-note-target><span class="side-links side-links-margin" aria-label="Related links for this paragraph">
 <a href="https://en.wikipedia.org/wiki/Not_invented_here" title="https://en.wikipedia.org/wiki/Not_invented_here">https://en.wikipedia.org/wiki/Not_invented_here</a>
 </span>Reading code is hard. It is much easier to write code. This sounds nonsensical, yet it is true. It is the source of the NIH syndrome: Not Invented Here.<span class="side-links side-links-inline" aria-label="Related links for this paragraph">
@@ -293,22 +286,21 @@ END</code></pre>
 <a href="https://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93controller" title="https://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93controller">https://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93controller</a>
 <a href="https://en.wikipedia.org/wiki/Object%E2%80%93relational_mapping" title="https://en.wikipedia.org/wiki/Object%E2%80%93relational_mapping">https://en.wikipedia.org/wiki/Object%E2%80%93relational_mapping</a>
 </span></p>
-<p id="p-08-there-is-a-reason-this-keeps-happening-shared" data-note-target>There is a reason this keeps happening. Shared shapes make code easier to read. If every project invents its own private universe, every project becomes a new country with its own customs, grammar, and strange little hand gestures. A framework gives everyone the same street names.</p>
-<p id="p-08-but-there-is-a-cost-once-the-shared" data-note-target>But there is a cost. Once the shared language becomes too large, the real problem starts to disappear underneath the standard machinery. You are no longer saying what your program means. You are saying how this particular framework wants the meaning to be dressed.</p>
-<p id="p-08-so-the-natural-pressure-on-programming-languages-is" data-note-target>So the natural pressure on programming languages is strange. Small, powerful languages are wonderful for the writer, but dangerous for the reader. Large, standard languages are easier to share, but they also make it harder to say unusual things simply.</p>
+<p id="p-08-there-is-a-reason-this-keeps-happening-code" data-note-target>There is a reason this keeps happening. Code is easier to read when everyone uses the same patterns.</p>
+<p id="p-08-but-there-is-a-cost-eventually-the-patterns" data-note-target>But there is a cost. Eventually the patterns become the language. Instead of writing code to solve the problem, you are adding controllers, models, maps and whatever else the framework requires, so that it can solve the problem for you.</p>
+<p id="p-08-so-the-natural-pressure-on-programming-languages-is" data-note-target>So the natural pressure on programming languages is not to become smaller and more powerful, but bigger and less powerful.</p>
+<p id="p-08-small-powerful-languages-are-wonderful-for-the-writer" data-note-target>Small, powerful languages are wonderful for the writer, but dangerous for the reader. Large, standard languages are easier to share, but they also make it harder to say unusual things simply.</p>
 <p id="p-08-just-like-human-languages" data-note-target>Just like human languages.</p>
-<p id="p-08-a-wizard-should-be-aware-of-this-tension" data-note-target>A wizard should be aware of this tension. You do not escape it by choosing the one true language, because the one true language does not exist. You escape it, when you can, by making the language of the program fit the problem more closely.</p>
-<p id="p-08-that-is-where-domain-specific-languages-become-interesting" data-note-target><span class="side-links side-links-margin" aria-label="Related links for this paragraph">
+<aside id="rule-08-wizards-seventh-rule" class="wizard-rule" data-note-target>
+<p class="rule-label">Wizard's seventh rule</p>
+<p>The bill always comes due.</p>
+</aside>
+<p id="p-08-you-should-be-aware-of-this-tension-you" data-note-target>You should be aware of this tension. You do not escape it by choosing the one true language, because the one true language does not exist. You escape it, when you can, by making the language of the program fit the problem more closely.</p>
+<p id="p-08-that-is-where-domain-specific-languages-come-in" data-note-target><span class="side-links side-links-margin" aria-label="Related links for this paragraph">
 <a href="https://martinfowler.com/dsl.html" title="https://martinfowler.com/dsl.html">https://martinfowler.com/dsl.html</a>
-</span>That is where domain-specific languages become interesting.<span class="side-links side-links-inline" aria-label="Related links for this paragraph">
+</span>That is where domain-specific languages come in.<span class="side-links side-links-inline" aria-label="Related links for this paragraph">
 <a href="https://martinfowler.com/dsl.html" title="https://martinfowler.com/dsl.html">https://martinfowler.com/dsl.html</a>
 </span></p>
-<p id="p-08-a-dsl-is-not-automatically-a-separate-language" data-note-target><span class="side-links side-links-margin" aria-label="Related links for this paragraph">
-<a href="https://en.wikipedia.org/wiki/SQL" title="https://en.wikipedia.org/wiki/SQL">https://en.wikipedia.org/wiki/SQL</a>
-</span>A DSL is not automatically a separate language with a parser and a manual. Sometimes it is. SQL is its own world, and for good reasons. But sometimes a DSL is smaller than that. It can be a handful of names, a few conventions, a shape in the data, a chain of functions, a way of arranging code so the important ideas stand next to each other.<span class="side-links side-links-inline" aria-label="Related links for this paragraph">
-<a href="https://en.wikipedia.org/wiki/SQL" title="https://en.wikipedia.org/wiki/SQL">https://en.wikipedia.org/wiki/SQL</a>
-</span></p>
-<p id="p-08-but-before-we-build-one-we-need-to" data-note-target>But before we build one, we need to notice something stranger: every program already contains a language of its own.</p>
   <nav class="chapter-pagination" aria-label="Chapter navigation">
     <a rel="prev" href="interlude-03-poor-protocol.html"><span>Previous</span>Interlude</a>
     <a rel="next" href="09-every-program-contains-a-language.html"><span>Next</span>Every program grows a language</a>
