@@ -1,7 +1,7 @@
 {
   "id": "programming-for-wizards",
   "title": "Programming for Wizards",
-  "generatedAt": "2026-07-10T14:15:58.988Z",
+  "generatedAt": "2026-07-12T10:30:04.663Z",
   "phase": "01-enhanced-static-manuscript",
   "features": {
     "notes": "planned",
@@ -40,7 +40,7 @@
       "url": "chapters/02-numbers-hiding-calculations-in-symbols.html",
       "previous": "interlude-01-useful-tricks",
       "next": "03-logic-turning-truth-into-machinery",
-      "wordCount": 2137,
+      "wordCount": 1761,
       "rule": "Wizard's first rule"
     },
     {
@@ -52,7 +52,7 @@
       "url": "chapters/03-logic-turning-truth-into-machinery.html",
       "previous": "02-numbers-hiding-calculations-in-symbols",
       "next": "04-language-the-tool-that-changes-the-thinker",
-      "wordCount": 938,
+      "wordCount": 763,
       "rule": "Wizard's second rule"
     },
     {
@@ -64,7 +64,7 @@
       "url": "chapters/04-language-the-tool-that-changes-the-thinker.html",
       "previous": "03-logic-turning-truth-into-machinery",
       "next": "interlude-02-meaning-escapes",
-      "wordCount": 931,
+      "wordCount": 630,
       "rule": "Wizard's third rule"
     },
     {
@@ -76,7 +76,7 @@
       "url": "chapters/05-the-web-as-address.html",
       "previous": "interlude-02-meaning-escapes",
       "next": "06-the-web-as-document",
-      "wordCount": 2137,
+      "wordCount": 1305,
       "rule": "Wizard's fourth rule"
     },
     {
@@ -88,7 +88,7 @@
       "url": "chapters/06-the-web-as-document.html",
       "previous": "05-the-web-as-address",
       "next": "07-the-web-as-platform",
-      "wordCount": 1865,
+      "wordCount": 1676,
       "rule": "Wizard's fifth rule"
     },
     {
@@ -100,7 +100,7 @@
       "url": "chapters/07-the-web-as-platform.html",
       "previous": "06-the-web-as-document",
       "next": "interlude-03-poor-protocol",
-      "wordCount": 1422,
+      "wordCount": 1265,
       "rule": "Wizard's sixth rule"
     },
     {
@@ -263,7 +263,7 @@
       "part": "Part I: Representations are spells",
       "partId": "representations-are-spells",
       "url": "chapters/02-numbers-hiding-calculations-in-symbols.html",
-      "wordCount": 2137
+      "wordCount": 1761
     },
     {
       "id": "03-logic-turning-truth-into-machinery",
@@ -273,7 +273,7 @@
       "part": "Part I: Representations are spells",
       "partId": "representations-are-spells",
       "url": "chapters/03-logic-turning-truth-into-machinery.html",
-      "wordCount": 938
+      "wordCount": 763
     },
     {
       "id": "04-language-the-tool-that-changes-the-thinker",
@@ -283,7 +283,7 @@
       "part": "Part I: Representations are spells",
       "partId": "representations-are-spells",
       "url": "chapters/04-language-the-tool-that-changes-the-thinker.html",
-      "wordCount": 931
+      "wordCount": 630
     },
     {
       "id": "interlude-02-meaning-escapes",
@@ -303,7 +303,7 @@
       "part": "Part II: The Web",
       "partId": "the-web",
       "url": "chapters/05-the-web-as-address.html",
-      "wordCount": 2137
+      "wordCount": 1305
     },
     {
       "id": "06-the-web-as-document",
@@ -313,7 +313,7 @@
       "part": "Part II: The Web",
       "partId": "the-web",
       "url": "chapters/06-the-web-as-document.html",
-      "wordCount": 1865
+      "wordCount": 1676
     },
     {
       "id": "07-the-web-as-platform",
@@ -323,7 +323,7 @@
       "part": "Part II: The Web",
       "partId": "the-web",
       "url": "chapters/07-the-web-as-platform.html",
-      "wordCount": 1422
+      "wordCount": 1265
     },
     {
       "id": "interlude-03-poor-protocol",
@@ -515,7 +515,7 @@
       "anchor": "rule-06-wizards-fifth-rule",
       "chapter": "06-the-web-as-document",
       "label": "Wizard's fifth rule",
-      "text": "Every choice closes a door.",
+      "text": "Choose what haunts you.",
       "url": "chapters/06-the-web-as-document.html#rule-06-wizards-fifth-rule"
     },
     {
@@ -703,74 +703,25 @@
       "url": "chapters/02-numbers-hiding-calculations-in-symbols.html#p-02-how-do-you-make-a-number-bigger-than"
     },
     {
-      "id": "p-02-that-sounds-like-a-childish-question-but-it",
-      "type": "paragraph",
-      "label": "That sounds like a childish question, but it is one of the first great programming questions. You have a thing in the wo",
-      "chapter": "02-numbers-hiding-calculations-in-symbols",
-      "url": "chapters/02-numbers-hiding-calculations-in-symbols.html#p-02-that-sounds-like-a-childish-question-but-it"
-    },
-    {
-      "id": "p-02-numbers-are-a-good-place-to-begin-because",
-      "type": "paragraph",
-      "label": "Numbers are a good place to begin because they look natural. They are not. Number systems are inventions. Interfaces. Li",
-      "chapter": "02-numbers-hiding-calculations-in-symbols",
-      "url": "chapters/02-numbers-hiding-calculations-in-symbols.html#p-02-numbers-are-a-good-place-to-begin-because"
-    },
-    {
-      "id": "p-02-we-are-going-to-follow-one-idea-as",
-      "type": "paragraph",
-      "label": "We are going to follow one idea as it gets stolen, bent, and improved: each new number system hides a little more work i",
-      "chapter": "02-numbers-hiding-calculations-in-symbols",
-      "url": "chapters/02-numbers-hiding-calculations-in-symbols.html#p-02-we-are-going-to-follow-one-idea-as"
-    },
-    {
-      "id": "h-02-the-first-interface",
-      "type": "heading",
-      "label": "The first interface",
-      "chapter": "02-numbers-hiding-calculations-in-symbols",
-      "url": "chapters/02-numbers-hiding-calculations-in-symbols.html#h-02-the-first-interface"
-    },
-    {
       "id": "p-02-its-no-secret-that-programming-is-based-on",
       "type": "paragraph",
-      "label": "It's no secret that programming is based on numbers. Two of them: 0 and 1.",
+      "label": "It's no secret that programming is based on numbers. Two of them, 0 and 1. It may come as a surprise that one of those n",
       "chapter": "02-numbers-hiding-calculations-in-symbols",
       "url": "chapters/02-numbers-hiding-calculations-in-symbols.html#p-02-its-no-secret-that-programming-is-based-on"
     },
     {
-      "id": "p-02-it-may-come-as-a-surprise-that-one",
+      "id": "p-02-lets-go-back-way-back-to-the-first",
       "type": "paragraph",
-      "label": "It may come as a surprise that one of those numbers is much newer than the other. But before we get to zero, or binary, ",
+      "label": "Let's go back, way back, to the first number system our cave-dwelling ancestors ever used: our fingers.",
       "chapter": "02-numbers-hiding-calculations-in-symbols",
-      "url": "chapters/02-numbers-hiding-calculations-in-symbols.html#p-02-it-may-come-as-a-surprise-that-one"
+      "url": "chapters/02-numbers-hiding-calculations-in-symbols.html#p-02-lets-go-back-way-back-to-the-first"
     },
     {
-      "id": "p-02-hands",
+      "id": "p-02-hold-up-your-hands-and-you-can-count",
       "type": "paragraph",
-      "label": "Hands.",
+      "label": "Hold up your hands and you can count to 10. But what if you want to add a number to your cave painting? Well, you make t",
       "chapter": "02-numbers-hiding-calculations-in-symbols",
-      "url": "chapters/02-numbers-hiding-calculations-in-symbols.html#p-02-hands"
-    },
-    {
-      "id": "p-02-at-first-the-best-number-system-was-the",
-      "type": "paragraph",
-      "label": "At first, the best number system was the one attached to your body.",
-      "chapter": "02-numbers-hiding-calculations-in-symbols",
-      "url": "chapters/02-numbers-hiding-calculations-in-symbols.html#p-02-at-first-the-best-number-system-was-the"
-    },
-    {
-      "id": "p-02-thats-not-a-joke-fingers-are-portable-visible",
-      "type": "paragraph",
-      "label": "That's not a joke. Fingers are portable, visible, hard to lose, and conveniently arranged in groups. For small numbers, ",
-      "chapter": "02-numbers-hiding-calculations-in-symbols",
-      "url": "chapters/02-numbers-hiding-calculations-in-symbols.html#p-02-thats-not-a-joke-fingers-are-portable-visible"
-    },
-    {
-      "id": "p-02-you-can-count-to-10-using-two-hands",
-      "type": "paragraph",
-      "label": "You can count to 10 using two hands. But what if you want to add numbers to your cave painting? Well, you make tally mar",
-      "chapter": "02-numbers-hiding-calculations-in-symbols",
-      "url": "chapters/02-numbers-hiding-calculations-in-symbols.html#p-02-you-can-count-to-10-using-two-hands"
+      "url": "chapters/02-numbers-hiding-calculations-in-symbols.html#p-02-hold-up-your-hands-and-you-can-count"
     },
     {
       "id": "p-02-so-the-first-number-we-used-was-1",
@@ -824,37 +775,23 @@
     {
       "id": "p-02-but-lets-step-back-a-bit-and-introduce",
       "type": "paragraph",
-      "label": "But let's step back a bit and introduce the abacus. This simple device's origins are unknown. It may have been invented ",
+      "label": "But let's step back a bit and introduce the abacus. This simple device's origins are unknown, and it may have been inven",
       "chapter": "02-numbers-hiding-calculations-in-symbols",
       "url": "chapters/02-numbers-hiding-calculations-in-symbols.html#p-02-but-lets-step-back-a-bit-and-introduce"
     },
     {
       "id": "p-02-by-now-you-may-have-noticed-a-pattern",
       "type": "paragraph",
-      "label": "By now, you may have noticed a pattern.",
+      "label": "By now, you may have noticed a pattern. Everyone is stealing from everyone else.",
       "chapter": "02-numbers-hiding-calculations-in-symbols",
       "url": "chapters/02-numbers-hiding-calculations-in-symbols.html#p-02-by-now-you-may-have-noticed-a-pattern"
     },
     {
-      "id": "p-02-everyone-is-stealing-from-everyone-else",
+      "id": "p-02-thats-how-good-ideas-travel-they-get-copied",
       "type": "paragraph",
-      "label": "Everyone is stealing from everyone else.",
+      "label": "That's how good ideas travel. They get copied, renamed, improved and eventually taught to children as if they had always",
       "chapter": "02-numbers-hiding-calculations-in-symbols",
-      "url": "chapters/02-numbers-hiding-calculations-in-symbols.html#p-02-everyone-is-stealing-from-everyone-else"
-    },
-    {
-      "id": "p-02-that-sounds-worse-than-it-is-good-ideas",
-      "type": "paragraph",
-      "label": "That sounds worse than it is. Good ideas travel. They are copied, renamed, misunderstood, improved, translated, simplifi",
-      "chapter": "02-numbers-hiding-calculations-in-symbols",
-      "url": "chapters/02-numbers-hiding-calculations-in-symbols.html#p-02-that-sounds-worse-than-it-is-good-ideas"
-    },
-    {
-      "id": "p-02-wizards-dont-insist-on-inventing-everything-themselves-they",
-      "type": "paragraph",
-      "label": "Wizards don't insist on inventing everything themselves. They notice working magic, learn why it works, and carry it som",
-      "chapter": "02-numbers-hiding-calculations-in-symbols",
-      "url": "chapters/02-numbers-hiding-calculations-in-symbols.html#p-02-wizards-dont-insist-on-inventing-everything-themselves-they"
+      "url": "chapters/02-numbers-hiding-calculations-in-symbols.html#p-02-thats-how-good-ideas-travel-they-get-copied"
     },
     {
       "id": "rule-02-wizards-first-rule",
@@ -864,11 +801,11 @@
       "url": "chapters/02-numbers-hiding-calculations-in-symbols.html#rule-02-wizards-first-rule"
     },
     {
-      "id": "p-02-anyway-back-to-the-abacus-roman-numerals-hide",
+      "id": "p-02-anyway-back-to-the-abacus-lets-show-one",
       "type": "paragraph",
-      "label": "Anyway, back to the abacus. Roman numerals hide small calculations in the order of symbols. The abacus does something mo",
+      "label": "Anyway, back to the abacus. Let's show one for those who haven't seen one yet:",
       "chapter": "02-numbers-hiding-calculations-in-symbols",
-      "url": "chapters/02-numbers-hiding-calculations-in-symbols.html#p-02-anyway-back-to-the-abacus-roman-numerals-hide"
+      "url": "chapters/02-numbers-hiding-calculations-in-symbols.html#p-02-anyway-back-to-the-abacus-lets-show-one"
     },
     {
       "id": "p-02-this-is-a-chinese-version-you-could-probably",
@@ -894,7 +831,7 @@
     {
       "id": "p-02-and-here-for-the-first-time-in-our",
       "type": "paragraph",
-      "label": "And here, for the first time in our story, we have the number 0. Without it, Arabic numerals are impossible. Positional ",
+      "label": "And here, for the first time in our story, we have the number 0. You can write 11, but how do you write 'one ten and no ",
       "chapter": "02-numbers-hiding-calculations-in-symbols",
       "url": "chapters/02-numbers-hiding-calculations-in-symbols.html#p-02-and-here-for-the-first-time-in-our"
     },
@@ -941,13 +878,6 @@
       "url": "chapters/02-numbers-hiding-calculations-in-symbols.html#p-02-blaise-pascal-is-credited-with-making-one-of"
     },
     {
-      "id": "p-02-this-is-not-just-a-history-of-numbers",
-      "type": "paragraph",
-      "label": "This is not just a history of numbers. It is a history of moving work around: from fingers, to marks, to positions, to m",
-      "chapter": "02-numbers-hiding-calculations-in-symbols",
-      "url": "chapters/02-numbers-hiding-calculations-in-symbols.html#p-02-this-is-not-just-a-history-of-numbers"
-    },
-    {
       "id": "p-02-i-should-mention-the-antikythera-device-this-is",
       "type": "paragraph",
       "label": "I should mention the Antikythera device. This is a device from the classical Greek era, which is thought to have been ab",
@@ -976,11 +906,11 @@
       "url": "chapters/02-numbers-hiding-calculations-in-symbols.html#p-02-to-write-that-number-down-you-will-need"
     },
     {
-      "id": "math-02-089",
+      "id": "math-02-069",
       "type": "math",
       "label": "math block",
       "chapter": "02-numbers-hiding-calculations-in-symbols",
-      "url": "chapters/02-numbers-hiding-calculations-in-symbols.html#math-02-089"
+      "url": "chapters/02-numbers-hiding-calculations-in-symbols.html#math-02-069"
     },
     {
       "id": "p-02-but-we-can-also-use-these-to-explain",
@@ -990,11 +920,11 @@
       "url": "chapters/02-numbers-hiding-calculations-in-symbols.html#p-02-but-we-can-also-use-these-to-explain"
     },
     {
-      "id": "table-02-095",
+      "id": "table-02-075",
       "type": "table",
       "label": "table",
       "chapter": "02-numbers-hiding-calculations-in-symbols",
-      "url": "chapters/02-numbers-hiding-calculations-in-symbols.html#table-02-095"
+      "url": "chapters/02-numbers-hiding-calculations-in-symbols.html#table-02-075"
     },
     {
       "id": "p-02-so-the-number-972-is-equal-to-9",
@@ -1011,13 +941,6 @@
       "url": "chapters/02-numbers-hiding-calculations-in-symbols.html#p-02-so-what-about-our-original-two-numbers-1"
     },
     {
-      "id": "p-02-once-you-see-that-the-base-is-just",
-      "type": "paragraph",
-      "label": "Once you see that the base is just another design choice, decimal starts to look less like nature and more like a very s",
-      "chapter": "02-numbers-hiding-calculations-in-symbols",
-      "url": "chapters/02-numbers-hiding-calculations-in-symbols.html#p-02-once-you-see-that-the-base-is-just"
-    },
-    {
       "id": "p-02-you-can-use-any-number-of-numerals-such",
       "type": "paragraph",
       "label": "You can use any number of numerals, such as 16 for hexadecimal numbers, for example:",
@@ -1025,11 +948,11 @@
       "url": "chapters/02-numbers-hiding-calculations-in-symbols.html#p-02-you-can-use-any-number-of-numerals-such"
     },
     {
-      "id": "math-02-107",
+      "id": "math-02-085",
       "type": "math",
       "label": "math block",
       "chapter": "02-numbers-hiding-calculations-in-symbols",
-      "url": "chapters/02-numbers-hiding-calculations-in-symbols.html#math-02-107"
+      "url": "chapters/02-numbers-hiding-calculations-in-symbols.html#math-02-085"
     },
     {
       "id": "p-02-0x-is-just-a-convention-to-say-this",
@@ -1046,25 +969,25 @@
       "url": "chapters/02-numbers-hiding-calculations-in-symbols.html#p-02-or-octal-with-8-numerals-per-position"
     },
     {
-      "id": "math-02-115",
+      "id": "math-02-093",
       "type": "math",
       "label": "math block",
       "chapter": "02-numbers-hiding-calculations-in-symbols",
-      "url": "chapters/02-numbers-hiding-calculations-in-symbols.html#math-02-115"
+      "url": "chapters/02-numbers-hiding-calculations-in-symbols.html#math-02-093"
     },
     {
-      "id": "p-02-or-minimize-it-to-two-numbers-1-and",
+      "id": "p-02-or-reduce-it-to-two-numerals-1-and",
       "type": "paragraph",
-      "label": "Or minimize it to two numbers, 1 and 0, and you get binary:",
+      "label": "Or reduce it to two numerals, 1 and 0, and you get binary:",
       "chapter": "02-numbers-hiding-calculations-in-symbols",
-      "url": "chapters/02-numbers-hiding-calculations-in-symbols.html#p-02-or-minimize-it-to-two-numbers-1-and"
+      "url": "chapters/02-numbers-hiding-calculations-in-symbols.html#p-02-or-reduce-it-to-two-numerals-1-and"
     },
     {
-      "id": "math-02-121",
+      "id": "math-02-099",
       "type": "math",
       "label": "math block",
       "chapter": "02-numbers-hiding-calculations-in-symbols",
-      "url": "chapters/02-numbers-hiding-calculations-in-symbols.html#math-02-121"
+      "url": "chapters/02-numbers-hiding-calculations-in-symbols.html#math-02-099"
     },
     {
       "id": "p-02-and-using-exponents-we-can-explain-it-a",
@@ -1074,11 +997,11 @@
       "url": "chapters/02-numbers-hiding-calculations-in-symbols.html#p-02-and-using-exponents-we-can-explain-it-a"
     },
     {
-      "id": "table-02-127",
+      "id": "table-02-105",
       "type": "table",
       "label": "table",
       "chapter": "02-numbers-hiding-calculations-in-symbols",
-      "url": "chapters/02-numbers-hiding-calculations-in-symbols.html#table-02-127"
+      "url": "chapters/02-numbers-hiding-calculations-in-symbols.html#table-02-105"
     },
     {
       "id": "p-02-this-means-that-the-binary-number-101-is",
@@ -1088,11 +1011,11 @@
       "url": "chapters/02-numbers-hiding-calculations-in-symbols.html#p-02-this-means-that-the-binary-number-101-is"
     },
     {
-      "id": "math-02-133",
+      "id": "math-02-111",
       "type": "math",
       "label": "math block",
       "chapter": "02-numbers-hiding-calculations-in-symbols",
-      "url": "chapters/02-numbers-hiding-calculations-in-symbols.html#math-02-133"
+      "url": "chapters/02-numbers-hiding-calculations-in-symbols.html#math-02-111"
     },
     {
       "id": "p-02-this-simplifies-to",
@@ -1102,11 +1025,11 @@
       "url": "chapters/02-numbers-hiding-calculations-in-symbols.html#p-02-this-simplifies-to"
     },
     {
-      "id": "math-02-139",
+      "id": "math-02-117",
       "type": "math",
       "label": "math block",
       "chapter": "02-numbers-hiding-calculations-in-symbols",
-      "url": "chapters/02-numbers-hiding-calculations-in-symbols.html#math-02-139"
+      "url": "chapters/02-numbers-hiding-calculations-in-symbols.html#math-02-117"
     },
     {
       "id": "p-02-binary-numbers-are-so-ubiquitous-in-programming-that",
@@ -1116,46 +1039,25 @@
       "url": "chapters/02-numbers-hiding-calculations-in-symbols.html#p-02-binary-numbers-are-so-ubiquitous-in-programming-that"
     },
     {
-      "id": "table-02-146",
+      "id": "table-02-124",
       "type": "table",
       "label": "table",
       "chapter": "02-numbers-hiding-calculations-in-symbols",
-      "url": "chapters/02-numbers-hiding-calculations-in-symbols.html#table-02-146"
+      "url": "chapters/02-numbers-hiding-calculations-in-symbols.html#table-02-124"
     },
     {
       "id": "p-02-this-is-a-good-time-to-end-our",
       "type": "paragraph",
-      "label": "This is a good time to end our archaeological dig through numbers. There is quite a bit more to explore, but you can do ",
+      "label": "This is a good time to end our archaeological dig through numbers. We started with fingers and tally marks, and ended wi",
       "chapter": "02-numbers-hiding-calculations-in-symbols",
       "url": "chapters/02-numbers-hiding-calculations-in-symbols.html#p-02-this-is-a-good-time-to-end-our"
     },
     {
-      "id": "p-02-the-important-thing-for-now-is-this-every",
-      "type": "paragraph",
-      "label": "The important thing for now is this: every number system we saw did work for us. Tally marks counted. Roman numerals emb",
-      "chapter": "02-numbers-hiding-calculations-in-symbols",
-      "url": "chapters/02-numbers-hiding-calculations-in-symbols.html#p-02-the-important-thing-for-now-is-this-every"
-    },
-    {
       "id": "p-02-so-how-do-you-make-a-number-bigger",
       "type": "paragraph",
-      "label": "So how do you make a number bigger than your fingers?",
+      "label": "So how do you make a number bigger than your fingers? You invent a better way to write it down.",
       "chapter": "02-numbers-hiding-calculations-in-symbols",
       "url": "chapters/02-numbers-hiding-calculations-in-symbols.html#p-02-so-how-do-you-make-a-number-bigger"
-    },
-    {
-      "id": "p-02-you-stop-trying-to-make-your-fingers-bigger",
-      "type": "paragraph",
-      "label": "You stop trying to make your fingers bigger. You make the notation smarter.",
-      "chapter": "02-numbers-hiding-calculations-in-symbols",
-      "url": "chapters/02-numbers-hiding-calculations-in-symbols.html#p-02-you-stop-trying-to-make-your-fingers-bigger"
-    },
-    {
-      "id": "p-02-a-notation-is-not-just-a-way-to",
-      "type": "paragraph",
-      "label": "A notation is not just a way to write something down. A good notation performs part of the work for you. If you like thi",
-      "chapter": "02-numbers-hiding-calculations-in-symbols",
-      "url": "chapters/02-numbers-hiding-calculations-in-symbols.html#p-02-a-notation-is-not-just-a-way-to"
     },
     {
       "id": "h-03-logic-the-truth-is-out-there",
@@ -1165,18 +1067,11 @@
       "url": "chapters/03-logic-turning-truth-into-machinery.html#h-03-logic-the-truth-is-out-there"
     },
     {
-      "id": "p-03-in-the-last-chapter-we-saw-that-a",
-      "type": "paragraph",
-      "label": "In the last chapter, we saw that a good notation can do some of the calculation for you. Logic does something similar fo",
+      "id": "h-03-riddle-me-this",
+      "type": "heading",
+      "label": "Riddle me this",
       "chapter": "03-logic-turning-truth-into-machinery",
-      "url": "chapters/03-logic-turning-truth-into-machinery.html#p-03-in-the-last-chapter-we-saw-that-a"
-    },
-    {
-      "id": "p-03-this-matters-because-your-brain-is-a-wonderful",
-      "type": "paragraph",
-      "label": "This matters because your brain is a wonderful machine, but it cheats. It guesses. It skips steps. It sees patterns that",
-      "chapter": "03-logic-turning-truth-into-machinery",
-      "url": "chapters/03-logic-turning-truth-into-machinery.html#p-03-this-matters-because-your-brain-is-a-wonderful"
+      "url": "chapters/03-logic-turning-truth-into-machinery.html#h-03-riddle-me-this"
     },
     {
       "id": "p-03-you-are-standing-before-two-doors-one-door",
@@ -1207,25 +1102,11 @@
       "url": "chapters/03-logic-turning-truth-into-machinery.html#p-03-if-you-ask-the-truthful-guard-shell-point"
     },
     {
-      "id": "p-03-the-problem-isnt-that-youre-not-clever-enough",
-      "type": "paragraph",
-      "label": "The problem isn't that you're not clever enough. The problem is that the truth has the wrong shape. So we need to put it",
-      "chapter": "03-logic-turning-truth-into-machinery",
-      "url": "chapters/03-logic-turning-truth-into-machinery.html#p-03-the-problem-isnt-that-youre-not-clever-enough"
-    },
-    {
-      "id": "p-03-if-you-ask-a-guard-directly-which-door",
-      "type": "paragraph",
-      "label": "If you ask a guard directly which door leads to your desire, the table looks like this:",
-      "chapter": "03-logic-turning-truth-into-machinery",
-      "url": "chapters/03-logic-turning-truth-into-machinery.html#p-03-if-you-ask-a-guard-directly-which-door"
-    },
-    {
-      "id": "table-03-021",
+      "id": "table-03-015",
       "type": "table",
       "label": "table",
       "chapter": "03-logic-turning-truth-into-machinery",
-      "url": "chapters/03-logic-turning-truth-into-machinery.html#table-03-021"
+      "url": "chapters/03-logic-turning-truth-into-machinery.html#table-03-015"
     },
     {
       "id": "p-03-that-doesnt-help-the-answer-depends-on-which",
@@ -1249,25 +1130,25 @@
       "url": "chapters/03-logic-turning-truth-into-machinery.html#p-03-if-the-guard-you-ask-tells-the-truth"
     },
     {
-      "id": "table-03-034",
+      "id": "table-03-028",
       "type": "table",
       "label": "table",
       "chapter": "03-logic-turning-truth-into-machinery",
-      "url": "chapters/03-logic-turning-truth-into-machinery.html#table-03-034"
+      "url": "chapters/03-logic-turning-truth-into-machinery.html#table-03-028"
     },
     {
       "id": "p-03-no-matter-which-guard-you-ask-you-get",
       "type": "paragraph",
-      "label": "No matter which guard you ask, you get the wrong door. So you choose the other one.",
+      "label": "No matter which guard you ask, you get the wrong answer. So you choose the other door.",
       "chapter": "03-logic-turning-truth-into-machinery",
       "url": "chapters/03-logic-turning-truth-into-machinery.html#p-03-no-matter-which-guard-you-ask-you-get"
     },
     {
-      "id": "p-03-the-trick-isnt-that-you-became-smarter-than",
+      "id": "p-03-your-brain-is-good-at-guessing-logic-is",
       "type": "paragraph",
-      "label": "The trick isn't that you became smarter than the guards. It's that you asked a question that made both possible worlds c",
+      "label": "Your brain is good at guessing. Logic is what we use when guessing isn’t good enough.",
       "chapter": "03-logic-turning-truth-into-machinery",
-      "url": "chapters/03-logic-turning-truth-into-machinery.html#p-03-the-trick-isnt-that-you-became-smarter-than"
+      "url": "chapters/03-logic-turning-truth-into-machinery.html#p-03-your-brain-is-good-at-guessing-logic-is"
     },
     {
       "id": "rule-03-wizards-second-rule",
@@ -1291,32 +1172,25 @@
       "url": "chapters/03-logic-turning-truth-into-machinery.html#p-03-today-we-call-this-boolean-logic-after-george"
     },
     {
-      "id": "p-03-boolean-logic-is-brutally-small-everything-gets-squeezed",
+      "id": "p-03-logic-itself-is-much-older-going-back-through",
       "type": "paragraph",
-      "label": "Boolean logic is brutally small. Everything gets squeezed into two values:",
+      "label": "Logic itself is much older, going back through the 17th century wizard Leibniz, to an ancient Greek wizard called Aristo",
       "chapter": "03-logic-turning-truth-into-machinery",
-      "url": "chapters/03-logic-turning-truth-into-machinery.html#p-03-boolean-logic-is-brutally-small-everything-gets-squeezed"
+      "url": "chapters/03-logic-turning-truth-into-machinery.html#p-03-logic-itself-is-much-older-going-back-through"
     },
     {
-      "id": "table-03-053",
+      "id": "p-03-boolean-logic-has-only-two-values",
+      "type": "paragraph",
+      "label": "Boolean logic has only two values:",
+      "chapter": "03-logic-turning-truth-into-machinery",
+      "url": "chapters/03-logic-turning-truth-into-machinery.html#p-03-boolean-logic-has-only-two-values"
+    },
+    {
+      "id": "table-03-049",
       "type": "table",
       "label": "table",
       "chapter": "03-logic-turning-truth-into-machinery",
-      "url": "chapters/03-logic-turning-truth-into-machinery.html#table-03-053"
-    },
-    {
-      "id": "p-03-that-should-feel-familiar-in-the-last-chapter",
-      "type": "paragraph",
-      "label": "That should feel familiar. In the last chapter, we squeezed numbers into symbols and columns. Here we squeeze reasoning ",
-      "chapter": "03-logic-turning-truth-into-machinery",
-      "url": "chapters/03-logic-turning-truth-into-machinery.html#p-03-that-should-feel-familiar-in-the-last-chapter"
-    },
-    {
-      "id": "p-03-and-once-reasoning-fits-into-cases-we-can",
-      "type": "paragraph",
-      "label": "And once reasoning fits into cases, we can start building machinery around it.",
-      "chapter": "03-logic-turning-truth-into-machinery",
-      "url": "chapters/03-logic-turning-truth-into-machinery.html#p-03-and-once-reasoning-fits-into-cases-we-can"
+      "url": "chapters/03-logic-turning-truth-into-machinery.html#table-03-049"
     },
     {
       "id": "p-03-boolean-logic-is-at-the-core-of-modern",
@@ -1340,18 +1214,18 @@
       "url": "chapters/03-logic-turning-truth-into-machinery.html#p-03-the-operations-are-and-or-and-not"
     },
     {
-      "id": "table-03-068",
+      "id": "table-03-060",
       "type": "table",
       "label": "table",
       "chapter": "03-logic-turning-truth-into-machinery",
-      "url": "chapters/03-logic-turning-truth-into-machinery.html#table-03-068"
+      "url": "chapters/03-logic-turning-truth-into-machinery.html#table-03-060"
     },
     {
-      "id": "table-03-073",
+      "id": "table-03-065",
       "type": "table",
       "label": "table",
       "chapter": "03-logic-turning-truth-into-machinery",
-      "url": "chapters/03-logic-turning-truth-into-machinery.html#table-03-073"
+      "url": "chapters/03-logic-turning-truth-into-machinery.html#table-03-065"
     },
     {
       "id": "p-03-and-of-course",
@@ -1361,11 +1235,11 @@
       "url": "chapters/03-logic-turning-truth-into-machinery.html#p-03-and-of-course"
     },
     {
-      "id": "table-03-080",
+      "id": "table-03-072",
       "type": "table",
       "label": "table",
       "chapter": "03-logic-turning-truth-into-machinery",
-      "url": "chapters/03-logic-turning-truth-into-machinery.html#table-03-080"
+      "url": "chapters/03-logic-turning-truth-into-machinery.html#table-03-072"
     },
     {
       "id": "p-03-combining-these-we-can-also-create-nor-and",
@@ -1375,18 +1249,18 @@
       "url": "chapters/03-logic-turning-truth-into-machinery.html#p-03-combining-these-we-can-also-create-nor-and"
     },
     {
-      "id": "table-03-087",
+      "id": "table-03-079",
       "type": "table",
       "label": "table",
       "chapter": "03-logic-turning-truth-into-machinery",
-      "url": "chapters/03-logic-turning-truth-into-machinery.html#table-03-087"
+      "url": "chapters/03-logic-turning-truth-into-machinery.html#table-03-079"
     },
     {
-      "id": "table-03-092",
+      "id": "table-03-084",
       "type": "table",
       "label": "table",
       "chapter": "03-logic-turning-truth-into-machinery",
-      "url": "chapters/03-logic-turning-truth-into-machinery.html#table-03-092"
+      "url": "chapters/03-logic-turning-truth-into-machinery.html#table-03-084"
     },
     {
       "id": "p-03-wait-a-minute-what-is-this-nand-thing",
@@ -1398,16 +1272,9 @@
     {
       "id": "p-03-well-it-so-happens-that-your-computer-can",
       "type": "paragraph",
-      "label": "Well... it so happens that your computer can implement everything with just nand. All other operations can be written as",
+      "label": "Well... it so happens that your computer can implement just about everything with only nand logic. All other operations ",
       "chapter": "03-logic-turning-truth-into-machinery",
       "url": "chapters/03-logic-turning-truth-into-machinery.html#p-03-well-it-so-happens-that-your-computer-can"
-    },
-    {
-      "id": "p-03-this-is-the-second-great-trick-in-this",
-      "type": "paragraph",
-      "label": "This is the second great trick in this chapter. First we turned a riddle into a table. Then we turned the table into a m",
-      "chapter": "03-logic-turning-truth-into-machinery",
-      "url": "chapters/03-logic-turning-truth-into-machinery.html#p-03-this-is-the-second-great-trick-in-this"
     },
     {
       "id": "p-03-tables-dont-lie-but-people-do-and-we",
@@ -1422,13 +1289,6 @@
       "label": "Language: the oldest trick",
       "chapter": "04-language-the-tool-that-changes-the-thinker",
       "url": "chapters/04-language-the-tool-that-changes-the-thinker.html#h-04-language-the-oldest-trick"
-    },
-    {
-      "id": "p-04-previously-weve-discussed-numbers-and-logic-but-not",
-      "type": "paragraph",
-      "label": "Previously we've discussed numbers and logic. But not language. Which is strange, because language has been doing all th",
-      "chapter": "04-language-the-tool-that-changes-the-thinker",
-      "url": "chapters/04-language-the-tool-that-changes-the-thinker.html#p-04-previously-weve-discussed-numbers-and-logic-but-not"
     },
     {
       "id": "p-04-language-is-magic-old-magic",
@@ -1475,7 +1335,7 @@
     {
       "id": "p-04-alan-moore-who-writes-books-and-comics-and",
       "type": "paragraph",
-      "label": "Alan Moore, who writes books and comics and also calls himself a magician, has a useful idea of magic. Not stage magic. ",
+      "label": "Alan Moore, who writes books and comics and also calls himself a magician, has a useful idea of magic. But unlike what y",
       "chapter": "04-language-the-tool-that-changes-the-thinker",
       "url": "chapters/04-language-the-tool-that-changes-the-thinker.html#p-04-alan-moore-who-writes-books-and-comics-and"
     },
@@ -1487,60 +1347,39 @@
       "url": "chapters/04-language-the-tool-that-changes-the-thinker.html#p-04-in-that-view-there-is-the-physical-world"
     },
     {
-      "id": "p-04-language-is-one-of-the-most-direct-ways",
+      "id": "p-04-language-is-how-we-imagine-our-world-and",
       "type": "paragraph",
-      "label": "Language is one of the most direct ways to work in that imagined world. A story can make a monster. A treaty can make a ",
+      "label": "Language is how we imagine our world. And then we make our imagination reality. This is why language is magic in a very ",
       "chapter": "04-language-the-tool-that-changes-the-thinker",
-      "url": "chapters/04-language-the-tool-that-changes-the-thinker.html#p-04-language-is-one-of-the-most-direct-ways"
-    },
-    {
-      "id": "p-04-this-is-why-language-is-magic-in-a",
-      "type": "paragraph",
-      "label": "This is why language is magic in a very practical sense. It changes the imagined world, and the imagined world keeps rea",
-      "chapter": "04-language-the-tool-that-changes-the-thinker",
-      "url": "chapters/04-language-the-tool-that-changes-the-thinker.html#p-04-this-is-why-language-is-magic-in-a"
+      "url": "chapters/04-language-the-tool-that-changes-the-thinker.html#p-04-language-is-how-we-imagine-our-world-and"
     },
     {
       "id": "p-04-computer-programs-make-this-even-stranger-a-program",
       "type": "paragraph",
-      "label": "Computer programs make this even stranger. A program starts as an imagined structure: names, rules, conditions, promises",
+      "label": "Computer programs make this even stranger. A program starts as something imagined. Then the computer runs it. A message ",
       "chapter": "04-language-the-tool-that-changes-the-thinker",
       "url": "chapters/04-language-the-tool-that-changes-the-thinker.html#p-04-computer-programs-make-this-even-stranger-a-program"
     },
     {
-      "id": "p-04-so-when-programmers-choose-words-they-are-not",
+      "id": "p-04-but-what-if-we-dont-have-the-words",
       "type": "paragraph",
-      "label": "So when programmers choose words, they are not decorating the code. They are shaping the imagined machine that other peo",
+      "label": "But what if we don't have the words that allow a thought to exist?",
       "chapter": "04-language-the-tool-that-changes-the-thinker",
-      "url": "chapters/04-language-the-tool-that-changes-the-thinker.html#p-04-so-when-programmers-choose-words-they-are-not"
+      "url": "chapters/04-language-the-tool-that-changes-the-thinker.html#p-04-but-what-if-we-dont-have-the-words"
     },
     {
-      "id": "p-04-programmers-have-their-own-version-of-this-magic",
+      "id": "p-04-guy-steele-talks-about-this-in-a-very",
       "type": "paragraph",
-      "label": "Programmers have their own version of this magic.",
+      "label": "Guy Steele talks about this, in a very nerdy, maybe even wizardly way in a talk called Growing a Language. He starts wit",
       "chapter": "04-language-the-tool-that-changes-the-thinker",
-      "url": "chapters/04-language-the-tool-that-changes-the-thinker.html#p-04-programmers-have-their-own-version-of-this-magic"
+      "url": "chapters/04-language-the-tool-that-changes-the-thinker.html#p-04-guy-steele-talks-about-this-in-a-very"
     },
     {
-      "id": "p-04-guy-steele-gave-a-talk-called-growing-a",
+      "id": "p-04-if-the-language-has-no-word-for-the",
       "type": "paragraph",
-      "label": "Guy Steele gave a talk called Growing a Language, in which he started with an absurdly small language and then slowly gr",
+      "label": "If the language has no word for the thing you mean, you have to build the thought out of smaller thoughts. You have to d",
       "chapter": "04-language-the-tool-that-changes-the-thinker",
-      "url": "chapters/04-language-the-tool-that-changes-the-thinker.html#p-04-guy-steele-gave-a-talk-called-growing-a"
-    },
-    {
-      "id": "p-04-that-is-the-point",
-      "type": "paragraph",
-      "label": "That is the point.",
-      "chapter": "04-language-the-tool-that-changes-the-thinker",
-      "url": "chapters/04-language-the-tool-that-changes-the-thinker.html#p-04-that-is-the-point"
-    },
-    {
-      "id": "p-04-a-thought-can-be-simple-in-your-mind",
-      "type": "paragraph",
-      "label": "A thought can be simple in your mind and expensive in your language. If the language has no word for the thing you mean,",
-      "chapter": "04-language-the-tool-that-changes-the-thinker",
-      "url": "chapters/04-language-the-tool-that-changes-the-thinker.html#p-04-a-thought-can-be-simple-in-your-mind"
+      "url": "chapters/04-language-the-tool-that-changes-the-thinker.html#p-04-if-the-language-has-no-word-for-the"
     },
     {
       "id": "p-04-that-is-why-naming-is-not-decoration-when",
@@ -1550,39 +1389,11 @@
       "url": "chapters/04-language-the-tool-that-changes-the-thinker.html#p-04-that-is-why-naming-is-not-decoration-when"
     },
     {
-      "id": "p-04-whatever-the-answer-language-is-not-just-a",
-      "type": "paragraph",
-      "label": "Whatever the answer, language is not just a way to communicate ideas. Language is part of how ideas become possible to c",
-      "chapter": "04-language-the-tool-that-changes-the-thinker",
-      "url": "chapters/04-language-the-tool-that-changes-the-thinker.html#p-04-whatever-the-answer-language-is-not-just-a"
-    },
-    {
-      "id": "p-04-the-words-people-already-use-decide-what-feels",
-      "type": "paragraph",
-      "label": "The words people already use decide what feels natural, what feels strange, what feels possible, and what feels like non",
-      "chapter": "04-language-the-tool-that-changes-the-thinker",
-      "url": "chapters/04-language-the-tool-that-changes-the-thinker.html#p-04-the-words-people-already-use-decide-what-feels"
-    },
-    {
       "id": "rule-04-wizards-third-rule",
       "type": "rule",
       "label": "Wizard's third rule",
       "chapter": "04-language-the-tool-that-changes-the-thinker",
       "url": "chapters/04-language-the-tool-that-changes-the-thinker.html#rule-04-wizards-third-rule"
-    },
-    {
-      "id": "p-04-this-matters-when-you-talk-to-other-people",
-      "type": "paragraph",
-      "label": "This matters when you talk to other people. It will matter later when we talk about programming languages as well. Code ",
-      "chapter": "04-language-the-tool-that-changes-the-thinker",
-      "url": "chapters/04-language-the-tool-that-changes-the-thinker.html#p-04-this-matters-when-you-talk-to-other-people"
-    },
-    {
-      "id": "p-04-but-before-we-get-there-we-need-to",
-      "type": "paragraph",
-      "label": "But before we get there, we need to look at the Web. Because the Web is one of the great examples of what happens when a",
-      "chapter": "04-language-the-tool-that-changes-the-thinker",
-      "url": "chapters/04-language-the-tool-that-changes-the-thinker.html#p-04-but-before-we-get-there-we-need-to"
     },
     {
       "id": "h-05-the-web-one-string-to-rule-them-all",
@@ -1594,163 +1405,114 @@
     {
       "id": "p-05-in-1989-a-wizard-called-tim-invented-the",
       "type": "paragraph",
-      "label": "In 1989 a wizard called Tim invented the World Wide Web and changed the world forever.",
+      "label": "In 1989 a wizard called Tim invented the World Wide Web and changed the world forever. There was quite a bit of world-ch",
       "chapter": "05-the-web-as-address",
       "url": "chapters/05-the-web-as-address.html#p-05-in-1989-a-wizard-called-tim-invented-the"
     },
     {
-      "id": "p-05-that-sounds-dramatic-but-1989-was-not-exactly",
+      "id": "p-05-the-first-website-did-not-look-much-like",
       "type": "paragraph",
-      "label": "That sounds dramatic, but 1989 was not exactly short on drama. Walls were falling. Regimes were cracking. The Cold War w",
+      "label": "The first website did not look much like the future. It was mostly text and links, it didn't even have a cookie banner:",
       "chapter": "05-the-web-as-address",
-      "url": "chapters/05-the-web-as-address.html#p-05-that-sounds-dramatic-but-1989-was-not-exactly"
+      "url": "chapters/05-the-web-as-address.html#p-05-the-first-website-did-not-look-much-like"
     },
     {
-      "id": "p-05-that-is-one-of-the-problems-with-good",
-      "type": "paragraph",
-      "label": "That is one of the problems with good magic. When it first appears, it often looks like paperwork.",
-      "chapter": "05-the-web-as-address",
-      "url": "chapters/05-the-web-as-address.html#p-05-that-is-one-of-the-problems-with-good"
-    },
-    {
-      "id": "p-05-the-first-website-did-not-look-like-the",
-      "type": "paragraph",
-      "label": "The first website did not look like the future either. It did not have video, rounded corners, infinite scrolling, cooki",
-      "chapter": "05-the-web-as-address",
-      "url": "chapters/05-the-web-as-address.html#p-05-the-first-website-did-not-look-like-the"
-    },
-    {
-      "id": "code-05-011",
+      "id": "code-05-007",
       "type": "code",
       "label": "html block",
       "chapter": "05-the-web-as-address",
-      "url": "chapters/05-the-web-as-address.html#code-05-011"
+      "url": "chapters/05-the-web-as-address.html#code-05-007"
     },
     {
-      "id": "p-05-it-does-not-look-revolutionary-today-it-barely",
+      "id": "p-05-it-does-not-look-revolutionary-today-most-of",
       "type": "paragraph",
-      "label": "It does not look revolutionary today. It barely even looks designed. But there is a little piece of that first page that",
+      "label": "It does not look revolutionary today. Most of the Web wasn't. But there is one part that is. It is a small thing, a tag ",
       "chapter": "05-the-web-as-address",
-      "url": "chapters/05-the-web-as-address.html#p-05-it-does-not-look-revolutionary-today-it-barely"
+      "url": "chapters/05-the-web-as-address.html#p-05-it-does-not-look-revolutionary-today-most-of"
     },
     {
-      "id": "code-05-026",
+      "id": "code-05-029",
       "type": "code",
       "label": "html block",
       "chapter": "05-the-web-as-address",
-      "url": "chapters/05-the-web-as-address.html#code-05-026"
+      "url": "chapters/05-the-web-as-address.html#code-05-029"
     },
     {
-      "id": "p-05-the-a-tag-is-tiny-almost-suspiciously-tiny",
+      "id": "p-05-hidden-inside-it-is-another-invention-probably-the",
       "type": "paragraph",
-      "label": "The a tag is tiny. Almost suspiciously tiny. Just one letter. Hidden inside it is another invention, probably the more i",
+      "label": "Hidden inside it is another invention, probably the more important one:",
       "chapter": "05-the-web-as-address",
-      "url": "chapters/05-the-web-as-address.html#p-05-the-a-tag-is-tiny-almost-suspiciously-tiny"
+      "url": "chapters/05-the-web-as-address.html#p-05-hidden-inside-it-is-another-invention-probably-the"
     },
     {
-      "id": "code-05-032",
+      "id": "code-05-035",
       "type": "code",
       "label": "url block",
       "chapter": "05-the-web-as-address",
-      "url": "chapters/05-the-web-as-address.html#code-05-032"
+      "url": "chapters/05-the-web-as-address.html#code-05-035"
     },
     {
-      "id": "p-05-the-url-the-uniform-resource-locator",
+      "id": "p-05-the-url-the-uniform-resource-locator-to-understand",
       "type": "paragraph",
-      "label": "The URL. The Uniform Resource Locator.",
+      "label": "The URL. The Uniform Resource Locator. To understand why this small invention mattered, we need to go back a little furt",
       "chapter": "05-the-web-as-address",
-      "url": "chapters/05-the-web-as-address.html#p-05-the-url-the-uniform-resource-locator"
+      "url": "chapters/05-the-web-as-address.html#p-05-the-url-the-uniform-resource-locator-to-understand"
     },
     {
-      "id": "p-05-a-spell-for-pointing-anywhere",
+      "id": "p-05-back-then-the-internet-was-already-a-few",
       "type": "paragraph",
-      "label": "A spell for pointing anywhere.",
+      "label": "Back then the internet was already a few years old. The idea of hypertext was even older than that. Ted Nelson coined th",
       "chapter": "05-the-web-as-address",
-      "url": "chapters/05-the-web-as-address.html#p-05-a-spell-for-pointing-anywhere"
+      "url": "chapters/05-the-web-as-address.html#p-05-back-then-the-internet-was-already-a-few"
     },
     {
-      "id": "h-05-hypertext-was-already-in-the-air",
-      "type": "heading",
-      "label": "Hypertext was already in the air",
-      "chapter": "05-the-web-as-address",
-      "url": "chapters/05-the-web-as-address.html#h-05-hypertext-was-already-in-the-air"
-    },
-    {
-      "id": "p-05-to-understand-why-the-url-mattered-we-need",
+      "id": "p-05-but-while-hypertext-as-a-concept-had-been",
       "type": "paragraph",
-      "label": "To understand why the URL mattered, we need to go back a little further than 1989.",
+      "label": "But while Hypertext as a concept had been around, nobody had truly made it work. At least not on a global scale.",
       "chapter": "05-the-web-as-address",
-      "url": "chapters/05-the-web-as-address.html#p-05-to-understand-why-the-url-mattered-we-need"
-    },
-    {
-      "id": "p-05-the-idea-of-hypertext-was-older-than-the",
-      "type": "paragraph",
-      "label": "The idea of hypertext was older than the Web. Ted Nelson coined the term in 1965, and you can trace the dream further ba",
-      "chapter": "05-the-web-as-address",
-      "url": "chapters/05-the-web-as-address.html#p-05-the-idea-of-hypertext-was-older-than-the"
-    },
-    {
-      "id": "p-05-but-there-is-a-large-gap-between-dreaming",
-      "type": "paragraph",
-      "label": "But there is a large gap between dreaming about a global web of knowledge and getting one that ordinary people can actua",
-      "chapter": "05-the-web-as-address",
-      "url": "chapters/05-the-web-as-address.html#p-05-but-there-is-a-large-gap-between-dreaming"
+      "url": "chapters/05-the-web-as-address.html#p-05-but-while-hypertext-as-a-concept-had-been"
     },
     {
       "id": "p-05-ted-nelson-started-the-xanadu-project-in-the",
       "type": "paragraph",
-      "label": "Ted Nelson started the Xanadu project in the 1960s. It was ambitious, beautiful, and, as ambitious beautiful things ofte",
+      "label": "Ted Nelson started the Xanadu project in the 1960s. Apple released HyperCard in 1987.",
       "chapter": "05-the-web-as-address",
       "url": "chapters/05-the-web-as-address.html#p-05-ted-nelson-started-the-xanadu-project-in-the"
     },
     {
-      "id": "p-05-hypercard-was-wonderful-inside-its-own-little-universe",
+      "id": "p-05-xanadu-promised-two-way-links-worldwide-distribution-version",
       "type": "paragraph",
-      "label": "HyperCard was wonderful inside its own little universe. A card could point to another card. A button could take you some",
+      "label": "Xanadu promised two-way links, worldwide distribution, version history and a payment system. HyperCard had cards, stacks",
       "chapter": "05-the-web-as-address",
-      "url": "chapters/05-the-web-as-address.html#p-05-hypercard-was-wonderful-inside-its-own-little-universe"
+      "url": "chapters/05-the-web-as-address.html#p-05-xanadu-promised-two-way-links-worldwide-distribution-version"
     },
     {
-      "id": "p-05-the-awkward-part-was-the-boundary-what-if",
+      "id": "p-05-xanadu-tried-to-solve-the-entire-problem-of",
       "type": "paragraph",
-      "label": "The awkward part was the boundary. What if the thing you wanted to point to was maintained by someone else? What if it l",
+      "label": "Xanadu tried to solve the entire problem of hypertext and never produced a system that ordinary people could use. HyperC",
       "chapter": "05-the-web-as-address",
-      "url": "chapters/05-the-web-as-address.html#p-05-the-awkward-part-was-the-boundary-what-if"
+      "url": "chapters/05-the-web-as-address.html#p-05-xanadu-tried-to-solve-the-entire-problem-of"
     },
     {
-      "id": "p-05-xanadu-tried-to-design-a-grand-hypertext-universe",
+      "id": "p-05-the-web-could",
       "type": "paragraph",
-      "label": "Xanadu tried to design a grand hypertext universe. HyperCard made a smaller universe that people could actually play wit",
+      "label": "The Web could.",
       "chapter": "05-the-web-as-address",
-      "url": "chapters/05-the-web-as-address.html#p-05-xanadu-tried-to-design-a-grand-hypertext-universe"
+      "url": "chapters/05-the-web-as-address.html#p-05-the-web-could"
     },
     {
-      "id": "p-05-that-is-the-part-i-find-interesting-tim",
+      "id": "p-05-sir-tim-berners-lee-did-not-have-to",
       "type": "paragraph",
-      "label": "That is the part I find interesting. Tim Berners-Lee did not have to invent networking from scratch. TCP/IP was there. H",
+      "label": "Sir Tim Berners-Lee did not have to invent networking from scratch. The internet existed. TCP/IP was there. He did not h",
       "chapter": "05-the-web-as-address",
-      "url": "chapters/05-the-web-as-address.html#p-05-that-is-the-part-i-find-interesting-tim"
+      "url": "chapters/05-the-web-as-address.html#p-05-sir-tim-berners-lee-did-not-have-to"
     },
     {
-      "id": "p-05-the-missing-piece-was-a-simple-way-for",
+      "id": "p-05-he-stole-those-ideas-and-packaged-them-together",
       "type": "paragraph",
-      "label": "The missing piece was a simple way for one document to say:",
+      "label": "He stole those ideas and packaged them together in this new thing: the URL.",
       "chapter": "05-the-web-as-address",
-      "url": "chapters/05-the-web-as-address.html#p-05-the-missing-piece-was-a-simple-way-for"
-    },
-    {
-      "id": "p-05-over-there-on-that-machine-over-there-using",
-      "type": "paragraph",
-      "label": "Over there on that machine. Over there using that protocol. Over there at that path.",
-      "chapter": "05-the-web-as-address",
-      "url": "chapters/05-the-web-as-address.html#p-05-over-there-on-that-machine-over-there-using"
-    },
-    {
-      "id": "p-05-a-normal-looking-address-with-a-lot-of",
-      "type": "paragraph",
-      "label": "A normal-looking address. With a lot of stolen machinery hiding inside it.",
-      "chapter": "05-the-web-as-address",
-      "url": "chapters/05-the-web-as-address.html#p-05-a-normal-looking-address-with-a-lot-of"
+      "url": "chapters/05-the-web-as-address.html#p-05-he-stole-those-ideas-and-packaged-them-together"
     },
     {
       "id": "h-05-three-stolen-pieces",
@@ -1767,11 +1529,11 @@
       "url": "chapters/05-the-web-as-address.html#p-05-look-again-at-the-url"
     },
     {
-      "id": "code-05-070",
+      "id": "code-05-061",
       "type": "code",
       "label": "url block",
       "chapter": "05-the-web-as-address",
-      "url": "chapters/05-the-web-as-address.html#code-05-070"
+      "url": "chapters/05-the-web-as-address.html#code-05-061"
     },
     {
       "id": "p-05-it-has-three-obvious-parts",
@@ -1781,60 +1543,32 @@
       "url": "chapters/05-the-web-as-address.html#p-05-it-has-three-obvious-parts"
     },
     {
-      "id": "code-05-076",
+      "id": "code-05-067",
       "type": "code",
       "label": "text block",
       "chapter": "05-the-web-as-address",
-      "url": "chapters/05-the-web-as-address.html#code-05-076"
+      "url": "chapters/05-the-web-as-address.html#code-05-067"
     },
     {
-      "id": "p-05-then-it-combines-them-in-one-string-that",
+      "id": "p-05-it-combines-three-pieces-of-information-in-a",
       "type": "paragraph",
-      "label": "Then it combines them in one string that binds them all together.",
+      "label": "It combines three pieces of information in a single, human-readable string:",
       "chapter": "05-the-web-as-address",
-      "url": "chapters/05-the-web-as-address.html#p-05-then-it-combines-them-in-one-string-that"
+      "url": "chapters/05-the-web-as-address.html#p-05-it-combines-three-pieces-of-information-in-a"
     },
     {
-      "id": "p-05-the-protocol-tells-your-computer-how-to-talk",
+      "id": "p-05-and-just-like-that-we-could-now-refer",
       "type": "paragraph",
-      "label": "The protocol tells your computer how to talk.",
+      "label": "And just like that, we could now refer to any file on any computer anywhere in the world.",
       "chapter": "05-the-web-as-address",
-      "url": "chapters/05-the-web-as-address.html#p-05-the-protocol-tells-your-computer-how-to-talk"
+      "url": "chapters/05-the-web-as-address.html#p-05-and-just-like-that-we-could-now-refer"
     },
     {
-      "id": "p-05-the-hostname-tells-it-which-name-in-the",
+      "id": "p-05-and-it-is-simple-small-readable-you-can",
       "type": "paragraph",
-      "label": "The hostname tells it which name in the global naming system to resolve.",
+      "label": "And it is simple, small, readable. You can copy a URL into an e-mail, print it in a book, write it on a whiteboard, past",
       "chapter": "05-the-web-as-address",
-      "url": "chapters/05-the-web-as-address.html#p-05-the-hostname-tells-it-which-name-in-the"
-    },
-    {
-      "id": "p-05-the-path-tells-the-other-side-what-you",
-      "type": "paragraph",
-      "label": "The path tells the other side what you are looking for.",
-      "chapter": "05-the-web-as-address",
-      "url": "chapters/05-the-web-as-address.html#p-05-the-path-tells-the-other-side-what-you"
-    },
-    {
-      "id": "p-05-put-those-pieces-together-and-a-plain-text",
-      "type": "paragraph",
-      "label": "Put those pieces together, and a plain text document can point to a published resource on another computer, maintained b",
-      "chapter": "05-the-web-as-address",
-      "url": "chapters/05-the-web-as-address.html#p-05-put-those-pieces-together-and-a-plain-text"
-    },
-    {
-      "id": "p-05-that-is-a-ridiculous-amount-of-power-for",
-      "type": "paragraph",
-      "label": "That is a ridiculous amount of power for one string.",
-      "chapter": "05-the-web-as-address",
-      "url": "chapters/05-the-web-as-address.html#p-05-that-is-a-ridiculous-amount-of-power-for"
-    },
-    {
-      "id": "p-05-and-the-string-is-still-readable-this-matters",
-      "type": "paragraph",
-      "label": "And the string is still readable. This matters. It matters more than programmers sometimes admit. You can copy a URL int",
-      "chapter": "05-the-web-as-address",
-      "url": "chapters/05-the-web-as-address.html#p-05-and-the-string-is-still-readable-this-matters"
+      "url": "chapters/05-the-web-as-address.html#p-05-and-it-is-simple-small-readable-you-can"
     },
     {
       "id": "p-05-the-url-is-an-address-but-it-is",
@@ -1844,32 +1578,18 @@
       "url": "chapters/05-the-web-as-address.html#p-05-the-url-is-an-address-but-it-is"
     },
     {
-      "id": "rule-05-wizards-fourth-rule",
-      "type": "rule",
-      "label": "Wizard's fourth rule",
-      "chapter": "05-the-web-as-address",
-      "url": "chapters/05-the-web-as-address.html#rule-05-wizards-fourth-rule"
-    },
-    {
-      "id": "h-05-the-path-unix-hiding-in-plain-sight",
+      "id": "h-05-the-path",
       "type": "heading",
-      "label": "The path: Unix hiding in plain sight",
+      "label": "The path",
       "chapter": "05-the-web-as-address",
-      "url": "chapters/05-the-web-as-address.html#h-05-the-path-unix-hiding-in-plain-sight"
+      "url": "chapters/05-the-web-as-address.html#h-05-the-path"
     },
     {
-      "id": "p-05-start-with-the-path",
-      "type": "paragraph",
-      "label": "Start with the path:",
-      "chapter": "05-the-web-as-address",
-      "url": "chapters/05-the-web-as-address.html#p-05-start-with-the-path"
-    },
-    {
-      "id": "code-05-106",
+      "id": "code-05-086",
       "type": "code",
       "label": "text block",
       "chapter": "05-the-web-as-address",
-      "url": "chapters/05-the-web-as-address.html#code-05-106"
+      "url": "chapters/05-the-web-as-address.html#code-05-086"
     },
     {
       "id": "p-05-if-you-have-used-a-unix-like-system",
@@ -1879,11 +1599,11 @@
       "url": "chapters/05-the-web-as-address.html#p-05-if-you-have-used-a-unix-like-system"
     },
     {
-      "id": "code-05-112",
+      "id": "code-05-092",
       "type": "code",
       "label": "text block",
       "chapter": "05-the-web-as-address",
-      "url": "chapters/05-the-web-as-address.html#code-05-112"
+      "url": "chapters/05-the-web-as-address.html#code-05-092"
     },
     {
       "id": "p-05-this-feels-obvious-now-but-it-was-only",
@@ -1893,18 +1613,18 @@
       "url": "chapters/05-the-web-as-address.html#p-05-this-feels-obvious-now-but-it-was-only"
     },
     {
-      "id": "code-05-120",
+      "id": "code-05-100",
       "type": "code",
       "label": "text block",
       "chapter": "05-the-web-as-address",
-      "url": "chapters/05-the-web-as-address.html#code-05-120"
+      "url": "chapters/05-the-web-as-address.html#code-05-100"
     },
     {
-      "id": "p-05-the-url-chose-the-simpler-unix-shaped-world",
+      "id": "p-05-the-web-was-developed-by-sir-tim-on",
       "type": "paragraph",
-      "label": "The URL chose the simpler Unix-shaped world.",
+      "label": "The Web was developed by Sir Tim on a Unix machine: a NeXT Cube designed by Steve Jobs. So it is no surprise that the UR",
       "chapter": "05-the-web-as-address",
-      "url": "chapters/05-the-web-as-address.html#p-05-the-url-chose-the-simpler-unix-shaped-world"
+      "url": "chapters/05-the-web-as-address.html#p-05-the-web-was-developed-by-sir-tim-on"
     },
     {
       "id": "p-05-unix-itself-had-stolen-and-simplified-ideas-from",
@@ -1914,67 +1634,60 @@
       "url": "chapters/05-the-web-as-address.html#p-05-unix-itself-had-stolen-and-simplified-ideas-from"
     },
     {
-      "id": "p-05-that-idea-survives-inside-the-url-the-path",
+      "id": "p-05-simple-ideas-often-grow-more-complex-threads-when",
       "type": "paragraph",
-      "label": "That idea survives inside the URL. The path says:",
+      "label": "Simple ideas often grow more complex threads when they meet the real world. For example, how would you create a file wit",
       "chapter": "05-the-web-as-address",
-      "url": "chapters/05-the-web-as-address.html#p-05-that-idea-survives-inside-the-url-the-path"
+      "url": "chapters/05-the-web-as-address.html#p-05-simple-ideas-often-grow-more-complex-threads-when"
     },
     {
-      "id": "code-05-130",
+      "id": "code-05-110",
       "type": "code",
-      "label": "text block",
+      "label": "code block",
       "chapter": "05-the-web-as-address",
-      "url": "chapters/05-the-web-as-address.html#code-05-130"
+      "url": "chapters/05-the-web-as-address.html#code-05-110"
     },
     {
-      "id": "p-05-it-does-not-mention-a-disk-a-controller",
+      "id": "p-05-an-escape-character-says-the-next-character-is",
       "type": "paragraph",
-      "label": "It does not mention a disk, a controller, a cabinet, a room, a CPU architecture or a filesystem implementation. All of t",
+      "label": "An escape character says: the next character is special. However, DOS already used that character. So Sir Tim chose a di",
       "chapter": "05-the-web-as-address",
-      "url": "chapters/05-the-web-as-address.html#p-05-it-does-not-mention-a-disk-a-controller"
+      "url": "chapters/05-the-web-as-address.html#p-05-an-escape-character-says-the-next-character-is"
     },
     {
-      "id": "p-05-a-path-is-a-useful-lie-like-many",
+      "id": "code-05-116",
+      "type": "code",
+      "label": "code block",
+      "chapter": "05-the-web-as-address",
+      "url": "chapters/05-the-web-as-address.html#code-05-116"
+    },
+    {
+      "id": "p-05-the-escape-character-that-signifies-the-start-of",
       "type": "paragraph",
-      "label": "A path is a useful lie. Like many useful lies in programming, it hides the machinery that would only get in the way.",
+      "label": "The escape character, that signifies the start of an encoded sequence, is the % character. And it is always followed by ",
       "chapter": "05-the-web-as-address",
-      "url": "chapters/05-the-web-as-address.html#p-05-a-path-is-a-useful-lie-like-many"
+      "url": "chapters/05-the-web-as-address.html#p-05-the-escape-character-that-signifies-the-start-of"
     },
     {
-      "id": "p-05-of-course-useful-lies-still-need-accounting-departments",
+      "id": "p-05-any-character-can-be-added-to-a-url",
       "type": "paragraph",
-      "label": "Of course, useful lies still need accounting departments. Real names contain spaces, punctuation, accents, and all the o",
+      "label": "Any character can be added to a URL like this, even if it's not normally printable. This allows URLs to become mobile, p",
       "chapter": "05-the-web-as-address",
-      "url": "chapters/05-the-web-as-address.html#p-05-of-course-useful-lies-still-need-accounting-departments"
+      "url": "chapters/05-the-web-as-address.html#p-05-any-character-can-be-added-to-a-url"
     },
     {
-      "id": "p-05-that-is-not-the-glamorous-part-of-the",
-      "type": "paragraph",
-      "label": "That is not the glamorous part of the Web. It is the kind of small compromise that lets a simple text format survive the",
-      "chapter": "05-the-web-as-address",
-      "url": "chapters/05-the-web-as-address.html#p-05-that-is-not-the-glamorous-part-of-the"
-    },
-    {
-      "id": "h-05-the-hostname-a-global-phone-book-that-is-not-a",
+      "id": "h-05-the-hostname",
       "type": "heading",
-      "label": "The hostname: a global phone book that is not a book",
+      "label": "The hostname",
       "chapter": "05-the-web-as-address",
-      "url": "chapters/05-the-web-as-address.html#h-05-the-hostname-a-global-phone-book-that-is-not-a"
+      "url": "chapters/05-the-web-as-address.html#h-05-the-hostname"
     },
     {
-      "id": "p-05-now-look-at-the-middle-part",
-      "type": "paragraph",
-      "label": "Now look at the middle part:",
-      "chapter": "05-the-web-as-address",
-      "url": "chapters/05-the-web-as-address.html#p-05-now-look-at-the-middle-part"
-    },
-    {
-      "id": "code-05-146",
+      "id": "code-05-126",
       "type": "code",
       "label": "url block",
       "chapter": "05-the-web-as-address",
-      "url": "chapters/05-the-web-as-address.html#code-05-146"
+      "url": "chapters/05-the-web-as-address.html#code-05-126"
     },
     {
       "id": "p-05-the-double-slash-says-that-what-follows-is",
@@ -1984,18 +1697,11 @@
       "url": "chapters/05-the-web-as-address.html#p-05-the-double-slash-says-that-what-follows-is"
     },
     {
-      "id": "p-05-again-this-is-how-wizards-really-work-most",
+      "id": "p-05-the-more-important-stolen-idea-here-is-dns",
       "type": "paragraph",
-      "label": "Again, this is how wizards really work most of the time. They do not produce polished inventions from a vacuum. They not",
+      "label": "The more important stolen idea here is DNS, the Domain Name System.",
       "chapter": "05-the-web-as-address",
-      "url": "chapters/05-the-web-as-address.html#p-05-again-this-is-how-wizards-really-work-most"
-    },
-    {
-      "id": "p-05-the-more-important-borrowed-system-here-is-dns",
-      "type": "paragraph",
-      "label": "The more important borrowed system here is DNS, the Domain Name System.",
-      "chapter": "05-the-web-as-address",
-      "url": "chapters/05-the-web-as-address.html#p-05-the-more-important-borrowed-system-here-is-dns"
+      "url": "chapters/05-the-web-as-address.html#p-05-the-more-important-stolen-idea-here-is-dns"
     },
     {
       "id": "p-05-before-dns-the-internet-was-small-enough-that",
@@ -2005,60 +1711,46 @@
       "url": "chapters/05-the-web-as-address.html#p-05-before-dns-the-internet-was-small-enough-that"
     },
     {
-      "id": "p-05-dns-turned-naming-into-a-distributed-system-one",
+      "id": "p-05-a-wizard-called-paul-mockapetris-was-tasked-with",
       "type": "paragraph",
-      "label": "DNS turned naming into a distributed system. One machine no longer needed a complete list of every other machine. Names ",
+      "label": "A wizard called Paul Mockapetris was tasked with designing a suitable solution. He did so in 1983, and in 1986 it became",
       "chapter": "05-the-web-as-address",
-      "url": "chapters/05-the-web-as-address.html#p-05-dns-turned-naming-into-a-distributed-system-one"
+      "url": "chapters/05-the-web-as-address.html#p-05-a-wizard-called-paul-mockapetris-was-tasked-with"
     },
     {
-      "id": "p-05-so-info-cern-ch-is-doing-more-than",
+      "id": "p-05-one-machine-no-longer-needed-a-complete-list",
       "type": "paragraph",
-      "label": "So info.cern.ch is doing more than naming a server. It hooks the URL into a shared global act of naming.",
+      "label": "One machine no longer needed a complete list of every other machine. Names could be delegated. Different organizations c",
       "chapter": "05-the-web-as-address",
-      "url": "chapters/05-the-web-as-address.html#p-05-so-info-cern-ch-is-doing-more-than"
+      "url": "chapters/05-the-web-as-address.html#p-05-one-machine-no-longer-needed-a-complete-list"
     },
     {
-      "id": "p-05-the-url-did-not-solve-naming-it-gave",
+      "id": "p-05-by-1988-dns-was-established-sir-tim-did",
       "type": "paragraph",
-      "label": "The URL did not solve naming. It gave DNS a place inside the hypertext spell.",
+      "label": "By 1988 DNS was established, Sir Tim did not need to invent a new naming system. He just put the existing one inside the",
       "chapter": "05-the-web-as-address",
-      "url": "chapters/05-the-web-as-address.html#p-05-the-url-did-not-solve-naming-it-gave"
+      "url": "chapters/05-the-web-as-address.html#p-05-by-1988-dns-was-established-sir-tim-did"
     },
     {
-      "id": "h-05-the-protocol-a-slightly-mad-opening-move",
+      "id": "h-05-the-protocol",
       "type": "heading",
-      "label": "The protocol: a slightly mad opening move",
+      "label": "The protocol",
       "chapter": "05-the-web-as-address",
-      "url": "chapters/05-the-web-as-address.html#h-05-the-protocol-a-slightly-mad-opening-move"
+      "url": "chapters/05-the-web-as-address.html#h-05-the-protocol"
     },
     {
-      "id": "p-05-finally-the-first-part",
-      "type": "paragraph",
-      "label": "Finally, the first part:",
-      "chapter": "05-the-web-as-address",
-      "url": "chapters/05-the-web-as-address.html#p-05-finally-the-first-part"
-    },
-    {
-      "id": "code-05-168",
+      "id": "code-05-144",
       "type": "code",
       "label": "url block",
       "chapter": "05-the-web-as-address",
-      "url": "chapters/05-the-web-as-address.html#code-05-168"
+      "url": "chapters/05-the-web-as-address.html#code-05-144"
     },
     {
-      "id": "p-05-at-first-this-seems-like-the-boring-bit",
+      "id": "p-05-the-protocol-looks-like-the-least-interesting-part",
       "type": "paragraph",
-      "label": "At first this seems like the boring bit. It tells the browser to use HTTP. Sensible enough.",
+      "label": "The protocol looks like the least interesting part of the URL. In fact it reveals the almost megalomaniac ambition behin",
       "chapter": "05-the-web-as-address",
-      "url": "chapters/05-the-web-as-address.html#p-05-at-first-this-seems-like-the-boring-bit"
-    },
-    {
-      "id": "p-05-but-putting-the-scheme-at-the-front-was",
-      "type": "paragraph",
-      "label": "But putting the scheme at the front was also a wonderfully strange move, because it left the door open for the link to e",
-      "chapter": "05-the-web-as-address",
-      "url": "chapters/05-the-web-as-address.html#p-05-but-putting-the-scheme-at-the-front-was"
+      "url": "chapters/05-the-web-as-address.html#p-05-the-protocol-looks-like-the-least-interesting-part"
     },
     {
       "id": "p-05-compare-it-with-gopher-another-worldwide-information-system",
@@ -2068,11 +1760,11 @@
       "url": "chapters/05-the-web-as-address.html#p-05-compare-it-with-gopher-another-worldwide-information-system"
     },
     {
-      "id": "code-05-178",
+      "id": "code-05-152",
       "type": "code",
       "label": "text block",
       "chapter": "05-the-web-as-address",
-      "url": "chapters/05-the-web-as-address.html#code-05-178"
+      "url": "chapters/05-the-web-as-address.html#code-05-152"
     },
     {
       "id": "p-05-a-line-like-that-can-point-to-information",
@@ -2089,130 +1781,25 @@
       "url": "chapters/05-the-web-as-address.html#p-05-a-url-begins-by-saying-which-kind-of"
     },
     {
-      "id": "p-05-some-of-these-are-network-protocols-some-are",
+      "id": "p-05-it-has-such-a-great-design-that-wizards",
       "type": "paragraph",
-      "label": "Some of these are network protocols. Some are browser instructions. Some are hooks into other applications. Some feel li",
+      "label": "It has such a great design that wizards everywhere steal it and extend it for their own purposes. Not all later schemes ",
       "chapter": "05-the-web-as-address",
-      "url": "chapters/05-the-web-as-address.html#p-05-some-of-these-are-network-protocols-some-are"
+      "url": "chapters/05-the-web-as-address.html#p-05-it-has-such-a-great-design-that-wizards"
     },
     {
-      "id": "p-05-this-is-one-of-the-reasons-url-shaped",
+      "id": "p-05-almost-none-of-the-pieces-in-a-url",
       "type": "paragraph",
-      "label": "This is one of the reasons URL-shaped strings escaped the Web. APIs use them. Package managers use them. Apps use them. ",
+      "label": "Almost none of the pieces in a URL were new. The trick was putting existing pieces together in one simple, small, readab",
       "chapter": "05-the-web-as-address",
-      "url": "chapters/05-the-web-as-address.html#p-05-this-is-one-of-the-reasons-url-shaped"
+      "url": "chapters/05-the-web-as-address.html#p-05-almost-none-of-the-pieces-in-a-url"
     },
     {
-      "id": "p-05-that-is-usually-a-good-sign-a-design",
-      "type": "paragraph",
-      "label": "That is usually a good sign. A design has become part of the language when people start using it in places its inventor ",
+      "id": "rule-05-wizards-fourth-rule",
+      "type": "rule",
+      "label": "Wizard's fourth rule",
       "chapter": "05-the-web-as-address",
-      "url": "chapters/05-the-web-as-address.html#p-05-that-is-usually-a-good-sign-a-design"
-    },
-    {
-      "id": "h-05-the-small-turn",
-      "type": "heading",
-      "label": "The small turn",
-      "chapter": "05-the-web-as-address",
-      "url": "chapters/05-the-web-as-address.html#h-05-the-small-turn"
-    },
-    {
-      "id": "p-05-so-the-url-is-not-impressive-because-every",
-      "type": "paragraph",
-      "label": "So the URL is not impressive because every part of it was new. It is impressive because a few existing parts were turned",
-      "chapter": "05-the-web-as-address",
-      "url": "chapters/05-the-web-as-address.html#p-05-so-the-url-is-not-impressive-because-every"
-    },
-    {
-      "id": "code-05-196",
-      "type": "code",
-      "label": "text block",
-      "chapter": "05-the-web-as-address",
-      "url": "chapters/05-the-web-as-address.html#code-05-196"
-    },
-    {
-      "id": "p-05-that-little-shape-was-simple-enough-to-write",
-      "type": "paragraph",
-      "label": "That little shape was simple enough to write by hand, simple enough to paste into another document, and open enough that",
-      "chapter": "05-the-web-as-address",
-      "url": "chapters/05-the-web-as-address.html#p-05-that-little-shape-was-simple-enough-to-write"
-    },
-    {
-      "id": "p-05-this-is-where-the-url-feels-most-wizard",
-      "type": "paragraph",
-      "label": "This is where the URL feels most wizard-like to me. Xanadu tried to design the whole dream of hypertext. The URL aimed a",
-      "chapter": "05-the-web-as-address",
-      "url": "chapters/05-the-web-as-address.html#p-05-this-is-where-the-url-feels-most-wizard"
-    },
-    {
-      "id": "p-05-but-the-shape-of-the-problem-had-changed",
-      "type": "paragraph",
-      "label": "But the shape of the problem had changed. A document no longer had to contain the world it wanted to point into. It only",
-      "chapter": "05-the-web-as-address",
-      "url": "chapters/05-the-web-as-address.html#p-05-but-the-shape-of-the-problem-had-changed"
-    },
-    {
-      "id": "p-05-the-first-version-of-the-web-could-be",
-      "type": "paragraph",
-      "label": "The first version of the Web could be poor, ugly, incomplete, and still useful. Perhaps especially because it was incomp",
-      "chapter": "05-the-web-as-address",
-      "url": "chapters/05-the-web-as-address.html#p-05-the-first-version-of-the-web-could-be"
-    },
-    {
-      "id": "h-05-why-this-matters-for-programming",
-      "type": "heading",
-      "label": "Why this matters for programming",
-      "chapter": "05-the-web-as-address",
-      "url": "chapters/05-the-web-as-address.html#h-05-why-this-matters-for-programming"
-    },
-    {
-      "id": "p-05-programmers-often-look-for-the-important-abstraction-in",
-      "type": "paragraph",
-      "label": "Programmers often look for the important abstraction in the wrong place. We expect it to be a clever class hierarchy, a ",
-      "chapter": "05-the-web-as-address",
-      "url": "chapters/05-the-web-as-address.html#p-05-programmers-often-look-for-the-important-abstraction-in"
-    },
-    {
-      "id": "p-05-sometimes-it-is-quite-often-it-is-just",
-      "type": "paragraph",
-      "label": "Sometimes it is. Quite often it is just a string with a few separators in the right places.",
-      "chapter": "05-the-web-as-address",
-      "url": "chapters/05-the-web-as-address.html#p-05-sometimes-it-is-quite-often-it-is-just"
-    },
-    {
-      "id": "p-05-the-url-works-because-it-crosses-boundaries-without",
-      "type": "paragraph",
-      "label": "The URL works because it crosses boundaries without swallowing the systems on either side. The document can contain a li",
-      "chapter": "05-the-web-as-address",
-      "url": "chapters/05-the-web-as-address.html#p-05-the-url-works-because-it-crosses-boundaries-without"
-    },
-    {
-      "id": "p-05-each-part-keeps-its-own-job-the-connection",
-      "type": "paragraph",
-      "label": "Each part keeps its own job. The connection between them stays small.",
-      "chapter": "05-the-web-as-address",
-      "url": "chapters/05-the-web-as-address.html#p-05-each-part-keeps-its-own-job-the-connection"
-    },
-    {
-      "id": "p-05-that-is-much-harder-to-design-than-it",
-      "type": "paragraph",
-      "label": "That is much harder to design than it looks. Large systems keep tempting us to make larger abstractions: one model to ex",
-      "chapter": "05-the-web-as-address",
-      "url": "chapters/05-the-web-as-address.html#p-05-that-is-much-harder-to-design-than-it"
-    },
-    {
-      "id": "p-05-this-is-something-a-wizard-is-very-aware",
-      "type": "paragraph",
-      "label": "This is something a wizard is very aware of. A small change in representation can make a problem manageable. Sometimes i",
-      "chapter": "05-the-web-as-address",
-      "url": "chapters/05-the-web-as-address.html#p-05-this-is-something-a-wizard-is-very-aware"
-    },
-    {
-      "id": "p-05-the-url-gave-the-web-a-way-to",
-      "type": "paragraph",
-      "label": "The URL gave the Web a way to point at documents. Now the Web needed a way to give those documents shape.",
-      "chapter": "05-the-web-as-address",
-      "url": "chapters/05-the-web-as-address.html#p-05-the-url-gave-the-web-a-way-to"
+      "url": "chapters/05-the-web-as-address.html#rule-05-wizards-fourth-rule"
     },
     {
       "id": "h-06-the-web-the-shape-of-words",
@@ -2224,56 +1811,21 @@
     {
       "id": "p-06-a-url-can-point-to-a-document-but",
       "type": "paragraph",
-      "label": "A URL can point to a document. But pointing is not enough. Once the browser arrives, it still has to know what it is loo",
+      "label": "A URL can point to a document, but once the browser gets there, how does it know what to show you? This is where the Web",
       "chapter": "06-the-web-as-document",
       "url": "chapters/06-the-web-as-document.html#p-06-a-url-can-point-to-a-document-but"
     },
     {
-      "id": "p-06-what-shape-should-a-document-have",
+      "id": "p-06-ive-written-about-hypertext-and-language-before-but",
       "type": "paragraph",
-      "label": "What shape should a document have?",
+      "label": "I've written about hypertext and language before, but what is markup doing here? It's been around longer than you might ",
       "chapter": "06-the-web-as-document",
-      "url": "chapters/06-the-web-as-document.html#p-06-what-shape-should-a-document-have"
-    },
-    {
-      "id": "p-06-the-question-sounds-harmless-a-document-is-just",
-      "type": "paragraph",
-      "label": "The question sounds harmless. A document is just text, right? Perhaps text with some headings, links, emphasis, images, ",
-      "chapter": "06-the-web-as-document",
-      "url": "chapters/06-the-web-as-document.html#p-06-the-question-sounds-harmless-a-document-is-just"
-    },
-    {
-      "id": "p-06-html-chose-a-tree",
-      "type": "paragraph",
-      "label": "HTML chose a tree.",
-      "chapter": "06-the-web-as-document",
-      "url": "chapters/06-the-web-as-document.html#p-06-html-chose-a-tree"
-    },
-    {
-      "id": "p-06-that-choice-made-the-web-easy-enough-to",
-      "type": "paragraph",
-      "label": "That choice made the Web easy enough to write by hand, easy enough for browsers to recover from mistakes, and structured",
-      "chapter": "06-the-web-as-document",
-      "url": "chapters/06-the-web-as-document.html#p-06-that-choice-made-the-web-easy-enough-to"
-    },
-    {
-      "id": "p-06-as-i-wrote-in-the-previous-chapter-in",
-      "type": "paragraph",
-      "label": "As I wrote in the previous chapter, in 1989 a wizard called Tim invented the World-Wide Web and changed the world foreve",
-      "chapter": "06-the-web-as-document",
-      "url": "chapters/06-the-web-as-document.html#p-06-as-i-wrote-in-the-previous-chapter-in"
-    },
-    {
-      "id": "p-06-to-understand-an-invention-and-the-problem-it",
-      "type": "paragraph",
-      "label": "To understand an invention, and the problem it solves, you need to understand its history. I've already talked about Hyp",
-      "chapter": "06-the-web-as-document",
-      "url": "chapters/06-the-web-as-document.html#p-06-to-understand-an-invention-and-the-problem-it"
+      "url": "chapters/06-the-web-as-document.html#p-06-ive-written-about-hypertext-and-language-before-but"
     },
     {
       "id": "p-06-markup-is-simply-an-additional-marking-on-a",
       "type": "paragraph",
-      "label": "Markup is simply an additional marking on a document, added to add extra meaning. The general idea is now called a marku",
+      "label": "Markup is simply an additional marking on a document, used to give it extra meaning. The general idea is now called a ma",
       "chapter": "06-the-web-as-document",
       "url": "chapters/06-the-web-as-document.html#p-06-markup-is-simply-an-additional-marking-on-a"
     },
@@ -2336,21 +1888,21 @@
     {
       "id": "p-06-this-is-where-things-get-interesting-sometime-in",
       "type": "paragraph",
-      "label": "This is where things get interesting. Sometime in the 1970's some wizards from IBM created a system called GML. This eit",
+      "label": "This is where things get interesting. Sometime in the 1970s some wizards from IBM created a system called GML. This eith",
       "chapter": "06-the-web-as-document",
       "url": "chapters/06-the-web-as-document.html#p-06-this-is-where-things-get-interesting-sometime-in"
     },
     {
-      "id": "code-06-041",
+      "id": "code-06-031",
       "type": "code",
       "label": "gml block",
       "chapter": "06-the-web-as-document",
-      "url": "chapters/06-the-web-as-document.html#code-06-041"
+      "url": "chapters/06-the-web-as-document.html#code-06-031"
     },
     {
       "id": "p-06-unfortunately-their-work-only-made-it-out-of",
       "type": "paragraph",
-      "label": "Unfortunately their work only made it out of IBM as a product you could buy and use, somewhere at the end of the 1980's.",
+      "label": "Unfortunately their work only made it out of IBM as a product you could buy and use, somewhere at the end of the 1980s. ",
       "chapter": "06-the-web-as-document",
       "url": "chapters/06-the-web-as-document.html#p-06-unfortunately-their-work-only-made-it-out-of"
     },
@@ -2369,11 +1921,11 @@
       "url": "chapters/06-the-web-as-document.html#p-06-here-is-that-first-html-page-again"
     },
     {
-      "id": "code-06-060",
+      "id": "code-06-050",
       "type": "code",
       "label": "html block",
       "chapter": "06-the-web-as-document",
-      "url": "chapters/06-the-web-as-document.html#code-06-060"
+      "url": "chapters/06-the-web-as-document.html#code-06-050"
     },
     {
       "id": "p-06-this-is-not-an-sgml-document-it-doesnt",
@@ -2392,23 +1944,23 @@
     {
       "id": "p-06-lets-take-a-closer-look-at-the-reasons",
       "type": "paragraph",
-      "label": "Let's take a closer look at the reasons behind this format. One of the main goals of the web was to make it easy for peo",
+      "label": "Let's take a closer look at the reasons behind this format. One of the goals of the web was to make HTML easy to write u",
       "chapter": "06-the-web-as-document",
       "url": "chapters/06-the-web-as-document.html#p-06-lets-take-a-closer-look-at-the-reasons"
     },
     {
-      "id": "p-06-this-means-that-the-source-code-should-be",
+      "id": "p-06-imagine-an-html-version-without-named-end-tags",
       "type": "paragraph",
-      "label": "This means that the source code should be human readable. So, to make the structure more clear, a markup had a start and",
+      "label": "Imagine an HTML version without named end tags, something like this:",
       "chapter": "06-the-web-as-document",
-      "url": "chapters/06-the-web-as-document.html#p-06-this-means-that-the-source-code-should-be"
+      "url": "chapters/06-the-web-as-document.html#p-06-imagine-an-html-version-without-named-end-tags"
     },
     {
-      "id": "code-06-088",
+      "id": "code-06-078",
       "type": "code",
       "label": "code block",
       "chapter": "06-the-web-as-document",
-      "url": "chapters/06-the-web-as-document.html#code-06-088"
+      "url": "chapters/06-the-web-as-document.html#code-06-078"
     },
     {
       "id": "p-06-this-is-technically-feasible-maybe-even-simpler-however",
@@ -2420,7 +1972,7 @@
     {
       "id": "p-06-another-consequence-of-the-chosen-format-is-that",
       "type": "paragraph",
-      "label": "Another consequence of the chosen format is that some characters can not be used in the content anymore. Clearly the and",
+      "label": "Another consequence of the chosen format is that some characters cannot be used in the content anymore. Clearly the and ",
       "chapter": "06-the-web-as-document",
       "url": "chapters/06-the-web-as-document.html#p-06-another-consequence-of-the-chosen-format-is-that"
     },
@@ -2441,16 +1993,16 @@
     {
       "id": "p-06-now-for-the-tricky-parts-as-youve-seen",
       "type": "paragraph",
-      "label": "Now for the tricky parts. As you've seen, HTML has elements that have a start and end tag. This means you can enclose ot",
+      "label": "Now for the tricky parts. As you've seen, HTML has elements that have a start and end tags. This means you can enclose o",
       "chapter": "06-the-web-as-document",
       "url": "chapters/06-the-web-as-document.html#p-06-now-for-the-tricky-parts-as-youve-seen"
     },
     {
-      "id": "code-06-108",
+      "id": "code-06-098",
       "type": "code",
       "label": "html block",
       "chapter": "06-the-web-as-document",
-      "url": "chapters/06-the-web-as-document.html#code-06-108"
+      "url": "chapters/06-the-web-as-document.html#code-06-098"
     },
     {
       "id": "p-06-instead-you-are-supposed-to-write-this",
@@ -2460,11 +2012,11 @@
       "url": "chapters/06-the-web-as-document.html#p-06-instead-you-are-supposed-to-write-this"
     },
     {
-      "id": "code-06-114",
+      "id": "code-06-104",
       "type": "code",
       "label": "html block",
       "chapter": "06-the-web-as-document",
-      "url": "chapters/06-the-web-as-document.html#code-06-114"
+      "url": "chapters/06-the-web-as-document.html#code-06-104"
     },
     {
       "id": "p-06-and-this-html-can-be-represented-as-a",
@@ -2488,13 +2040,6 @@
       "url": "chapters/06-the-web-as-document.html#p-06-the-html-specification-forces-you-to-create-a"
     },
     {
-      "id": "rule-06-wizards-fifth-rule",
-      "type": "rule",
-      "label": "Wizard's fifth rule",
-      "chapter": "06-the-web-as-document",
-      "url": "chapters/06-the-web-as-document.html#rule-06-wizards-fifth-rule"
-    },
-    {
       "id": "p-06-this-tree-structure-does-have-benefits-you-can",
       "type": "paragraph",
       "label": "This tree structure does have benefits. You can also write the above HTML as follows:",
@@ -2502,16 +2047,16 @@
       "url": "chapters/06-the-web-as-document.html#p-06-this-tree-structure-does-have-benefits-you-can"
     },
     {
-      "id": "code-06-137",
+      "id": "code-06-123",
       "type": "code",
       "label": "html block",
       "chapter": "06-the-web-as-document",
-      "url": "chapters/06-the-web-as-document.html#code-06-137"
+      "url": "chapters/06-the-web-as-document.html#code-06-123"
     },
     {
       "id": "p-06-and-it-would-render-the-same-the-tree",
       "type": "paragraph",
-      "label": "And it would render the same. The tree structure is now made visible by the level of indenting in the source. This is no",
+      "label": "And it would render the same. The tree structure is now made visible by the level of indentation in the source. This is ",
       "chapter": "06-the-web-as-document",
       "url": "chapters/06-the-web-as-document.html#p-06-and-it-would-render-the-same-the-tree"
     },
@@ -2530,11 +2075,11 @@
       "url": "chapters/06-the-web-as-document.html#p-06-for-example-both-lines-in-the-example-below"
     },
     {
-      "id": "code-06-155",
+      "id": "code-06-141",
       "type": "code",
       "label": "html block",
       "chapter": "06-the-web-as-document",
-      "url": "chapters/06-the-web-as-document.html#code-06-155"
+      "url": "chapters/06-the-web-as-document.html#code-06-141"
     },
     {
       "id": "p-06-even-the-extra-3-spaces-at-the-start",
@@ -2551,11 +2096,11 @@
       "url": "chapters/06-the-web-as-document.html#p-06-now-if-you-really-want-to-open-a"
     },
     {
-      "id": "code-06-164",
+      "id": "code-06-150",
       "type": "code",
       "label": "html block",
       "chapter": "06-the-web-as-document",
-      "url": "chapters/06-the-web-as-document.html#code-06-164"
+      "url": "chapters/06-the-web-as-document.html#code-06-150"
     },
     {
       "id": "p-06-however-what-you-are-seeing-is-an-editor",
@@ -2572,11 +2117,18 @@
       "url": "chapters/06-the-web-as-document.html#p-06-the-only-successful-in-browser-editors-that-are"
     },
     {
-      "id": "p-06-this-is-a-good-lesson-to-learn-all",
+      "id": "p-06-this-is-a-good-lesson-to-learn-just",
       "type": "paragraph",
-      "label": "This is a good lesson to learn: All choices have consequences. The less choices you make, the less consequences will hau",
+      "label": "This is a good lesson to learn: just because something looks simple doesn't mean it is. All choices have consequences. I",
       "chapter": "06-the-web-as-document",
-      "url": "chapters/06-the-web-as-document.html#p-06-this-is-a-good-lesson-to-learn-all"
+      "url": "chapters/06-the-web-as-document.html#p-06-this-is-a-good-lesson-to-learn-just"
+    },
+    {
+      "id": "rule-06-wizards-fifth-rule",
+      "type": "rule",
+      "label": "Wizard's fifth rule",
+      "chapter": "06-the-web-as-document",
+      "url": "chapters/06-the-web-as-document.html#rule-06-wizards-fifth-rule"
     },
     {
       "id": "h-07-the-web-waking-up-the-words",
@@ -2586,60 +2138,32 @@
       "url": "chapters/07-the-web-as-platform.html#h-07-the-web-waking-up-the-words"
     },
     {
-      "id": "p-07-html-gave-web-documents-a-shape-javascript-gave",
+      "id": "p-07-its-may-1995-youve-just-landed-a-dream",
       "type": "paragraph",
-      "label": "HTML gave Web documents a shape. JavaScript gave them behavior. But it also left us with a new question:",
+      "label": "Its May 1995. You've just landed a dream job at the hot new startup of the decade: Netscape. You've just arrived and you",
       "chapter": "07-the-web-as-platform",
-      "url": "chapters/07-the-web-as-platform.html#p-07-html-gave-web-documents-a-shape-javascript-gave"
+      "url": "chapters/07-the-web-as-platform.html#p-07-its-may-1995-youve-just-landed-a-dream"
     },
     {
-      "id": "p-07-what-happens-when-a-prototype-becomes-the-platform",
+      "id": "p-07-you-have-10-days",
       "type": "paragraph",
-      "label": "What happens when a prototype becomes the platform?",
+      "label": "You have 10 days.",
       "chapter": "07-the-web-as-platform",
-      "url": "chapters/07-the-web-as-platform.html#p-07-what-happens-when-a-prototype-becomes-the-platform"
+      "url": "chapters/07-the-web-as-platform.html#p-07-you-have-10-days"
     },
     {
-      "id": "p-07-this-chapter-is-about-javascript-but-it-is",
+      "id": "p-07-brendan-eich-was-the-wizard-who-made-javascript",
       "type": "paragraph",
-      "label": "This chapter is about JavaScript, but it is also about a familiar software story. A demo is created in a hurry. It works",
+      "label": "Brendan Eich was the wizard who made JavaScript under these conditions. Its creation story is almost mythical.",
       "chapter": "07-the-web-as-platform",
-      "url": "chapters/07-the-web-as-platform.html#p-07-this-chapter-is-about-javascript-but-it-is"
+      "url": "chapters/07-the-web-as-platform.html#p-07-brendan-eich-was-the-wizard-who-made-javascript"
     },
     {
-      "id": "p-07-that-is-both-terrifying-and-sometimes-lucky",
+      "id": "p-07-before-javascript-if-you-wanted-to-create-an",
       "type": "paragraph",
-      "label": "That is both terrifying and, sometimes, lucky.",
+      "label": "Before JavaScript, if you wanted to create an interactive website, the only way would be to add a form. A visitor of you",
       "chapter": "07-the-web-as-platform",
-      "url": "chapters/07-the-web-as-platform.html#p-07-that-is-both-terrifying-and-sometimes-lucky"
-    },
-    {
-      "id": "p-07-javascript-was-made-by-a-wizard-called-brendan",
-      "type": "paragraph",
-      "label": "JavaScript was made by a wizard called Brendan Eich. And its creation story is almost mythical.",
-      "chapter": "07-the-web-as-platform",
-      "url": "chapters/07-the-web-as-platform.html#p-07-javascript-was-made-by-a-wizard-called-brendan"
-    },
-    {
-      "id": "h-07-javascript",
-      "type": "heading",
-      "label": "JavaScript",
-      "chapter": "07-the-web-as-platform",
-      "url": "chapters/07-the-web-as-platform.html#h-07-javascript"
-    },
-    {
-      "id": "p-07-lets-go-back-a-little-bit-before-may",
-      "type": "paragraph",
-      "label": "Lets go back a little bit, before may 1995. You are a young developer tasked with creating an interactive experience on ",
-      "chapter": "07-the-web-as-platform",
-      "url": "chapters/07-the-web-as-platform.html#p-07-lets-go-back-a-little-bit-before-may"
-    },
-    {
-      "id": "p-07-the-only-way-would-be-to-add-a",
-      "type": "paragraph",
-      "label": "The only way would be to add a form. A visitor of your website would fill it in, then press submit. The form data is sen",
-      "chapter": "07-the-web-as-platform",
-      "url": "chapters/07-the-web-as-platform.html#p-07-the-only-way-would-be-to-add-a"
+      "url": "chapters/07-the-web-as-platform.html#p-07-before-javascript-if-you-wanted-to-create-an"
     },
     {
       "id": "p-07-in-1995-netscape-was-king-of-the-webbrowser",
@@ -2663,25 +2187,18 @@
       "url": "chapters/07-the-web-as-platform.html#p-07-why-netscape-chose-java-isnt-hard-to-see"
     },
     {
-      "id": "p-07-enter-brendan-eich-at-least-client-engineering-management",
+      "id": "p-07-enter-brendan-eich-as-he-later-described-it",
       "type": "paragraph",
-      "label": "Enter Brendan Eich -- \"At least client engineering management including Tom Paquin, Michael Toy, and Rick Schell, along ",
+      "label": "Enter Brendan Eich. As he later described it:",
       "chapter": "07-the-web-as-platform",
-      "url": "chapters/07-the-web-as-platform.html#p-07-enter-brendan-eich-at-least-client-engineering-management"
+      "url": "chapters/07-the-web-as-platform.html#p-07-enter-brendan-eich-as-he-later-described-it"
     },
     {
-      "id": "p-07-how-short-order-how-about-10-days-and",
+      "id": "p-07-that-prototype-became-the-programming-language-of-the",
       "type": "paragraph",
-      "label": "How short order? How about 10 days (and probably nights.)",
+      "label": "That prototype became the programming language of the Web.",
       "chapter": "07-the-web-as-platform",
-      "url": "chapters/07-the-web-as-platform.html#p-07-how-short-order-how-about-10-days-and"
-    },
-    {
-      "id": "p-07-surely-that-was-only-a-proof-of-concept",
-      "type": "paragraph",
-      "label": "Surely that was only a proof-of-concept, a demo? Well, yes, but this demo, this prototype ended up in production, virtua",
-      "chapter": "07-the-web-as-platform",
-      "url": "chapters/07-the-web-as-platform.html#p-07-surely-that-was-only-a-proof-of-concept"
+      "url": "chapters/07-the-web-as-platform.html#p-07-that-prototype-became-the-programming-language-of-the"
     },
     {
       "id": "rule-07-wizards-sixth-rule",
@@ -2691,11 +2208,11 @@
       "url": "chapters/07-the-web-as-platform.html#rule-07-wizards-sixth-rule"
     },
     {
-      "id": "p-07-however-we-got-uncharacteristically-lucky-javascript-was-not",
+      "id": "p-07-we-got-uncharacteristically-lucky-javascript-was-not-a",
       "type": "paragraph",
-      "label": "However, we got uncharacteristically lucky. JavaScript was not a tuned-down, dummified version of Java. You see, Brendan",
+      "label": "We got uncharacteristically lucky. JavaScript was not a tuned-down, dummified version of Java. You see, Brendan was lure",
       "chapter": "07-the-web-as-platform",
-      "url": "chapters/07-the-web-as-platform.html#p-07-however-we-got-uncharacteristically-lucky-javascript-was-not"
+      "url": "chapters/07-the-web-as-platform.html#p-07-we-got-uncharacteristically-lucky-javascript-was-not-a"
     },
     {
       "id": "p-07-scheme-is-a-descendant-of-lisp-and-algol",
@@ -2738,6 +2255,20 @@
       "label": "But the DOM is still considered a compilation target. Not something that you program directly, unless you are a masochis",
       "chapter": "07-the-web-as-platform",
       "url": "chapters/07-the-web-as-platform.html#p-07-but-the-dom-is-still-considered-a-compilation"
+    },
+    {
+      "id": "p-07-even-javascript-itself-has-become-something-you-often",
+      "type": "paragraph",
+      "label": "Even JavaScript itself has become something you often process before the browser sees it. For years that meant npm, bund",
+      "chapter": "07-the-web-as-platform",
+      "url": "chapters/07-the-web-as-platform.html#p-07-even-javascript-itself-has-become-something-you-often"
+    },
+    {
+      "id": "p-07-bundled-minified-obfuscated-unreadable",
+      "type": "paragraph",
+      "label": "Bundled, minified, obfuscated, unreadable.",
+      "chapter": "07-the-web-as-platform",
+      "url": "chapters/07-the-web-as-platform.html#p-07-bundled-minified-obfuscated-unreadable"
     },
     {
       "id": "p-07-all-this-stuff-makes-web-development-so-much",
@@ -2810,39 +2341,18 @@
       "url": "chapters/07-the-web-as-platform.html#p-07-progressive-web-apps-sit-somewhere-in-the-middle"
     },
     {
-      "id": "p-07-none-of-these-are-the-final-answer-they",
+      "id": "p-07-none-of-these-has-replaced-the-operating-system",
       "type": "paragraph",
-      "label": "None of these are the final answer. They are clues.",
+      "label": "None of these has replaced the operating system. We're still divided into an Apple and Windows world, with a little spri",
       "chapter": "07-the-web-as-platform",
-      "url": "chapters/07-the-web-as-platform.html#p-07-none-of-these-are-the-final-answer-they"
+      "url": "chapters/07-the-web-as-platform.html#p-07-none-of-these-has-replaced-the-operating-system"
     },
     {
-      "id": "p-07-the-browser-began-as-a-way-to-read",
+      "id": "p-07-netscape-wanted-the-browser-to-become-the-operating",
       "type": "paragraph",
-      "label": "The browser began as a way to read linked documents. JavaScript turned it into a programmable surface. Over time that su",
+      "label": "Netscape wanted the browser to become the operating system. In many ways it did. The network is becoming the OS. The que",
       "chapter": "07-the-web-as-platform",
-      "url": "chapters/07-the-web-as-platform.html#p-07-the-browser-began-as-a-way-to-read"
-    },
-    {
-      "id": "p-07-the-network-starts-to-look-less-like-something",
-      "type": "paragraph",
-      "label": "The network starts to look less like something the computer connects to, and more like the place where the computer happ",
-      "chapter": "07-the-web-as-platform",
-      "url": "chapters/07-the-web-as-platform.html#p-07-the-network-starts-to-look-less-like-something"
-    },
-    {
-      "id": "p-07-that-raises-a-question-this-chapter-does-not",
-      "type": "paragraph",
-      "label": "That raises a question this chapter does not answer yet. If the web becomes the operating system, who owns the home dire",
-      "chapter": "07-the-web-as-platform",
-      "url": "chapters/07-the-web-as-platform.html#p-07-that-raises-a-question-this-chapter-does-not"
-    },
-    {
-      "id": "p-07-for-now-we-pick-up-where-we-left",
-      "type": "paragraph",
-      "label": "For now, we pick up where we left off in chapter 4, languages. This time we'll teach the computer how to lie.",
-      "chapter": "07-the-web-as-platform",
-      "url": "chapters/07-the-web-as-platform.html#p-07-for-now-we-pick-up-where-we-left"
+      "url": "chapters/07-the-web-as-platform.html#p-07-netscape-wanted-the-browser-to-become-the-operating"
     },
     {
       "id": "h-08-teaching-machines-our-words",

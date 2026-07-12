@@ -111,38 +111,36 @@
   <div class="book-progress" role="progressbar" aria-label="Book progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" data-book-progress>
     <span data-book-progress-bar></span>
   </div>
-  <div id="book-start" class="manuscript-pages" data-page-scroller data-book-chapter-id="07-the-web-as-platform" data-book-chapter-index="8" data-book-page-weights="466,27,2137,938,931,26,2137,1865,1422,20,1466,611,2199,29,1770,1012,2545,30,1487,1510,1228,37,173,133">
+  <div id="book-start" class="manuscript-pages" data-page-scroller data-book-chapter-id="07-the-web-as-platform" data-book-chapter-index="8" data-book-page-weights="466,27,1761,763,630,26,1305,1676,1265,20,1466,611,2199,29,1770,1012,2545,30,1487,1510,1228,37,173,133">
   <header class="chapter-header ">
     <p class="chapter-kicker">Part II: The Web</p>
     <p class="chapter-number">Chapter 07</p>
     <svg class="chapter-glyph" viewBox="0 0 96 96" focusable="false" aria-hidden="true"><path d="M23 29h50v34H23z"/><path d="M23 39h50"/><path d="M34 72h28"/><path d="M42 63v9m12-9v9"/><circle cx="31" cy="34" r="1.5"/><circle cx="37" cy="34" r="1.5"/></svg>
   </header>
   <h1 id="h-07-the-web-waking-up-the-words"><a class="anchor-link" href="#h-07-the-web-waking-up-the-words" aria-label="Link to The Web: waking up the words">#</a>The Web: waking up the words</h1>
-<p id="p-07-html-gave-web-documents-a-shape-javascript-gave" data-note-target>HTML gave Web documents a shape. JavaScript gave them behavior. But it also left us with a new question:</p>
-<p id="p-07-what-happens-when-a-prototype-becomes-the-platform" data-note-target>What happens when a prototype becomes the platform?</p>
-<p id="p-07-this-chapter-is-about-javascript-but-it-is" data-note-target>This chapter is about JavaScript, but it is also about a familiar software story. A demo is created in a hurry. It works well enough. Then the world starts building on it. The demo becomes the foundation. The foundation keeps moving.</p>
-<p id="p-07-that-is-both-terrifying-and-sometimes-lucky" data-note-target>That is both terrifying and, sometimes, lucky.</p>
-<p id="p-07-javascript-was-made-by-a-wizard-called-brendan" class="has-side-wizard" data-note-target><span class="side-links side-links-margin side-links-has-wizard" aria-label="Related links for this paragraph">
+<p id="p-07-its-may-1995-youve-just-landed-a-dream" data-note-target><span class="side-links side-links-margin" aria-label="Related links for this paragraph">
+<a href="https://en.wikipedia.org/wiki/Netscape_Navigator" title="https://en.wikipedia.org/wiki/Netscape_Navigator">https://en.wikipedia.org/wiki/Netscape_Navigator</a>
+</span>Its May 1995. You've just landed a dream job at the hot new startup of the decade: Netscape. You've just arrived and you want to impress. The gurus in charge ask you to add a programming language to the Web.<span class="side-links side-links-inline" aria-label="Related links for this paragraph">
+<a href="https://en.wikipedia.org/wiki/Netscape_Navigator" title="https://en.wikipedia.org/wiki/Netscape_Navigator">https://en.wikipedia.org/wiki/Netscape_Navigator</a>
+</span></p>
+<p id="p-07-you-have-10-days" data-note-target>You have 10 days.</p>
+<p id="p-07-brendan-eich-was-the-wizard-who-made-javascript" class="has-side-wizard" data-note-target><span class="side-links side-links-margin side-links-has-wizard" aria-label="Related links for this paragraph">
 <a class="wizard-card" href="https://en.wikipedia.org/wiki/Brendan_Eich" aria-label="Wikipedia: Brendan Eich" data-license="MPL 2.0" data-source="https://commons.wikimedia.org/wiki/File:Brendan_Eich_Mozilla_Foundation_official_photo.jpg">
 <span class="wizard-card-image"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d1/Brendan_Eich_Mozilla_Foundation_official_photo.jpg/330px-Brendan_Eich_Mozilla_Foundation_official_photo.jpg" alt="" loading="lazy" style="--wizard-portrait-position: 50% 38%;"></span>
 <span class="wizard-card-name">Brendan Eich</span>
 <span class="wizard-card-note">JavaScript</span>
 </a>
-</span>JavaScript was made by a wizard called Brendan Eich. And its creation story is almost mythical.<span class="side-links side-links-inline" aria-label="Related links for this paragraph">
+</span>Brendan Eich was the wizard who made JavaScript under these conditions. Its creation story is almost mythical.<span class="side-links side-links-inline" aria-label="Related links for this paragraph">
 <a href="https://en.wikipedia.org/wiki/Brendan_Eich" title="https://en.wikipedia.org/wiki/Brendan_Eich">https://en.wikipedia.org/wiki/Brendan_Eich</a>
 </span></p>
-<h2 id="h-07-javascript"><a class="anchor-link" href="#h-07-javascript" aria-label="Link to JavaScript">#</a>JavaScript</h2>
-<p id="p-07-lets-go-back-a-little-bit-before-may" data-note-target>Lets go back a little bit, before may 1995. You are a young developer tasked with creating an interactive experience on this new fangled World-Wide Web. How would you do that?</p>
-<p id="p-07-the-only-way-would-be-to-add-a" data-note-target><span class="side-links side-links-margin" aria-label="Related links for this paragraph">
+<p id="p-07-before-javascript-if-you-wanted-to-create-an" data-note-target><span class="side-links side-links-margin" aria-label="Related links for this paragraph">
 <a href="https://en.wikipedia.org/wiki/Common_Gateway_Interface" title="https://en.wikipedia.org/wiki/Common_Gateway_Interface">https://en.wikipedia.org/wiki/Common_Gateway_Interface</a>
-</span>The only way would be to add a form. A visitor of your website would fill it in, then press submit. The form data is sent to the webserver, where a program is called through the cgi-bin API. This program reads the form data and does its magic, then prints a response. The webserver reads the response and sends it back to the webbrowser. Not very interactive at all.<span class="side-links side-links-inline" aria-label="Related links for this paragraph">
+</span>Before JavaScript, if you wanted to create an interactive website, the only way would be to add a form. A visitor of your website would fill it in, then press submit. The form data is sent to the webserver, where a program is called through the cgi-bin API. This program reads the form data and does its magic, then prints a response. The webserver reads the response and sends it back to the webbrowser. Not very interactive at all.<span class="side-links side-links-inline" aria-label="Related links for this paragraph">
 <a href="https://en.wikipedia.org/wiki/Common_Gateway_Interface" title="https://en.wikipedia.org/wiki/Common_Gateway_Interface">https://en.wikipedia.org/wiki/Common_Gateway_Interface</a>
 </span></p>
 <p id="p-07-in-1995-netscape-was-king-of-the-webbrowser" data-note-target><span class="side-links side-links-margin" aria-label="Related links for this paragraph">
-<a href="https://en.wikipedia.org/wiki/Netscape_Navigator" title="https://en.wikipedia.org/wiki/Netscape_Navigator">https://en.wikipedia.org/wiki/Netscape_Navigator</a>
 <a href="https://en.wikipedia.org/wiki/Internet_Explorer_1" title="https://en.wikipedia.org/wiki/Internet_Explorer_1">https://en.wikipedia.org/wiki/Internet_Explorer_1</a>
 </span>In 1995 Netscape was king of the webbrowser hill. Microsoft Internet Explorer 1.0 would be released in august 1995, and not get any real traction untill version 4, in 1997. Netscape had set their sights on making the web, and the web browser, the next operating system. Instead of creating executables and distributing these on media like floppy disks or cd-roms, they saw a future where software would be running in the network and all you needed was a connection and a browser, the Netscape Navigator ofcourse.<span class="side-links side-links-inline" aria-label="Related links for this paragraph">
-<a href="https://en.wikipedia.org/wiki/Netscape_Navigator" title="https://en.wikipedia.org/wiki/Netscape_Navigator">https://en.wikipedia.org/wiki/Netscape_Navigator</a>
 <a href="https://en.wikipedia.org/wiki/Internet_Explorer_1" title="https://en.wikipedia.org/wiki/Internet_Explorer_1">https://en.wikipedia.org/wiki/Internet_Explorer_1</a>
 </span></p>
 <p id="p-07-obviously-for-this-to-come-to-fruition-the" data-note-target><span class="side-links side-links-margin" aria-label="Related links for this paragraph">
@@ -155,16 +153,16 @@
 </span>Why Netscape chose Java isn't hard to see. At the time there will still many different computer architectures in use. Writing software that would run on all those systems was hard. Java side-stepped that entire problem with the innovative JVM (Java Virtual Machine.) Using anything other than Java would make the whole task almost impossible to achieve.<span class="side-links side-links-inline" aria-label="Related links for this paragraph">
 <a href="https://en.wikipedia.org/wiki/Java_virtual_machine" title="https://en.wikipedia.org/wiki/Java_virtual_machine">https://en.wikipedia.org/wiki/Java_virtual_machine</a>
 </span></p>
-<p id="p-07-enter-brendan-eich-at-least-client-engineering-management" data-note-target>Enter Brendan Eich — "At least client engineering management including Tom Paquin, Michael Toy, and Rick Schell, along with some guy named Marc Andreessen, were convinced that Netscape should embed a programming language, in source form, in HTML." — "What was needed was a convincing proof of concept, AKA a demo. That, I delivered, and in too-short order it was a fait accompli."</p>
-<p id="p-07-how-short-order-how-about-10-days-and" data-note-target>How short order? How about 10 days (and probably nights.)</p>
-<p id="p-07-surely-that-was-only-a-proof-of-concept" data-note-target>Surely that was only a proof-of-concept, a demo? Well, yes, but this demo, this prototype ended up in production, virtually unchanged. As most prototypes tend to.</p>
+<p id="p-07-enter-brendan-eich-as-he-later-described-it" data-note-target>Enter Brendan Eich. As he later described it:</p>
+<blockquote><p>"At least client engineering management including Tom Paquin, Michael Toy, and Rick Schell, along with some guy named Marc Andreessen, were convinced that Netscape should embed a programming language, in source form, in HTML." — "What was needed was a convincing proof of concept, AKA a demo. That, I delivered, and in too-short order it was a fait accompli."</p></blockquote>
+<p id="p-07-that-prototype-became-the-programming-language-of-the" data-note-target>That prototype became the programming language of the Web.</p>
 <aside id="rule-07-wizards-sixth-rule" class="wizard-rule" data-note-target>
 <p class="rule-label">Wizard's sixth rule</p>
 <p>Your spells may gain a life of their own.</p>
 </aside>
-<p id="p-07-however-we-got-uncharacteristically-lucky-javascript-was-not" data-note-target><span class="side-links side-links-margin" aria-label="Related links for this paragraph">
+<p id="p-07-we-got-uncharacteristically-lucky-javascript-was-not-a" data-note-target><span class="side-links side-links-margin" aria-label="Related links for this paragraph">
 <a href="https://en.wikipedia.org/wiki/Scheme_%28programming_language%29" title="https://en.wikipedia.org/wiki/Scheme_%28programming_language%29">https://en.wikipedia.org/wiki/Scheme_%28programming_language%29</a>
-</span>However, we got uncharacteristically lucky. JavaScript was not a tuned-down, dummified version of Java. You see, Brendan was lured to work on this project with the promise that he would be allowed to create a Scheme-like language.<span class="side-links side-links-inline" aria-label="Related links for this paragraph">
+</span>We got uncharacteristically lucky. JavaScript was not a tuned-down, dummified version of Java. You see, Brendan was lured to work on this project with the promise that he would be allowed to create a Scheme-like language.<span class="side-links side-links-inline" aria-label="Related links for this paragraph">
 <a href="https://en.wikipedia.org/wiki/Scheme_%28programming_language%29" title="https://en.wikipedia.org/wiki/Scheme_%28programming_language%29">https://en.wikipedia.org/wiki/Scheme_%28programming_language%29</a>
 </span></p>
 <p id="p-07-scheme-is-a-descendant-of-lisp-and-algol" data-note-target>Scheme is a descendant of Lisp (and Algol.) It is nothing like Java. But as any Lisp-like language, you can change the language to do anything any other programming language can do. So Brendan added a Java-like syntax on a Scheme-like core. And 10 days later, the world would be changed forever.</p>
@@ -203,17 +201,21 @@
 <a href="https://angular.dev/" title="https://angular.dev/">https://angular.dev/</a>
 <a href="https://svelte.dev/" title="https://svelte.dev/">https://svelte.dev/</a>
 <a href="https://emberjs.com/" title="https://emberjs.com/">https://emberjs.com/</a>
-<a href="https://www.npmjs.com/" title="https://www.npmjs.com/">https://www.npmjs.com/</a>
-<a href="https://babeljs.io/" title="https://babeljs.io/">https://babeljs.io/</a>
-</span>But the DOM is still considered a compilation target. Not something that you program directly, unless you are a masochist. Instead you use things like React, Vue, Angular, Svelte, Ember... Even JavaScript itself has become something you often process before the browser sees it. For years that meant npm, bundlers, transpilers and configuration files. Babel compiled JavaScript to JavaScript. Later tools made parts of the pipeline faster, or differently shaped, but the general spell stayed the same: write one kind of JavaScript, feed it to a machine, receive another kind of JavaScript.<span class="side-links side-links-inline" aria-label="Related links for this paragraph">
+</span>But the DOM is still considered a compilation target. Not something that you program directly, unless you are a masochist. Instead you use things like React, Vue, Angular, Svelte, Ember...<span class="side-links side-links-inline" aria-label="Related links for this paragraph">
 <a href="https://react.dev/" title="https://react.dev/">https://react.dev/</a>
 <a href="https://vuejs.org/" title="https://vuejs.org/">https://vuejs.org/</a>
 <a href="https://angular.dev/" title="https://angular.dev/">https://angular.dev/</a>
 <a href="https://svelte.dev/" title="https://svelte.dev/">https://svelte.dev/</a>
 <a href="https://emberjs.com/" title="https://emberjs.com/">https://emberjs.com/</a>
+</span></p>
+<p id="p-07-even-javascript-itself-has-become-something-you-often" data-note-target><span class="side-links side-links-margin" aria-label="Related links for this paragraph">
+<a href="https://www.npmjs.com/" title="https://www.npmjs.com/">https://www.npmjs.com/</a>
+<a href="https://babeljs.io/" title="https://babeljs.io/">https://babeljs.io/</a>
+</span>Even JavaScript itself has become something you often process before the browser sees it. For years that meant npm, bundlers, transpilers and configuration files. Babel compiled JavaScript to JavaScript.<span class="side-links side-links-inline" aria-label="Related links for this paragraph">
 <a href="https://www.npmjs.com/" title="https://www.npmjs.com/">https://www.npmjs.com/</a>
 <a href="https://babeljs.io/" title="https://babeljs.io/">https://babeljs.io/</a>
 </span></p>
+<p id="p-07-bundled-minified-obfuscated-unreadable" data-note-target>Bundled, minified, obfuscated, unreadable.</p>
 <p id="p-07-all-this-stuff-makes-web-development-so-much" data-note-target>All this stuff makes web development so much harder than it needed to be. This is the real fallout from rushing JavaScript into production in 1995. Because it was so incomplete, wizards all over the world invented their own enhancements.</p>
 <p id="p-07-a-simple-example-is-the-javascript-module-system" data-note-target>A simple example is the JavaScript module system. For the longest time it didn't exist. In the browser you could mimic it by adding HTML script tags, which means using tools outside the language. Or you could add a bundler script to combine all code in a single script file. So now we have multiple different module syntaxes and multiple bundlers, each with their own configuration and associated code.</p>
 <p id="p-07-and-even-though-there-now-is-a-clear" data-note-target><span class="side-links side-links-margin" aria-label="Related links for this paragraph">
@@ -224,7 +226,7 @@
 <h2 id="h-07-the-browser-shaped-computer"><a class="anchor-link" href="#h-07-the-browser-shaped-computer" aria-label="Link to The browser-shaped computer">#</a>The browser-shaped computer</h2>
 <p id="p-07-netscapes-dream-did-not-quite-happen-in-the" data-note-target>Netscape's dream did not quite happen in the way Netscape imagined. We did not all simply stop using operating systems and live inside Navigator.</p>
 <p id="p-07-but-something-close-enough-happened-to-be-worth" data-note-target>But something close enough happened to be worth noticing.</p>
-<p id="p-07-a-lot-of-what-people-now-call-using" data-note-target>A lot of what people now call "using the computer" is really using the browser. Mail, documents, calendars, maps, banking, shopping, music, chat, work administration, school systems, tax forms, photo libraries. The local machine is still there, but for many people it has become less like the place where the work lives and more like the window through which the work is reached.</p>
+<p id="p-07-a-lot-of-what-people-now-call-using" data-note-target>A lot of what people now call "using the computer" is really using the browser. Mail, documents, calendars, maps, banking... I could go on and on. The local machine is still there, but today the machine itself matters less and less. It has become an interface—a keyboard, mouse and screen that give you access to your work instead of owning it.</p>
 <p id="p-07-chromeos-makes-that-idea-unusually-explicit-it-is" data-note-target><span class="side-links side-links-margin" aria-label="Related links for this paragraph">
 <a href="https://chromeos.google/" title="https://chromeos.google/">https://chromeos.google/</a>
 </span>ChromeOS makes that idea unusually explicit. It is an operating system built around the assumption that the web is not just one application among many. The web is the main place where things happen.<span class="side-links side-links-inline" aria-label="Related links for this paragraph">
@@ -232,7 +234,7 @@
 </span></p>
 <p id="p-07-electron-approaches-the-same-idea-from-the-other" data-note-target><span class="side-links side-links-margin" aria-label="Related links for this paragraph">
 <a href="https://electronjs.org/docs/latest" title="https://electronjs.org/docs/latest">https://electronjs.org/docs/latest</a>
-</span>Electron approaches the same idea from the other direction. If people still expect desktop applications, fine. Put a browser-shaped runtime inside the application and let web technologies pretend to be native software. This is a ridiculous thing to do, and also a very successful one, which is a combination software history seems to enjoy.<span class="side-links side-links-inline" aria-label="Related links for this paragraph">
+</span>Electron approaches the same idea from the other direction. If people still expect desktop applications, fine. Put a browser-shaped runtime inside the application and let web technologies pretend to be native software. This is a ridiculous thing to do, and also a very successful one, not an unusual combination in software history.<span class="side-links side-links-inline" aria-label="Related links for this paragraph">
 <a href="https://electronjs.org/docs/latest" title="https://electronjs.org/docs/latest">https://electronjs.org/docs/latest</a>
 </span></p>
 <p id="p-07-progressive-web-apps-sit-somewhere-in-the-middle" data-note-target><span class="side-links side-links-margin" aria-label="Related links for this paragraph">
@@ -240,11 +242,8 @@
 </span>Progressive Web Apps sit somewhere in the middle. They try to let web applications behave a bit more like installed software, with icons, offline behavior and notifications, without fully leaving the web behind.<span class="side-links side-links-inline" aria-label="Related links for this paragraph">
 <a href="https://developer.mozilla.org/en-US/docs/Web/Progressive_web_apps" title="https://developer.mozilla.org/en-US/docs/Web/Progressive_web_apps">https://developer.mozilla.org/en-US/docs/Web/Progressive_web_apps</a>
 </span></p>
-<p id="p-07-none-of-these-are-the-final-answer-they" data-note-target>None of these are the final answer. They are clues.</p>
-<p id="p-07-the-browser-began-as-a-way-to-read" data-note-target>The browser began as a way to read linked documents. JavaScript turned it into a programmable surface. Over time that surface absorbed more and more of the things we used to expect from operating systems: storage, identity, permissions, installation, background work, hardware access, offline behavior.</p>
-<p id="p-07-the-network-starts-to-look-less-like-something" data-note-target>The network starts to look less like something the computer connects to, and more like the place where the computer happens.</p>
-<p id="p-07-that-raises-a-question-this-chapter-does-not" data-note-target>That raises a question this chapter does not answer yet. If the web becomes the operating system, who owns the home directory? Don't worry, we'll get there later.</p>
-<p id="p-07-for-now-we-pick-up-where-we-left" data-note-target>For now, we pick up where we left off in chapter 4, languages. This time we'll teach the computer how to lie.</p>
+<p id="p-07-none-of-these-has-replaced-the-operating-system" data-note-target>None of these has replaced the operating system. We're still divided into an Apple and Windows world, with a little sprinkling of Linux in between. But more and more traditional OS concerns are moving to the Web. And maybe not always in the way we'd like.</p>
+<p id="p-07-netscape-wanted-the-browser-to-become-the-operating" data-note-target>Netscape wanted the browser to become the operating system. In many ways it did. The network is becoming the OS. The question is whether this new OS serves you, or someone else?</p>
   <nav class="chapter-pagination" aria-label="Chapter navigation">
     <a rel="prev" href="06-the-web-as-document.html"><span>Previous</span>The Web: the shape of words</a>
     <a rel="next" href="interlude-03-poor-protocol.html"><span>Next</span>Interlude</a>
