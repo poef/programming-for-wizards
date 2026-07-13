@@ -720,9 +720,17 @@ li {
   margin-inline-start: var(--book-link-margin-gap);
 }
 
+.side-links-margin-overlap {
+  display: none;
+}
+
 .side-links-inline {
   display: none;
   margin-block-start: 0.35rem;
+}
+
+.side-links-margin-overlap ~ .side-links-inline {
+  display: grid;
 }
 
 .side-links a {

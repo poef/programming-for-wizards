@@ -479,6 +479,7 @@
       lastPageReliefDirty = true
       portraitLiftsDirty = true
     }
+    const currentLastPageRelief = () => Number.parseFloat(manuscript.style.getPropertyValue("--book-last-page-extra")) || 0
     const setLastPageRelief = value => {
       manuscript.style.setProperty("--book-last-page-extra", `${Math.max(0, value)}px`)
     }
@@ -489,13 +490,14 @@
       return Number.isFinite(lineHeight) && lineHeight > 0 ? lineHeight : fontSize * 1.6
     }
     const applyLastPageRelief = () => {
-      if (!lastPageReliefDirty) return
+      if (!lastPageReliefDirty) return false
 
       lastPageReliefDirty = false
+      const previousRelief = currentLastPageRelief()
       setLastPageRelief(0)
 
       const baseCount = measuredPageCount()
-      if (baseCount <= 1) return
+      if (baseCount <= 1) return currentLastPageRelief() !== previousRelief
 
       // CSS columns cannot make only the final column taller; this tiny global
       // adjustment is used only when it removes an otherwise stranded last page.
@@ -505,10 +507,11 @@
       for (let step = 1; step <= stepCount; step += 1) {
         const extra = (maxExtra / stepCount) * step
         setLastPageRelief(extra)
-        if (measuredPageCount() < baseCount) return
+        if (measuredPageCount() < baseCount) return currentLastPageRelief() !== previousRelief
       }
 
       setLastPageRelief(0)
+      return currentLastPageRelief() !== previousRelief
     }
     const codeStartThreshold = figure => {
       const pre = figure.querySelector("pre")
@@ -574,6 +577,14 @@
         .filter(rect => rect.width > 1 && rect.height > 1)
         .sort((a, b) => a.left - b.left || a.top - b.top)[0] ?? null
     }
+    const largestFragment = element => {
+      if (!element) return null
+
+      return [...element.getClientRects()]
+        .filter(rect => rect.width > 1 && rect.height > 1)
+        .sort((a, b) => (b.width * b.height) - (a.width * a.height) || a.left - b.left || a.top - b.top)[0] ?? null
+    }
+    const sideLinksPortraitRect = sideLinks => largestFragment(sideLinks) ?? firstFragment(sideLinks)
     const pageForRect = rect => {
       const scrollerRect = manuscript.getBoundingClientRect()
       const left = rect.left - scrollerRect.left + manuscript.scrollLeft
@@ -582,7 +593,42 @@
     const resetPortraitLifts = () => {
       for (const sideLinks of manuscript.querySelectorAll(".side-links-has-wizard")) {
         sideLinks.style.removeProperty("--wizard-portrait-lift")
+        sideLinks.classList.remove("side-links-margin-overlap")
       }
+    }
+    const rectsOverlap = (a, b, gap = 0) => (
+      a.left < b.right + gap &&
+      a.right > b.left - gap &&
+      a.top < b.bottom + gap &&
+      a.bottom > b.top - gap
+    )
+    const applyPortraitCollisionFallbacks = sideLinksBlocks => {
+      const placedByPage = new Map()
+      let changed = false
+
+      const entries = sideLinksBlocks
+        .map(sideLinks => {
+          const rect = sideLinksPortraitRect(sideLinks)
+          return rect ? { sideLinks, rect, page: pageForRect(rect) } : null
+        })
+        .filter(Boolean)
+        .sort((a, b) => a.page - b.page || a.rect.top - b.rect.top || a.rect.left - b.rect.left)
+
+      for (const entry of entries) {
+        const placed = placedByPage.get(entry.page) ?? []
+        const collides = placed.some(rect => rectsOverlap(entry.rect, rect, textLineHeight() * 0.35))
+
+        if (collides) {
+          entry.sideLinks.classList.add("side-links-margin-overlap")
+          changed = true
+          continue
+        }
+
+        placed.push(entry.rect)
+        placedByPage.set(entry.page, placed)
+      }
+
+      return changed
     }
     const applyPortraitLifts = () => {
       if (!portraitLiftsDirty) return
@@ -601,7 +647,7 @@
         for (const sideLinks of sideLinksBlocks) {
           const paragraph = sideLinks.closest("p")
           const paragraphRect = firstFragment(paragraph)
-          const sideLinksRect = firstFragment(sideLinks)
+          const sideLinksRect = sideLinksPortraitRect(sideLinks)
           if (!paragraphRect || !sideLinksRect) continue
           if (pageForRect(sideLinksRect) <= pageForRect(paragraphRect)) continue
 
@@ -617,6 +663,7 @@
         if (!passChanged) break
       }
 
+      if (applyPortraitCollisionFallbacks(sideLinksBlocks)) changed = true
       if (changed) lastPageReliefDirty = true
     }
     const progressTargets = () => [...manuscript.querySelectorAll("p[data-note-target][id]")]
@@ -731,8 +778,19 @@
 
       const stride = pageStride()
       applyCodeStartBreaks()
-      applyPortraitLifts()
-      applyLastPageRelief()
+
+      for (let pass = 0; pass < 3; pass += 1) {
+        const reliefChanged = applyLastPageRelief()
+        if (reliefChanged) portraitLiftsDirty = true
+
+        applyPortraitLifts()
+        if (!lastPageReliefDirty && !portraitLiftsDirty) break
+      }
+
+      if (applyPortraitCollisionFallbacks([...manuscript.querySelectorAll(".side-links-has-wizard")])) {
+        lastPageReliefDirty = true
+      }
+
       pageCount = measuredPageCount()
 
       if (openAtChapterEnd) {
@@ -974,12 +1032,27 @@
     const sync = () => {
       const rootFontSize = Number.parseFloat(getComputedStyle(document.documentElement).fontSize) || 16
       const inlineOffset = rootFontSize * 1.35
+      const visibleRect = rect => {
+        const left = Math.max(rect.left, 0)
+        const right = Math.min(rect.right, window.innerWidth)
+        const top = Math.max(rect.top, 0)
+        const bottom = Math.min(rect.bottom, window.innerHeight)
+
+        return Math.max(0, right - left) * Math.max(0, bottom - top)
+      }
+      const anchorTargetRect = target => {
+        const rects = [...target.getClientRects()]
+          .filter(rect => rect.width > 1 && rect.height > 1)
+          .sort((a, b) => visibleRect(b) - visibleRect(a) || a.left - b.left || a.top - b.top)
+
+        return rects[0] ?? target.getBoundingClientRect()
+      }
 
       for (const anchor of document.querySelectorAll(".margin-anchor")) {
         const target = anchor.parentElement
         if (!target) continue
 
-        const rect = target.getBoundingClientRect()
+        const rect = anchorTargetRect(target)
         const style = getComputedStyle(target)
         const lineHeight = Number.parseFloat(style.lineHeight) || (Number.parseFloat(style.fontSize) || rootFontSize) * 1.6
         const top = rect.top + lineHeight * 0.25
