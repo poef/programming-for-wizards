@@ -11,7 +11,13 @@ Portability is not interoperability.
 Portability means that data can leave one application. Interoperability means that another application can understand and use it without a special translator written for those exact two systems.
 
 <!-- paragraph-id: p-15-json-is-portable-it-can-carry-almost-any -->
-JSON is portable. It can carry almost any shape of data. But JSON does not tell another program what the names inside it mean.
+JSON is never just JSON. It is portable and can carry almost any kind of data, but it does not tell another program what the names inside it mean.
+
+<!-- paragraph-id: p-15-json-is-an-interesting-piece-of-infrastructure -->
+That is not an accidental omission. JSON is infrastructure, and almost aggressively small. It has objects, arrays, strings, numbers, booleans and `null`. That is nearly the whole spell.
+
+<!-- paragraph-id: p-15-its-smallness-helped-it-spread -->
+Its smallness helped it spread. It also made JSON difficult to extend. When people need identity, dates, references, types or shared vocabularies, they make another format or hide another language inside the familiar one.
 
 <!-- paragraph-id: p-15-a-contacts-app-calendar-app-and-photo-app -->
 A contacts app, calendar app and photo app may all know something about the same person. Unless their names line up, the data still lives in separate little rooms.
@@ -55,11 +61,8 @@ Inside one application, private names are fine. You control the dictionary.
 <!-- paragraph-id: p-15-across-a-boundary-each-private-name-needs-a -->
 Across a boundary, each private name needs a translator. Every import script has to learn both sides. When either side changes, the bridge changes too.
 
-<!-- paragraph-id: p-15-so-the-next-wizard-question-is-simple -->
-So the next wizard question is simple:
-
-<!-- aside-id: aside-15-what-if-names-inside-the-data-could-cross -->
-> What if names inside the data could cross the same boundaries as documents?
+<!-- paragraph-id: p-15-instead-imagine-if-names-inside-the-data-could -->
+What if names inside the data could cross the same boundaries as documents?
 
 ## Names that can travel
 
@@ -144,14 +147,17 @@ data:hilda-ogden
     ns:knows data:stan-ogden .
 ```
 
+<!-- paragraph-id: p-15-json-ld-is-another-spelling -->
+RDF is a model for the data, not one particular spelling. Turtle is one spelling. [JSON-LD](https://www.w3.org/TR/json-ld11/) is another.
+
+<!-- paragraph-id: p-15-some-people-make-another-format -->
+JSON-LD takes a slightly strange route. It keeps the familiar JSON shape, then gives names such as `@id` and `@context` an extra job. They say which values identify things and where the meanings of other names come from. JSON remains unchanged underneath. A more expressive language stands on top of it.
+
 <!-- paragraph-id: p-15-breaking-knowledge-into-small-statements-is-not-new -->
 Breaking knowledge into small statements is not new. Databases and logic languages have done versions of it for a long time.
 
 <!-- paragraph-id: p-15-the-web-contribution-is-that-the-names-inside -->
 The Web contribution is that the names inside those statements can be Web names.
-
-<!-- paragraph-id: p-15-that-is-a-small-change-with-large-consequences -->
-That is a small change with large consequences.
 
 ## A graph without a centre
 
@@ -219,40 +225,25 @@ A word that looks obvious to a human may be vague to software. It may even be ob
 <!-- paragraph-id: p-15-linked-data-therefore-uses-vocabularies-shared-sets-of -->
 Linked data therefore uses vocabularies: shared sets of terms with public identifiers and definitions. Different applications can use the same property name because that property does not belong to either application.
 
-<!-- paragraph-id: p-15-this-is-powerful-and-irritating -->
-This is powerful and irritating.
+<!-- paragraph-id: p-15-this-is-where-your-eyes-may-start-to -->
+This is where your eyes may start to gloss over. Vocabularies, ontologies, IRIs. This all sounds abstract and academic, and it is. It's also necessary and powerful.
 
-<!-- paragraph-id: p-15-powerful-because-independent-tools-can-recognise-the-same -->
-Powerful, because independent tools can recognise the same kind of fact.
-
-<!-- paragraph-id: p-15-irritating-because-shared-meaning-is-social-work-pretending -->
-Irritating, because shared meaning is social work pretending to be technical work. The machine can follow the link. People still have to agree, enough, about what the link means.
+<!-- paragraph-id: p-15-when-independent-tools-can-recognise-the-same-names -->
+When independent tools recognise the same names for the same kinds of facts, they can work on those facts independently. But the only way to get there is for people to agree, enough, about what each name means. The problem is that shared meaning is social work pretending to be technical work. 
 
 <!-- paragraph-id: p-15-linked-data-is-not-fairy-dust-you-can -->
 Linked data is not fairy dust. You can make a knitted castle out of triples. You can invent private vocabularies nobody else understands. You can create a vocabulary so elaborate that a simple fact needs an expedition.
 
-<!-- paragraph-id: p-15-the-format-is-not-the-point-by-itself -->
-The format is not the point by itself.
-
 <!-- paragraph-id: p-15-the-boundary-is-the-point-names-and-meanings -->
-The boundary is the point. Names and meanings can survive the application that first used them.
+A format will not solve all these problems. What matters is that names and meanings can survive the application that first used them.
 
 ## What linked data does not solve
 
-<!-- paragraph-id: p-15-linked-data-does-not-decide-where-data-lives -->
-Linked data does not decide where data lives.
+<!-- paragraph-id: p-15-linked-data-lets-applications-work-with-the-same -->
+Linked data lets applications work with the same meanings, but the data can still be trapped behind a locked gate. It does not decide where data lives, who owns the storage, or who may read or change it.
 
-<!-- paragraph-id: p-15-it-does-not-decide-who-owns-the-storage -->
-It does not decide who owns the storage, who may read a fact, who may change it, or which copy is authoritative. A company can keep RDF in a private database. A locked service can offer a Turtle export button.
-
-<!-- paragraph-id: p-15-the-data-may-be-interoperable-and-still-be -->
-The data may be interoperable and still be trapped.
-
-<!-- paragraph-id: p-15-linked-data-solves-a-different-part-of-the -->
-Linked data solves a different part of the problem. It gives independently written tools a way to identify the same things and understand the same properties.
-
-<!-- paragraph-id: p-15-that-distinction-matters -->
-That distinction matters.
+<!-- paragraph-id: p-15-a-company-can-keep-rdf-in-a-private -->
+A company can keep RDF in a private database. A locked service can offer a Turtle export button.
 
 <!-- paragraph-id: p-15-a-shared-storage-system-without-shared-meaning-becomes -->
 A shared storage system without shared meaning becomes a folder full of files that only their original applications understand.
@@ -261,30 +252,27 @@ A shared storage system without shared meaning becomes a folder full of files th
 Shared meaning without control over storage leaves the application holding the only useful copy.
 
 <!-- paragraph-id: p-15-we-need-both-boundaries-but-they-are-not -->
-We need both boundaries, but they are not the same boundary.
+We need both boundaries, but they are not the same.
 
-## Data that outlives the application
+## The boundary moves again
 
 <!-- paragraph-id: p-15-think-again-about-small-reusable-software -->
-Think again about small, reusable software.
+Back in the knitted castle, the useful question was not whether something could be reused, but in what direction. A file format can be reused by programs that do not share code. A protocol lets different systems meet and then go their separate ways again.
 
 <!-- paragraph-id: p-15-a-small-calendar-tool-can-stay-small-if -->
-A small calendar tool can stay small if it can refer to people and events without inventing a private universe for them. A photo tool can talk about the same people and places. A learning tool can use goals and subjects written by another tool.
+Linked data moves that boundary further.
 
 <!-- paragraph-id: p-15-the-application-does-not-need-to-own-all -->
-The application does not need to own all meaning.
+Two applications do not need to share code if they can recognise the same things, use the same names and work with the same data. A contacts application can describe a person. A calendar can invite that person. A photo tool can say that the person appears in a picture.
 
 <!-- paragraph-id: p-15-it-can-become-an-editor-viewer-filter-search -->
-It can become an editor, viewer, filter, search tool or translator. It can arrive, do useful work, and leave without taking the vocabulary of the user's world with it.
+The shared part is not hidden inside either program. It is in the names and data they agree to use.
 
 <!-- paragraph-id: p-15-linked-data-makes-that-shape-possible-it-does -->
-Linked data makes that shape possible. It does not guarantee that anyone will choose the same names, or that the resulting software will be simple. It gives names somewhere to meet.
+Linked data gives names somewhere to meet. It lets work done by one application become useful to another that was written independently.
 
-<!-- paragraph-id: p-15-but-one-question-remains -->
-But one question remains.
-
-<!-- paragraph-id: p-15-if-the-applications-meanings-can-live-outside-it -->
-If the application's meanings can live outside it, why should the application own the only copy of the data?
+<!-- paragraph-id: p-15-if-the-meaning-can-live-outside-the-application -->
+If the meaning can live outside the application, why should the application own the only copy of the data?
 
 <!-- paragraph-id: p-15-where-should-a-persons-data-live -->
-Where should a person's data live?
+Where should a person’s data live?

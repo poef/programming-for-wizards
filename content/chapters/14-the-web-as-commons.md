@@ -4,32 +4,23 @@ tags: programming for wizards
 
 # The Web as commons: innovation happens elsewhere
 
-<!-- paragraph-id: p-14-the-previous-chapter-ended-with-an-admission-you -->
-The previous chapter ended with an admission: you will be wrong.
-
-<!-- paragraph-id: p-14-that-creates-another-problem-if-every-useful-answer -->
-That creates another problem. If every useful answer has to be predicted inside the original system, then every wrong decision becomes part of the walls. A system designed by one person or one organization can only contain the ideas that reached that room in time.
-
-<!-- paragraph-id: p-14-most-ideas-are-somewhere-else -->
-Most ideas are somewhere else.
-
 <!-- paragraph-id: p-14-there-is-an-old-open-source-book-by -->
 There is an old open source book by Ron Goldman and Richard P. Gabriel called [*Innovation Happens Elsewhere*](https://dreamsongs.com/IHE/). The title is the important part. It sounds like business advice, and it is, but it is also software architecture advice.
 
 <!-- paragraph-id: p-14-no-matter-how-clever-your-team-is-most -->
-No matter how clever your team is, most clever people do not work there. No matter how carefully you study your users, most of their lives happen outside your product. The next useful tool may be written by someone you have never met, for a reason you did not predict.
+Even if you have a team of the smartest people around, many more smart people will live and work outside your team. You can invest heavily in providing the features your users need, and still find users whose wishes aren't heard.
+
+<!-- paragraph-id: p-14-you-cannot-compete-with-the-world-you-cannot -->
+You cannot compete with the world. You cannot build the world.
 
 <!-- paragraph-id: p-14-a-closed-system-can-still-be-wonderful-sometimes -->
-A closed system can still be wonderful. Sometimes the closed system is exactly why an experience feels polished. Everything can be tuned together. The defaults can be chosen. The rough edges can be hidden.
-
-<!-- paragraph-id: p-14-but-the-future-has-to-arrive-through-the -->
-But the future has to arrive through the front gate.
+Closed systems have their own advantages, but many of those advantages belong to the 'owner' of that system. As a user you have little influence. You cannot advance or evolve it yourself. The future has to arrive through the front gate.
 
 <!-- paragraph-id: p-14-if-the-owner-of-the-system-does-not -->
-If the owner of the system does not build the thing, the thing does not exist there. An outside wizard with a better idea must convince the owner, copy the system, or build somewhere else and hope the users find it.
+If the owner of the system does not build it, it doesn't exist there. An outside wizard with a better idea must convince the owner, copy the system, or build somewhere else and hope the users find it.
 
 <!-- paragraph-id: p-14-that-is-a-dangerous-place-to-put-the -->
-That is a dangerous place to put the future.
+That's not a system built to grow, or to allow change at scale.
 
 ## The bazaar needs streets
 
@@ -37,7 +28,7 @@ That is a dangerous place to put the future.
 Eric S. Raymond wrote [*The Cathedral and the Bazaar*](http://www.catb.org/~esr/writings/cathedral-bazaar/cathedral-bazaar/), contrasting carefully planned cathedral-style development with the messy, adaptive energy of open source.
 
 <!-- paragraph-id: p-14-the-useful-part-of-the-bazaar-is-not -->
-The useful part of the bazaar is not the mess. Mess by itself is just mess.
+A bazaar can be messy, but that's not the point. The point is anyone can build a stall there.
 
 <!-- paragraph-id: p-14-a-bazaar-still-needs-streets-a-stall-needs -->
 A bazaar still needs streets. A stall needs somewhere to stand. People need to know where the entrance is. Someone has to stop a new stall from blocking it.
@@ -47,9 +38,6 @@ Open source works the same way. Code needs names, interfaces and conventions. A 
 
 <!-- paragraph-id: p-14-the-linux-kernel-is-built-by-thousands-of -->
 The Linux kernel is built by thousands of people, but those people do not all edit every part at will. It has maintainers, subsystems, rules and boundaries. The bazaar works because outside work has somewhere to connect.
-
-<!-- paragraph-id: p-14-that-is-the-architectural-lesson -->
-That is the architectural lesson.
 
 <!-- paragraph-id: p-14-innovation-can-come-from-elsewhere-only-when-the -->
 Innovation can come from elsewhere only when the structure gives it a place to arrive.
@@ -66,16 +54,31 @@ A commons cannot rely on that. Independent tools, people and organizations need 
 A standard is a boundary that does not belong to one implementation. It says: this name, format or behaviour can be relied on by things that were built separately.
 
 <!-- paragraph-id: p-14-standards-are-often-boring-that-is-part-of -->
-Standards are often boring. That is part of their value. A standard should not require everyone to admire the same library, framework or company. It gives different implementations just enough shared ground to meet.
+Standards are often boring. That's not a bug, but a feature. A standard should not require everyone to admire the same library, framework or company. It gives different implementations just enough shared ground to meet.
 
-<!-- paragraph-id: p-14-this-is-how-small-reusable-software-becomes-possible -->
-This is how small, reusable software becomes possible.
+<!-- paragraph-id: p-14-a-stable-system-does-not-keep-change-out -->
+Together, those agreements form infrastructure.
 
-<!-- paragraph-id: p-14-a-small-tool-does-not-need-to-implement -->
-A small tool does not need to implement the whole world if it can rely on addresses, protocols and formats outside itself. It can use a URL instead of inventing its own addressing system. It can speak HTTP instead of arranging a private conversation with every server. It can produce HTML instead of shipping its own browser.
+<!-- paragraph-id: p-14-at-the-bottom-is-infrastructure -->
+Infrastructure is not built for the next release. It is built for decades, perhaps longer. Its language must stay smaller than the languages above it, because every browser, server and application may come to depend on what its words mean.
 
-<!-- paragraph-id: p-14-the-application-stays-small-because-the-outside-is -->
-The application stays small because the outside is large and stable enough.
+<!-- paragraph-id: p-14-infrastructure-speaks-in-small-words -->
+A URL identifies, HTTP sends messages, and HTML describes a document. None of them knows whether that document is a shop, a book or a badly maintained collection of cat pictures.
+
+<!-- paragraph-id: p-14-on-top-sits-the-platform -->
+On top of infrastructure lives the platform. Browsers and web servers turn those small agreements into places where software can run. A platform can grow more easily than the infrastructure below it, but applications still need to trust that it won't suddenly move beneath them. At the same time, it needs enough power for people to build useful things on top.
+
+<!-- paragraph-id: p-14-then-come-the-applications -->
+Then come the applications. This is where purpose enters. And diversity. A calendar knows about appointments. A shop knows about products. This book knows about chapters and margins.
+
+<!-- paragraph-id: p-14-the-same-shape-can-appear-inside-an-application -->
+The pattern repeats. An application framework is an inner platform: built on the browser or server, but providing another language to the application above it.
+
+<!-- paragraph-id: p-14-each-step-upward-allows-more-meaning-and-change -->
+Each step upward allows more meaning and more change. Each step downward makes an idea harder to remove. An application feature may disappear with the application. A piece of infrastructure may have to be understood by independent systems for the next thirty years.
+
+<!-- paragraph-id: p-14-this-is-not-a-hierarchy-of-importance -->
+A stable system does not keep change out everywhere. It gives each kind of change a place.
 
 ## The Web was built this way
 
@@ -83,7 +86,7 @@ The application stays small because the outside is large and stable enough.
 The Web did not require one owner to finish the whole idea.
 
 <!-- paragraph-id: p-14-a-url-let-one-document-point-to-another -->
-A URL let one document point to another thing somewhere else. HTTP gave browsers and servers a way to talk. HTML gave documents a shared shape. None of these required one program to own both ends.
+Its infrastructure did not contain a search engine, a shop or a social network. It gave browsers, servers and documents enough shared ground for other people to build them.
 
 <!-- paragraph-id: p-14-a-new-server-could-appear-without-asking-every -->
 A new server could appear without asking every browser for permission. A new browser could read existing pages. A new page could link to an old one. A new site did not need permission from the old sites before it could exist.
@@ -101,69 +104,33 @@ It had reachable boundaries. A link could be shared. A page could be inspected. 
 The Web as we live in it is not entirely open ground. Search engines, social networks, app stores, cloud platforms, ad networks and identity providers have built castles on top of it.
 
 <!-- paragraph-id: p-14-castles-are-convenient-they-reduce-friction-they-give -->
-Castles are convenient. They reduce friction. They give users one button to press instead of a lecture about standards. They are also profitable.
+Castles are convenient. They can be built quickly, and functionality can be added without committee meetings about the exact meaning of `sameAs`. More important, they are profitable.
 
 <!-- paragraph-id: p-14-but-the-open-ground-still-matters-without-it -->
 But the open ground still matters. Without it, the castles would be the whole world.
 
-## Small software needs a large outside
+## The outside needs a way in
+
+<!-- paragraph-id: p-14-this-is-how-small-reusable-software-becomes-possible -->
+The open ground does more than preserve what already exists. It gives new ideas somewhere to begin.
 
 <!-- paragraph-id: p-14-if-a-program-has-to-do-everything-itself -->
-If a program has to do everything itself, it will grow.
+A new idea can first live in an application. It can be tried, changed, abandoned or rebuilt without touching every browser and server.
 
 <!-- paragraph-id: p-14-if-it-has-to-own-the-data-identity -->
-If it has to own the data, identity, storage, sharing, editor, export format, interface and extension system, it will become a world. Perhaps a good world. But still a world.
+If many applications need it, a platform may learn to provide it. But only the smallest and most durable agreements should move into infrastructure, because everything above may have to carry them for decades.
 
 <!-- paragraph-id: p-14-small-reusable-software-needs-the-opposite-assumption-it -->
-Small, reusable software needs the opposite assumption. It has to assume that important things live outside it.
-
-<!-- paragraph-id: p-14-the-address-is-outside-it-the-protocol-is -->
-The address is outside it. The protocol is outside it. The next tool may be written by someone else. The useful extension may be a weekend project by a person the original authors have never met.
-
-<!-- paragraph-id: p-14-this-does-not-remove-design-work-it-changes -->
-This does not remove design work. It changes the design work.
+Keep an idea as high in the stack as it can live.
 
 <!-- paragraph-id: p-14-instead-of-designing-the-entire-world-you-design -->
 Instead of designing the entire world, you design where another thing can meet it. What needs a public name? Which format must survive the current implementation? Which agreement allows an independent tool to participate?
 
+<!-- paragraph-id: p-14-the-address-is-outside-it-the-protocol-is -->
+That gives outsiders somewhere to act. People are no longer captives in your castle; they become a community. They can build their own tools and extensions without asking permission.
+
 <!-- paragraph-id: p-14-open-source-is-one-way-to-let-the -->
-Open source is one way to let the outside world in, but it is not the only one. Protocols, data formats, documentation, public APIs, permissive licenses, view-source culture and boring standards all admit that useful ideas may arrive from elsewhere.
+Open source is one way to let the outside world in, but it is not the only one. Protocols, data formats, permissive licenses, and boring standards all admit that useful ideas may arrive from elsewhere.
 
 <!-- paragraph-id: p-14-a-wizard-should-not-be-ashamed-of-using -->
-A wizard should not be ashamed of using other people's magic. That is how the craft advances. The shame is building a system that can only use your own.
-
-## Moving data is not enough
-
-<!-- paragraph-id: p-14-standards-let-independent-tools-meet-but-not-every -->
-Standards let independent tools meet, but not every shared format creates understanding.
-
-<!-- paragraph-id: p-14-two-applications-can-both-export-json -->
-Two applications can both export JSON:
-
-<!-- code-id: portable-not-interoperable-a -->
-```json id="portable-not-interoperable-a"
-{
-    "author": "person-17",
-    "city": "Manchester"
-}
-```
-
-<!-- code-id: portable-not-interoperable-b -->
-```json id="portable-not-interoperable-b"
-{
-    "creator": "user-882",
-    "addressLocality": "Manchester"
-}
-```
-
-<!-- paragraph-id: p-14-the-files-are-portable-they-can-be-copied -->
-The files are portable. They can be copied, downloaded and opened.
-
-<!-- paragraph-id: p-14-but-are-person-17-and-user-882-the -->
-But are `person-17` and `user-882` the same person? Do `author` and `creator` mean the same thing? Is `city` the same property as `addressLocality`?
-
-<!-- paragraph-id: p-14-the-format-cannot-tell-us -->
-The format cannot tell us.
-
-<!-- paragraph-id: p-14-the-web-gave-documents-names-that-can-cross -->
-The Web gave documents names that can cross boundaries. The next question is whether the names and meanings inside the data can travel as well.
+A wizard should not be ashamed of stealing other people's magic. That is how the world improves. The shame is building a system that can only use your own.
