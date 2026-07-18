@@ -398,6 +398,9 @@ This is not real JAQT. It is a small wooden model of the bridge. Real JAQT has a
 <!-- paragraph-id: p-10-the-point-of-the-model-is-the-shape -->
 The point of the model is the shape.
 
+<!-- aside-id: aside-10-this-trick-was-inspired-by-lisp-in-lisp -->
+> This trick was inspired by Lisp. In Lisp, a macro can receive a piece of program before it is evaluated, inspect its shape and turn it into different code. JavaScript functions cannot do that: their arguments have already been evaluated before the function sees them. So JAQT takes a different route. It represents the query as an ordinary object, and puts functions in the places where the query needs behaviour that must wait until later. A Lisp version would probably use macros to turn the query into those functions. JAQT carries the unfinished behaviour around explicitly instead.
+
 ## The whole exhibit version
 
 <!-- paragraph-id: p-10-here-is-the-complete-tiny-version-in-one -->
