@@ -144,6 +144,12 @@
           "id": "17-rule-zero-there-are-no-rules",
           "title": "Epilogue: shifting ground",
           "source": "chapters/17-rule-zero-there-are-no-rules.md"
+        },
+        {
+          "number": "18",
+          "id": "18-colophon.md",
+          "title": "Acknowledgements",
+          "source": "chapters/18-colophon.md"
         }
       ]
     }
