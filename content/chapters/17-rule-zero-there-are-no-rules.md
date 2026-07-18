@@ -80,9 +80,6 @@ The book and the component meet at the address of a passage. The component and t
 <!-- paragraph-id: p-17-this-is-not-an-example-added-after-the -->
 This is not an example added after the argument. It has been part of the book all along.
 
-<!-- paragraph-id: p-17-but-it-is-still-only-an-example -->
-But it is still only an example.
-
 <!-- paragraph-id: p-17-solid-is-not-the-inevitable-final-shape-of -->
 Solid is not the inevitable final shape of the Web. The margin component is not the one true way to write notes. The boundaries chosen here may prove awkward, incomplete or simply wrong. Someone elsewhere may find a better shape.
 
