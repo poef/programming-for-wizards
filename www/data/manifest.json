@@ -1,7 +1,7 @@
 {
   "id": "programming-for-wizards",
   "title": "Programming for Wizards",
-  "generatedAt": "2026-07-12T22:06:53.163Z",
+  "generatedAt": "2026-07-18T10:53:48.556Z",
   "phase": "01-enhanced-static-manuscript",
   "features": {
     "notes": "planned",
@@ -136,7 +136,7 @@
       "url": "chapters/10-code-exhibit-extending-javascript-with-jaqt.html",
       "previous": "09-every-program-contains-a-language",
       "next": "interlude-04-worse-spell",
-      "wordCount": 1924,
+      "wordCount": 2022,
       "rule": null
     },
     {
@@ -184,7 +184,7 @@
       "url": "chapters/14-the-web-as-commons.html",
       "previous": "interlude-05-knitted-castle",
       "next": "15-the-web-as-data",
-      "wordCount": 1179,
+      "wordCount": 1186,
       "rule": null
     },
     {
@@ -196,7 +196,7 @@
       "url": "chapters/15-the-web-as-data.html",
       "previous": "14-the-web-as-commons",
       "next": "16-the-web-as-home",
-      "wordCount": 1184,
+      "wordCount": 1324,
       "rule": null
     },
     {
@@ -208,19 +208,19 @@
       "url": "chapters/16-the-web-as-home.html",
       "previous": "15-the-web-as-data",
       "next": "interlude-06-final-rule",
-      "wordCount": 1477,
+      "wordCount": 1036,
       "rule": null
     },
     {
       "id": "17-rule-zero-there-are-no-rules",
       "number": "17",
-      "title": "Epilogue: shifting ground",
+      "title": "Epilogue: the margin you have been using",
       "part": "Epilogue",
       "partId": "epilogue",
       "url": "chapters/17-rule-zero-there-are-no-rules.html",
       "previous": "interlude-06-final-rule",
       "next": "about-the-author",
-      "wordCount": 173,
+      "wordCount": 728,
       "rule": "Wizard's final rule"
     }
   ],
@@ -363,7 +363,7 @@
       "part": "Part III: Inventing languages",
       "partId": "inventing-languages",
       "url": "chapters/10-code-exhibit-extending-javascript-with-jaqt.html",
-      "wordCount": 1924
+      "wordCount": 2022
     },
     {
       "id": "interlude-04-worse-spell",
@@ -423,7 +423,7 @@
       "part": "Part V: The Next Web",
       "partId": "the-next-web",
       "url": "chapters/14-the-web-as-commons.html",
-      "wordCount": 1179
+      "wordCount": 1186
     },
     {
       "id": "15-the-web-as-data",
@@ -433,7 +433,7 @@
       "part": "Part V: The Next Web",
       "partId": "the-next-web",
       "url": "chapters/15-the-web-as-data.html",
-      "wordCount": 1184
+      "wordCount": 1324
     },
     {
       "id": "16-the-web-as-home",
@@ -443,7 +443,7 @@
       "part": "Part V: The Next Web",
       "partId": "the-next-web",
       "url": "chapters/16-the-web-as-home.html",
-      "wordCount": 1477
+      "wordCount": 1036
     },
     {
       "id": "interlude-06-final-rule",
@@ -459,11 +459,11 @@
       "id": "17-rule-zero-there-are-no-rules",
       "kind": "chapter",
       "label": "17",
-      "title": "Epilogue: shifting ground",
+      "title": "Epilogue: the margin you have been using",
       "part": "Epilogue",
       "partId": "epilogue",
       "url": "chapters/17-rule-zero-there-are-no-rules.html",
-      "wordCount": 173
+      "wordCount": 728
     },
     {
       "id": "about-the-author",
@@ -3377,6 +3377,13 @@
       "url": "chapters/10-code-exhibit-extending-javascript-with-jaqt.html#p-10-the-point-of-the-model-is-the-shape"
     },
     {
+      "id": "aside-10-this-trick-was-inspired-by-lisp-in-lisp",
+      "type": "aside",
+      "label": "This trick was inspired by Lisp. In Lisp, a macro can receive a piece of program before it is evaluated, inspect its sha",
+      "chapter": "10-code-exhibit-extending-javascript-with-jaqt",
+      "url": "chapters/10-code-exhibit-extending-javascript-with-jaqt.html#aside-10-this-trick-was-inspired-by-lisp-in-lisp"
+    },
+    {
       "id": "h-10-the-whole-exhibit-version",
       "type": "heading",
       "label": "The whole exhibit version",
@@ -4763,27 +4770,6 @@
       "url": "chapters/14-the-web-as-commons.html#h-14-the-web-as-commons-innovation-happens-elsewhere"
     },
     {
-      "id": "p-14-the-previous-chapter-ended-with-an-admission-you",
-      "type": "paragraph",
-      "label": "The previous chapter ended with an admission: you will be wrong.",
-      "chapter": "14-the-web-as-commons",
-      "url": "chapters/14-the-web-as-commons.html#p-14-the-previous-chapter-ended-with-an-admission-you"
-    },
-    {
-      "id": "p-14-that-creates-another-problem-if-every-useful-answer",
-      "type": "paragraph",
-      "label": "That creates another problem. If every useful answer has to be predicted inside the original system, then every wrong de",
-      "chapter": "14-the-web-as-commons",
-      "url": "chapters/14-the-web-as-commons.html#p-14-that-creates-another-problem-if-every-useful-answer"
-    },
-    {
-      "id": "p-14-most-ideas-are-somewhere-else",
-      "type": "paragraph",
-      "label": "Most ideas are somewhere else.",
-      "chapter": "14-the-web-as-commons",
-      "url": "chapters/14-the-web-as-commons.html#p-14-most-ideas-are-somewhere-else"
-    },
-    {
       "id": "p-14-there-is-an-old-open-source-book-by",
       "type": "paragraph",
       "label": "There is an old open source book by Ron Goldman and Richard P. Gabriel called Innovation Happens Elsewhere. The title is",
@@ -4793,35 +4779,35 @@
     {
       "id": "p-14-no-matter-how-clever-your-team-is-most",
       "type": "paragraph",
-      "label": "No matter how clever your team is, most clever people do not work there. No matter how carefully you study your users, m",
+      "label": "Even if you have a team of the smartest people around, many more smart people will live and work outside your team. You ",
       "chapter": "14-the-web-as-commons",
       "url": "chapters/14-the-web-as-commons.html#p-14-no-matter-how-clever-your-team-is-most"
     },
     {
+      "id": "p-14-you-cannot-compete-with-the-world-you-cannot",
+      "type": "paragraph",
+      "label": "You cannot compete with the world. You cannot build the world.",
+      "chapter": "14-the-web-as-commons",
+      "url": "chapters/14-the-web-as-commons.html#p-14-you-cannot-compete-with-the-world-you-cannot"
+    },
+    {
       "id": "p-14-a-closed-system-can-still-be-wonderful-sometimes",
       "type": "paragraph",
-      "label": "A closed system can still be wonderful. Sometimes the closed system is exactly why an experience feels polished. Everyth",
+      "label": "Closed systems have their own advantages, but many of those advantages belong to the 'owner' of that system. As a user y",
       "chapter": "14-the-web-as-commons",
       "url": "chapters/14-the-web-as-commons.html#p-14-a-closed-system-can-still-be-wonderful-sometimes"
     },
     {
-      "id": "p-14-but-the-future-has-to-arrive-through-the",
-      "type": "paragraph",
-      "label": "But the future has to arrive through the front gate.",
-      "chapter": "14-the-web-as-commons",
-      "url": "chapters/14-the-web-as-commons.html#p-14-but-the-future-has-to-arrive-through-the"
-    },
-    {
       "id": "p-14-if-the-owner-of-the-system-does-not",
       "type": "paragraph",
-      "label": "If the owner of the system does not build the thing, the thing does not exist there. An outside wizard with a better ide",
+      "label": "If the owner of the system does not build it, it doesn't exist there. An outside wizard with a better idea must convince",
       "chapter": "14-the-web-as-commons",
       "url": "chapters/14-the-web-as-commons.html#p-14-if-the-owner-of-the-system-does-not"
     },
     {
       "id": "p-14-that-is-a-dangerous-place-to-put-the",
       "type": "paragraph",
-      "label": "That is a dangerous place to put the future.",
+      "label": "That's not a system built to grow, or to allow change at scale.",
       "chapter": "14-the-web-as-commons",
       "url": "chapters/14-the-web-as-commons.html#p-14-that-is-a-dangerous-place-to-put-the"
     },
@@ -4842,7 +4828,7 @@
     {
       "id": "p-14-the-useful-part-of-the-bazaar-is-not",
       "type": "paragraph",
-      "label": "The useful part of the bazaar is not the mess. Mess by itself is just mess.",
+      "label": "A bazaar can be messy, but that's not the point. The point is anyone can build a stall there.",
       "chapter": "14-the-web-as-commons",
       "url": "chapters/14-the-web-as-commons.html#p-14-the-useful-part-of-the-bazaar-is-not"
     },
@@ -4866,13 +4852,6 @@
       "label": "The Linux kernel is built by thousands of people, but those people do not all edit every part at will. It has maintainer",
       "chapter": "14-the-web-as-commons",
       "url": "chapters/14-the-web-as-commons.html#p-14-the-linux-kernel-is-built-by-thousands-of"
-    },
-    {
-      "id": "p-14-that-is-the-architectural-lesson",
-      "type": "paragraph",
-      "label": "That is the architectural lesson.",
-      "chapter": "14-the-web-as-commons",
-      "url": "chapters/14-the-web-as-commons.html#p-14-that-is-the-architectural-lesson"
     },
     {
       "id": "p-14-innovation-can-come-from-elsewhere-only-when-the",
@@ -4912,30 +4891,65 @@
     {
       "id": "p-14-standards-are-often-boring-that-is-part-of",
       "type": "paragraph",
-      "label": "Standards are often boring. That is part of their value. A standard should not require everyone to admire the same libra",
+      "label": "Standards are often boring. That's not a bug, but a feature. A standard should not require everyone to admire the same l",
       "chapter": "14-the-web-as-commons",
       "url": "chapters/14-the-web-as-commons.html#p-14-standards-are-often-boring-that-is-part-of"
     },
     {
-      "id": "p-14-this-is-how-small-reusable-software-becomes-possible",
+      "id": "p-14-a-stable-system-does-not-keep-change-out",
       "type": "paragraph",
-      "label": "This is how small, reusable software becomes possible.",
+      "label": "Together, those agreements form infrastructure.",
       "chapter": "14-the-web-as-commons",
-      "url": "chapters/14-the-web-as-commons.html#p-14-this-is-how-small-reusable-software-becomes-possible"
+      "url": "chapters/14-the-web-as-commons.html#p-14-a-stable-system-does-not-keep-change-out"
     },
     {
-      "id": "p-14-a-small-tool-does-not-need-to-implement",
+      "id": "p-14-at-the-bottom-is-infrastructure",
       "type": "paragraph",
-      "label": "A small tool does not need to implement the whole world if it can rely on addresses, protocols and formats outside itsel",
+      "label": "Infrastructure is not built for the next release. It is built for decades, perhaps longer. Its language must stay smalle",
       "chapter": "14-the-web-as-commons",
-      "url": "chapters/14-the-web-as-commons.html#p-14-a-small-tool-does-not-need-to-implement"
+      "url": "chapters/14-the-web-as-commons.html#p-14-at-the-bottom-is-infrastructure"
     },
     {
-      "id": "p-14-the-application-stays-small-because-the-outside-is",
+      "id": "p-14-infrastructure-speaks-in-small-words",
       "type": "paragraph",
-      "label": "The application stays small because the outside is large and stable enough.",
+      "label": "A URL identifies, HTTP sends messages, and HTML describes a document. None of them knows whether that document is a shop",
       "chapter": "14-the-web-as-commons",
-      "url": "chapters/14-the-web-as-commons.html#p-14-the-application-stays-small-because-the-outside-is"
+      "url": "chapters/14-the-web-as-commons.html#p-14-infrastructure-speaks-in-small-words"
+    },
+    {
+      "id": "p-14-on-top-sits-the-platform",
+      "type": "paragraph",
+      "label": "On top of infrastructure lives the platform. Browsers and web servers turn those small agreements into places where soft",
+      "chapter": "14-the-web-as-commons",
+      "url": "chapters/14-the-web-as-commons.html#p-14-on-top-sits-the-platform"
+    },
+    {
+      "id": "p-14-then-come-the-applications",
+      "type": "paragraph",
+      "label": "Then come the applications. This is where purpose enters. And diversity. A calendar knows about appointments. A shop kno",
+      "chapter": "14-the-web-as-commons",
+      "url": "chapters/14-the-web-as-commons.html#p-14-then-come-the-applications"
+    },
+    {
+      "id": "p-14-the-same-shape-can-appear-inside-an-application",
+      "type": "paragraph",
+      "label": "The pattern repeats. An application framework is an inner platform: built on the browser or server, but providing anothe",
+      "chapter": "14-the-web-as-commons",
+      "url": "chapters/14-the-web-as-commons.html#p-14-the-same-shape-can-appear-inside-an-application"
+    },
+    {
+      "id": "p-14-each-step-upward-allows-more-meaning-and-change",
+      "type": "paragraph",
+      "label": "Each step upward allows more meaning and more change. Each step downward makes an idea harder to remove. An application ",
+      "chapter": "14-the-web-as-commons",
+      "url": "chapters/14-the-web-as-commons.html#p-14-each-step-upward-allows-more-meaning-and-change"
+    },
+    {
+      "id": "p-14-this-is-not-a-hierarchy-of-importance",
+      "type": "paragraph",
+      "label": "A stable system does not keep change out everywhere. It gives each kind of change a place.",
+      "chapter": "14-the-web-as-commons",
+      "url": "chapters/14-the-web-as-commons.html#p-14-this-is-not-a-hierarchy-of-importance"
     },
     {
       "id": "h-14-the-web-was-built-this-way",
@@ -4954,7 +4968,7 @@
     {
       "id": "p-14-a-url-let-one-document-point-to-another",
       "type": "paragraph",
-      "label": "A URL let one document point to another thing somewhere else. HTTP gave browsers and servers a way to talk. HTML gave do",
+      "label": "Its infrastructure did not contain a search engine, a shop or a social network. It gave browsers, servers and documents ",
       "chapter": "14-the-web-as-commons",
       "url": "chapters/14-the-web-as-commons.html#p-14-a-url-let-one-document-point-to-another"
     },
@@ -4996,7 +5010,7 @@
     {
       "id": "p-14-castles-are-convenient-they-reduce-friction-they-give",
       "type": "paragraph",
-      "label": "Castles are convenient. They reduce friction. They give users one button to press instead of a lecture about standards. ",
+      "label": "Castles are convenient. They can be built quickly, and functionality can be added without committee meetings about the e",
       "chapter": "14-the-web-as-commons",
       "url": "chapters/14-the-web-as-commons.html#p-14-castles-are-convenient-they-reduce-friction-they-give"
     },
@@ -5008,46 +5022,39 @@
       "url": "chapters/14-the-web-as-commons.html#p-14-but-the-open-ground-still-matters-without-it"
     },
     {
-      "id": "h-14-small-software-needs-a-large-outside",
+      "id": "h-14-the-outside-needs-a-way-in",
       "type": "heading",
-      "label": "Small software needs a large outside",
+      "label": "The outside needs a way in",
       "chapter": "14-the-web-as-commons",
-      "url": "chapters/14-the-web-as-commons.html#h-14-small-software-needs-a-large-outside"
+      "url": "chapters/14-the-web-as-commons.html#h-14-the-outside-needs-a-way-in"
+    },
+    {
+      "id": "p-14-this-is-how-small-reusable-software-becomes-possible",
+      "type": "paragraph",
+      "label": "The open ground does more than preserve what already exists. It gives new ideas somewhere to begin.",
+      "chapter": "14-the-web-as-commons",
+      "url": "chapters/14-the-web-as-commons.html#p-14-this-is-how-small-reusable-software-becomes-possible"
     },
     {
       "id": "p-14-if-a-program-has-to-do-everything-itself",
       "type": "paragraph",
-      "label": "If a program has to do everything itself, it will grow.",
+      "label": "A new idea can first live in an application. It can be tried, changed, abandoned or rebuilt without touching every brows",
       "chapter": "14-the-web-as-commons",
       "url": "chapters/14-the-web-as-commons.html#p-14-if-a-program-has-to-do-everything-itself"
     },
     {
       "id": "p-14-if-it-has-to-own-the-data-identity",
       "type": "paragraph",
-      "label": "If it has to own the data, identity, storage, sharing, editor, export format, interface and extension system, it will be",
+      "label": "If many applications need it, a platform may learn to provide it. But only the smallest and most durable agreements shou",
       "chapter": "14-the-web-as-commons",
       "url": "chapters/14-the-web-as-commons.html#p-14-if-it-has-to-own-the-data-identity"
     },
     {
       "id": "p-14-small-reusable-software-needs-the-opposite-assumption-it",
       "type": "paragraph",
-      "label": "Small, reusable software needs the opposite assumption. It has to assume that important things live outside it.",
+      "label": "Keep an idea as high in the stack as it can live.",
       "chapter": "14-the-web-as-commons",
       "url": "chapters/14-the-web-as-commons.html#p-14-small-reusable-software-needs-the-opposite-assumption-it"
-    },
-    {
-      "id": "p-14-the-address-is-outside-it-the-protocol-is",
-      "type": "paragraph",
-      "label": "The address is outside it. The protocol is outside it. The next tool may be written by someone else. The useful extensio",
-      "chapter": "14-the-web-as-commons",
-      "url": "chapters/14-the-web-as-commons.html#p-14-the-address-is-outside-it-the-protocol-is"
-    },
-    {
-      "id": "p-14-this-does-not-remove-design-work-it-changes",
-      "type": "paragraph",
-      "label": "This does not remove design work. It changes the design work.",
-      "chapter": "14-the-web-as-commons",
-      "url": "chapters/14-the-web-as-commons.html#p-14-this-does-not-remove-design-work-it-changes"
     },
     {
       "id": "p-14-instead-of-designing-the-entire-world-you-design",
@@ -5057,81 +5064,25 @@
       "url": "chapters/14-the-web-as-commons.html#p-14-instead-of-designing-the-entire-world-you-design"
     },
     {
+      "id": "p-14-the-address-is-outside-it-the-protocol-is",
+      "type": "paragraph",
+      "label": "That gives outsiders somewhere to act. People are no longer captives in your castle; they become a community. They can b",
+      "chapter": "14-the-web-as-commons",
+      "url": "chapters/14-the-web-as-commons.html#p-14-the-address-is-outside-it-the-protocol-is"
+    },
+    {
       "id": "p-14-open-source-is-one-way-to-let-the",
       "type": "paragraph",
-      "label": "Open source is one way to let the outside world in, but it is not the only one. Protocols, data formats, documentation, ",
+      "label": "Open source is one way to let the outside world in, but it is not the only one. Protocols, data formats, permissive lice",
       "chapter": "14-the-web-as-commons",
       "url": "chapters/14-the-web-as-commons.html#p-14-open-source-is-one-way-to-let-the"
     },
     {
       "id": "p-14-a-wizard-should-not-be-ashamed-of-using",
       "type": "paragraph",
-      "label": "A wizard should not be ashamed of using other people's magic. That is how the craft advances. The shame is building a sy",
+      "label": "A wizard should not be ashamed of stealing other people's magic. That is how the world improves. The shame is building a",
       "chapter": "14-the-web-as-commons",
       "url": "chapters/14-the-web-as-commons.html#p-14-a-wizard-should-not-be-ashamed-of-using"
-    },
-    {
-      "id": "h-14-moving-data-is-not-enough",
-      "type": "heading",
-      "label": "Moving data is not enough",
-      "chapter": "14-the-web-as-commons",
-      "url": "chapters/14-the-web-as-commons.html#h-14-moving-data-is-not-enough"
-    },
-    {
-      "id": "p-14-standards-let-independent-tools-meet-but-not-every",
-      "type": "paragraph",
-      "label": "Standards let independent tools meet, but not every shared format creates understanding.",
-      "chapter": "14-the-web-as-commons",
-      "url": "chapters/14-the-web-as-commons.html#p-14-standards-let-independent-tools-meet-but-not-every"
-    },
-    {
-      "id": "p-14-two-applications-can-both-export-json",
-      "type": "paragraph",
-      "label": "Two applications can both export JSON:",
-      "chapter": "14-the-web-as-commons",
-      "url": "chapters/14-the-web-as-commons.html#p-14-two-applications-can-both-export-json"
-    },
-    {
-      "id": "portable-not-interoperable-a",
-      "type": "code",
-      "label": "json block",
-      "chapter": "14-the-web-as-commons",
-      "url": "chapters/14-the-web-as-commons.html#portable-not-interoperable-a"
-    },
-    {
-      "id": "portable-not-interoperable-b",
-      "type": "code",
-      "label": "json block",
-      "chapter": "14-the-web-as-commons",
-      "url": "chapters/14-the-web-as-commons.html#portable-not-interoperable-b"
-    },
-    {
-      "id": "p-14-the-files-are-portable-they-can-be-copied",
-      "type": "paragraph",
-      "label": "The files are portable. They can be copied, downloaded and opened.",
-      "chapter": "14-the-web-as-commons",
-      "url": "chapters/14-the-web-as-commons.html#p-14-the-files-are-portable-they-can-be-copied"
-    },
-    {
-      "id": "p-14-but-are-person-17-and-user-882-the",
-      "type": "paragraph",
-      "label": "But are person-17 and user-882 the same person? Do author and creator mean the same thing? Is city the same property as ",
-      "chapter": "14-the-web-as-commons",
-      "url": "chapters/14-the-web-as-commons.html#p-14-but-are-person-17-and-user-882-the"
-    },
-    {
-      "id": "p-14-the-format-cannot-tell-us",
-      "type": "paragraph",
-      "label": "The format cannot tell us.",
-      "chapter": "14-the-web-as-commons",
-      "url": "chapters/14-the-web-as-commons.html#p-14-the-format-cannot-tell-us"
-    },
-    {
-      "id": "p-14-the-web-gave-documents-names-that-can-cross",
-      "type": "paragraph",
-      "label": "The Web gave documents names that can cross boundaries. The next question is whether the names and meanings inside the d",
-      "chapter": "14-the-web-as-commons",
-      "url": "chapters/14-the-web-as-commons.html#p-14-the-web-gave-documents-names-that-can-cross"
     },
     {
       "id": "h-15-the-web-as-data-things-should-have-addresses-too",
@@ -5157,9 +5108,23 @@
     {
       "id": "p-15-json-is-portable-it-can-carry-almost-any",
       "type": "paragraph",
-      "label": "JSON is portable. It can carry almost any shape of data. But JSON does not tell another program what the names inside it",
+      "label": "JSON is never just JSON. It is portable and can carry almost any kind of data, but it does not tell another program what",
       "chapter": "15-the-web-as-data",
       "url": "chapters/15-the-web-as-data.html#p-15-json-is-portable-it-can-carry-almost-any"
+    },
+    {
+      "id": "p-15-json-is-an-interesting-piece-of-infrastructure",
+      "type": "paragraph",
+      "label": "That is not an accidental omission. JSON is infrastructure, and almost aggressively small. It has objects, arrays, strin",
+      "chapter": "15-the-web-as-data",
+      "url": "chapters/15-the-web-as-data.html#p-15-json-is-an-interesting-piece-of-infrastructure"
+    },
+    {
+      "id": "p-15-its-smallness-helped-it-spread",
+      "type": "paragraph",
+      "label": "Its smallness helped it spread. It also made JSON difficult to extend. When people need identity, dates, references, typ",
+      "chapter": "15-the-web-as-data",
+      "url": "chapters/15-the-web-as-data.html#p-15-its-smallness-helped-it-spread"
     },
     {
       "id": "p-15-a-contacts-app-calendar-app-and-photo-app",
@@ -5253,18 +5218,11 @@
       "url": "chapters/15-the-web-as-data.html#p-15-across-a-boundary-each-private-name-needs-a"
     },
     {
-      "id": "p-15-so-the-next-wizard-question-is-simple",
+      "id": "p-15-instead-imagine-if-names-inside-the-data-could",
       "type": "paragraph",
-      "label": "So the next wizard question is simple:",
-      "chapter": "15-the-web-as-data",
-      "url": "chapters/15-the-web-as-data.html#p-15-so-the-next-wizard-question-is-simple"
-    },
-    {
-      "id": "aside-15-what-if-names-inside-the-data-could-cross",
-      "type": "aside",
       "label": "What if names inside the data could cross the same boundaries as documents?",
       "chapter": "15-the-web-as-data",
-      "url": "chapters/15-the-web-as-data.html#aside-15-what-if-names-inside-the-data-could-cross"
+      "url": "chapters/15-the-web-as-data.html#p-15-instead-imagine-if-names-inside-the-data-could"
     },
     {
       "id": "h-15-names-that-can-travel",
@@ -5407,6 +5365,20 @@
       "url": "chapters/15-the-web-as-data.html#turtle-example"
     },
     {
+      "id": "p-15-json-ld-is-another-spelling",
+      "type": "paragraph",
+      "label": "RDF is a model for the data, not one particular spelling. Turtle is one spelling. JSON-LD is another.",
+      "chapter": "15-the-web-as-data",
+      "url": "chapters/15-the-web-as-data.html#p-15-json-ld-is-another-spelling"
+    },
+    {
+      "id": "p-15-some-people-make-another-format",
+      "type": "paragraph",
+      "label": "JSON-LD takes a slightly strange route. It keeps the familiar JSON shape, then gives names such as @id and @context an e",
+      "chapter": "15-the-web-as-data",
+      "url": "chapters/15-the-web-as-data.html#p-15-some-people-make-another-format"
+    },
+    {
       "id": "p-15-breaking-knowledge-into-small-statements-is-not-new",
       "type": "paragraph",
       "label": "Breaking knowledge into small statements is not new. Databases and logic languages have done versions of it for a long t",
@@ -5419,13 +5391,6 @@
       "label": "The Web contribution is that the names inside those statements can be Web names.",
       "chapter": "15-the-web-as-data",
       "url": "chapters/15-the-web-as-data.html#p-15-the-web-contribution-is-that-the-names-inside"
-    },
-    {
-      "id": "p-15-that-is-a-small-change-with-large-consequences",
-      "type": "paragraph",
-      "label": "That is a small change with large consequences.",
-      "chapter": "15-the-web-as-data",
-      "url": "chapters/15-the-web-as-data.html#p-15-that-is-a-small-change-with-large-consequences"
     },
     {
       "id": "h-15-a-graph-without-a-centre",
@@ -5561,25 +5526,18 @@
       "url": "chapters/15-the-web-as-data.html#p-15-linked-data-therefore-uses-vocabularies-shared-sets-of"
     },
     {
-      "id": "p-15-this-is-powerful-and-irritating",
+      "id": "p-15-this-is-where-your-eyes-may-start-to",
       "type": "paragraph",
-      "label": "This is powerful and irritating.",
+      "label": "This is where your eyes may start to gloss over. Vocabularies, ontologies, IRIs. This all sounds abstract and academic, ",
       "chapter": "15-the-web-as-data",
-      "url": "chapters/15-the-web-as-data.html#p-15-this-is-powerful-and-irritating"
+      "url": "chapters/15-the-web-as-data.html#p-15-this-is-where-your-eyes-may-start-to"
     },
     {
-      "id": "p-15-powerful-because-independent-tools-can-recognise-the-same",
+      "id": "p-15-when-independent-tools-can-recognise-the-same-names",
       "type": "paragraph",
-      "label": "Powerful, because independent tools can recognise the same kind of fact.",
+      "label": "When independent tools recognise the same names for the same kinds of facts, they can work on those facts independently.",
       "chapter": "15-the-web-as-data",
-      "url": "chapters/15-the-web-as-data.html#p-15-powerful-because-independent-tools-can-recognise-the-same"
-    },
-    {
-      "id": "p-15-irritating-because-shared-meaning-is-social-work-pretending",
-      "type": "paragraph",
-      "label": "Irritating, because shared meaning is social work pretending to be technical work. The machine can follow the link. Peop",
-      "chapter": "15-the-web-as-data",
-      "url": "chapters/15-the-web-as-data.html#p-15-irritating-because-shared-meaning-is-social-work-pretending"
+      "url": "chapters/15-the-web-as-data.html#p-15-when-independent-tools-can-recognise-the-same-names"
     },
     {
       "id": "p-15-linked-data-is-not-fairy-dust-you-can",
@@ -5589,16 +5547,9 @@
       "url": "chapters/15-the-web-as-data.html#p-15-linked-data-is-not-fairy-dust-you-can"
     },
     {
-      "id": "p-15-the-format-is-not-the-point-by-itself",
-      "type": "paragraph",
-      "label": "The format is not the point by itself.",
-      "chapter": "15-the-web-as-data",
-      "url": "chapters/15-the-web-as-data.html#p-15-the-format-is-not-the-point-by-itself"
-    },
-    {
       "id": "p-15-the-boundary-is-the-point-names-and-meanings",
       "type": "paragraph",
-      "label": "The boundary is the point. Names and meanings can survive the application that first used them.",
+      "label": "A format will not solve all these problems. What matters is that names and meanings can survive the application that fir",
       "chapter": "15-the-web-as-data",
       "url": "chapters/15-the-web-as-data.html#p-15-the-boundary-is-the-point-names-and-meanings"
     },
@@ -5610,39 +5561,18 @@
       "url": "chapters/15-the-web-as-data.html#h-15-what-linked-data-does-not-solve"
     },
     {
-      "id": "p-15-linked-data-does-not-decide-where-data-lives",
+      "id": "p-15-linked-data-lets-applications-work-with-the-same",
       "type": "paragraph",
-      "label": "Linked data does not decide where data lives.",
+      "label": "Linked data lets applications work with the same meanings, but the data can still be trapped behind a locked gate. It do",
       "chapter": "15-the-web-as-data",
-      "url": "chapters/15-the-web-as-data.html#p-15-linked-data-does-not-decide-where-data-lives"
+      "url": "chapters/15-the-web-as-data.html#p-15-linked-data-lets-applications-work-with-the-same"
     },
     {
-      "id": "p-15-it-does-not-decide-who-owns-the-storage",
+      "id": "p-15-a-company-can-keep-rdf-in-a-private",
       "type": "paragraph",
-      "label": "It does not decide who owns the storage, who may read a fact, who may change it, or which copy is authoritative. A compa",
+      "label": "A company can keep RDF in a private database. A locked service can offer a Turtle export button.",
       "chapter": "15-the-web-as-data",
-      "url": "chapters/15-the-web-as-data.html#p-15-it-does-not-decide-who-owns-the-storage"
-    },
-    {
-      "id": "p-15-the-data-may-be-interoperable-and-still-be",
-      "type": "paragraph",
-      "label": "The data may be interoperable and still be trapped.",
-      "chapter": "15-the-web-as-data",
-      "url": "chapters/15-the-web-as-data.html#p-15-the-data-may-be-interoperable-and-still-be"
-    },
-    {
-      "id": "p-15-linked-data-solves-a-different-part-of-the",
-      "type": "paragraph",
-      "label": "Linked data solves a different part of the problem. It gives independently written tools a way to identify the same thin",
-      "chapter": "15-the-web-as-data",
-      "url": "chapters/15-the-web-as-data.html#p-15-linked-data-solves-a-different-part-of-the"
-    },
-    {
-      "id": "p-15-that-distinction-matters",
-      "type": "paragraph",
-      "label": "That distinction matters.",
-      "chapter": "15-the-web-as-data",
-      "url": "chapters/15-the-web-as-data.html#p-15-that-distinction-matters"
+      "url": "chapters/15-the-web-as-data.html#p-15-a-company-can-keep-rdf-in-a-private"
     },
     {
       "id": "p-15-a-shared-storage-system-without-shared-meaning-becomes",
@@ -5661,70 +5591,63 @@
     {
       "id": "p-15-we-need-both-boundaries-but-they-are-not",
       "type": "paragraph",
-      "label": "We need both boundaries, but they are not the same boundary.",
+      "label": "We need both boundaries, but they are not the same.",
       "chapter": "15-the-web-as-data",
       "url": "chapters/15-the-web-as-data.html#p-15-we-need-both-boundaries-but-they-are-not"
     },
     {
-      "id": "h-15-data-that-outlives-the-application",
+      "id": "h-15-the-boundary-moves-again",
       "type": "heading",
-      "label": "Data that outlives the application",
+      "label": "The boundary moves again",
       "chapter": "15-the-web-as-data",
-      "url": "chapters/15-the-web-as-data.html#h-15-data-that-outlives-the-application"
+      "url": "chapters/15-the-web-as-data.html#h-15-the-boundary-moves-again"
     },
     {
       "id": "p-15-think-again-about-small-reusable-software",
       "type": "paragraph",
-      "label": "Think again about small, reusable software.",
+      "label": "Back in the knitted castle, the useful question was not whether something could be reused, but in what direction. A file",
       "chapter": "15-the-web-as-data",
       "url": "chapters/15-the-web-as-data.html#p-15-think-again-about-small-reusable-software"
     },
     {
       "id": "p-15-a-small-calendar-tool-can-stay-small-if",
       "type": "paragraph",
-      "label": "A small calendar tool can stay small if it can refer to people and events without inventing a private universe for them.",
+      "label": "Linked data moves that boundary further.",
       "chapter": "15-the-web-as-data",
       "url": "chapters/15-the-web-as-data.html#p-15-a-small-calendar-tool-can-stay-small-if"
     },
     {
       "id": "p-15-the-application-does-not-need-to-own-all",
       "type": "paragraph",
-      "label": "The application does not need to own all meaning.",
+      "label": "Two applications do not need to share code if they can recognise the same things, use the same names and work with the s",
       "chapter": "15-the-web-as-data",
       "url": "chapters/15-the-web-as-data.html#p-15-the-application-does-not-need-to-own-all"
     },
     {
       "id": "p-15-it-can-become-an-editor-viewer-filter-search",
       "type": "paragraph",
-      "label": "It can become an editor, viewer, filter, search tool or translator. It can arrive, do useful work, and leave without tak",
+      "label": "The shared part is not hidden inside either program. It is in the names and data they agree to use.",
       "chapter": "15-the-web-as-data",
       "url": "chapters/15-the-web-as-data.html#p-15-it-can-become-an-editor-viewer-filter-search"
     },
     {
       "id": "p-15-linked-data-makes-that-shape-possible-it-does",
       "type": "paragraph",
-      "label": "Linked data makes that shape possible. It does not guarantee that anyone will choose the same names, or that the resulti",
+      "label": "Linked data gives names somewhere to meet. It lets work done by one application become useful to another that was writte",
       "chapter": "15-the-web-as-data",
       "url": "chapters/15-the-web-as-data.html#p-15-linked-data-makes-that-shape-possible-it-does"
     },
     {
-      "id": "p-15-but-one-question-remains",
+      "id": "p-15-if-the-meaning-can-live-outside-the-application",
       "type": "paragraph",
-      "label": "But one question remains.",
+      "label": "If the meaning can live outside the application, why should the application own the only copy of the data?",
       "chapter": "15-the-web-as-data",
-      "url": "chapters/15-the-web-as-data.html#p-15-but-one-question-remains"
-    },
-    {
-      "id": "p-15-if-the-applications-meanings-can-live-outside-it",
-      "type": "paragraph",
-      "label": "If the application's meanings can live outside it, why should the application own the only copy of the data?",
-      "chapter": "15-the-web-as-data",
-      "url": "chapters/15-the-web-as-data.html#p-15-if-the-applications-meanings-can-live-outside-it"
+      "url": "chapters/15-the-web-as-data.html#p-15-if-the-meaning-can-live-outside-the-application"
     },
     {
       "id": "p-15-where-should-a-persons-data-live",
       "type": "paragraph",
-      "label": "Where should a person's data live?",
+      "label": "Where should a person’s data live?",
       "chapter": "15-the-web-as-data",
       "url": "chapters/15-the-web-as-data.html#p-15-where-should-a-persons-data-live"
     },
@@ -5752,7 +5675,7 @@
     {
       "id": "p-16-linked-data-gave-us-names-and-meanings-that",
       "type": "paragraph",
-      "label": "Linked data gave us names and meanings that can cross application boundaries. It did not give the data a home.",
+      "label": "Linked data gave us names and meanings that can cross application boundaries, but it did not give that data a home.",
       "chapter": "16-the-web-as-home",
       "url": "chapters/16-the-web-as-home.html#p-16-linked-data-gave-us-names-and-meanings-that"
     },
@@ -5773,7 +5696,7 @@
     {
       "id": "p-16-the-web-grew-up-differently",
       "type": "paragraph",
-      "label": "The Web grew up differently.",
+      "label": "The Web did not follow that example.",
       "chapter": "16-the-web-as-home",
       "url": "chapters/16-the-web-as-home.html#p-16-the-web-grew-up-differently"
     },
@@ -5785,32 +5708,11 @@
       "url": "chapters/16-the-web-as-home.html#p-16-your-mail-lives-in-the-mail-application-your"
     },
     {
-      "id": "p-16-this-is-understandable-it-is-also-strange",
-      "type": "paragraph",
-      "label": "This is understandable. It is also strange.",
-      "chapter": "16-the-web-as-home",
-      "url": "chapters/16-the-web-as-home.html#p-16-this-is-understandable-it-is-also-strange"
-    },
-    {
       "id": "p-16-when-an-application-owns-the-interface-account-data",
       "type": "paragraph",
-      "label": "When an application owns the interface, account, data and permissions, it can arrange the whole room around itself. That",
+      "label": "That is convenient for the maker of the application. Everything can be designed as one system. It is often convenient fo",
       "chapter": "16-the-web-as-home",
       "url": "chapters/16-the-web-as-home.html#p-16-when-an-application-owns-the-interface-account-data"
-    },
-    {
-      "id": "p-16-but-the-boundary-is-in-the-wrong-place",
-      "type": "paragraph",
-      "label": "But the boundary is in the wrong place.",
-      "chapter": "16-the-web-as-home",
-      "url": "chapters/16-the-web-as-home.html#p-16-but-the-boundary-is-in-the-wrong-place"
-    },
-    {
-      "id": "p-16-the-application-has-become-the-container-for-the",
-      "type": "paragraph",
-      "label": "The application has become the container for the user's life.",
-      "chapter": "16-the-web-as-home",
-      "url": "chapters/16-the-web-as-home.html#p-16-the-application-has-become-the-container-for-the"
     },
     {
       "id": "p-16-software-moved-into-the-network-the-users-home",
@@ -5820,11 +5722,11 @@
       "url": "chapters/16-the-web-as-home.html#p-16-software-moved-into-the-network-the-users-home"
     },
     {
-      "id": "h-16-the-old-shape-and-another-shape",
+      "id": "h-16-a-sideways-look",
       "type": "heading",
-      "label": "The old shape and another shape",
+      "label": "A sideways look",
       "chapter": "16-the-web-as-home",
-      "url": "chapters/16-the-web-as-home.html#h-16-the-old-shape-and-another-shape"
+      "url": "chapters/16-the-web-as-home.html#h-16-a-sideways-look"
     },
     {
       "id": "p-16-one-way-to-describe-the-modern-web-is",
@@ -5850,7 +5752,7 @@
     {
       "id": "p-16-there-is-another-possible-shape",
       "type": "paragraph",
-      "label": "There is another possible shape:",
+      "label": "There is another way to organize the same elements:",
       "chapter": "16-the-web-as-home",
       "url": "chapters/16-the-web-as-home.html#p-16-there-is-another-possible-shape"
     },
@@ -5869,16 +5771,16 @@
       "url": "chapters/16-the-web-as-home.html#p-16-the-person-is-the-starting-point-the-data"
     },
     {
-      "id": "p-16-that-looks-like-a-small-rearrangement-it-is",
+      "id": "p-16-the-elements-have-not-changed-only-their-order",
       "type": "paragraph",
-      "label": "That looks like a small rearrangement. It is not.",
+      "label": "The elements have not changed. Only their order has.",
       "chapter": "16-the-web-as-home",
-      "url": "chapters/16-the-web-as-home.html#p-16-that-looks-like-a-small-rearrangement-it-is"
+      "url": "chapters/16-the-web-as-home.html#p-16-the-elements-have-not-changed-only-their-order"
     },
     {
       "id": "p-16-in-the-first-shape-replacing-an-application-means",
       "type": "paragraph",
-      "label": "In the first shape, replacing an application means moving your life from one system to another.",
+      "label": "In the first version, replacing an application means moving your life from one system to another.",
       "chapter": "16-the-web-as-home",
       "url": "chapters/16-the-web-as-home.html#p-16-in-the-first-shape-replacing-an-application-means"
     },
@@ -5890,16 +5792,23 @@
       "url": "chapters/16-the-web-as-home.html#p-16-in-the-second-replacing-an-application-can-be"
     },
     {
-      "id": "p-16-small-replaceable-software-requires-a-place-where-the",
+      "id": "p-16-sometimes-moving-the-boundary-changes-the-problem-more",
       "type": "paragraph",
-      "label": "Small, replaceable software requires a place where the important things are not owned by the software.",
+      "label": "Sometimes moving the boundary changes the problem more than solving it ever could.",
       "chapter": "16-the-web-as-home",
-      "url": "chapters/16-the-web-as-home.html#p-16-small-replaceable-software-requires-a-place-where-the"
+      "url": "chapters/16-the-web-as-home.html#p-16-sometimes-moving-the-boundary-changes-the-problem-more"
+    },
+    {
+      "id": "p-16-for-this-second-shape-to-work",
+      "type": "paragraph",
+      "label": "For this second shape to work, the important things cannot all be owned by the application.",
+      "chapter": "16-the-web-as-home",
+      "url": "chapters/16-the-web-as-home.html#p-16-for-this-second-shape-to-work"
     },
     {
       "id": "p-16-linked-data-helps-different-tools-understand-the-same",
       "type": "paragraph",
-      "label": "Linked data helps different tools understand the same things. It does not create this second shape by itself. We still n",
+      "label": "Linked data helps different tools understand the same things. But by itself, it does not organize the world differently.",
       "chapter": "16-the-web-as-home",
       "url": "chapters/16-the-web-as-home.html#p-16-linked-data-helps-different-tools-understand-the-same"
     },
@@ -5913,16 +5822,9 @@
     {
       "id": "p-16-there-is-a-project-called-solid-that-explores",
       "type": "paragraph",
-      "label": "There is a project called Solid that explores this second shape.",
+      "label": "There is a project called Solid that explores this kind of world.",
       "chapter": "16-the-web-as-home",
       "url": "chapters/16-the-web-as-home.html#p-16-there-is-a-project-called-solid-that-explores"
-    },
-    {
-      "id": "p-16-solid-does-not-have-to-conquer-the-web",
-      "type": "paragraph",
-      "label": "Solid does not have to conquer the Web for the boundary it demonstrates to be useful.",
-      "chapter": "16-the-web-as-home",
-      "url": "chapters/16-the-web-as-home.html#p-16-solid-does-not-have-to-conquer-the-web"
     },
     {
       "id": "p-16-solid-separates-identity-and-data-from-applications-a",
@@ -5932,368 +5834,144 @@
       "url": "chapters/16-the-web-as-home.html#p-16-solid-separates-identity-and-data-from-applications-a"
     },
     {
-      "id": "p-16-the-application-is-no-longer-automatically-the-place",
+      "id": "p-16-the-solid-protocols-are-an-attempt-to-put",
       "type": "paragraph",
-      "label": "The application is no longer automatically the place where the data lives.",
+      "label": "The Solid protocols add shared infrastructure for identity, storage and permissions to the Web. They do not prescribe a ",
       "chapter": "16-the-web-as-home",
-      "url": "chapters/16-the-web-as-home.html#p-16-the-application-is-no-longer-automatically-the-place"
+      "url": "chapters/16-the-web-as-home.html#p-16-the-solid-protocols-are-an-attempt-to-put"
     },
     {
-      "id": "p-16-this-is-not-a-solid-manual-the-details",
+      "id": "p-16-solid-servers-and-libraries-can-form-platforms",
       "type": "paragraph",
-      "label": "This is not a Solid manual. The details matter, but the wizardly part is the boundary it proposes.",
+      "label": "Solid servers and libraries provide a platform on top of those agreements. A notes application can write a note without ",
       "chapter": "16-the-web-as-home",
-      "url": "chapters/16-the-web-as-home.html#p-16-this-is-not-a-solid-manual-the-details"
+      "url": "chapters/16-the-web-as-home.html#p-16-solid-servers-and-libraries-can-form-platforms"
     },
     {
       "id": "p-16-linked-data-describes-what-the-data-means-and",
       "type": "paragraph",
-      "label": "Linked data describes what the data means and how it relates to other things.",
+      "label": "Linked data describes what the data means and how it relates to other things. Solid decides where that data lives, who c",
       "chapter": "16-the-web-as-home",
       "url": "chapters/16-the-web-as-home.html#p-16-linked-data-describes-what-the-data-means-and"
     },
     {
-      "id": "p-16-solid-determines-where-that-data-lives-who-controls",
+      "id": "p-16-solid-does-not-replace-the-web-it-enhances",
       "type": "paragraph",
-      "label": "Solid determines where that data lives, who controls it, and which applications may use it.",
+      "label": "Solid adds to the Web rather than replacing it. It can be useful without becoming the answer to everything.",
       "chapter": "16-the-web-as-home",
-      "url": "chapters/16-the-web-as-home.html#p-16-solid-determines-where-that-data-lives-who-controls"
+      "url": "chapters/16-the-web-as-home.html#p-16-solid-does-not-replace-the-web-it-enhances"
     },
     {
-      "id": "p-16-linked-data-lets-the-meaning-travel",
-      "type": "paragraph",
-      "label": "Linked data lets the meaning travel.",
-      "chapter": "16-the-web-as-home",
-      "url": "chapters/16-the-web-as-home.html#p-16-linked-data-lets-the-meaning-travel"
-    },
-    {
-      "id": "p-16-solid-gives-the-data-a-home",
-      "type": "paragraph",
-      "label": "Solid gives the data a home.",
-      "chapter": "16-the-web-as-home",
-      "url": "chapters/16-the-web-as-home.html#p-16-solid-gives-the-data-a-home"
-    },
-    {
-      "id": "h-16-the-margin-you-have-been-using",
+      "id": "h-16-applications-as-visitors",
       "type": "heading",
-      "label": "The margin you have been using",
+      "label": "Applications as visitors",
       "chapter": "16-the-web-as-home",
-      "url": "chapters/16-the-web-as-home.html#h-16-the-margin-you-have-been-using"
+      "url": "chapters/16-the-web-as-home.html#h-16-applications-as-visitors"
     },
     {
-      "id": "p-16-this-is-not-only-a-proposal-for-some",
+      "id": "p-16-once-data-and-identity-live-outside",
       "type": "paragraph",
-      "label": "This is not only a proposal for some future Web.",
+      "label": "Once data and identity live outside the application, the application no longer has to become a kingdom before it can be ",
       "chapter": "16-the-web-as-home",
-      "url": "chapters/16-the-web-as-home.html#p-16-this-is-not-only-a-proposal-for-some"
+      "url": "chapters/16-the-web-as-home.html#p-16-once-data-and-identity-live-outside"
     },
     {
-      "id": "p-16-this-book-is-already-trying-to-work-this",
+      "id": "p-16-a-calendar-can-concentrate-on-appointments",
       "type": "paragraph",
-      "label": "This book is already trying to work this way.",
+      "label": "A calendar can concentrate on appointments. A contacts tool can concentrate on people. A notes editor can concentrate on",
       "chapter": "16-the-web-as-home",
-      "url": "chapters/16-the-web-as-home.html#p-16-this-book-is-already-trying-to-work-this"
+      "url": "chapters/16-the-web-as-home.html#p-16-a-calendar-can-concentrate-on-appointments"
     },
     {
-      "id": "p-16-you-may-have-written-notes-in-its-margins",
+      "id": "p-16-an-application-can-arrive-do-useful-work",
       "type": "paragraph",
-      "label": "You may have written notes in its margins. To the reader, the margin is simply part of the book. Underneath, it is provi",
+      "label": "An application can arrive, do useful work, and leave without taking the user's world with it.",
       "chapter": "16-the-web-as-home",
-      "url": "chapters/16-the-web-as-home.html#p-16-you-may-have-written-notes-in-its-margins"
+      "url": "chapters/16-the-web-as-home.html#p-16-an-application-can-arrive-do-useful-work"
     },
     {
-      "id": "p-16-at-first-the-notes-are-stored-in-your",
+      "id": "p-16-a-library-lets-another-program-reuse-code",
       "type": "paragraph",
-      "label": "At first, the notes are stored in your browser. You do not need an account, and the book does not receive everything you",
+      "label": "A library lets another program reuse code. Shared data lets another application reuse what a person has already made. Th",
       "chapter": "16-the-web-as-home",
-      "url": "chapters/16-the-web-as-home.html#p-16-at-first-the-notes-are-stored-in-your"
+      "url": "chapters/16-the-web-as-home.html#p-16-a-library-lets-another-program-reuse-code"
     },
     {
-      "id": "p-16-browser-storage-is-useful-but-it-is-not",
+      "id": "p-16-reusable-software-is-not-only-software-that-can",
       "type": "paragraph",
-      "label": "Browser storage is useful, but it is not much of a home directory. The notes remain tied to one browser on one device. C",
+      "label": "Reusable software is not only software that can be imported into another program. It can be software that can be replace",
       "chapter": "16-the-web-as-home",
-      "url": "chapters/16-the-web-as-home.html#p-16-browser-storage-is-useful-but-it-is-not"
+      "url": "chapters/16-the-web-as-home.html#p-16-reusable-software-is-not-only-software-that-can"
     },
     {
-      "id": "p-16-that-is-why-the-margin-also-lets-you",
+      "id": "p-16-a-better-tool-does-not-first-have",
       "type": "paragraph",
-      "label": "That is why the margin also lets you connect to Solid.",
+      "label": "A better tool does not first have to persuade you to abandon everything you made with the old one. It can ask for access",
       "chapter": "16-the-web-as-home",
-      "url": "chapters/16-the-web-as-home.html#p-16-that-is-why-the-margin-also-lets-you"
+      "url": "chapters/16-the-web-as-home.html#p-16-a-better-tool-does-not-first-have"
     },
     {
-      "id": "p-16-once-connected-the-component-can-store-your-notes",
+      "id": "p-16-innovation-can-arrive-from-elsewhere-because-your-world",
       "type": "paragraph",
-      "label": "Once connected, the component can store your notes in your pod. The margin remains here in the book, but the notes no lo",
+      "label": "Innovation can arrive from elsewhere because your world is not sealed inside the original application.",
       "chapter": "16-the-web-as-home",
-      "url": "chapters/16-the-web-as-home.html#p-16-once-connected-the-component-can-store-your-notes"
+      "url": "chapters/16-the-web-as-home.html#p-16-innovation-can-arrive-from-elsewhere-because-your-world"
     },
     {
-      "id": "p-16-open-the-book-on-another-device-and-they",
-      "type": "paragraph",
-      "label": "Open the book on another device and they can still be there.",
-      "chapter": "16-the-web-as-home",
-      "url": "chapters/16-the-web-as-home.html#p-16-open-the-book-on-another-device-and-they"
-    },
-    {
-      "id": "p-16-use-the-same-notes-component-on-another-website",
-      "type": "paragraph",
-      "label": "Use the same notes component on another website and it can work with the same collection.",
-      "chapter": "16-the-web-as-home",
-      "url": "chapters/16-the-web-as-home.html#p-16-use-the-same-notes-component-on-another-website"
-    },
-    {
-      "id": "p-16-replace-the-component-and-another-one-can-read",
-      "type": "paragraph",
-      "label": "Replace the component and another one can read the notes, provided it understands their shape and you give it permission",
-      "chapter": "16-the-web-as-home",
-      "url": "chapters/16-the-web-as-home.html#p-16-replace-the-component-and-another-one-can-read"
-    },
-    {
-      "id": "p-16-each-passage-in-the-book-has-a-stable",
-      "type": "paragraph",
-      "label": "Each passage in the book has a stable address. A note can say which passage it belongs to without becoming part of the b",
-      "chapter": "16-the-web-as-home",
-      "url": "chapters/16-the-web-as-home.html#p-16-each-passage-in-the-book-has-a-stable"
-    },
-    {
-      "id": "p-16-solid-determines-where-the-note-lives-which-identity",
-      "type": "paragraph",
-      "label": "Solid determines where the note lives, which identity it belongs to, and which applications may read or change it.",
-      "chapter": "16-the-web-as-home",
-      "url": "chapters/16-the-web-as-home.html#p-16-solid-determines-where-the-note-lives-which-identity"
-    },
-    {
-      "id": "p-16-linked-data-describes-what-the-note-means-who",
-      "type": "paragraph",
-      "label": "Linked data describes what the note means: who wrote it, which passage it annotates, when it was written, and whether it",
-      "chapter": "16-the-web-as-home",
-      "url": "chapters/16-the-web-as-home.html#p-16-linked-data-describes-what-the-note-means-who"
-    },
-    {
-      "id": "p-16-the-two-ideas-work-together-but-they-do",
-      "type": "paragraph",
-      "label": "The two ideas work together, but they do different jobs.",
-      "chapter": "16-the-web-as-home",
-      "url": "chapters/16-the-web-as-home.html#p-16-the-two-ideas-work-together-but-they-do"
-    },
-    {
-      "id": "p-16-if-you-have-connected-the-margin-to-your",
-      "type": "paragraph",
-      "label": "If you have connected the margin to your pod, you are not reading about a theoretical architecture.",
-      "chapter": "16-the-web-as-home",
-      "url": "chapters/16-the-web-as-home.html#p-16-if-you-have-connected-the-margin-to-your"
-    },
-    {
-      "id": "p-16-you-are-already-using-it",
-      "type": "paragraph",
-      "label": "You are already using it.",
-      "chapter": "16-the-web-as-home",
-      "url": "chapters/16-the-web-as-home.html#p-16-you-are-already-using-it"
-    },
-    {
-      "id": "h-16-sharing-one-note",
+      "id": "h-16-where-the-complexity-goes",
       "type": "heading",
-      "label": "Sharing one note",
+      "label": "Where the complexity goes",
       "chapter": "16-the-web-as-home",
-      "url": "chapters/16-the-web-as-home.html#h-16-sharing-one-note"
+      "url": "chapters/16-the-web-as-home.html#h-16-where-the-complexity-goes"
     },
     {
-      "id": "p-16-private-notes-are-useful-but-readers-sometimes-write",
+      "id": "p-16-none-of-this-removes-complexity",
       "type": "paragraph",
-      "label": "Private notes are useful, but readers sometimes write something that should become part of the wider book.",
+      "label": "None of this removes complexity.",
       "chapter": "16-the-web-as-home",
-      "url": "chapters/16-the-web-as-home.html#p-16-private-notes-are-useful-but-readers-sometimes-write"
+      "url": "chapters/16-the-web-as-home.html#p-16-none-of-this-removes-complexity"
     },
     {
-      "id": "p-16-perhaps-you-notice-an-error-perhaps-you-know",
+      "id": "p-16-permissions-can-be-confusing",
       "type": "paragraph",
-      "label": "Perhaps you notice an error. Perhaps you know a better example. Perhaps the chapter reminds you of a paper I missed, or ",
+      "label": "Permissions can be confusing. Applications may disagree about data. Vocabularies can drift. Two tools may change the sam",
       "chapter": "16-the-web-as-home",
-      "url": "chapters/16-the-web-as-home.html#p-16-perhaps-you-notice-an-error-perhaps-you-know"
+      "url": "chapters/16-the-web-as-home.html#p-16-permissions-can-be-confusing"
     },
     {
-      "id": "p-16-innovation-happens-elsewhere",
+      "id": "p-16-centralised-services-hide-many-of-these-problems",
       "type": "paragraph",
-      "label": "Innovation happens elsewhere.",
+      "label": "Centralised services hide many of these problems by making one organization responsible for the whole system. That can b",
       "chapter": "16-the-web-as-home",
-      "url": "chapters/16-the-web-as-home.html#p-16-innovation-happens-elsewhere"
+      "url": "chapters/16-the-web-as-home.html#p-16-centralised-services-hide-many-of-these-problems"
     },
     {
-      "id": "p-16-the-notes-component-can-let-you-share-one",
+      "id": "p-16-moving-the-boundary-does-not-make-the-problems",
       "type": "paragraph",
-      "label": "The notes component can let you share one selected note with the book.",
+      "label": "Moving the boundary does not make the problems disappear. It makes them shared problems instead of private details hidde",
       "chapter": "16-the-web-as-home",
-      "url": "chapters/16-the-web-as-home.html#p-16-the-notes-component-can-let-you-share-one"
+      "url": "chapters/16-the-web-as-home.html#p-16-moving-the-boundary-does-not-make-the-problems"
     },
     {
-      "id": "p-16-not-the-whole-notebook-not-every-unfinished-thought",
+      "id": "p-16-that-is-harder-in-some-ways",
       "type": "paragraph",
-      "label": "Not the whole notebook. Not every unfinished thought in the margin. One note, deliberately chosen.",
+      "label": "Those problems are the point. They show where the real work needs to be done. They are the price of giving independent t",
       "chapter": "16-the-web-as-home",
-      "url": "chapters/16-the-web-as-home.html#p-16-not-the-whole-notebook-not-every-unfinished-thought"
+      "url": "chapters/16-the-web-as-home.html#p-16-that-is-harder-in-some-ways"
     },
     {
-      "id": "p-16-that-note-is-sent-to-the-books-inbox",
+      "id": "p-16-solid-may-fail-for-social-reasons",
       "type": "paragraph",
-      "label": "That note is sent to the book's inbox. It can then be read and curated by me, or by a suitably impressive artificial imi",
+      "label": "Solid may fail for social reasons, business reasons, usability reasons, or because another system finds a better shape. ",
       "chapter": "16-the-web-as-home",
-      "url": "chapters/16-the-web-as-home.html#p-16-that-note-is-sent-to-the-books-inbox"
+      "url": "chapters/16-the-web-as-home.html#p-16-solid-may-fail-for-social-reasons"
     },
     {
-      "id": "p-16-accepted-notes-can-be-indexed-and-made-visible",
+      "id": "p-16-final-forms-have-not-done-well",
       "type": "paragraph",
-      "label": "Accepted notes can be indexed and made visible to readers who opt in to the shared notes layer.",
+      "label": "Final forms have not done very well in this book.",
       "chapter": "16-the-web-as-home",
-      "url": "chapters/16-the-web-as-home.html#p-16-accepted-notes-can-be-indexed-and-made-visible"
-    },
-    {
-      "id": "p-16-this-creates-another-boundary",
-      "type": "paragraph",
-      "label": "This creates another boundary.",
-      "chapter": "16-the-web-as-home",
-      "url": "chapters/16-the-web-as-home.html#p-16-this-creates-another-boundary"
-    },
-    {
-      "id": "p-16-you-own-the-private-note-collection-the-book",
-      "type": "paragraph",
-      "label": "You own the private note collection. The book owns its curation. Sharing is the act that crosses between them.",
-      "chapter": "16-the-web-as-home",
-      "url": "chapters/16-the-web-as-home.html#p-16-you-own-the-private-note-collection-the-book"
-    },
-    {
-      "id": "p-16-a-submitted-note-may-be-edited-rejected-answered",
-      "type": "paragraph",
-      "label": "A submitted note may be edited, rejected, answered or grouped with other notes. That editorial work does not need to hap",
-      "chapter": "16-the-web-as-home",
-      "url": "chapters/16-the-web-as-home.html#p-16-a-submitted-note-may-be-edited-rejected-answered"
-    },
-    {
-      "id": "p-16-the-tool-that-writes-a-note-does-not",
-      "type": "paragraph",
-      "label": "The tool that writes a note does not have to be the tool that publishes it.",
-      "chapter": "16-the-web-as-home",
-      "url": "chapters/16-the-web-as-home.html#p-16-the-tool-that-writes-a-note-does-not"
-    },
-    {
-      "id": "p-16-the-application-that-publishes-it-does-not-have",
-      "type": "paragraph",
-      "label": "The application that publishes it does not have to own the original notebook.",
-      "chapter": "16-the-web-as-home",
-      "url": "chapters/16-the-web-as-home.html#p-16-the-application-that-publishes-it-does-not-have"
-    },
-    {
-      "id": "p-16-the-parts-meet-through-identities-addresses-permissions-and",
-      "type": "paragraph",
-      "label": "The parts meet through identities, addresses, permissions and shared meaning.",
-      "chapter": "16-the-web-as-home",
-      "url": "chapters/16-the-web-as-home.html#p-16-the-parts-meet-through-identities-addresses-permissions-and"
-    },
-    {
-      "id": "h-16-the-book-follows-its-own-advice",
-      "type": "heading",
-      "label": "The book follows its own advice",
-      "chapter": "16-the-web-as-home",
-      "url": "chapters/16-the-web-as-home.html#h-16-the-book-follows-its-own-advice"
-    },
-    {
-      "id": "p-16-this-is-not-an-example-added-after-the",
-      "type": "paragraph",
-      "label": "This is not an example added after the argument.",
-      "chapter": "16-the-web-as-home",
-      "url": "chapters/16-the-web-as-home.html#p-16-this-is-not-an-example-added-after-the"
-    },
-    {
-      "id": "p-16-it-is-part-of-the-book",
-      "type": "paragraph",
-      "label": "It is part of the book.",
-      "chapter": "16-the-web-as-home",
-      "url": "chapters/16-the-web-as-home.html#p-16-it-is-part-of-the-book"
-    },
-    {
-      "id": "p-16-the-margin-component-stays-small-because-it-does",
-      "type": "paragraph",
-      "label": "The margin component stays small because it does not have to become a publishing platform, identity provider, storage co",
-      "chapter": "16-the-web-as-home",
-      "url": "chapters/16-the-web-as-home.html#p-16-the-margin-component-stays-small-because-it-does"
-    },
-    {
-      "id": "p-16-the-book-stays-a-book-it-does-not",
-      "type": "paragraph",
-      "label": "The book stays a book. It does not need to contain every reader's private notebook.",
-      "chapter": "16-the-web-as-home",
-      "url": "chapters/16-the-web-as-home.html#p-16-the-book-stays-a-book-it-does-not"
-    },
-    {
-      "id": "p-16-the-inbox-does-not-need-to-become-the",
-      "type": "paragraph",
-      "label": "The inbox does not need to become the editor.",
-      "chapter": "16-the-web-as-home",
-      "url": "chapters/16-the-web-as-home.html#p-16-the-inbox-does-not-need-to-become-the"
-    },
-    {
-      "id": "p-16-the-public-notes-viewer-does-not-need-to",
-      "type": "paragraph",
-      "label": "The public notes viewer does not need to know how the notes were originally written.",
-      "chapter": "16-the-web-as-home",
-      "url": "chapters/16-the-web-as-home.html#p-16-the-public-notes-viewer-does-not-need-to"
-    },
-    {
-      "id": "p-16-each-part-has-a-boundary",
-      "type": "paragraph",
-      "label": "Each part has a boundary.",
-      "chapter": "16-the-web-as-home",
-      "url": "chapters/16-the-web-as-home.html#p-16-each-part-has-a-boundary"
-    },
-    {
-      "id": "p-16-the-book-and-the-notes-component-meet-at",
-      "type": "paragraph",
-      "label": "The book and the notes component meet at the address of a passage.",
-      "chapter": "16-the-web-as-home",
-      "url": "chapters/16-the-web-as-home.html#p-16-the-book-and-the-notes-component-meet-at"
-    },
-    {
-      "id": "p-16-the-notes-component-and-the-pod-meet-through",
-      "type": "paragraph",
-      "label": "The notes component and the pod meet through Solid.",
-      "chapter": "16-the-web-as-home",
-      "url": "chapters/16-the-web-as-home.html#p-16-the-notes-component-and-the-pod-meet-through"
-    },
-    {
-      "id": "p-16-the-private-notes-and-the-books-editorial-process",
-      "type": "paragraph",
-      "label": "The private notes and the book's editorial process meet through one deliberate act of sharing.",
-      "chapter": "16-the-web-as-home",
-      "url": "chapters/16-the-web-as-home.html#p-16-the-private-notes-and-the-books-editorial-process"
-    },
-    {
-      "id": "p-16-the-curated-notes-and-later-readers-meet-through",
-      "type": "paragraph",
-      "label": "The curated notes and later readers meet through an optional public layer.",
-      "chapter": "16-the-web-as-home",
-      "url": "chapters/16-the-web-as-home.html#p-16-the-curated-notes-and-later-readers-meet-through"
-    },
-    {
-      "id": "p-16-none-of-these-boundaries-removes-complexity-permissions-can",
-      "type": "paragraph",
-      "label": "None of these boundaries removes complexity. Permissions can be confusing. Applications may disagree about data. Vocabul",
-      "chapter": "16-the-web-as-home",
-      "url": "chapters/16-the-web-as-home.html#p-16-none-of-these-boundaries-removes-complexity-permissions-can"
-    },
-    {
-      "id": "p-16-separating-the-parts-makes-these-problems-visible",
-      "type": "paragraph",
-      "label": "Separating the parts makes these problems visible.",
-      "chapter": "16-the-web-as-home",
-      "url": "chapters/16-the-web-as-home.html#p-16-separating-the-parts-makes-these-problems-visible"
-    },
-    {
-      "id": "p-16-the-knitted-castle-hid-them-by-tying-everything",
-      "type": "paragraph",
-      "label": "The knitted castle hid them by tying everything into one application.",
-      "chapter": "16-the-web-as-home",
-      "url": "chapters/16-the-web-as-home.html#p-16-the-knitted-castle-hid-them-by-tying-everything"
+      "url": "chapters/16-the-web-as-home.html#p-16-final-forms-have-not-done-well"
     },
     {
       "id": "h-16-small-tools-not-kingdoms",
@@ -6303,46 +5981,18 @@
       "url": "chapters/16-the-web-as-home.html#h-16-small-tools-not-kingdoms"
     },
     {
-      "id": "p-16-if-identity-and-data-can-outlive-applications-software",
+      "id": "p-16-back-in-the-knitted-castle",
       "type": "paragraph",
-      "label": "If identity and data can outlive applications, software can become smaller.",
+      "label": "Back in the knitted castle, the reusable thing turned out not to be only the code. It was the boundary around the code.",
       "chapter": "16-the-web-as-home",
-      "url": "chapters/16-the-web-as-home.html#p-16-if-identity-and-data-can-outlive-applications-software"
+      "url": "chapters/16-the-web-as-home.html#p-16-back-in-the-knitted-castle"
     },
     {
-      "id": "p-16-a-notes-component-can-concentrate-on-being-a",
+      "id": "p-16-solid-moves-that-boundary-around-the-whole",
       "type": "paragraph",
-      "label": "A notes component can concentrate on being a good margin. Another application can search the notes. Another can display ",
+      "label": "Solid moves that boundary around the whole application. The application itself can become one of the replaceable parts.",
       "chapter": "16-the-web-as-home",
-      "url": "chapters/16-the-web-as-home.html#p-16-a-notes-component-can-concentrate-on-being-a"
-    },
-    {
-      "id": "p-16-none-of-them-has-to-own-the-entire",
-      "type": "paragraph",
-      "label": "None of them has to own the entire world to be useful.",
-      "chapter": "16-the-web-as-home",
-      "url": "chapters/16-the-web-as-home.html#p-16-none-of-them-has-to-own-the-entire"
-    },
-    {
-      "id": "p-16-this-changes-what-replacement-means",
-      "type": "paragraph",
-      "label": "This changes what replacement means.",
-      "chapter": "16-the-web-as-home",
-      "url": "chapters/16-the-web-as-home.html#p-16-this-changes-what-replacement-means"
-    },
-    {
-      "id": "p-16-a-better-notes-tool-does-not-first-have",
-      "type": "paragraph",
-      "label": "A better notes tool does not first have to persuade you to abandon the notes you already wrote. It can ask for access an",
-      "chapter": "16-the-web-as-home",
-      "url": "chapters/16-the-web-as-home.html#p-16-a-better-notes-tool-does-not-first-have"
-    },
-    {
-      "id": "p-16-innovation-can-arrive-from-elsewhere-because-your-world",
-      "type": "paragraph",
-      "label": "Innovation can arrive from elsewhere because your world is not sealed inside the original application.",
-      "chapter": "16-the-web-as-home",
-      "url": "chapters/16-the-web-as-home.html#p-16-innovation-can-arrive-from-elsewhere-because-your-world"
+      "url": "chapters/16-the-web-as-home.html#p-16-solid-moves-that-boundary-around-the-whole"
     },
     {
       "id": "p-16-a-private-application-asks",
@@ -6373,25 +6023,11 @@
       "url": "chapters/16-the-web-as-home.html#aside-16-how-can-this-tool-remain-useful-after-the"
     },
     {
-      "id": "p-16-those-questions-produce-different-software",
+      "id": "p-16-the-second-question-does-not-require-solid",
       "type": "paragraph",
-      "label": "Those questions produce different software.",
+      "label": "The second question does not require Solid as its only answer. But Solid is a serious attempt to build the answer into t",
       "chapter": "16-the-web-as-home",
-      "url": "chapters/16-the-web-as-home.html#p-16-those-questions-produce-different-software"
-    },
-    {
-      "id": "p-16-solid-may-or-may-not-become-the-final",
-      "type": "paragraph",
-      "label": "Solid may or may not become the final form of this idea. Final forms have not done very well in this book.",
-      "chapter": "16-the-web-as-home",
-      "url": "chapters/16-the-web-as-home.html#p-16-solid-may-or-may-not-become-the-final"
-    },
-    {
-      "id": "p-16-but-the-direction-matters",
-      "type": "paragraph",
-      "label": "But the direction matters.",
-      "chapter": "16-the-web-as-home",
-      "url": "chapters/16-the-web-as-home.html#p-16-but-the-direction-matters"
+      "url": "chapters/16-the-web-as-home.html#p-16-the-second-question-does-not-require-solid"
     },
     {
       "id": "p-16-the-web-has-become-an-operating-system",
@@ -6401,95 +6037,242 @@
       "url": "chapters/16-the-web-as-home.html#p-16-the-web-has-become-an-operating-system"
     },
     {
-      "id": "p-16-the-book-provides-the-text",
+      "id": "p-16-the-user-still-needs-a-home-directory",
       "type": "paragraph",
-      "label": "The book provides the text.",
+      "label": "The user still needs a home directory.",
       "chapter": "16-the-web-as-home",
-      "url": "chapters/16-the-web-as-home.html#p-16-the-book-provides-the-text"
+      "url": "chapters/16-the-web-as-home.html#p-16-the-user-still-needs-a-home-directory"
     },
     {
-      "id": "p-16-the-component-provides-the-margin",
-      "type": "paragraph",
-      "label": "The component provides the margin.",
-      "chapter": "16-the-web-as-home",
-      "url": "chapters/16-the-web-as-home.html#p-16-the-component-provides-the-margin"
-    },
-    {
-      "id": "p-16-solid-gives-the-reader-a-home",
-      "type": "paragraph",
-      "label": "Solid gives the reader a home.",
-      "chapter": "16-the-web-as-home",
-      "url": "chapters/16-the-web-as-home.html#p-16-solid-gives-the-reader-a-home"
-    },
-    {
-      "id": "h-17-epilogue-shifting-ground",
+      "id": "h-17-epilogue-the-margin-you-have-been-using",
       "type": "heading",
-      "label": "Epilogue: shifting ground",
+      "label": "Epilogue: the margin you have been using",
       "chapter": "17-rule-zero-there-are-no-rules",
-      "url": "chapters/17-rule-zero-there-are-no-rules.html#h-17-epilogue-shifting-ground"
+      "url": "chapters/17-rule-zero-there-are-no-rules.html#h-17-epilogue-the-margin-you-have-been-using"
     },
     {
-      "id": "p-17-most-of-this-book-was-written-from-experience",
+      "id": "p-epilogue-you-may-have-written-notes",
       "type": "paragraph",
-      "label": "Most of this book was written from experience.",
+      "label": "You may have written notes in the margins of this book.",
       "chapter": "17-rule-zero-there-are-no-rules",
-      "url": "chapters/17-rule-zero-there-are-no-rules.html#p-17-most-of-this-book-was-written-from-experience"
+      "url": "chapters/17-rule-zero-there-are-no-rules.html#p-epilogue-you-may-have-written-notes"
     },
     {
-      "id": "p-17-that-sounds-sturdier-than-it-is",
+      "id": "p-epilogue-to-the-reader-the-margin",
       "type": "paragraph",
-      "label": "That sounds sturdier than it is.",
+      "label": "To the reader, the margin is simply part of the book. Underneath, it is provided by a small software component that can ",
       "chapter": "17-rule-zero-there-are-no-rules",
-      "url": "chapters/17-rule-zero-there-are-no-rules.html#p-17-that-sounds-sturdier-than-it-is"
+      "url": "chapters/17-rule-zero-there-are-no-rules.html#p-epilogue-to-the-reader-the-margin"
     },
     {
-      "id": "p-17-experience-is-not-a-foundation-it-is-a",
+      "id": "p-epilogue-at-first-the-notes",
       "type": "paragraph",
-      "label": "Experience is not a foundation. It is a record of where the ground used to be solid.",
+      "label": "At first, the notes are stored in your browser. You do not need an account, and the book does not receive everything you",
       "chapter": "17-rule-zero-there-are-no-rules",
-      "url": "chapters/17-rule-zero-there-are-no-rules.html#p-17-experience-is-not-a-foundation-it-is-a"
+      "url": "chapters/17-rule-zero-there-are-no-rules.html#p-epilogue-at-first-the-notes"
     },
     {
-      "id": "p-17-for-years-programming-meant-learning-to-see-through",
+      "id": "p-epilogue-browser-storage-is-useful",
       "type": "paragraph",
-      "label": "For years, programming meant learning to see through the machine: the notation, the shape of the data, the hidden bounda",
+      "label": "Browser storage is useful, but it is not much of a home directory. The notes remain tied to one browser on one device. C",
       "chapter": "17-rule-zero-there-are-no-rules",
-      "url": "chapters/17-rule-zero-there-are-no-rules.html#p-17-for-years-programming-meant-learning-to-see-through"
+      "url": "chapters/17-rule-zero-there-are-no-rules.html#p-epilogue-browser-storage-is-useful"
     },
     {
-      "id": "p-17-those-lessons-still-matter-i-think-they-matter",
+      "id": "p-epilogue-that-is-why-the-margin",
       "type": "paragraph",
-      "label": "Those lessons still matter. I think they matter more than ever.",
+      "label": "That is why the margin also lets you connect to Solid.",
       "chapter": "17-rule-zero-there-are-no-rules",
-      "url": "chapters/17-rule-zero-there-are-no-rules.html#p-17-those-lessons-still-matter-i-think-they-matter"
+      "url": "chapters/17-rule-zero-there-are-no-rules.html#p-epilogue-that-is-why-the-margin"
     },
     {
-      "id": "p-17-but-while-this-book-was-being-written-the",
+      "id": "p-epilogue-once-connected-the-component",
       "type": "paragraph",
-      "label": "But while this book was being written, the craft moved. Machines became able to write code, explain code, invent code, a",
+      "label": "Once connected, the component can store your notes in your pod. The margin remains here in the book, but the notes no lo",
       "chapter": "17-rule-zero-there-are-no-rules",
-      "url": "chapters/17-rule-zero-there-are-no-rules.html#p-17-but-while-this-book-was-being-written-the"
+      "url": "chapters/17-rule-zero-there-are-no-rules.html#p-epilogue-once-connected-the-component"
     },
     {
-      "id": "p-17-maybe-the-old-lessons-will-become-more-important",
+      "id": "p-epilogue-open-the-book-on-another-device",
       "type": "paragraph",
-      "label": "Maybe the old lessons will become more important. Maybe some of them will become quaint. Maybe the next useful shape is ",
+      "label": "Open the book on another device and they can still be there. Use the same component on another website and it can work w",
       "chapter": "17-rule-zero-there-are-no-rules",
-      "url": "chapters/17-rule-zero-there-are-no-rules.html#p-17-maybe-the-old-lessons-will-become-more-important"
+      "url": "chapters/17-rule-zero-there-are-no-rules.html#p-epilogue-open-the-book-on-another-device"
     },
     {
-      "id": "p-17-i-do-not-know",
+      "id": "p-epilogue-each-passage-in-the-book",
       "type": "paragraph",
-      "label": "I do not know.",
+      "label": "Each passage in the book has a stable address. A note can say which passage it belongs to without becoming part of the b",
       "chapter": "17-rule-zero-there-are-no-rules",
-      "url": "chapters/17-rule-zero-there-are-no-rules.html#p-17-i-do-not-know"
+      "url": "chapters/17-rule-zero-there-are-no-rules.html#p-epilogue-each-passage-in-the-book"
     },
     {
-      "id": "p-17-that-is-the-final-lesson",
+      "id": "p-epilogue-solid-determines-where-the-note",
       "type": "paragraph",
-      "label": "That is the final lesson.",
+      "label": "Solid determines where the note lives, which identity it belongs to, and which applications may read or change it. Linke",
       "chapter": "17-rule-zero-there-are-no-rules",
-      "url": "chapters/17-rule-zero-there-are-no-rules.html#p-17-that-is-the-final-lesson"
+      "url": "chapters/17-rule-zero-there-are-no-rules.html#p-epilogue-solid-determines-where-the-note"
+    },
+    {
+      "id": "p-epilogue-if-you-have-connected",
+      "type": "paragraph",
+      "label": "If you have connected the margin to your pod, you were not only reading about this architecture.",
+      "chapter": "17-rule-zero-there-are-no-rules",
+      "url": "chapters/17-rule-zero-there-are-no-rules.html#p-epilogue-if-you-have-connected"
+    },
+    {
+      "id": "p-epilogue-you-were-using-it",
+      "type": "paragraph",
+      "label": "You were using it.",
+      "chapter": "17-rule-zero-there-are-no-rules",
+      "url": "chapters/17-rule-zero-there-are-no-rules.html#p-epilogue-you-were-using-it"
+    },
+    {
+      "id": "h-17-sharing-one-note",
+      "type": "heading",
+      "label": "Sharing one note",
+      "chapter": "17-rule-zero-there-are-no-rules",
+      "url": "chapters/17-rule-zero-there-are-no-rules.html#h-17-sharing-one-note"
+    },
+    {
+      "id": "p-epilogue-private-notes-are-useful",
+      "type": "paragraph",
+      "label": "Private notes are useful, but sometimes a reader writes something that should become part of the wider book.",
+      "chapter": "17-rule-zero-there-are-no-rules",
+      "url": "chapters/17-rule-zero-there-are-no-rules.html#p-epilogue-private-notes-are-useful"
+    },
+    {
+      "id": "p-epilogue-perhaps-you-notice-an-error",
+      "type": "paragraph",
+      "label": "Perhaps you notice an error. Perhaps you know a better example. Perhaps a chapter reminds you of a paper I missed, or yo",
+      "chapter": "17-rule-zero-there-are-no-rules",
+      "url": "chapters/17-rule-zero-there-are-no-rules.html#p-epilogue-perhaps-you-notice-an-error"
+    },
+    {
+      "id": "p-epilogue-innovation-happens-elsewhere",
+      "type": "paragraph",
+      "label": "Innovation happens elsewhere.",
+      "chapter": "17-rule-zero-there-are-no-rules",
+      "url": "chapters/17-rule-zero-there-are-no-rules.html#p-epilogue-innovation-happens-elsewhere"
+    },
+    {
+      "id": "p-epilogue-the-notes-component-can-let",
+      "type": "paragraph",
+      "label": "The notes component lets you share one selected note with the book.",
+      "chapter": "17-rule-zero-there-are-no-rules",
+      "url": "chapters/17-rule-zero-there-are-no-rules.html#p-epilogue-the-notes-component-can-let"
+    },
+    {
+      "id": "p-epilogue-not-the-whole-notebook",
+      "type": "paragraph",
+      "label": "Not the whole notebook. Not every unfinished thought in the margin. One note, deliberately chosen.",
+      "chapter": "17-rule-zero-there-are-no-rules",
+      "url": "chapters/17-rule-zero-there-are-no-rules.html#p-epilogue-not-the-whole-notebook"
+    },
+    {
+      "id": "p-epilogue-that-note-is-sent",
+      "type": "paragraph",
+      "label": "That note is sent to the book's inbox. It can be read and curated by me, or by a suitably impressive artificial imitatio",
+      "chapter": "17-rule-zero-there-are-no-rules",
+      "url": "chapters/17-rule-zero-there-are-no-rules.html#p-epilogue-that-note-is-sent"
+    },
+    {
+      "id": "p-epilogue-accepted-notes-can-be-indexed",
+      "type": "paragraph",
+      "label": "Accepted notes can be indexed and made visible to readers who opt in to the shared notes layer.",
+      "chapter": "17-rule-zero-there-are-no-rules",
+      "url": "chapters/17-rule-zero-there-are-no-rules.html#p-epilogue-accepted-notes-can-be-indexed"
+    },
+    {
+      "id": "p-epilogue-you-own-the-private-note",
+      "type": "paragraph",
+      "label": "You own the private note collection. The book owns its curation. Sharing is the act that crosses between them.",
+      "chapter": "17-rule-zero-there-are-no-rules",
+      "url": "chapters/17-rule-zero-there-are-no-rules.html#p-epilogue-you-own-the-private-note"
+    },
+    {
+      "id": "p-epilogue-a-separate-tool-can-manage",
+      "type": "paragraph",
+      "label": "A separate tool can manage the inbox. Another can build the index. Another can display approved notes beside the relevan",
+      "chapter": "17-rule-zero-there-are-no-rules",
+      "url": "chapters/17-rule-zero-there-are-no-rules.html#p-epilogue-a-separate-tool-can-manage"
+    },
+    {
+      "id": "h-17-the-book-follows-its-own-advice",
+      "type": "heading",
+      "label": "The book follows its own advice",
+      "chapter": "17-rule-zero-there-are-no-rules",
+      "url": "chapters/17-rule-zero-there-are-no-rules.html#h-17-the-book-follows-its-own-advice"
+    },
+    {
+      "id": "p-17-the-margin-component-stays-small-because-it-does",
+      "type": "paragraph",
+      "label": "The margin component stays small because it does not have to become a publishing platform, identity provider, storage co",
+      "chapter": "17-rule-zero-there-are-no-rules",
+      "url": "chapters/17-rule-zero-there-are-no-rules.html#p-17-the-margin-component-stays-small-because-it-does"
+    },
+    {
+      "id": "p-17-the-book-stays-a-book-it-does-not",
+      "type": "paragraph",
+      "label": "The book stays a book. It does not need to contain every reader's private notebook.",
+      "chapter": "17-rule-zero-there-are-no-rules",
+      "url": "chapters/17-rule-zero-there-are-no-rules.html#p-17-the-book-stays-a-book-it-does-not"
+    },
+    {
+      "id": "p-17-the-book-and-the-component-meet-at-the",
+      "type": "paragraph",
+      "label": "The book and the component meet at the address of a passage. The component and the pod meet through Solid. A selected no",
+      "chapter": "17-rule-zero-there-are-no-rules",
+      "url": "chapters/17-rule-zero-there-are-no-rules.html#p-17-the-book-and-the-component-meet-at-the"
+    },
+    {
+      "id": "p-17-this-is-not-an-example-added-after-the",
+      "type": "paragraph",
+      "label": "This is not an example added after the argument. It has been part of the book all along.",
+      "chapter": "17-rule-zero-there-are-no-rules",
+      "url": "chapters/17-rule-zero-there-are-no-rules.html#p-17-this-is-not-an-example-added-after-the"
+    },
+    {
+      "id": "p-17-solid-is-not-the-inevitable-final-shape-of",
+      "type": "paragraph",
+      "label": "Solid is not the inevitable final shape of the Web. The margin component is not the one true way to write notes. The bou",
+      "chapter": "17-rule-zero-there-are-no-rules",
+      "url": "chapters/17-rule-zero-there-are-no-rules.html#p-17-solid-is-not-the-inevitable-final-shape-of"
+    },
+    {
+      "id": "p-17-that-is-allowed",
+      "type": "paragraph",
+      "label": "That is allowed.",
+      "chapter": "17-rule-zero-there-are-no-rules",
+      "url": "chapters/17-rule-zero-there-are-no-rules.html#p-17-that-is-allowed"
+    },
+    {
+      "id": "p-17-this-book-has-tried-to-show-why-notation",
+      "type": "paragraph",
+      "label": "This book has tried to show why notation matters, why programs grow languages, why assumptions become threads, and why b",
+      "chapter": "17-rule-zero-there-are-no-rules",
+      "url": "chapters/17-rule-zero-there-are-no-rules.html#p-17-this-book-has-tried-to-show-why-notation"
+    },
+    {
+      "id": "p-17-the-point-is-not-to-follow-the-rules",
+      "type": "paragraph",
+      "label": "The point is not to follow the rules in this book.",
+      "chapter": "17-rule-zero-there-are-no-rules",
+      "url": "chapters/17-rule-zero-there-are-no-rules.html#p-17-the-point-is-not-to-follow-the-rules"
+    },
+    {
+      "id": "p-17-the-point-is-to-notice-the-rules-you",
+      "type": "paragraph",
+      "label": "The point is to notice the rules you are already following, understand why they are there, and decide whether they still",
+      "chapter": "17-rule-zero-there-are-no-rules",
+      "url": "chapters/17-rule-zero-there-are-no-rules.html#p-17-the-point-is-to-notice-the-rules-you"
+    },
+    {
+      "id": "p-17-the-future-is-not-bound-by-our-rules",
+      "type": "paragraph",
+      "label": "The future is not bound by our rules.",
+      "chapter": "17-rule-zero-there-are-no-rules",
+      "url": "chapters/17-rule-zero-there-are-no-rules.html#p-17-the-future-is-not-bound-by-our-rules"
     },
     {
       "id": "rule-17-wizards-final-rule",

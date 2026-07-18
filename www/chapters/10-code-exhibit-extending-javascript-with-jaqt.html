@@ -96,7 +96,7 @@
 <section class="map-section">
   <h2>Epilogue</h2>
   <ol>
-    <li><a href="../chapters/17-rule-zero-there-are-no-rules.html#book-start" data-chapter-start><span>17</span>Epilogue: shifting ground</a></li>
+    <li><a href="../chapters/17-rule-zero-there-are-no-rules.html#book-start" data-chapter-start><span>17</span>Epilogue: the margin you have been using</a></li>
   </ol>
 </section>
 <section class="map-section">
@@ -111,7 +111,7 @@
   <div class="book-progress" role="progressbar" aria-label="Book progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" data-book-progress>
     <span data-book-progress-bar></span>
   </div>
-  <div id="book-start" class="manuscript-pages" data-page-scroller data-book-chapter-id="10-code-exhibit-extending-javascript-with-jaqt" data-book-chapter-index="12" data-book-page-weights="563,27,1761,763,630,26,1305,1676,1260,20,1090,485,1924,29,1587,1216,1346,30,1179,1184,1477,37,173,133">
+  <div id="book-start" class="manuscript-pages" data-page-scroller data-book-chapter-id="10-code-exhibit-extending-javascript-with-jaqt" data-book-chapter-index="12" data-book-page-weights="563,27,1761,763,630,26,1305,1676,1260,20,1090,485,2022,29,1587,1216,1346,30,1186,1324,1036,37,728,133">
   <header class="chapter-header ">
     <p class="chapter-kicker">Part III: Inventing languages</p>
     <p class="chapter-number">Chapter 10</p>
@@ -389,6 +389,7 @@ function matches(pattern, item) {
 </figure>
 <p id="p-10-this-is-not-real-jaqt-it-is-a" data-note-target>This is not real JAQT. It is a small wooden model of the bridge. Real JAQT has a more capable <code>_</code>, more operations, and a lot more practical edge-case handling. Libraries are where edge cases go to start families.</p>
 <p id="p-10-the-point-of-the-model-is-the-shape" data-note-target>The point of the model is the shape.</p>
+<blockquote id="aside-10-this-trick-was-inspired-by-lisp-in-lisp" data-note-target><p>This trick was inspired by Lisp. In Lisp, a macro can receive a piece of program before it is evaluated, inspect its shape and turn it into different code. JavaScript functions cannot do that: their arguments have already been evaluated before the function sees them. So JAQT takes a different route. It represents the query as an ordinary object, and puts functions in the places where the query needs behaviour that must wait until later. A Lisp version would probably use macros to turn the query into those functions. JAQT carries the unfinished behaviour around explicitly instead.</p></blockquote>
 <h2 id="h-10-the-whole-exhibit-version"><a class="anchor-link" href="#h-10-the-whole-exhibit-version" aria-label="Link to The whole exhibit version">#</a>The whole exhibit version</h2>
 <p id="p-10-here-is-the-complete-tiny-version-in-one" data-note-target>Here is the complete tiny version in one place:</p>
 <figure id="jaqt-mini-complete" class="code-figure code-figure-breakable" data-note-target data-breakable-code data-code-lines="58">
