@@ -1,4 +1,4 @@
-const CACHE_NAME = "programming-for-wizards-4c9625b908"
+const CACHE_NAME = "programming-for-wizards-80c59deadb"
 const PRECACHE_URLS = [
   "./assets/book.css",
   "./assets/book.js",
@@ -47,6 +47,7 @@ const PRECACHE_URLS = [
   "./chapters/15-the-web-as-data.html",
   "./chapters/16-the-web-as-home.html",
   "./chapters/17-rule-zero-there-are-no-rules.html",
+  "./chapters/18-colophon.md.html",
   "./chapters/about-the-author.html",
   "./chapters/interlude-01-useful-tricks.html",
   "./chapters/interlude-02-meaning-escapes.html",

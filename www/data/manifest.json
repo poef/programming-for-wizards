@@ -1,7 +1,7 @@
 {
   "id": "programming-for-wizards",
   "title": "Programming for Wizards",
-  "generatedAt": "2026-07-18T10:53:48.556Z",
+  "generatedAt": "2026-07-18T11:22:45.956Z",
   "phase": "01-enhanced-static-manuscript",
   "features": {
     "notes": "planned",
@@ -196,7 +196,7 @@
       "url": "chapters/15-the-web-as-data.html",
       "previous": "14-the-web-as-commons",
       "next": "16-the-web-as-home",
-      "wordCount": 1324,
+      "wordCount": 1332,
       "rule": null
     },
     {
@@ -219,9 +219,21 @@
       "partId": "epilogue",
       "url": "chapters/17-rule-zero-there-are-no-rules.html",
       "previous": "interlude-06-final-rule",
-      "next": "about-the-author",
+      "next": "18-colophon.md",
       "wordCount": 728,
       "rule": "Wizard's final rule"
+    },
+    {
+      "id": "18-colophon.md",
+      "number": "18",
+      "title": "Acknowledgements",
+      "part": "Epilogue",
+      "partId": "epilogue",
+      "url": "chapters/18-colophon.md.html",
+      "previous": "17-rule-zero-there-are-no-rules",
+      "next": "about-the-author",
+      "wordCount": 74,
+      "rule": null
     }
   ],
   "pages": [
@@ -433,7 +445,7 @@
       "part": "Part V: The Next Web",
       "partId": "the-next-web",
       "url": "chapters/15-the-web-as-data.html",
-      "wordCount": 1324
+      "wordCount": 1332
     },
     {
       "id": "16-the-web-as-home",
@@ -464,6 +476,16 @@
       "partId": "epilogue",
       "url": "chapters/17-rule-zero-there-are-no-rules.html",
       "wordCount": 728
+    },
+    {
+      "id": "18-colophon.md",
+      "kind": "chapter",
+      "label": "18",
+      "title": "Acknowledgements",
+      "part": "Epilogue",
+      "partId": "epilogue",
+      "url": "chapters/18-colophon.md.html",
+      "wordCount": 74
     },
     {
       "id": "about-the-author",
@@ -5409,7 +5431,7 @@
     {
       "id": "p-15-a-graph-can-be-assembled-from-facts-written",
       "type": "paragraph",
-      "label": "A graph can be assembled from facts written in different places.",
+      "label": "Together, triples form a different shape: a graph. A graph can be assembled from facts written in different places.",
       "chapter": "15-the-web-as-data",
       "url": "chapters/15-the-web-as-data.html#p-15-a-graph-can-be-assembled-from-facts-written"
     },
@@ -6280,6 +6302,34 @@
       "label": "Wizard's final rule",
       "chapter": "17-rule-zero-there-are-no-rules",
       "url": "chapters/17-rule-zero-there-are-no-rules.html#rule-17-wizards-final-rule"
+    },
+    {
+      "id": "h-18-acknowledgements",
+      "type": "heading",
+      "label": "Acknowledgements",
+      "chapter": "18-colophon.md",
+      "url": "chapters/18-colophon.md.html#h-18-acknowledgements"
+    },
+    {
+      "id": "h-18-a-note-on-ai",
+      "type": "heading",
+      "label": "A note on AI",
+      "chapter": "18-colophon.md",
+      "url": "chapters/18-colophon.md.html#h-18-a-note-on-ai"
+    },
+    {
+      "id": "p-18-i-used-ai-extensively-while-writing-this-book",
+      "type": "paragraph",
+      "label": "I used AI extensively while writing this book: as a sounding board, critic, editor and, occasionally, a source of first ",
+      "chapter": "18-colophon.md",
+      "url": "chapters/18-colophon.md.html#p-18-i-used-ai-extensively-while-writing-this-book"
+    },
+    {
+      "id": "p-18-i-did-not-publish-its-answers-as-they",
+      "type": "paragraph",
+      "label": "I did not publish its answers as they arrived. I chose the ideas, rewrote the text and made the final decisions. Whateve",
+      "chapter": "18-colophon.md",
+      "url": "chapters/18-colophon.md.html#p-18-i-did-not-publish-its-answers-as-they"
     },
     {
       "id": "h-Bio-about-the-author",
