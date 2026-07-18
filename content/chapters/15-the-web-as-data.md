@@ -157,7 +157,7 @@ JSON-LD takes a slightly strange route. It keeps the familiar JSON shape, then g
 Breaking knowledge into small statements is not new. Databases and logic languages have done versions of it for a long time.
 
 <!-- paragraph-id: p-15-the-web-contribution-is-that-the-names-inside -->
-The Web contribution is that the names inside those statements can be Web names.
+The Web contribution is that the names inside those statements can be Web names. 
 
 ## A graph without a centre
 
@@ -165,7 +165,7 @@ The Web contribution is that the names inside those statements can be Web names.
 A table usually has a home. It lives in a database, under one schema, inside one system.
 
 <!-- paragraph-id: p-15-a-graph-can-be-assembled-from-facts-written -->
-A graph can be assembled from facts written in different places.
+Together, triples form a different shape: a graph. A graph can be assembled from facts written in different places.
 
 <!-- paragraph-id: p-15-i-can-say-something-about-hilda-in-an -->
 I can say something about Hilda in an address book. You can say something about Hilda in a calendar invitation. A photo archive can say that Hilda appears in a picture.
