@@ -5372,12 +5372,13 @@ function edit(element2, fragment) {
 }
 
 // src/cobalt-editor-modal.html
-var cobalt_editor_modal_default = '<div class="margin-notes-editor-modal-backdrop"></div>\n<div class="margin-notes-editor-modal-dialog">\n  <div class="margin-notes-editor-modal-header">\n    <h2 data-title></h2>\n    <button type="button" data-action="cancel" class="margin-notes-editor-close" aria-label="Close">x</button>\n  </div>\n  <div class="margin-notes-editor-modal-content">\n    <div class="margin-notes-cobalt-editor" data-editor-container></div>\n  </div>\n  <div class="margin-notes-editor-modal-footer">\n    <button type="button" data-action="cancel" class="margin-notes-editor-btn-cancel">Cancel</button>\n    <button type="button" data-action="save" class="margin-notes-editor-btn-save">Save</button>\n  </div>\n</div>\n';
+var cobalt_editor_modal_default = '<div class="margin-notes-editor-modal-dialog ds-dialog">\n  <div class="margin-notes-editor-modal-header">\n    <h2 data-title></h2>\n    <button type="button" data-action="cancel" class="margin-notes-editor-close ds-button ds-button-naked" aria-label="Close">x</button>\n  </div>\n  <div class="margin-notes-editor-modal-content">\n    <div class="margin-notes-cobalt-editor" data-editor-container></div>\n  </div>\n  <div class="margin-notes-editor-modal-footer">\n    <button type="button" data-action="cancel" class="margin-notes-editor-btn-cancel ds-button ds-button-default">Cancel</button>\n    <button type="button" data-action="save" class="margin-notes-editor-btn-save ds-button ds-button-primary">Save</button>\n  </div>\n</div>\n';
 
 // src/cobalt-editor-modal.css
-var cobalt_editor_modal_default2 = '.margin-notes-editor-modal {\n  position: fixed;\n  top: 0;\n  left: 0;\n  right: 0;\n  bottom: 0;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  z-index: 10000;\n  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;\n}\n\n.margin-notes-editor-modal-backdrop {\n  position: fixed;\n  top: 0;\n  left: 0;\n  right: 0;\n  bottom: 0;\n  background: rgba(0, 0, 0, 0.5);\n  z-index: 9999;\n}\n\n.margin-notes-editor-modal-dialog {\n  position: relative;\n  z-index: 10001;\n  background: white;\n  border-radius: 8px;\n  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);\n  max-width: 600px;\n  width: 90vw;\n  max-height: 80vh;\n  display: flex;\n  flex-direction: column;\n}\n\n.margin-notes-editor-modal-header {\n  padding: 20px;\n  border-bottom: 1px solid #e5e7eb;\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n}\n\n.margin-notes-editor-modal-header h2 {\n  margin: 0;\n  font-size: 1.25rem;\n  font-weight: 600;\n}\n\n.margin-notes-editor-close {\n  background: none;\n  border: none;\n  font-size: 2rem;\n  line-height: 1;\n  cursor: pointer;\n  color: #6b7280;\n  padding: 0;\n  width: 32px;\n  height: 32px;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  border-radius: 4px;\n}\n\n.margin-notes-editor-close:hover {\n  background: #f3f4f6;\n  color: #1f2937;\n}\n\n.margin-notes-editor-modal-content {\n  flex: 1;\n  overflow-y: auto;\n  padding: 20px;\n}\n\n.margin-notes-cobalt-editor {\n  min-height: 150px;\n  max-height: 400px;\n  overflow-y: auto;\n  border: 1px solid #d1d5db;\n  border-radius: 4px;\n  padding: 8px;\n  background: #fafafa;\n  font-family: inherit;\n  font-size: 1rem;\n  line-height: 1.5;\n}\n\n.margin-notes-cobalt-editor:focus-within {\n  outline: none;\n  border-color: #3b82f6;\n  background: white;\n}\n\n.margin-notes-editor-modal-footer {\n  padding: 20px;\n  border-top: 1px solid #e5e7eb;\n  display: flex;\n  justify-content: flex-end;\n  gap: 10px;\n}\n\n.margin-notes-editor-btn-cancel,\n.margin-notes-editor-btn-save {\n  padding: 8px 16px;\n  border-radius: 4px;\n  font-weight: 500;\n  cursor: pointer;\n  border: 1px solid #d1d5db;\n  font-size: 0.95rem;\n}\n\n.margin-notes-editor-btn-cancel {\n  background: white;\n  color: #374151;\n}\n\n.margin-notes-editor-btn-cancel:hover {\n  background: #f3f4f6;\n}\n\n.margin-notes-editor-btn-save {\n  background: #3b82f6;\n  color: white;\n  border-color: #3b82f6;\n}\n\n.margin-notes-editor-btn-save:hover {\n  background: #2563eb;\n  border-color: #2563eb;\n}\n\n.margin-notes-editor-btn-save:active {\n  background: #1d4ed8;\n}\n';
+var cobalt_editor_modal_default2 = '.margin-notes-editor-modal {\n  background: transparent;\n  border: 0;\n  color: inherit;\n  color-scheme: var(--ds-color-scheme, light);\n  font-family: var(--ds-font-body, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif);\n  margin: auto;\n  max-height: min(80vh, 100%);\n  max-width: min(90vw, 600px);\n  overflow: visible;\n  padding: 0;\n  width: min(90vw, 600px);\n}\n\n.margin-notes-editor-modal:not(:popover-open) {\n  display: none;\n}\n\n.margin-notes-editor-modal:popover-open {\n  display: flex;\n}\n\n.margin-notes-editor-modal::backdrop {\n  background: rgba(0, 0, 0, 0.5);\n}\n\n.margin-notes-editor-modal-dialog {\n  display: flex;\n  flex-direction: column;\n  max-height: 80vh;\n  max-width: 600px;\n  position: relative;\n  width: 100%;\n}\n\n.margin-notes-editor-modal-header {\n  justify-content: space-between;\n  align-items: center;\n  border-bottom: 1px solid var(--ds-grey-low, #e5e7eb);\n  display: flex;\n  padding: var(--ds-space, 1.5rem);\n}\n\n.margin-notes-editor-modal-header h2 {\n  font-family: var(--ds-font-heading, inherit);\n  margin: 0;\n  font-size: 1.25rem;\n  font-weight: var(--ds-heading-weight, 600);\n}\n\n.margin-notes-editor-close {\n  align-items: center;\n  color: var(--ds-grey-medium, #6b7280);\n  display: flex;\n  font-size: 2rem;\n  height: 32px;\n  justify-content: center;\n  line-height: 1;\n  margin: 0;\n  padding: 0;\n  width: 32px;\n}\n\n.margin-notes-editor-close:hover {\n  background: var(--ds-grey-low, #f3f4f6);\n  color: var(--ds-grey-high, #1f2937);\n}\n\n.margin-notes-editor-modal-content {\n  flex: 1;\n  overflow-y: auto;\n  padding: var(--ds-space, 1.5rem);\n}\n\n.margin-notes-cobalt-editor {\n  background: var(--ds-color-background, #fff);\n  border: 1px solid var(--ds-input-border, #d1d5db);\n  border-radius: var(--ds-box-radius, 4px);\n  color: var(--ds-color-contrast, #111);\n  font-family: inherit;\n  font-size: 1rem;\n  line-height: 1.5;\n  max-height: 400px;\n  min-height: 150px;\n  overflow-y: auto;\n  padding: var(--ds-space-d2, 0.75rem);\n}\n\n.margin-notes-cobalt-editor[contenteditable="true"],\n.margin-notes-cobalt-editor textarea,\n.margin-notes-cobalt-editor input {\n  background: var(--ds-color-background, #fff);\n  color: var(--ds-color-contrast, #111);\n  caret-color: var(--ds-color-contrast, #111);\n}\n\n.margin-notes-cobalt-editor:focus-within {\n  background: var(--ds-color-background, white);\n  border-color: var(--ds-primary-high, #3b82f6);\n  outline: none;\n}\n\n.margin-notes-editor-modal-footer {\n  display: flex;\n  gap: var(--ds-space-d2, 0.75rem);\n  justify-content: flex-end;\n  border-top: 1px solid var(--ds-grey-low, #e5e7eb);\n  padding: var(--ds-space, 1.5rem);\n}\n\n.margin-notes-editor-btn-cancel,\n.margin-notes-editor-btn-save {\n  font-weight: 500;\n  margin: 0;\n}\n\n.margin-notes-editor-btn-cancel {\n  color: var(--ds-grey-high, #374151);\n}\n\n.margin-notes-editor-btn-cancel:hover {\n  background: var(--ds-grey-low, #f3f4f6);\n}\n';
 
 // src/cobalt-editor-modal.js
+var modalId = 0;
 var CobaltEditorModal = class {
   constructor(options = {}) {
     this.options = options;
@@ -5393,26 +5394,42 @@ var CobaltEditorModal = class {
   async show() {
     return new Promise((resolve) => {
       this.createModal();
-      const saveBtn = this.modal.querySelector('[data-action="save"]');
-      const cancelBtn = this.modal.querySelector('[data-action="cancel"]');
+      const modal = this.modal;
+      let settled = false;
+      const finish = (value) => {
+        if (settled) return;
+        settled = true;
+        if (modal.matches(":popover-open")) {
+          modal.hidePopover();
+        }
+        this.destroy();
+        resolve(value);
+      };
       const onSave = async () => {
         const edited = this.editor.getValue();
-        this.destroy();
-        resolve(edited);
+        finish(edited);
       };
       const onCancel = () => {
-        this.destroy();
-        resolve(null);
+        finish(null);
       };
-      saveBtn.addEventListener("click", onSave);
-      cancelBtn.addEventListener("click", onCancel);
-      this.modal.addEventListener("keydown", (e) => {
-        e.stopPropagation();
+      const onModalKeydown = (e) => {
         if ((e.ctrlKey || e.metaKey) && e.key === "s") {
           e.preventDefault();
+          e.stopPropagation();
           onSave();
+          return;
         }
-      });
+        e.stopPropagation();
+      };
+      const onToggle = (e) => {
+        if (e.newState === "closed") {
+          onCancel();
+        }
+      };
+      modal.querySelector('[data-action="save"]').addEventListener("click", onSave);
+      modal.addEventListener("keydown", onModalKeydown);
+      modal.addEventListener("toggle", onToggle);
+      modal.showPopover();
       setTimeout(() => {
         this.editor.focus();
       }, 0);
@@ -5426,16 +5443,19 @@ var CobaltEditorModal = class {
   createModal() {
     this.modal = document.createElement("div");
     this.modal.className = "margin-notes-editor-modal";
+    modalId += 1;
+    this.modal.id = `margin-notes-editor-modal-${modalId}`;
     this.modal.dataset.readerKeyScope = "margin-notes-editor";
+    this.modal.setAttribute("popover", "auto");
     this.modal.innerHTML = cobalt_editor_modal_default;
     this.modal.querySelector("[data-title]").textContent = this.options.title || "Edit note";
+    this.modal.querySelectorAll('[data-action="cancel"]').forEach((cancelBtn) => {
+      cancelBtn.setAttribute("popovertarget", this.modal.id);
+      cancelBtn.setAttribute("popovertargetaction", "hide");
+    });
     document.body.appendChild(this.modal);
     const editorContainer = this.modal.querySelector("[data-editor-container]");
     this.editor = edit(editorContainer, this.fragment);
-    const backdrop = this.modal.querySelector(".margin-notes-editor-modal-backdrop");
-    backdrop.addEventListener("click", () => {
-      this.modal.querySelector('[data-action="cancel"]').click();
-    });
   }
   /**
    * Destroy the modal and clean up.
@@ -5654,8 +5674,11 @@ var anchor_widget_default = '<span class="margin-notes-anchor-widget">\n  <butto
 // src/features/paragraph-note-stacks/inline-note.html
 var inline_note_default = '<article class="margin-notes-target-note">\n  <button\n    type="button"\n    class="margin-notes-target-note-toggle"\n    aria-expanded="false"\n    data-simply-shortcuts="marginNotesNote"\n    data-simply-command="expandInlineNote"\n    data-simply-value=":value"\n  ><span class="margin-notes-target-note-text" data-simply-field="bodyText"></span></button>\n  <button\n    type="button"\n    class="margin-notes-target-note-close"\n    aria-label="Close note"\n    data-simply-command="collapseInlineNote"\n    data-simply-value=":value"\n  >x</button>\n  <span class="margin-notes-target-note-actions">\n    <button\n      type="button"\n      class="margin-notes-target-note-action"\n      data-simply-command="updateNote"\n      data-simply-value=":value"\n    >Edit</button>\n    <button\n      type="button"\n      class="margin-notes-target-note-action"\n      data-simply-command="deleteNote"\n      data-simply-value=":value"\n    >Delete</button>\n  </span>\n</article>\n';
 
+// src/design-system.css
+var design_system_default = '/*\n * Curated the-ds subset for margin-notes.\n *\n * This intentionally does not import the-ds wholesale. Margin notes is embedded\n * into host documents, so this file only defines design tokens and the small\n * button/dialog primitives used by the component.\n */\n\n@layer reset, setup, theme, base, component, page, utility;\n\n@layer setup {\n  :root,\n  :host {\n    --ds-black: #000;\n    --ds-white: #fff;\n    --ds-primary: oklch(0.7388 0.1792 126.69);\n    --ds-support: oklch(0.7388 0.1792 216.69);\n\n    --ds-grey-0: #eef1f8;\n    --ds-grey-5: #e9edf6;\n    --ds-grey-10: #e4eaf4;\n    --ds-grey-20: #dae2ed;\n    --ds-grey-30: #cdd7e3;\n    --ds-grey-40: #bdc8d4;\n    --ds-grey-50: #a8b4c0;\n    --ds-grey-60: #8f9ba6;\n    --ds-grey-70: #707c84;\n    --ds-grey-80: #4d565c;\n    --ds-grey-90: #262c2f;\n    --ds-grey-100: #000;\n\n    --ds-color-error: rgb(253, 143, 143);\n    --ds-color-warning: #ffffcc;\n    --ds-color-info: rgb(140, 180, 250);\n  }\n}\n\n@layer theme {\n  :root,\n  :host {\n    --ds-color-scheme: light;\n    --ds-font-heading: var(--margin-notes-font-family, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif);\n    --ds-font-body: var(--margin-notes-font-family, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif);\n    --ds-font-weight: 400;\n    --ds-font-size: 1rem;\n    --ds-line-height: 1.5rem;\n\n    --ds-heading-weight: 600;\n    --ds-space: var(--ds-line-height);\n    --ds-space-d4: calc(var(--ds-space) / 4);\n    --ds-space-d3: calc(var(--ds-space) / 3);\n    --ds-space-d2: calc(var(--ds-space) / 2);\n    --ds-space-x2: calc(2 * var(--ds-space));\n    --ds-space-x3: calc(3 * var(--ds-space));\n    --ds-space-x4: calc(4 * var(--ds-space));\n\n    --ds-primary-10: oklch(from var(--ds-primary) calc(l + 0.3) c h);\n    --ds-primary-90: oklch(from var(--ds-primary) calc(l - 0.3) c h);\n    --ds-primary-high: var(--ds-primary-90);\n    --ds-primary-low: var(--ds-primary-10);\n    --ds-primary-contrast: var(--ds-white);\n\n    --ds-support-10: oklch(from var(--ds-support) calc(l + 0.3) c h);\n    --ds-support-90: oklch(from var(--ds-support) calc(l - 0.3) c h);\n    --ds-support-high: var(--ds-support-90);\n    --ds-support-low: var(--ds-support-10);\n    --ds-support-contrast: var(--ds-white);\n\n    --ds-grey-high: var(--ds-grey-90);\n    --ds-grey-medium: var(--ds-grey-60);\n    --ds-grey-low: var(--ds-grey-10);\n    --ds-color: var(--ds-black);\n    --ds-color-background: var(--ds-white);\n    --ds-color-contrast: var(--ds-color);\n\n    --ds-shadow-light: rgba(0, 0, 0, 0.07);\n    --ds-shadow-middle: rgba(0, 0, 0, 0.09);\n    --ds-shadow-dark: rgba(0, 0, 0, 0.11);\n    --ds-shadow-tiny: 0 1px 1px var(--ds-shadow-dark);\n    --ds-shadow-small:\n      0 1px 1px var(--ds-shadow-dark),\n      0 2px 2px var(--ds-shadow-middle),\n      0 4px 4px var(--ds-shadow-light);\n    --ds-shadow-medium:\n      0 1px 1px var(--ds-shadow-middle),\n      0 2px 2px var(--ds-shadow-middle),\n      0 4px 4px var(--ds-shadow-middle),\n      0 6px 8px var(--ds-shadow-middle),\n      0 8px 16px var(--ds-shadow-middle);\n    --ds-shadow-large:\n      0 -2px 2px var(--ds-shadow-light),\n      0 4px 2px var(--ds-shadow-light),\n      0 8px 4px var(--ds-shadow-light),\n      0 16px 8px var(--ds-shadow-light),\n      0 32px 16px var(--ds-shadow-light);\n\n    --ds-box-radius: 4px;\n\n    --ds-input-border: var(--ds-grey-medium);\n    --ds-input-space: var(--ds-space);\n    --ds-input-font: var(--ds-font-body);\n    --ds-input-height: calc(var(--ds-line-height) * 1.5);\n    --ds-input-margin: calc(var(--ds-line-height) * 0.5);\n\n    --ds-button-space: calc(0.5 * var(--ds-input-space));\n    --ds-button-bg-color: var(--ds-grey-low);\n    --ds-button-default-bg-color: var(--ds-white);\n    --ds-button-border: 1px solid var(--ds-grey-low);\n    --ds-button-disabled-color: var(--ds-grey-medium);\n    --ds-button-disabled-bg-color: var(--ds-white);\n    --ds-button-primary-bg-color: var(--ds-primary);\n    --ds-button-primary-color: var(--ds-primary-contrast);\n    --ds-button-primary-border-color: transparent;\n    --ds-button-support-bg-color: var(--ds-support);\n    --ds-button-support-color: var(--ds-support-contrast);\n    --ds-button-support-border-color: transparent;\n    --ds-button-line-height: calc(var(--ds-line-height) * 1.5);\n    --ds-button-shadow: 0;\n    --ds-button-shadow-hover: var(--ds-shadow-small);\n    --ds-button-radius: var(--ds-box-radius);\n    --ds-button-padding: calc(0.5 * var(--ds-line-height));\n    --ds-button-font-size: calc(0.875 * var(--ds-font-size));\n\n    --ds-dialog-background: var(--ds-color-background);\n    --ds-dialog-color: var(--ds-color-contrast);\n    --ds-dialog-shadow: var(--ds-shadow-large);\n    --ds-dialog-radius: calc(2 * var(--ds-box-radius));\n    --ds-dialog-size: calc(50% - (1 / 2 * var(--ds-space)));\n    --ds-dialog-min-width: 25em;\n  }\n\n  :root[data-margin-notes-theme="dark"],\n  :host([data-margin-notes-theme="dark"]) {\n    --ds-color-scheme: dark;\n    --ds-primary: oklch(0.78 0.14 142);\n    --ds-support: oklch(0.78 0.13 225);\n    --ds-primary-high: oklch(0.84 0.11 142);\n    --ds-primary-low: oklch(0.3 0.08 142);\n    --ds-support-high: oklch(0.82 0.1 225);\n    --ds-support-low: oklch(0.3 0.08 225);\n    --ds-grey-high: #f3f3ed;\n    --ds-grey-medium: #b8bbad;\n    --ds-grey-low: #343831;\n    --ds-color: #f3f3ed;\n    --ds-color-background: #1b1d19;\n    --ds-color-contrast: #f3f3ed;\n    --ds-shadow-light: rgba(0, 0, 0, 0.18);\n    --ds-shadow-middle: rgba(0, 0, 0, 0.24);\n    --ds-shadow-dark: rgba(0, 0, 0, 0.32);\n    --ds-input-border: #5b6054;\n    --ds-button-bg-color: #343831;\n    --ds-button-default-bg-color: #242720;\n    --ds-button-border: 1px solid #4a5045;\n    --ds-button-disabled-color: #8e9285;\n    --ds-button-disabled-bg-color: #242720;\n    --ds-dialog-background: #1f211d;\n  }\n\n  @media (prefers-color-scheme: dark) {\n    :root[data-margin-notes-theme="system"],\n    :host([data-margin-notes-theme="system"]) {\n      --ds-color-scheme: dark;\n      --ds-primary: oklch(0.78 0.14 142);\n      --ds-support: oklch(0.78 0.13 225);\n      --ds-primary-high: oklch(0.84 0.11 142);\n      --ds-primary-low: oklch(0.3 0.08 142);\n      --ds-support-high: oklch(0.82 0.1 225);\n      --ds-support-low: oklch(0.3 0.08 225);\n      --ds-grey-high: #f3f3ed;\n      --ds-grey-medium: #b8bbad;\n      --ds-grey-low: #343831;\n      --ds-color: #f3f3ed;\n      --ds-color-background: #1b1d19;\n      --ds-color-contrast: #f3f3ed;\n      --ds-shadow-light: rgba(0, 0, 0, 0.18);\n      --ds-shadow-middle: rgba(0, 0, 0, 0.24);\n      --ds-shadow-dark: rgba(0, 0, 0, 0.32);\n      --ds-input-border: #5b6054;\n      --ds-button-bg-color: #343831;\n      --ds-button-default-bg-color: #242720;\n      --ds-button-border: 1px solid #4a5045;\n      --ds-button-disabled-color: #8e9285;\n      --ds-button-disabled-bg-color: #242720;\n      --ds-dialog-background: #1f211d;\n    }\n  }\n}\n\n@layer component {\n  .ds-button {\n    background-color: var(--ds-button-bg-color);\n    border: 0;\n    border-radius: var(--ds-button-radius);\n    box-shadow: var(--ds-button-shadow);\n    box-sizing: border-box;\n    color: inherit;\n    cursor: pointer;\n    display: inline-block;\n    font: inherit;\n    font-size: var(--ds-button-font-size);\n    line-height: var(--ds-button-line-height);\n    margin: 0 var(--ds-button-space) var(--ds-button-space) 0;\n    min-height: var(--ds-button-line-height);\n    outline: var(--ds-button-border);\n    overflow: visible;\n    padding: 0 var(--ds-button-padding);\n    text-align: center;\n    text-decoration: none;\n    white-space: nowrap;\n  }\n\n  .ds-button:hover,\n  .ds-button:focus {\n    box-shadow: var(--ds-button-shadow-hover);\n    text-decoration: none;\n  }\n\n  .ds-button-default {\n    background-color: var(--ds-button-default-bg-color);\n  }\n\n  .ds-button-primary,\n  .ds-button-primary:hover {\n    background-color: var(--ds-button-primary-bg-color);\n    color: var(--ds-button-primary-color);\n    outline: 1px solid var(--ds-button-primary-border-color);\n  }\n\n  .ds-button-support,\n  .ds-button-support:hover {\n    background-color: var(--ds-button-support-bg-color);\n    color: var(--ds-button-support-color);\n    outline: 1px solid var(--ds-button-support-border-color);\n  }\n\n  .ds-button-naked {\n    background: none;\n    box-shadow: none;\n    outline: none;\n  }\n\n  .ds-dialog {\n    background: var(--ds-dialog-background);\n    border: 0;\n    border-radius: var(--ds-dialog-radius);\n    box-shadow: var(--ds-dialog-shadow);\n    color: var(--ds-dialog-color);\n    max-width: 100%;\n    min-width: min(100%, var(--ds-dialog-min-width));\n    padding: 0;\n    width: var(--ds-dialog-size);\n  }\n}\n';
+
 // src/features/paragraph-note-stacks/ui.css
-var ui_default = '[data-margin-notes-target] {\n  position: relative;\n  outline: none;\n}\n\n.margin-notes-anchor-widget,\n.margin-notes-anchor-widget-host {\n  display: contents;\n}\n\n[data-margin-notes-target]::before {\n  bottom: 0;\n  content: "";\n  left: -3rem;\n  position: absolute;\n  top: 0;\n  width: 3rem;\n}\n\n[data-margin-notes-target].margin-notes-target-tabstop:focus-visible {\n  outline: 2px solid #3162d4;\n  outline-offset: 4px;\n}\n\n.margin-notes-target-add-btn {\n  align-items: center;\n  background: #ffffff;\n  border: 1px solid #cfd6e6;\n  border-radius: 999px;\n  box-shadow: 0 4px 14px rgba(20, 31, 56, 0.16);\n  color: #1e335f;\n  cursor: pointer;\n  display: inline-flex;\n  font: 600 1rem/1 system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;\n  height: 2rem;\n  justify-content: center;\n  left: -2.75rem;\n  opacity: 0;\n  pointer-events: none;\n  position: absolute;\n  top: 0.35rem;\n  transform: translateX(0.25rem);\n  transition: opacity 120ms ease, transform 120ms ease, border-color 120ms ease;\n  width: 2rem;\n  z-index: 2;\n}\n\n[data-margin-notes-target]:hover .margin-notes-target-add-btn,\n[data-margin-notes-target]:focus .margin-notes-target-add-btn,\n[data-margin-notes-target]:focus-within .margin-notes-target-add-btn,\n.margin-notes-target-add-btn:focus-visible {\n  opacity: 1;\n  pointer-events: auto;\n  transform: translateX(0);\n}\n\n.margin-notes-target-add-btn:hover,\n.margin-notes-target-add-btn:focus-visible {\n  border-color: #3162d4;\n}\n\n.margin-notes-target-note-list {\n  display: flex;\n  flex-direction: column;\n  gap: 0;\n  left: calc(100% + 1.25rem);\n  position: absolute;\n  top: 0;\n  width: min(17rem, 34vw);\n  z-index: 3;\n}\n\n.margin-notes-target-note-list.is-expanded {\n  background: var(--margin-notes-open-background, #fffefb);\n  border-radius: 4px;\n  box-shadow: 0 0 0 0.35rem var(--margin-notes-open-background, #fffefb);\n  z-index: 30;\n}\n\n.margin-notes-target-note-count {\n  align-items: center;\n  align-self: flex-start;\n  background: transparent;\n  border: 0;\n  color: #5d5a51;\n  cursor: pointer;\n  display: inline-flex;\n  font: 600 0.78rem/1 system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;\n  gap: 0.25rem;\n  padding: 0.05rem 0.2rem;\n}\n\n.margin-notes-target-note-count::before,\n.margin-notes-target-note-toggle::before {\n  background: #c9a84f;\n  border-radius: 1px;\n  content: "";\n  display: inline-block;\n  flex: 0 0 auto;\n  height: 0.72rem;\n  opacity: 0.72;\n  transform: rotate(-2deg);\n  width: 0.58rem;\n}\n\n.margin-notes-target-note-count[hidden],\n.margin-notes-target-note-count[data-margin-notes-empty="true"],\n.margin-notes-target-note[hidden] {\n  display: none;\n}\n\n.margin-notes-target-note-items {\n  display: flex;\n  flex-direction: column;\n  gap: 0;\n}\n\n.margin-notes-target-note {\n  background: transparent;\n  border-radius: 4px;\n  color: #302a1d;\n  min-height: 2rem;\n  position: relative;\n}\n\n.margin-notes-target-note.is-expanded {\n  background: var(--margin-notes-open-background, #fffefb);\n  left: 0;\n  position: absolute;\n  right: auto;\n  top: var(--margin-notes-expanded-top, 0);\n  width: min(24rem, 54vw);\n  z-index: 20;\n}\n\n.margin-notes-target-note-toggle {\n  align-items: baseline;\n  background: transparent;\n  border: 0;\n  color: inherit;\n  cursor: pointer;\n  display: flex;\n  gap: 0.38rem;\n  font: 0.875rem/1.35 system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;\n  overflow: hidden;\n  padding: 0.16rem 0;\n  text-align: left;\n  width: 100%;\n}\n\n.margin-notes-target-note-text {\n  min-width: 0;\n  overflow: hidden;\n  text-overflow: ellipsis;\n  white-space: nowrap;\n}\n\n.margin-notes-target-note.is-expanded .margin-notes-target-note-toggle {\n  cursor: text;\n  overflow: visible;\n  padding: 0.35rem 2rem 0.55rem 0;\n}\n\n.margin-notes-target-note.is-expanded .margin-notes-target-note-text {\n  overflow: visible;\n  text-overflow: clip;\n  white-space: normal;\n}\n\n.margin-notes-target-note-actions {\n  border-top: 1px solid #ebe4d1;\n  display: none;\n  gap: 0.35rem;\n  justify-content: flex-end;\n  padding: 0 0.45rem 0.45rem;\n}\n\n.margin-notes-target-note.is-expanded .margin-notes-target-note-actions {\n  display: flex;\n}\n\n.margin-notes-target-note-action {\n  background: transparent;\n  border: 0;\n  color: #4d5f8f;\n  cursor: pointer;\n  font: 600 0.78rem/1 system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;\n  padding: 0.35rem;\n}\n\n.margin-notes-target-note-close {\n  align-items: center;\n  background: transparent;\n  border: 0;\n  color: #5f5541;\n  cursor: pointer;\n  display: none;\n  font: 1.1rem/1 system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;\n  height: 1.65rem;\n  justify-content: center;\n  padding: 0;\n  position: absolute;\n  right: 0.25rem;\n  top: 0.25rem;\n  width: 1.65rem;\n}\n\n.margin-notes-target-note.is-expanded .margin-notes-target-note-close {\n  display: inline-flex;\n}\n\n@media (max-width: 760px) {\n  [data-margin-notes-target]::before {\n    display: none;\n  }\n\n  .margin-notes-target-add-btn {\n    left: auto;\n    right: 0;\n    top: -0.85rem;\n  }\n\n  .margin-notes-target-note-list {\n    left: 0;\n    position: relative;\n    top: auto;\n    width: 100%;\n  }\n\n  .margin-notes-target-note.is-expanded {\n    width: min(100%, 24rem);\n  }\n}\n';
+var ui_default = '[data-margin-notes-target],\n.margin-notes-anchor-widget {\n  --margin-notes-paper-background: var(--ds-color-background, #fff);\n  --margin-notes-open-background: var(--ds-color-background, #fffefb);\n  --margin-notes-note-color: var(--ds-grey-high, #302a1d);\n  --margin-notes-muted-color: var(--ds-grey-medium, #5d5a51);\n  --margin-notes-rule-color: var(--ds-grey-low, #ebe4d1);\n  --margin-notes-marker-color: var(--ds-support, #c9a84f);\n  --margin-notes-action-color: var(--ds-primary-high, #4d5f8f);\n  --margin-notes-focus-color: var(--ds-primary-high, #3162d4);\n  --margin-notes-radius: var(--ds-box-radius, 4px);\n  --margin-notes-shadow: var(--ds-shadow-small, 0 4px 14px rgba(20, 31, 56, 0.16));\n  --margin-notes-font: var(--ds-font-body, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif);\n  color-scheme: var(--ds-color-scheme, light);\n}\n\n[data-margin-notes-target] {\n  position: relative;\n  outline: none;\n}\n\n.margin-notes-anchor-widget,\n.margin-notes-anchor-widget-host {\n  display: contents;\n}\n\n[data-margin-notes-target]::before {\n  bottom: 0;\n  content: "";\n  left: -3rem;\n  position: absolute;\n  top: 0;\n  width: 3rem;\n}\n\n[data-margin-notes-target].margin-notes-target-tabstop:focus-visible {\n  outline: 2px solid var(--margin-notes-focus-color);\n  outline-offset: 4px;\n}\n\n.margin-notes-target-add-btn {\n  align-items: center;\n  background: var(--margin-notes-paper-background);\n  border: 1px solid var(--ds-grey-30, #cfd6e6);\n  border-radius: 999px;\n  box-shadow: var(--margin-notes-shadow);\n  color: var(--margin-notes-action-color);\n  cursor: pointer;\n  display: inline-flex;\n  font: 600 1rem/1 var(--margin-notes-font);\n  height: 2rem;\n  justify-content: center;\n  left: -2.75rem;\n  opacity: 0;\n  pointer-events: none;\n  position: absolute;\n  top: 0.35rem;\n  transform: translateX(0.25rem);\n  transition: opacity 120ms ease, transform 120ms ease, border-color 120ms ease;\n  width: 2rem;\n  z-index: 2;\n}\n\n[data-margin-notes-target]:hover .margin-notes-target-add-btn,\n[data-margin-notes-target]:focus .margin-notes-target-add-btn,\n[data-margin-notes-target]:focus-within .margin-notes-target-add-btn,\n.margin-notes-target-add-btn:focus-visible {\n  opacity: 1;\n  pointer-events: auto;\n  transform: translateX(0);\n}\n\n.margin-notes-target-add-btn:hover,\n.margin-notes-target-add-btn:focus-visible {\n  border-color: var(--margin-notes-focus-color);\n}\n\n.margin-notes-target-note-list {\n  display: flex;\n  flex-direction: column;\n  gap: 0;\n  left: calc(100% + 1.25rem);\n  position: absolute;\n  top: 0;\n  width: min(17rem, 34vw);\n  z-index: 3;\n}\n\n.margin-notes-target-note-list.is-expanded {\n  background: var(--margin-notes-open-background);\n  border-radius: var(--margin-notes-radius);\n  box-shadow: 0 0 0 0.35rem var(--margin-notes-open-background);\n  z-index: 30;\n}\n\n.margin-notes-target-note-count {\n  align-items: center;\n  align-self: flex-start;\n  background: transparent;\n  border: 0;\n  color: var(--margin-notes-muted-color);\n  cursor: pointer;\n  display: inline-flex;\n  font: 600 0.78rem/1 var(--margin-notes-font);\n  gap: 0.25rem;\n  padding: 0.05rem 0.2rem;\n}\n\n.margin-notes-target-note-count::before,\n.margin-notes-target-note-toggle::before {\n  background: var(--margin-notes-marker-color);\n  border-radius: 1px;\n  content: "";\n  display: inline-block;\n  flex: 0 0 auto;\n  height: 0.72rem;\n  opacity: 0.72;\n  transform: rotate(-2deg);\n  width: 0.58rem;\n}\n\n.margin-notes-target-note-count[hidden],\n.margin-notes-target-note-count[data-margin-notes-empty="true"],\n.margin-notes-target-note[hidden] {\n  display: none;\n}\n\n.margin-notes-target-note-items {\n  display: flex;\n  flex-direction: column;\n  gap: 0;\n}\n\n.margin-notes-target-note {\n  background: transparent;\n  border-radius: var(--margin-notes-radius);\n  color: var(--margin-notes-note-color);\n  min-height: 2rem;\n  position: relative;\n}\n\n.margin-notes-target-note.is-expanded {\n  background: var(--margin-notes-open-background);\n  left: 0;\n  position: absolute;\n  right: auto;\n  top: var(--margin-notes-expanded-top, 0);\n  width: min(24rem, 54vw);\n  z-index: 20;\n}\n\n.margin-notes-target-note-toggle {\n  align-items: baseline;\n  background: transparent;\n  border: 0;\n  color: inherit;\n  cursor: pointer;\n  display: flex;\n  gap: 0.38rem;\n  font: 0.875rem/1.35 var(--margin-notes-font);\n  overflow: hidden;\n  padding: 0.16rem 0;\n  text-align: left;\n  width: 100%;\n}\n\n.margin-notes-target-note-text {\n  min-width: 0;\n  overflow: hidden;\n  text-overflow: ellipsis;\n  white-space: nowrap;\n}\n\n.margin-notes-target-note.is-expanded .margin-notes-target-note-toggle {\n  cursor: text;\n  overflow: visible;\n  padding: 0.35rem 2rem 0.55rem 0;\n}\n\n.margin-notes-target-note.is-expanded .margin-notes-target-note-text {\n  overflow: visible;\n  text-overflow: clip;\n  white-space: normal;\n}\n\n.margin-notes-target-note-actions {\n  border-top: 1px solid var(--margin-notes-rule-color);\n  display: none;\n  gap: 0.35rem;\n  justify-content: flex-end;\n  padding: 0 0.45rem 0.45rem;\n}\n\n.margin-notes-target-note.is-expanded .margin-notes-target-note-actions {\n  display: flex;\n}\n\n.margin-notes-target-note-action {\n  background: transparent;\n  border: 0;\n  color: var(--margin-notes-action-color);\n  cursor: pointer;\n  font: 600 0.78rem/1 var(--margin-notes-font);\n  padding: 0.35rem;\n}\n\n.margin-notes-target-note-close {\n  align-items: center;\n  background: transparent;\n  border: 0;\n  color: var(--margin-notes-muted-color);\n  cursor: pointer;\n  display: none;\n  font: 1.1rem/1 var(--margin-notes-font);\n  height: 1.65rem;\n  justify-content: center;\n  padding: 0;\n  position: absolute;\n  right: 0.25rem;\n  top: 0.25rem;\n  width: 1.65rem;\n}\n\n.margin-notes-target-note.is-expanded .margin-notes-target-note-close {\n  display: inline-flex;\n}\n\n@media (max-width: 760px) {\n  [data-margin-notes-target]::before {\n    display: none;\n  }\n\n  .margin-notes-target-add-btn {\n    left: auto;\n    right: 0;\n    top: -0.85rem;\n  }\n\n  .margin-notes-target-note-list {\n    left: 0;\n    position: relative;\n    top: auto;\n    width: 100%;\n  }\n\n  .margin-notes-target-note.is-expanded {\n    width: min(100%, 24rem);\n  }\n}\n';
 
 // src/features/paragraph-note-stacks.js
 var paragraphNoteStacks = {
@@ -5665,6 +5688,7 @@ var paragraphNoteStacks = {
     "margin-notes-inline-note": inline_note_default
   },
   styles: {
+    "margin-notes-design-system": design_system_default,
     "margin-notes-ui": ui_default,
     "margin-notes-cobalt-editor": cobalt_editor_modal_default2
   },
@@ -5672,6 +5696,9 @@ var paragraphNoteStacks = {
     async setupParagraphNoteStacks({ anchors, storeKey }) {
       const notesApi = this.api.notes;
       this.data.marginNotes.storeKey = storeKey;
+      await this.actions.setTheme({
+        theme: this.data.marginNotes.theme
+      });
       await this.actions.installAnchorAffordances({ anchors });
       this.data.marginNotes.graph = await notesApi.loadGraph({
         app: this,
@@ -5709,7 +5736,18 @@ var paragraphNoteStacks = {
       this.marginNotesRuntime.syncTimers.clear();
       await this.actions.removeAnchorAffordances({});
       notesApi.removeInstalledViewAssets({ app: this });
+      notesApi.restoreTheme({ app: this });
       this.marginNotesRuntime.mountContainer?.replaceChildren();
+    },
+    async setTheme({ theme }) {
+      const notesApi = this.api.notes;
+      const normalizedTheme = notesApi.normalizeTheme({ theme });
+      this.data.marginNotes.theme = normalizedTheme;
+      notesApi.applyTheme({
+        app: this,
+        theme: normalizedTheme
+      });
+      return normalizedTheme;
     },
     async createNote({ anchorId }) {
       const notesApi = this.api.notes;
@@ -6001,6 +6039,8 @@ var paragraphNoteStacks = {
       }
       const sync = () => notesApi.syncAnchorLayoutDomNow({ app: this, anchorId });
       sync();
+      await notesApi.waitForViewRender();
+      sync();
       this.marginNotesRuntime.syncTimers.set(anchorId, setTimeout(sync, 75));
     },
     async updateAnchorNoteState({ anchor: anchor2 }) {
@@ -6060,9 +6100,27 @@ var paragraphNoteStacks = {
         "margin-notes",
         "margin-notes-anchor-widget",
         "margin-notes-inline-note",
+        "margin-notes-design-system.css",
         "margin-notes-ui.css",
         "margin-notes-cobalt-editor.css"
       ],
+      normalizeTheme({ theme }) {
+        if (theme === void 0) return "system";
+        if (["system", "light", "dark"].includes(theme)) return theme;
+        throw new Error('Theme must be "system", "light", or "dark"');
+      },
+      applyTheme({ app: app2, theme }) {
+        app2.marginNotesRuntime.themeRoot?.setAttribute("data-margin-notes-theme", theme);
+      },
+      restoreTheme({ app: app2 }) {
+        const root = app2.marginNotesRuntime.themeRoot;
+        if (!root) return;
+        if (app2.marginNotesRuntime.hadThemeAttribute) {
+          root.setAttribute("data-margin-notes-theme", app2.marginNotesRuntime.previousThemeAttribute);
+        } else {
+          root.removeAttribute("data-margin-notes-theme");
+        }
+      },
       getNotesForAnchor({ app: app2, anchorId }) {
         const anchor2 = this.findAnchor({ app: app2, anchorId });
         if (!anchor2) return [];
@@ -6150,6 +6208,9 @@ var paragraphNoteStacks = {
         if (!valuePath || !app2) return;
         return this.path.get(app2.data, valuePath);
       },
+      waitForViewRender() {
+        return new Promise((resolve) => globalThis.setTimeout(resolve, 75));
+      },
       syncAnchorLayoutDomNow({ app: app2, anchorId }) {
         app2.marginNotesRuntime.syncTimers.delete(anchorId);
         const affordance = this.findAnchorAffordance({ app: app2, anchorId });
@@ -6197,6 +6258,7 @@ function validateHostConfig(config) {
   if (config.store) {
     validateStore(config.store);
   }
+  validateTheme(config.theme);
   const anchorIds = /* @__PURE__ */ new Set();
   config.anchors.forEach((anchor2, index) => {
     validateAnchor(anchor2, index);
@@ -6227,6 +6289,12 @@ function validateStore(store) {
     if (typeof store[method] !== "function") {
       throw new Error(`Config store must provide ${method}()`);
     }
+  }
+}
+function validateTheme(theme) {
+  if (theme === void 0) return;
+  if (!["system", "light", "dark"].includes(theme)) {
+    throw new Error('Config theme must be "system", "light", or "dark"');
   }
 }
 function isElementLike(value) {
@@ -6294,6 +6362,7 @@ function mount(config) {
   const mountContainer = config.container.element;
   const storeKey = storeKeyFromConfig(config);
   const store = config.store || createLocalStore();
+  const themeRoot = document.documentElement;
   mountContainer.innerHTML = '<simply-render rel="margin-notes"></simply-render>';
   const marginApp = app({
     container: document.body,
@@ -6305,7 +6374,8 @@ function mount(config) {
         anchors: [],
         anchorViews: [],
         graph: [],
-        storeKey
+        storeKey,
+        theme: config.theme || "system"
       }
     },
     marginNotesRuntime: {
@@ -6315,7 +6385,10 @@ function mount(config) {
       expandedStackBackground: config.expandedStackBackground || "#fffefb",
       anchorAffordances: [],
       resizeObserver: null,
-      syncTimers: /* @__PURE__ */ new Map()
+      syncTimers: /* @__PURE__ */ new Map(),
+      themeRoot,
+      hadThemeAttribute: themeRoot.hasAttribute("data-margin-notes-theme"),
+      previousThemeAttribute: themeRoot.getAttribute("data-margin-notes-theme")
     },
     start() {
       return this.actions.setupParagraphNoteStacks({
@@ -6334,6 +6407,12 @@ function mount(config) {
       app: this,
       anchorId
     });
+  };
+  marginApp.setTheme = function setMountedTheme(theme) {
+    return this.actions.setTheme({ theme });
+  };
+  marginApp.getTheme = function getMountedTheme() {
+    return this.data.marginNotes.theme;
   };
   return marginApp;
 }
@@ -6363,6 +6442,12 @@ var MarginNotes = class {
   }
   getNotesForAnchor(anchorId) {
     return this.app?.getNotesForAnchor(anchorId) || [];
+  }
+  setTheme(theme) {
+    return this.app?.setTheme(theme);
+  }
+  getTheme() {
+    return this.app?.getTheme() || "system";
   }
 };
 
