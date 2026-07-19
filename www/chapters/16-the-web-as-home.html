@@ -27,6 +27,7 @@
   <link rel="manifest" href="../manifest.webmanifest">
   <link rel="apple-touch-icon" href="../assets/images/icons/programming-for-wizards-icon-192.png">
   <link rel="stylesheet" href="../assets/book.css">
+  <link rel="stylesheet" href="../assets/margin-notes-demo.css">
   <link rel="stylesheet" href="../assets/exhibits/exhibits.css">
   <script>
     window.MathJax = {
@@ -45,6 +46,7 @@
   <script defer src="../assets/exhibits/exhibit-kit.js"></script>
   <script defer src="https://cdn.jsdelivr.net/gh/muze-labs/simplyflow@main/packages/simplyflow/dist/simply.flow.js"></script>
   <script type="module" src="../assets/exhibits/exhibits.js"></script>
+  <script type="module" src="../assets/margin-notes-demo.js"></script>
 </head>
 <body>
   <a class="skip-link" href="#main">Skip to manuscript</a>
@@ -118,71 +120,209 @@
     <svg class="chapter-glyph" viewBox="0 0 96 96" focusable="false" aria-hidden="true"><path d="M22 50 48 28l26 22"/><path d="M31 48v22h34V48"/><path d="M41 70V55h14v15"/><path d="M24 70h48"/><circle cx="62" cy="34" r="4"/></svg>
   </header>
   <h1 id="h-16-the-web-as-home-who-owns-your-home-directory"><a class="anchor-link" href="#h-16-the-web-as-home-who-owns-your-home-directory" aria-label="Link to The Web as home: who owns your home directory?">#</a>The Web as home: who owns your home directory?</h1>
-<p id="p-16-earlier-we-saw-the-network-becoming-the-operating" data-note-target>Earlier we saw the network becoming the operating system.</p>
-<p id="p-16-but-where-is-the-users-home-directory-and" data-note-target>But where is the user's home directory, and who controls it?</p>
-<p id="p-16-linked-data-gave-us-names-and-meanings-that" data-note-target>Linked data gave us names and meanings that can cross application boundaries, but it did not give that data a home.</p>
-<p id="p-16-on-a-normal-computer-the-home-directory-question" data-note-target>On a normal computer, the home-directory question has an obvious answer, at least in theory. Your documents, photos, music, projects, notes, saved games, half-written novels and badly named folders live somewhere that is more yours than the applications are.</p>
-<p id="p-16-you-can-install-another-text-editor-without-rewriting" data-note-target>You can install another text editor without rewriting every document. You can open an image in a different program. You can remove an application and, if the world is not too cursed, your files remain.</p>
-<p id="p-16-the-web-grew-up-differently" data-note-target>The Web did not follow that example.</p>
-<p id="p-16-your-mail-lives-in-the-mail-application-your" data-note-target>Your mail lives in the mail application. Your photos live in the photo application. Your calendar lives in the calendar application. Each service brings its own account, storage, permissions, interface, business model and export button if you are lucky.</p>
-<p id="p-16-when-an-application-owns-the-interface-account-data" data-note-target>That is convenient for the maker of the application. Everything can be designed as one system. It is often convenient for the user too, until they want to replace one part of it.</p>
-<p id="p-16-software-moved-into-the-network-the-users-home" data-note-target>Software moved into the network. The user's home did not come with it.</p>
+<p id="p-16-earlier-we-saw-the-network-becoming-the-operating" data-note-target><span class="passage-margin" data-passage-margin aria-label="Margin for this passage">
+<span class="passage-margin-notes" data-passage-margin-notes></span>
+
+</span>Earlier we saw the network becoming the operating system.</p>
+<p id="p-16-but-where-is-the-users-home-directory-and" data-note-target><span class="passage-margin" data-passage-margin aria-label="Margin for this passage">
+<span class="passage-margin-notes" data-passage-margin-notes></span>
+
+</span>But where is the user's home directory, and who controls it?</p>
+<p id="p-16-linked-data-gave-us-names-and-meanings-that" data-note-target><span class="passage-margin" data-passage-margin aria-label="Margin for this passage">
+<span class="passage-margin-notes" data-passage-margin-notes></span>
+
+</span>Linked data gave us names and meanings that can cross application boundaries, but it did not give that data a home.</p>
+<p id="p-16-on-a-normal-computer-the-home-directory-question" data-note-target><span class="passage-margin" data-passage-margin aria-label="Margin for this passage">
+<span class="passage-margin-notes" data-passage-margin-notes></span>
+
+</span>On a normal computer, the home-directory question has an obvious answer, at least in theory. Your documents, photos, music, projects, notes, saved games, half-written novels and badly named folders live somewhere that is more yours than the applications are.</p>
+<p id="p-16-you-can-install-another-text-editor-without-rewriting" data-note-target><span class="passage-margin" data-passage-margin aria-label="Margin for this passage">
+<span class="passage-margin-notes" data-passage-margin-notes></span>
+
+</span>You can install another text editor without rewriting every document. You can open an image in a different program. You can remove an application and, if the world is not too cursed, your files remain.</p>
+<p id="p-16-the-web-grew-up-differently" data-note-target><span class="passage-margin" data-passage-margin aria-label="Margin for this passage">
+<span class="passage-margin-notes" data-passage-margin-notes></span>
+
+</span>The Web did not follow that example.</p>
+<p id="p-16-your-mail-lives-in-the-mail-application-your" data-note-target><span class="passage-margin" data-passage-margin aria-label="Margin for this passage">
+<span class="passage-margin-notes" data-passage-margin-notes></span>
+
+</span>Your mail lives in the mail application. Your photos live in the photo application. Your calendar lives in the calendar application. Each service brings its own account, storage, permissions, interface, business model and export button if you are lucky.</p>
+<p id="p-16-when-an-application-owns-the-interface-account-data" data-note-target><span class="passage-margin" data-passage-margin aria-label="Margin for this passage">
+<span class="passage-margin-notes" data-passage-margin-notes></span>
+
+</span>That is convenient for the maker of the application. Everything can be designed as one system. It is often convenient for the user too, until they want to replace one part of it.</p>
+<p id="p-16-software-moved-into-the-network-the-users-home" data-note-target><span class="passage-margin" data-passage-margin aria-label="Margin for this passage">
+<span class="passage-margin-notes" data-passage-margin-notes></span>
+
+</span>Software moved into the network. The user's home did not come with it.</p>
 <h2 id="h-16-a-sideways-look"><a class="anchor-link" href="#h-16-a-sideways-look" aria-label="Link to A sideways look">#</a>A sideways look</h2>
-<p id="p-16-one-way-to-describe-the-modern-web-is" data-note-target>One way to describe the modern Web is:</p>
+<p id="p-16-one-way-to-describe-the-modern-web-is" data-note-target><span class="passage-margin" data-passage-margin aria-label="Margin for this passage">
+<span class="passage-margin-notes" data-passage-margin-notes></span>
+
+</span>One way to describe the modern Web is:</p>
 <figure id="app-owned-world" class="code-figure" data-note-target>
 <figcaption>text</figcaption>
 <pre><code class="language-text">application -&gt; account -&gt; data</code></pre>
 </figure>
-<p id="p-16-the-application-is-the-starting-point-you-choose" data-note-target>The application is the starting point. You choose an application, create an account inside it, and your data begins to accumulate there.</p>
-<p id="p-16-there-is-another-possible-shape" data-note-target>There is another way to organize the same elements:</p>
+<p id="p-16-the-application-is-the-starting-point-you-choose" data-note-target><span class="passage-margin" data-passage-margin aria-label="Margin for this passage">
+<span class="passage-margin-notes" data-passage-margin-notes></span>
+
+</span>The application is the starting point. You choose an application, create an account inside it, and your data begins to accumulate there.</p>
+<p id="p-16-there-is-another-possible-shape" data-note-target><span class="passage-margin" data-passage-margin aria-label="Margin for this passage">
+<span class="passage-margin-notes" data-passage-margin-notes></span>
+
+</span>There is another way to organize the same elements:</p>
 <figure id="user-owned-world" class="code-figure" data-note-target>
 <figcaption>text</figcaption>
 <pre><code class="language-text">identity -&gt; data -&gt; applications</code></pre>
 </figure>
-<p id="p-16-the-person-is-the-starting-point-the-data" data-note-target>The person is the starting point. The data lives near that person. Applications receive permission to read or change parts of it.</p>
-<p id="p-16-the-elements-have-not-changed-only-their-order" data-note-target>The elements have not changed. Only their order has.</p>
-<p id="p-16-in-the-first-shape-replacing-an-application-means" data-note-target>In the first version, replacing an application means moving your life from one system to another.</p>
-<p id="p-16-in-the-second-replacing-an-application-can-be" data-note-target>In the second, replacing an application can be closer to changing tools on a workbench.</p>
-<p id="p-16-sometimes-moving-the-boundary-changes-the-problem-more" data-note-target>Sometimes moving the boundary changes the problem more than solving it ever could.</p>
-<p id="p-16-for-this-second-shape-to-work" data-note-target>For this second shape to work, the important things cannot all be owned by the application.</p>
-<p id="p-16-linked-data-helps-different-tools-understand-the-same" data-note-target>Linked data helps different tools understand the same things. But by itself, it does not organize the world differently. Identity, storage and permission must also exist independently of the application.</p>
+<p id="p-16-the-person-is-the-starting-point-the-data" data-note-target><span class="passage-margin" data-passage-margin aria-label="Margin for this passage">
+<span class="passage-margin-notes" data-passage-margin-notes></span>
+
+</span>The person is the starting point. The data lives near that person. Applications receive permission to read or change parts of it.</p>
+<p id="p-16-the-elements-have-not-changed-only-their-order" data-note-target><span class="passage-margin" data-passage-margin aria-label="Margin for this passage">
+<span class="passage-margin-notes" data-passage-margin-notes></span>
+
+</span>The elements have not changed. Only their order has.</p>
+<p id="p-16-in-the-first-shape-replacing-an-application-means" data-note-target><span class="passage-margin" data-passage-margin aria-label="Margin for this passage">
+<span class="passage-margin-notes" data-passage-margin-notes></span>
+
+</span>In the first version, replacing an application means moving your life from one system to another.</p>
+<p id="p-16-in-the-second-replacing-an-application-can-be" data-note-target><span class="passage-margin" data-passage-margin aria-label="Margin for this passage">
+<span class="passage-margin-notes" data-passage-margin-notes></span>
+
+</span>In the second, replacing an application can be closer to changing tools on a workbench.</p>
+<p id="p-16-sometimes-moving-the-boundary-changes-the-problem-more" data-note-target><span class="passage-margin" data-passage-margin aria-label="Margin for this passage">
+<span class="passage-margin-notes" data-passage-margin-notes></span>
+
+</span>Sometimes moving the boundary changes the problem more than solving it ever could.</p>
+<p id="p-16-for-this-second-shape-to-work" data-note-target><span class="passage-margin" data-passage-margin aria-label="Margin for this passage">
+<span class="passage-margin-notes" data-passage-margin-notes></span>
+
+</span>For this second shape to work, the important things cannot all be owned by the application.</p>
+<p id="p-16-linked-data-helps-different-tools-understand-the-same" data-note-target><span class="passage-margin" data-passage-margin aria-label="Margin for this passage">
+<span class="passage-margin-notes" data-passage-margin-notes></span>
+
+</span>Linked data helps different tools understand the same things. But by itself, it does not organize the world differently. Identity, storage and permission must also exist independently of the application.</p>
 <h2 id="h-16-connecting-to-solid"><a class="anchor-link" href="#h-16-connecting-to-solid" aria-label="Link to Connecting to Solid">#</a>Connecting to Solid</h2>
-<p id="p-16-there-is-a-project-called-solid-that-explores" data-note-target><span class="side-links side-links-margin" aria-label="Related links for this paragraph">
-<a href="https://solidproject.org/" title="https://solidproject.org/">https://solidproject.org/</a>
+<p id="p-16-there-is-a-project-called-solid-that-explores" data-note-target><span class="passage-margin" data-passage-margin aria-label="Margin for this passage">
+<span class="passage-margin-notes" data-passage-margin-notes></span>
+<span class="side-links side-links-margin" aria-label="Related links for this paragraph">
+<a href="https://solidproject.org/" title="https://solidproject.org/" tabindex="-1">https://solidproject.org/</a>
+</span>
 </span>There is a project called Solid that explores this kind of world.<span class="side-links side-links-inline" aria-label="Related links for this paragraph">
 <a href="https://solidproject.org/" title="https://solidproject.org/">https://solidproject.org/</a>
 </span></p>
-<p id="p-16-solid-separates-identity-and-data-from-applications-a" data-note-target>Solid separates identity and data from applications. A person has an identity on the Web. Their data can live in storage they choose, usually called a pod. Applications ask for permission to read or change parts of it.</p>
-<p id="p-16-the-solid-protocols-are-an-attempt-to-put" data-note-target>The Solid protocols add shared infrastructure for identity, storage and permissions to the Web. They do not prescribe a calendar, notebook, shop or social network. Those belong higher up.</p>
-<p id="p-16-solid-servers-and-libraries-can-form-platforms" data-note-target>Solid servers and libraries provide a platform on top of those agreements. A notes application can write a note without also becoming an identity provider, storage service and permission system.</p>
-<p id="p-16-linked-data-describes-what-the-data-means-and" data-note-target>Linked data describes what the data means and how it relates to other things. Solid decides where that data lives, who controls it, and which applications may use it.</p>
-<p id="p-16-solid-does-not-replace-the-web-it-enhances" data-note-target>Solid adds to the Web rather than replacing it. It can be useful without becoming the answer to everything.</p>
+<p id="p-16-solid-separates-identity-and-data-from-applications-a" data-note-target><span class="passage-margin" data-passage-margin aria-label="Margin for this passage">
+<span class="passage-margin-notes" data-passage-margin-notes></span>
+
+</span>Solid separates identity and data from applications. A person has an identity on the Web. Their data can live in storage they choose, usually called a pod. Applications ask for permission to read or change parts of it.</p>
+<p id="p-16-the-solid-protocols-are-an-attempt-to-put" data-note-target><span class="passage-margin" data-passage-margin aria-label="Margin for this passage">
+<span class="passage-margin-notes" data-passage-margin-notes></span>
+
+</span>The Solid protocols add shared infrastructure for identity, storage and permissions to the Web. They do not prescribe a calendar, notebook, shop or social network. Those belong higher up.</p>
+<p id="p-16-solid-servers-and-libraries-can-form-platforms" data-note-target><span class="passage-margin" data-passage-margin aria-label="Margin for this passage">
+<span class="passage-margin-notes" data-passage-margin-notes></span>
+
+</span>Solid servers and libraries provide a platform on top of those agreements. A notes application can write a note without also becoming an identity provider, storage service and permission system.</p>
+<p id="p-16-linked-data-describes-what-the-data-means-and" data-note-target><span class="passage-margin" data-passage-margin aria-label="Margin for this passage">
+<span class="passage-margin-notes" data-passage-margin-notes></span>
+
+</span>Linked data describes what the data means and how it relates to other things. Solid decides where that data lives, who controls it, and which applications may use it.</p>
+<p id="p-16-solid-does-not-replace-the-web-it-enhances" data-note-target><span class="passage-margin" data-passage-margin aria-label="Margin for this passage">
+<span class="passage-margin-notes" data-passage-margin-notes></span>
+
+</span>Solid adds to the Web rather than replacing it. It can be useful without becoming the answer to everything.</p>
 <h2 id="h-16-applications-as-visitors"><a class="anchor-link" href="#h-16-applications-as-visitors" aria-label="Link to Applications as visitors">#</a>Applications as visitors</h2>
-<p id="p-16-once-data-and-identity-live-outside" data-note-target>Once data and identity live outside the application, the application no longer has to become a kingdom before it can be useful.</p>
-<p id="p-16-a-calendar-can-concentrate-on-appointments" data-note-target>A calendar can concentrate on appointments. A contacts tool can concentrate on people. A notes editor can concentrate on writing notes. They can work with the same people, places and events without sharing a codebase, framework or owner.</p>
-<p id="p-16-an-application-can-arrive-do-useful-work" data-note-target>An application can arrive, do useful work, and leave without taking the user's world with it.</p>
-<p id="p-16-a-library-lets-another-program-reuse-code" data-note-target>A library lets another program reuse code. Shared data lets another application reuse what a person has already made. The first saves the programmer work. The second keeps the user's world from being trapped in the first application.</p>
-<p id="p-16-reusable-software-is-not-only-software-that-can" data-note-target>Reusable software is not only software that can be imported into another program. It can be software that can be replaced by another program without taking the user's world with it.</p>
-<p id="p-16-a-better-tool-does-not-first-have" data-note-target>A better tool does not first have to persuade you to abandon everything you made with the old one. It can ask for access and try to be better.</p>
-<p id="p-16-innovation-can-arrive-from-elsewhere-because-your-world" data-note-target>Innovation can arrive from elsewhere because your world is not sealed inside the original application.</p>
+<p id="p-16-once-data-and-identity-live-outside" data-note-target><span class="passage-margin" data-passage-margin aria-label="Margin for this passage">
+<span class="passage-margin-notes" data-passage-margin-notes></span>
+
+</span>Once data and identity live outside the application, the application no longer has to become a kingdom before it can be useful.</p>
+<p id="p-16-a-calendar-can-concentrate-on-appointments" data-note-target><span class="passage-margin" data-passage-margin aria-label="Margin for this passage">
+<span class="passage-margin-notes" data-passage-margin-notes></span>
+
+</span>A calendar can concentrate on appointments. A contacts tool can concentrate on people. A notes editor can concentrate on writing notes. They can work with the same people, places and events without sharing a codebase, framework or owner.</p>
+<p id="p-16-an-application-can-arrive-do-useful-work" data-note-target><span class="passage-margin" data-passage-margin aria-label="Margin for this passage">
+<span class="passage-margin-notes" data-passage-margin-notes></span>
+
+</span>An application can arrive, do useful work, and leave without taking the user's world with it.</p>
+<p id="p-16-a-library-lets-another-program-reuse-code" data-note-target><span class="passage-margin" data-passage-margin aria-label="Margin for this passage">
+<span class="passage-margin-notes" data-passage-margin-notes></span>
+
+</span>A library lets another program reuse code. Shared data lets another application reuse what a person has already made. The first saves the programmer work. The second keeps the user's world from being trapped in the first application.</p>
+<p id="p-16-reusable-software-is-not-only-software-that-can" data-note-target><span class="passage-margin" data-passage-margin aria-label="Margin for this passage">
+<span class="passage-margin-notes" data-passage-margin-notes></span>
+
+</span>Reusable software is not only software that can be imported into another program. It can be software that can be replaced by another program without taking the user's world with it.</p>
+<p id="p-16-a-better-tool-does-not-first-have" data-note-target><span class="passage-margin" data-passage-margin aria-label="Margin for this passage">
+<span class="passage-margin-notes" data-passage-margin-notes></span>
+
+</span>A better tool does not first have to persuade you to abandon everything you made with the old one. It can ask for access and try to be better.</p>
+<p id="p-16-innovation-can-arrive-from-elsewhere-because-your-world" data-note-target><span class="passage-margin" data-passage-margin aria-label="Margin for this passage">
+<span class="passage-margin-notes" data-passage-margin-notes></span>
+
+</span>Innovation can arrive from elsewhere because your world is not sealed inside the original application.</p>
 <h2 id="h-16-where-the-complexity-goes"><a class="anchor-link" href="#h-16-where-the-complexity-goes" aria-label="Link to Where the complexity goes">#</a>Where the complexity goes</h2>
-<p id="p-16-none-of-this-removes-complexity" data-note-target>None of this removes complexity.</p>
-<p id="p-16-permissions-can-be-confusing" data-note-target>Permissions can be confusing. Applications may disagree about data. Vocabularies can drift. Two tools may change the same thing at the same time. Storage providers can fail, disappear or become less friendly than they were when you chose them.</p>
-<p id="p-16-centralised-services-hide-many-of-these-problems" data-note-target>Centralised services hide many of these problems by making one organization responsible for the whole system. That can be a good bargain. One account and one button are easier to explain than identity providers, storage providers and access rules.</p>
-<p id="p-16-moving-the-boundary-does-not-make-the-problems" data-note-target>Moving the boundary does not make the problems disappear. It makes them shared problems instead of private details hidden inside each application.</p>
-<p id="p-16-that-is-harder-in-some-ways" data-note-target>Those problems are the point. They show where the real work needs to be done. They are the price of giving independent tools room to exist.</p>
-<p id="p-16-solid-may-fail-for-social-reasons" data-note-target>Solid may fail for social reasons, business reasons, usability reasons, or because another system finds a better shape. Standards do not win merely by being sensible.</p>
-<p id="p-16-final-forms-have-not-done-well" data-note-target>Final forms have not done very well in this book.</p>
+<p id="p-16-none-of-this-removes-complexity" data-note-target><span class="passage-margin" data-passage-margin aria-label="Margin for this passage">
+<span class="passage-margin-notes" data-passage-margin-notes></span>
+
+</span>None of this removes complexity.</p>
+<p id="p-16-permissions-can-be-confusing" data-note-target><span class="passage-margin" data-passage-margin aria-label="Margin for this passage">
+<span class="passage-margin-notes" data-passage-margin-notes></span>
+
+</span>Permissions can be confusing. Applications may disagree about data. Vocabularies can drift. Two tools may change the same thing at the same time. Storage providers can fail, disappear or become less friendly than they were when you chose them.</p>
+<p id="p-16-centralised-services-hide-many-of-these-problems" data-note-target><span class="passage-margin" data-passage-margin aria-label="Margin for this passage">
+<span class="passage-margin-notes" data-passage-margin-notes></span>
+
+</span>Centralised services hide many of these problems by making one organization responsible for the whole system. That can be a good bargain. One account and one button are easier to explain than identity providers, storage providers and access rules.</p>
+<p id="p-16-moving-the-boundary-does-not-make-the-problems" data-note-target><span class="passage-margin" data-passage-margin aria-label="Margin for this passage">
+<span class="passage-margin-notes" data-passage-margin-notes></span>
+
+</span>Moving the boundary does not make the problems disappear. It makes them shared problems instead of private details hidden inside each application.</p>
+<p id="p-16-that-is-harder-in-some-ways" data-note-target><span class="passage-margin" data-passage-margin aria-label="Margin for this passage">
+<span class="passage-margin-notes" data-passage-margin-notes></span>
+
+</span>Those problems are the point. They show where the real work needs to be done. They are the price of giving independent tools room to exist.</p>
+<p id="p-16-solid-may-fail-for-social-reasons" data-note-target><span class="passage-margin" data-passage-margin aria-label="Margin for this passage">
+<span class="passage-margin-notes" data-passage-margin-notes></span>
+
+</span>Solid may fail for social reasons, business reasons, usability reasons, or because another system finds a better shape. Standards do not win merely by being sensible.</p>
+<p id="p-16-final-forms-have-not-done-well" data-note-target><span class="passage-margin" data-passage-margin aria-label="Margin for this passage">
+<span class="passage-margin-notes" data-passage-margin-notes></span>
+
+</span>Final forms have not done very well in this book.</p>
 <h2 id="h-16-small-tools-not-kingdoms"><a class="anchor-link" href="#h-16-small-tools-not-kingdoms" aria-label="Link to Small tools, not kingdoms">#</a>Small tools, not kingdoms</h2>
-<p id="p-16-back-in-the-knitted-castle" data-note-target>Back in the knitted castle, the reusable thing turned out not to be only the code. It was the boundary around the code.</p>
-<p id="p-16-solid-moves-that-boundary-around-the-whole" data-note-target>Solid moves that boundary around the whole application. The application itself can become one of the replaceable parts.</p>
-<p id="p-16-a-private-application-asks" data-note-target>A private application asks:</p>
+<p id="p-16-back-in-the-knitted-castle" data-note-target><span class="passage-margin" data-passage-margin aria-label="Margin for this passage">
+<span class="passage-margin-notes" data-passage-margin-notes></span>
+
+</span>Back in the knitted castle, the reusable thing turned out not to be only the code. It was the boundary around the code.</p>
+<p id="p-16-solid-moves-that-boundary-around-the-whole" data-note-target><span class="passage-margin" data-passage-margin aria-label="Margin for this passage">
+<span class="passage-margin-notes" data-passage-margin-notes></span>
+
+</span>Solid moves that boundary around the whole application. The application itself can become one of the replaceable parts.</p>
+<p id="p-16-a-private-application-asks" data-note-target><span class="passage-margin" data-passage-margin aria-label="Margin for this passage">
+<span class="passage-margin-notes" data-passage-margin-notes></span>
+
+</span>A private application asks:</p>
 <blockquote id="aside-16-how-can-we-keep-the-user-inside" data-note-target><p>How can we keep the user inside?</p></blockquote>
-<p id="p-16-a-personal-web-asks" data-note-target>A personal Web asks:</p>
+<p id="p-16-a-personal-web-asks" data-note-target><span class="passage-margin" data-passage-margin aria-label="Margin for this passage">
+<span class="passage-margin-notes" data-passage-margin-notes></span>
+
+</span>A personal Web asks:</p>
 <blockquote id="aside-16-how-can-this-tool-remain-useful-after-the" data-note-target><p>How can this tool remain useful after the user replaces it?</p></blockquote>
-<p id="p-16-the-second-question-does-not-require-solid" data-note-target>The second question does not require Solid as its only answer. But Solid is a serious attempt to build the answer into the Web itself.</p>
-<p id="p-16-the-web-has-become-an-operating-system" data-note-target>The Web has become an operating system.</p>
-<p id="p-16-the-user-still-needs-a-home-directory" data-note-target>The user still needs a home directory.</p>
+<p id="p-16-the-second-question-does-not-require-solid" data-note-target><span class="passage-margin" data-passage-margin aria-label="Margin for this passage">
+<span class="passage-margin-notes" data-passage-margin-notes></span>
+
+</span>The second question does not require Solid as its only answer. But Solid is a serious attempt to build the answer into the Web itself.</p>
+<p id="p-16-the-web-has-become-an-operating-system" data-note-target><span class="passage-margin" data-passage-margin aria-label="Margin for this passage">
+<span class="passage-margin-notes" data-passage-margin-notes></span>
+
+</span>The Web has become an operating system.</p>
+<p id="p-16-the-user-still-needs-a-home-directory" data-note-target><span class="passage-margin" data-passage-margin aria-label="Margin for this passage">
+<span class="passage-margin-notes" data-passage-margin-notes></span>
+
+</span>The user still needs a home directory.</p>
   <nav class="chapter-pagination" aria-label="Chapter navigation">
     <a rel="prev" href="15-the-web-as-data.html"><span>Previous</span>The Web as data: things should have addresses too</a>
     <a rel="next" href="interlude-06-final-rule.html"><span>Next</span>Interlude</a>

@@ -27,6 +27,7 @@
   <link rel="manifest" href="../manifest.webmanifest">
   <link rel="apple-touch-icon" href="../assets/images/icons/programming-for-wizards-icon-192.png">
   <link rel="stylesheet" href="../assets/book.css">
+  <link rel="stylesheet" href="../assets/margin-notes-demo.css">
   <link rel="stylesheet" href="../assets/exhibits/exhibits.css">
   <script>
     window.MathJax = {
@@ -45,6 +46,7 @@
   <script defer src="../assets/exhibits/exhibit-kit.js"></script>
   <script defer src="https://cdn.jsdelivr.net/gh/muze-labs/simplyflow@main/packages/simplyflow/dist/simply.flow.js"></script>
   <script type="module" src="../assets/exhibits/exhibits.js"></script>
+  <script type="module" src="../assets/margin-notes-demo.js"></script>
 </head>
 <body>
   <a class="skip-link" href="#main">Skip to manuscript</a>
@@ -118,34 +120,91 @@
     <svg class="chapter-glyph" viewBox="0 0 96 96" focusable="false" aria-hidden="true"><path d="M22 31h20v20H22zM54 31h20v20H54zM38 60h20v20H38z"/><path d="M42 41h12M48 51v9"/></svg>
   </header>
   <h1 id="h-09-every-program-grows-a-language"><a class="anchor-link" href="#h-09-every-program-grows-a-language" aria-label="Link to Every program grows a language">#</a>Every program grows a language</h1>
-<p id="p-09-a-program-is-not-only-written-in-a" data-note-target>A program is not only written in a language. A program also creates a language.</p>
-<p id="p-09-every-time-you-name-a-variable-function-class" data-note-target>Every time you name a variable, function, class or method, you add a word to your program. Add enough words and you've created a language all your own.</p>
-<p id="p-09-when-you-write-the-code-that-language-is" data-note-target>When you write the code, that language is obvious because you've invented it. Anyone else must learn it before they can safely change your program.</p>
-<p id="p-09-this-is-why-reading-code-is-harder-than" data-note-target>This is why reading code is harder than writing it.</p>
-<p id="p-09-most-of-the-time-programs-grow-their-local" data-note-target>Most of the time, programs grow their local language by accident. You do not choose to create it—it just happens. Always. You only get to choose whether you notice it before it grows teeth.</p>
-<p id="p-09-that-is-not-automatically-bad-it-is-how" data-note-target>That is not automatically bad. It is how useful code grows.</p>
-<p id="p-09-but-sometimes-the-local-language-wants-to-stop" data-note-target>But sometimes the local language wants to stop being accidental. Sometimes the problem has a vocabulary of its own, and forcing that vocabulary through the general-purpose language starts to feel like translating a poem through a tax form.</p>
-<p id="p-09-at-that-point-a-wizard-may-decide-to" data-note-target>At that point, a wizard may decide to make the language explicit.</p>
+<p id="p-09-a-program-is-not-only-written-in-a" data-note-target><span class="passage-margin" data-passage-margin aria-label="Margin for this passage">
+<span class="passage-margin-notes" data-passage-margin-notes></span>
+
+</span>A program is not only written in a language. A program also creates a language.</p>
+<p id="p-09-every-time-you-name-a-variable-function-class" data-note-target><span class="passage-margin" data-passage-margin aria-label="Margin for this passage">
+<span class="passage-margin-notes" data-passage-margin-notes></span>
+
+</span>Every time you name a variable, function, class or method, you add a word to your program. Add enough words and you've created a language all your own.</p>
+<p id="p-09-when-you-write-the-code-that-language-is" data-note-target><span class="passage-margin" data-passage-margin aria-label="Margin for this passage">
+<span class="passage-margin-notes" data-passage-margin-notes></span>
+
+</span>When you write the code, that language is obvious because you've invented it. Anyone else must learn it before they can safely change your program.</p>
+<p id="p-09-this-is-why-reading-code-is-harder-than" data-note-target><span class="passage-margin" data-passage-margin aria-label="Margin for this passage">
+<span class="passage-margin-notes" data-passage-margin-notes></span>
+
+</span>This is why reading code is harder than writing it.</p>
+<p id="p-09-most-of-the-time-programs-grow-their-local" data-note-target><span class="passage-margin" data-passage-margin aria-label="Margin for this passage">
+<span class="passage-margin-notes" data-passage-margin-notes></span>
+
+</span>Most of the time, programs grow their local language by accident. You do not choose to create it—it just happens. Always. You only get to choose whether you notice it before it grows teeth.</p>
+<p id="p-09-that-is-not-automatically-bad-it-is-how" data-note-target><span class="passage-margin" data-passage-margin aria-label="Margin for this passage">
+<span class="passage-margin-notes" data-passage-margin-notes></span>
+
+</span>That is not automatically bad. It is how useful code grows.</p>
+<p id="p-09-but-sometimes-the-local-language-wants-to-stop" data-note-target><span class="passage-margin" data-passage-margin aria-label="Margin for this passage">
+<span class="passage-margin-notes" data-passage-margin-notes></span>
+
+</span>But sometimes the local language wants to stop being accidental. Sometimes the problem has a vocabulary of its own, and forcing that vocabulary through the general-purpose language starts to feel like translating a poem through a tax form.</p>
+<p id="p-09-at-that-point-a-wizard-may-decide-to" data-note-target><span class="passage-margin" data-passage-margin aria-label="Margin for this passage">
+<span class="passage-margin-notes" data-passage-margin-notes></span>
+
+</span>At that point, a wizard may decide to make the language explicit.</p>
 <aside id="rule-09-wizards-eighth-rule" class="wizard-rule" data-note-target>
 <p class="rule-label">Wizard's eighth rule</p>
 <p>Mind your language.</p>
 </aside>
 <h2 id="h-09-domain-specific-languages"><a class="anchor-link" href="#h-09-domain-specific-languages" aria-label="Link to Domain-Specific Languages">#</a>Domain-Specific Languages</h2>
-<p id="p-09-a-domain-specific-language-or-dsl-is-a" data-note-target>A domain-specific language, or DSL, is a language made for one kind of problem. A DSL is much more limited than a normal programming language. It is small and simple, focused on a single problem domain.</p>
-<p id="p-09-when-you-start-using-dsls-you-dont-use" data-note-target>When you start using DSLs, you don't use a single programming language anymore. You use many small languages, and glue them together to form your program.</p>
-<p id="p-09-creating-a-true-dsl-means-creating-your-own" data-note-target>Creating a true DSL means creating your own compiler and runtime. It makes the boundary between the DSL and the source programming language extremely clear. Done well, this boundary lines up with a natural boundary in the problem domain.</p>
-<p id="p-09-the-best-dsls-are-so-well-known-that" data-note-target>The best DSLs are so well known that we don't think of them as DSLs anymore.</p>
-<p id="p-09-one-example-is-regular-expressions-any-non-trivial" data-note-target><span class="side-links side-links-margin" aria-label="Related links for this paragraph">
-<a href="https://en.wikipedia.org/wiki/Regular_expression" title="https://en.wikipedia.org/wiki/Regular_expression">https://en.wikipedia.org/wiki/Regular_expression</a>
+<p id="p-09-a-domain-specific-language-or-dsl-is-a" data-note-target><span class="passage-margin" data-passage-margin aria-label="Margin for this passage">
+<span class="passage-margin-notes" data-passage-margin-notes></span>
+
+</span>A domain-specific language, or DSL, is a language made for one kind of problem. A DSL is much more limited than a normal programming language. It is small and simple, focused on a single problem domain.</p>
+<p id="p-09-when-you-start-using-dsls-you-dont-use" data-note-target><span class="passage-margin" data-passage-margin aria-label="Margin for this passage">
+<span class="passage-margin-notes" data-passage-margin-notes></span>
+
+</span>When you start using DSLs, you don't use a single programming language anymore. You use many small languages, and glue them together to form your program.</p>
+<p id="p-09-creating-a-true-dsl-means-creating-your-own" data-note-target><span class="passage-margin" data-passage-margin aria-label="Margin for this passage">
+<span class="passage-margin-notes" data-passage-margin-notes></span>
+
+</span>Creating a true DSL means creating your own compiler and runtime. It makes the boundary between the DSL and the source programming language extremely clear. Done well, this boundary lines up with a natural boundary in the problem domain.</p>
+<p id="p-09-the-best-dsls-are-so-well-known-that" data-note-target><span class="passage-margin" data-passage-margin aria-label="Margin for this passage">
+<span class="passage-margin-notes" data-passage-margin-notes></span>
+
+</span>The best DSLs are so well known that we don't think of them as DSLs anymore.</p>
+<p id="p-09-one-example-is-regular-expressions-any-non-trivial" data-note-target><span class="passage-margin" data-passage-margin aria-label="Margin for this passage">
+<span class="passage-margin-notes" data-passage-margin-notes></span>
+<span class="side-links side-links-margin" aria-label="Related links for this paragraph">
+<a href="https://en.wikipedia.org/wiki/Regular_expression" title="https://en.wikipedia.org/wiki/Regular_expression" tabindex="-1">https://en.wikipedia.org/wiki/Regular_expression</a>
+</span>
 </span>One example is Regular Expressions. Any non-trivial program will have them. Beginning programmers hate them, because they are so unreadable. Don't worry. With practice you can become an experienced programmer who hates them.<span class="side-links side-links-inline" aria-label="Related links for this paragraph">
 <a href="https://en.wikipedia.org/wiki/Regular_expression" title="https://en.wikipedia.org/wiki/Regular_expression">https://en.wikipedia.org/wiki/Regular_expression</a>
 </span></p>
-<p id="p-09-another-example-is-sql-almost-any-software-that" data-note-target>Another example is SQL. Almost any software that uses a database will have some SQL in it. It may be hidden behind an ORM, but it will be there.</p>
-<p id="p-09-done-correctly-a-dsl-allows-you-to-divide" data-note-target>Done correctly, a DSL allows you to divide your problem along natural boundaries in the domain.</p>
-<p id="p-09-sql-allows-you-to-express-ideas-about-data" data-note-target>SQL allows you to express ideas about data without worrying about functions, loops or variables. Regular expressions allow you to define text patterns, without added ceremony.</p>
-<p id="p-09-inside-a-dsl-you-can-focus-on-the" data-note-target>Inside a DSL, you can focus on the specific problem it was designed to solve, and forget the outer world.</p>
-<p id="p-09-but-the-most-important-thing-to-remember-is" data-note-target>But the most important thing to remember is that you are creating a new language whenever you add any variable, function, class or method. By being conscious of this, you can make sure that the language you are building is easy to learn, simple to use and expressive.</p>
-<p id="p-09-designed-for-humans-not-computers" data-note-target>Designed for humans, not computers.</p>
+<p id="p-09-another-example-is-sql-almost-any-software-that" data-note-target><span class="passage-margin" data-passage-margin aria-label="Margin for this passage">
+<span class="passage-margin-notes" data-passage-margin-notes></span>
+
+</span>Another example is SQL. Almost any software that uses a database will have some SQL in it. It may be hidden behind an ORM, but it will be there.</p>
+<p id="p-09-done-correctly-a-dsl-allows-you-to-divide" data-note-target><span class="passage-margin" data-passage-margin aria-label="Margin for this passage">
+<span class="passage-margin-notes" data-passage-margin-notes></span>
+
+</span>Done correctly, a DSL allows you to divide your problem along natural boundaries in the domain.</p>
+<p id="p-09-sql-allows-you-to-express-ideas-about-data" data-note-target><span class="passage-margin" data-passage-margin aria-label="Margin for this passage">
+<span class="passage-margin-notes" data-passage-margin-notes></span>
+
+</span>SQL allows you to express ideas about data without worrying about functions, loops or variables. Regular expressions allow you to define text patterns, without added ceremony.</p>
+<p id="p-09-inside-a-dsl-you-can-focus-on-the" data-note-target><span class="passage-margin" data-passage-margin aria-label="Margin for this passage">
+<span class="passage-margin-notes" data-passage-margin-notes></span>
+
+</span>Inside a DSL, you can focus on the specific problem it was designed to solve, and forget the outer world.</p>
+<p id="p-09-but-the-most-important-thing-to-remember-is" data-note-target><span class="passage-margin" data-passage-margin aria-label="Margin for this passage">
+<span class="passage-margin-notes" data-passage-margin-notes></span>
+
+</span>But the most important thing to remember is that you are creating a new language whenever you add any variable, function, class or method. By being conscious of this, you can make sure that the language you are building is easy to learn, simple to use and expressive.</p>
+<p id="p-09-designed-for-humans-not-computers" data-note-target><span class="passage-margin" data-passage-margin aria-label="Margin for this passage">
+<span class="passage-margin-notes" data-passage-margin-notes></span>
+
+</span>Designed for humans, not computers.</p>
   <nav class="chapter-pagination" aria-label="Chapter navigation">
     <a rel="prev" href="08-programming-languages-are-for-humans.html"><span>Previous</span>Teaching machines our words</a>
     <a rel="next" href="10-code-exhibit-extending-javascript-with-jaqt.html"><span>Next</span>Code exhibit: extending JavaScript with JAQT</a>

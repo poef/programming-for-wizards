@@ -27,6 +27,7 @@
   <link rel="manifest" href="../manifest.webmanifest">
   <link rel="apple-touch-icon" href="../assets/images/icons/programming-for-wizards-icon-192.png">
   <link rel="stylesheet" href="../assets/book.css">
+  <link rel="stylesheet" href="../assets/margin-notes-demo.css">
   <link rel="stylesheet" href="../assets/exhibits/exhibits.css">
   <script>
     window.MathJax = {
@@ -45,6 +46,7 @@
   <script defer src="../assets/exhibits/exhibit-kit.js"></script>
   <script defer src="https://cdn.jsdelivr.net/gh/muze-labs/simplyflow@main/packages/simplyflow/dist/simply.flow.js"></script>
   <script type="module" src="../assets/exhibits/exhibits.js"></script>
+  <script type="module" src="../assets/margin-notes-demo.js"></script>
 </head>
 <body>
   <a class="skip-link" href="#main">Skip to manuscript</a>
@@ -119,11 +121,23 @@
   </header>
   <h1 id="h-03-logic-the-truth-is-out-there"><a class="anchor-link" href="#h-03-logic-the-truth-is-out-there" aria-label="Link to Logic: the truth is out there">#</a>Logic: the truth is out there</h1>
 <h2 id="h-03-riddle-me-this"><a class="anchor-link" href="#h-03-riddle-me-this" aria-label="Link to Riddle me this">#</a>Riddle me this</h2>
-<p id="p-03-you-are-standing-before-two-doors-one-door" data-note-target>You are standing before two doors. One door leads to your desire. The other leads to your doom. Before the doors are two guards. They both know which door leads where. One guard always lies. The other always tells the truth.</p>
-<p id="p-03-you-may-ask-one-question" data-note-target>You may ask one question.</p>
-<p id="p-03-obviously-you-need-to-ask-a-question-that" data-note-target>Obviously, you need to ask a question that reveals which door to use. But the obvious question doesn't work.</p>
+<p id="p-03-you-are-standing-before-two-doors-one-door" data-note-target><span class="passage-margin" data-passage-margin aria-label="Margin for this passage">
+<span class="passage-margin-notes" data-passage-margin-notes></span>
+
+</span>You are standing before two doors. One door leads to your desire. The other leads to your doom. Before the doors are two guards. They both know which door leads where. One guard always lies. The other always tells the truth.</p>
+<p id="p-03-you-may-ask-one-question" data-note-target><span class="passage-margin" data-passage-margin aria-label="Margin for this passage">
+<span class="passage-margin-notes" data-passage-margin-notes></span>
+
+</span>You may ask one question.</p>
+<p id="p-03-obviously-you-need-to-ask-a-question-that" data-note-target><span class="passage-margin" data-passage-margin aria-label="Margin for this passage">
+<span class="passage-margin-notes" data-passage-margin-notes></span>
+
+</span>Obviously, you need to ask a question that reveals which door to use. But the obvious question doesn't work.</p>
 <blockquote id="aside-03-which-door-should-i-choose" data-note-target><p>Which door should I choose?</p></blockquote>
-<p id="p-03-if-you-ask-the-truthful-guard-shell-point" data-note-target>If you ask the truthful guard, she'll point to your desire. If you ask the lying guard, she'll point to your doom. Since you don't know which guard you're asking, the answer is useless. Let's put both possibilities in a table:</p>
+<p id="p-03-if-you-ask-the-truthful-guard-shell-point" data-note-target><span class="passage-margin" data-passage-margin aria-label="Margin for this passage">
+<span class="passage-margin-notes" data-passage-margin-notes></span>
+
+</span>If you ask the truthful guard, she'll point to your desire. If you ask the lying guard, she'll point to your doom. Since you don't know which guard you're asking, the answer is useless. Let's put both possibilities in a table:</p>
 <figure id="table-03-015" class="table-figure" data-note-target>
 <table>
 <thead><tr><th>Guard you ask</th><th>Door they point to</th></tr></thead>
@@ -133,10 +147,19 @@
 </tbody>
 </table>
 </figure>
-<p id="p-03-that-doesnt-help-the-answer-depends-on-which" data-note-target>That doesn't help. The answer depends on which guard you asked, and you don't know that. So the famous solution is to ask a different, less direct question:</p>
+<p id="p-03-that-doesnt-help-the-answer-depends-on-which" data-note-target><span class="passage-margin" data-passage-margin aria-label="Margin for this passage">
+<span class="passage-margin-notes" data-passage-margin-notes></span>
+
+</span>That doesn't help. The answer depends on which guard you asked, and you don't know that. So the famous solution is to ask a different, less direct question:</p>
 <blockquote id="aside-03-if-i-asked-the-other-guard-which-door" data-note-target><p>If I asked the other guard which door leads to my desire, what would she answer?</p></blockquote>
-<p id="p-03-now-whatever-answer-you-get-you-choose-the" data-note-target>Now whatever answer you get, you choose the other door.</p>
-<p id="p-03-if-the-guard-you-ask-tells-the-truth" data-note-target>If the guard you ask tells the truth, she must give you the wrong answer, because that is what the liar would say. If the guard you ask lies, she must also give you the wrong answer, because she lies about the truthful guard's answer.</p>
+<p id="p-03-now-whatever-answer-you-get-you-choose-the" data-note-target><span class="passage-margin" data-passage-margin aria-label="Margin for this passage">
+<span class="passage-margin-notes" data-passage-margin-notes></span>
+
+</span>Now whatever answer you get, you choose the other door.</p>
+<p id="p-03-if-the-guard-you-ask-tells-the-truth" data-note-target><span class="passage-margin" data-passage-margin aria-label="Margin for this passage">
+<span class="passage-margin-notes" data-passage-margin-notes></span>
+
+</span>If the guard you ask tells the truth, she must give you the wrong answer, because that is what the liar would say. If the guard you ask lies, she must also give you the wrong answer, because she lies about the truthful guard's answer.</p>
 <figure id="table-03-028" class="table-figure" data-note-target>
 <table>
 <thead><tr><th>Guard you ask</th><th>What happens</th><th>Door they point to</th></tr></thead>
@@ -146,26 +169,41 @@
 </tbody>
 </table>
 </figure>
-<p id="p-03-no-matter-which-guard-you-ask-you-get" data-note-target>No matter which guard you ask, you get the wrong answer. So you choose the other door.</p>
-<p id="p-03-your-brain-is-good-at-guessing-logic-is" data-note-target>Your brain is good at guessing. Logic is what we use when guessing isn’t good enough.</p>
+<p id="p-03-no-matter-which-guard-you-ask-you-get" data-note-target><span class="passage-margin" data-passage-margin aria-label="Margin for this passage">
+<span class="passage-margin-notes" data-passage-margin-notes></span>
+
+</span>No matter which guard you ask, you get the wrong answer. So you choose the other door.</p>
+<p id="p-03-your-brain-is-good-at-guessing-logic-is" data-note-target><span class="passage-margin" data-passage-margin aria-label="Margin for this passage">
+<span class="passage-margin-notes" data-passage-margin-notes></span>
+
+</span>Your brain is good at guessing. Logic is what we use when guessing isn’t good enough.</p>
 <aside id="rule-03-wizards-second-rule" class="wizard-rule" data-note-target>
 <p class="rule-label">Wizard's second rule</p>
 <p>Tables don't lie.</p>
 </aside>
 <h2 id="h-03-boolean-logic"><a class="anchor-link" href="#h-03-boolean-logic" aria-label="Link to Boolean logic">#</a>Boolean logic</h2>
-<p id="p-03-today-we-call-this-boolean-logic-after-george" class="has-side-wizard" data-note-target><span class="side-links side-links-margin side-links-has-wizard" aria-label="Related links for this paragraph">
-<a class="wizard-card" href="https://en.wikipedia.org/wiki/George_Boole" aria-label="Wikipedia: George Boole" data-license="Public domain" data-source="https://commons.wikimedia.org/wiki/File:Portrait_of_George_Boole.png">
+<p id="p-03-today-we-call-this-boolean-logic-after-george" class="has-side-wizard" data-note-target><span class="passage-margin passage-margin-has-wizard" data-passage-margin aria-label="Margin for this passage">
+<span class="passage-margin-notes" data-passage-margin-notes></span>
+<span class="side-links side-links-margin side-links-has-wizard" aria-label="Related links for this paragraph">
+<a class="wizard-card" href="https://en.wikipedia.org/wiki/George_Boole" aria-label="Wikipedia: George Boole" data-license="Public domain" data-source="https://commons.wikimedia.org/wiki/File:Portrait_of_George_Boole.png" tabindex="-1">
 <span class="wizard-card-image"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c7/Portrait_of_George_Boole.png/330px-Portrait_of_George_Boole.png" alt="" loading="lazy" style="--wizard-portrait-position: 50% 38%;"></span>
 <span class="wizard-card-name">George Boole</span>
 <span class="wizard-card-note">Boolean logic</span>
 </a>
-<a href="https://en.wikipedia.org/wiki/Truth_table" title="https://en.wikipedia.org/wiki/Truth_table">https://en.wikipedia.org/wiki/Truth_table</a>
+<a href="https://en.wikipedia.org/wiki/Truth_table" title="https://en.wikipedia.org/wiki/Truth_table" tabindex="-1">https://en.wikipedia.org/wiki/Truth_table</a>
+</span>
 </span>Today we call this Boolean logic, after George Boole. The tables above are called truth tables.<span class="side-links side-links-inline" aria-label="Related links for this paragraph">
 <a href="https://en.wikipedia.org/wiki/George_Boole" title="https://en.wikipedia.org/wiki/George_Boole">https://en.wikipedia.org/wiki/George_Boole</a>
 <a href="https://en.wikipedia.org/wiki/Truth_table" title="https://en.wikipedia.org/wiki/Truth_table">https://en.wikipedia.org/wiki/Truth_table</a>
 </span></p>
-<p id="p-03-logic-itself-is-much-older-going-back-through" data-note-target>Logic itself is much older, going back through the 17th century wizard Leibniz, to an ancient Greek wizard called Aristotle. Boolean logic is the smaller, stricter version that computers use today.</p>
-<p id="p-03-boolean-logic-has-only-two-values" data-note-target>Boolean logic has only two values:</p>
+<p id="p-03-logic-itself-is-much-older-going-back-through" data-note-target><span class="passage-margin" data-passage-margin aria-label="Margin for this passage">
+<span class="passage-margin-notes" data-passage-margin-notes></span>
+
+</span>Logic itself is much older, going back through the 17th century wizard Leibniz, to an ancient Greek wizard called Aristotle. Boolean logic is the smaller, stricter version that computers use today.</p>
+<p id="p-03-boolean-logic-has-only-two-values" data-note-target><span class="passage-margin" data-passage-margin aria-label="Margin for this passage">
+<span class="passage-margin-notes" data-passage-margin-notes></span>
+
+</span>Boolean logic has only two values:</p>
 <figure id="table-03-049" class="table-figure" data-note-target>
 <table>
 <thead><tr><th>Value</th><th>Meaning</th></tr></thead>
@@ -175,9 +213,18 @@
 </tbody>
 </table>
 </figure>
-<p id="p-03-boolean-logic-is-at-the-core-of-modern" data-note-target>Boolean logic is at the core of modern programming. It is at the core of computers. Everything your computer does for you is built, eventually, on Boolean logic: true and false, 1 and 0.</p>
-<p id="p-03-most-boolean-operations-combine-two-terms-lets-call" data-note-target>Most Boolean operations combine two terms. Let's call them <code>p</code> and <code>q</code>. Just like our guards, we don't know whether they are true or false. But using truth tables, we can reason about them anyway.</p>
-<p id="p-03-the-operations-are-and-or-and-not" data-note-target>The operations are: <code>and</code>, <code>or</code> and <code>not</code>.</p>
+<p id="p-03-boolean-logic-is-at-the-core-of-modern" data-note-target><span class="passage-margin" data-passage-margin aria-label="Margin for this passage">
+<span class="passage-margin-notes" data-passage-margin-notes></span>
+
+</span>Boolean logic is at the core of modern programming. It is at the core of computers. Everything your computer does for you is built, eventually, on Boolean logic: true and false, 1 and 0.</p>
+<p id="p-03-most-boolean-operations-combine-two-terms-lets-call" data-note-target><span class="passage-margin" data-passage-margin aria-label="Margin for this passage">
+<span class="passage-margin-notes" data-passage-margin-notes></span>
+
+</span>Most Boolean operations combine two terms. Let's call them <code>p</code> and <code>q</code>. Just like our guards, we don't know whether they are true or false. But using truth tables, we can reason about them anyway.</p>
+<p id="p-03-the-operations-are-and-or-and-not" data-note-target><span class="passage-margin" data-passage-margin aria-label="Margin for this passage">
+<span class="passage-margin-notes" data-passage-margin-notes></span>
+
+</span>The operations are: <code>and</code>, <code>or</code> and <code>not</code>.</p>
 <figure id="table-03-060" class="table-figure" data-note-target>
 <table>
 <thead><tr><th>q</th><th>not q</th></tr></thead>
@@ -196,7 +243,10 @@
 </tbody>
 </table>
 </figure>
-<p id="p-03-and-of-course" data-note-target>And of course:</p>
+<p id="p-03-and-of-course" data-note-target><span class="passage-margin" data-passage-margin aria-label="Margin for this passage">
+<span class="passage-margin-notes" data-passage-margin-notes></span>
+
+</span>And of course:</p>
 <figure id="table-03-072" class="table-figure" data-note-target>
 <table>
 <thead><tr><th>p and q</th><th>q = true</th><th>q = false</th></tr></thead>
@@ -206,7 +256,10 @@
 </tbody>
 </table>
 </figure>
-<p id="p-03-combining-these-we-can-also-create-nor-and" data-note-target>Combining these, we can also create <code>nor</code> and <code>nand</code>.</p>
+<p id="p-03-combining-these-we-can-also-create-nor-and" data-note-target><span class="passage-margin" data-passage-margin aria-label="Margin for this passage">
+<span class="passage-margin-notes" data-passage-margin-notes></span>
+
+</span>Combining these, we can also create <code>nor</code> and <code>nand</code>.</p>
 <figure id="table-03-079" class="table-figure" data-note-target>
 <table>
 <thead><tr><th>p nor q</th><th>q = true</th><th>q = false</th></tr></thead>
@@ -225,15 +278,24 @@
 </tbody>
 </table>
 </figure>
-<p id="p-03-wait-a-minute-what-is-this-nand-thing" data-note-target>Wait a minute... what is this <code>nand</code> thing? Why not just write <code>not and</code>?</p>
-<p id="p-03-well-it-so-happens-that-your-computer-can" data-note-target><span class="side-links side-links-margin" aria-label="Related links for this paragraph">
-<a href="https://en.wikipedia.org/wiki/NAND_logic" title="https://en.wikipedia.org/wiki/NAND_logic">https://en.wikipedia.org/wiki/NAND_logic</a>
-<a href="https://en.wikipedia.org/wiki/NAND_gate" title="https://en.wikipedia.org/wiki/NAND_gate">https://en.wikipedia.org/wiki/NAND_gate</a>
+<p id="p-03-wait-a-minute-what-is-this-nand-thing" data-note-target><span class="passage-margin" data-passage-margin aria-label="Margin for this passage">
+<span class="passage-margin-notes" data-passage-margin-notes></span>
+
+</span>Wait a minute... what is this <code>nand</code> thing? Why not just write <code>not and</code>?</p>
+<p id="p-03-well-it-so-happens-that-your-computer-can" data-note-target><span class="passage-margin" data-passage-margin aria-label="Margin for this passage">
+<span class="passage-margin-notes" data-passage-margin-notes></span>
+<span class="side-links side-links-margin" aria-label="Related links for this paragraph">
+<a href="https://en.wikipedia.org/wiki/NAND_logic" title="https://en.wikipedia.org/wiki/NAND_logic" tabindex="-1">https://en.wikipedia.org/wiki/NAND_logic</a>
+<a href="https://en.wikipedia.org/wiki/NAND_gate" title="https://en.wikipedia.org/wiki/NAND_gate" tabindex="-1">https://en.wikipedia.org/wiki/NAND_gate</a>
+</span>
 </span>Well... it so happens that your computer can implement just about everything with only <code>nand</code> logic. All other operations can be written as combinations of one or more NANDs. Hardware wizards found ways to create tiny NAND <em>gates</em>, and from those gates built the tiny parts of modern CPUs.<span class="side-links side-links-inline" aria-label="Related links for this paragraph">
 <a href="https://en.wikipedia.org/wiki/NAND_logic" title="https://en.wikipedia.org/wiki/NAND_logic">https://en.wikipedia.org/wiki/NAND_logic</a>
 <a href="https://en.wikipedia.org/wiki/NAND_gate" title="https://en.wikipedia.org/wiki/NAND_gate">https://en.wikipedia.org/wiki/NAND_gate</a>
 </span></p>
-<p id="p-03-tables-dont-lie-but-people-do-and-we" data-note-target>Tables don't lie, but people do. And we like it. So much that we've invented something entirely new. Something clever and diabolical, called language.</p>
+<p id="p-03-tables-dont-lie-but-people-do-and-we" data-note-target><span class="passage-margin" data-passage-margin aria-label="Margin for this passage">
+<span class="passage-margin-notes" data-passage-margin-notes></span>
+
+</span>Tables don't lie, but people do. And we like it. So much that we've invented something entirely new. Something clever and diabolical, called language.</p>
   <nav class="chapter-pagination" aria-label="Chapter navigation">
     <a rel="prev" href="02-numbers-hiding-calculations-in-symbols.html"><span>Previous</span>Numbers: bigger than you think</a>
     <a rel="next" href="04-language-the-tool-that-changes-the-thinker.html"><span>Next</span>Language: the oldest trick</a>

@@ -10,6 +10,7 @@ const bookPath = path.join(contentDir, "book.json")
 const wizardsPath = path.join(contentDir, "wizards.json")
 const phaseDir = path.join(rootDir, "phases", "01-enhanced-static-manuscript")
 const exhibitPhaseDir = path.join(rootDir, "phases", "03-core-explorable-exhibits")
+const marginNotesDistDir = path.resolve(rootDir, "..", "solid-margin-notes", "dist")
 const siteDir = path.join(rootDir, "www")
 const siteChapterDir = path.join(siteDir, "chapters")
 const siteAssetDir = path.join(siteDir, "assets")
@@ -170,12 +171,30 @@ async function main() {
     path.join(siteAssetDir, "exhibits"),
     { recursive: true }
   )
+  await copyLocalMarginNotesBundle()
 
   await buildEpub(book, cover, readingItems)
   await writePwaManifest(book)
   await writeServiceWorker()
 
   console.log(`Built ${readingItems.length} reading pages and EPUB into ${path.relative(rootDir, siteDir)}`)
+}
+
+async function copyLocalMarginNotesBundle() {
+  try {
+    await cp(
+      marginNotesDistDir,
+      path.join(siteAssetDir, "margin-notes"),
+      { recursive: true }
+    )
+  } catch (error) {
+    if (error?.code === "ENOENT") {
+      console.warn("[margin-notes] No local bundle found; run npm run build in ../solid-margin-notes to enable the local demo.")
+      return
+    }
+
+    throw error
+  }
 }
 
 async function readBook() {
@@ -2478,7 +2497,7 @@ ${bodyRows.map(row => `<tr>${row.map(cell => `<td>${renderInline(cell)}</td>`).j
     ].filter(Boolean).join(" ")
 
     return {
-      html: `<p id="${id}"${classes ? ` class="${classes}"` : ""} data-note-target>${renderMarginSideLinks(rendered.links)}${rendered.html}${renderInlineSideLinks(rendered.links)}</p>`,
+      html: `<p id="${id}"${classes ? ` class="${classes}"` : ""} data-note-target>${renderPassageMargin(rendered.links)}${rendered.html}${renderInlineSideLinks(rendered.links)}</p>`,
       nextIndex: index
     }
   }
@@ -2567,6 +2586,7 @@ function pageShell({ title, book, currentId, chapters, main, pageKind }) {
   <link rel="manifest" href="${relativeRoot}manifest.webmanifest">
   <link rel="apple-touch-icon" href="${relativeRoot}assets/images/icons/programming-for-wizards-icon-192.png">
   <link rel="stylesheet" href="${relativeRoot}assets/book.css">
+  <link rel="stylesheet" href="${relativeRoot}assets/margin-notes-demo.css">
   <link rel="stylesheet" href="${relativeRoot}assets/exhibits/exhibits.css">
   <script>
     window.MathJax = {
@@ -2585,6 +2605,7 @@ function pageShell({ title, book, currentId, chapters, main, pageKind }) {
   <script defer src="${relativeRoot}assets/exhibits/exhibit-kit.js"></script>
   <script defer src="https://cdn.jsdelivr.net/gh/muze-labs/simplyflow@main/packages/simplyflow/dist/simply.flow.js"></script>
   <script type="module" src="${relativeRoot}assets/exhibits/exhibits.js"></script>
+  <script type="module" src="${relativeRoot}assets/margin-notes-demo.js"></script>
 </head>
 <body>
   <a class="skip-link" href="#main">Skip to manuscript</a>
@@ -2969,6 +2990,17 @@ ${links.map(renderSideLinkItem).join("\n")}
 </span>`
 }
 
+function renderPassageMargin(links) {
+  const classes = ["passage-margin", hasWizardSideLink(links) ? "passage-margin-has-wizard" : ""]
+    .filter(Boolean)
+    .join(" ")
+
+  return `<span class="${classes}" data-passage-margin aria-label="Margin for this passage">
+<span class="passage-margin-notes" data-passage-margin-notes></span>
+${renderMarginSideLinks(links)}
+</span>`
+}
+
 function renderInlineSideLinks(links) {
   if (!links.length) return ""
 
@@ -2993,14 +3025,14 @@ function firstUnseenWizardForHref(href, options) {
 
 function renderSideLinkItem(item) {
   if (typeof item === "string") {
-    return renderSideUrl(item)
+    return renderSideUrl(item, { tabIndex: -1 })
   }
 
   if (item.type === "wizard") {
-    return renderWizardCard(item.wizard)
+    return renderWizardCard(item.wizard, { tabIndex: -1 })
   }
 
-  return renderSideUrl(item.href)
+  return renderSideUrl(item.href, { tabIndex: -1 })
 }
 
 function renderInlineSideLinkItem(item) {
@@ -3015,19 +3047,21 @@ function renderInlineSideLinkItem(item) {
   return renderSideUrl(item.href)
 }
 
-function renderSideUrl(href) {
-  return `<a href="${escapeAttribute(href)}" title="${escapeAttribute(href)}">${escapeHtml(href)}</a>`
+function renderSideUrl(href, options = {}) {
+  const tabIndex = options.tabIndex === undefined ? "" : ` tabindex="${escapeAttribute(String(options.tabIndex))}"`
+  return `<a href="${escapeAttribute(href)}" title="${escapeAttribute(href)}"${tabIndex}>${escapeHtml(href)}</a>`
 }
 
-function renderWizardCard(wizard) {
+function renderWizardCard(wizard, options = {}) {
   const style = wizard.imagePosition
     ? ` style="--wizard-portrait-position: ${escapeAttribute(wizard.imagePosition)};"`
     : ""
   const license = wizard.license ? ` data-license="${escapeAttribute(wizard.license)}"` : ""
   const source = wizard.source ? ` data-source="${escapeAttribute(wizard.source)}"` : ""
+  const tabIndex = options.tabIndex === undefined ? "" : ` tabindex="${escapeAttribute(String(options.tabIndex))}"`
   const note = wizard.note ? `<span class="wizard-card-note">${escapeHtml(wizard.note)}</span>` : ""
 
-  return `<a class="wizard-card" href="${escapeAttribute(wizard.url)}" aria-label="Wikipedia: ${escapeAttribute(wizard.name)}"${license}${source}>
+  return `<a class="wizard-card" href="${escapeAttribute(wizard.url)}" aria-label="Wikipedia: ${escapeAttribute(wizard.name)}"${license}${source}${tabIndex}>
 <span class="wizard-card-image"><img src="${escapeAttribute(wizard.image)}" alt="" loading="lazy"${style}></span>
 <span class="wizard-card-name">${escapeHtml(wizard.name)}</span>
 ${note}

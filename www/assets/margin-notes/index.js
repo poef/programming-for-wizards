@@ -1,0 +1,6386 @@
+var __defProp = Object.defineProperty;
+var __export = (target, all) => {
+  for (var name in all)
+    __defProp(target, name, { get: all[name], enumerable: true });
+};
+
+// ../simplyflow/packages/state/src/index.mjs
+var src_exports = {};
+__export(src_exports, {
+  addTracer: () => addTracer,
+  batch: () => batch,
+  clockEffect: () => clockEffect,
+  clone: () => clone,
+  createSignal: () => createSignal,
+  destroy: () => destroy,
+  effect: () => effect,
+  getSignal: () => getSignal,
+  isSignal: () => isSignal,
+  makeContext: () => makeContext,
+  notifyGet: () => notifyGet,
+  notifySet: () => notifySet,
+  raw: () => raw,
+  registerSignal: () => registerSignal,
+  signal: () => signal,
+  signals: () => signals,
+  throttledEffect: () => throttledEffect,
+  trace: () => trace,
+  untracked: () => untracked
+});
+
+// ../simplyflow/packages/state/src/symbols.mjs
+var DEP = {
+  ITERATE: Symbol.for("@simplyedit/simplyflow.iterate"),
+  XRAY: Symbol.for("@simplyedit/simplyflow.xRay"),
+  SIGNAL: Symbol.for("@simplyedit/simplyflow.Signal"),
+  TEMPLATE: Symbol.for("@simplyedit/simplyflow.bindTemplate"),
+  VALUE: Symbol.for("@simplyedit/simplyflow.bindValue"),
+  LENGTH: "length",
+  SIZE: "size"
+};
+
+// ../simplyflow/packages/state/src/index.mjs
+var MAP_READS_KEY = /* @__PURE__ */ new Set(["get", "has"]);
+var MAP_READS_ITERATION = /* @__PURE__ */ new Set(["keys", "values", "entries", "forEach", Symbol.iterator]);
+var MAP_WRITES = /* @__PURE__ */ new Set(["set", "delete", "clear"]);
+var SET_WRITES = /* @__PURE__ */ new Set(["add", "delete", "clear"]);
+var SET_ITERATION_PROPERTIES = {
+  entries: {},
+  forEach: {},
+  has: {},
+  keys: {},
+  values: {},
+  [Symbol.iterator]: {}
+};
+function isObjectLike(value) {
+  return value !== null && (typeof value === "object" || typeof value === "function");
+}
+function isSignal(value) {
+  return Boolean(isObjectLike(value) && value[DEP.SIGNAL]);
+}
+function raw(value) {
+  return isSignal(value) ? value[DEP.XRAY] : value;
+}
+function getSignal(value) {
+  return isSignal(value) ? value : signals.get(value);
+}
+function targetSignal(target) {
+  return signals.get(target);
+}
+function readTarget(target, property) {
+  return target?.[property];
+}
+function bindMethod(target, receiver, value) {
+  if (target instanceof HTMLElement || target instanceof Number || target instanceof String || target instanceof Boolean) {
+    return value.bind(target);
+  }
+  return value.bind(receiver);
+}
+function collectRemovedArrayValues(target, nextLength) {
+  const values = /* @__PURE__ */ new Map();
+  if (!Array.isArray(target) || nextLength >= target.length) {
+    return values;
+  }
+  for (let index = nextLength; index < target.length; index++) {
+    if (Object.hasOwn(target, index)) {
+      values.set(index, target[index]);
+    }
+  }
+  return values;
+}
+function addArrayLengthChanges(context, target, oldLength, removedValues = /* @__PURE__ */ new Map()) {
+  if (!Array.isArray(target) || oldLength === target.length) {
+    return;
+  }
+  context.set(DEP.LENGTH, { was: oldLength, now: target.length });
+  context.set(DEP.ITERATE, {});
+  for (const [index, oldValue] of removedValues) {
+    context.set(String(index), { delete: true, was: oldValue, now: void 0 });
+  }
+}
+function notifyContext(receiver, context) {
+  if (context.size) {
+    notifySet(receiver, context);
+  }
+}
+function wrapArrayMethod(target, property, receiver, value) {
+  return (...args) => {
+    const oldLength = target.length;
+    const result = value.apply(receiver, args);
+    if (oldLength !== target.length) {
+      notifySet(receiver, makeContext(DEP.LENGTH, { was: oldLength, now: target.length }));
+    }
+    return result;
+  };
+}
+function addMapWriteChanges(context, target, property, args, oldSize) {
+  if (property === "set") {
+    const [key, nextValue] = args;
+    const hadKey = target.has(key);
+    const oldValue = target.get(key);
+    return () => {
+      if (!hadKey || !Object.is(oldValue, nextValue)) {
+        context.set(key, { was: oldValue, now: nextValue });
+        context.set(DEP.ITERATE, {});
+      }
+      if (!hadKey) {
+        context.set(DEP.SIZE, { was: oldSize, now: target.size });
+      }
+    };
+  }
+  if (property === "delete") {
+    const [key] = args;
+    const hadKey = target.has(key);
+    const oldValue = target.get(key);
+    return () => {
+      if (hadKey) {
+        context.set(key, { delete: true, was: oldValue, now: void 0 });
+        context.set(DEP.SIZE, { was: oldSize, now: target.size });
+        context.set(DEP.ITERATE, {});
+      }
+    };
+  }
+  if (property === "clear") {
+    const oldEntries = oldSize ? Array.from(target.entries()) : [];
+    return () => {
+      if (oldEntries.length) {
+        for (const [key, oldValue] of oldEntries) {
+          context.set(key, { delete: true, was: oldValue, now: void 0 });
+        }
+        context.set(DEP.SIZE, { was: oldSize, now: target.size });
+        context.set(DEP.ITERATE, {});
+      }
+    };
+  }
+  return () => {
+  };
+}
+function wrapMapMethod(target, property, receiver, value) {
+  return (...args) => {
+    if (MAP_READS_KEY.has(property)) {
+      notifyGet(receiver, args[0]);
+    }
+    if (MAP_READS_ITERATION.has(property)) {
+      notifyGet(receiver, DEP.ITERATE);
+    }
+    const oldSize = target.size;
+    const context = /* @__PURE__ */ new Map();
+    const addChanges = MAP_WRITES.has(property) ? addMapWriteChanges(context, target, property, args, oldSize) : () => {
+    };
+    const result = value.apply(target, args);
+    addChanges();
+    notifyContext(receiver, context);
+    return result;
+  };
+}
+function addSetWriteChanges(context, target, property, args, oldSize) {
+  const [value] = args;
+  const hadValue = property === "add" || property === "delete" ? target.has(value) : false;
+  return () => {
+    const changed = property === "clear" ? oldSize > 0 : target.size !== oldSize || property === "delete" && hadValue;
+    if (!changed) {
+      return;
+    }
+    context.set(DEP.SIZE, { was: oldSize, now: target.size });
+    for (const prop of Reflect.ownKeys(SET_ITERATION_PROPERTIES)) {
+      context.set(prop, {});
+    }
+  };
+}
+function wrapSetMethod(target, property, receiver, value) {
+  return (...args) => {
+    const oldSize = target.size;
+    const context = /* @__PURE__ */ new Map();
+    const addChanges = SET_WRITES.has(property) ? addSetWriteChanges(context, target, property, args, oldSize) : () => {
+    };
+    const result = value.apply(target, args);
+    addChanges();
+    notifyContext(receiver, context);
+    return result;
+  };
+}
+function propertyValueChanged(descriptor, oldDescriptor, oldValue, newDescriptor, newValue) {
+  return Object.hasOwn(descriptor, "value") && !Object.is(oldValue, newValue) || Object.hasOwn(descriptor, "get") && oldDescriptor?.get !== newDescriptor?.get || Object.hasOwn(descriptor, "set") && oldDescriptor?.set !== newDescriptor?.set;
+}
+var signalHandler = {
+  get(target, property, receiver) {
+    const value = readTarget(target, property);
+    notifyGet(receiver, property);
+    if (typeof value === "function") {
+      if (Array.isArray(target)) {
+        return wrapArrayMethod(target, property, receiver, value);
+      }
+      if (target instanceof Map) {
+        return wrapMapMethod(target, property, receiver, value);
+      }
+      if (target instanceof Set) {
+        return wrapSetMethod(target, property, receiver, value);
+      }
+      return bindMethod(target, receiver, value);
+    }
+    return isObjectLike(value) ? signal(value) : value;
+  },
+  set(target, property, value, receiver) {
+    const hadOwn = Object.hasOwn(target, property);
+    const oldLength = Array.isArray(target) ? target.length : void 0;
+    const removedValues = property === DEP.LENGTH ? collectRemovedArrayValues(target, Number(value)) : /* @__PURE__ */ new Map();
+    const oldValue = target[property];
+    target[property] = value;
+    const hasOwn = Object.hasOwn(target, property);
+    const newValue = target[property];
+    const context = /* @__PURE__ */ new Map();
+    if (!Object.is(oldValue, newValue) || !hadOwn && hasOwn) {
+      context.set(property, { was: oldValue, now: newValue });
+    }
+    if (!hadOwn && hasOwn) {
+      context.set(DEP.ITERATE, {});
+    }
+    addArrayLengthChanges(context, target, oldLength, removedValues);
+    notifyContext(receiver, context);
+    return true;
+  },
+  has(target, property) {
+    const receiver = targetSignal(target);
+    if (receiver) {
+      notifyGet(receiver, property);
+    }
+    return Reflect.has(target, property);
+  },
+  deleteProperty(target, property) {
+    const hadOwn = Object.hasOwn(target, property);
+    if (!hadOwn) {
+      return true;
+    }
+    const oldValue = target[property];
+    const oldLength = Array.isArray(target) ? target.length : void 0;
+    const result = Reflect.deleteProperty(target, property);
+    if (!result) {
+      return result;
+    }
+    const receiver = targetSignal(target);
+    const context = makeContext(property, { delete: true, was: oldValue, now: void 0 });
+    context.set(DEP.ITERATE, { delete: true, property });
+    addArrayLengthChanges(context, target, oldLength);
+    notifySet(receiver, context);
+    return result;
+  },
+  defineProperty(target, property, descriptor) {
+    const hadOwn = Object.hasOwn(target, property);
+    const oldDescriptor = Object.getOwnPropertyDescriptor(target, property);
+    const oldValue = target[property];
+    const oldLength = Array.isArray(target) ? target.length : void 0;
+    const removedValues = property === DEP.LENGTH && Object.hasOwn(descriptor, "value") ? collectRemovedArrayValues(target, Number(descriptor.value)) : /* @__PURE__ */ new Map();
+    const result = Reflect.defineProperty(target, property, descriptor);
+    if (!result) {
+      return result;
+    }
+    const hasOwn = Object.hasOwn(target, property);
+    const newDescriptor = Object.getOwnPropertyDescriptor(target, property);
+    const newValue = target[property];
+    const context = /* @__PURE__ */ new Map();
+    if (!hadOwn && hasOwn) {
+      context.set(property, { was: oldValue, now: newValue });
+      context.set(DEP.ITERATE, {});
+    } else if (hadOwn && hasOwn) {
+      if (propertyValueChanged(descriptor, oldDescriptor, oldValue, newDescriptor, newValue)) {
+        context.set(property, { was: oldValue, now: newValue });
+      }
+      if (oldDescriptor?.enumerable !== newDescriptor?.enumerable) {
+        context.set(DEP.ITERATE, {});
+      }
+    }
+    addArrayLengthChanges(context, target, oldLength, removedValues);
+    notifyContext(targetSignal(target), context);
+    return result;
+  },
+  ownKeys(target) {
+    const receiver = targetSignal(target);
+    notifyGet(receiver, DEP.ITERATE);
+    return Reflect.ownKeys(target);
+  }
+};
+var signals = /* @__PURE__ */ new WeakMap();
+function assertSignalTarget(value, name) {
+  if (!isObjectLike(value)) {
+    throw new TypeError(
+      `simplyflow/state: ${name}() expects an object, array, Map, Set, class instance, function, or DOM node; received ${typeof value}`
+    );
+  }
+}
+function assertProxyHandler(handler, name) {
+  if (!handler || typeof handler !== "object") {
+    throw new TypeError(`simplyflow/state: ${name}() expects a Proxy handler object`);
+  }
+}
+function signalProxyHandler(handler) {
+  return {
+    ...handler,
+    get(target, property, receiver) {
+      if (property === DEP.XRAY) {
+        return target;
+      }
+      if (property === DEP.SIGNAL) {
+        return true;
+      }
+      if (handler.get) {
+        return handler.get(target, property, receiver);
+      }
+      return readTarget(target, property);
+    }
+  };
+}
+function registerSignal(target, proxy) {
+  const rawTarget = raw(target);
+  assertSignalTarget(rawTarget, "registerSignal");
+  if (!isSignal(proxy)) {
+    throw new TypeError("simplyflow/state: registerSignal() expects a signal proxy");
+  }
+  const existing = signals.get(rawTarget);
+  if (existing && existing !== proxy) {
+    throw new Error("simplyflow/state: registerSignal() target already has a different signal");
+  }
+  signals.set(rawTarget, proxy);
+  return proxy;
+}
+function createSignal(target, handler = {}, init) {
+  assertSignalTarget(target, "createSignal");
+  assertProxyHandler(handler, "createSignal");
+  if (init !== void 0 && typeof init !== "function") {
+    throw new TypeError("simplyflow/state: createSignal() expects init to be a function");
+  }
+  if (isSignal(target)) {
+    return target;
+  }
+  const existing = getSignal(target);
+  if (existing) {
+    return existing;
+  }
+  const proxy = new Proxy(target, signalProxyHandler(handler));
+  registerSignal(target, proxy);
+  init?.(target, proxy);
+  return proxy;
+}
+function signal(value = {}) {
+  if (!isObjectLike(value)) {
+    throw new TypeError(
+      `simplyflow/state: signal() expects an object, array, Map, Set, class instance, or function; received ${typeof value}`
+    );
+  }
+  return createSignal(value, signalHandler);
+}
+var tracers = [];
+var tracing = false;
+function trace(target, prop) {
+  if (typeof target === "function") {
+    tracing = true;
+    try {
+      return target();
+    } finally {
+      tracing = false;
+    }
+  }
+  if (!isSignal(target)) {
+    throw new TypeError("simplyflow/state: trace() expects either a function or a signal");
+  }
+  return getListeners(target, prop).map((listener) => ({
+    effect: listener.effectType,
+    fn: listener.effectFunction,
+    signal: signals.get(listener.effectFunction)
+  }));
+}
+function addTracer(tracer) {
+  if (!tracer || typeof tracer !== "object") {
+    throw new TypeError("simplyflow/state: addTracer() expects a tracer object");
+  }
+  if (!tracer.get && !tracer.set) {
+    throw new Error('simplyflow/state: addTracer: missing "get" or "set" property in tracer');
+  }
+  if (tracer.get && typeof tracer.get !== "function") {
+    throw new Error('simplyflow/state: addTracer: "get" is not a function');
+  }
+  if (tracer.set && typeof tracer.set !== "function") {
+    throw new Error('simplyflow/state: addTracer: "set" is not a function');
+  }
+  tracers.push(tracer);
+}
+function callTracers(kind, ...params) {
+  for (const tracer of tracers) {
+    tracer[kind]?.(...params);
+  }
+}
+var batchedListeners = /* @__PURE__ */ new Set();
+var batchDepth = 0;
+function notifySet(self, context = /* @__PURE__ */ new Map()) {
+  if (!isSignal(self)) {
+    throw new TypeError("simplyflow/state: notifySet() expects a signal as first argument");
+  }
+  if (!(context instanceof Map)) {
+    throw new TypeError("simplyflow/state: notifySet() expects context to be a Map; use makeContext()");
+  }
+  const listeners = /* @__PURE__ */ new Set();
+  context.forEach((change, property) => {
+    for (const listener of listenersFor(self, property)) {
+      addContextChange(listener, property, change);
+      listeners.add(listener);
+    }
+  });
+  if (!listeners.size) {
+    return;
+  }
+  if (batchDepth) {
+    for (const listener of listeners) {
+      batchedListeners.add(listener);
+    }
+    return;
+  }
+  runListeners(listeners, self, context);
+}
+function makeContext(property, change) {
+  const context = /* @__PURE__ */ new Map();
+  if (property instanceof Map) {
+    property.forEach((change2, prop) => context.set(prop, change2));
+    return context;
+  }
+  if (property !== null && typeof property === "object") {
+    for (const prop of Reflect.ownKeys(property)) {
+      context.set(prop, property[prop]);
+    }
+  } else {
+    context.set(property, change);
+  }
+  return context;
+}
+function addContextChange(listener, property, change) {
+  if (!listener.context) {
+    listener.context = /* @__PURE__ */ new Map();
+  }
+  listener.context.set(property, change);
+  listener.needsUpdate = true;
+}
+function clearContext(listener) {
+  delete listener.context;
+  delete listener.needsUpdate;
+}
+function notifyGet(self, property) {
+  const currentCompute = computeStack[computeStack.length - 1];
+  if (!currentCompute || currentCompute.skipDependency?.(self, property)) {
+    return;
+  }
+  if (tracing && tracers.length) {
+    callTracers("get", self, property);
+  }
+  setListeners(self, property, currentCompute);
+}
+var listenersMap = /* @__PURE__ */ new WeakMap();
+var computeMap = /* @__PURE__ */ new WeakMap();
+var emptyListeners = /* @__PURE__ */ new Set();
+function listenersFor(self, property) {
+  return listenersMap.get(self)?.get(property) || emptyListeners;
+}
+function getListeners(self, property) {
+  return Array.from(listenersFor(self, property));
+}
+function setListeners(self, property, compute) {
+  if (!listenersMap.has(self)) {
+    listenersMap.set(self, /* @__PURE__ */ new Map());
+  }
+  const listeners = listenersMap.get(self);
+  if (!listeners.has(property)) {
+    listeners.set(property, /* @__PURE__ */ new Set());
+  }
+  listeners.get(property).add(compute);
+  if (!computeMap.has(compute)) {
+    computeMap.set(compute, /* @__PURE__ */ new Map());
+  }
+  const dependencies = computeMap.get(compute);
+  if (!dependencies.has(property)) {
+    dependencies.set(property, /* @__PURE__ */ new Set());
+  }
+  dependencies.get(property).add(self);
+}
+function clearListeners(compute) {
+  const dependencies = computeMap.get(compute);
+  if (!dependencies) {
+    return;
+  }
+  dependencies.forEach((signals2, property) => {
+    signals2.forEach((signal3) => {
+      const listeners = listenersMap.get(signal3);
+      listeners?.get(property)?.delete(compute);
+    });
+  });
+  computeMap.delete(compute);
+}
+var computeStack = [];
+var effectStack = [];
+var signalStack = [];
+var effectMap = /* @__PURE__ */ new WeakMap();
+function assertFunction(fn, name) {
+  if (typeof fn !== "function") {
+    throw new TypeError(`simplyflow/state: ${name}() expects a function`);
+  }
+}
+function assertNotRecursive(fn) {
+  if (effectStack.includes(fn)) {
+    throw new Error("Recursive update() call", { cause: fn });
+  }
+}
+function effectSignal(fn) {
+  let connectedSignal = signals.get(fn);
+  if (!connectedSignal) {
+    connectedSignal = signal({ current: null });
+    signals.set(fn, connectedSignal);
+  }
+  return connectedSignal;
+}
+function setEffectResult(connectedSignal, result) {
+  if (result instanceof Promise) {
+    result.then((value) => {
+      connectedSignal.current = value;
+    });
+  } else {
+    connectedSignal.current = result;
+  }
+}
+function runTracked(compute, connectedSignal, fn, effectType, args = [compute, computeStack, signalStack]) {
+  if (signalStack.includes(connectedSignal)) {
+    throw new Error("Cyclical dependency in update() call", { cause: fn });
+  }
+  clearListeners(compute);
+  compute.effectFunction = fn;
+  compute.effectType = effectType;
+  computeStack.push(compute);
+  signalStack.push(connectedSignal);
+  let result;
+  try {
+    result = fn(...args);
+  } finally {
+    computeStack.pop();
+    signalStack.pop();
+    setEffectResult(connectedSignal, result);
+  }
+}
+function runListeners(listeners, signal3, context) {
+  const currentEffect = computeStack[computeStack.length - 1];
+  for (const listener of listeners) {
+    if (listener !== currentEffect && listener?.needsUpdate) {
+      if (listener.scheduleClock) {
+        listener.scheduleClock();
+      } else {
+        if (signal3 && tracing && tracers.length) {
+          callTracers("set", signal3, context, listener);
+        }
+        listener();
+      }
+    }
+    clearContext(listener);
+  }
+}
+function effect(fn) {
+  assertFunction(fn, "effect");
+  assertNotRecursive(fn);
+  effectStack.push(fn);
+  const connectedSignal = effectSignal(fn);
+  const compute = function computeEffect() {
+    runTracked(compute, connectedSignal, fn, effect);
+  };
+  compute.fn = fn;
+  effectMap.set(connectedSignal, compute);
+  compute();
+  return connectedSignal;
+}
+function destroy(connectedSignal) {
+  if (!isSignal(connectedSignal)) {
+    throw new TypeError("simplyflow/state: destroy() expects an effect signal");
+  }
+  const compute = effectMap.get(connectedSignal);
+  if (!compute) {
+    return;
+  }
+  compute.destroy?.();
+  clearListeners(compute);
+  if (compute.fn) {
+    signals.delete(compute.fn);
+    const index = effectStack.findIndex((fn) => fn === compute.fn);
+    if (index !== -1) {
+      effectStack.splice(index, 1);
+    }
+  }
+  effectMap.delete(connectedSignal);
+}
+function batch(fn) {
+  assertFunction(fn, "batch");
+  batchDepth++;
+  let result;
+  try {
+    result = fn();
+  } finally {
+    const finish = () => {
+      batchDepth--;
+      if (!batchDepth) {
+        runBatchedListeners();
+      }
+    };
+    if (result instanceof Promise) {
+      result.then(finish, finish);
+    } else {
+      finish();
+    }
+  }
+  return result;
+}
+function runBatchedListeners() {
+  const listeners = batchedListeners;
+  batchedListeners = /* @__PURE__ */ new Set();
+  const clocked = /* @__PURE__ */ new Set();
+  const ready = /* @__PURE__ */ new Set();
+  for (const listener of listeners) {
+    if (listener.scheduleClock) {
+      clocked.add(listener);
+    } else {
+      ready.add(listener);
+    }
+  }
+  runListeners(clocked);
+  runListeners(ready);
+}
+function throttledEffect(fn, throttleTime) {
+  assertFunction(fn, "throttledEffect");
+  if (!Number.isFinite(throttleTime) || throttleTime < 0) {
+    throw new TypeError("simplyflow/state: throttledEffect() expects throttleTime to be a non-negative number");
+  }
+  assertNotRecursive(fn);
+  effectStack.push(fn);
+  const connectedSignal = effectSignal(fn);
+  let throttledUntil = 0;
+  let hasChange = true;
+  let timeout = null;
+  const compute = function computeEffect() {
+    const now = Date.now();
+    if (throttledUntil > now) {
+      hasChange = true;
+      schedule();
+      return;
+    }
+    runTracked(compute, connectedSignal, fn, throttledEffect);
+    hasChange = false;
+    throttledUntil = Date.now() + throttleTime;
+  };
+  function schedule() {
+    if (timeout) {
+      return;
+    }
+    const delay = Math.max(0, throttledUntil - Date.now());
+    timeout = globalThis.setTimeout(() => {
+      timeout = null;
+      if (hasChange) {
+        compute();
+      }
+    }, delay);
+  }
+  compute.fn = fn;
+  compute.destroy = () => {
+    if (timeout) {
+      globalThis.clearTimeout(timeout);
+      timeout = null;
+    }
+    hasChange = false;
+  };
+  effectMap.set(connectedSignal, compute);
+  compute();
+  return connectedSignal;
+}
+var clockQueues = /* @__PURE__ */ new WeakMap();
+function readClockTime(clock) {
+  return raw(clock).time;
+}
+function getClockQueue(clock) {
+  if (!clockQueues.has(clock)) {
+    const queue = {
+      clock,
+      effects: /* @__PURE__ */ new Set(),
+      pending: /* @__PURE__ */ new Set(),
+      time: readClockTime(clock)
+    };
+    queue.tick = function tickClockEffects() {
+      const time = readClockTime(clock);
+      if (time <= queue.time) {
+        return;
+      }
+      queue.time = time;
+      const pending = Array.from(queue.pending);
+      queue.pending.clear();
+      for (const compute of pending) {
+        compute.clockPending = false;
+        if (queue.effects.has(compute)) {
+          compute();
+        }
+      }
+    };
+    queue.tick.effectFunction = queue.tick;
+    queue.tick.effectType = clockEffect;
+    setListeners(clock, "time", queue.tick);
+    clockQueues.set(clock, queue);
+  }
+  return clockQueues.get(clock);
+}
+function detachClockEffect(compute) {
+  const queue = compute.clockQueue;
+  if (!queue) {
+    return;
+  }
+  queue.pending.delete(compute);
+  queue.effects.delete(compute);
+  if (!queue.effects.size) {
+    clearListeners(queue.tick);
+    clockQueues.delete(queue.clock);
+  }
+}
+function clockEffect(fn, clock) {
+  assertFunction(fn, "clockEffect");
+  if (!clock || typeof clock !== "object" || typeof raw(clock).time !== "number") {
+    throw new TypeError("simplyflow/state: clockEffect() expects a clock object with a numeric .time property");
+  }
+  const clockSignal = isSignal(clock) ? clock : signal(raw(clock));
+  const connectedSignal = effectSignal(fn);
+  const queue = getClockQueue(clockSignal);
+  const compute = function computeEffect() {
+    clearListeners(compute);
+    compute.effectFunction = fn;
+    compute.effectType = clockEffect;
+    computeStack.push(compute);
+    let result;
+    try {
+      result = fn(compute, computeStack);
+    } finally {
+      computeStack.pop();
+      setEffectResult(connectedSignal, result);
+    }
+  };
+  compute.fn = fn;
+  compute.clockQueue = queue;
+  compute.skipDependency = (self, property) => self === clockSignal && property === "time";
+  compute.scheduleClock = () => {
+    if (!compute.clockPending) {
+      compute.clockPending = true;
+      queue.pending.add(compute);
+    }
+  };
+  compute.destroy = () => detachClockEffect(compute);
+  queue.effects.add(compute);
+  effectMap.set(connectedSignal, compute);
+  compute();
+  return connectedSignal;
+}
+function untracked(fn) {
+  assertFunction(fn, "untracked");
+  const index = computeStack.length - 1;
+  const current = computeStack[index];
+  computeStack[index] = false;
+  try {
+    return fn();
+  } finally {
+    computeStack[index] = current;
+  }
+}
+function cloneOptions(options) {
+  if (typeof options === "boolean") {
+    return { deep: options };
+  }
+  if (options === void 0) {
+    return { deep: true };
+  }
+  if (!options || typeof options !== "object") {
+    throw new TypeError("simplyflow/state: clone() expects options to be a boolean or object");
+  }
+  return { deep: options.deep !== false };
+}
+function typeName(value) {
+  return value?.constructor?.name || Object.prototype.toString.call(value).slice(8, -1);
+}
+function isPlainObject(value) {
+  const prototype = Object.getPrototypeOf(value);
+  return prototype === Object.prototype || prototype === null;
+}
+function isTypedArray(value) {
+  return ArrayBuffer.isView(value) && !(value instanceof DataView);
+}
+function isIntegerKey(property) {
+  if (typeof property !== "string" || property === "") {
+    return false;
+  }
+  const index = Number(property);
+  return Number.isInteger(index) && index >= 0 && String(index) === property;
+}
+function hasToClone(value) {
+  return typeof value.toClone === "function";
+}
+function cannotClone(value, path2) {
+  throw new TypeError(
+    `simplyflow/state: clone() cannot clone ${typeName(value)} at ${path2}; add a toClone() method for custom objects`
+  );
+}
+function cloneDescriptorProperties(source, result, cloneValue, skip = () => false) {
+  const descriptors = Object.getOwnPropertyDescriptors(source);
+  for (const key of Reflect.ownKeys(descriptors)) {
+    if (skip(key)) {
+      delete descriptors[key];
+      continue;
+    }
+    const descriptor = descriptors[key];
+    if (!Object.hasOwn(descriptor, "value")) {
+      cannotClone(source, String(key));
+    }
+    descriptor.value = cloneValue(descriptor.value, String(key));
+  }
+  Object.defineProperties(result, descriptors);
+  return result;
+}
+function cloneArrayBuffer(value) {
+  return value.slice(0);
+}
+function cloneSharedArrayBuffer(value) {
+  const result = new SharedArrayBuffer(value.byteLength);
+  new Uint8Array(result).set(new Uint8Array(value));
+  return result;
+}
+function cloneErrorObject(value, cloneValue, path2) {
+  const standardErrors = /* @__PURE__ */ new Set([
+    Error,
+    EvalError,
+    RangeError,
+    ReferenceError,
+    SyntaxError,
+    TypeError,
+    URIError,
+    typeof AggregateError === "undefined" ? void 0 : AggregateError
+  ]);
+  if (!standardErrors.has(value.constructor)) {
+    cannotClone(value, path2);
+  }
+  const options = Object.hasOwn(value, "cause") ? { cause: cloneValue(value.cause, "cause") } : void 0;
+  if (typeof AggregateError !== "undefined" && value instanceof AggregateError) {
+    const errors = Array.from(value.errors || [], (error, index) => cloneValue(error, `errors.${index}`));
+    return new AggregateError(errors, value.message, options);
+  }
+  return new value.constructor(value.message, options);
+}
+function clone(value, options) {
+  const { deep } = cloneOptions(options);
+  const seen = /* @__PURE__ */ new Map();
+  function cloneChild(value2, path2) {
+    return deep ? cloneValue(value2, path2) : raw(value2);
+  }
+  function cloneValue(value2, path2 = "value") {
+    const source = raw(value2);
+    if (!isObjectLike(source)) {
+      return source;
+    }
+    if (seen.has(source)) {
+      return seen.get(source);
+    }
+    if (hasToClone(source)) {
+      const result = raw(source.toClone());
+      if (Object.is(result, source)) {
+        throw new TypeError(`simplyflow/state: clone() toClone() returned the original object at ${path2}`);
+      }
+      seen.set(source, result);
+      return result;
+    }
+    if (Array.isArray(source)) {
+      const result = new Array(source.length);
+      seen.set(source, result);
+      return cloneDescriptorProperties(source, result, cloneChild, (key) => key === "length");
+    }
+    if (isPlainObject(source)) {
+      const result = Object.create(Object.getPrototypeOf(source));
+      seen.set(source, result);
+      return cloneDescriptorProperties(source, result, cloneChild);
+    }
+    if (source instanceof Map) {
+      const result = /* @__PURE__ */ new Map();
+      seen.set(source, result);
+      source.forEach((mapValue, mapKey) => {
+        result.set(cloneChild(mapKey, "map key"), cloneChild(mapValue, "map value"));
+      });
+      return cloneDescriptorProperties(source, result, cloneChild);
+    }
+    if (source instanceof Set) {
+      const result = /* @__PURE__ */ new Set();
+      seen.set(source, result);
+      source.forEach((setValue) => result.add(cloneChild(setValue, "set value")));
+      return cloneDescriptorProperties(source, result, cloneChild);
+    }
+    if (source instanceof Date) {
+      const result = new Date(source.getTime());
+      seen.set(source, result);
+      return cloneDescriptorProperties(source, result, cloneChild);
+    }
+    if (source instanceof RegExp) {
+      const result = new RegExp(source.source, source.flags);
+      result.lastIndex = source.lastIndex;
+      seen.set(source, result);
+      return cloneDescriptorProperties(source, result, cloneChild, (key) => key === "lastIndex");
+    }
+    if (source instanceof ArrayBuffer) {
+      const result = cloneArrayBuffer(source);
+      seen.set(source, result);
+      return cloneDescriptorProperties(source, result, cloneChild);
+    }
+    if (typeof SharedArrayBuffer !== "undefined" && source instanceof SharedArrayBuffer) {
+      const result = cloneSharedArrayBuffer(source);
+      seen.set(source, result);
+      return cloneDescriptorProperties(source, result, cloneChild);
+    }
+    if (source instanceof DataView) {
+      const buffer = source.buffer.slice(source.byteOffset, source.byteOffset + source.byteLength);
+      const result = new DataView(buffer);
+      seen.set(source, result);
+      return cloneDescriptorProperties(source, result, cloneChild);
+    }
+    if (isTypedArray(source)) {
+      const result = new source.constructor(source);
+      seen.set(source, result);
+      return cloneDescriptorProperties(source, result, cloneChild, isIntegerKey);
+    }
+    if (typeof URL !== "undefined" && source instanceof URL) {
+      const result = new URL(source.href);
+      seen.set(source, result);
+      return result;
+    }
+    if (typeof URLSearchParams !== "undefined" && source instanceof URLSearchParams) {
+      const result = new URLSearchParams(source);
+      seen.set(source, result);
+      return result;
+    }
+    if (typeof File !== "undefined" && source instanceof File) {
+      const result = new File([source], source.name, {
+        type: source.type,
+        lastModified: source.lastModified
+      });
+      seen.set(source, result);
+      return result;
+    }
+    if (typeof Blob !== "undefined" && source instanceof Blob) {
+      const result = source.slice(0, source.size, source.type);
+      seen.set(source, result);
+      return result;
+    }
+    if (source instanceof Error) {
+      const result = cloneErrorObject(source, cloneChild, path2);
+      seen.set(source, result);
+      return cloneDescriptorProperties(source, result, cloneChild, (key) => key === "message" || key === "cause" || key === "errors" || key === "stack");
+    }
+    if (typeof Node !== "undefined" && source instanceof Node && typeof source.cloneNode === "function") {
+      const result = source.cloneNode(deep);
+      seen.set(source, result);
+      return result;
+    }
+    cannotClone(source, path2);
+  }
+  return cloneValue(value);
+}
+
+// ../simplyflow/packages/bind/src/dom.mjs
+var dom_exports = {};
+__export(dom_exports, {
+  findAttribute: () => findAttribute,
+  signal: () => signal2,
+  trackDomField: () => trackDomField,
+  trackDomList: () => trackDomList
+});
+
+// ../simplyflow/packages/bind/src/render.mjs
+function writesFromDom(binding, context) {
+  return binding.options.twoway || context.edit;
+}
+function field(context) {
+  if (context.templates?.length) {
+    fieldByTemplates.call(this, context);
+  } else if (Object.hasOwnProperty.call(this.options.renderers, context.element.tagName)) {
+    const renderer = this.options.renderers[context.element.tagName];
+    if (renderer) {
+      renderer.call(this, context);
+    }
+  } else if (this.options.renderers["*"]) {
+    this.options.renderers["*"].call(this, context);
+  }
+  return context;
+}
+function list(context) {
+  if (!Array.isArray(context.value)) {
+    context.value = [context.value];
+  }
+  const length = context.value.length;
+  if (!context.templates?.length) {
+    console.error("No templates found in", context.element);
+  } else {
+    arrayByTemplates.call(this, context);
+  }
+  return context;
+}
+function map(context) {
+  if (typeof context.value != "object" || !context.value) {
+    console.error("Value is not an object.", context.element, context.path, context.value);
+  } else if (!context.templates?.length) {
+    console.error("No templates found in", context.element);
+  } else {
+    objectByTemplates.call(this, context);
+  }
+  return context;
+}
+function isInt(s) {
+  if (parseInt(s) == s) {
+    return true;
+  }
+}
+function setValueByPath(root, path2, value, options = {}) {
+  batch(() => {
+    let parts = path2.split(".");
+    let curr = root;
+    let part;
+    part = parts.shift();
+    let prev = null;
+    let prevPart = null;
+    let prevCurr = curr;
+    while (part && curr) {
+      prevCurr = curr;
+      part = decodeURIComponent(part);
+      if (part == "0" && !Array.isArray(curr)) {
+      } else if (part == ":key") {
+        throw new Error("setting key not yet supported");
+        curr = prevPart;
+      } else if (part == ":value") {
+      } else if (Array.isArray(curr) && !isInt(part) && typeof curr[part] == "undefined") {
+        prev = curr[0];
+        curr = curr[0][part];
+      } else {
+        prev = curr;
+        curr = curr[part];
+      }
+      prevPart = part;
+      part = parts.shift();
+      if (part && !curr) {
+        const intKey = parseInt(part);
+        if (intKey >= 0 && part === "" + intKey) {
+          prevCurr[prevPart] = [];
+        } else {
+          prevCurr[prevPart] = {};
+        }
+        curr = prevCurr[prevPart];
+      }
+    }
+    if (prev && prevPart && options.replace) {
+      prev[prevPart] = value;
+    } else if (prev && prevPart && prev[prevPart] !== value) {
+      if (Array.isArray(value)) {
+        prev[prevPart] = value;
+      } else if (value && typeof value == "object") {
+        curr = prev[prevPart];
+        if (!curr) {
+          prev[prevPart] = {};
+          curr = prev[prevPart];
+        }
+        for (const prop in value) {
+          if (curr[prop] !== value[prop]) {
+            curr[prop] = value[prop];
+          }
+        }
+      } else {
+        prev[prevPart] = value;
+      }
+    }
+  });
+}
+function arrayByTemplates(context) {
+  const attribute = this.options.attribute;
+  const attributes2 = [attribute + "-field", attribute + "-edit", attribute + "-list", attribute + "-map", attribute + "-value-path"];
+  const attrQuery = "[" + attributes2.join("],[") + "]";
+  const keyAttribute = attribute + "-key";
+  const items = Array.from(context.element.querySelectorAll(":scope > [" + keyAttribute + "]"));
+  const usedItems = /* @__PURE__ */ new Set();
+  let cursor = 0;
+  context.list = context.value;
+  for (let index = 0; index < context.value.length; index++) {
+    context.index = index;
+    const value = context.list[index];
+    let item = nextUnusedItem(items, usedItems, cursor);
+    if (!item) {
+      context.element.appendChild(this.applyTemplate(context));
+      continue;
+    }
+    const newTemplate = this.findTemplate(context.templates, value);
+    const currentValueMatches = item[DEP.VALUE] === value;
+    let reusableItem = currentValueMatches ? item : findReusableItem(items, usedItems, value, newTemplate, cursor + 1);
+    if (reusableItem) {
+      if (newTemplate != reusableItem[DEP.TEMPLATE]) {
+        context.element.replaceChild(this.applyTemplate(context), reusableItem);
+      } else {
+        if (reusableItem !== item) {
+          context.element.insertBefore(reusableItem, item);
+        }
+        updateItemKey(reusableItem, index, context.path, keyAttribute, attributes2, attrQuery);
+        reusableItem[DEP.VALUE] = value;
+      }
+      usedItems.add(reusableItem);
+      if (reusableItem === item) {
+        cursor++;
+      }
+      continue;
+    }
+    context.element.insertBefore(this.applyTemplate(context), item);
+  }
+  for (let item of items) {
+    if (!usedItems.has(item)) {
+      item.remove();
+    }
+  }
+  if (this.options.twoway) {
+    trackDomList.call(this, context.element);
+  }
+}
+function nextUnusedItem(items, usedItems, start) {
+  while (start < items.length) {
+    const item = items[start];
+    if (!usedItems.has(item)) {
+      return item;
+    }
+    start++;
+  }
+}
+function findReusableItem(items, usedItems, value, template, start) {
+  for (let i = start; i < items.length; i++) {
+    const item = items[i];
+    if (!usedItems.has(item) && item[DEP.VALUE] === value && item[DEP.TEMPLATE] === template) {
+      return item;
+    }
+  }
+}
+function updateItemKey(item, key, path2, keyAttribute, attributes2, attrQuery) {
+  const oldKey = item.getAttribute(keyAttribute);
+  const newKey = "" + key;
+  if (oldKey === newKey) {
+    return;
+  }
+  item.setAttribute(keyAttribute, newKey);
+  const oldPrefix = path2 + "." + oldKey;
+  const newPrefix = path2 + "." + newKey;
+  const bindings = Array.from(item.querySelectorAll(attrQuery));
+  if (item.matches(attrQuery)) {
+    bindings.unshift(item);
+  }
+  for (let binding of bindings) {
+    for (let attr of attributes2) {
+      const bindPath = binding.getAttribute(attr);
+      if (!bindPath || bindPath.substr(0, 5) === ":root") {
+        continue;
+      }
+      if (bindPath === oldPrefix) {
+        binding.setAttribute(attr, newPrefix);
+      } else if (bindPath.startsWith(oldPrefix + ".")) {
+        binding.setAttribute(attr, newPrefix + bindPath.substr(oldPrefix.length));
+      }
+    }
+  }
+}
+function objectByTemplates(context) {
+  const attribute = this.options.attribute;
+  const attributes2 = [attribute + "-field", attribute + "-edit", attribute + "-list", attribute + "-map", attribute + "-value-path"];
+  const attrQuery = "[" + attributes2.join("],[") + "]";
+  const keyAttribute = attribute + "-key";
+  const items = Array.from(context.element.querySelectorAll(":scope > [" + keyAttribute + "]"));
+  const usedItems = /* @__PURE__ */ new Set();
+  let cursor = 0;
+  context.list = context.value;
+  for (let key in context.list) {
+    context.index = key;
+    const value = context.list[key];
+    let item = nextUnusedItem(items, usedItems, cursor);
+    if (!item) {
+      context.element.appendChild(this.applyTemplate(context));
+      continue;
+    }
+    const newTemplate = this.findTemplate(context.templates, value);
+    let reusableItem;
+    if (item.getAttribute(keyAttribute) === key) {
+      reusableItem = item;
+    } else {
+      reusableItem = findItemByKey(items, usedItems, key, keyAttribute) || findReusableItem(items, usedItems, value, newTemplate, cursor);
+    }
+    if (reusableItem) {
+      if (newTemplate != reusableItem[DEP.TEMPLATE]) {
+        context.element.replaceChild(this.applyTemplate(context), reusableItem);
+      } else {
+        if (reusableItem !== item) {
+          context.element.insertBefore(reusableItem, item);
+        }
+        updateItemKey(reusableItem, key, context.path, keyAttribute, attributes2, attrQuery);
+        reusableItem[DEP.VALUE] = value;
+      }
+      usedItems.add(reusableItem);
+      if (reusableItem === item) {
+        cursor++;
+      }
+      continue;
+    }
+    context.element.insertBefore(this.applyTemplate(context), item);
+  }
+  for (let item of items) {
+    if (!usedItems.has(item)) {
+      item.remove();
+    }
+  }
+}
+function findItemByKey(items, usedItems, key, keyAttribute) {
+  const stringKey = "" + key;
+  for (let item of items) {
+    if (!usedItems.has(item) && item.getAttribute(keyAttribute) === stringKey) {
+      return item;
+    }
+  }
+}
+function fieldByTemplates(context) {
+  const rendered = context.element.querySelector(":scope > :not(template)");
+  const template = this.findTemplate(context.templates, context.value);
+  context.parent = getParentPath(context.element);
+  if (rendered) {
+    if (template) {
+      if (rendered?.[DEP.TEMPLATE] != template) {
+        const clone2 = this.applyTemplate(context);
+        context.element.replaceChild(clone2, rendered);
+      }
+    } else {
+      context.element.removeChild(rendered);
+    }
+  } else if (template) {
+    const clone2 = this.applyTemplate(context);
+    context.element.appendChild(clone2);
+  }
+}
+function getParentPath(el, attribute) {
+  const parentEl = el.parentElement?.closest(`[${attribute}-list],[${attribute}-map]`);
+  if (!parentEl) {
+    return "";
+  }
+  if (parentEl.hasAttribute(`${attribute}-list`)) {
+    return parentEl.getAttribute(`${attribute}-list`) + ".";
+  }
+  return parentEl.getAttribute(`${attribute}-map`) + ".";
+}
+function input(context) {
+  const el = context.element;
+  let value = context.value;
+  if (value && typeof value === "object" && !Array.isArray(value)) {
+    setProperties(el, value, "title", "id", "className", "value", "checked");
+    value = value.value;
+  }
+  if (typeof value == "undefined") {
+    value = "";
+  }
+  if (el.type == "checkbox") {
+    el.checked = checkboxIsChecked(el, value);
+  } else if (el.type == "radio") {
+    el.checked = matchValue(el.value, value);
+  } else if (!matchValue(el.value, value)) {
+    el.value = "" + value;
+  }
+  if (writesFromDom(this, context)) {
+    if (el.type == "checkbox") {
+      trackDomField.call(this, context.element, ["checked"], true, "checked", checkboxEditValue, context);
+    } else if (el.type == "radio") {
+      trackDomField.call(this, context.element, ["checked"], true, "checked", radioEditValue, context);
+    } else {
+      trackDomField.call(this, context.element, ["value"], true, "value", void 0, context);
+    }
+  }
+}
+function checkboxIsChecked(el, value) {
+  if (Array.isArray(value)) {
+    return value.some((selected) => matchValue(el.value, selected));
+  }
+  if (typeof value === "boolean") {
+    return value;
+  }
+  return matchValue(el.value, value);
+}
+function checkboxEditValue(el, currentValue) {
+  if (Array.isArray(currentValue)) {
+    const value = el.value;
+    const values = currentValue.filter((item) => !matchValue(item, value));
+    if (el.checked) {
+      values.push(value);
+    }
+    return values;
+  }
+  if (typeof currentValue === "boolean") {
+    return el.checked;
+  }
+  if (el.checked && matchValue(el.value, currentValue)) {
+    return currentValue;
+  }
+  return el.checked;
+}
+function radioEditValue(el, currentValue) {
+  if (!el.checked) {
+    return void 0;
+  }
+  return el.value;
+}
+function button(context) {
+  element.call(this, context, "value");
+}
+function select(context) {
+  const el = context.element;
+  let value = context.value;
+  if (value === null) {
+    value = "";
+  }
+  if (Array.isArray(value)) {
+    for (let option of el.options) {
+      option.selected = value.some((selected) => matchValue(option.value, selected));
+      if (option.selected) {
+        option.setAttribute("selected", true);
+      } else {
+        option.removeAttribute("selected");
+      }
+    }
+  } else if (typeof value != "object") {
+    let option = Array.from(el.options).find((o) => matchValue(o.value, value));
+    if (option) {
+      option.selected = true;
+      option.setAttribute("selected", true);
+    }
+  } else {
+    if (value.options) {
+      setSelectOptions(el, value.options);
+    }
+    if (typeof value.selected !== "undefined") {
+      select.call(this, Object.assign({}, context, { value: value.selected }));
+    }
+    setProperties(el, value, "name", "id", "selectedIndex", "className");
+  }
+  if (writesFromDom(this, context)) {
+    if (el.multiple) {
+      trackDomField.call(this, context.element, ["value"], true, "value", selectMultipleEditValue, context);
+    } else {
+      trackDomField.call(this, context.element, ["value"], true, "value", void 0, context);
+    }
+  }
+}
+function selectMultipleEditValue(el) {
+  const value = el.value;
+  return Array.from(el.options).filter((option) => option.selected).map((option) => option.value);
+}
+function addOption(select2, option) {
+  if (!option) {
+    return;
+  }
+  if (typeof option !== "object") {
+    select2.options.add(new Option("" + option));
+  } else if (option.text) {
+    select2.options.add(new Option(option.text, option.value, option.defaultSelected, option.selected));
+  } else if (typeof option.value != "undefined") {
+    select2.options.add(new Option("" + option.value, option.value, option.defaultSelected, option.selected));
+  }
+}
+function setSelectOptions(select2, options) {
+  select2.innerHTML = "";
+  if (Array.isArray(options)) {
+    for (const option of options) {
+      addOption(select2, option);
+    }
+  } else if (options && typeof options == "object") {
+    for (const option in options) {
+      addOption(select2, { text: options[option], value: option });
+    }
+  }
+}
+function anchor(context) {
+  element.call(this, context, "target", "href", "name", "newwindow", "nofollow");
+  if (writesFromDom(this, context)) {
+    batch(() => {
+      updateProperties.call(this, context, ["target", "href", "name", "newwindow", "nofollow"]);
+    });
+  }
+}
+function image(context) {
+  setProperties(context.element, context.value, "title", "alt", "src", "id");
+  if (writesFromDom(this, context)) {
+    batch(() => {
+      updateProperties.call(this, context, ["title", "alt", "src", "id"]);
+    });
+  }
+}
+function iframe(context) {
+  setProperties(context.element, context.value, "title", "src", "id");
+  if (writesFromDom(this, context)) {
+    batch(() => {
+      updateProperties.call(this, context, ["title", "src", "id"]);
+    });
+  }
+}
+function meta(context) {
+  setProperties(context.element, context.value, "content", "id");
+  if (writesFromDom(this, context)) {
+    batch(() => {
+      updateProperties.call(this, context, ["content", "id"]);
+    });
+  }
+}
+function element(context, ...extraprops) {
+  const el = context.element;
+  let value = context.value;
+  let valueIsString = false;
+  if (typeof value != "undefined" && value !== null) {
+    let strValue = "" + value;
+    if (typeof value != "object" || strValue.substring(0, 8) != "[object ") {
+      value = { innerHTML: value };
+      valueIsString = true;
+    }
+  }
+  const props = ["innerHTML", "title", "id", "className"].concat(extraprops);
+  setProperties(el, value, ...props);
+  if (writesFromDom(this, context)) {
+    trackDomField.call(this, context.element, props, valueIsString, "innerHTML", void 0, context);
+  }
+}
+function setProperties(el, data, ...properties) {
+  if (!data || typeof data !== "object") {
+    return;
+  }
+  for (const property of properties) {
+    if (typeof data[property] === "undefined") {
+      continue;
+    }
+    if (matchValue(el[property], data[property])) {
+      continue;
+    }
+    if (data[property] === null) {
+      el[property] = "";
+    } else {
+      el[property] = "" + data[property];
+    }
+  }
+}
+function updateProperties(context, properties) {
+  trackDomField.call(this, context.element, properties, false, "innerHTML", void 0, context);
+}
+function getProperties(el, ...properties) {
+  const result = {};
+  for (const property of properties) {
+    switch (property) {
+      default:
+        result[property] = el[property];
+        break;
+    }
+  }
+  return result;
+}
+function matchValue(a, b) {
+  if (a == ":empty" && !b) {
+    return true;
+  }
+  if (b == ":empty" && !a) {
+    return true;
+  }
+  if ("" + a == "" + b) {
+    return true;
+  }
+  return false;
+}
+
+// ../simplyflow/packages/bind/src/dom.mjs
+var domSignals = /* @__PURE__ */ new WeakMap();
+var observers = /* @__PURE__ */ new WeakMap();
+var domSignalHandler = {
+  get: (target, property, receiver) => {
+    const value = target?.[property];
+    notifyGet(receiver, property);
+    if (typeof value === "function") {
+      return value.bind(target);
+    }
+    if (value && typeof value == "object") {
+      return signal(value);
+    }
+    return value;
+  },
+  set: (target, property, value, receiver) => {
+    const current = target[property];
+    target[property] = value;
+    const now = target[property];
+    if (!Object.is(current, now)) {
+      notifySet(receiver, makeContext(property, { was: current, now }));
+    }
+    return true;
+  },
+  has: (target, property) => {
+    const receiver = getSignal(target);
+    if (receiver) {
+      notifyGet(receiver, property);
+    }
+    return Reflect.has(target, property);
+  },
+  ownKeys: (target) => {
+    const receiver = getSignal(target);
+    if (receiver) {
+      notifyGet(receiver, DEP.ITERATE);
+    }
+    return Reflect.ownKeys(target);
+  }
+};
+function signal2(el, options) {
+  if (isSignal(el)) {
+    return el;
+  }
+  const existing = getSignal(el);
+  if (existing) {
+    return existing;
+  }
+  return createSignal(el, domSignalHandler, (target, proxy) => {
+    domListen(target, proxy, options);
+  });
+}
+function domListen(el, signal3, options) {
+  const defaultOptions = {
+    characterData: true,
+    subtree: true,
+    attributes: true,
+    attributesOldValue: true,
+    childList: true
+  };
+  if (!options) {
+    options = defaultOptions;
+  }
+  let oldContentHTML = el.innerHTML;
+  let oldContentText = el.innerText;
+  if (!observers.has(el)) {
+    const observer = new MutationObserver((mutationList, observer2) => {
+      const changes = {};
+      for (const mutation of mutationList) {
+        if (mutation.type === "attributes") {
+          changes[mutation.attributeName] = mutation.attributeOldValue;
+        } else if (mutation.type === "subtree" || mutation.type === "characterData") {
+          if (el.innerHTML != oldContentHTML) {
+            changes.innerHTML = oldContentHTML;
+            oldContentHTML = el.innerHTML;
+          }
+          if (el.innerText != oldContentText) {
+            changes.innerText = oldContentText;
+            oldContentText = el.innerText;
+          }
+        } else if (mutation.type === "childList") {
+          changes.children = {
+            //FIXME: overwrites changes in this list path if list is rendered multiple times
+            was: Array.from(el.children)
+            //FIXME; fill in 'now'
+          };
+          changes.length = -1;
+          if (el.innerHTML != oldContentHTML) {
+            changes.innerHTML = oldContentHTML;
+            oldContentHTML = el.innerHTML;
+          }
+          if (el.innerText != oldContentText) {
+            changes.innerText = oldContentText;
+            oldContentText = el.innerText;
+          }
+        } else {
+          console.log("nothing to do for", el, mutation.type);
+        }
+      }
+      for (const prop in changes) {
+        notifySet(signal3, makeContext(prop, { was: changes[prop], now: el[prop] }));
+      }
+    });
+    observer.observe(el, options);
+    observers.set(el, observer);
+    if (el.matches("input, textarea, select")) {
+      let prevValue = el.value;
+      let prevChecked = el.checked;
+      const notifyFormValue = () => {
+        notifySet(signal3, makeContext("value", { was: prevValue, now: el.value }));
+        prevValue = el.value;
+        if ("checked" in el) {
+          notifySet(signal3, makeContext("checked", { was: prevChecked, now: el.checked }));
+          prevChecked = el.checked;
+        }
+      };
+      el.addEventListener("change", notifyFormValue);
+      if (el.matches("input, textarea")) {
+        el.addEventListener("input", notifyFormValue);
+      }
+    }
+  }
+}
+function trackDomList(element2) {
+  const path2 = this.getBindingPath(element2);
+  if (!path2) {
+    throw new Error("Could not find binding path for element", { cause: element2 });
+  }
+  const s = signal2(element2, {
+    childList: true
+  });
+  throttledEffect(() => {
+    const children = Array.from(s.children);
+    untracked(() => {
+      batch(() => {
+        let key = 0;
+        const currentList = getValueByPath(this.options.root, path2);
+        const source = currentList.slice();
+        for (const item of children) {
+          if (item.tagName === "TEMPLATE") {
+            continue;
+          }
+          if (item.dataset.flowKey) {
+            if (item.dataset.flowKey != key) {
+              setValueByPath(
+                this.options.root,
+                path2 + "." + key,
+                source[item.dataset.flowKey]
+              );
+            }
+            key++;
+          }
+        }
+        if (currentList.length > key) {
+          currentList.length = key;
+        }
+      });
+    });
+  }, 50);
+  return s;
+}
+function trackDomField(element2, props, valueIsString, stringProperty = "innerHTML", getUpdateValue, context) {
+  if (domSignals.has(element2)) {
+    return;
+  }
+  const path2 = this.getBindingPath(element2);
+  if (!path2) {
+    throw new Error("Could not find binding path for element", { cause: element2 });
+  }
+  const s = signal2(element2);
+  domSignals.set(element2, s);
+  batch(() => {
+    throttledEffect(() => {
+      let updateValue;
+      if (getUpdateValue) {
+        for (const prop of props) {
+          s[prop];
+        }
+      } else {
+        updateValue = s[stringProperty];
+        if (!valueIsString) {
+          updateValue = getProperties(s, ...props);
+        }
+      }
+      untracked(() => {
+        const currentValue = getValueByPath(this.options.root, path2);
+        if (getUpdateValue) {
+          updateValue = getUpdateValue.call(this, s, currentValue);
+        }
+        if (typeof updateValue === "undefined") {
+          return;
+        }
+        updateValue = this.extractValue?.(context, updateValue, currentValue) ?? updateValue;
+        if (typeof updateValue === "undefined") {
+          return;
+        }
+        if (valueIsString && !Object.is(currentValue, updateValue) && String(currentValue) === updateValue) {
+          return;
+        }
+        setValueByPath(this.options.root, path2, updateValue, { replace: context?.replaceValue });
+      });
+    }, 50);
+  });
+  return s;
+}
+function findAttribute(el, attr) {
+  return el.closest("[" + attr + "]")?.getAttribute(attr);
+}
+
+// ../simplyflow/packages/bind/src/transformers.mjs
+var escape_html = {
+  render(context, next) {
+    if (typeof context.value !== "string") {
+      return next(context);
+    }
+    if (usesValueProperty(context.element)) {
+      context.value = { value: context.value };
+    } else {
+      context.value = { innerHTML: escapeHTML(context.value) };
+    }
+    return next(context);
+  },
+  extract(context, next) {
+    if (typeof context.value === "string") {
+      context.value = unescapeHTML(context.value);
+    } else if (context.value && typeof context.value === "object") {
+      if (typeof context.value.innerHTML === "string") {
+        context.value = unescapeHTML(context.value.innerHTML);
+      } else if (typeof context.value.value === "string") {
+        context.value = context.value.value;
+      }
+    }
+    return next(context);
+  }
+};
+function usesValueProperty(element2) {
+  return element2?.tagName === "INPUT" || element2?.tagName === "TEXTAREA";
+}
+function escapeHTML(value) {
+  return String(value).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#39;");
+}
+function unescapeHTML(value) {
+  const textarea = document.createElement("textarea");
+  textarea.innerHTML = value;
+  return textarea.value;
+}
+function fixed_content(context, next) {
+  if (typeof context.value == "string") {
+    context.value = {};
+  } else {
+    delete context.value?.innerHTML;
+  }
+  next(context);
+}
+var attributes = {
+  render(context) {
+    const names = getAttributeNames.call(this, context);
+    setAttributes(context.element, context.value, names);
+    if (context.edit) {
+      trackDomField.call(
+        this,
+        context.element,
+        names,
+        false,
+        "innerHTML",
+        () => readAttributes(context.element, names),
+        context
+      );
+    }
+    return context;
+  },
+  extract(context, next) {
+    const names = getAttributeNames.call(this, context);
+    context.value = readAttributes(context.element, names);
+    context.replaceValue = true;
+    return next ? next(context) : context;
+  }
+};
+function getAttributeNames(context) {
+  const attribute = this.options.attribute + "-attributes";
+  const configured = context.element.getAttribute(attribute);
+  if (configured) {
+    return configured.split(/[\s,]+/).filter(Boolean);
+  }
+  if (context.value && typeof context.value === "object" && !Array.isArray(context.value)) {
+    return Object.keys(context.value);
+  }
+  if (context.currentValue && typeof context.currentValue === "object" && !Array.isArray(context.currentValue)) {
+    return Object.keys(context.currentValue);
+  }
+  return [];
+}
+function setAttributes(element2, data, names) {
+  if (!names.length || !data || typeof data !== "object" || Array.isArray(data)) {
+    return;
+  }
+  for (const name of names) {
+    const value = data[name];
+    if (typeof value === "undefined" || value === null) {
+      element2.removeAttribute(name);
+    } else if (element2.getAttribute(name) !== "" + value) {
+      element2.setAttribute(name, "" + value);
+    }
+  }
+}
+function readAttributes(element2, names) {
+  const data = {};
+  for (const name of names) {
+    if (element2.hasAttribute(name)) {
+      data[name] = element2.getAttribute(name);
+    }
+  }
+  return data;
+}
+
+// ../simplyflow/packages/bind/src/index.mjs
+var SimplyBind = class {
+  /**
+   * @param Object options - a set of options for this instance, options may include:
+   *  - root (signal) (required) - the root data object that contains al signals that can be bound
+   *  - container (HTMLElement) - the dom element to use as the root for all bindings
+   *  - attribute (string) - the prefix for the field, edit, list and map attributes, e.g. 'data-bind'
+   *  - transformers (object name:function) - a map of transformer names and functions
+   *  - render (object with field, list and map properties); edit uses field renderers
+   */
+  constructor(options) {
+    this.bindings = /* @__PURE__ */ new Map();
+    const defaultTransformers = {
+      escape_html,
+      fixed_content,
+      attributes
+    };
+    const defaultOptions = {
+      container: document.body,
+      attribute: "data-flow",
+      transformers: defaultTransformers,
+      render: {
+        field: [field],
+        list: [list],
+        map: [map]
+      },
+      renderers: {
+        "INPUT": input,
+        "TEXTAREA": input,
+        "BUTTON": button,
+        "SELECT": select,
+        "A": anchor,
+        "IMG": image,
+        "IFRAME": iframe,
+        "META": meta,
+        "TEMPLATE": null,
+        "*": element
+      },
+      twoway: false
+    };
+    if (!options?.root) {
+      throw new Error("bind needs at least options.root set");
+    }
+    this.options = Object.assign({}, defaultOptions, options);
+    if (options.transformers) {
+      this.options.transformers = Object.assign({}, defaultTransformers, options?.transformers);
+    } else {
+      this.options.transformers = defaultTransformers;
+    }
+    const attribute = this.options.attribute;
+    const bindAttributes = [attribute + "-field", attribute + "-edit", attribute + "-list", attribute + "-map"];
+    const getBindingAttribute = (el) => {
+      const foundAttribute = bindAttributes.find((attr) => el.hasAttribute(attr));
+      if (!foundAttribute) {
+        console.error("No matching attribute found", el, bindAttributes);
+      }
+      return foundAttribute;
+    };
+    const renderElement = (el) => {
+      this.bindings.set(el, throttledEffect(() => {
+        if (!el.isConnected) {
+          untrack(el, this.getBindingPath(el));
+          const binding = this.bindings.get(el);
+          if (binding) {
+            destroy(binding);
+            this.bindings.delete(el);
+          }
+          return;
+        }
+        let context = {
+          templates: el.querySelectorAll(":scope > template"),
+          attribute: getBindingAttribute(el)
+        };
+        context.edit = context.attribute === this.options.attribute + "-edit";
+        context.path = this.getBindingPath(el);
+        context.value = getValueByPath(this.options.root, context.path);
+        context.element = el;
+        track(el, context);
+        runTransformers(context);
+      }, 50));
+    };
+    const runTransformers = (context) => {
+      let transformers;
+      switch (context.attribute) {
+        case this.options.attribute + "-field":
+        case this.options.attribute + "-edit":
+          transformers = Array.from(this.options.render.field);
+          break;
+        case this.options.attribute + "-list":
+          transformers = Array.from(this.options.render.list);
+          break;
+        case this.options.attribute + "-map":
+          transformers = Array.from(this.options.render.map);
+          break;
+        default:
+          throw new Error("no valid context attribute specified", context);
+          break;
+      }
+      transformers.push(...this.getNamedTransformers(context.element).map((transformer) => getTransformerPhase(transformer, "render")).filter(Boolean));
+      runTransformerStack.call(this, transformers, context);
+    };
+    const applyBindings = (bindings2) => {
+      for (let bindingEl of bindings2) {
+        if (!this.bindings.get(bindingEl)) {
+          renderElement(bindingEl);
+        }
+      }
+    };
+    const updateBindings = (changes) => {
+      const selector = `[${attribute}-field],[${attribute}-edit],[${attribute}-list],[${attribute}-map]`;
+      for (const change of changes) {
+        if (change.type == "childList" && change.addedNodes) {
+          for (let node of change.addedNodes) {
+            if (node instanceof HTMLElement) {
+              let bindings2 = Array.from(node.querySelectorAll(selector));
+              if (node.matches(selector)) {
+                bindings2.unshift(node);
+              }
+              if (bindings2.length) {
+                applyBindings(bindings2);
+              }
+            }
+          }
+        }
+      }
+    };
+    this.observer = new MutationObserver((changes) => {
+      updateBindings(changes);
+    });
+    this.observer.observe(this.options.container, {
+      subtree: true,
+      childList: true
+    });
+    const bindings = this.options.container.querySelectorAll(
+      ":is([" + this.options.attribute + "-field],[" + this.options.attribute + "-edit],[" + this.options.attribute + "-list],[" + this.options.attribute + "-map]):not(template)"
+    );
+    try {
+      if (bindings.length) {
+        applyBindings(bindings);
+      }
+    } catch (error) {
+      this.destroy();
+      throw error;
+    }
+  }
+  /**
+   * Finds the first matching template and creates a new DocumentFragment
+   * with the correct data bind attributes in it (prepends the current path)
+   * @param Context context
+   * @return DocumentFragment
+   */
+  applyTemplate(context) {
+    const path2 = context.path;
+    const parent = context.parent;
+    const templates = context.templates;
+    const list2 = context.list;
+    const index = context.index;
+    const value = list2 ? list2[index] : context.value;
+    let template = this.findTemplate(templates, value);
+    if (!template) {
+      let result = new DocumentFragment();
+      result.innerHTML = "<!-- no matching template -->";
+      return result;
+    }
+    let clone2 = template.content.cloneNode(true);
+    if (!clone2.children?.length) {
+      return clone2;
+    }
+    if (clone2.children.length > 1) {
+      throw new Error("template must contain a single root node", { cause: template });
+    }
+    const attribute = this.options.attribute;
+    const attributes2 = [attribute + "-field", attribute + "-edit", attribute + "-list", attribute + "-map"];
+    const bindings = clone2.querySelectorAll(`[${attribute}-field],[${attribute}-edit],[${attribute}-list],[${attribute}-map]`);
+    for (let binding of bindings) {
+      if (binding.tagName == "TEMPLATE") {
+        continue;
+      }
+      const attr = attributes2.find((attr2) => binding.hasAttribute(attr2));
+      let bind2 = binding.getAttribute(attr);
+      bind2 = this.applyLinks(template.links, bind2);
+      if (bind2.substring(0, ":root.".length) == ":root.") {
+        binding.setAttribute(attr, bind2.substring(":root.".length));
+      } else if (bind2 == ":value" && index != null) {
+        binding.setAttribute(attr, path2 + "." + index);
+      } else if (index != null) {
+        binding.setAttribute(attr, path2 + "." + index + "." + bind2);
+      } else {
+        binding.setAttribute(attr, parent + bind2);
+      }
+    }
+    this.applyTemplateCommandValues(clone2, template.links, path2, index);
+    if (typeof index !== "undefined") {
+      clone2.children[0].setAttribute(attribute + "-key", index);
+    }
+    clone2.children[0][DEP.TEMPLATE] = template;
+    clone2.children[0][DEP.VALUE] = value;
+    return clone2;
+  }
+  applyTemplateCommandValues(fragment, links, path2, index) {
+    const valueAttribute = this.options.attribute + "-value";
+    const valuePathAttribute = this.options.attribute + "-value-path";
+    const valueSelector = "[" + valueAttribute + "]";
+    const elements = Array.from(fragment.querySelectorAll(valueSelector));
+    for (const element2 of elements) {
+      let value = element2.getAttribute(valueAttribute);
+      value = this.applyLinks(links, value);
+      const resolved = templateCommandValue(value, path2, index);
+      if (!resolved) {
+        continue;
+      }
+      if (Object.hasOwn(resolved, "path")) {
+        element2.setAttribute(valuePathAttribute, resolved.path);
+      } else {
+        element2.setAttribute(valueAttribute, resolved.value);
+        element2.removeAttribute(valuePathAttribute);
+      }
+    }
+  }
+  parseLinks(links) {
+    let result = {};
+    links = links.split(";").map((link) => link.trim());
+    for (let link of links) {
+      link = link.split("=");
+      result[link[0].trim()] = link[1].trim();
+    }
+    return result;
+  }
+  applyLinks(links, value) {
+    for (let link in links) {
+      if (value.startsWith(link + ".")) {
+        return links[link] + value.substr(link.length);
+      } else if (value == link) {
+        return links[link];
+      }
+    }
+    return value;
+  }
+  /**
+   * Returns the path referenced in either the field, list or map attribute
+   * @param HTMLElement el
+   * @return string The path referenced, or void
+   */
+  getBindingPath(el) {
+    const attributes2 = [
+      this.options.attribute + "-field",
+      this.options.attribute + "-edit",
+      this.options.attribute + "-list",
+      this.options.attribute + "-map"
+    ];
+    for (let attr of attributes2) {
+      if (el.hasAttribute(attr)) {
+        return el.getAttribute(attr);
+      }
+    }
+  }
+  getNamedTransformers(el) {
+    const transformAttribute = this.options.attribute + "-transform";
+    if (!el.hasAttribute(transformAttribute)) {
+      return [];
+    }
+    return el.getAttribute(transformAttribute).split(" ").filter(Boolean).map((name) => {
+      const transformer = this.options.transformers[name];
+      if (!transformer) {
+        console.warn("No transformer with name " + name + " configured", { cause: el });
+        return null;
+      }
+      return transformer;
+    }).filter(Boolean);
+  }
+  extractValue(context, value, currentValue) {
+    if (!context?.element) {
+      return value;
+    }
+    const transformers = this.getNamedTransformers(context.element).map((transformer) => getTransformerPhase(transformer, "extract")).filter(Boolean).reverse();
+    if (!transformers.length) {
+      return value;
+    }
+    delete context.replaceValue;
+    const extractContext = Object.assign({}, context, {
+      value,
+      currentValue,
+      originalValue: currentValue
+    });
+    runTransformerStack.call(this, transformers, extractContext);
+    context.replaceValue = extractContext.replaceValue;
+    return extractContext.value;
+  }
+  /**
+   * Finds the first template from an array of templates that
+   * matches the given value. 
+   */
+  findTemplate(templates, value) {
+    const templateMatches = (t) => {
+      let path2 = this.getBindingPath(t);
+      let currentItem;
+      if (path2) {
+        if (path2.substr(0, 6) == ":root.") {
+          currentItem = getValueByPath(this.options.root, path2.substring(6));
+        } else {
+          currentItem = getValueByPath(value, path2);
+        }
+      } else {
+        currentItem = value;
+      }
+      const strItem = "" + currentItem;
+      let matches = t.getAttribute(this.options.attribute + "-match");
+      if (matches) {
+        if (matches === ":empty" && !currentItem) {
+          return t;
+        } else if (matches === ":notempty" && currentItem) {
+          return t;
+        }
+        if (strItem == matches) {
+          return t;
+        }
+      }
+      if (!matches) {
+        return t;
+      }
+    };
+    let template = Array.from(templates).find(templateMatches);
+    let links = null;
+    if (template?.hasAttribute(this.options.attribute + "-link")) {
+      links = this.parseLinks(template.getAttribute(this.options.attribute + "-link"));
+    }
+    let rel = template?.getAttribute("rel");
+    if (rel) {
+      let replacement = document.querySelector("template#" + rel);
+      if (!replacement) {
+        throw new Error("Could not find template with id " + rel);
+      }
+      template = replacement;
+    }
+    if (template) {
+      template.links = links;
+    }
+    return template;
+  }
+  destroy() {
+    this.bindings.forEach((binding, element2) => {
+      untrack(element2, this.getBindingPath(element2));
+      destroy(binding);
+    });
+    this.bindings = /* @__PURE__ */ new Map();
+    this.observer.disconnect();
+  }
+};
+function bind(options) {
+  return new SimplyBind(options);
+}
+function getTransformerPhase(transformer, phase) {
+  if (typeof transformer === "function") {
+    return phase === "render" ? transformer : null;
+  }
+  if (transformer && typeof transformer[phase] === "function") {
+    return transformer[phase];
+  }
+  return null;
+}
+function runTransformerStack(transformers, context) {
+  let next = (context2) => context2;
+  for (let transformer of transformers) {
+    next = /* @__PURE__ */ ((next2, transformer2) => {
+      return (context2) => {
+        return transformer2.call(this, context2, next2);
+      };
+    })(next, transformer);
+  }
+  return next?.(context);
+}
+var tracking = /* @__PURE__ */ new Map();
+function track(el, context) {
+  untrack(el);
+  if (!tracking.has(context.path)) {
+    tracking.set(context.path, [context]);
+  } else {
+    tracking.get(context.path).push(context);
+  }
+}
+function untrack(el, path2) {
+  if (path2) {
+    let list2 = tracking.get(path2);
+    if (list2) {
+      list2 = list2.filter((context) => context.element !== el);
+      tracking.set(path2, list2);
+    }
+    return;
+  }
+  tracking.forEach((list2, trackedPath) => {
+    list2 = list2.filter((context) => context.element !== el);
+    tracking.set(trackedPath, list2);
+  });
+}
+function templateCommandValue(value, path2, index) {
+  if (!value || value[0] !== ":") {
+    return null;
+  }
+  if (value === ":key") {
+    return { value: "" + index };
+  }
+  if (value === ":value") {
+    return { path: templateItemPath(path2, index) };
+  }
+  if (value.startsWith(":value.")) {
+    return { path: joinPath(templateItemPath(path2, index), value.substring(":value".length)) };
+  }
+  if (value.startsWith(":root.")) {
+    return { path: value.substring(":root.".length) };
+  }
+  return null;
+}
+function templateItemPath(path2, index) {
+  if (typeof index === "undefined") {
+    return path2;
+  }
+  return joinPath(path2, "." + index);
+}
+function joinPath(path2, suffix) {
+  if (!path2) {
+    return suffix.replace(/^\./, "");
+  }
+  return path2 + suffix;
+}
+function getValueByPath(root, path2) {
+  let parts = path2.split(".");
+  let curr = root;
+  let part;
+  part = parts.shift();
+  let prevPart = null;
+  while (part && curr) {
+    part = decodeURIComponent(part);
+    if (part == "0" && !Array.isArray(curr)) {
+    } else if (part == ":key") {
+      curr = prevPart;
+    } else if (part == ":value") {
+    } else if (Array.isArray(curr) && typeof curr[part] == "undefined" && curr[0]) {
+      curr = curr[0][part];
+    } else {
+      curr = curr[part];
+    }
+    prevPart = part;
+    part = parts.shift();
+  }
+  return curr;
+}
+
+// ../simplyflow/packages/model/src/index.mjs
+var SimplyFlowModel = class {
+  /**
+   * Creates a new datamodel, with a state property that contains
+   * all the data passed to this constructor
+   * @param state	Object with all the data for this model
+   * @throws Error if state is not set
+   */
+  constructor(state) {
+    if (!state) {
+      throw new Error("no options set");
+    }
+    if (state.data == null || typeof state.data[Symbol.iterator] !== "function") {
+      console.warn("SimplyFlowModel: options.data is not iterable");
+    }
+    this.state = signal(state);
+    if (!this.state.options) {
+      this.state.options = {};
+    }
+    this.effects = [{ current: this.state.data }];
+    this.view = {
+      current: this.state.data
+    };
+  }
+  /**
+   * Adds an effect to run whenever a signal it depends on
+   * changes. this.state is the usual signal.
+   * The `fn` function param is not itself an effect, but must return
+   * and effect function. `fn` takes one param, which is the data signal.
+   * This signal will always have at least a `current` property.
+   * The result of the effect function is pushed on to the this.effects
+   * list. And the last effect added is set as this.view
+   */
+  addEffect(fn) {
+    if (!fn || typeof fn !== "function") {
+      throw new Error("addEffect requires an effect function as its parameter", { cause: fn });
+    }
+    const dataSignal = this.effects[this.effects.length - 1];
+    const connectedSignal = fn.call(this, dataSignal);
+    if (!isSignal(connectedSignal)) {
+      throw new Error("addEffect function parameter must return a Signal", { cause: fn });
+    }
+    this.view = connectedSignal;
+    this.effects.push(this.view);
+  }
+};
+function model(options) {
+  return new SimplyFlowModel(options);
+}
+function sort(options = {}) {
+  return function(data) {
+    this.state.options.sort = Object.assign({
+      direction: "asc",
+      sortBy: null,
+      sortFn: ((a, b) => {
+        const sort2 = this.state.options.sort;
+        const sortBy = sort2.sortBy;
+        if (!sort2.sortBy) {
+          return 0;
+        }
+        const direction = sort2.sortDirection || sort2.direction || "asc";
+        const larger = direction == "asc" ? 1 : -1;
+        const smaller = direction == "asc" ? -1 : 1;
+        if (typeof a?.[sortBy] === "undefined") {
+          if (typeof b?.[sortBy] === "undefined") {
+            return 0;
+          }
+          return larger;
+        }
+        if (typeof b?.[sortBy] === "undefined") {
+          return smaller;
+        }
+        if (a[sortBy] < b[sortBy]) {
+          return smaller;
+        } else if (a[sortBy] > b[sortBy]) {
+          return larger;
+        } else {
+          return 0;
+        }
+      })
+    }, options);
+    return throttledEffect(() => {
+      const sort2 = this.state.options.sort;
+      const direction = sort2?.sortDirection || sort2?.direction;
+      if (sort2?.sortBy && direction) {
+        const trackedSortFn = sort2.sortFn;
+        const sortFn = raw(sort2).sortFn || trackedSortFn;
+        return data.current.toSorted((a, b) => sortFn.call(this, a, b));
+      }
+      return data.current;
+    }, 50);
+  };
+}
+function paging(options = {}) {
+  return function(data) {
+    this.state.options.paging = Object.assign({
+      page: 1,
+      pageSize: 20,
+      max: 1
+    }, options);
+    return throttledEffect(() => {
+      return batch(() => {
+        const paging2 = this.state.options.paging;
+        if (!paging2.pageSize) {
+          paging2.pageSize = 20;
+        }
+        paging2.max = Math.ceil(data.current.length / paging2.pageSize);
+        paging2.page = Math.max(1, Math.min(paging2.max, paging2.page));
+        const start = (paging2.page - 1) * paging2.pageSize;
+        const end = start + paging2.pageSize;
+        return data.current.slice(start, end);
+      });
+    }, 50);
+  };
+}
+function filter(options) {
+  if (!options?.name || typeof options.name !== "string") {
+    throw new Error("filter requires options.name to be a string");
+  }
+  if (!options.matches || typeof options.matches !== "function") {
+    throw new Error("filter requires options.matches to be a function");
+  }
+  return function(data) {
+    if (this.state.options[options.name]) {
+      throw new Error("a filter with this name already exists on this model");
+    }
+    this.state.options[options.name] = options;
+    return throttledEffect(() => {
+      const filterOptions = this.state.options[options.name];
+      if (filterOptions.enabled) {
+        const trackedMatches = filterOptions.matches;
+        const matches = raw(filterOptions).matches || trackedMatches;
+        return data.current.filter((row) => matches.call(this, row));
+      }
+      return data.current;
+    }, 50);
+  };
+}
+function columns(options = {}) {
+  const columnOptions = options?.columns && typeof options.columns === "object" ? options.columns : options;
+  if (!columnOptions || typeof columnOptions !== "object" || Object.keys(columnOptions).length === 0) {
+    throw new Error("columns requires options to be an object with at least one property");
+  }
+  return function(data) {
+    this.state.options.columns = columnOptions;
+    const projections = /* @__PURE__ */ new WeakMap();
+    return throttledEffect(() => {
+      const visibleKeys = [];
+      const visible = /* @__PURE__ */ new Set();
+      const columns2 = this.state.options.columns;
+      for (let key of Object.keys(columns2)) {
+        if (columns2[key]?.visible !== false) {
+          visibleKeys.push(key);
+          visible.add(key);
+        }
+      }
+      return data.current.map((input2) => {
+        const source = raw(input2);
+        let result = source && typeof source === "object" ? projections.get(source) : null;
+        if (!result) {
+          result = {};
+          if (source && typeof source === "object") {
+            projections.set(source, result);
+          }
+        }
+        for (let key of visibleKeys) {
+          const value = input2?.[key] ?? null;
+          if (result[key] !== value) {
+            result[key] = value;
+          }
+        }
+        for (let key of Object.keys(result)) {
+          if (!visible.has(key)) {
+            delete result[key];
+          }
+        }
+        return result;
+      });
+    }, 50);
+  };
+}
+function scroll(options) {
+  return function(data) {
+    this.state.options.scroll = Object.assign({
+      offset: 0,
+      rowHeight: 26,
+      rowCount: 20,
+      itemsPerRow: 1,
+      size: data.current.length
+    }, options);
+    const scrollOptions = this.state.options.scroll;
+    const scrollbar = scrollOptions.scrollbar || scrollOptions.container?.querySelector("[data-flow-scrollbar]");
+    if (scrollbar) {
+      if (scrollOptions.container) {
+        scrollOptions.container.addEventListener("scroll", (evt) => {
+          scrollOptions.offset = Math.floor(
+            scrollOptions.container.scrollTop / (scrollOptions.rowHeight * scrollOptions.itemsPerRow)
+          );
+        });
+      }
+      throttledEffect(() => {
+        scrollOptions.size = data.current.length * scrollOptions.rowHeight;
+        scrollbar.style.height = scrollOptions.size + "px";
+      }, 50);
+    }
+    return throttledEffect(() => {
+      if (scrollOptions.container) {
+        scrollOptions.rowCount = Math.ceil(
+          scrollOptions.container.getBoundingClientRect().height / scrollOptions.rowHeight
+        );
+      }
+      scrollOptions.data = data.current;
+      let start = Math.min(scrollOptions.offset, data.current.length - 1);
+      let end = start + scrollOptions.rowCount;
+      if (end > data.current.length) {
+        end = data.current.length;
+        start = end - scrollOptions.rowCount;
+      }
+      return data.current.slice(start, end);
+    }, 50);
+  };
+}
+
+// ../simplyflow/packages/simplyflow/src/render.mjs
+var SimplyRender = class extends HTMLElement {
+  constructor() {
+    super();
+  }
+  connectedCallback() {
+    let templateId = this.getAttribute("rel");
+    let template = document.getElementById(templateId);
+    if (template) {
+      let content = template.content.cloneNode(true);
+      for (const node of content.childNodes) {
+        const clone2 = node.cloneNode(true);
+        if (clone2.nodeType == document.ELEMENT_NODE) {
+          clone2.querySelectorAll("template").forEach(function(t) {
+            t.setAttribute("simply-render", "");
+          });
+          if (this.attributes) {
+            for (const attr of this.attributes) {
+              if (attr.name != "rel") {
+                clone2.setAttribute(attr.name, attr.value);
+              }
+            }
+          }
+        }
+        this.parentNode.insertBefore(clone2, this);
+      }
+      this.parentNode.removeChild(this);
+    } else {
+      const observe = () => {
+        const observer = new MutationObserver(() => {
+          template = document.getElementById(templateId);
+          if (template) {
+            observer.disconnect();
+            this.replaceWith(this);
+          }
+        });
+        observer.observe(globalThis.document, {
+          subtree: true,
+          childList: true
+        });
+      };
+      observe();
+    }
+  }
+};
+if (!customElements.get("simply-render")) {
+  customElements.define("simply-render", SimplyRender);
+}
+
+// ../simplyflow/packages/app/src/suggest.mjs
+function closest(name, options, { maxDistance = 2, minLength = 4 } = {}) {
+  if (name.length < minLength) {
+    return;
+  }
+  let result;
+  let resultDistance = Infinity;
+  for (const option of options) {
+    const distance = editDistance(name, option, maxDistance);
+    if (distance < resultDistance) {
+      result = option;
+      resultDistance = distance;
+    }
+  }
+  return resultDistance <= maxDistance ? result : void 0;
+}
+function editDistance(a, b, maxDistance = 2) {
+  const tooFar = maxDistance + 1;
+  if (Math.abs(a.length - b.length) > maxDistance) {
+    return tooFar;
+  }
+  const previous = Array.from({ length: b.length + 1 }, (_, index) => index);
+  const current = new Array(b.length + 1);
+  for (let ai = 1; ai <= a.length; ai++) {
+    current[0] = ai;
+    for (let bi = 1; bi <= b.length; bi++) {
+      const cost = a[ai - 1] === b[bi - 1] ? 0 : 1;
+      current[bi] = Math.min(
+        previous[bi] + 1,
+        current[bi - 1] + 1,
+        previous[bi - 1] + cost
+      );
+    }
+    previous.splice(0, previous.length, ...current);
+  }
+  return previous[b.length];
+}
+
+// ../simplyflow/packages/app/src/route.mjs
+function routes(options) {
+  return new SimplyRoute(options);
+}
+var SimplyRoute = class {
+  constructor(options = {}) {
+    this.options = options;
+    this.baseURL = options.baseURL || "/";
+    this.app = options.app || {};
+    this.addMissingSlash = !!options.addMissingSlash;
+    this.matchExact = !!options.matchExact;
+    this.hijackLinks = !!options.hijackLinks;
+    this.clear();
+    if (options.routes) {
+      this.load(options.routes);
+    }
+  }
+  load(routes2) {
+    parseRoutes(routes2, this.routeInfo, this.matchExact);
+  }
+  clear() {
+    this.routeInfo = [];
+    this.listeners = {
+      match: {},
+      call: {},
+      goto: {},
+      finish: {}
+    };
+  }
+  match(path2, options) {
+    let args = {
+      path: path2,
+      options
+    };
+    args = this.runListeners("match", args);
+    path2 = args.path ? args.path : path2;
+    let searchParams;
+    if (!path2) {
+      const currentPath = document.location.pathname + document.location.hash;
+      if (this.has(currentPath)) {
+        path2 = currentPath;
+      } else {
+        path2 = document.location.pathname;
+      }
+      searchParams = new URLSearchParams(document.location.search);
+    } else {
+      searchParams = searchParamsForPath(path2);
+    }
+    path2 = getPath(routePath(path2), this.baseURL);
+    for (let route of this.routeInfo) {
+      let params = route.pattern.match(path2);
+      if (this.addMissingSlash && !params) {
+        if (path2 && path2[path2.length - 1] != "/") {
+          const pathWithSlash = path2 + "/";
+          params = route.pattern.match(pathWithSlash);
+          if (params) {
+            path2 = pathWithSlash;
+            history.replaceState({}, "", getURL(path2, this.baseURL));
+          }
+        }
+      }
+      if (params) {
+        Object.assign(params, options);
+        args.route = route;
+        args.params = params;
+        args = this.runListeners("call", args);
+        params = args.params ? args.params : params;
+        args.searchParams = searchParams;
+        args.result = callRouteAction(this.app, route, params, searchParams);
+        this.runListeners("finish", args);
+        return args.result;
+      }
+    }
+    return false;
+  }
+  runListeners(action, params) {
+    if (!this.listeners[action] || !Object.keys(this.listeners[action])) {
+      return;
+    }
+    Object.keys(this.listeners[action]).forEach((route) => {
+      const pattern = compileRoutePattern(route);
+      if (pattern.match(routePath(params.path))) {
+        var result;
+        for (let callback of this.listeners[action][route]) {
+          result = callback.call(this.app, params);
+          if (result) {
+            params = result;
+          }
+        }
+      }
+    });
+    return params;
+  }
+  handleEvents() {
+    this.removeEvents();
+    const popstateHandler = () => {
+      this.match();
+    };
+    const clickHandler = (evt) => {
+      if (evt.ctrlKey) {
+        return;
+      }
+      if (evt.which != 1) {
+        return;
+      }
+      var link = evt.target;
+      while (link && link.tagName != "A") {
+        link = link.parentElement;
+      }
+      if (link && link.pathname && link.hostname == globalThis.location.hostname && !link.link && !link.dataset.simplyCommand) {
+        let check = [
+          { match: link.hash, goto: link.hash },
+          { match: link.pathname + link.hash, goto: link.pathname + link.search + link.hash },
+          { match: link.pathname, goto: link.pathname + link.search }
+        ];
+        let target;
+        do {
+          target = check.shift();
+          target.match = getPath(target.match, this.baseURL);
+        } while (check.length && !this.has(target.match));
+        if (this.has(target.match)) {
+          let params = this.runListeners("goto", { path: target.goto });
+          if (params.path) {
+            const followLink = this.goto(params.path);
+            if (!followLink || this.options.hijackLinks && followLink !== false) {
+              evt.preventDefault();
+              return false;
+            }
+          }
+        }
+      }
+    };
+    globalThis.addEventListener("popstate", popstateHandler);
+    this.app.container.addEventListener("click", clickHandler);
+    this.eventHandlers = {
+      container: this.app.container,
+      popstateHandler,
+      clickHandler
+    };
+  }
+  removeEvents() {
+    if (!this.eventHandlers) {
+      return;
+    }
+    globalThis.removeEventListener("popstate", this.eventHandlers.popstateHandler);
+    this.eventHandlers.container.removeEventListener("click", this.eventHandlers.clickHandler);
+    this.eventHandlers = void 0;
+  }
+  destroy() {
+    this.removeEvents();
+  }
+  goto(path2) {
+    history.pushState({}, "", getURL(path2, this.baseURL));
+    return this.match(path2);
+  }
+  has(path2) {
+    path2 = getPath(routePath(path2), this.baseURL);
+    for (let route of this.routeInfo) {
+      if (route.pattern.match(path2)) {
+        return true;
+      }
+    }
+    return false;
+  }
+  addListener(action, route, callback) {
+    if (["goto", "match", "call", "finish"].indexOf(action) == -1) {
+      throw new TypeError(`simplyflow/route: unknown listener type "${action}"`);
+    }
+    if (!this.listeners[action][route]) {
+      this.listeners[action][route] = [];
+    }
+    this.listeners[action][route].push(callback);
+  }
+  removeListener(action, route, callback) {
+    if (["goto", "match", "call", "finish"].indexOf(action) == -1) {
+      throw new TypeError(`simplyflow/route: unknown listener type "${action}"`);
+    }
+    if (!this.listeners[action][route]) {
+      return;
+    }
+    this.listeners[action][route] = this.listeners[action][route].filter((listener) => {
+      return listener != callback;
+    });
+  }
+  init(options) {
+    if (options.baseURL) {
+      this.baseURL = options.baseURL;
+    }
+  }
+};
+function callRouteAction(app2, route, params, searchParams) {
+  if (typeof route.action === "function") {
+    return route.action.call(app2, params, searchParams);
+  }
+  if (typeof route.action === "string") {
+    const action = app2.actions?.[route.action];
+    if (typeof action === "function") {
+      return action.call(app2, routeActionParams(route, params, searchParams));
+    }
+    throw unknownRouteActionError(route, app2.actions);
+  }
+  throw new TypeError(`simplyflow/route: route "${route.path}" must use a function or action name`);
+}
+var warnedRouteQueryConflicts = /* @__PURE__ */ new Set();
+function routeActionParams(route, params, searchParams) {
+  const query = queryParams(searchParams);
+  for (const key of Object.keys(query)) {
+    if (Object.hasOwn(params, key)) {
+      warnRouteQueryConflict(route, key);
+    }
+  }
+  return Object.assign(query, params);
+}
+function queryParams(searchParams) {
+  const params = {};
+  for (const [key, value] of searchParams.entries()) {
+    if (!Object.hasOwn(params, key)) {
+      params[key] = value;
+    } else if (Array.isArray(params[key])) {
+      params[key].push(value);
+    } else {
+      params[key] = [params[key], value];
+    }
+  }
+  return params;
+}
+function warnRouteQueryConflict(route, key) {
+  const warningKey = `${route.path}\0${key}`;
+  if (warnedRouteQueryConflicts.has(warningKey)) {
+    return;
+  }
+  warnedRouteQueryConflicts.add(warningKey);
+  console.warn(`simplyflow/route: query parameter "${key}" was ignored because route "${route.path}" already provides a route parameter with that name.`);
+}
+function unknownRouteActionError(route, actions2) {
+  const suggestion = closest(route.action, Object.keys(actions2 || {}));
+  const hint = suggestion ? ` Did you mean "${suggestion}"?` : "";
+  return new TypeError(`simplyflow/route: route "${route.path}" uses unknown action "${route.action}".${hint}`);
+}
+function searchParamsForPath(path2) {
+  const index = typeof path2 === "string" ? path2.indexOf("?") : -1;
+  if (index === -1) {
+    return new URLSearchParams();
+  }
+  const hashIndex = path2.indexOf("#", index);
+  const search = hashIndex === -1 ? path2.substring(index) : path2.substring(index, hashIndex);
+  return new URLSearchParams(search);
+}
+function routePath(path2) {
+  const index = typeof path2 === "string" ? path2.indexOf("?") : -1;
+  if (index === -1) {
+    return path2;
+  }
+  const hashIndex = path2.indexOf("#", index);
+  if (hashIndex === -1) {
+    return path2.substring(0, index);
+  }
+  return path2.substring(0, index) + path2.substring(hashIndex);
+}
+function getPath(path2, baseURL = "/") {
+  if (path2.substring(0, baseURL.length) == baseURL || baseURL[baseURL.length - 1] == "/" && path2.length == baseURL.length - 1 && path2 == baseURL.substring(0, path2.length)) {
+    path2 = path2.substring(baseURL.length);
+  }
+  if (path2[0] != "/") {
+    path2 = "/" + path2;
+  }
+  return path2;
+}
+function getURL(path2, baseURL) {
+  path2 = getPath(path2, baseURL);
+  if (baseURL[baseURL.length - 1] === "/" && path2[0] === "/") {
+    path2 = path2.substring(1);
+  }
+  if (path2[0] == "#") {
+    return path2;
+  }
+  return baseURL + path2;
+}
+function compileRoutePattern(path2, exact = false) {
+  const params = [];
+  const regexp = routeRegexp(path2, exact, params);
+  return {
+    path: path2,
+    params,
+    regexp,
+    match(value) {
+      const matches = regexp.exec(value);
+      if (!matches) {
+        return null;
+      }
+      const result = {};
+      params.forEach((name, i) => {
+        result[name] = matches[i + 1];
+      });
+      return result;
+    }
+  };
+}
+function routeRegexp(route, exact = false, params = []) {
+  if (route.includes(":*")) {
+    throw new TypeError(`simplyflow/route: route "${route}" uses the old wildcard syntax ":*". Use a named wildcard like ":path*" instead.`);
+  }
+  const prefix = route[0] === "#" ? "" : "^";
+  const suffix = exact ? "$" : "";
+  return new RegExp(prefix + routeRegexpSource(route, params) + suffix);
+}
+function routeRegexpSource(route, params) {
+  let source = "";
+  let index = 0;
+  while (index < route.length) {
+    if (route[index] === ":") {
+      const match = /^:([A-Za-z_][A-Za-z0-9_]*)(\*)?/.exec(route.substring(index));
+      if (!match) {
+        throw new TypeError(`simplyflow/route: invalid route parameter in "${route}"`);
+      }
+      params.push(match[1]);
+      source += match[2] ? "(.*)" : "([^/]+)";
+      index += match[0].length;
+      continue;
+    }
+    if (route[index] === "*") {
+      source += ".*";
+      index++;
+      continue;
+    }
+    source += escapeRegexp(route[index]);
+    index++;
+  }
+  return source;
+}
+function escapeRegexp(value) {
+  return value.replace(/[\\^$.*+?()[\]{}|]/g, "\\$&");
+}
+function parseRoutes(routes2, routeInfo, exact = false) {
+  const paths = Object.keys(routes2);
+  for (let path2 of paths) {
+    routeInfo.push({
+      path: path2,
+      pattern: compileRoutePattern(path2, exact),
+      action: routes2[path2]
+    });
+  }
+  return routeInfo;
+}
+
+// ../simplyflow/packages/app/src/path.mjs
+var path = {
+  get(dataset, pointer) {
+    if (typeof pointer !== "string") {
+      return pointer;
+    }
+    if (!pointer) {
+      return dataset;
+    }
+    return pointer.split(".").reduce(function(acc, name) {
+      if (acc == null) {
+        return null;
+      }
+      if (!Reflect.has(Object(acc), name)) {
+        return null;
+      }
+      return acc[name];
+    }, dataset);
+  },
+  set: function(dataset, pointer, value) {
+    const parent = path.get(dataset, path.parent(pointer));
+    if (parent == null) {
+      throw new TypeError(`simplyflow/path: cannot set "${pointer}" because its parent path does not exist`);
+    }
+    parent[path.pop(pointer)] = value;
+  },
+  pop: function(pointer) {
+    return pointer.split(".").pop();
+  },
+  push: function(pointer, name) {
+    return (pointer ? pointer + "." : "") + name;
+  },
+  parent: function(pointer) {
+    const names = pointer.split(".");
+    names.pop();
+    return names.join(".");
+  },
+  parents: function(dataset, pointer) {
+    let result = [];
+    while (pointer) {
+      pointer = path.parent(pointer);
+      result.unshift(pointer);
+    }
+    return result;
+  }
+};
+var path_default = path;
+
+// ../simplyflow/packages/app/src/command.mjs
+var commandState = /* @__PURE__ */ new WeakMap();
+var COMMAND_OPTIONS = [
+  "commands",
+  "handlers",
+  "app",
+  "container"
+];
+var SimplyCommands = class {
+  constructor(options = {}) {
+    if (!options.app) {
+      options.app = {};
+    }
+    if (!options.app.container) {
+      options.app.container = document.body;
+    }
+    this.app = options.app;
+    this.$handlers = options.handlers || defaultHandlers;
+    if (options.commands) {
+      Object.assign(this, options.commands);
+    }
+    const commandHandler = (evt) => {
+      const command = getCommand(evt, this.$handlers, this.app);
+      if (!command) {
+        return;
+      }
+      if (!this[command.name]) {
+        warnUnknownCommand(this, command.name, command.source);
+        return;
+      }
+      const shouldContinue = this[command.name].call(options.app, command.source, command.value, evt);
+      if (shouldContinue !== true) {
+        evt.preventDefault();
+        evt.stopPropagation();
+        return false;
+      }
+    };
+    const container = options.app.container;
+    container.addEventListener("click", commandHandler);
+    container.addEventListener("submit", commandHandler);
+    container.addEventListener("change", commandHandler);
+    container.addEventListener("input", commandHandler);
+    commandState.set(this, { container, commandHandler });
+  }
+  call(command, el, value, event) {
+    if (!this[command]) {
+      warnUnknownCommand(this, command, el);
+      return;
+    }
+    return this[command].call(this.app, el, value, event);
+  }
+  appendHandler(handler) {
+    this.$handlers.push(handler);
+  }
+  prependHandler(handler) {
+    this.$handlers.unshift(handler);
+  }
+};
+function commands(options = {}) {
+  return new SimplyCommands(options);
+}
+function destroyCommands(commandApi) {
+  const state = commandState.get(commandApi);
+  if (!state) {
+    return;
+  }
+  state.container.removeEventListener("click", state.commandHandler);
+  state.container.removeEventListener("submit", state.commandHandler);
+  state.container.removeEventListener("change", state.commandHandler);
+  state.container.removeEventListener("input", state.commandHandler);
+  commandState.delete(commandApi);
+}
+function getCommand(evt, handlers, app2) {
+  var el = evt.target.closest("[data-simply-command]");
+  if (el) {
+    for (let handler of handlers) {
+      if (el.matches(handler.match)) {
+        if (handler.check(el, evt)) {
+          return {
+            name: el.dataset.simplyCommand,
+            source: el,
+            value: handler.get(el, app2)
+          };
+        }
+        return null;
+      }
+    }
+  }
+  return null;
+}
+function getConfiguredCommandValue(el, app2) {
+  const pathAttribute = "simplyValuePath";
+  if (Object.hasOwn(el.dataset, pathAttribute)) {
+    return {
+      found: true,
+      value: path_default.get(app2?.data, el.dataset[pathAttribute])
+    };
+  }
+  if (Object.hasOwn(el.dataset, "simplyValue")) {
+    return { found: true, value: el.dataset.simplyValue };
+  }
+  return { found: false, value: void 0 };
+}
+var defaultHandlers = [
+  {
+    match: "input,select,textarea",
+    get: function(el, app2) {
+      const configuredValue = getConfiguredCommandValue(el, app2);
+      if (configuredValue.found) {
+        return configuredValue.value;
+      }
+      if (el.tagName === "SELECT" && el.multiple) {
+        let values = [];
+        for (let option of el.options) {
+          if (option.selected) {
+            values.push(option.value);
+          }
+        }
+        return values;
+      }
+      return el.value;
+    },
+    check: function(el, evt) {
+      return evt.type == "change" || el.dataset.simplyImmediate && evt.type == "input";
+    }
+  },
+  {
+    match: "a,button",
+    get: function(el, app2) {
+      const configuredValue = getConfiguredCommandValue(el, app2);
+      if (configuredValue.found) {
+        return configuredValue.value;
+      }
+      return el.href || el.value;
+    },
+    check: function(el, evt) {
+      return evt.type == "click" && evt.ctrlKey == false && evt.button == 0;
+    }
+  },
+  {
+    match: "form",
+    get: function(el) {
+      let data = {};
+      for (let input2 of Array.from(el.elements)) {
+        if (input2.tagName == "INPUT" && (input2.type == "checkbox" || input2.type == "radio")) {
+          if (!input2.checked) {
+            return;
+          }
+        }
+        if (data[input2.name] && !Array.isArray(data[input2.name])) {
+          data[input2.name] = [data[input2.name]];
+        }
+        if (Array.isArray(data[input2.name])) {
+          data[input2.name].push(input2.value);
+        } else {
+          data[input2.name] = input2.value;
+        }
+      }
+      return data;
+    },
+    check: function(el, evt) {
+      return evt.type == "submit";
+    }
+  },
+  {
+    match: "*",
+    get: function(el, app2) {
+      return getConfiguredCommandValue(el, app2).value;
+    },
+    check: function(el, evt) {
+      return evt.type == "click" && evt.ctrlKey == false && evt.button == 0;
+    }
+  }
+];
+var unknownCommandWarnings = /* @__PURE__ */ new WeakMap();
+function warnUnknownCommand(commands2, command, source) {
+  let warned = unknownCommandWarnings.get(commands2);
+  if (!warned) {
+    warned = /* @__PURE__ */ new Set();
+    unknownCommandWarnings.set(commands2, warned);
+  }
+  if (warned.has(command)) {
+    return;
+  }
+  warned.add(command);
+  const suggestion = closest(command, commandNames(commands2));
+  const suffix = suggestion ? `. Did you mean "${suggestion}"?` : "";
+  if (source) {
+    console.warn(`simplyflow/command: unknown command "${command}"${suffix}`, { cause: source });
+  } else {
+    console.warn(`simplyflow/command: unknown command "${command}"${suffix}`);
+  }
+}
+function commandNames(commands2) {
+  return Object.keys(commands2).filter((command) => {
+    return !command.startsWith("$") && !COMMAND_OPTIONS.includes(command) && typeof commands2[command] === "function";
+  });
+}
+
+// ../simplyflow/packages/app/src/action.mjs
+var warnedUnknownActions = /* @__PURE__ */ new WeakMap();
+function actions(options) {
+  if (options.app) {
+    const functionHandler = {
+      apply(target, thisArg, argumentsList) {
+        try {
+          const result = target(...argumentsList);
+          if (result instanceof Promise) {
+            return result.catch((err) => {
+              return options.app.onError.call(this, err, target);
+            });
+          }
+          return result;
+        } catch (err) {
+          return options.app.onError.call(this, err, target);
+        }
+      }
+    };
+    const actionHandler = {
+      get(target, property) {
+        if (!Object.hasOwn(target, property)) {
+          warnUnknownAction(target, property);
+          return void 0;
+        }
+        if (options.app.onError) {
+          return new Proxy(target[property].bind(options.app), functionHandler);
+        } else {
+          return target[property].bind(options.app);
+        }
+      }
+    };
+    return new Proxy(options.actions, actionHandler);
+  } else {
+    return options;
+  }
+}
+function warnUnknownAction(actions2, property) {
+  if (typeof property !== "string") {
+    return;
+  }
+  let warned = warnedUnknownActions.get(actions2);
+  if (!warned) {
+    warned = /* @__PURE__ */ new Set();
+    warnedUnknownActions.set(actions2, warned);
+  }
+  if (warned.has(property)) {
+    return;
+  }
+  warned.add(property);
+  const suggestion = closest(property, Object.keys(actions2));
+  const suffix = suggestion ? `. Did you mean "${suggestion}"?` : "";
+  console.warn(`simplyflow/action: unknown action "${property}"${suffix}`);
+}
+
+// ../simplyflow/packages/app/src/shortcut.mjs
+var shortcutState = /* @__PURE__ */ new WeakMap();
+var accesskeyState = /* @__PURE__ */ new WeakMap();
+var KEY = Object.freeze({
+  Compose: 229,
+  Control: 17,
+  Meta: 224,
+  Alt: 18,
+  Shift: 16
+});
+var SimplyShortcuts = class {
+  constructor(options = {}) {
+    if (!options.app) {
+      options.app = {};
+    }
+    if (!options.app.container) {
+      options.app.container = document.body;
+    }
+    Object.assign(this, options.shortcuts);
+    const keyHandler = (e) => {
+      let shortcutScopes = [];
+      let shortcutElement = e.target.closest("[data-simply-shortcuts]");
+      while (shortcutElement) {
+        shortcutScopes.push(shortcutElement.dataset.simplyShortcuts);
+        shortcutElement = shortcutElement.parentNode.closest("[data-simply-shortcuts]");
+      }
+      if (shortcutScopes[shortcutScopes.length - 1] != "default") {
+        shortcutScopes.push("default");
+      }
+      let shortcutScope;
+      let separators = ["+", "-"];
+      for (let separator of separators) {
+        const keyString = getKeyString(e, separator);
+        for (let i in shortcutScopes) {
+          shortcutScope = shortcutScopes[i];
+          if (this[shortcutScope] && typeof this[shortcutScope][keyString] == "function") {
+            let _continue = this[shortcutScope][keyString].call(options.app, e);
+            if (!_continue) {
+              e.preventDefault();
+              return;
+            }
+          }
+          if (typeof this[shortcutScope + "." + keyString] == "function") {
+            let _continue = this[shortcutScope + "." + keyString].call(options.app, e);
+            if (!_continue) {
+              e.preventDefault();
+              return;
+            }
+          }
+          if (typeof this[keyString] == "function") {
+            let _continue = this[keyString].call(options.app, e);
+            if (!_continue) {
+              e.preventDefault();
+              return;
+            }
+          }
+        }
+      }
+    };
+    const container = options.app.container;
+    container.addEventListener("keydown", keyHandler);
+    shortcutState.set(this, { container, keyHandler });
+  }
+};
+function getKeyString(e, separator = "+") {
+  if (e.isComposing || e.keyCode === KEY.Compose) {
+    return;
+  }
+  if (e.defaultPrevented) {
+    return;
+  }
+  if (!e.target) {
+    return;
+  }
+  let keyCombination = [];
+  if (e.ctrlKey && e.keyCode != KEY.Control) {
+    keyCombination.push("Control");
+  }
+  if (e.metaKey && e.keyCode != KEY.Meta) {
+    keyCombination.push("Meta");
+  }
+  if (e.altKey && e.keyCode != KEY.Alt) {
+    keyCombination.push("Alt");
+  }
+  if (e.shiftKey && e.keyCode != KEY.Shift) {
+    keyCombination.push("Shift");
+  }
+  keyCombination.push(e.key.toLowerCase());
+  return keyCombination.join(separator);
+}
+function shortcuts(options = {}) {
+  return new SimplyShortcuts(options);
+}
+function destroyShortcuts(shortcutApi) {
+  const state = shortcutState.get(shortcutApi);
+  if (!state) {
+    return;
+  }
+  state.container.removeEventListener("keydown", state.keyHandler);
+  shortcutState.delete(shortcutApi);
+}
+function accesskeys(options = {}) {
+  const container = options.container || options.app?.container || document.body;
+  const keyHandler = (e) => {
+    const separators = ["+", "-"];
+    for (const separator of separators) {
+      const keyString = getKeyString(e, separator);
+      const selector = "[data-simply-accesskey='" + keyString + "']";
+      const targets = container.querySelectorAll(selector);
+      if (targets.length) {
+        targets.forEach(function(target) {
+          target.click();
+        });
+      }
+    }
+  };
+  container.addEventListener("keydown", keyHandler);
+  const controller = {};
+  accesskeyState.set(controller, { container, keyHandler });
+  return controller;
+}
+function destroyAccesskeys(accesskeyApi) {
+  const state = accesskeyState.get(accesskeyApi);
+  if (!state) {
+    return;
+  }
+  state.container.removeEventListener("keydown", state.keyHandler);
+  accesskeyState.delete(accesskeyApi);
+}
+
+// ../simplyflow/packages/app/src/behavior.mjs
+var BEHAVIOR_SELECTOR = "[data-simply-behavior]";
+var SimplyBehaviors = class {
+  constructor(options = {}) {
+    this.app = options.app;
+    this.container = options.container || document.body;
+    this.behaviors = options.behaviors || {};
+    this.active = /* @__PURE__ */ new Set();
+    this.cleanups = /* @__PURE__ */ new WeakMap();
+    this.unknown = /* @__PURE__ */ new Set();
+    this.observer = new MutationObserver((changes) => this.handleChanges(changes));
+    this.observer.observe(this.container, {
+      subtree: true,
+      childList: true
+    });
+    for (const node of behaviorNodes(this.container)) {
+      this.start(node);
+    }
+  }
+  start(node) {
+    if (this.active.has(node)) {
+      return;
+    }
+    const name = node?.dataset?.simplyBehavior;
+    const behavior = this.behaviors[name];
+    if (!name || typeof behavior !== "function") {
+      this.warnUnknown(name, node);
+      return;
+    }
+    this.active.add(node);
+    const cleanup = behavior.call(this.app || node, node);
+    if (typeof cleanup === "function") {
+      this.cleanups.set(node, cleanup);
+    } else if (typeof cleanup !== "undefined") {
+      console.warn("simplyflow/behavior: behavior may only return a cleanup function", { cause: cleanup });
+    }
+  }
+  stop(node) {
+    if (!this.active.has(node)) {
+      return;
+    }
+    this.active.delete(node);
+    const cleanup = this.cleanups.get(node);
+    this.cleanups.delete(node);
+    if (cleanup) {
+      cleanup.call(this.app || node, node);
+    }
+  }
+  handleChanges(changes) {
+    const added = [];
+    for (const change of changes) {
+      if (change.type !== "childList") {
+        continue;
+      }
+      for (const node of change.removedNodes) {
+        for (const behaviorNode of behaviorNodes(node)) {
+          this.stop(behaviorNode);
+        }
+      }
+      for (const node of change.addedNodes) {
+        added.push(...behaviorNodes(node));
+      }
+    }
+    for (const node of added) {
+      this.start(node);
+    }
+  }
+  warnUnknown(name, node) {
+    if (!name || this.unknown.has(name)) {
+      return;
+    }
+    this.unknown.add(name);
+    const suggestion = closest(name, Object.keys(this.behaviors));
+    const suffix = suggestion ? `. Did you mean "${suggestion}"?` : "";
+    console.warn(`simplyflow/behavior: unknown behavior "${name}"${suffix}`, { cause: node });
+  }
+  destroy() {
+    this.observer.disconnect();
+    for (const node of Array.from(this.active)) {
+      this.stop(node);
+    }
+  }
+};
+function behaviors(options = {}) {
+  return new SimplyBehaviors(options);
+}
+function behaviorNodes(root) {
+  if (!root?.querySelectorAll) {
+    return [];
+  }
+  const nodes = Array.from(root.querySelectorAll(BEHAVIOR_SELECTOR));
+  if (root.matches?.(BEHAVIOR_SELECTOR)) {
+    nodes.unshift(root);
+  }
+  return nodes;
+}
+
+// ../simplyflow/packages/app/src/include.mjs
+function throttle(callbackFunction, intervalTime) {
+  let eventId = 0;
+  return function throttledCallback(...params) {
+    if (eventId) {
+      return;
+    }
+    eventId = globalThis.setTimeout(() => {
+      eventId = 0;
+      callbackFunction.apply(this, params);
+    }, intervalTime);
+  };
+}
+var runWhenIdle = (() => {
+  if (globalThis.requestIdleCallback) {
+    return (callback) => {
+      globalThis.requestIdleCallback(callback, { timeout: 500 });
+    };
+  }
+  return globalThis.requestAnimationFrame || ((callback) => globalThis.setTimeout(callback, 0));
+})();
+function rebaseHref(relative, base, cacheBuster) {
+  const url = new URL(relative, base);
+  if (cacheBuster) {
+    url.searchParams.set("cb", cacheBuster);
+  }
+  return url.href;
+}
+function cloneScript(script, base, cacheBuster) {
+  const clone2 = globalThis.document.createElement("script");
+  for (const attr of script.attributes) {
+    clone2.setAttribute(attr.name, attr.value);
+  }
+  clone2.removeAttribute("data-simply-location");
+  if (clone2.hasAttribute("src")) {
+    clone2.src = rebaseHref(clone2.getAttribute("src"), base, cacheBuster);
+  } else {
+    clone2.textContent = script.textContent;
+  }
+  return clone2;
+}
+function insertScript(script, placeholder) {
+  placeholder.parentNode.insertBefore(script, placeholder);
+  placeholder.parentNode.removeChild(placeholder);
+}
+function shouldWaitForScript(script) {
+  return script.hasAttribute("src") && !script.hasAttribute("async");
+}
+function insertAndWaitForScript(script, placeholder) {
+  return new Promise((resolve) => {
+    const done = () => {
+      script.removeEventListener("load", done);
+      script.removeEventListener("error", done);
+      resolve();
+    };
+    script.addEventListener("load", done);
+    script.addEventListener("error", done);
+    insertScript(script, placeholder);
+  });
+}
+function findIncludeLinks(container) {
+  const selector = 'link[rel="simply-include"],link[rel="simply-include-once"]';
+  const links = Array.from(container.querySelectorAll(selector));
+  if (container.matches?.(selector)) {
+    links.unshift(container);
+  }
+  return links;
+}
+var SimplyIncludes = class {
+  constructor(options = {}) {
+    this.container = options.container || globalThis.document;
+    this.cacheBuster = options.cacheBuster ?? defaultCacheBuster;
+    this.included = /* @__PURE__ */ Object.create(null);
+    this.scriptLocations = [];
+    this.destroyed = false;
+    this.handleChanges = throttle(() => {
+      runWhenIdle(() => {
+        if (!this.destroyed) {
+          this.includeLinks(findIncludeLinks(this.container));
+        }
+      });
+    }, 10);
+    if (options.observe !== false) {
+      this.observer = new MutationObserver(this.handleChanges);
+      this.observer.observe(this.container, {
+        subtree: true,
+        childList: true
+      });
+      this.handleChanges();
+    }
+  }
+  async scripts(scripts, base) {
+    const arr = scripts.slice();
+    for (const script of arr) {
+      if (this.destroyed) {
+        return;
+      }
+      const clone2 = cloneScript(script, base, this.cacheBuster);
+      const node = this.scriptLocations[script.dataset.simplyLocation];
+      if (!node?.parentNode) {
+        continue;
+      }
+      const waitForLoad = shouldWaitForScript(clone2);
+      if (waitForLoad) {
+        clone2.async = false;
+        await insertAndWaitForScript(clone2, node);
+      } else {
+        insertScript(clone2, node);
+      }
+    }
+  }
+  html(html2, link) {
+    const fragment = globalThis.document.createRange().createContextualFragment(html2);
+    const stylesheets = fragment.querySelectorAll('link[rel="stylesheet"],style');
+    for (const stylesheet of stylesheets) {
+      const href = stylesheet.getAttribute("href");
+      if (href) {
+        stylesheet.href = rebaseHref(href, link.href, this.cacheBuster);
+      }
+      globalThis.document.head.appendChild(stylesheet);
+    }
+    const scriptsFragment = globalThis.document.createDocumentFragment();
+    const scripts = fragment.querySelectorAll("script");
+    if (scripts.length) {
+      for (const script of scripts) {
+        const placeholder = globalThis.document.createComment(script.src || "inline script");
+        script.parentNode.insertBefore(placeholder, script);
+        script.dataset.simplyLocation = this.scriptLocations.length;
+        this.scriptLocations.push(placeholder);
+        scriptsFragment.appendChild(script);
+      }
+      globalThis.setTimeout(() => {
+        this.scripts(Array.from(scriptsFragment.children), link ? link.href : globalThis.location.href);
+      }, 10);
+    }
+    link.parentNode.insertBefore(fragment, link);
+  }
+  async includeLinks(links) {
+    const remainingLinks = links.reduce((remainder, link) => {
+      if (link.rel === "simply-include-once" && this.included[link.href]) {
+        link.parentNode.removeChild(link);
+      } else {
+        this.included[link.href] = true;
+        link.rel = "simply-include-loading";
+        remainder.push(link);
+      }
+      return remainder;
+    }, []);
+    for (const link of remainingLinks) {
+      if (this.destroyed || !link.href) {
+        continue;
+      }
+      try {
+        const response = await fetch(link.href);
+        if (!response.ok) {
+          console.warn(`simplyflow/include: failed to load "${link.href}" (${response.status})`);
+          link.rel = "simply-include-error";
+          continue;
+        }
+        const html2 = await response.text();
+        if (this.destroyed || !link.parentNode) {
+          continue;
+        }
+        this.html(html2, link);
+        link.parentNode?.removeChild(link);
+      } catch (error) {
+        console.warn(`simplyflow/include: failed to load "${link.href}"`, { cause: error });
+        link.rel = "simply-include-error";
+      }
+    }
+  }
+  destroy() {
+    this.destroyed = true;
+    this.observer?.disconnect();
+    this.observer = void 0;
+  }
+};
+function includes(options = {}) {
+  return new SimplyIncludes(options);
+}
+var defaultCacheBuster = null;
+var defaultInclude = () => new SimplyIncludes({
+  container: globalThis.document,
+  cacheBuster: defaultCacheBuster,
+  observe: false
+});
+var include = {
+  get cacheBuster() {
+    return defaultCacheBuster;
+  },
+  set cacheBuster(value) {
+    defaultCacheBuster = value;
+  },
+  scripts: (scripts, base) => defaultInclude().scripts(scripts, base),
+  html: (html2, link) => defaultInclude().html(html2, link),
+  links: (links) => defaultInclude().includeLinks(Array.from(links))
+};
+
+// ../simplyflow/packages/app/src/index.mjs
+var APP_OPTIONS = [
+  "container",
+  "data",
+  "templates",
+  "styles",
+  "start",
+  "onError",
+  "components",
+  "behaviors",
+  "baseURL",
+  "commands",
+  "shortcuts",
+  "routes",
+  "actions",
+  "transformers"
+];
+var SimplyApp = class {
+  constructor(options = {}) {
+    if (options.components) {
+      const mergedOptions = {};
+      mergeComponents(mergedOptions, options.components);
+      mergeOptions(mergedOptions, options);
+      options = mergedOptions;
+    }
+    this.container = options.container || document.body;
+    this.destroyed = false;
+    this.data = signal(options.data || {});
+    this.start = options.start;
+    this.onError = options.onError;
+    this.components = options.components;
+    this.baseURL = options.baseURL;
+    this.transformers = options.transformers;
+    installTemplates(this.container, options.templates);
+    installStyles(this.container, options.styles);
+    for (const key of Object.keys(options)) {
+      switch (key) {
+        case "container":
+        case "data":
+        case "templates":
+        case "styles":
+        case "start":
+        case "onError":
+        case "components":
+        case "baseURL":
+        case "transformers":
+          break;
+        case "commands":
+          this.commands = commands({ app: this, container: this.container, commands: options.commands });
+          break;
+        case "shortcuts":
+          this.shortcuts = shortcuts({ app: this, shortcuts: options.shortcuts });
+          break;
+        case "behaviors":
+          this.behaviors = behaviors({ app: this, container: this.container, behaviors: options.behaviors });
+          break;
+        case "routes":
+          this.routes = routes({ app: this, routes: options.routes });
+          break;
+        case "actions":
+          this.actions = actions({ app: this, actions: options.actions });
+          break;
+        case "prototype":
+        case "__proto__":
+          break;
+        default:
+          warnLikelyOptionTypo(key);
+          this[key] = options[key];
+          break;
+      }
+    }
+    this.binding = bind({
+      root: this.data,
+      container: this.container,
+      attribute: "data-simply",
+      transformers: this.transformers
+    });
+    this.includes = includes({ container: this.container });
+    this.accesskeys = accesskeys({ app: this, container: this.container });
+  }
+  get app() {
+    return this;
+  }
+  destroy() {
+    this.destroyed = true;
+    if (this.binding) {
+      this.binding.destroy();
+      this.binding = void 0;
+    }
+    if (this.commands) {
+      destroyCommands(this.commands);
+    }
+    if (this.shortcuts) {
+      destroyShortcuts(this.shortcuts);
+    }
+    if (this.accesskeys) {
+      destroyAccesskeys(this.accesskeys);
+      this.accesskeys = void 0;
+    }
+    if (this.routes) {
+      this.routes.destroy();
+      this.routes = void 0;
+    }
+    if (this.behaviors) {
+      this.behaviors.destroy();
+      this.behaviors = void 0;
+    }
+    if (this.includes) {
+      this.includes.destroy();
+      this.includes = void 0;
+    }
+  }
+};
+function installTemplates(container, templates) {
+  if (!templates) {
+    return;
+  }
+  for (const name of Object.keys(templates)) {
+    const element2 = document.createElement("div");
+    element2.innerHTML = templates[name];
+    let template = container.querySelector("template#" + name);
+    if (!template) {
+      template = document.createElement("template");
+      template.id = name;
+      template.content.append(...element2.children);
+      container.appendChild(template);
+    } else {
+      template.content.replaceChildren(...element2.children);
+    }
+  }
+}
+function installStyles(container, styles) {
+  if (!styles) {
+    return;
+  }
+  for (const name of Object.keys(styles)) {
+    let style = container.querySelector("style#" + name + ".css");
+    if (!style) {
+      style = document.createElement("style");
+      style.id = name + ".css";
+      container.appendChild(style);
+    }
+    style.innerHTML = styles[name];
+  }
+}
+function warnLikelyOptionTypo(key) {
+  const suggestion = closest(key, APP_OPTIONS);
+  if (suggestion) {
+    console.warn(`simplyflow/app: unknown option "${key}". Did you mean "${suggestion}"? The option was still added to the app as "app.${key}".`);
+  }
+}
+function initRoutes(app2) {
+  if (app2.destroyed) {
+    return;
+  }
+  if (app2.routes) {
+    if (app2.baseURL) {
+      app2.routes.init({ baseURL: app2.baseURL });
+    }
+    app2.routes.handleEvents();
+    globalThis.setTimeout(() => {
+      if (app2.destroyed || !app2.routes) {
+        return;
+      }
+      if (app2.routes.has(globalThis.location?.hash)) {
+        app2.routes.match(globalThis.location.hash);
+      } else {
+        app2.routes.match(globalThis.location?.pathname + globalThis.location?.hash);
+      }
+    });
+  }
+}
+function handleAppError(app2, error, context) {
+  if (app2.onError) {
+    return app2.onError.call(app2, error, context);
+  }
+  throw error;
+}
+function app(options = {}) {
+  const app2 = new SimplyApp(options);
+  if (!app2.start) {
+    initRoutes(app2);
+    return app2;
+  }
+  try {
+    const result = app2.start.call(app2);
+    if (result instanceof Promise) {
+      result.then(() => initRoutes(app2)).catch((error) => handleAppError(app2, error, app2.start));
+    } else {
+      initRoutes(app2);
+    }
+  } catch (error) {
+    handleAppError(app2, error, app2.start);
+  }
+  return app2;
+}
+function mergeOptions(options, otherOptions) {
+  for (const key of Object.keys(otherOptions)) {
+    switch (typeof otherOptions[key]) {
+      case "object":
+        if (!otherOptions[key]) {
+          continue;
+        }
+        if (!options[key]) {
+          options[key] = otherOptions[key];
+        } else {
+          mergeOptions(options[key], otherOptions[key]);
+        }
+        break;
+      default:
+        options[key] = otherOptions[key];
+    }
+  }
+}
+function mergeComponents(options, components) {
+  for (const name of Object.keys(components)) {
+    const component = components[name];
+    if (component.components) {
+      mergeComponents(options, component.components);
+    }
+    if (!options.components) {
+      options.components = {};
+    }
+    options.components[name] = component;
+    for (const key of Object.keys(component)) {
+      switch (key) {
+        case "start":
+        case "onError":
+        // App lifecycle functions are app-level behavior, not merged component state.
+        case "components":
+          break;
+        default:
+          if (!options[key]) {
+            options[key] = /* @__PURE__ */ Object.create(null);
+          }
+          mergeOptions(options[key], component[key]);
+          break;
+      }
+    }
+  }
+}
+
+// ../simplyflow/packages/app/src/highlight.mjs
+function html(strings, ...values) {
+  const outputArray = values.map(
+    (value, index) => `${strings[index]}${value}`
+  );
+  return outputArray.join("") + strings[strings.length - 1];
+}
+function css(strings, ...values) {
+  return html(strings, ...values);
+}
+
+// ../simplyflow/packages/simplyflow/src/index.mjs
+if (!globalThis.simply) {
+  globalThis.simply = {};
+}
+globalThis.html = html;
+globalThis.css = css;
+var modelApi = Object.assign(model, {
+  model,
+  sort,
+  paging,
+  filter,
+  columns,
+  scroll
+});
+Object.assign(globalThis.simply, {
+  app,
+  bind,
+  model: modelApi,
+  state: src_exports,
+  signal,
+  effect,
+  batch,
+  clone,
+  destroy,
+  untracked,
+  throttledEffect,
+  clockEffect,
+  createSignal,
+  isSignal,
+  raw,
+  dom: dom_exports,
+  behaviors,
+  actions,
+  commands,
+  include,
+  includes,
+  shortcuts,
+  path: path_default,
+  routes
+});
+delete globalThis.simply.advanced;
+var src_default = globalThis.simply;
+
+// ../../poef/cobalt-note/packages/rich-text-note/dist/fragment.js
+function getJoinOffsetAfterSeparator(first, second, separator) {
+  if (separator.length > 0) {
+    return first.text.length + separator.length;
+  }
+  if (first.text.endsWith("\n")) {
+    return first.text.length;
+  }
+  if (second.text.startsWith("\n")) {
+    return first.text.length + 1;
+  }
+  return first.text.length;
+}
+function getNextOrder(fragment) {
+  if (fragment.annotations.length === 0) {
+    return 1;
+  }
+  return Math.max(...fragment.annotations.map((annotation) => annotation.order)) + 1;
+}
+function addAnnotation(fragment, range, tag) {
+  const [start, end] = range;
+  if (end <= start) {
+    return null;
+  }
+  const annotation = {
+    range: [start, end],
+    tag,
+    order: getNextOrder(fragment)
+  };
+  fragment.annotations.push(annotation);
+  return annotation;
+}
+function insertText(fragment, offset, text, options = {}) {
+  if (text.length === 0) {
+    return;
+  }
+  const normalizedOffset = clamp(offset, 0, fragment.text.length);
+  const growAtEnd = options.growAtEnd ?? true;
+  const delta = text.length;
+  fragment.text = fragment.text.slice(0, normalizedOffset) + text + fragment.text.slice(normalizedOffset);
+  for (const annotation of fragment.annotations) {
+    let [start, end] = annotation.range;
+    if (normalizedOffset <= start) {
+      start += delta;
+      end += delta;
+    } else if (normalizedOffset < end || growAtEnd && normalizedOffset === end) {
+      end += delta;
+    }
+    annotation.range = [start, end];
+  }
+}
+function deleteRange(fragment, startOffset, endOffset) {
+  const start = clamp(startOffset, 0, fragment.text.length);
+  const end = clamp(endOffset, 0, fragment.text.length);
+  if (end <= start) {
+    return;
+  }
+  fragment.text = fragment.text.slice(0, start) + fragment.text.slice(end);
+  fragment.annotations = mergeAdjacentMatchingAnnotations(fragment.annotations.map((annotation) => {
+    const [annotationStart, annotationEnd] = annotation.range;
+    return {
+      ...annotation,
+      range: [
+        transformDeletedOffset(annotationStart, start, end),
+        transformDeletedOffset(annotationEnd, start, end)
+      ]
+    };
+  }).filter((annotation) => annotation.range[1] > annotation.range[0]));
+}
+function sliceFragment(fragment, startOffset, endOffset) {
+  const start = clamp(startOffset, 0, fragment.text.length);
+  const end = clamp(endOffset, 0, fragment.text.length);
+  if (end <= start) {
+    return {
+      text: "",
+      annotations: []
+    };
+  }
+  return {
+    text: fragment.text.slice(start, end),
+    annotations: fragment.annotations.map((annotation) => {
+      const annotationStart = Math.max(annotation.range[0], start);
+      const annotationEnd = Math.min(annotation.range[1], end);
+      if (annotationEnd <= annotationStart) {
+        return null;
+      }
+      return {
+        ...annotation,
+        range: [
+          annotationStart - start,
+          annotationEnd - start
+        ]
+      };
+    }).filter((annotation) => annotation !== null)
+  };
+}
+function insertFragment(fragment, offset, inserted, options = {}) {
+  const normalizedOffset = clamp(offset, 0, fragment.text.length);
+  if (inserted.text.length === 0) {
+    return;
+  }
+  const maxOrder = getNextOrder(fragment) - 1;
+  insertText(fragment, normalizedOffset, inserted.text, options);
+  const sortedAnnotations = [...inserted.annotations].sort((a, b) => {
+    if (a.order !== b.order) {
+      return a.order - b.order;
+    }
+    if (a.range[0] !== b.range[0]) {
+      return a.range[0] - b.range[0];
+    }
+    return a.range[1] - b.range[1];
+  });
+  for (let i = 0; i < sortedAnnotations.length; i++) {
+    const annotation = sortedAnnotations[i];
+    fragment.annotations.push({
+      ...annotation,
+      range: [
+        annotation.range[0] + normalizedOffset,
+        annotation.range[1] + normalizedOffset
+      ],
+      order: maxOrder + i + 1
+    });
+  }
+  fragment.annotations = mergeAdjacentMatchingAnnotations(fragment.annotations);
+}
+function splitFragment(fragment, offset) {
+  const splitOffset = clamp(offset, 0, fragment.text.length);
+  const before = {
+    text: fragment.text.slice(0, splitOffset),
+    annotations: []
+  };
+  const after = {
+    text: fragment.text.slice(splitOffset),
+    annotations: []
+  };
+  for (const annotation of fragment.annotations) {
+    const [start, end] = annotation.range;
+    const beforeStart = start;
+    const beforeEnd = Math.min(end, splitOffset);
+    if (beforeEnd > beforeStart) {
+      before.annotations.push({
+        ...annotation,
+        range: [beforeStart, beforeEnd]
+      });
+    }
+    const afterStart = Math.max(start, splitOffset) - splitOffset;
+    const afterEnd = end - splitOffset;
+    if (afterEnd > afterStart) {
+      after.annotations.push({
+        ...annotation,
+        range: [afterStart, afterEnd]
+      });
+    }
+  }
+  return { before, after };
+}
+function concatFragments(first, second, separator = "") {
+  const joinOffset = getJoinOffsetAfterSeparator(first, second, separator);
+  const secondOffset = first.text.length + separator.length;
+  return {
+    fragment: {
+      text: first.text + separator + second.text,
+      annotations: mergeAdjacentMatchingAnnotations([
+        ...first.annotations.map((annotation) => ({
+          ...annotation,
+          range: [...annotation.range]
+        })),
+        ...second.annotations.map((annotation) => ({
+          ...annotation,
+          range: [
+            annotation.range[0] + secondOffset,
+            annotation.range[1] + secondOffset
+          ]
+        }))
+      ])
+    },
+    joinOffset
+  };
+}
+function joinFragments(first, second) {
+  return concatFragments(first, second, needsJoinSeparator(first, second) ? "\n" : "");
+}
+function mergeAdjacentMatchingAnnotations(annotations) {
+  const sorted = [...annotations].sort((a, b) => {
+    if (a.order !== b.order) {
+      return a.order - b.order;
+    }
+    if (a.tag !== b.tag) {
+      return a.tag.localeCompare(b.tag);
+    }
+    if (a.range[0] !== b.range[0]) {
+      return a.range[0] - b.range[0];
+    }
+    return a.range[1] - b.range[1];
+  });
+  const merged = [];
+  for (const annotation of sorted) {
+    const previous = merged[merged.length - 1];
+    if (previous && previous.order === annotation.order && previous.tag === annotation.tag && previous.range[1] === annotation.range[0]) {
+      previous.range = [
+        previous.range[0],
+        annotation.range[1]
+      ];
+    } else {
+      merged.push({
+        ...annotation,
+        range: [...annotation.range]
+      });
+    }
+  }
+  return merged;
+}
+function needsJoinSeparator(first, second) {
+  if (first.text.length === 0 || second.text.length === 0) {
+    return false;
+  }
+  return !first.text.endsWith("\n") && !second.text.startsWith("\n");
+}
+function transformDeletedOffset(offset, deleteStart, deleteEnd) {
+  if (offset <= deleteStart) {
+    return offset;
+  }
+  if (offset >= deleteEnd) {
+    return offset - (deleteEnd - deleteStart);
+  }
+  return deleteStart;
+}
+function clamp(value, min, max) {
+  return Math.max(min, Math.min(max, value));
+}
+
+// ../../poef/cobalt-note/packages/rich-text-note/dist/commands.js
+var InsertTextCommand = class {
+  offset;
+  text;
+  options;
+  constructor(offset, text, options = {}) {
+    this.offset = offset;
+    this.text = text;
+    this.options = options;
+  }
+  apply(fragment) {
+    insertText(fragment, this.offset, this.text, this.options);
+  }
+};
+var InsertFragmentCommand = class {
+  offset;
+  fragmentToInsert;
+  options;
+  constructor(offset, fragmentToInsert, options = {}) {
+    this.offset = offset;
+    this.fragmentToInsert = fragmentToInsert;
+    this.options = options;
+  }
+  apply(fragment) {
+    insertFragment(fragment, this.offset, this.fragmentToInsert, this.options);
+  }
+};
+var DeleteRangeCommand = class {
+  startOffset;
+  endOffset;
+  constructor(startOffset, endOffset) {
+    this.startOffset = startOffset;
+    this.endOffset = endOffset;
+  }
+  apply(fragment) {
+    deleteRange(fragment, this.startOffset, this.endOffset);
+  }
+};
+var AddAnnotationCommand = class {
+  range;
+  tag;
+  constructor(range, tag) {
+    this.range = range;
+    this.tag = tag;
+  }
+  apply(fragment) {
+    addAnnotation(fragment, this.range, this.tag);
+  }
+};
+function applyCommands(fragment, commands2) {
+  for (const command of commands2) {
+    command.apply(fragment);
+  }
+}
+
+// ../../poef/cobalt-note/packages/rich-text-note/dist/registry.js
+var AnnotationRegistry = class {
+  definitions = /* @__PURE__ */ new Map();
+  register(definition) {
+    this.definitions.set(definition.name, definition);
+  }
+  get(name) {
+    return this.definitions.get(name);
+  }
+  getAll() {
+    return Array.from(this.definitions.values());
+  }
+  findByShortcut(event) {
+    const key = shortcutFromKeyboardEvent(event);
+    return this.getAll().find((definition) => definition.shortcut?.toLowerCase() === key);
+  }
+  findByTag(tag) {
+    const trimmed = tag.trim();
+    for (const definition of this.definitions.values()) {
+      if (trimmed === definition.tag) {
+        return {
+          name: definition.name,
+          enabled: true,
+          tag: definition.tag,
+          closeTag: createHtmlCloseTag(definition.tag),
+          priority: definition.priority ?? 100
+        };
+      }
+      if (trimmed === createInverseAnnotationTag(definition.tag)) {
+        return {
+          name: definition.name,
+          enabled: false,
+          priority: definition.priority ?? 100
+        };
+      }
+    }
+    return null;
+  }
+};
+var defaultRegistry = new AnnotationRegistry();
+defaultRegistry.register({
+  name: "__selection",
+  tag: '<span data-cobalt-selection="true">',
+  priority: -100,
+  supportsPending: false
+});
+defaultRegistry.register({
+  name: "link",
+  tag: "<a>",
+  priority: 0,
+  shortcut: "Ctrl+K",
+  supportsPending: false
+});
+defaultRegistry.register({
+  name: "underline",
+  tag: "<u>",
+  priority: 10,
+  shortcut: "Ctrl+U",
+  supportsPending: true
+});
+defaultRegistry.register({
+  name: "em",
+  tag: "<em>",
+  priority: 20,
+  shortcut: "Ctrl+I",
+  supportsPending: true
+});
+defaultRegistry.register({
+  name: "strong",
+  tag: "<strong>",
+  priority: 30,
+  shortcut: "Ctrl+B",
+  supportsPending: true
+});
+function parseAnnotationTag(tag, registry = defaultRegistry) {
+  const trimmed = tag.trim();
+  const registryMatch = registry.findByTag(trimmed);
+  if (registryMatch) {
+    return registryMatch;
+  }
+  if (isOpeningTag(trimmed, "a")) {
+    return {
+      name: "link",
+      enabled: true,
+      tag: trimmed,
+      closeTag: createHtmlCloseTag(trimmed),
+      priority: registry.get("link")?.priority ?? 0
+    };
+  }
+  if (isClosingTag(trimmed, "a")) {
+    return {
+      name: "link",
+      enabled: false,
+      priority: registry.get("link")?.priority ?? 0
+    };
+  }
+  if (isCobaltSelectionOpeningTag(trimmed)) {
+    return {
+      name: "__selection",
+      enabled: true,
+      tag: trimmed,
+      closeTag: createHtmlCloseTag(trimmed),
+      priority: registry.get("__selection")?.priority ?? -100
+    };
+  }
+  return null;
+}
+function createAnnotationTag(name, enabled, registry = defaultRegistry) {
+  const definition = registry.get(name);
+  if (!definition) {
+    throw new Error(`Unknown annotation type: ${name}`);
+  }
+  return enabled ? definition.tag : createInverseAnnotationTag(definition.tag);
+}
+function createLinkAnnotationTag(href) {
+  return `<a href="${escapeAttribute(href)}">`;
+}
+function createInverseAnnotationTag(openingTag) {
+  const trimmed = openingTag.trim();
+  if (!trimmed.startsWith("<") || trimmed.startsWith("</")) {
+    throw new Error(`Expected opening annotation tag: ${openingTag}`);
+  }
+  return `</${trimmed.slice(1)}`;
+}
+function createHtmlCloseTag(tag) {
+  const tagName = getTagName(tag);
+  if (!tagName) {
+    throw new Error(`Could not determine tag name: ${tag}`);
+  }
+  return `</${tagName}>`;
+}
+function getTagName(tag) {
+  const match = tag.trim().match(/^<\/?\s*([^\s>/]+)/);
+  return match?.[1] ?? null;
+}
+function isOpeningTag(tag, tagName) {
+  return new RegExp(`^<${tagName}(?:\\s[^>]*)?>$`, "i").test(tag);
+}
+function isClosingTag(tag, tagName) {
+  return new RegExp(`^</${tagName}(?:\\s[^>]*)?>$`, "i").test(tag);
+}
+function isCobaltSelectionOpeningTag(tag) {
+  return /^<span\s[^>]*data-cobalt-selection=["']true["'][^>]*>$/i.test(tag);
+}
+function shortcutFromKeyboardEvent(event) {
+  const parts = [];
+  if (event.ctrlKey) {
+    parts.push("ctrl");
+  }
+  if (event.metaKey) {
+    parts.push("meta");
+  }
+  if (event.altKey) {
+    parts.push("alt");
+  }
+  if (event.shiftKey) {
+    parts.push("shift");
+  }
+  parts.push(event.key.toLowerCase());
+  return parts.join("+");
+}
+function escapeAttribute(value) {
+  return value.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+}
+
+// ../../poef/cobalt-note/packages/rich-text-note/dist/editor-state.js
+function createEditorState() {
+  return {
+    pending: {}
+  };
+}
+function buildPendingAnnotations(state, start, end, registry = defaultRegistry) {
+  const result = [];
+  for (const name of Object.keys(state.pending)) {
+    const enabled = state.pending[name];
+    if (enabled === void 0) {
+      continue;
+    }
+    result.push({
+      start,
+      end,
+      tag: createAnnotationTag(name, enabled, registry)
+    });
+  }
+  return result;
+}
+function clearPendingAnnotations(state) {
+  for (const name of Object.keys(state.pending)) {
+    delete state.pending[name];
+  }
+}
+
+// ../../poef/cobalt-note/packages/rich-text-note/dist/clipboard.js
+var COBALT_CLIPBOARD_MIME = "application/x-cobalt-fragment+json";
+function writeFragmentToClipboard(clipboardData, fragment) {
+  clipboardData.setData("text/plain", fragment.text);
+  clipboardData.setData(COBALT_CLIPBOARD_MIME, JSON.stringify(fragment));
+}
+function readFragmentFromClipboard(clipboardData) {
+  const serialized = clipboardData.getData(COBALT_CLIPBOARD_MIME);
+  if (serialized) {
+    const parsed = JSON.parse(serialized);
+    return normalizeClipboardFragment(parsed);
+  }
+  return {
+    text: clipboardData.getData("text/plain"),
+    annotations: []
+  };
+}
+function getClipboardFragment(fragment, start, end) {
+  return sliceFragment(fragment, start, end);
+}
+function normalizeClipboardFragment(fragment) {
+  const text = typeof fragment.text === "string" ? fragment.text : "";
+  const annotations = Array.isArray(fragment.annotations) ? fragment.annotations.filter((annotation) => Array.isArray(annotation.range) && annotation.range.length === 2 && typeof annotation.range[0] === "number" && typeof annotation.range[1] === "number" && typeof annotation.tag === "string" && typeof annotation.order === "number").map((annotation) => ({
+    range: [
+      Math.max(0, Math.min(text.length, annotation.range[0])),
+      Math.max(0, Math.min(text.length, annotation.range[1]))
+    ],
+    tag: annotation.tag,
+    order: annotation.order
+  })).filter((annotation) => annotation.range[1] > annotation.range[0]) : [];
+  return {
+    text,
+    annotations
+  };
+}
+
+// ../../poef/cobalt-note/packages/rich-text-note/dist/runs.js
+function createEmptyState() {
+  return {};
+}
+function getEffectiveState(annotations, offset) {
+  const state = createEmptyState();
+  const activeAnnotations = annotations.filter((annotation) => offset >= annotation.range[0] && offset < annotation.range[1]).sort((a, b) => a.order - b.order);
+  for (const annotation of activeAnnotations) {
+    applyAnnotationToState(state, annotation.tag);
+  }
+  return state;
+}
+function getTypingEffectiveState(annotations, offset) {
+  const state = createEmptyState();
+  const activeAnnotations = annotations.filter((annotation) => {
+    const [start, end] = annotation.range;
+    return start < offset && offset <= end;
+  }).sort((a, b) => a.order - b.order);
+  for (const annotation of activeAnnotations) {
+    applyAnnotationToState(state, annotation.tag);
+  }
+  return state;
+}
+function generateRuns(fragment) {
+  const boundaries = /* @__PURE__ */ new Set();
+  boundaries.add(0);
+  boundaries.add(fragment.text.length);
+  for (const annotation of fragment.annotations) {
+    boundaries.add(annotation.range[0]);
+    boundaries.add(annotation.range[1]);
+  }
+  const sortedBoundaries = Array.from(boundaries).filter((boundary) => boundary >= 0 && boundary <= fragment.text.length).sort((a, b) => a - b);
+  const runs = [];
+  for (let i = 0; i < sortedBoundaries.length - 1; i++) {
+    const start = sortedBoundaries[i];
+    const end = sortedBoundaries[i + 1];
+    if (start === end) {
+      continue;
+    }
+    runs.push({
+      start,
+      end,
+      state: getEffectiveState(fragment.annotations, start)
+    });
+  }
+  return mergeAdjacentRuns(runs);
+}
+function stateEquals(a, b) {
+  const aKeys = Object.keys(a).sort();
+  const bKeys = Object.keys(b).sort();
+  if (aKeys.length !== bKeys.length) {
+    return false;
+  }
+  for (let i = 0; i < aKeys.length; i++) {
+    const key = aKeys[i];
+    if (key !== bKeys[i]) {
+      return false;
+    }
+    if (a[key].tag !== b[key].tag || a[key].priority !== b[key].priority) {
+      return false;
+    }
+  }
+  return true;
+}
+function mergeAdjacentRuns(runs) {
+  if (runs.length === 0) {
+    return [];
+  }
+  const merged = [
+    {
+      start: runs[0].start,
+      end: runs[0].end,
+      state: copyState(runs[0].state)
+    }
+  ];
+  for (let i = 1; i < runs.length; i++) {
+    const current = runs[i];
+    const previous = merged[merged.length - 1];
+    if (previous.end === current.start && stateEquals(previous.state, current.state)) {
+      previous.end = current.end;
+    } else {
+      merged.push({
+        start: current.start,
+        end: current.end,
+        state: copyState(current.state)
+      });
+    }
+  }
+  return merged;
+}
+function copyState(state) {
+  return Object.fromEntries(Object.entries(state).map(([key, value]) => [
+    key,
+    { ...value }
+  ]));
+}
+function applyAnnotationToState(state, tag) {
+  const parsed = parseAnnotationTag(tag);
+  if (!parsed) {
+    return;
+  }
+  if (!parsed.enabled) {
+    delete state[parsed.name];
+    return;
+  }
+  if (!parsed.tag) {
+    return;
+  }
+  state[parsed.name] = {
+    name: parsed.name,
+    tag: parsed.tag,
+    priority: parsed.priority
+  };
+}
+
+// ../../poef/cobalt-note/packages/rich-text-note/dist/render.js
+function render(fragment) {
+  const runs = generateRuns(fragment);
+  let html2 = "";
+  let openTags = [];
+  for (const run of runs) {
+    const nextTags = getRenderTags(run.state);
+    const sharedPrefixLength = getSharedPrefixLength(openTags, nextTags);
+    for (let i = openTags.length - 1; i >= sharedPrefixLength; i--) {
+      html2 += openTags[i].close;
+    }
+    for (let i = sharedPrefixLength; i < nextTags.length; i++) {
+      html2 += nextTags[i].open;
+    }
+    html2 += escapeHtml(fragment.text.slice(run.start, run.end));
+    openTags = nextTags;
+  }
+  for (let i = openTags.length - 1; i >= 0; i--) {
+    html2 += openTags[i].close;
+  }
+  return appendTrailingNewlineSentinel(fragment, html2);
+}
+function appendTrailingNewlineSentinel(fragment, html2) {
+  if (!fragment.text.endsWith("\n")) {
+    return html2;
+  }
+  return `${html2}<span data-cobalt-sentinel="true">\u200B</span>`;
+}
+function getRenderTags(state) {
+  return Object.values(state).sort(compareActiveAnnotations).map((annotation) => ({
+    key: `${annotation.name}:${annotation.tag}`,
+    open: annotation.tag,
+    close: createHtmlCloseTag(annotation.tag)
+  }));
+}
+function compareActiveAnnotations(a, b) {
+  if (a.priority !== b.priority) {
+    return a.priority - b.priority;
+  }
+  return a.name.localeCompare(b.name);
+}
+function getSharedPrefixLength(current, next) {
+  const length = Math.min(current.length, next.length);
+  for (let i = 0; i < length; i++) {
+    if (current[i].key !== next[i].key) {
+      return i;
+    }
+  }
+  return length;
+}
+function escapeHtml(text) {
+  return text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+}
+
+// ../../poef/cobalt-note/packages/note-core/dist/selection.js
+function getTextNodes(root) {
+  const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT);
+  const nodes = [];
+  let current = walker.nextNode();
+  while (current) {
+    const text = current;
+    if (!isSentinelTextNode(text)) {
+      nodes.push(text);
+    }
+    current = walker.nextNode();
+  }
+  return nodes;
+}
+function getOffset(root, targetNode, targetOffset) {
+  const result = getOffsetFromPosition(root, targetNode, targetOffset);
+  return result ?? getTextLength(root);
+}
+function getDomPosition(root, offset) {
+  const textNodes = getTextNodes(root);
+  if (textNodes.length === 0) {
+    return {
+      node: root,
+      offset: 0
+    };
+  }
+  let currentOffset = 0;
+  for (const node of textNodes) {
+    const length = node.textContent?.length ?? 0;
+    if (offset <= currentOffset + length) {
+      return {
+        node,
+        offset: offset - currentOffset
+      };
+    }
+    currentOffset += length;
+  }
+  const lastNode = textNodes[textNodes.length - 1];
+  return {
+    node: lastNode,
+    offset: lastNode.textContent?.length ?? 0
+  };
+}
+function getSelectionRange(root) {
+  const selection = window.getSelection();
+  if (!selection || selection.rangeCount === 0) {
+    return null;
+  }
+  const range = selection.getRangeAt(0);
+  if (!root.contains(range.startContainer) || !root.contains(range.endContainer)) {
+    return null;
+  }
+  const start = getOffset(root, range.startContainer, range.startOffset);
+  const end = getOffset(root, range.endContainer, range.endOffset);
+  return {
+    start: Math.min(start, end),
+    end: Math.max(start, end)
+  };
+}
+function setSelectionRange(root, start, end) {
+  const startPosition = getDomPosition(root, start);
+  const endPosition = getDomPosition(root, end);
+  const range = document.createRange();
+  range.setStart(startPosition.node, startPosition.offset);
+  range.setEnd(endPosition.node, endPosition.offset);
+  const selection = window.getSelection();
+  if (!selection) {
+    return false;
+  }
+  selection.removeAllRanges();
+  selection.addRange(range);
+  return true;
+}
+function getCaretClientRect(root, offset) {
+  const textLength = getTextLength(root);
+  if (offset === textLength) {
+    const sentinel = getSentinelTextNode(root);
+    if (sentinel) {
+      const sentinelRect = getTextNodeCaretRect(sentinel, 0);
+      if (sentinelRect) {
+        return sentinelRect;
+      }
+    }
+  }
+  const position = getDomPosition(root, offset);
+  const range = document.createRange();
+  range.setStart(position.node, position.offset);
+  range.collapse(true);
+  const rect = firstRect(range);
+  if (rect) {
+    return rect;
+  }
+  return getMarkerRect(root, range);
+}
+function isOffsetOnFirstVisualLine(root, offset, tolerance = 3) {
+  const current = getCaretClientRect(root, offset);
+  const first = getCaretClientRect(root, 0);
+  if (!current || !first) {
+    return false;
+  }
+  return current.top <= first.top + tolerance;
+}
+function isOffsetOnLastVisualLine(root, offset, textLength, tolerance = 3) {
+  const current = getCaretClientRect(root, offset);
+  const last = getCaretClientRect(root, textLength);
+  if (!current || !last) {
+    return false;
+  }
+  return current.bottom >= last.bottom - tolerance;
+}
+function getOffsetAtPoint(root, x, y) {
+  const nearestOffset = getNearestCaretOffset(root, x, y);
+  if (nearestOffset !== null) {
+    return nearestOffset;
+  }
+  const position = getDomPositionFromPoint(x, y);
+  if (!position || !root.contains(position.node)) {
+    return getNearestBoundaryOffset(root, y);
+  }
+  return getOffset(root, position.node, position.offset);
+}
+function getWordRangeAtPoint(root, x, y) {
+  const offset = getOffsetAtPoint(root, x, y);
+  const text = getRootText(root);
+  return getWordRange(text, offset);
+}
+function getParagraphRangeAtPoint(root, x, y) {
+  const offset = getOffsetAtPoint(root, x, y);
+  const text = getRootText(root);
+  return getParagraphRange(text, offset);
+}
+function getWordRange(text, offset) {
+  if (text.length === 0) {
+    return { start: 0, end: 0 };
+  }
+  const clampedOffset = Math.max(0, Math.min(offset, text.length));
+  let index = clampedOffset;
+  if (index === text.length || !isWordCharacter(text[index])) {
+    index = Math.max(0, index - 1);
+  }
+  if (!isWordCharacter(text[index])) {
+    return {
+      start: clampedOffset,
+      end: clampedOffset
+    };
+  }
+  let start = index;
+  let end = index + 1;
+  while (start > 0 && isWordCharacter(text[start - 1])) {
+    start--;
+  }
+  while (end < text.length && isWordCharacter(text[end])) {
+    end++;
+  }
+  return { start, end };
+}
+function getParagraphRange(text, offset) {
+  const clampedOffset = Math.max(0, Math.min(offset, text.length));
+  let start = clampedOffset;
+  let end = clampedOffset;
+  while (start > 0 && text[start - 1] !== "\n") {
+    start--;
+  }
+  while (end < text.length && text[end] !== "\n") {
+    end++;
+  }
+  return { start, end };
+}
+function isWordCharacter(character) {
+  return character !== void 0 && /[\p{L}\p{N}_]/u.test(character);
+}
+function getRootText(root) {
+  return getTextNodes(root).map((node) => node.textContent ?? "").join("");
+}
+function getNearestCaretOffset(root, x, y) {
+  const textLength = getTextLength(root);
+  let best = null;
+  for (let offset = 0; offset <= textLength; offset++) {
+    const rect = getCaretClientRect(root, offset);
+    if (!rect) {
+      continue;
+    }
+    const verticalDistance = getVerticalDistanceToRect(y, rect);
+    const horizontalDistance = Math.abs(x - rect.left);
+    if (!best || verticalDistance < best.verticalDistance || verticalDistance === best.verticalDistance && horizontalDistance < best.horizontalDistance) {
+      best = {
+        offset,
+        verticalDistance,
+        horizontalDistance
+      };
+    }
+  }
+  return best?.offset ?? null;
+}
+function getVerticalDistanceToRect(y, rect) {
+  if (y >= rect.top && y <= rect.bottom) {
+    return 0;
+  }
+  return Math.min(Math.abs(y - rect.top), Math.abs(y - rect.bottom));
+}
+function getDomPositionFromPoint(x, y) {
+  const doc = document;
+  if (doc.caretPositionFromPoint) {
+    const position = doc.caretPositionFromPoint(x, y);
+    if (position) {
+      return {
+        node: position.offsetNode,
+        offset: position.offset
+      };
+    }
+  }
+  if (doc.caretRangeFromPoint) {
+    const range = doc.caretRangeFromPoint(x, y);
+    if (range) {
+      return {
+        node: range.startContainer,
+        offset: range.startOffset
+      };
+    }
+  }
+  return null;
+}
+function getNearestBoundaryOffset(root, y) {
+  const rect = root.getBoundingClientRect();
+  if (y <= rect.top) {
+    return 0;
+  }
+  return getTextLength(root);
+}
+function getTextNodeCaretRect(node, offset) {
+  const range = document.createRange();
+  range.setStart(node, offset);
+  range.collapse(true);
+  const rect = firstRect(range);
+  if (rect) {
+    return rect;
+  }
+  return node.parentElement?.getBoundingClientRect() ?? null;
+}
+function getSentinelTextNode(root) {
+  const sentinel = root.querySelector('[data-cobalt-sentinel="true"]');
+  const node = sentinel?.firstChild;
+  return node?.nodeType === Node.TEXT_NODE ? node : null;
+}
+function firstRect(range) {
+  const rects = Array.from(range.getClientRects());
+  return rects.length > 0 ? rects[0] : null;
+}
+function getMarkerRect(root, range) {
+  const marker = document.createElement("span");
+  marker.setAttribute("data-cobalt-caret-marker", "true");
+  marker.textContent = "\u200B";
+  range.insertNode(marker);
+  const rect = marker.getBoundingClientRect();
+  marker.remove();
+  root.normalize();
+  return rect.width === 0 && rect.height === 0 ? null : rect;
+}
+function getOffsetFromPosition(root, targetNode, targetOffset) {
+  let offset = 0;
+  let found = false;
+  function walk(node) {
+    if (found) {
+      return;
+    }
+    if (node === targetNode) {
+      if (node.nodeType === Node.TEXT_NODE) {
+        const text = node;
+        if (!isSentinelTextNode(text)) {
+          offset += Math.min(targetOffset, text.textContent?.length ?? 0);
+        }
+      } else {
+        for (let i = 0; i < targetOffset; i++) {
+          offset += getTextLength(node.childNodes[i]);
+        }
+      }
+      found = true;
+      return;
+    }
+    if (node.nodeType === Node.TEXT_NODE) {
+      offset += getTextLength(node);
+      return;
+    }
+    for (const child of Array.from(node.childNodes)) {
+      walk(child);
+    }
+  }
+  walk(root);
+  return found ? offset : null;
+}
+function getTextLength(node) {
+  if (!node) {
+    return 0;
+  }
+  if (node.nodeType === Node.TEXT_NODE) {
+    const text = node;
+    return isSentinelTextNode(text) ? 0 : text.textContent?.length ?? 0;
+  }
+  let length = 0;
+  for (const child of Array.from(node.childNodes)) {
+    length += getTextLength(child);
+  }
+  return length;
+}
+function isSentinelTextNode(node) {
+  return node.parentElement?.hasAttribute("data-cobalt-sentinel") ?? false;
+}
+
+// ../../poef/cobalt-note/packages/rich-text-note/dist/editor.js
+var RICH_TEXT_NOTE_FRAGMENT_TYPE = "cobalt.rich-text";
+function cloneFragment(fragment) {
+  return {
+    text: fragment.text,
+    annotations: fragment.annotations.map((annotation) => ({
+      ...annotation,
+      range: [...annotation.range]
+    }))
+  };
+}
+function replaceFragment(target, source) {
+  target.text = source.text;
+  target.annotations = source.annotations.map((annotation) => ({
+    ...annotation,
+    range: [...annotation.range]
+  }));
+}
+function wrapRichTextFragment(fragment) {
+  return {
+    type: RICH_TEXT_NOTE_FRAGMENT_TYPE,
+    data: cloneFragment(fragment)
+  };
+}
+function isFragment(value) {
+  if (!value || typeof value !== "object") {
+    return false;
+  }
+  const fragment = value;
+  return typeof fragment.text === "string" && Array.isArray(fragment.annotations);
+}
+function isRichTextNotebookFragment(fragment) {
+  return fragment.type === RICH_TEXT_NOTE_FRAGMENT_TYPE && isFragment(fragment.data);
+}
+function renderDecoratedFragment(fragment, ranges, active = true) {
+  if (ranges.length === 0) {
+    return render(fragment);
+  }
+  const maxOrder = fragment.annotations.reduce((max, annotation) => Math.max(max, annotation.order), 0);
+  const annotations = [
+    ...fragment.annotations,
+    ...ranges.filter((range) => range !== null && range.end > range.start).map((range, index) => ({
+      range: [range.start, range.end],
+      tag: active ? '<span data-cobalt-selection="true" data-cobalt-selection-active="true">' : '<span data-cobalt-selection="true" data-cobalt-selection-active="false">',
+      order: maxOrder + index + 1
+    }))
+  ];
+  return render({
+    text: fragment.text,
+    annotations
+  });
+}
+function edit(element2, fragment) {
+  const state = createEditorState();
+  let selectionDecorationRanges = [];
+  let selectionDecorationActive = true;
+  function rerender(start, end) {
+    element2.innerHTML = renderDecoratedFragment(fragment, selectionDecorationRanges, selectionDecorationActive);
+    if (start !== void 0 && end !== void 0) {
+      setSelectionRange(element2, start, end);
+    }
+  }
+  const editor = {
+    element: element2,
+    fragment,
+    state,
+    getType() {
+      return RICH_TEXT_NOTE_FRAGMENT_TYPE;
+    },
+    getValue() {
+      return cloneFragment(fragment);
+    },
+    setValue(value) {
+      if (!isFragment(value)) {
+        throw new Error("Expected a rich-text fragment value.");
+      }
+      replaceFragment(fragment, value);
+      const selection = getSelectionRange(element2);
+      rerender(selection?.start, selection?.end);
+    },
+    getLength() {
+      return fragment.text.length;
+    },
+    getText(start = 0, end = fragment.text.length) {
+      return fragment.text.slice(Math.max(0, Math.min(fragment.text.length, start)), Math.max(0, Math.min(fragment.text.length, end)));
+    },
+    focus(start = 0, end = start) {
+      element2.focus();
+      setSelectionRange(element2, start, end);
+    },
+    getSelection() {
+      return getSelectionRange(element2);
+    },
+    getCaretClientRect(offset) {
+      if (offset !== void 0) {
+        return getCaretClientRect(element2, offset);
+      }
+      const selection = getSelectionRange(element2);
+      if (!selection || selection.start !== selection.end) {
+        return null;
+      }
+      return getCaretClientRect(element2, selection.start);
+    },
+    isCaretOnFirstVisualLine() {
+      const selection = getSelectionRange(element2);
+      if (!selection || selection.start !== selection.end) {
+        return false;
+      }
+      return isOffsetOnFirstVisualLine(element2, selection.start);
+    },
+    isCaretOnLastVisualLine() {
+      const selection = getSelectionRange(element2);
+      if (!selection || selection.start !== selection.end) {
+        return false;
+      }
+      return isOffsetOnLastVisualLine(element2, selection.start, fragment.text.length);
+    },
+    focusNearestPoint(x, y) {
+      const offset = getOffsetAtPoint(element2, x, y);
+      this.focus(offset, offset);
+    },
+    getOffsetAtPoint(x, y) {
+      return getOffsetAtPoint(element2, x, y);
+    },
+    getWordRangeAtPoint(x, y) {
+      return getWordRangeAtPoint(element2, x, y);
+    },
+    getParagraphRangeAtPoint(x, y) {
+      return getParagraphRangeAtPoint(element2, x, y);
+    },
+    getClientRect() {
+      return element2.getBoundingClientRect();
+    },
+    showSelectionRanges(ranges, active = true) {
+      selectionDecorationActive = active;
+      selectionDecorationRanges = ranges.filter((range) => range !== null && range.end > range.start);
+      const selection = getSelectionRange(element2);
+      rerender(selection?.start, selection?.end);
+    },
+    clearSelectionRanges() {
+      if (selectionDecorationRanges.length === 0) {
+        return;
+      }
+      selectionDecorationRanges = [];
+      const selection = getSelectionRange(element2);
+      rerender(selection?.start, selection?.end);
+    },
+    deleteRange(start, end) {
+      deleteRange(fragment, start, end);
+      rerender(start, start);
+    },
+    insertText(offset, text) {
+      insertText(fragment, offset, text);
+      const caret = Math.min(fragment.text.length, Math.max(0, offset) + text.length);
+      rerender(caret, caret);
+    },
+    sliceFragment(start, end) {
+      return wrapRichTextFragment(sliceFragment(fragment, start, end));
+    },
+    canInsertFragment(notebookFragment) {
+      return isRichTextNotebookFragment(notebookFragment);
+    },
+    insertFragment(offset, notebookFragment) {
+      if (!isRichTextNotebookFragment(notebookFragment)) {
+        return offset;
+      }
+      const inserted = notebookFragment.data;
+      insertFragment(fragment, offset, inserted);
+      const caret = Math.min(fragment.text.length, Math.max(0, offset) + inserted.text.length);
+      rerender(caret, caret);
+      return caret;
+    },
+    splitFragment(offset) {
+      const result = splitFragment(fragment, offset);
+      return {
+        before: wrapRichTextFragment(result.before),
+        after: wrapRichTextFragment(result.after)
+      };
+    },
+    canMergeFragment(notebookFragment, _direction) {
+      return isRichTextNotebookFragment(notebookFragment);
+    },
+    mergeFragment(notebookFragment, direction) {
+      if (!isRichTextNotebookFragment(notebookFragment)) {
+        return null;
+      }
+      const result = direction === "after" ? joinFragments(fragment, notebookFragment.data) : joinFragments(notebookFragment.data, fragment);
+      return {
+        fragment: wrapRichTextFragment(result.fragment),
+        joinOffset: result.joinOffset
+      };
+    },
+    canApplyCommand(command, range, value) {
+      if (range.end <= range.start || command === "__selection") {
+        return false;
+      }
+      if (command === "link") {
+        return typeof value === "string" && value.length > 0;
+      }
+      return defaultRegistry.get(command) !== void 0;
+    },
+    getCommandState(command, offset) {
+      return getEffectiveState(fragment.annotations, offset)[command];
+    },
+    applyCommand(command, range, value) {
+      if (!this.canApplyCommand(command, range, value)) {
+        return false;
+      }
+      const tag = command === "link" && typeof value === "string" ? createLinkAnnotationTag(value) : createAnnotationTag(command, value !== false);
+      addAnnotation(fragment, [range.start, range.end], tag);
+      rerender(range.start, range.end);
+      return true;
+    },
+    destroy() {
+      element2.removeEventListener("keydown", handleKeyDown);
+      element2.removeEventListener("beforeinput", handleBeforeInput);
+      element2.removeEventListener("copy", handleCopy);
+      element2.removeEventListener("cut", handleCut);
+      element2.removeEventListener("paste", handlePaste);
+      element2.removeAttribute("contenteditable");
+    }
+  };
+  function handleKeyDown(event) {
+    if (event.key === "Enter") {
+      if (event.ctrlKey || event.metaKey || event.altKey) {
+        return;
+      }
+      event.preventDefault();
+      insertNewline();
+      return;
+    }
+    if (!event.ctrlKey) {
+      return;
+    }
+    const definition = defaultRegistry.findByShortcut(event);
+    if (!definition) {
+      return;
+    }
+    event.preventDefault();
+    if (definition.name === "link") {
+      addLink();
+      return;
+    }
+    toggleAnnotation(definition);
+  }
+  function handleBeforeInput(event) {
+    const inputEvent = event;
+    const selection = getSelectionRange(element2);
+    if (!selection) {
+      return;
+    }
+    const commands2 = buildInputCommands(inputEvent, selection.start, selection.end);
+    if (commands2.length === 0) {
+      return;
+    }
+    event.preventDefault();
+    applyCommands(fragment, commands2);
+    const caret = getNextCaretPosition(inputEvent, selection.start, selection.end);
+    rerender(caret, caret);
+  }
+  function handleCopy(event) {
+    const selection = getSelectionRange(element2);
+    if (!selection || selection.start === selection.end || !event.clipboardData) {
+      return;
+    }
+    event.preventDefault();
+    writeFragmentToClipboard(event.clipboardData, getClipboardFragment(fragment, selection.start, selection.end));
+  }
+  function handleCut(event) {
+    const selection = getSelectionRange(element2);
+    if (!selection || selection.start === selection.end || !event.clipboardData) {
+      return;
+    }
+    event.preventDefault();
+    writeFragmentToClipboard(event.clipboardData, getClipboardFragment(fragment, selection.start, selection.end));
+    applyCommands(fragment, [
+      new DeleteRangeCommand(selection.start, selection.end)
+    ]);
+    rerender(selection.start, selection.start);
+  }
+  function handlePaste(event) {
+    const selection = getSelectionRange(element2);
+    if (!selection || !event.clipboardData) {
+      return;
+    }
+    event.preventDefault();
+    const pastedFragment = readFragmentFromClipboard(event.clipboardData);
+    const commands2 = [];
+    if (selection.start !== selection.end) {
+      commands2.push(new DeleteRangeCommand(selection.start, selection.end));
+    }
+    commands2.push(new InsertFragmentCommand(selection.start, pastedFragment));
+    applyCommands(fragment, commands2);
+    const caret = selection.start + pastedFragment.text.length;
+    rerender(caret, caret);
+  }
+  function toggleAnnotation(definition) {
+    const selection = getSelectionRange(element2);
+    if (!selection) {
+      return;
+    }
+    if (selection.start === selection.end) {
+      const inheritedState = getTypingEffectiveState(fragment.annotations, selection.start);
+      if (!definition.supportsPending) {
+        return;
+      }
+      const inheritedEnabled = inheritedState[definition.name] !== void 0;
+      const currentTypingEnabled = state.pending[definition.name] ?? inheritedEnabled;
+      const nextTypingEnabled = !currentTypingEnabled;
+      if (nextTypingEnabled === inheritedEnabled) {
+        delete state.pending[definition.name];
+      } else {
+        state.pending[definition.name] = nextTypingEnabled;
+      }
+      rerender(selection.start, selection.end);
+      return;
+    }
+    const currentState = getEffectiveState(fragment.annotations, selection.start);
+    const tag = createAnnotationTag(definition.name, currentState[definition.name] === void 0);
+    applyCommands(fragment, [
+      new AddAnnotationCommand([selection.start, selection.end], tag)
+    ]);
+    rerender(selection.start, selection.end);
+  }
+  function insertNewline() {
+    const selection = getSelectionRange(element2);
+    if (!selection) {
+      return;
+    }
+    const commands2 = [];
+    if (selection.start !== selection.end) {
+      commands2.push(new DeleteRangeCommand(selection.start, selection.end));
+    }
+    commands2.push(new InsertTextCommand(selection.start, "\n", { growAtEnd: false }));
+    applyCommands(fragment, commands2);
+    const caret = selection.start + 1;
+    rerender(caret, caret);
+  }
+  function addLink() {
+    const selection = getSelectionRange(element2);
+    if (!selection || selection.start === selection.end) {
+      return;
+    }
+    const href = promptForHref();
+    if (!href) {
+      return;
+    }
+    applyCommands(fragment, [
+      new AddAnnotationCommand([selection.start, selection.end], createLinkAnnotationTag(href))
+    ]);
+    rerender(selection.start, selection.end);
+  }
+  function promptForHref() {
+    const href = window.prompt("Enter URL");
+    if (href === null) {
+      return null;
+    }
+    const trimmed = href.trim();
+    return trimmed.length > 0 ? trimmed : null;
+  }
+  function buildInputCommands(event, selectionStart, selectionEnd) {
+    switch (event.inputType) {
+      case "insertText":
+      case "insertFromPaste":
+        return buildInsertCommands(selectionStart, selectionEnd, event.data ?? "");
+      case "deleteContentBackward":
+        return buildDeleteBackwardCommands(selectionStart, selectionEnd);
+      case "deleteContentForward":
+        return buildDeleteForwardCommands(selectionStart, selectionEnd);
+      case "insertParagraph":
+      case "insertLineBreak": {
+        const commands2 = [];
+        if (selectionStart !== selectionEnd) {
+          commands2.push(new DeleteRangeCommand(selectionStart, selectionEnd));
+        }
+        commands2.push(new InsertTextCommand(selectionStart, "\n", { growAtEnd: false }));
+        return commands2;
+      }
+      default:
+        return [];
+    }
+  }
+  function buildInsertCommands(selectionStart, selectionEnd, text) {
+    const commands2 = [];
+    if (selectionStart !== selectionEnd) {
+      commands2.push(new DeleteRangeCommand(selectionStart, selectionEnd));
+    }
+    if (text.length === 0) {
+      return commands2;
+    }
+    commands2.push(new InsertTextCommand(selectionStart, text));
+    const pendingAnnotations = buildPendingAnnotations(state, selectionStart, selectionStart + text.length);
+    for (const pending of pendingAnnotations) {
+      commands2.push(new AddAnnotationCommand([pending.start, pending.end], pending.tag));
+    }
+    if (pendingAnnotations.length > 0) {
+      clearPendingAnnotations(state);
+    }
+    return commands2;
+  }
+  function buildDeleteBackwardCommands(selectionStart, selectionEnd) {
+    if (selectionStart !== selectionEnd) {
+      return [
+        new DeleteRangeCommand(selectionStart, selectionEnd)
+      ];
+    }
+    if (selectionStart === 0) {
+      return [];
+    }
+    return [
+      new DeleteRangeCommand(selectionStart - 1, selectionStart)
+    ];
+  }
+  function buildDeleteForwardCommands(selectionStart, selectionEnd) {
+    if (selectionStart !== selectionEnd) {
+      return [
+        new DeleteRangeCommand(selectionStart, selectionEnd)
+      ];
+    }
+    if (selectionStart >= fragment.text.length) {
+      return [];
+    }
+    return [
+      new DeleteRangeCommand(selectionStart, selectionStart + 1)
+    ];
+  }
+  function getNextCaretPosition(event, selectionStart, selectionEnd) {
+    switch (event.inputType) {
+      case "insertText":
+      case "insertFromPaste":
+        return selectionStart + (event.data?.length ?? 0);
+      case "deleteContentBackward":
+        return selectionStart === selectionEnd ? Math.max(0, selectionStart - 1) : selectionStart;
+      case "deleteContentForward":
+        return selectionStart;
+      case "insertParagraph":
+      case "insertLineBreak":
+        return selectionStart + 1;
+      default:
+        return selectionStart;
+    }
+  }
+  element2.contentEditable = "true";
+  rerender();
+  element2.addEventListener("keydown", handleKeyDown);
+  element2.addEventListener("beforeinput", handleBeforeInput);
+  element2.addEventListener("copy", handleCopy);
+  element2.addEventListener("cut", handleCut);
+  element2.addEventListener("paste", handlePaste);
+  return editor;
+}
+
+// src/cobalt-editor-modal.html
+var cobalt_editor_modal_default = '<div class="margin-notes-editor-modal-backdrop"></div>\n<div class="margin-notes-editor-modal-dialog">\n  <div class="margin-notes-editor-modal-header">\n    <h2 data-title></h2>\n    <button type="button" data-action="cancel" class="margin-notes-editor-close" aria-label="Close">x</button>\n  </div>\n  <div class="margin-notes-editor-modal-content">\n    <div class="margin-notes-cobalt-editor" data-editor-container></div>\n  </div>\n  <div class="margin-notes-editor-modal-footer">\n    <button type="button" data-action="cancel" class="margin-notes-editor-btn-cancel">Cancel</button>\n    <button type="button" data-action="save" class="margin-notes-editor-btn-save">Save</button>\n  </div>\n</div>\n';
+
+// src/cobalt-editor-modal.css
+var cobalt_editor_modal_default2 = '.margin-notes-editor-modal {\n  position: fixed;\n  top: 0;\n  left: 0;\n  right: 0;\n  bottom: 0;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  z-index: 10000;\n  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;\n}\n\n.margin-notes-editor-modal-backdrop {\n  position: fixed;\n  top: 0;\n  left: 0;\n  right: 0;\n  bottom: 0;\n  background: rgba(0, 0, 0, 0.5);\n  z-index: 9999;\n}\n\n.margin-notes-editor-modal-dialog {\n  position: relative;\n  z-index: 10001;\n  background: white;\n  border-radius: 8px;\n  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);\n  max-width: 600px;\n  width: 90vw;\n  max-height: 80vh;\n  display: flex;\n  flex-direction: column;\n}\n\n.margin-notes-editor-modal-header {\n  padding: 20px;\n  border-bottom: 1px solid #e5e7eb;\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n}\n\n.margin-notes-editor-modal-header h2 {\n  margin: 0;\n  font-size: 1.25rem;\n  font-weight: 600;\n}\n\n.margin-notes-editor-close {\n  background: none;\n  border: none;\n  font-size: 2rem;\n  line-height: 1;\n  cursor: pointer;\n  color: #6b7280;\n  padding: 0;\n  width: 32px;\n  height: 32px;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  border-radius: 4px;\n}\n\n.margin-notes-editor-close:hover {\n  background: #f3f4f6;\n  color: #1f2937;\n}\n\n.margin-notes-editor-modal-content {\n  flex: 1;\n  overflow-y: auto;\n  padding: 20px;\n}\n\n.margin-notes-cobalt-editor {\n  min-height: 150px;\n  max-height: 400px;\n  overflow-y: auto;\n  border: 1px solid #d1d5db;\n  border-radius: 4px;\n  padding: 8px;\n  background: #fafafa;\n  font-family: inherit;\n  font-size: 1rem;\n  line-height: 1.5;\n}\n\n.margin-notes-cobalt-editor:focus-within {\n  outline: none;\n  border-color: #3b82f6;\n  background: white;\n}\n\n.margin-notes-editor-modal-footer {\n  padding: 20px;\n  border-top: 1px solid #e5e7eb;\n  display: flex;\n  justify-content: flex-end;\n  gap: 10px;\n}\n\n.margin-notes-editor-btn-cancel,\n.margin-notes-editor-btn-save {\n  padding: 8px 16px;\n  border-radius: 4px;\n  font-weight: 500;\n  cursor: pointer;\n  border: 1px solid #d1d5db;\n  font-size: 0.95rem;\n}\n\n.margin-notes-editor-btn-cancel {\n  background: white;\n  color: #374151;\n}\n\n.margin-notes-editor-btn-cancel:hover {\n  background: #f3f4f6;\n}\n\n.margin-notes-editor-btn-save {\n  background: #3b82f6;\n  color: white;\n  border-color: #3b82f6;\n}\n\n.margin-notes-editor-btn-save:hover {\n  background: #2563eb;\n  border-color: #2563eb;\n}\n\n.margin-notes-editor-btn-save:active {\n  background: #1d4ed8;\n}\n';
+
+// src/cobalt-editor-modal.js
+var CobaltEditorModal = class {
+  constructor(options = {}) {
+    this.options = options;
+    this.modal = null;
+    this.editor = null;
+    this.fragment = options.initialFragment || { text: "", annotations: [] };
+  }
+  /**
+   * Show the modal and return a promise that resolves with the edited fragment.
+   * 
+   * @returns {Promise<Object>} The edited fragment, or null if cancelled
+   */
+  async show() {
+    return new Promise((resolve) => {
+      this.createModal();
+      const saveBtn = this.modal.querySelector('[data-action="save"]');
+      const cancelBtn = this.modal.querySelector('[data-action="cancel"]');
+      const onSave = async () => {
+        const edited = this.editor.getValue();
+        this.destroy();
+        resolve(edited);
+      };
+      const onCancel = () => {
+        this.destroy();
+        resolve(null);
+      };
+      saveBtn.addEventListener("click", onSave);
+      cancelBtn.addEventListener("click", onCancel);
+      this.modal.addEventListener("keydown", (e) => {
+        e.stopPropagation();
+        if ((e.ctrlKey || e.metaKey) && e.key === "s") {
+          e.preventDefault();
+          onSave();
+        }
+      });
+      setTimeout(() => {
+        this.editor.focus();
+      }, 0);
+    });
+  }
+  /**
+   * Create the modal DOM structure.
+   * 
+   * @private
+   */
+  createModal() {
+    this.modal = document.createElement("div");
+    this.modal.className = "margin-notes-editor-modal";
+    this.modal.dataset.readerKeyScope = "margin-notes-editor";
+    this.modal.innerHTML = cobalt_editor_modal_default;
+    this.modal.querySelector("[data-title]").textContent = this.options.title || "Edit note";
+    document.body.appendChild(this.modal);
+    const editorContainer = this.modal.querySelector("[data-editor-container]");
+    this.editor = edit(editorContainer, this.fragment);
+    const backdrop = this.modal.querySelector(".margin-notes-editor-modal-backdrop");
+    backdrop.addEventListener("click", () => {
+      this.modal.querySelector('[data-action="cancel"]').click();
+    });
+  }
+  /**
+   * Destroy the modal and clean up.
+   * 
+   * @private
+   */
+  destroy() {
+    if (this.editor) {
+      this.editor.destroy();
+      this.editor = null;
+    }
+    if (this.modal) {
+      this.modal.remove();
+      this.modal = null;
+    }
+  }
+};
+
+// src/features/paragraph-note-stacks/annotation-model.js
+var annotationModel = {
+  vocabulary: {
+    prefixes: {
+      rdf: "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+      rdfs: "http://www.w3.org/2000/01/rdf-schema#",
+      dcterms: "http://purl.org/dc/terms/",
+      oa: "http://www.w3.org/ns/oa#",
+      schema: "https://schema.org/",
+      cobalt: "https://vocab.muze.nl/cobalt#"
+    },
+    classes: {
+      annotation: "oa$Annotation",
+      textualBody: "oa$TextualBody",
+      specificResource: "oa$SpecificResource",
+      fragmentSelector: "oa$FragmentSelector",
+      cobaltFragment: "cobalt$Fragment"
+    },
+    predicates: {
+      type: "rdf$type",
+      label: "rdfs$label",
+      created: "dcterms$created",
+      modified: "dcterms$modified",
+      format: "dcterms$format",
+      value: "rdf$value",
+      hasBody: "oa$hasBody",
+      hasTarget: "oa$hasTarget",
+      hasSource: "oa$hasSource",
+      hasSelector: "oa$hasSelector",
+      text: "schema$text",
+      cobaltFragment: "cobalt$fragment"
+    },
+    mediaTypes: {
+      cobaltFragment: "application/vnd.cobalt.fragment+json"
+    }
+  },
+  createAnnotationNote({ anchorId, fragment, now = (/* @__PURE__ */ new Date()).toISOString() }) {
+    const annotationId = this.createLocalSubjectId({});
+    const body = {
+      id: `${annotationId}#body`,
+      rdf$type: [
+        this.vocabulary.classes.textualBody,
+        this.vocabulary.classes.cobaltFragment
+      ],
+      dcterms$format: this.vocabulary.mediaTypes.cobaltFragment,
+      rdf$value: this.noteText({ fragment }),
+      schema$text: this.noteText({ fragment }),
+      cobalt$fragment: fragment
+    };
+    const target = {
+      id: `${annotationId}#target`,
+      rdf$type: this.vocabulary.classes.specificResource,
+      oa$hasSource: this.currentDocumentIri({}),
+      oa$hasSelector: {
+        id: `${annotationId}#selector-fragment`,
+        rdf$type: this.vocabulary.classes.fragmentSelector,
+        rdf$value: anchorId
+      }
+    };
+    return {
+      id: annotationId,
+      rdf$type: this.vocabulary.classes.annotation,
+      dcterms$created: now,
+      dcterms$modified: now,
+      oa$hasBody: body,
+      oa$hasTarget: target
+    };
+  },
+  createLocalSubjectId() {
+    if (globalThis.crypto?.randomUUID) {
+      return `urn:uuid:${globalThis.crypto.randomUUID()}`;
+    }
+    return `urn:muze:margin-notes:${Date.now()}-${Math.random().toString(16).slice(2)}`;
+  },
+  currentDocumentIri() {
+    const href = globalThis.location?.href;
+    if (!href) {
+      return "urn:muze:margin-notes:local-document";
+    }
+    return href.replace(/#.*/, "");
+  },
+  annotationAnchorId({ annotation }) {
+    const target = this.firstValue({ value: annotation?.oa$hasTarget });
+    const selectors = this.values({ value: target?.oa$hasSelector });
+    const fragment = selectors.find((selector) => {
+      return this.values({ value: selector?.rdf$type }).includes(this.vocabulary.classes.fragmentSelector);
+    });
+    return fragment?.rdf$value;
+  },
+  annotationBody({ annotation }) {
+    return this.firstValue({ value: annotation?.oa$hasBody });
+  },
+  annotationBodyFragment({ annotation }) {
+    return this.annotationBody({ annotation })?.cobalt$fragment || { text: "", annotations: [] };
+  },
+  updateAnnotationBody({ annotation, fragment, now = (/* @__PURE__ */ new Date()).toISOString() }) {
+    const body = this.annotationBody({ annotation });
+    if (!body) return;
+    body.rdf$value = this.noteText({ fragment });
+    body.schema$text = this.noteText({ fragment });
+    body.cobalt$fragment = fragment;
+    annotation.dcterms$modified = now;
+  },
+  removeAnnotationFromGraph({ app: app2, annotationId }) {
+    const index = app2.data.marginNotes.graph.findIndex((annotation) => annotation.id === annotationId);
+    if (index >= 0) {
+      app2.data.marginNotes.graph.splice(index, 1);
+    }
+  },
+  toRenderableNote({ annotation }) {
+    const note = {
+      id: annotation.id,
+      annotation,
+      anchorId: this.annotationAnchorId({ annotation }),
+      body: this.annotationBodyFragment({ annotation }),
+      created: annotation.dcterms$created,
+      modified: annotation.dcterms$modified
+    };
+    return this.syncRenderableNote({ note });
+  },
+  syncRenderableNote({ note }) {
+    const annotation = note.annotation;
+    const fragment = this.annotationBodyFragment({ annotation });
+    note.anchorId = this.annotationAnchorId({ annotation });
+    note.body = fragment;
+    note.bodyText = this.noteText({ fragment });
+    note.created = annotation.dcterms$created;
+    note.modified = annotation.dcterms$modified;
+    note.createdLabel = `Created: ${(note.created || "").substring(0, 10)}`;
+    return note;
+  },
+  toStoredAnnotation({ annotation }) {
+    return this.cloneValue({ value: annotation });
+  },
+  toStorageDocument({ subjects }) {
+    return {
+      format: "margin-notes-oldmed-graph",
+      version: 1,
+      prefixes: this.vocabulary.prefixes,
+      subjects: Array.from(subjects, (annotation) => this.toStoredAnnotation({ annotation }))
+    };
+  },
+  toStoredGraph({ value }) {
+    if (Array.isArray(value)) {
+      return Array.from(value, (note) => {
+        return this.isOldmedAnnotation({ value: note }) ? note : this.annotationFromLegacyNote({ note });
+      });
+    }
+    if (Array.isArray(value?.subjects)) {
+      return value.subjects.filter((subject) => this.isOldmedAnnotation({ value: subject }));
+    }
+    return [];
+  },
+  isOldmedAnnotation({ value }) {
+    return this.values({ value: value?.rdf$type }).includes(this.vocabulary.classes.annotation);
+  },
+  annotationFromLegacyNote({ note }) {
+    const annotation = this.createAnnotationNote({
+      anchorId: note.anchorId,
+      fragment: note.body || { text: "", annotations: [] },
+      now: note.created || (/* @__PURE__ */ new Date()).toISOString()
+    });
+    annotation.id = this.legacyLocalSubjectId({ id: note.id });
+    annotation.dcterms$created = note.created || annotation.dcterms$created;
+    annotation.dcterms$modified = note.modified || annotation.dcterms$modified;
+    annotation.oa$hasBody.id = `${annotation.id}#body`;
+    annotation.oa$hasTarget.id = `${annotation.id}#target`;
+    annotation.oa$hasTarget.oa$hasSelector.id = `${annotation.id}#selector-fragment`;
+    return annotation;
+  },
+  legacyLocalSubjectId({ id }) {
+    if (typeof id === "string" && /^(?:[a-z][a-z0-9+.-]*:)/i.test(id)) {
+      return id;
+    }
+    return `urn:muze:margin-notes:${encodeURIComponent(id || this.createLocalSubjectId({}))}`;
+  },
+  firstValue({ value }) {
+    return Array.isArray(value) ? value[0] : value;
+  },
+  values({ value }) {
+    if (value === void 0 || value === null) return [];
+    return Array.isArray(value) ? value : [value];
+  },
+  cloneValue({ value }) {
+    return JSON.parse(JSON.stringify(value));
+  },
+  noteText({ fragment }) {
+    return fragment?.text || "(empty note)";
+  }
+};
+
+// src/features/paragraph-note-stacks/root.html
+var root_default = '<div class="margin-notes-root" hidden></div>\n';
+
+// src/features/paragraph-note-stacks/anchor-widget.html
+var anchor_widget_default = '<span class="margin-notes-anchor-widget">\n  <button\n    type="button"\n    class="margin-notes-target-add-btn"\n    title="Add note"\n    aria-label="Add note"\n    data-simply-command="createNote"\n    data-simply-value=":value"\n  >+</button>\n  <span class="margin-notes-target-note-list" data-simply-shortcuts="marginNotesNote">\n    <span class="margin-notes-target-note-items" data-simply-list="visibleNotes">\n      <template rel="margin-notes-inline-note"></template>\n    </span>\n    <button\n      type="button"\n      class="margin-notes-target-note-count"\n      aria-expanded="false"\n      data-margin-notes-empty="true"\n      data-simply-command="toggleAnchorNoteList"\n      data-simply-value=":value"\n    ><span data-simply-field="overflowLabel"></span></button>\n  </span>\n</span>\n';
+
+// src/features/paragraph-note-stacks/inline-note.html
+var inline_note_default = '<article class="margin-notes-target-note">\n  <button\n    type="button"\n    class="margin-notes-target-note-toggle"\n    aria-expanded="false"\n    data-simply-shortcuts="marginNotesNote"\n    data-simply-command="expandInlineNote"\n    data-simply-value=":value"\n  ><span class="margin-notes-target-note-text" data-simply-field="bodyText"></span></button>\n  <button\n    type="button"\n    class="margin-notes-target-note-close"\n    aria-label="Close note"\n    data-simply-command="collapseInlineNote"\n    data-simply-value=":value"\n  >x</button>\n  <span class="margin-notes-target-note-actions">\n    <button\n      type="button"\n      class="margin-notes-target-note-action"\n      data-simply-command="updateNote"\n      data-simply-value=":value"\n    >Edit</button>\n    <button\n      type="button"\n      class="margin-notes-target-note-action"\n      data-simply-command="deleteNote"\n      data-simply-value=":value"\n    >Delete</button>\n  </span>\n</article>\n';
+
+// src/features/paragraph-note-stacks/ui.css
+var ui_default = '[data-margin-notes-target] {\n  position: relative;\n  outline: none;\n}\n\n.margin-notes-anchor-widget,\n.margin-notes-anchor-widget-host {\n  display: contents;\n}\n\n[data-margin-notes-target]::before {\n  bottom: 0;\n  content: "";\n  left: -3rem;\n  position: absolute;\n  top: 0;\n  width: 3rem;\n}\n\n[data-margin-notes-target].margin-notes-target-tabstop:focus-visible {\n  outline: 2px solid #3162d4;\n  outline-offset: 4px;\n}\n\n.margin-notes-target-add-btn {\n  align-items: center;\n  background: #ffffff;\n  border: 1px solid #cfd6e6;\n  border-radius: 999px;\n  box-shadow: 0 4px 14px rgba(20, 31, 56, 0.16);\n  color: #1e335f;\n  cursor: pointer;\n  display: inline-flex;\n  font: 600 1rem/1 system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;\n  height: 2rem;\n  justify-content: center;\n  left: -2.75rem;\n  opacity: 0;\n  pointer-events: none;\n  position: absolute;\n  top: 0.35rem;\n  transform: translateX(0.25rem);\n  transition: opacity 120ms ease, transform 120ms ease, border-color 120ms ease;\n  width: 2rem;\n  z-index: 2;\n}\n\n[data-margin-notes-target]:hover .margin-notes-target-add-btn,\n[data-margin-notes-target]:focus .margin-notes-target-add-btn,\n[data-margin-notes-target]:focus-within .margin-notes-target-add-btn,\n.margin-notes-target-add-btn:focus-visible {\n  opacity: 1;\n  pointer-events: auto;\n  transform: translateX(0);\n}\n\n.margin-notes-target-add-btn:hover,\n.margin-notes-target-add-btn:focus-visible {\n  border-color: #3162d4;\n}\n\n.margin-notes-target-note-list {\n  display: flex;\n  flex-direction: column;\n  gap: 0;\n  left: calc(100% + 1.25rem);\n  position: absolute;\n  top: 0;\n  width: min(17rem, 34vw);\n  z-index: 3;\n}\n\n.margin-notes-target-note-list.is-expanded {\n  background: var(--margin-notes-open-background, #fffefb);\n  border-radius: 4px;\n  box-shadow: 0 0 0 0.35rem var(--margin-notes-open-background, #fffefb);\n  z-index: 30;\n}\n\n.margin-notes-target-note-count {\n  align-items: center;\n  align-self: flex-start;\n  background: transparent;\n  border: 0;\n  color: #5d5a51;\n  cursor: pointer;\n  display: inline-flex;\n  font: 600 0.78rem/1 system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;\n  gap: 0.25rem;\n  padding: 0.05rem 0.2rem;\n}\n\n.margin-notes-target-note-count::before,\n.margin-notes-target-note-toggle::before {\n  background: #c9a84f;\n  border-radius: 1px;\n  content: "";\n  display: inline-block;\n  flex: 0 0 auto;\n  height: 0.72rem;\n  opacity: 0.72;\n  transform: rotate(-2deg);\n  width: 0.58rem;\n}\n\n.margin-notes-target-note-count[hidden],\n.margin-notes-target-note-count[data-margin-notes-empty="true"],\n.margin-notes-target-note[hidden] {\n  display: none;\n}\n\n.margin-notes-target-note-items {\n  display: flex;\n  flex-direction: column;\n  gap: 0;\n}\n\n.margin-notes-target-note {\n  background: transparent;\n  border-radius: 4px;\n  color: #302a1d;\n  min-height: 2rem;\n  position: relative;\n}\n\n.margin-notes-target-note.is-expanded {\n  background: var(--margin-notes-open-background, #fffefb);\n  left: 0;\n  position: absolute;\n  right: auto;\n  top: var(--margin-notes-expanded-top, 0);\n  width: min(24rem, 54vw);\n  z-index: 20;\n}\n\n.margin-notes-target-note-toggle {\n  align-items: baseline;\n  background: transparent;\n  border: 0;\n  color: inherit;\n  cursor: pointer;\n  display: flex;\n  gap: 0.38rem;\n  font: 0.875rem/1.35 system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;\n  overflow: hidden;\n  padding: 0.16rem 0;\n  text-align: left;\n  width: 100%;\n}\n\n.margin-notes-target-note-text {\n  min-width: 0;\n  overflow: hidden;\n  text-overflow: ellipsis;\n  white-space: nowrap;\n}\n\n.margin-notes-target-note.is-expanded .margin-notes-target-note-toggle {\n  cursor: text;\n  overflow: visible;\n  padding: 0.35rem 2rem 0.55rem 0;\n}\n\n.margin-notes-target-note.is-expanded .margin-notes-target-note-text {\n  overflow: visible;\n  text-overflow: clip;\n  white-space: normal;\n}\n\n.margin-notes-target-note-actions {\n  border-top: 1px solid #ebe4d1;\n  display: none;\n  gap: 0.35rem;\n  justify-content: flex-end;\n  padding: 0 0.45rem 0.45rem;\n}\n\n.margin-notes-target-note.is-expanded .margin-notes-target-note-actions {\n  display: flex;\n}\n\n.margin-notes-target-note-action {\n  background: transparent;\n  border: 0;\n  color: #4d5f8f;\n  cursor: pointer;\n  font: 600 0.78rem/1 system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;\n  padding: 0.35rem;\n}\n\n.margin-notes-target-note-close {\n  align-items: center;\n  background: transparent;\n  border: 0;\n  color: #5f5541;\n  cursor: pointer;\n  display: none;\n  font: 1.1rem/1 system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;\n  height: 1.65rem;\n  justify-content: center;\n  padding: 0;\n  position: absolute;\n  right: 0.25rem;\n  top: 0.25rem;\n  width: 1.65rem;\n}\n\n.margin-notes-target-note.is-expanded .margin-notes-target-note-close {\n  display: inline-flex;\n}\n\n@media (max-width: 760px) {\n  [data-margin-notes-target]::before {\n    display: none;\n  }\n\n  .margin-notes-target-add-btn {\n    left: auto;\n    right: 0;\n    top: -0.85rem;\n  }\n\n  .margin-notes-target-note-list {\n    left: 0;\n    position: relative;\n    top: auto;\n    width: 100%;\n  }\n\n  .margin-notes-target-note.is-expanded {\n    width: min(100%, 24rem);\n  }\n}\n';
+
+// src/features/paragraph-note-stacks.js
+var paragraphNoteStacks = {
+  templates: {
+    "margin-notes": root_default,
+    "margin-notes-anchor-widget": anchor_widget_default,
+    "margin-notes-inline-note": inline_note_default
+  },
+  styles: {
+    "margin-notes-ui": ui_default,
+    "margin-notes-cobalt-editor": cobalt_editor_modal_default2
+  },
+  actions: {
+    async setupParagraphNoteStacks({ anchors, storeKey }) {
+      const notesApi = this.api.notes;
+      this.data.marginNotes.storeKey = storeKey;
+      await this.actions.installAnchorAffordances({ anchors });
+      this.data.marginNotes.graph = await notesApi.loadGraph({
+        app: this,
+        key: storeKey
+      });
+      const notesByAnchor = notesApi.groupNotesByAnchor({
+        notes: this.data.marginNotes.graph
+      });
+      const anchorState = anchors.map((anchor2) => {
+        const notes = notesByAnchor[anchor2.id] || [];
+        return {
+          id: anchor2.id,
+          label: notesApi.anchorLabel({ anchor: anchor2 }),
+          notes,
+          visibleNotes: [],
+          noteCount: notes.length,
+          overflowLabel: "",
+          hasOverflow: false,
+          expanded: false
+        };
+      });
+      this.data.marginNotes.anchors = anchorState;
+      this.data.marginNotes.anchorViews = Array.from(anchorState, (anchor2) => [anchor2]);
+      for (const anchor2 of this.data.marginNotes.anchors) {
+        await this.actions.renderAnchorNotes({ anchor: anchor2 });
+      }
+    },
+    async destroyParagraphNoteStacks() {
+      const notesApi = this.api.notes;
+      this.marginNotesRuntime.resizeObserver?.disconnect();
+      this.marginNotesRuntime.resizeObserver = null;
+      for (const timer of this.marginNotesRuntime.syncTimers.values()) {
+        clearTimeout(timer);
+      }
+      this.marginNotesRuntime.syncTimers.clear();
+      await this.actions.removeAnchorAffordances({});
+      notesApi.removeInstalledViewAssets({ app: this });
+      this.marginNotesRuntime.mountContainer?.replaceChildren();
+    },
+    async createNote({ anchorId }) {
+      const notesApi = this.api.notes;
+      const anchor2 = notesApi.findAnchor({ app: this, anchorId });
+      if (!anchor2) return;
+      const modal = new notesApi.CobaltEditorModal({
+        title: "New note",
+        initialFragment: { text: "", annotations: [] }
+      });
+      const fragment = await modal.show();
+      if (!fragment) return;
+      const annotation = notesApi.createAnnotationNote({ anchorId, fragment });
+      this.data.marginNotes.graph.push(annotation);
+      anchor2.notes.push(notesApi.toRenderableNote({ annotation }));
+      await this.actions.updateAnchorNoteState({ anchor: anchor2 });
+      await this.actions.renderAnchorNotes({ anchor: anchor2 });
+      await this.actions.saveNotes({});
+    },
+    async updateNote({ noteId }) {
+      const notesApi = this.api.notes;
+      const match = notesApi.findNote({ app: this, noteId });
+      if (!match) return;
+      const modal = new notesApi.CobaltEditorModal({
+        title: "Edit note",
+        initialFragment: match.note.body
+      });
+      const fragment = await modal.show();
+      if (!fragment) return;
+      notesApi.updateAnnotationBody({
+        annotation: match.note.annotation,
+        fragment
+      });
+      notesApi.syncRenderableNote({ note: match.note });
+      await this.actions.renderAnchorNotes({ anchor: match.anchor });
+      await this.actions.saveNotes({});
+    },
+    async deleteNote({ noteId }) {
+      const notesApi = this.api.notes;
+      const match = notesApi.findNote({ app: this, noteId });
+      if (!match) return;
+      match.anchor.notes.splice(match.index, 1);
+      notesApi.removeAnnotationFromGraph({
+        app: this,
+        annotationId: match.note.id
+      });
+      await this.actions.updateAnchorNoteState({ anchor: match.anchor });
+      await this.actions.renderAnchorNotes({ anchor: match.anchor });
+      await this.actions.saveNotes({});
+    },
+    async saveNotes() {
+      const notesApi = this.api.notes;
+      await notesApi.saveGraph({
+        app: this,
+        key: this.data.marginNotes.storeKey,
+        subjects: this.data.marginNotes.graph
+      });
+    },
+    async installAnchorAffordances({ anchors }) {
+      const notesApi = this.api.notes;
+      await this.actions.removeAnchorAffordances({});
+      this.marginNotesRuntime.resizeObserver?.disconnect();
+      this.marginNotesRuntime.resizeObserver = notesApi.createResizeObserver({ app: this });
+      anchors.forEach((anchor2, index) => {
+        if (!notesApi.isValidHostAnchor({ anchor: anchor2 })) {
+          return;
+        }
+        const widget = document.createElement("span");
+        widget.className = "margin-notes-anchor-widget-host";
+        widget.dataset.marginNotesAnchor = anchor2.id;
+        widget.setAttribute("data-simply-list", `marginNotes.anchorViews.${index}`);
+        widget.innerHTML = '<template rel="margin-notes-anchor-widget"></template>';
+        const hadTabIndex = anchor2.element.hasAttribute("tabindex");
+        const previousTabIndex = anchor2.element.getAttribute("tabindex");
+        const hadTargetAttribute = anchor2.element.hasAttribute("data-margin-notes-target");
+        const previousTargetAttribute = anchor2.element.getAttribute("data-margin-notes-target");
+        anchor2.element.dataset.marginNotesTarget = anchor2.id;
+        if (!hadTabIndex && !notesApi.isNaturallyFocusable({ element: anchor2.element })) {
+          anchor2.element.tabIndex = 0;
+          anchor2.element.classList.add("margin-notes-target-tabstop");
+        }
+        const slot = notesApi.anchorSlot({ anchor: anchor2 });
+        slot.appendChild(widget);
+        this.marginNotesRuntime.anchorAffordances.push({
+          element: anchor2.element,
+          slot,
+          widget,
+          anchorId: anchor2.id,
+          expanded: false,
+          hasOverflow: false,
+          hadTabIndex,
+          previousTabIndex,
+          hadTargetAttribute,
+          previousTargetAttribute
+        });
+        this.marginNotesRuntime.resizeObserver?.observe(anchor2.element);
+      });
+    },
+    async removeAnchorAffordances() {
+      for (const affordance of this.marginNotesRuntime.anchorAffordances) {
+        affordance.widget.remove();
+        affordance.element.classList.remove("margin-notes-target-tabstop");
+        if (affordance.hadTabIndex) {
+          affordance.element.setAttribute("tabindex", affordance.previousTabIndex);
+        } else {
+          affordance.element.removeAttribute("tabindex");
+        }
+        if (affordance.hadTargetAttribute) {
+          affordance.element.setAttribute("data-margin-notes-target", affordance.previousTargetAttribute);
+        } else {
+          affordance.element.removeAttribute("data-margin-notes-target");
+        }
+      }
+      this.marginNotesRuntime.anchorAffordances = [];
+    },
+    async renderAnchorNotes({ anchor: anchor2 }) {
+      const notesApi = this.api.notes;
+      const affordance = notesApi.findAnchorAffordance({ app: this, anchorId: anchor2.id });
+      if (!affordance) return;
+      if (anchor2.notes.length === 0) {
+        affordance.expanded = false;
+        anchor2.expanded = false;
+      }
+      await this.actions.layoutAnchorNotes({ anchorId: anchor2.id });
+    },
+    async moveNoteFocus({ event, direction }) {
+      const notesApi = this.api.notes;
+      const note = notesApi.noteFromElement({ app: this, source: event.target });
+      if (!note) return;
+      const match = notesApi.findNote({ app: this, noteId: note.id });
+      if (!match) return;
+      const next = match.anchor.notes[match.index + direction];
+      if (!next) return;
+      const nextIsVisible = match.anchor.visibleNotes.some((visibleNote) => visibleNote.id === next.id);
+      if (!match.anchor.expanded && !nextIsVisible) {
+        await this.actions.expandAnchorNoteList({ anchorId: match.anchor.id });
+      }
+      await this.actions.focusNoteAfterRender({ noteId: next.id });
+    },
+    async blurAndCollapseNote({ event }) {
+      const notesApi = this.api.notes;
+      const note = notesApi.noteFromElement({ app: this, source: event.target });
+      const match = note ? notesApi.findNote({ app: this, noteId: note.id }) : null;
+      const list2 = event.target?.closest?.(".margin-notes-target-note-list");
+      const active = document.activeElement;
+      if (active instanceof HTMLElement) {
+        active.blur();
+      }
+      if (list2) {
+        await this.actions.collapseExpandedInlineNotes({ list: list2 });
+      }
+      if (match?.anchor.expanded) {
+        await this.actions.collapseAnchorNoteList({ anchorId: match.anchor.id });
+      }
+    },
+    async layoutAnchorNotes({ anchorId }) {
+      const notesApi = this.api.notes;
+      const affordance = notesApi.findAnchorAffordance({ app: this, anchorId });
+      const anchor2 = notesApi.findAnchor({ app: this, anchorId });
+      if (!affordance || !anchor2) return;
+      const notes = Array.from(anchor2.notes);
+      const noteCount = notes.length;
+      anchor2.noteCount = noteCount;
+      anchor2.expanded = affordance.expanded && noteCount > 0;
+      if (affordance.expanded) {
+        anchor2.visibleNotes = notes;
+        anchor2.overflowLabel = affordance.hasOverflow ? "show fewer notes" : "";
+        await this.actions.syncAnchorLayoutDom({ anchorId });
+        return;
+      }
+      if (noteCount === 0) {
+        affordance.hasOverflow = false;
+        anchor2.hasOverflow = false;
+        anchor2.visibleNotes = [];
+        anchor2.overflowLabel = "";
+        await this.actions.syncAnchorLayoutDom({ anchorId });
+        return;
+      }
+      if (noteCount === 1) {
+        affordance.hasOverflow = false;
+        anchor2.hasOverflow = false;
+        anchor2.visibleNotes = notes;
+        anchor2.overflowLabel = "";
+        await this.actions.syncAnchorLayoutDom({ anchorId });
+        return;
+      }
+      const availableHeight = Math.max(0, affordance.element.getBoundingClientRect().height);
+      const collapsedNoteHeight = 32;
+      const overflowToggleHeight = 22;
+      let visibleCount = Math.floor(availableHeight / collapsedNoteHeight);
+      if (visibleCount >= noteCount) {
+        affordance.hasOverflow = false;
+        anchor2.hasOverflow = false;
+        anchor2.visibleNotes = notes;
+        anchor2.overflowLabel = "";
+        await this.actions.syncAnchorLayoutDom({ anchorId });
+        return;
+      }
+      affordance.hasOverflow = true;
+      anchor2.hasOverflow = true;
+      visibleCount = Math.floor((availableHeight - overflowToggleHeight) / collapsedNoteHeight);
+      visibleCount = Math.max(0, Math.min(visibleCount, noteCount - 1));
+      const hiddenCount = Math.max(0, noteCount - visibleCount);
+      anchor2.visibleNotes = notes.slice(0, visibleCount);
+      anchor2.overflowLabel = visibleCount > 0 ? `${hiddenCount} more notes...` : `${noteCount} notes`;
+      await this.actions.syncAnchorLayoutDom({ anchorId });
+    },
+    async toggleAnchorNoteList({ anchorId }) {
+      if (!anchorId) return;
+      const notesApi = this.api.notes;
+      const affordance = notesApi.findAnchorAffordance({ app: this, anchorId });
+      if (!affordance) return;
+      if (affordance.expanded) {
+        await this.actions.collapseAnchorNoteList({ anchorId });
+      } else {
+        await this.actions.expandAnchorNoteList({ anchorId });
+      }
+    },
+    async expandAnchorNoteList({ anchorId }) {
+      const notesApi = this.api.notes;
+      const affordance = notesApi.findAnchorAffordance({ app: this, anchorId });
+      if (!affordance || affordance.expanded) return;
+      for (const other of this.marginNotesRuntime.anchorAffordances) {
+        if (other.expanded) {
+          other.expanded = false;
+          await this.actions.collapseExpandedInlineNotes({ list: notesApi.noteListElement({ affordance: other }) });
+          await this.actions.layoutAnchorNotes({ anchorId: other.anchorId });
+        }
+      }
+      affordance.expanded = true;
+      await this.actions.layoutAnchorNotes({ anchorId });
+    },
+    async collapseAnchorNoteList({ anchorId }) {
+      const notesApi = this.api.notes;
+      const affordance = notesApi.findAnchorAffordance({ app: this, anchorId });
+      if (!affordance) return;
+      affordance.expanded = false;
+      await this.actions.collapseExpandedInlineNotes({ list: notesApi.noteListElement({ affordance }) });
+      await this.actions.layoutAnchorNotes({ anchorId });
+    },
+    async expandInlineNote({ source }) {
+      const item = source?.closest?.(".margin-notes-target-note");
+      if (!item) return;
+      const list2 = item.closest(".margin-notes-target-note-list");
+      const toggle = item.querySelector(".margin-notes-target-note-toggle");
+      const top = item.offsetTop;
+      for (const expanded of list2?.querySelectorAll(".margin-notes-target-note.is-expanded") || []) {
+        await this.actions.collapseInlineNote({ item: expanded });
+      }
+      item.style.setProperty("--margin-notes-expanded-top", `${top}px`);
+      item.classList.add("is-expanded");
+      toggle?.setAttribute("aria-expanded", "true");
+    },
+    async collapseInlineNote({ item }) {
+      const toggle = item.querySelector(".margin-notes-target-note-toggle");
+      item.classList.remove("is-expanded");
+      item.style.removeProperty("--margin-notes-expanded-top");
+      toggle?.setAttribute("aria-expanded", "false");
+    },
+    async collapseExpandedInlineNotes({ list: list2 }) {
+      if (!list2) return;
+      for (const note of list2.querySelectorAll(".margin-notes-target-note.is-expanded")) {
+        await this.actions.collapseInlineNote({ item: note });
+      }
+    },
+    async closeInlineNote({ source }) {
+      const item = source?.closest?.(".margin-notes-target-note");
+      if (!item) return;
+      await this.actions.collapseInlineNote({ item });
+      item.querySelector(".margin-notes-target-note-toggle")?.focus();
+    },
+    async focusNoteAfterRender({ noteId }) {
+      setTimeout(() => this.actions.focusNote({ noteId }), 75);
+    },
+    async focusNote({ noteId }) {
+      const notesApi = this.api.notes;
+      const buttons = document.body.querySelectorAll(".margin-notes-target-note-toggle[data-simply-value-path]");
+      for (const button2 of buttons) {
+        if (notesApi.noteFromElement({ app: this, source: button2 })?.id === noteId) {
+          button2.focus();
+          return;
+        }
+      }
+    },
+    async syncAnchorLayoutDom({ anchorId }) {
+      const notesApi = this.api.notes;
+      const existing = this.marginNotesRuntime.syncTimers.get(anchorId);
+      if (existing) {
+        clearTimeout(existing);
+      }
+      const sync = () => notesApi.syncAnchorLayoutDomNow({ app: this, anchorId });
+      sync();
+      this.marginNotesRuntime.syncTimers.set(anchorId, setTimeout(sync, 75));
+    },
+    async updateAnchorNoteState({ anchor: anchor2 }) {
+      anchor2.noteCount = anchor2.notes.length;
+    }
+  },
+  commands: {
+    createNote(_element, anchor2) {
+      return this.actions.createNote({ anchorId: anchor2?.id });
+    },
+    toggleAnchorNoteList(_element, anchor2) {
+      return this.actions.toggleAnchorNoteList({ anchorId: anchor2?.id });
+    },
+    expandInlineNote(element2) {
+      return this.actions.expandInlineNote({ source: element2 });
+    },
+    collapseInlineNote(element2) {
+      return this.actions.closeInlineNote({ source: element2 });
+    },
+    updateNote(_element, note) {
+      return this.actions.updateNote({ noteId: note?.id });
+    },
+    deleteNote(_element, note) {
+      return this.actions.deleteNote({ noteId: note?.id });
+    }
+  },
+  shortcuts: {
+    marginNotesNote: {
+      arrowdown(event) {
+        this.actions.moveNoteFocus({ event, direction: 1 });
+        return false;
+      },
+      arrowright(event) {
+        this.actions.moveNoteFocus({ event, direction: 1 });
+        return false;
+      },
+      arrowup(event) {
+        this.actions.moveNoteFocus({ event, direction: -1 });
+        return false;
+      },
+      arrowleft(event) {
+        this.actions.moveNoteFocus({ event, direction: -1 });
+        return false;
+      },
+      escape(event) {
+        this.actions.blurAndCollapseNote({ event });
+        return false;
+      }
+    }
+  },
+  api: {
+    notes: {
+      ...annotationModel,
+      CobaltEditorModal,
+      path: path_default,
+      installedViewAssets: [
+        "margin-notes",
+        "margin-notes-anchor-widget",
+        "margin-notes-inline-note",
+        "margin-notes-ui.css",
+        "margin-notes-cobalt-editor.css"
+      ],
+      getNotesForAnchor({ app: app2, anchorId }) {
+        const anchor2 = this.findAnchor({ app: app2, anchorId });
+        if (!anchor2) return [];
+        return Array.from(anchor2.notes, (note) => this.toStoredAnnotation({ annotation: note.annotation }));
+      },
+      removeInstalledViewAssets() {
+        for (const id of this.installedViewAssets) {
+          document.getElementById(id)?.remove();
+        }
+      },
+      async loadGraph({ app: app2, key }) {
+        try {
+          const value = await app2.marginNotesRuntime.store.load({ key });
+          if (!value) return [];
+          return this.toStoredGraph({ value });
+        } catch (error) {
+          console.error("Failed to load notes:", error);
+          return [];
+        }
+      },
+      async saveGraph({ app: app2, key, subjects }) {
+        try {
+          await app2.marginNotesRuntime.store.save({
+            key,
+            value: this.toStorageDocument({ subjects })
+          });
+          return true;
+        } catch (error) {
+          console.error("Failed to save notes:", error);
+          return false;
+        }
+      },
+      groupNotesByAnchor({ notes }) {
+        return notes.reduce((grouped, note) => {
+          const anchorId = this.annotationAnchorId({ annotation: note }) || note.anchorId;
+          if (!anchorId) return grouped;
+          if (!grouped[anchorId]) {
+            grouped[anchorId] = [];
+          }
+          grouped[anchorId].push(this.toRenderableNote({ annotation: note }));
+          return grouped;
+        }, {});
+      },
+      createResizeObserver({ app: app2 }) {
+        if (typeof ResizeObserver === "undefined") {
+          return;
+        }
+        return new ResizeObserver((entries) => {
+          for (const entry of entries) {
+            const affordance = app2.marginNotesRuntime.anchorAffordances.find((item) => item.element === entry.target);
+            if (affordance) {
+              app2.actions.layoutAnchorNotes({ anchorId: affordance.anchorId });
+            }
+          }
+        });
+      },
+      isValidHostAnchor({ anchor: anchor2 }) {
+        return Boolean(
+          anchor2?.id && typeof HTMLElement !== "undefined" && anchor2.element instanceof HTMLElement && (anchor2.slot === void 0 || anchor2.slot instanceof HTMLElement)
+        );
+      },
+      anchorSlot({ anchor: anchor2 }) {
+        return anchor2.slot || anchor2.element;
+      },
+      findAnchor({ app: app2, anchorId }) {
+        return app2?.data.marginNotes.anchors.find((anchor2) => anchor2.id === anchorId);
+      },
+      findAnchorAffordance({ app: app2, anchorId }) {
+        return app2.marginNotesRuntime.anchorAffordances.find((affordance) => affordance.anchorId === anchorId);
+      },
+      findNote({ app: app2, noteId }) {
+        for (const anchor2 of app2?.data.marginNotes.anchors || []) {
+          const index = anchor2.notes.findIndex((note) => note.id === noteId);
+          if (index >= 0) {
+            return { anchor: anchor2, note: anchor2.notes[index], index };
+          }
+        }
+      },
+      noteListElement({ affordance }) {
+        return affordance?.widget.querySelector(".margin-notes-target-note-list");
+      },
+      noteFromElement({ app: app2, source }) {
+        const element2 = source?.closest?.("[data-simply-value-path]");
+        const valuePath = element2?.dataset?.simplyValuePath;
+        if (!valuePath || !app2) return;
+        return this.path.get(app2.data, valuePath);
+      },
+      syncAnchorLayoutDomNow({ app: app2, anchorId }) {
+        app2.marginNotesRuntime.syncTimers.delete(anchorId);
+        const affordance = this.findAnchorAffordance({ app: app2, anchorId });
+        const anchor2 = this.findAnchor({ app: app2, anchorId });
+        if (!affordance || !anchor2) return;
+        const list2 = this.noteListElement({ affordance });
+        const count = affordance.widget.querySelector(".margin-notes-target-note-count");
+        if (!list2 || !count) return;
+        list2.classList.toggle("is-expanded", anchor2.expanded);
+        list2.setAttribute("aria-label", `Notes for ${anchor2.label}`);
+        list2.style.setProperty("--margin-notes-open-background", app2.marginNotesRuntime.expandedStackBackground);
+        count.hidden = !anchor2.overflowLabel;
+        count.dataset.marginNotesEmpty = anchor2.overflowLabel ? "false" : "true";
+        count.setAttribute("aria-expanded", anchor2.expanded ? "true" : "false");
+        if (anchor2.expanded) {
+          count.setAttribute("aria-label", `Collapse ${anchor2.noteCount} notes`);
+        } else if (anchor2.visibleNotes.length > 0) {
+          const hiddenCount = Math.max(0, anchor2.noteCount - anchor2.visibleNotes.length);
+          count.setAttribute("aria-label", `Show ${hiddenCount} more notes`);
+        } else {
+          count.setAttribute("aria-label", `Show ${anchor2.noteCount} notes`);
+        }
+      },
+      anchorLabel({ anchor: anchor2 }) {
+        return (anchor2.label || anchor2.id).replace(/\s+/g, " ").trim();
+      },
+      isNaturallyFocusable({ element: element2 }) {
+        return element2.matches("a[href], button, input, select, textarea, summary, [tabindex]");
+      }
+    }
+  }
+};
+
+// src/host-contract.js
+function validateHostConfig(config) {
+  if (!config) {
+    throw new Error("Config is required");
+  }
+  if (!Array.isArray(config.anchors)) {
+    throw new Error("Config must have anchors array");
+  }
+  if (!config.container || !isElementLike(config.container.element)) {
+    throw new Error("Config must have container with element");
+  }
+  if (config.store) {
+    validateStore(config.store);
+  }
+  const anchorIds = /* @__PURE__ */ new Set();
+  config.anchors.forEach((anchor2, index) => {
+    validateAnchor(anchor2, index);
+    if (anchorIds.has(anchor2.id)) {
+      throw new Error(`Config anchors must have unique ids: ${anchor2.id}`);
+    }
+    anchorIds.add(anchor2.id);
+  });
+  return config;
+}
+function storeKeyFromConfig(config) {
+  const namespace = config?.namespace || "default";
+  return config?.storeKey || config?.storageKey || `margin-notes-${namespace}`;
+}
+function validateAnchor(anchor2, index) {
+  if (!anchor2 || typeof anchor2.id !== "string" || anchor2.id.length === 0) {
+    throw new Error(`Config anchor at index ${index} must have an id`);
+  }
+  if (!isElementLike(anchor2.element)) {
+    throw new Error(`Config anchor "${anchor2.id}" must have an element`);
+  }
+  if (anchor2.slot !== void 0 && !isElementLike(anchor2.slot)) {
+    throw new Error(`Config anchor "${anchor2.id}" slot must be an element`);
+  }
+}
+function validateStore(store) {
+  for (const method of ["load", "save", "remove"]) {
+    if (typeof store[method] !== "function") {
+      throw new Error(`Config store must provide ${method}()`);
+    }
+  }
+}
+function isElementLike(value) {
+  return value && typeof value === "object" && value.nodeType === 1;
+}
+
+// src/storage/local-store.js
+var DEFAULT_NAME = "margin-notes";
+var DEFAULT_COLLECTION = "values";
+function createLocalStore(options = {}) {
+  const name = options.name || DEFAULT_NAME;
+  const collection = options.collection || DEFAULT_COLLECTION;
+  const indexedDB = options.indexedDB ?? globalThis.indexedDB;
+  let database;
+  return {
+    name: "localStore",
+    async load({ key }) {
+      const store = await objectStore({ mode: "readonly" });
+      const record = await requestValue(store.get(key));
+      return record?.value ?? null;
+    },
+    async save({ key, value }) {
+      const store = await objectStore({ mode: "readwrite" });
+      await requestValue(store.put({ key, value }));
+      return { key };
+    },
+    async remove({ key }) {
+      const store = await objectStore({ mode: "readwrite" });
+      await requestValue(store.delete(key));
+      return { key };
+    }
+  };
+  async function objectStore({ mode }) {
+    database ||= openDatabase({ indexedDB, name, collection });
+    const db = await database;
+    return db.transaction(collection, mode).objectStore(collection);
+  }
+}
+function openDatabase({ indexedDB, name, collection }) {
+  if (!indexedDB) {
+    return Promise.reject(new Error("Browser local storage is not available"));
+  }
+  return new Promise((resolve, reject) => {
+    const request = indexedDB.open(name, 1);
+    request.onupgradeneeded = (event) => {
+      const db = event.target.result;
+      if (!db.objectStoreNames.contains(collection)) {
+        db.createObjectStore(collection, { keyPath: "key" });
+      }
+    };
+    request.onsuccess = (event) => resolve(event.target.result);
+    request.onerror = (event) => reject(event.target.error);
+  });
+}
+function requestValue(request) {
+  return new Promise((resolve, reject) => {
+    request.onsuccess = (event) => resolve(event.target.result);
+    request.onerror = (event) => reject(event.target.error);
+  });
+}
+
+// src/component.js
+function mount(config) {
+  validateHostConfig(config);
+  const mountContainer = config.container.element;
+  const storeKey = storeKeyFromConfig(config);
+  const store = config.store || createLocalStore();
+  mountContainer.innerHTML = '<simply-render rel="margin-notes"></simply-render>';
+  const marginApp = app({
+    container: document.body,
+    components: {
+      paragraphNoteStacks
+    },
+    data: {
+      marginNotes: {
+        anchors: [],
+        anchorViews: [],
+        graph: [],
+        storeKey
+      }
+    },
+    marginNotesRuntime: {
+      mountContainer,
+      hostAnchors: config.anchors,
+      store,
+      expandedStackBackground: config.expandedStackBackground || "#fffefb",
+      anchorAffordances: [],
+      resizeObserver: null,
+      syncTimers: /* @__PURE__ */ new Map()
+    },
+    start() {
+      return this.actions.setupParagraphNoteStacks({
+        anchors: this.marginNotesRuntime.hostAnchors,
+        storeKey
+      });
+    }
+  });
+  const destroyApp = marginApp.destroy.bind(marginApp);
+  marginApp.destroy = async function destroyMarginNotesApp() {
+    await this.actions.destroyParagraphNoteStacks({});
+    destroyApp();
+  };
+  marginApp.getNotesForAnchor = function getMountedNotesForAnchor(anchorId) {
+    return this.api.notes.getNotesForAnchor({
+      app: this,
+      anchorId
+    });
+  };
+  return marginApp;
+}
+var MarginNotes = class {
+  constructor() {
+    this.app = null;
+  }
+  async initialize(config) {
+    if (this.app) {
+      await this.destroy();
+    }
+    this.app = mount(config);
+  }
+  async destroy() {
+    if (!this.app) return;
+    await this.app.destroy();
+    this.app = null;
+  }
+  async createNote(anchorId) {
+    return this.app?.actions.createNote({ anchorId });
+  }
+  async updateNote(noteId) {
+    return this.app?.actions.updateNote({ noteId });
+  }
+  async deleteNote(noteId) {
+    return this.app?.actions.deleteNote({ noteId });
+  }
+  getNotesForAnchor(anchorId) {
+    return this.app?.getNotesForAnchor(anchorId) || [];
+  }
+};
+
+// src/index.js
+var MarginNotesAPI = {
+  mount(config) {
+    return mount(config);
+  },
+  create() {
+    return new MarginNotes();
+  }
+};
+if (typeof window !== "undefined") {
+  window.MarginNotes = MarginNotesAPI;
+}
+export {
+  MarginNotes,
+  MarginNotesAPI,
+  mount
+};
+//# sourceMappingURL=index.js.map

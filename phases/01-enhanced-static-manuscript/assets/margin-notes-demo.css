@@ -1,0 +1,74 @@
+html[data-page-kind="chapter"] .passage-margin .margin-notes-anchor-widget-host,
+html[data-page-kind="chapter"] .passage-margin .margin-notes-anchor-widget {
+  display: block;
+}
+
+html[data-flow="paged"][data-page-kind="chapter"] .passage-margin .margin-notes-target-add-btn {
+  left: calc(var(--book-link-margin-gap) * -1);
+  right: auto;
+  top: 0;
+  transform: translateX(0.2rem);
+}
+
+html[data-page-kind="chapter"] [data-margin-notes-target]:hover .passage-margin .margin-notes-target-add-btn,
+html[data-page-kind="chapter"] [data-margin-notes-target]:focus .passage-margin .margin-notes-target-add-btn,
+html[data-page-kind="chapter"] [data-margin-notes-target]:focus-within .passage-margin .margin-notes-target-add-btn,
+html[data-page-kind="chapter"] .passage-margin:hover .margin-notes-target-add-btn,
+html[data-page-kind="chapter"] .passage-margin:focus-within .margin-notes-target-add-btn,
+html[data-page-kind="chapter"] .passage-margin .margin-notes-target-add-btn:focus-visible {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateX(0);
+}
+
+html[data-flow="scroll"][data-page-kind="chapter"] .passage-margin .margin-notes-target-add-btn {
+  left: auto;
+  right: 0.25rem;
+}
+
+html[data-page-kind="chapter"] .passage-margin .margin-notes-target-note-list {
+  border-inline-start: 2px solid color-mix(in srgb, var(--color-rule), transparent 35%);
+  display: flex;
+  left: auto;
+  padding-inline-start: 0.55rem;
+  position: static;
+  top: auto;
+  width: 100%;
+}
+
+html[data-page-kind="chapter"] .passage-margin:has(.margin-notes-target-note:not([hidden])) .margin-notes-target-note-list {
+  margin-block-start: 2.35rem;
+}
+
+html[data-page-kind="chapter"] .passage-margin .margin-notes-target-note-list.is-expanded {
+  background: transparent;
+  box-shadow: none;
+}
+
+html[data-page-kind="chapter"] .passage-margin .margin-notes-target-note {
+  background: color-mix(in srgb, var(--color-page), var(--color-rule) 5%);
+  border-radius: 4px;
+  padding-inline: 0.4rem;
+}
+
+html[data-page-kind="chapter"] .passage-margin .margin-notes-target-note.is-expanded {
+  left: auto;
+  position: relative;
+  top: auto;
+  width: 100%;
+}
+
+html[data-page-kind="chapter"] .passage-margin .margin-notes-target-note-toggle {
+  padding-block: 0.25rem;
+}
+
+html[data-page-kind="chapter"] .passage-margin .margin-notes-target-note.is-expanded .margin-notes-target-note-toggle {
+  padding-block: 0.45rem 0.55rem;
+}
+
+@media (max-width: 40rem) {
+  html[data-page-kind="chapter"] .passage-margin .margin-notes-target-add-btn {
+    left: auto;
+    right: 0.25rem;
+  }
+}

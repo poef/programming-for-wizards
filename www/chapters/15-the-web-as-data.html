@@ -27,6 +27,7 @@
   <link rel="manifest" href="../manifest.webmanifest">
   <link rel="apple-touch-icon" href="../assets/images/icons/programming-for-wizards-icon-192.png">
   <link rel="stylesheet" href="../assets/book.css">
+  <link rel="stylesheet" href="../assets/margin-notes-demo.css">
   <link rel="stylesheet" href="../assets/exhibits/exhibits.css">
   <script>
     window.MathJax = {
@@ -45,6 +46,7 @@
   <script defer src="../assets/exhibits/exhibit-kit.js"></script>
   <script defer src="https://cdn.jsdelivr.net/gh/muze-labs/simplyflow@main/packages/simplyflow/dist/simply.flow.js"></script>
   <script type="module" src="../assets/exhibits/exhibits.js"></script>
+  <script type="module" src="../assets/margin-notes-demo.js"></script>
 </head>
 <body>
   <a class="skip-link" href="#main">Skip to manuscript</a>
@@ -118,80 +120,161 @@
     <svg class="chapter-glyph" viewBox="0 0 96 96" focusable="false" aria-hidden="true"><path d="M22 61h52"/><path d="M28 61V33h16v28M52 61V25h16v36"/><path d="M31 42h10m14-7h10M31 51h10m24-6H55"/></svg>
   </header>
   <h1 id="h-15-the-web-as-data-things-should-have-addresses-too"><a class="anchor-link" href="#h-15-the-web-as-data-things-should-have-addresses-too" aria-label="Link to The Web as data: things should have addresses too">#</a>The Web as data: things should have addresses too</h1>
-<p id="p-15-portability-is-not-interoperability" data-note-target>Portability is not interoperability.</p>
-<p id="p-15-portability-means-that-data-can-leave-one-application" data-note-target>Portability means that data can leave one application. Interoperability means that another application can understand and use it without a special translator written for those exact two systems.</p>
-<p id="p-15-json-is-portable-it-can-carry-almost-any" data-note-target>JSON is never just JSON. It is portable and can carry almost any kind of data, but it does not tell another program what the names inside it mean.</p>
-<p id="p-15-json-is-an-interesting-piece-of-infrastructure" data-note-target>That is not an accidental omission. JSON is infrastructure, and almost aggressively small. It has objects, arrays, strings, numbers, booleans and <code>null</code>. That is nearly the whole spell.</p>
-<p id="p-15-its-smallness-helped-it-spread" data-note-target>Its smallness helped it spread. It also made JSON difficult to extend. When people need identity, dates, references, types or shared vocabularies, they make another format or hide another language inside the familiar one.</p>
-<p id="p-15-a-contacts-app-calendar-app-and-photo-app" data-note-target>A contacts app, calendar app and photo app may all know something about the same person. Unless their names line up, the data still lives in separate little rooms.</p>
+<p id="p-15-portability-is-not-interoperability" data-note-target><span class="passage-margin" data-passage-margin aria-label="Margin for this passage">
+<span class="passage-margin-notes" data-passage-margin-notes></span>
+
+</span>Portability is not interoperability.</p>
+<p id="p-15-portability-means-that-data-can-leave-one-application" data-note-target><span class="passage-margin" data-passage-margin aria-label="Margin for this passage">
+<span class="passage-margin-notes" data-passage-margin-notes></span>
+
+</span>Portability means that data can leave one application. Interoperability means that another application can understand and use it without a special translator written for those exact two systems.</p>
+<p id="p-15-json-is-portable-it-can-carry-almost-any" data-note-target><span class="passage-margin" data-passage-margin aria-label="Margin for this passage">
+<span class="passage-margin-notes" data-passage-margin-notes></span>
+
+</span>JSON is never just JSON. It is portable and can carry almost any kind of data, but it does not tell another program what the names inside it mean.</p>
+<p id="p-15-json-is-an-interesting-piece-of-infrastructure" data-note-target><span class="passage-margin" data-passage-margin aria-label="Margin for this passage">
+<span class="passage-margin-notes" data-passage-margin-notes></span>
+
+</span>That is not an accidental omission. JSON is infrastructure, and almost aggressively small. It has objects, arrays, strings, numbers, booleans and <code>null</code>. That is nearly the whole spell.</p>
+<p id="p-15-its-smallness-helped-it-spread" data-note-target><span class="passage-margin" data-passage-margin aria-label="Margin for this passage">
+<span class="passage-margin-notes" data-passage-margin-notes></span>
+
+</span>Its smallness helped it spread. It also made JSON difficult to extend. When people need identity, dates, references, types or shared vocabularies, they make another format or hide another language inside the familiar one.</p>
+<p id="p-15-a-contacts-app-calendar-app-and-photo-app" data-note-target><span class="passage-margin" data-passage-margin aria-label="Margin for this passage">
+<span class="passage-margin-notes" data-passage-margin-notes></span>
+
+</span>A contacts app, calendar app and photo app may all know something about the same person. Unless their names line up, the data still lives in separate little rooms.</p>
 <h2 id="h-15-the-private-name-problem"><a class="anchor-link" href="#h-15-the-private-name-problem" aria-label="Link to The private-name problem">#</a>The private-name problem</h2>
-<p id="p-15-imagine-two-systems-store-the-same-fact" data-note-target>Imagine two systems store the same fact.</p>
-<p id="p-15-the-contacts-app-says" data-note-target>The contacts app says:</p>
+<p id="p-15-imagine-two-systems-store-the-same-fact" data-note-target><span class="passage-margin" data-passage-margin aria-label="Margin for this passage">
+<span class="passage-margin-notes" data-passage-margin-notes></span>
+
+</span>Imagine two systems store the same fact.</p>
+<p id="p-15-the-contacts-app-says" data-note-target><span class="passage-margin" data-passage-margin aria-label="Margin for this passage">
+<span class="passage-margin-notes" data-passage-margin-notes></span>
+
+</span>The contacts app says:</p>
 <figure id="contacts-private-name" class="code-figure" data-note-target>
 <figcaption>text</figcaption>
 <pre><code class="language-text">person-17 | city | Manchester</code></pre>
 </figure>
-<p id="p-15-the-calendar-app-says" data-note-target>The calendar app says:</p>
+<p id="p-15-the-calendar-app-says" data-note-target><span class="passage-margin" data-passage-margin aria-label="Margin for this passage">
+<span class="passage-margin-notes" data-passage-margin-notes></span>
+
+</span>The calendar app says:</p>
 <figure id="calendar-private-name" class="code-figure" data-note-target>
 <figcaption>text</figcaption>
 <pre><code class="language-text">attendee-4 | addressLocality | Manchester</code></pre>
 </figure>
-<p id="p-15-both-records-have-the-same-rough-shape-something" data-note-target>Both records have the same rough shape. Something has a property with a value.</p>
-<p id="p-15-but-the-names-are-private" data-note-target>But the names are private.</p>
-<p id="p-15-person-17-only-means-something-inside-the-contacts" data-note-target><code>person-17</code> only means something inside the contacts app. <code>attendee-4</code> only means something inside the calendar app. They may both refer to Hilda, but nothing in either identifier says so.</p>
-<p id="p-15-the-properties-have-the-same-problem-one-application" data-note-target>The properties have the same problem. One application says <code>city</code>. Another says <code>town</code>. Another says <code>addressLocality</code>. Another says <code>municipality</code>, because someone had a meeting.</p>
-<p id="p-15-inside-one-application-private-names-are-fine-you" data-note-target>Inside one application, private names are fine. You control the dictionary.</p>
-<p id="p-15-across-a-boundary-each-private-name-needs-a" data-note-target>Across a boundary, each private name needs a translator. Every import script has to learn both sides. When either side changes, the bridge changes too.</p>
-<p id="p-15-instead-imagine-if-names-inside-the-data-could" data-note-target>What if names inside the data could cross the same boundaries as documents?</p>
+<p id="p-15-both-records-have-the-same-rough-shape-something" data-note-target><span class="passage-margin" data-passage-margin aria-label="Margin for this passage">
+<span class="passage-margin-notes" data-passage-margin-notes></span>
+
+</span>Both records have the same rough shape. Something has a property with a value.</p>
+<p id="p-15-but-the-names-are-private" data-note-target><span class="passage-margin" data-passage-margin aria-label="Margin for this passage">
+<span class="passage-margin-notes" data-passage-margin-notes></span>
+
+</span>But the names are private.</p>
+<p id="p-15-person-17-only-means-something-inside-the-contacts" data-note-target><span class="passage-margin" data-passage-margin aria-label="Margin for this passage">
+<span class="passage-margin-notes" data-passage-margin-notes></span>
+
+</span><code>person-17</code> only means something inside the contacts app. <code>attendee-4</code> only means something inside the calendar app. They may both refer to Hilda, but nothing in either identifier says so.</p>
+<p id="p-15-the-properties-have-the-same-problem-one-application" data-note-target><span class="passage-margin" data-passage-margin aria-label="Margin for this passage">
+<span class="passage-margin-notes" data-passage-margin-notes></span>
+
+</span>The properties have the same problem. One application says <code>city</code>. Another says <code>town</code>. Another says <code>addressLocality</code>. Another says <code>municipality</code>, because someone had a meeting.</p>
+<p id="p-15-inside-one-application-private-names-are-fine-you" data-note-target><span class="passage-margin" data-passage-margin aria-label="Margin for this passage">
+<span class="passage-margin-notes" data-passage-margin-notes></span>
+
+</span>Inside one application, private names are fine. You control the dictionary.</p>
+<p id="p-15-across-a-boundary-each-private-name-needs-a" data-note-target><span class="passage-margin" data-passage-margin aria-label="Margin for this passage">
+<span class="passage-margin-notes" data-passage-margin-notes></span>
+
+</span>Across a boundary, each private name needs a translator. Every import script has to learn both sides. When either side changes, the bridge changes too.</p>
+<p id="p-15-instead-imagine-if-names-inside-the-data-could" data-note-target><span class="passage-margin" data-passage-margin aria-label="Margin for this passage">
+<span class="passage-margin-notes" data-passage-margin-notes></span>
+
+</span>What if names inside the data could cross the same boundaries as documents?</p>
 <h2 id="h-15-names-that-can-travel"><a class="anchor-link" href="#h-15-names-that-can-travel" aria-label="Link to Names that can travel">#</a>Names that can travel</h2>
-<p id="p-15-the-web-already-gave-documents-addresses" data-note-target>The Web already gave documents addresses.</p>
+<p id="p-15-the-web-already-gave-documents-addresses" data-note-target><span class="passage-margin" data-passage-margin aria-label="Margin for this passage">
+<span class="passage-margin-notes" data-passage-margin-notes></span>
+
+</span>The Web already gave documents addresses.</p>
 <figure id="document-address" class="code-figure" data-note-target>
 <figcaption>url</figcaption>
 <pre><code class="language-url">https://solid.muze.nl/example/data/people/hilda.html</code></pre>
 </figure>
-<p id="p-15-linked-data-extends-that-trick" data-note-target><span class="side-links side-links-margin" aria-label="Related links for this paragraph">
-<a href="https://www.w3.org/DesignIssues/LinkedData.html" title="https://www.w3.org/DesignIssues/LinkedData.html">https://www.w3.org/DesignIssues/LinkedData.html</a>
+<p id="p-15-linked-data-extends-that-trick" data-note-target><span class="passage-margin" data-passage-margin aria-label="Margin for this passage">
+<span class="passage-margin-notes" data-passage-margin-notes></span>
+<span class="side-links side-links-margin" aria-label="Related links for this paragraph">
+<a href="https://www.w3.org/DesignIssues/LinkedData.html" title="https://www.w3.org/DesignIssues/LinkedData.html" tabindex="-1">https://www.w3.org/DesignIssues/LinkedData.html</a>
+</span>
 </span>Linked data extends that trick:<span class="side-links side-links-inline" aria-label="Related links for this paragraph">
 <a href="https://www.w3.org/DesignIssues/LinkedData.html" title="https://www.w3.org/DesignIssues/LinkedData.html">https://www.w3.org/DesignIssues/LinkedData.html</a>
 </span></p>
 <blockquote id="aside-15-things-can-have-web-addresses-too" data-note-target><p>Things can have Web addresses too.</p></blockquote>
-<p id="p-15-hilda-can-have-an-identifier" data-note-target>Hilda can have an identifier:</p>
+<p id="p-15-hilda-can-have-an-identifier" data-note-target><span class="passage-margin" data-passage-margin aria-label="Margin for this passage">
+<span class="passage-margin-notes" data-passage-margin-notes></span>
+
+</span>Hilda can have an identifier:</p>
 <figure id="hilda-uri" class="code-figure" data-note-target>
 <figcaption>url</figcaption>
 <pre><code class="language-url">https://solid.muze.nl/example/data/hilda-ogden</code></pre>
 </figure>
-<p id="p-15-manchester-can-have-one" data-note-target>Manchester can have one:</p>
+<p id="p-15-manchester-can-have-one" data-note-target><span class="passage-margin" data-passage-margin aria-label="Margin for this passage">
+<span class="passage-margin-notes" data-passage-margin-notes></span>
+
+</span>Manchester can have one:</p>
 <figure id="manchester-uri" class="code-figure" data-note-target>
 <figcaption>url</figcaption>
 <pre><code class="language-url">https://solid.muze.nl/example/data/manchester</code></pre>
 </figure>
-<p id="p-15-the-relationship-lives-in-can-have-one" data-note-target>The relationship <code>lives in</code> can have one:</p>
+<p id="p-15-the-relationship-lives-in-can-have-one" data-note-target><span class="passage-margin" data-passage-margin aria-label="Margin for this passage">
+<span class="passage-margin-notes" data-passage-margin-notes></span>
+
+</span>The relationship <code>lives in</code> can have one:</p>
 <figure id="lives-in-uri" class="code-figure" data-note-target>
 <figcaption>url</figcaption>
 <pre><code class="language-url">https://solid.muze.nl/example/ns/livesIn</code></pre>
 </figure>
-<p id="p-15-now-the-fact-can-be-written-as-three" data-note-target>Now the fact can be written as three pieces:</p>
+<p id="p-15-now-the-fact-can-be-written-as-three" data-note-target><span class="passage-margin" data-passage-margin aria-label="Margin for this passage">
+<span class="passage-margin-notes" data-passage-margin-notes></span>
+
+</span>Now the fact can be written as three pieces:</p>
 <figure id="triple-shape" class="code-figure" data-note-target>
 <figcaption>text</figcaption>
 <pre><code class="language-text">subject    predicate    object
 Hilda      lives in     Manchester</code></pre>
 </figure>
-<p id="p-15-or-with-web-names" data-note-target>Or with Web names:</p>
+<p id="p-15-or-with-web-names" data-note-target><span class="passage-margin" data-passage-margin aria-label="Margin for this passage">
+<span class="passage-margin-notes" data-passage-margin-notes></span>
+
+</span>Or with Web names:</p>
 <figure id="linked-triple" class="code-figure" data-note-target>
 <figcaption>text</figcaption>
 <pre><code class="language-text">https://solid.muze.nl/example/data/hilda-ogden
 https://solid.muze.nl/example/ns/livesIn
 https://solid.muze.nl/example/data/manchester</code></pre>
 </figure>
-<p id="p-15-this-is-not-pretty-it-is-meant-to" data-note-target>This is not pretty. It is meant to be unambiguous and able to cross boundaries.</p>
-<p id="p-15-the-resource-description-framework-rdf-gives-this-shape" data-note-target><span class="side-links side-links-margin" aria-label="Related links for this paragraph">
-<a href="https://www.w3.org/TR/rdf11-concepts/" title="https://www.w3.org/TR/rdf11-concepts/">https://www.w3.org/TR/rdf11-concepts/</a>
+<p id="p-15-this-is-not-pretty-it-is-meant-to" data-note-target><span class="passage-margin" data-passage-margin aria-label="Margin for this passage">
+<span class="passage-margin-notes" data-passage-margin-notes></span>
+
+</span>This is not pretty. It is meant to be unambiguous and able to cross boundaries.</p>
+<p id="p-15-the-resource-description-framework-rdf-gives-this-shape" data-note-target><span class="passage-margin" data-passage-margin aria-label="Margin for this passage">
+<span class="passage-margin-notes" data-passage-margin-notes></span>
+<span class="side-links side-links-margin" aria-label="Related links for this paragraph">
+<a href="https://www.w3.org/TR/rdf11-concepts/" title="https://www.w3.org/TR/rdf11-concepts/" tabindex="-1">https://www.w3.org/TR/rdf11-concepts/</a>
+</span>
 </span>The Resource Description Framework, RDF, gives this shape a formal name: a subject-predicate-object triple. Many triples together form a graph.<span class="side-links side-links-inline" aria-label="Related links for this paragraph">
 <a href="https://www.w3.org/TR/rdf11-concepts/" title="https://www.w3.org/TR/rdf11-concepts/">https://www.w3.org/TR/rdf11-concepts/</a>
 </span></p>
-<p id="p-15-in-less-specification-shaped-language-rdf-lets-you" data-note-target>In less specification-shaped language: RDF lets you write small facts that can join other small facts.</p>
-<p id="p-15-here-is-the-same-data-in-a-friendlier" data-note-target><span class="side-links side-links-margin" aria-label="Related links for this paragraph">
-<a href="https://www.w3.org/TR/turtle/" title="https://www.w3.org/TR/turtle/">https://www.w3.org/TR/turtle/</a>
+<p id="p-15-in-less-specification-shaped-language-rdf-lets-you" data-note-target><span class="passage-margin" data-passage-margin aria-label="Margin for this passage">
+<span class="passage-margin-notes" data-passage-margin-notes></span>
+
+</span>In less specification-shaped language: RDF lets you write small facts that can join other small facts.</p>
+<p id="p-15-here-is-the-same-data-in-a-friendlier" data-note-target><span class="passage-margin" data-passage-margin aria-label="Margin for this passage">
+<span class="passage-margin-notes" data-passage-margin-notes></span>
+<span class="side-links side-links-margin" aria-label="Related links for this paragraph">
+<a href="https://www.w3.org/TR/turtle/" title="https://www.w3.org/TR/turtle/" tabindex="-1">https://www.w3.org/TR/turtle/</a>
+</span>
 </span>Here is the same data in a friendlier syntax, Turtle:<span class="side-links side-links-inline" aria-label="Related links for this paragraph">
 <a href="https://www.w3.org/TR/turtle/" title="https://www.w3.org/TR/turtle/">https://www.w3.org/TR/turtle/</a>
 </span></p>
@@ -206,19 +289,43 @@ data:hilda-ogden
     ns:livesIn data:manchester ;
     ns:knows data:stan-ogden .</code></pre>
 </figure>
-<p id="p-15-json-ld-is-another-spelling" data-note-target><span class="side-links side-links-margin" aria-label="Related links for this paragraph">
-<a href="https://www.w3.org/TR/json-ld11/" title="https://www.w3.org/TR/json-ld11/">https://www.w3.org/TR/json-ld11/</a>
+<p id="p-15-json-ld-is-another-spelling" data-note-target><span class="passage-margin" data-passage-margin aria-label="Margin for this passage">
+<span class="passage-margin-notes" data-passage-margin-notes></span>
+<span class="side-links side-links-margin" aria-label="Related links for this paragraph">
+<a href="https://www.w3.org/TR/json-ld11/" title="https://www.w3.org/TR/json-ld11/" tabindex="-1">https://www.w3.org/TR/json-ld11/</a>
+</span>
 </span>RDF is a model for the data, not one particular spelling. Turtle is one spelling. JSON-LD is another.<span class="side-links side-links-inline" aria-label="Related links for this paragraph">
 <a href="https://www.w3.org/TR/json-ld11/" title="https://www.w3.org/TR/json-ld11/">https://www.w3.org/TR/json-ld11/</a>
 </span></p>
-<p id="p-15-some-people-make-another-format" data-note-target>JSON-LD takes a slightly strange route. It keeps the familiar JSON shape, then gives names such as <code>@id</code> and <code>@context</code> an extra job. They say which values identify things and where the meanings of other names come from. JSON remains unchanged underneath. A more expressive language stands on top of it.</p>
-<p id="p-15-breaking-knowledge-into-small-statements-is-not-new" data-note-target>Breaking knowledge into small statements is not new. Databases and logic languages have done versions of it for a long time.</p>
-<p id="p-15-the-web-contribution-is-that-the-names-inside" data-note-target>The Web contribution is that the names inside those statements can be Web names.</p>
+<p id="p-15-some-people-make-another-format" data-note-target><span class="passage-margin" data-passage-margin aria-label="Margin for this passage">
+<span class="passage-margin-notes" data-passage-margin-notes></span>
+
+</span>JSON-LD takes a slightly strange route. It keeps the familiar JSON shape, then gives names such as <code>@id</code> and <code>@context</code> an extra job. They say which values identify things and where the meanings of other names come from. JSON remains unchanged underneath. A more expressive language stands on top of it.</p>
+<p id="p-15-breaking-knowledge-into-small-statements-is-not-new" data-note-target><span class="passage-margin" data-passage-margin aria-label="Margin for this passage">
+<span class="passage-margin-notes" data-passage-margin-notes></span>
+
+</span>Breaking knowledge into small statements is not new. Databases and logic languages have done versions of it for a long time.</p>
+<p id="p-15-the-web-contribution-is-that-the-names-inside" data-note-target><span class="passage-margin" data-passage-margin aria-label="Margin for this passage">
+<span class="passage-margin-notes" data-passage-margin-notes></span>
+
+</span>The Web contribution is that the names inside those statements can be Web names.</p>
 <h2 id="h-15-a-graph-without-a-centre"><a class="anchor-link" href="#h-15-a-graph-without-a-centre" aria-label="Link to A graph without a centre">#</a>A graph without a centre</h2>
-<p id="p-15-a-table-usually-has-a-home-it-lives" data-note-target>A table usually has a home. It lives in a database, under one schema, inside one system.</p>
-<p id="p-15-a-graph-can-be-assembled-from-facts-written" data-note-target>Together, triples form a different shape: a graph. A graph can be assembled from facts written in different places.</p>
-<p id="p-15-i-can-say-something-about-hilda-in-an" data-note-target>I can say something about Hilda in an address book. You can say something about Hilda in a calendar invitation. A photo archive can say that Hilda appears in a picture.</p>
-<p id="p-15-none-of-us-has-to-own-the-complete" data-note-target>None of us has to own the complete record.</p>
+<p id="p-15-a-table-usually-has-a-home-it-lives" data-note-target><span class="passage-margin" data-passage-margin aria-label="Margin for this passage">
+<span class="passage-margin-notes" data-passage-margin-notes></span>
+
+</span>A table usually has a home. It lives in a database, under one schema, inside one system.</p>
+<p id="p-15-a-graph-can-be-assembled-from-facts-written" data-note-target><span class="passage-margin" data-passage-margin aria-label="Margin for this passage">
+<span class="passage-margin-notes" data-passage-margin-notes></span>
+
+</span>Together, triples form a different shape: a graph. A graph can be assembled from facts written in different places.</p>
+<p id="p-15-i-can-say-something-about-hilda-in-an" data-note-target><span class="passage-margin" data-passage-margin aria-label="Margin for this passage">
+<span class="passage-margin-notes" data-passage-margin-notes></span>
+
+</span>I can say something about Hilda in an address book. You can say something about Hilda in a calendar invitation. A photo archive can say that Hilda appears in a picture.</p>
+<p id="p-15-none-of-us-has-to-own-the-complete" data-note-target><span class="passage-margin" data-passage-margin aria-label="Margin for this passage">
+<span class="passage-margin-notes" data-passage-margin-notes></span>
+
+</span>None of us has to own the complete record.</p>
 <figure id="distributed-facts" class="code-figure" data-note-target>
 <figcaption>turtle</figcaption>
 <pre><code class="language-turtle"># In a contacts document
@@ -230,40 +337,121 @@ data:meeting-123 ns:attendee data:hilda-ogden .
 # In a photo document
 data:photo-7 ns:depicts data:hilda-ogden .</code></pre>
 </figure>
-<p id="p-15-if-the-names-line-up-software-can-follow" data-note-target>If the names line up, software can follow them.</p>
-<p id="p-15-this-is-where-linked-data-gets-its-name" data-note-target>This is where linked data gets its name. The data is not only structured. It points. A fact can point to a thing, which can lead to more facts somewhere else.</p>
-<p id="p-15-tim-berners-lee-described-linked-data-with-deliberately" data-note-target>Tim Berners-Lee described linked data with deliberately simple rules: use URIs as names for things, use HTTP URIs so they can be looked up, provide useful information when they are looked up, and include links to other URIs.</p>
-<p id="p-15-this-is-the-url-chapter-returning-in-another" data-note-target>This is the URL chapter returning in another costume.</p>
-<p id="p-15-a-url-lets-one-document-point-outside-itself" data-note-target>A URL lets one document point outside itself. Linked data lets one fact point outside itself.</p>
+<p id="p-15-if-the-names-line-up-software-can-follow" data-note-target><span class="passage-margin" data-passage-margin aria-label="Margin for this passage">
+<span class="passage-margin-notes" data-passage-margin-notes></span>
+
+</span>If the names line up, software can follow them.</p>
+<p id="p-15-this-is-where-linked-data-gets-its-name" data-note-target><span class="passage-margin" data-passage-margin aria-label="Margin for this passage">
+<span class="passage-margin-notes" data-passage-margin-notes></span>
+
+</span>This is where linked data gets its name. The data is not only structured. It points. A fact can point to a thing, which can lead to more facts somewhere else.</p>
+<p id="p-15-tim-berners-lee-described-linked-data-with-deliberately" data-note-target><span class="passage-margin" data-passage-margin aria-label="Margin for this passage">
+<span class="passage-margin-notes" data-passage-margin-notes></span>
+
+</span>Tim Berners-Lee described linked data with deliberately simple rules: use URIs as names for things, use HTTP URIs so they can be looked up, provide useful information when they are looked up, and include links to other URIs.</p>
+<p id="p-15-this-is-the-url-chapter-returning-in-another" data-note-target><span class="passage-margin" data-passage-margin aria-label="Margin for this passage">
+<span class="passage-margin-notes" data-passage-margin-notes></span>
+
+</span>This is the URL chapter returning in another costume.</p>
+<p id="p-15-a-url-lets-one-document-point-outside-itself" data-note-target><span class="passage-margin" data-passage-margin aria-label="Margin for this passage">
+<span class="passage-margin-notes" data-passage-margin-notes></span>
+
+</span>A URL lets one document point outside itself. Linked data lets one fact point outside itself.</p>
 <h2 id="h-15-meaning-needs-names-too"><a class="anchor-link" href="#h-15-meaning-needs-names-too" aria-label="Link to Meaning needs names too">#</a>Meaning needs names too</h2>
-<p id="p-15-giving-hilda-an-identifier-is-not-enough-the" data-note-target>Giving Hilda an identifier is not enough. The properties need identities too.</p>
-<p id="p-15-if-i-write" data-note-target>If I write:</p>
+<p id="p-15-giving-hilda-an-identifier-is-not-enough-the" data-note-target><span class="passage-margin" data-passage-margin aria-label="Margin for this passage">
+<span class="passage-margin-notes" data-passage-margin-notes></span>
+
+</span>Giving Hilda an identifier is not enough. The properties need identities too.</p>
+<p id="p-15-if-i-write" data-note-target><span class="passage-margin" data-passage-margin aria-label="Margin for this passage">
+<span class="passage-margin-notes" data-passage-margin-notes></span>
+
+</span>If I write:</p>
 <figure id="unclear-term" class="code-figure" data-note-target>
 <figcaption>turtle</figcaption>
 <pre><code class="language-turtle">data:hilda-ogden ns:knows data:stan-ogden .</code></pre>
 </figure>
-<p id="p-15-what-does-knows-mean" data-note-target>what does <code>knows</code> mean?</p>
-<p id="p-15-met-once-friends-with-can-recognise-in-a" data-note-target>Met once? Friends with? Can recognise in a police lineup? Has a phone number for? Once shared a tram in Manchester?</p>
-<p id="p-15-a-word-that-looks-obvious-to-a-human" data-note-target>A word that looks obvious to a human may be vague to software. It may even be obvious in two different ways to two different humans.</p>
-<p id="p-15-linked-data-therefore-uses-vocabularies-shared-sets-of" data-note-target>Linked data therefore uses vocabularies: shared sets of terms with public identifiers and definitions. Different applications can use the same property name because that property does not belong to either application.</p>
-<p id="p-15-this-is-where-your-eyes-may-start-to" data-note-target>This is where your eyes may start to gloss over. Vocabularies, ontologies, IRIs. This all sounds abstract and academic, and it is. It's also necessary and powerful.</p>
-<p id="p-15-when-independent-tools-can-recognise-the-same-names" data-note-target>When independent tools recognise the same names for the same kinds of facts, they can work on those facts independently. But the only way to get there is for people to agree, enough, about what each name means. The problem is that shared meaning is social work pretending to be technical work.</p>
-<p id="p-15-linked-data-is-not-fairy-dust-you-can" data-note-target>Linked data is not fairy dust. You can make a knitted castle out of triples. You can invent private vocabularies nobody else understands. You can create a vocabulary so elaborate that a simple fact needs an expedition.</p>
-<p id="p-15-the-boundary-is-the-point-names-and-meanings" data-note-target>A format will not solve all these problems. What matters is that names and meanings can survive the application that first used them.</p>
+<p id="p-15-what-does-knows-mean" data-note-target><span class="passage-margin" data-passage-margin aria-label="Margin for this passage">
+<span class="passage-margin-notes" data-passage-margin-notes></span>
+
+</span>what does <code>knows</code> mean?</p>
+<p id="p-15-met-once-friends-with-can-recognise-in-a" data-note-target><span class="passage-margin" data-passage-margin aria-label="Margin for this passage">
+<span class="passage-margin-notes" data-passage-margin-notes></span>
+
+</span>Met once? Friends with? Can recognise in a police lineup? Has a phone number for? Once shared a tram in Manchester?</p>
+<p id="p-15-a-word-that-looks-obvious-to-a-human" data-note-target><span class="passage-margin" data-passage-margin aria-label="Margin for this passage">
+<span class="passage-margin-notes" data-passage-margin-notes></span>
+
+</span>A word that looks obvious to a human may be vague to software. It may even be obvious in two different ways to two different humans.</p>
+<p id="p-15-linked-data-therefore-uses-vocabularies-shared-sets-of" data-note-target><span class="passage-margin" data-passage-margin aria-label="Margin for this passage">
+<span class="passage-margin-notes" data-passage-margin-notes></span>
+
+</span>Linked data therefore uses vocabularies: shared sets of terms with public identifiers and definitions. Different applications can use the same property name because that property does not belong to either application.</p>
+<p id="p-15-this-is-where-your-eyes-may-start-to" data-note-target><span class="passage-margin" data-passage-margin aria-label="Margin for this passage">
+<span class="passage-margin-notes" data-passage-margin-notes></span>
+
+</span>This is where your eyes may start to gloss over. Vocabularies, ontologies, IRIs. This all sounds abstract and academic, and it is. It's also necessary and powerful.</p>
+<p id="p-15-when-independent-tools-can-recognise-the-same-names" data-note-target><span class="passage-margin" data-passage-margin aria-label="Margin for this passage">
+<span class="passage-margin-notes" data-passage-margin-notes></span>
+
+</span>When independent tools recognise the same names for the same kinds of facts, they can work on those facts independently. But the only way to get there is for people to agree, enough, about what each name means. The problem is that shared meaning is social work pretending to be technical work.</p>
+<p id="p-15-linked-data-is-not-fairy-dust-you-can" data-note-target><span class="passage-margin" data-passage-margin aria-label="Margin for this passage">
+<span class="passage-margin-notes" data-passage-margin-notes></span>
+
+</span>Linked data is not fairy dust. You can make a knitted castle out of triples. You can invent private vocabularies nobody else understands. You can create a vocabulary so elaborate that a simple fact needs an expedition.</p>
+<p id="p-15-the-boundary-is-the-point-names-and-meanings" data-note-target><span class="passage-margin" data-passage-margin aria-label="Margin for this passage">
+<span class="passage-margin-notes" data-passage-margin-notes></span>
+
+</span>A format will not solve all these problems. What matters is that names and meanings can survive the application that first used them.</p>
 <h2 id="h-15-what-linked-data-does-not-solve"><a class="anchor-link" href="#h-15-what-linked-data-does-not-solve" aria-label="Link to What linked data does not solve">#</a>What linked data does not solve</h2>
-<p id="p-15-linked-data-lets-applications-work-with-the-same" data-note-target>Linked data lets applications work with the same meanings, but the data can still be trapped behind a locked gate. It does not decide where data lives, who owns the storage, or who may read or change it.</p>
-<p id="p-15-a-company-can-keep-rdf-in-a-private" data-note-target>A company can keep RDF in a private database. A locked service can offer a Turtle export button.</p>
-<p id="p-15-a-shared-storage-system-without-shared-meaning-becomes" data-note-target>A shared storage system without shared meaning becomes a folder full of files that only their original applications understand.</p>
-<p id="p-15-shared-meaning-without-control-over-storage-leaves-the" data-note-target>Shared meaning without control over storage leaves the application holding the only useful copy.</p>
-<p id="p-15-we-need-both-boundaries-but-they-are-not" data-note-target>We need both boundaries, but they are not the same.</p>
+<p id="p-15-linked-data-lets-applications-work-with-the-same" data-note-target><span class="passage-margin" data-passage-margin aria-label="Margin for this passage">
+<span class="passage-margin-notes" data-passage-margin-notes></span>
+
+</span>Linked data lets applications work with the same meanings, but the data can still be trapped behind a locked gate. It does not decide where data lives, who owns the storage, or who may read or change it.</p>
+<p id="p-15-a-company-can-keep-rdf-in-a-private" data-note-target><span class="passage-margin" data-passage-margin aria-label="Margin for this passage">
+<span class="passage-margin-notes" data-passage-margin-notes></span>
+
+</span>A company can keep RDF in a private database. A locked service can offer a Turtle export button.</p>
+<p id="p-15-a-shared-storage-system-without-shared-meaning-becomes" data-note-target><span class="passage-margin" data-passage-margin aria-label="Margin for this passage">
+<span class="passage-margin-notes" data-passage-margin-notes></span>
+
+</span>A shared storage system without shared meaning becomes a folder full of files that only their original applications understand.</p>
+<p id="p-15-shared-meaning-without-control-over-storage-leaves-the" data-note-target><span class="passage-margin" data-passage-margin aria-label="Margin for this passage">
+<span class="passage-margin-notes" data-passage-margin-notes></span>
+
+</span>Shared meaning without control over storage leaves the application holding the only useful copy.</p>
+<p id="p-15-we-need-both-boundaries-but-they-are-not" data-note-target><span class="passage-margin" data-passage-margin aria-label="Margin for this passage">
+<span class="passage-margin-notes" data-passage-margin-notes></span>
+
+</span>We need both boundaries, but they are not the same.</p>
 <h2 id="h-15-the-boundary-moves-again"><a class="anchor-link" href="#h-15-the-boundary-moves-again" aria-label="Link to The boundary moves again">#</a>The boundary moves again</h2>
-<p id="p-15-think-again-about-small-reusable-software" data-note-target>Back in the knitted castle, the useful question was not whether something could be reused, but in what direction. A file format can be reused by programs that do not share code. A protocol lets different systems meet and then go their separate ways again.</p>
-<p id="p-15-a-small-calendar-tool-can-stay-small-if" data-note-target>Linked data moves that boundary further.</p>
-<p id="p-15-the-application-does-not-need-to-own-all" data-note-target>Two applications do not need to share code if they can recognise the same things, use the same names and work with the same data. A contacts application can describe a person. A calendar can invite that person. A photo tool can say that the person appears in a picture.</p>
-<p id="p-15-it-can-become-an-editor-viewer-filter-search" data-note-target>The shared part is not hidden inside either program. It is in the names and data they agree to use.</p>
-<p id="p-15-linked-data-makes-that-shape-possible-it-does" data-note-target>Linked data gives names somewhere to meet. It lets work done by one application become useful to another that was written independently.</p>
-<p id="p-15-if-the-meaning-can-live-outside-the-application" data-note-target>If the meaning can live outside the application, why should the application own the only copy of the data?</p>
-<p id="p-15-where-should-a-persons-data-live" data-note-target>Where should a person’s data live?</p>
+<p id="p-15-think-again-about-small-reusable-software" data-note-target><span class="passage-margin" data-passage-margin aria-label="Margin for this passage">
+<span class="passage-margin-notes" data-passage-margin-notes></span>
+
+</span>Back in the knitted castle, the useful question was not whether something could be reused, but in what direction. A file format can be reused by programs that do not share code. A protocol lets different systems meet and then go their separate ways again.</p>
+<p id="p-15-a-small-calendar-tool-can-stay-small-if" data-note-target><span class="passage-margin" data-passage-margin aria-label="Margin for this passage">
+<span class="passage-margin-notes" data-passage-margin-notes></span>
+
+</span>Linked data moves that boundary further.</p>
+<p id="p-15-the-application-does-not-need-to-own-all" data-note-target><span class="passage-margin" data-passage-margin aria-label="Margin for this passage">
+<span class="passage-margin-notes" data-passage-margin-notes></span>
+
+</span>Two applications do not need to share code if they can recognise the same things, use the same names and work with the same data. A contacts application can describe a person. A calendar can invite that person. A photo tool can say that the person appears in a picture.</p>
+<p id="p-15-it-can-become-an-editor-viewer-filter-search" data-note-target><span class="passage-margin" data-passage-margin aria-label="Margin for this passage">
+<span class="passage-margin-notes" data-passage-margin-notes></span>
+
+</span>The shared part is not hidden inside either program. It is in the names and data they agree to use.</p>
+<p id="p-15-linked-data-makes-that-shape-possible-it-does" data-note-target><span class="passage-margin" data-passage-margin aria-label="Margin for this passage">
+<span class="passage-margin-notes" data-passage-margin-notes></span>
+
+</span>Linked data gives names somewhere to meet. It lets work done by one application become useful to another that was written independently.</p>
+<p id="p-15-if-the-meaning-can-live-outside-the-application" data-note-target><span class="passage-margin" data-passage-margin aria-label="Margin for this passage">
+<span class="passage-margin-notes" data-passage-margin-notes></span>
+
+</span>If the meaning can live outside the application, why should the application own the only copy of the data?</p>
+<p id="p-15-where-should-a-persons-data-live" data-note-target><span class="passage-margin" data-passage-margin aria-label="Margin for this passage">
+<span class="passage-margin-notes" data-passage-margin-notes></span>
+
+</span>Where should a person’s data live?</p>
   <nav class="chapter-pagination" aria-label="Chapter navigation">
     <a rel="prev" href="14-the-web-as-commons.html"><span>Previous</span>The Web as commons: innovation happens elsewhere</a>
     <a rel="next" href="16-the-web-as-home.html"><span>Next</span>The Web as home: who owns your home directory?</a>

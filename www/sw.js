@@ -1,4 +1,4 @@
-const CACHE_NAME = "programming-for-wizards-b4904664a5"
+const CACHE_NAME = "programming-for-wizards-de40671f4f"
 const PRECACHE_URLS = [
   "./assets/book.css",
   "./assets/book.js",
@@ -30,6 +30,10 @@ const PRECACHE_URLS = [
   "./assets/images/interludes/interlude-06-final-rule.png",
   "./assets/images/knitted-castle.png",
   "./assets/images/programming-for-wizards-cover-sideways.png",
+  "./assets/margin-notes-demo.css",
+  "./assets/margin-notes-demo.js",
+  "./assets/margin-notes/index.js",
+  "./assets/margin-notes/index.js.map",
   "./chapters/01-this-is-not-a-programming-book.html",
   "./chapters/02-numbers-hiding-calculations-in-symbols.html",
   "./chapters/03-logic-turning-truth-into-machinery.html",

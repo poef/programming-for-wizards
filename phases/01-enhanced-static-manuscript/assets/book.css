@@ -701,6 +701,26 @@ li {
   position: relative;
 }
 
+.passage-margin {
+  clear: right;
+  clear: inline-end;
+  float: right;
+  float: inline-end;
+  inline-size: var(--book-link-margin-width);
+  margin-block-start: calc(0.25lh - var(--wizard-portrait-lift, 0px));
+  margin-inline-end: calc((var(--book-link-margin-width) + var(--book-link-margin-gap)) * -1);
+  margin-inline-start: var(--book-link-margin-gap);
+  min-block-size: 0;
+  position: relative;
+  text-align: start;
+}
+
+.passage-margin-notes {
+  display: block;
+  min-block-size: 2.25rem;
+  position: relative;
+}
+
 .side-links {
   display: grid;
   font-size: 0.78rem;
@@ -710,14 +730,7 @@ li {
 }
 
 .side-links-margin {
-  clear: right;
-  clear: inline-end;
-  float: right;
-  float: inline-end;
-  inline-size: var(--book-link-margin-width);
-  margin-block-start: calc(0.25lh - var(--wizard-portrait-lift, 0px));
-  margin-inline-end: calc((var(--book-link-margin-width) + var(--book-link-margin-gap)) * -1);
-  margin-inline-start: var(--book-link-margin-gap);
+  inline-size: 100%;
 }
 
 .side-links-margin-overlap {
@@ -730,6 +743,10 @@ li {
 }
 
 .side-links-margin-overlap ~ .side-links-inline {
+  display: grid;
+}
+
+p:has(> .passage-margin .side-links-margin-overlap) > .side-links-inline {
   display: grid;
 }
 
@@ -789,6 +806,14 @@ li {
 
 [data-flow="scroll"] .side-links-margin {
   display: none;
+}
+
+[data-flow="scroll"] .passage-margin {
+  clear: none;
+  float: none;
+  inline-size: min(100%, 28rem);
+  margin-block: 0.5lh;
+  margin-inline: 0;
 }
 
 [data-flow="scroll"] .side-links-inline {
@@ -1528,6 +1553,14 @@ th {
     margin-left: 0;
     margin-right: 0.35rem;
     opacity: 1;
+  }
+
+  .passage-margin {
+    clear: none;
+    float: none;
+    inline-size: min(100%, 28rem);
+    margin-block: 0.5lh;
+    margin-inline: 0;
   }
 
   .side-links-margin {

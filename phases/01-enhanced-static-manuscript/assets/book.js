@@ -585,15 +585,16 @@
         .sort((a, b) => (b.width * b.height) - (a.width * a.height) || a.left - b.left || a.top - b.top)[0] ?? null
     }
     const sideLinksPortraitRect = sideLinks => largestFragment(sideLinks) ?? firstFragment(sideLinks)
+    const sideLinksForPassageMargin = passageMargin => passageMargin.querySelector(".side-links-has-wizard")
     const pageForRect = rect => {
       const scrollerRect = manuscript.getBoundingClientRect()
       const left = rect.left - scrollerRect.left + manuscript.scrollLeft
       return Math.max(0, Math.floor((left + pageGap() / 2) / pageStride()))
     }
     const resetPortraitLifts = () => {
-      for (const sideLinks of manuscript.querySelectorAll(".side-links-has-wizard")) {
-        sideLinks.style.removeProperty("--wizard-portrait-lift")
-        sideLinks.classList.remove("side-links-margin-overlap")
+      for (const passageMargin of manuscript.querySelectorAll(".passage-margin-has-wizard")) {
+        passageMargin.style.removeProperty("--wizard-portrait-lift")
+        sideLinksForPassageMargin(passageMargin)?.classList.remove("side-links-margin-overlap")
       }
     }
     const rectsOverlap = (a, b, gap = 0) => (
@@ -602,12 +603,14 @@
       a.top < b.bottom + gap &&
       a.bottom > b.top - gap
     )
-    const applyPortraitCollisionFallbacks = sideLinksBlocks => {
+    const applyPortraitCollisionFallbacks = passageMargins => {
       const placedByPage = new Map()
       let changed = false
 
-      const entries = sideLinksBlocks
-        .map(sideLinks => {
+      const entries = passageMargins
+        .map(passageMargin => {
+          const sideLinks = sideLinksForPassageMargin(passageMargin)
+          if (!sideLinks) return null
           const rect = sideLinksPortraitRect(sideLinks)
           return rect ? { sideLinks, rect, page: pageForRect(rect) } : null
         })
@@ -637,25 +640,26 @@
       resetPortraitLifts()
       if (!isPaged()) return
 
-      const sideLinksBlocks = [...manuscript.querySelectorAll(".side-links-has-wizard")]
+      const passageMargins = [...manuscript.querySelectorAll(".passage-margin-has-wizard")]
       const step = textLineHeight()
       let changed = false
 
       for (let pass = 0; pass < 10; pass += 1) {
         let passChanged = false
 
-        for (const sideLinks of sideLinksBlocks) {
-          const paragraph = sideLinks.closest("p")
+        for (const passageMargin of passageMargins) {
+          const sideLinks = sideLinksForPassageMargin(passageMargin)
+          const paragraph = passageMargin.closest("p")
           const paragraphRect = firstFragment(paragraph)
           const sideLinksRect = sideLinksPortraitRect(sideLinks)
           if (!paragraphRect || !sideLinksRect) continue
           if (pageForRect(sideLinksRect) <= pageForRect(paragraphRect)) continue
 
-          const currentLift = Number.parseFloat(sideLinks.style.getPropertyValue("--wizard-portrait-lift")) || 0
+          const currentLift = Number.parseFloat(passageMargin.style.getPropertyValue("--wizard-portrait-lift")) || 0
           const maxLift = Math.min(sideLinksRect.height * 0.75, manuscript.clientHeight * 0.45)
           if (currentLift >= maxLift) continue
 
-          sideLinks.style.setProperty("--wizard-portrait-lift", `${Math.min(maxLift, currentLift + step)}px`)
+          passageMargin.style.setProperty("--wizard-portrait-lift", `${Math.min(maxLift, currentLift + step)}px`)
           passChanged = true
           changed = true
         }
@@ -663,7 +667,7 @@
         if (!passChanged) break
       }
 
-      if (applyPortraitCollisionFallbacks(sideLinksBlocks)) changed = true
+      if (applyPortraitCollisionFallbacks(passageMargins)) changed = true
       if (changed) lastPageReliefDirty = true
     }
     const progressTargets = () => [...manuscript.querySelectorAll("p[data-note-target][id]")]
@@ -787,7 +791,7 @@
         if (!lastPageReliefDirty && !portraitLiftsDirty) break
       }
 
-      if (applyPortraitCollisionFallbacks([...manuscript.querySelectorAll(".side-links-has-wizard")])) {
+      if (applyPortraitCollisionFallbacks([...manuscript.querySelectorAll(".passage-margin-has-wizard")])) {
         lastPageReliefDirty = true
       }
 
@@ -847,7 +851,7 @@
     }
 
     const targetUsesArrowKeys = target => {
-      const element = target?.closest?.("input, select, textarea, [role]") ?? null
+      const element = target?.closest?.("input, select, textarea, [contenteditable], [role]") ?? null
       if (!element) return false
 
       const tag = element.tagName?.toLowerCase?.() ?? ""
@@ -861,6 +865,13 @@
 
       return /^(?:combobox|listbox|menu|menubar|radiogroup|scrollbar|slider|spinbutton|tablist|tree|treegrid)$/.test(role)
     }
+    const targetHandlesTextEntry = target => Boolean(target?.closest?.([
+      "input",
+      "select",
+      "textarea",
+      "[contenteditable]",
+      "[data-reader-key-scope]"
+    ].join(",")))
 
     const targetHandlesPointer = target => Boolean(target?.closest?.([
       "a",
@@ -933,9 +944,30 @@
     manuscript.addEventListener("scroll", update, { passive: true })
     window.addEventListener("scroll", scheduleSaveCurrentPosition, { passive: true })
     window.addEventListener("pagehide", saveCurrentPosition)
+    document.addEventListener("focusin", event => {
+      if (!isPaged()) return
+
+      const passageMargin = event.target?.closest?.(".passage-margin")
+      const passage = passageMargin?.closest?.("[data-note-target][id]")
+      if (!passage) return
+
+      const rect = firstFragment(passage)
+      if (!rect) return
+
+      const page = Math.min(pageCount - 1, pageForRect(rect))
+      const left = page * pageStride()
+      if (Math.abs(manuscript.scrollLeft - left) < 1) return
+
+      pageIndex = page
+      manuscript.scrollLeft = left
+      window.requestAnimationFrame(() => {
+        manuscript.scrollLeft = left
+      })
+    })
 
     document.addEventListener("keydown", event => {
       if (!isPaged()) return
+      if (event.defaultPrevented || targetHandlesTextEntry(event.target)) return
 
       if ((event.key === "ArrowRight" || event.key === "ArrowLeft") && targetUsesArrowKeys(event.target)) {
         return
@@ -1015,6 +1047,7 @@
       const anchor = document.createElement("a")
       anchor.className = "margin-anchor"
       anchor.href = `#${target.id}`
+      anchor.tabIndex = -1
       anchor.setAttribute("aria-label", "Copy link to this passage")
       anchor.textContent = "#"
       target.append(anchor)

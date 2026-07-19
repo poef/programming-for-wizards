@@ -27,6 +27,7 @@
   <link rel="manifest" href="../manifest.webmanifest">
   <link rel="apple-touch-icon" href="../assets/images/icons/programming-for-wizards-icon-192.png">
   <link rel="stylesheet" href="../assets/book.css">
+  <link rel="stylesheet" href="../assets/margin-notes-demo.css">
   <link rel="stylesheet" href="../assets/exhibits/exhibits.css">
   <script>
     window.MathJax = {
@@ -45,6 +46,7 @@
   <script defer src="../assets/exhibits/exhibit-kit.js"></script>
   <script defer src="https://cdn.jsdelivr.net/gh/muze-labs/simplyflow@main/packages/simplyflow/dist/simply.flow.js"></script>
   <script type="module" src="../assets/exhibits/exhibits.js"></script>
+  <script type="module" src="../assets/margin-notes-demo.js"></script>
 </head>
 <body>
   <a class="skip-link" href="#main">Skip to manuscript</a>
@@ -118,80 +120,167 @@
     <svg class="chapter-glyph" viewBox="0 0 96 96" focusable="false" aria-hidden="true"><path d="M22 67h52"/><path d="M30 67V25h36v42"/><path d="M39 67V37h18v30"/><path d="M21 25h54"/><circle cx="35" cy="50" r="2"/><circle cx="61" cy="50" r="2"/></svg>
   </header>
   <h1 id="h-02-numbers-bigger-than-you-think"><a class="anchor-link" href="#h-02-numbers-bigger-than-you-think" aria-label="Link to Numbers: bigger than you think">#</a>Numbers: bigger than you think</h1>
-<p id="p-02-how-do-you-make-a-number-bigger-than" data-note-target>How do you make a number bigger than your fingers?</p>
-<p id="p-02-its-no-secret-that-programming-is-based-on" data-note-target>It's no secret that programming is based on numbers. Two of them, 0 and 1. It may come as a surprise that one of those numbers is much newer than the other.</p>
-<p id="p-02-lets-go-back-way-back-to-the-first" data-note-target>Let's go back, way back, to the first number system our cave-dwelling ancestors ever used: our fingers.</p>
-<p id="p-02-hold-up-your-hands-and-you-can-count" data-note-target><span class="side-links side-links-margin" aria-label="Related links for this paragraph">
-<a href="https://en.wikipedia.org/wiki/Tally_marks" title="https://en.wikipedia.org/wiki/Tally_marks">https://en.wikipedia.org/wiki/Tally_marks</a>
+<p id="p-02-how-do-you-make-a-number-bigger-than" data-note-target><span class="passage-margin" data-passage-margin aria-label="Margin for this passage">
+<span class="passage-margin-notes" data-passage-margin-notes></span>
+
+</span>How do you make a number bigger than your fingers?</p>
+<p id="p-02-its-no-secret-that-programming-is-based-on" data-note-target><span class="passage-margin" data-passage-margin aria-label="Margin for this passage">
+<span class="passage-margin-notes" data-passage-margin-notes></span>
+
+</span>It's no secret that programming is based on numbers. Two of them, 0 and 1. It may come as a surprise that one of those numbers is much newer than the other.</p>
+<p id="p-02-lets-go-back-way-back-to-the-first" data-note-target><span class="passage-margin" data-passage-margin aria-label="Margin for this passage">
+<span class="passage-margin-notes" data-passage-margin-notes></span>
+
+</span>Let's go back, way back, to the first number system our cave-dwelling ancestors ever used: our fingers.</p>
+<p id="p-02-hold-up-your-hands-and-you-can-count" data-note-target><span class="passage-margin" data-passage-margin aria-label="Margin for this passage">
+<span class="passage-margin-notes" data-passage-margin-notes></span>
+<span class="side-links side-links-margin" aria-label="Related links for this paragraph">
+<a href="https://en.wikipedia.org/wiki/Tally_marks" title="https://en.wikipedia.org/wiki/Tally_marks" tabindex="-1">https://en.wikipedia.org/wiki/Tally_marks</a>
+</span>
 </span>Hold up your hands and you can count to 10. But what if you want to add a number to your cave painting? Well, you make tally marks: <code>IIII</code>.<span class="side-links side-links-inline" aria-label="Related links for this paragraph">
 <a href="https://en.wikipedia.org/wiki/Tally_marks" title="https://en.wikipedia.org/wiki/Tally_marks">https://en.wikipedia.org/wiki/Tally_marks</a>
 </span></p>
-<p id="p-02-so-the-first-number-we-used-was-1" data-note-target>So the first number we used was <code>1</code>, or the tally mark: <code>I</code>. But tally marks get cumbersome quickly. So someone invented a new symbol to mark 5 tallies: <img src="https://upload.wikimedia.org/wikipedia/commons/1/1d/Tally_marks-Five-bar_Gate.svg" style="height:1em"></p>
-<p id="p-02-and-so-it-stayed-for-quite-a-while" data-note-target>And so it stayed for quite a while. Until a Roman (or probably someone else, and the Romans just stole the idea) had the idea to add symbols for other numbers. So we got <code>X</code> for 10. And the Romans redesigned the tally marks further. <code>I</code>, <code>II</code> and <code>III</code> remained the same, but 4 became <code>IV</code>, 5 became <code>V</code> and 6 became <code>VI</code>.</p>
-<p id="p-02-what-the-romans-invented-here-was-that-you" data-note-target>What the Romans invented here was that you could write a calculation to describe the number. 4 is written as <code>V</code> minus <code>I</code>. The minus operation is indicated by writing the <code>I</code> before the <code>V</code>. If you write it after the <code>V</code>, it is <code>V</code> plus <code>I</code>, or 6.</p>
-<p id="p-02-the-simple-rule-is-that-smaller-marks-before" data-note-target>The simple rule is that smaller marks before larger marks mean subtraction. If they are placed after larger marks, they mean addition. The Romans got creative after <code>X</code> and invented marks for 50, 100, 500, 1000 and 5000. They didn't need numbers bigger than that apparently. (Well, actually, a wizard somewhere says, they also had bars you could add on top of a mark to multiply its value by 1000... so there's that.)</p>
-<p id="p-02-so-as-an-example-what-does-the-roman" data-note-target><span class="side-links side-links-margin" aria-label="Related links for this paragraph">
-<a href="https://en.wikipedia.org/wiki/Roman_numerals" title="https://en.wikipedia.org/wiki/Roman_numerals">https://en.wikipedia.org/wiki/Roman_numerals</a>
-<a href="https://en.wikipedia.org/wiki/Hindu%E2%80%93Arabic_numeral_system" title="https://en.wikipedia.org/wiki/Hindu%E2%80%93Arabic_numeral_system">https://en.wikipedia.org/wiki/Hindu%E2%80%93Arabic_numeral_system</a>
+<p id="p-02-so-the-first-number-we-used-was-1" data-note-target><span class="passage-margin" data-passage-margin aria-label="Margin for this passage">
+<span class="passage-margin-notes" data-passage-margin-notes></span>
+
+</span>So the first number we used was <code>1</code>, or the tally mark: <code>I</code>. But tally marks get cumbersome quickly. So someone invented a new symbol to mark 5 tallies: <img src="https://upload.wikimedia.org/wikipedia/commons/1/1d/Tally_marks-Five-bar_Gate.svg" style="height:1em"></p>
+<p id="p-02-and-so-it-stayed-for-quite-a-while" data-note-target><span class="passage-margin" data-passage-margin aria-label="Margin for this passage">
+<span class="passage-margin-notes" data-passage-margin-notes></span>
+
+</span>And so it stayed for quite a while. Until a Roman (or probably someone else, and the Romans just stole the idea) had the idea to add symbols for other numbers. So we got <code>X</code> for 10. And the Romans redesigned the tally marks further. <code>I</code>, <code>II</code> and <code>III</code> remained the same, but 4 became <code>IV</code>, 5 became <code>V</code> and 6 became <code>VI</code>.</p>
+<p id="p-02-what-the-romans-invented-here-was-that-you" data-note-target><span class="passage-margin" data-passage-margin aria-label="Margin for this passage">
+<span class="passage-margin-notes" data-passage-margin-notes></span>
+
+</span>What the Romans invented here was that you could write a calculation to describe the number. 4 is written as <code>V</code> minus <code>I</code>. The minus operation is indicated by writing the <code>I</code> before the <code>V</code>. If you write it after the <code>V</code>, it is <code>V</code> plus <code>I</code>, or 6.</p>
+<p id="p-02-the-simple-rule-is-that-smaller-marks-before" data-note-target><span class="passage-margin" data-passage-margin aria-label="Margin for this passage">
+<span class="passage-margin-notes" data-passage-margin-notes></span>
+
+</span>The simple rule is that smaller marks before larger marks mean subtraction. If they are placed after larger marks, they mean addition. The Romans got creative after <code>X</code> and invented marks for 50, 100, 500, 1000 and 5000. They didn't need numbers bigger than that apparently. (Well, actually, a wizard somewhere says, they also had bars you could add on top of a mark to multiply its value by 1000... so there's that.)</p>
+<p id="p-02-so-as-an-example-what-does-the-roman" data-note-target><span class="passage-margin" data-passage-margin aria-label="Margin for this passage">
+<span class="passage-margin-notes" data-passage-margin-notes></span>
+<span class="side-links side-links-margin" aria-label="Related links for this paragraph">
+<a href="https://en.wikipedia.org/wiki/Roman_numerals" title="https://en.wikipedia.org/wiki/Roman_numerals" tabindex="-1">https://en.wikipedia.org/wiki/Roman_numerals</a>
+<a href="https://en.wikipedia.org/wiki/Hindu%E2%80%93Arabic_numeral_system" title="https://en.wikipedia.org/wiki/Hindu%E2%80%93Arabic_numeral_system" tabindex="-1">https://en.wikipedia.org/wiki/Hindu%E2%80%93Arabic_numeral_system</a>
+</span>
 </span>So as an example, what does the Roman numeral <code>MMXXI</code> translate to in our Arabic numerals? Yes, we call them Arabic numerals. No, the story is not quite that simple. Patience.<span class="side-links side-links-inline" aria-label="Related links for this paragraph">
 <a href="https://en.wikipedia.org/wiki/Roman_numerals" title="https://en.wikipedia.org/wiki/Roman_numerals">https://en.wikipedia.org/wiki/Roman_numerals</a>
 <a href="https://en.wikipedia.org/wiki/Hindu%E2%80%93Arabic_numeral_system" title="https://en.wikipedia.org/wiki/Hindu%E2%80%93Arabic_numeral_system">https://en.wikipedia.org/wiki/Hindu%E2%80%93Arabic_numeral_system</a>
 </span></p>
-<p id="p-02-now-what-about-mcmxcviii-and-were-still-just" data-note-target>Now what about <code>MCMXCVIII</code>? And we're still just around 2000. Roman numerals still get unwieldy fairly quickly. But it's better than tally marks.</p>
-<p id="p-02-notice-weve-come-from-the-age-of-cave" data-note-target>Notice we've come from the age of cave paintings, at least 35,000 years ago, all the way to the Romans, and we still have to do without <code>0</code>.</p>
-<p id="p-02-but-lets-step-back-a-bit-and-introduce" data-note-target><span class="side-links side-links-margin" aria-label="Related links for this paragraph">
-<a href="https://en.wikipedia.org/wiki/Abacus" title="https://en.wikipedia.org/wiki/Abacus">https://en.wikipedia.org/wiki/Abacus</a>
+<p id="p-02-now-what-about-mcmxcviii-and-were-still-just" data-note-target><span class="passage-margin" data-passage-margin aria-label="Margin for this passage">
+<span class="passage-margin-notes" data-passage-margin-notes></span>
+
+</span>Now what about <code>MCMXCVIII</code>? And we're still just around 2000. Roman numerals still get unwieldy fairly quickly. But it's better than tally marks.</p>
+<p id="p-02-notice-weve-come-from-the-age-of-cave" data-note-target><span class="passage-margin" data-passage-margin aria-label="Margin for this passage">
+<span class="passage-margin-notes" data-passage-margin-notes></span>
+
+</span>Notice we've come from the age of cave paintings, at least 35,000 years ago, all the way to the Romans, and we still have to do without <code>0</code>.</p>
+<p id="p-02-but-lets-step-back-a-bit-and-introduce" data-note-target><span class="passage-margin" data-passage-margin aria-label="Margin for this passage">
+<span class="passage-margin-notes" data-passage-margin-notes></span>
+<span class="side-links side-links-margin" aria-label="Related links for this paragraph">
+<a href="https://en.wikipedia.org/wiki/Abacus" title="https://en.wikipedia.org/wiki/Abacus" tabindex="-1">https://en.wikipedia.org/wiki/Abacus</a>
+</span>
 </span>But let's step back a bit and introduce the abacus. This simple device's origins are unknown, and it may have been invented more than once. We know for certain that it was in use by the Roman era; they probably stole it from the Greeks, who may have gotten it from Egyptians or Babylonians, who probably got it from the Sumerians.<span class="side-links side-links-inline" aria-label="Related links for this paragraph">
 <a href="https://en.wikipedia.org/wiki/Abacus" title="https://en.wikipedia.org/wiki/Abacus">https://en.wikipedia.org/wiki/Abacus</a>
 </span></p>
-<p id="p-02-by-now-you-may-have-noticed-a-pattern" data-note-target>By now, you may have noticed a pattern. Everyone is stealing from everyone else.</p>
-<p id="p-02-thats-how-good-ideas-travel-they-get-copied" data-note-target>That's how good ideas travel. They get copied, renamed, improved and eventually taught to children as if they had always existed.</p>
+<p id="p-02-by-now-you-may-have-noticed-a-pattern" data-note-target><span class="passage-margin" data-passage-margin aria-label="Margin for this passage">
+<span class="passage-margin-notes" data-passage-margin-notes></span>
+
+</span>By now, you may have noticed a pattern. Everyone is stealing from everyone else.</p>
+<p id="p-02-thats-how-good-ideas-travel-they-get-copied" data-note-target><span class="passage-margin" data-passage-margin aria-label="Margin for this passage">
+<span class="passage-margin-notes" data-passage-margin-notes></span>
+
+</span>That's how good ideas travel. They get copied, renamed, improved and eventually taught to children as if they had always existed.</p>
 <aside id="rule-02-wizards-first-rule" class="wizard-rule" data-note-target>
 <p class="rule-label">Wizard's first rule</p>
 <p>Steal the good stuff.</p>
 </aside>
-<p id="p-02-anyway-back-to-the-abacus-lets-show-one" data-note-target>Anyway, back to the abacus. Let's show one for those who haven't seen one yet:</p>
+<p id="p-02-anyway-back-to-the-abacus-lets-show-one" data-note-target><span class="passage-margin" data-passage-margin aria-label="Margin for this passage">
+<span class="passage-margin-notes" data-passage-margin-notes></span>
+
+</span>Anyway, back to the abacus. Let's show one for those who haven't seen one yet:</p>
 <figure id="image-02-abacus6-png" class="image-block" data-note-target><img src="https://upload.wikimedia.org/wikipedia/commons/a/af/Abacus_6.png"></figure>
-<p id="p-02-this-is-a-chinese-version-you-could-probably" data-note-target>This is a Chinese version; you could probably find something like it still in use around the world today. The idea is simple: each column represents one position in a number. The upper beads denote 5, the lower beads denote 1. An observant wizard may spot a discrepancy here. Couldn't you do with one less upper and lower bead? Well, yes you could. It's a kind of magic.</p>
-<p id="p-02-but-much-more-important-is-that-here-again" data-note-target>But much more important is that here, again, the system introduces a calculation into the representation of numbers. It's different from the Roman one, and it's much more consistent and still in use today. It's the idea that each column is multiplied by a number. The rightmost column is multiplied by <code>I</code>, so not much change there. The one next to it is multiplied by <code>X</code>, the next one by <code>C</code>, the next by <code>M</code> and so on. Except of course the Romans had trouble writing numbers bigger than about <code>M</code>, without trickery.</p>
-<p id="p-02-its-a-lot-easier-to-explain-if-i" data-note-target>It's a lot easier to explain if I use Arabic numerals. They use the exact same multiplication by column as the abacus does. The rightmost column is multiplied by 1, the next is multiplied by 10, then 100, then 1000 and so on.</p>
-<p id="p-02-and-here-for-the-first-time-in-our" data-note-target>And here, for the first time in our story, we have the number <code>0</code>. You can write <code>11</code>, but how do you write 'one ten and no ones'? Zero fills that hole elegantly.</p>
-<p id="p-02-as-a-side-note-the-idea-of-a" data-note-target><span class="side-links side-links-margin" aria-label="Related links for this paragraph">
-<a href="https://en.wikipedia.org/wiki/0" title="https://en.wikipedia.org/wiki/0">https://en.wikipedia.org/wiki/0</a>
-<a href="https://en.wikipedia.org/wiki/Positional_notation" title="https://en.wikipedia.org/wiki/Positional_notation">https://en.wikipedia.org/wiki/Positional_notation</a>
+<p id="p-02-this-is-a-chinese-version-you-could-probably" data-note-target><span class="passage-margin" data-passage-margin aria-label="Margin for this passage">
+<span class="passage-margin-notes" data-passage-margin-notes></span>
+
+</span>This is a Chinese version; you could probably find something like it still in use around the world today. The idea is simple: each column represents one position in a number. The upper beads denote 5, the lower beads denote 1. An observant wizard may spot a discrepancy here. Couldn't you do with one less upper and lower bead? Well, yes you could. It's a kind of magic.</p>
+<p id="p-02-but-much-more-important-is-that-here-again" data-note-target><span class="passage-margin" data-passage-margin aria-label="Margin for this passage">
+<span class="passage-margin-notes" data-passage-margin-notes></span>
+
+</span>But much more important is that here, again, the system introduces a calculation into the representation of numbers. It's different from the Roman one, and it's much more consistent and still in use today. It's the idea that each column is multiplied by a number. The rightmost column is multiplied by <code>I</code>, so not much change there. The one next to it is multiplied by <code>X</code>, the next one by <code>C</code>, the next by <code>M</code> and so on. Except of course the Romans had trouble writing numbers bigger than about <code>M</code>, without trickery.</p>
+<p id="p-02-its-a-lot-easier-to-explain-if-i" data-note-target><span class="passage-margin" data-passage-margin aria-label="Margin for this passage">
+<span class="passage-margin-notes" data-passage-margin-notes></span>
+
+</span>It's a lot easier to explain if I use Arabic numerals. They use the exact same multiplication by column as the abacus does. The rightmost column is multiplied by 1, the next is multiplied by 10, then 100, then 1000 and so on.</p>
+<p id="p-02-and-here-for-the-first-time-in-our" data-note-target><span class="passage-margin" data-passage-margin aria-label="Margin for this passage">
+<span class="passage-margin-notes" data-passage-margin-notes></span>
+
+</span>And here, for the first time in our story, we have the number <code>0</code>. You can write <code>11</code>, but how do you write 'one ten and no ones'? Zero fills that hole elegantly.</p>
+<p id="p-02-as-a-side-note-the-idea-of-a" data-note-target><span class="passage-margin" data-passage-margin aria-label="Margin for this passage">
+<span class="passage-margin-notes" data-passage-margin-notes></span>
+<span class="side-links side-links-margin" aria-label="Related links for this paragraph">
+<a href="https://en.wikipedia.org/wiki/0" title="https://en.wikipedia.org/wiki/0" tabindex="-1">https://en.wikipedia.org/wiki/0</a>
+<a href="https://en.wikipedia.org/wiki/Positional_notation" title="https://en.wikipedia.org/wiki/Positional_notation" tabindex="-1">https://en.wikipedia.org/wiki/Positional_notation</a>
+</span>
 </span>As a side note, the idea of a number 0 is much older than this. But its status was not well established. The mathematicians of the time asked how a number, or anything, could be nothing. With positional notation, <code>0</code> became not just a placeholder, but as a number in its own right.<span class="side-links side-links-inline" aria-label="Related links for this paragraph">
 <a href="https://en.wikipedia.org/wiki/0" title="https://en.wikipedia.org/wiki/0">https://en.wikipedia.org/wiki/0</a>
 <a href="https://en.wikipedia.org/wiki/Positional_notation" title="https://en.wikipedia.org/wiki/Positional_notation">https://en.wikipedia.org/wiki/Positional_notation</a>
 </span></p>
-<p id="p-02-as-another-aside-i-should-probably-call-arabic" data-note-target>As another aside, I should probably call Arabic numerals Hindu numerals instead. It seems the Arabs got the idea from Indian mathematicians, who had been using these symbols for a few hundred years already. (See the wizard's first rule.)</p>
-<p id="p-02-now-back-to-large-numbers-by-using-position" data-note-target>Now back to large numbers. By using position to multiply each numeral, we can write very large numbers. Much larger than we usually need, say on a market square haggling over the price of a chicken. And all this by multiplying by 10.</p>
-<p id="p-02-but-there-is-another-calculation-hidden-inside-these" data-note-target><span class="side-links side-links-margin" aria-label="Related links for this paragraph">
-<a href="https://en.wikipedia.org/wiki/Modular_arithmetic" title="https://en.wikipedia.org/wiki/Modular_arithmetic">https://en.wikipedia.org/wiki/Modular_arithmetic</a>
+<p id="p-02-as-another-aside-i-should-probably-call-arabic" data-note-target><span class="passage-margin" data-passage-margin aria-label="Margin for this passage">
+<span class="passage-margin-notes" data-passage-margin-notes></span>
+
+</span>As another aside, I should probably call Arabic numerals Hindu numerals instead. It seems the Arabs got the idea from Indian mathematicians, who had been using these symbols for a few hundred years already. (See the wizard's first rule.)</p>
+<p id="p-02-now-back-to-large-numbers-by-using-position" data-note-target><span class="passage-margin" data-passage-margin aria-label="Margin for this passage">
+<span class="passage-margin-notes" data-passage-margin-notes></span>
+
+</span>Now back to large numbers. By using position to multiply each numeral, we can write very large numbers. Much larger than we usually need, say on a market square haggling over the price of a chicken. And all this by multiplying by 10.</p>
+<p id="p-02-but-there-is-another-calculation-hidden-inside-these" data-note-target><span class="passage-margin" data-passage-margin aria-label="Margin for this passage">
+<span class="passage-margin-notes" data-passage-margin-notes></span>
+<span class="side-links side-links-margin" aria-label="Related links for this paragraph">
+<a href="https://en.wikipedia.org/wiki/Modular_arithmetic" title="https://en.wikipedia.org/wiki/Modular_arithmetic" tabindex="-1">https://en.wikipedia.org/wiki/Modular_arithmetic</a>
+</span>
 </span>But there is another calculation hidden inside these numbers. This is called modular arithmetic. The idea is that we can divide a number by another number, and instead of using the result of that division, we only keep the remainder. So 12 modulo 10 is 2. And in Arabic numerals each position is filled with a number from 0 to 9, which matches the modulo 10 operation exactly.<span class="side-links side-links-inline" aria-label="Related links for this paragraph">
 <a href="https://en.wikipedia.org/wiki/Modular_arithmetic" title="https://en.wikipedia.org/wiki/Modular_arithmetic">https://en.wikipedia.org/wiki/Modular_arithmetic</a>
 </span></p>
-<p id="p-02-why-is-this-important-well-this-insight-opens" data-note-target>Why is this important? Well, this insight opens the way for mechanical calculators: devices that can add and subtract numbers. They do so using a carry mechanism. You can see these still in use today in simple counting devices. Each position of a large number is represented with a wheel with the numbers 0 to 9 on it. Each click moves the rightmost wheel one position, using 10 gearing pins attached to the wheel. When the number displayed is 9 and you click the counter, the wheel continues to 0. The wheel to the left of it is then pushed forward by the single gearing pin attached to the first wheel on the other side. This pin only engages when moving from 9 to 0. This is called the carry, and it carries 1 from the right wheel to the left wheel, effectively multiplying it by 10.</p>
+<p id="p-02-why-is-this-important-well-this-insight-opens" data-note-target><span class="passage-margin" data-passage-margin aria-label="Margin for this passage">
+<span class="passage-margin-notes" data-passage-margin-notes></span>
+
+</span>Why is this important? Well, this insight opens the way for mechanical calculators: devices that can add and subtract numbers. They do so using a carry mechanism. You can see these still in use today in simple counting devices. Each position of a large number is represented with a wheel with the numbers 0 to 9 on it. Each click moves the rightmost wheel one position, using 10 gearing pins attached to the wheel. When the number displayed is 9 and you click the counter, the wheel continues to 0. The wheel to the left of it is then pushed forward by the single gearing pin attached to the first wheel on the other side. This pin only engages when moving from 9 to 0. This is called the carry, and it carries 1 from the right wheel to the left wheel, effectively multiplying it by 10.</p>
 <figure id="image-02-detailofarothcalculatingmachine-png" class="image-block" data-note-target><img src="https://upload.wikimedia.org/wikipedia/commons/b/b7/Detail_of_a_Roth_Calculating_machine.png"></figure>
-<p id="p-02-blaise-pascal-is-credited-with-making-one-of" class="has-side-wizard" data-note-target><span class="side-links side-links-margin side-links-has-wizard" aria-label="Related links for this paragraph">
-<a class="wizard-card" href="https://en.wikipedia.org/wiki/Blaise_Pascal" aria-label="Wikipedia: Blaise Pascal" data-license="Public domain" data-source="https://commons.wikimedia.org/wiki/File:Blaise_Pascal_Versailles.JPG">
+<p id="p-02-blaise-pascal-is-credited-with-making-one-of" class="has-side-wizard" data-note-target><span class="passage-margin passage-margin-has-wizard" data-passage-margin aria-label="Margin for this passage">
+<span class="passage-margin-notes" data-passage-margin-notes></span>
+<span class="side-links side-links-margin side-links-has-wizard" aria-label="Related links for this paragraph">
+<a class="wizard-card" href="https://en.wikipedia.org/wiki/Blaise_Pascal" aria-label="Wikipedia: Blaise Pascal" data-license="Public domain" data-source="https://commons.wikimedia.org/wiki/File:Blaise_Pascal_Versailles.JPG" tabindex="-1">
 <span class="wizard-card-image"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/98/Blaise_Pascal_Versailles.JPG/330px-Blaise_Pascal_Versailles.JPG" alt="" loading="lazy" style="--wizard-portrait-position: 50% 35%;"></span>
 <span class="wizard-card-name">Blaise Pascal</span>
 <span class="wizard-card-note">Mechanical calculation</span>
 </a>
+</span>
 </span>Blaise Pascal is credited with making one of the first usable mechanical calculators. It could add and subtract, and with repeated motions also multiply and divide. It's not a computer yet, but we've come a long way from scratch marks.<span class="side-links side-links-inline" aria-label="Related links for this paragraph">
 <a href="https://en.wikipedia.org/wiki/Blaise_Pascal" title="https://en.wikipedia.org/wiki/Blaise_Pascal">https://en.wikipedia.org/wiki/Blaise_Pascal</a>
 </span></p>
-<p id="p-02-i-should-mention-the-antikythera-device-this-is" data-note-target><span class="side-links side-links-margin" aria-label="Related links for this paragraph">
-<a href="https://en.wikipedia.org/wiki/Antikythera_mechanism" title="https://en.wikipedia.org/wiki/Antikythera_mechanism">https://en.wikipedia.org/wiki/Antikythera_mechanism</a>
-<a href="https://www.nature.com/articles/444534a" title="https://www.nature.com/articles/444534a">https://www.nature.com/articles/444534a</a>
+<p id="p-02-i-should-mention-the-antikythera-device-this-is" data-note-target><span class="passage-margin" data-passage-margin aria-label="Margin for this passage">
+<span class="passage-margin-notes" data-passage-margin-notes></span>
+<span class="side-links side-links-margin" aria-label="Related links for this paragraph">
+<a href="https://en.wikipedia.org/wiki/Antikythera_mechanism" title="https://en.wikipedia.org/wiki/Antikythera_mechanism" tabindex="-1">https://en.wikipedia.org/wiki/Antikythera_mechanism</a>
+<a href="https://www.nature.com/articles/444534a" title="https://www.nature.com/articles/444534a" tabindex="-1">https://www.nature.com/articles/444534a</a>
+</span>
 </span>I should mention the Antikythera device. This is a device from the classical Greek era, which is thought to have been able to calculate astronomical positions and eclipses. It is called the earliest analog computer. It has been dated to somewhere between 205 BC and 87 BC. The next time we know of that a device of similar complexity was made, we're in the Renaissance in Western Europe.<span class="side-links side-links-inline" aria-label="Related links for this paragraph">
 <a href="https://en.wikipedia.org/wiki/Antikythera_mechanism" title="https://en.wikipedia.org/wiki/Antikythera_mechanism">https://en.wikipedia.org/wiki/Antikythera_mechanism</a>
 <a href="https://www.nature.com/articles/444534a" title="https://www.nature.com/articles/444534a">https://www.nature.com/articles/444534a</a>
 </span></p>
-<p id="p-02-to-really-understand-how-much-of-a-leap" data-note-target>To really understand how much of a leap this is, just take a look back at our timeline of numbers. Around 100 BC is before the invention of 0, before positional notation and the carry mechanism. Yet some Greek wizard, perhaps from Rhodes, still managed to make this device.</p>
-<p id="p-02-were-getting-pretty-good-at-writing-large-numbers" data-note-target>We're getting pretty good at writing large numbers. We can write down 1,000,000 and read it without blinking an eye. But science is progressing and making up bigger numbers faster than we can write them down. How about the number of atoms in the universe? Or even bigger, all the possible move sequences in the game of chess?</p>
-<p id="p-02-to-write-that-number-down-you-will-need" data-note-target><span class="side-links side-links-margin" aria-label="Related links for this paragraph">
-<a href="https://en.wikipedia.org/wiki/Scientific_notation" title="https://en.wikipedia.org/wiki/Scientific_notation">https://en.wikipedia.org/wiki/Scientific_notation</a>
+<p id="p-02-to-really-understand-how-much-of-a-leap" data-note-target><span class="passage-margin" data-passage-margin aria-label="Margin for this passage">
+<span class="passage-margin-notes" data-passage-margin-notes></span>
+
+</span>To really understand how much of a leap this is, just take a look back at our timeline of numbers. Around 100 BC is before the invention of 0, before positional notation and the carry mechanism. Yet some Greek wizard, perhaps from Rhodes, still managed to make this device.</p>
+<p id="p-02-were-getting-pretty-good-at-writing-large-numbers" data-note-target><span class="passage-margin" data-passage-margin aria-label="Margin for this passage">
+<span class="passage-margin-notes" data-passage-margin-notes></span>
+
+</span>We're getting pretty good at writing large numbers. We can write down 1,000,000 and read it without blinking an eye. But science is progressing and making up bigger numbers faster than we can write them down. How about the number of atoms in the universe? Or even bigger, all the possible move sequences in the game of chess?</p>
+<p id="p-02-to-write-that-number-down-you-will-need" data-note-target><span class="passage-margin" data-passage-margin aria-label="Margin for this passage">
+<span class="passage-margin-notes" data-passage-margin-notes></span>
+<span class="side-links side-links-margin" aria-label="Related links for this paragraph">
+<a href="https://en.wikipedia.org/wiki/Scientific_notation" title="https://en.wikipedia.org/wiki/Scientific_notation" tabindex="-1">https://en.wikipedia.org/wiki/Scientific_notation</a>
+</span>
 </span>To write that number down, you will need a number with at least 111 zeros. Clearly that is no longer practical. So enter scientific notation, where we add another calculation as part of the notation of a number: exponents.<span class="side-links side-links-inline" aria-label="Related links for this paragraph">
 <a href="https://en.wikipedia.org/wiki/Scientific_notation" title="https://en.wikipedia.org/wiki/Scientific_notation">https://en.wikipedia.org/wiki/Scientific_notation</a>
 </span></p>
@@ -200,7 +289,10 @@
 2 \times 10^{111}
 $$</div>
 </figure>
-<p id="p-02-but-we-can-also-use-these-to-explain" data-note-target>But we can also use these to explain the positional nature of Arabic numerals:</p>
+<p id="p-02-but-we-can-also-use-these-to-explain" data-note-target><span class="passage-margin" data-passage-margin aria-label="Margin for this passage">
+<span class="passage-margin-notes" data-passage-margin-notes></span>
+
+</span>But we can also use these to explain the positional nature of Arabic numerals:</p>
 <figure id="table-02-075" class="table-figure" data-note-target>
 <table>
 <thead><tr><th>$$ \times 10^{2} $$</th><th>$$ \times 10^{1} $$</th><th>$$ \times 10^{0} $$</th></tr></thead>
@@ -209,10 +301,19 @@ $$</div>
 </tbody>
 </table>
 </figure>
-<p id="p-02-so-the-number-972-is-equal-to-9" data-note-target>So the number 972 is equal to $$ 9 \times 10^2 + 7 \times 10^1 + 2 \times 10^0 $$</p>
-<p id="p-02-so-what-about-our-original-two-numbers-1" data-note-target>So what about our original two numbers, <code>1</code> and <code>0</code>? Well, if you understand the magic of positional notation, it turns out that you don't actually need all 10 numerals in each position.</p>
-<p id="p-02-you-can-use-any-number-of-numerals-such" data-note-target><span class="side-links side-links-margin" aria-label="Related links for this paragraph">
-<a href="https://en.wikipedia.org/wiki/Hexadecimal" title="https://en.wikipedia.org/wiki/Hexadecimal">https://en.wikipedia.org/wiki/Hexadecimal</a>
+<p id="p-02-so-the-number-972-is-equal-to-9" data-note-target><span class="passage-margin" data-passage-margin aria-label="Margin for this passage">
+<span class="passage-margin-notes" data-passage-margin-notes></span>
+
+</span>So the number 972 is equal to $$ 9 \times 10^2 + 7 \times 10^1 + 2 \times 10^0 $$</p>
+<p id="p-02-so-what-about-our-original-two-numbers-1" data-note-target><span class="passage-margin" data-passage-margin aria-label="Margin for this passage">
+<span class="passage-margin-notes" data-passage-margin-notes></span>
+
+</span>So what about our original two numbers, <code>1</code> and <code>0</code>? Well, if you understand the magic of positional notation, it turns out that you don't actually need all 10 numerals in each position.</p>
+<p id="p-02-you-can-use-any-number-of-numerals-such" data-note-target><span class="passage-margin" data-passage-margin aria-label="Margin for this passage">
+<span class="passage-margin-notes" data-passage-margin-notes></span>
+<span class="side-links side-links-margin" aria-label="Related links for this paragraph">
+<a href="https://en.wikipedia.org/wiki/Hexadecimal" title="https://en.wikipedia.org/wiki/Hexadecimal" tabindex="-1">https://en.wikipedia.org/wiki/Hexadecimal</a>
+</span>
 </span>You can use any number of numerals, such as 16 for hexadecimal numbers, for example:<span class="side-links side-links-inline" aria-label="Related links for this paragraph">
 <a href="https://en.wikipedia.org/wiki/Hexadecimal" title="https://en.wikipedia.org/wiki/Hexadecimal">https://en.wikipedia.org/wiki/Hexadecimal</a>
 </span></p>
@@ -221,9 +322,15 @@ $$</div>
 0x1F   = 1 \times 16 + 15
 $$</div>
 </figure>
-<p id="p-02-0x-is-just-a-convention-to-say-this" data-note-target><em><code>0x</code> is just a convention to say 'this is a hexadecimal number', and since there are 16 single-position numerals, we've got <code>A</code> to <code>F</code> as placeholders for 10 to 15.</em></p>
-<p id="p-02-or-octal-with-8-numerals-per-position" data-note-target><span class="side-links side-links-margin" aria-label="Related links for this paragraph">
-<a href="https://en.wikipedia.org/wiki/Octal" title="https://en.wikipedia.org/wiki/Octal">https://en.wikipedia.org/wiki/Octal</a>
+<p id="p-02-0x-is-just-a-convention-to-say-this" data-note-target><span class="passage-margin" data-passage-margin aria-label="Margin for this passage">
+<span class="passage-margin-notes" data-passage-margin-notes></span>
+
+</span><em><code>0x</code> is just a convention to say 'this is a hexadecimal number', and since there are 16 single-position numerals, we've got <code>A</code> to <code>F</code> as placeholders for 10 to 15.</em></p>
+<p id="p-02-or-octal-with-8-numerals-per-position" data-note-target><span class="passage-margin" data-passage-margin aria-label="Margin for this passage">
+<span class="passage-margin-notes" data-passage-margin-notes></span>
+<span class="side-links side-links-margin" aria-label="Related links for this paragraph">
+<a href="https://en.wikipedia.org/wiki/Octal" title="https://en.wikipedia.org/wiki/Octal" tabindex="-1">https://en.wikipedia.org/wiki/Octal</a>
+</span>
 </span>Or octal, with 8 numerals per position:<span class="side-links side-links-inline" aria-label="Related links for this paragraph">
 <a href="https://en.wikipedia.org/wiki/Octal" title="https://en.wikipedia.org/wiki/Octal">https://en.wikipedia.org/wiki/Octal</a>
 </span></p>
@@ -232,8 +339,11 @@ $$</div>
 0o17 = 1 \times 8 + 7
 $$</div>
 </figure>
-<p id="p-02-or-reduce-it-to-two-numerals-1-and" data-note-target><span class="side-links side-links-margin" aria-label="Related links for this paragraph">
-<a href="https://en.wikipedia.org/wiki/Binary_number" title="https://en.wikipedia.org/wiki/Binary_number">https://en.wikipedia.org/wiki/Binary_number</a>
+<p id="p-02-or-reduce-it-to-two-numerals-1-and" data-note-target><span class="passage-margin" data-passage-margin aria-label="Margin for this passage">
+<span class="passage-margin-notes" data-passage-margin-notes></span>
+<span class="side-links side-links-margin" aria-label="Related links for this paragraph">
+<a href="https://en.wikipedia.org/wiki/Binary_number" title="https://en.wikipedia.org/wiki/Binary_number" tabindex="-1">https://en.wikipedia.org/wiki/Binary_number</a>
+</span>
 </span>Or reduce it to two numerals, <code>1</code> and <code>0</code>, and you get binary:<span class="side-links side-links-inline" aria-label="Related links for this paragraph">
 <a href="https://en.wikipedia.org/wiki/Binary_number" title="https://en.wikipedia.org/wiki/Binary_number">https://en.wikipedia.org/wiki/Binary_number</a>
 </span></p>
@@ -242,7 +352,10 @@ $$</div>
 11 = 1 \times 2 + 1
 $$</div>
 </figure>
-<p id="p-02-and-using-exponents-we-can-explain-it-a" data-note-target>And using exponents, we can explain it a bit better:</p>
+<p id="p-02-and-using-exponents-we-can-explain-it-a" data-note-target><span class="passage-margin" data-passage-margin aria-label="Margin for this passage">
+<span class="passage-margin-notes" data-passage-margin-notes></span>
+
+</span>And using exponents, we can explain it a bit better:</p>
 <figure id="table-02-105" class="table-figure" data-note-target>
 <table>
 <thead><tr><th>$$ \times 2^{2} $$</th><th>$$ \times 2^{1} $$</th><th>$$ \times 2^{0} $$</th></tr></thead>
@@ -251,19 +364,28 @@ $$</div>
 </tbody>
 </table>
 </figure>
-<p id="p-02-this-means-that-the-binary-number-101-is" data-note-target>This means that the binary number <code>101</code> is equal to</p>
+<p id="p-02-this-means-that-the-binary-number-101-is" data-note-target><span class="passage-margin" data-passage-margin aria-label="Margin for this passage">
+<span class="passage-margin-notes" data-passage-margin-notes></span>
+
+</span>This means that the binary number <code>101</code> is equal to</p>
 <figure id="math-02-111" class="math-block" data-note-target>
 <div class="math-display">$$
 1 \times 2^2 + 0 \times 2^1 + 1 \times 2^0
 $$</div>
 </figure>
-<p id="p-02-this-simplifies-to" data-note-target>This simplifies to</p>
+<p id="p-02-this-simplifies-to" data-note-target><span class="passage-margin" data-passage-margin aria-label="Margin for this passage">
+<span class="passage-margin-notes" data-passage-margin-notes></span>
+
+</span>This simplifies to</p>
 <figure id="math-02-117" class="math-block" data-note-target>
 <div class="math-display">$$
 1 \times 4 + 1 = 5
 $$</div>
 </figure>
-<p id="p-02-binary-numbers-are-so-ubiquitous-in-programming-that" data-note-target>Binary numbers are so ubiquitous in programming that you'll see the powers of 2 often. Here are the first few:</p>
+<p id="p-02-binary-numbers-are-so-ubiquitous-in-programming-that" data-note-target><span class="passage-margin" data-passage-margin aria-label="Margin for this passage">
+<span class="passage-margin-notes" data-passage-margin-notes></span>
+
+</span>Binary numbers are so ubiquitous in programming that you'll see the powers of 2 often. Here are the first few:</p>
 <figure id="table-02-124" class="table-figure" data-note-target>
 <table>
 <thead><tr><th>$2^{10}$</th><th>$2^9$</th><th>$2^8$</th><th>$2^7$</th><th>$2^6$</th><th>$2^5$</th><th>$2^4$</th><th>$2^3$</th><th>$2^2$</th><th>$2^1$</th><th>$2^0$</th></tr></thead>
@@ -272,8 +394,14 @@ $$</div>
 </tbody>
 </table>
 </figure>
-<p id="p-02-this-is-a-good-time-to-end-our" data-note-target>This is a good time to end our archaeological dig through numbers. We started with fingers and tally marks, and ended with two numerals that can represent any number a computer needs.</p>
-<p id="p-02-so-how-do-you-make-a-number-bigger" data-note-target>So how do you make a number bigger than your fingers? You invent a better way to write it down.</p>
+<p id="p-02-this-is-a-good-time-to-end-our" data-note-target><span class="passage-margin" data-passage-margin aria-label="Margin for this passage">
+<span class="passage-margin-notes" data-passage-margin-notes></span>
+
+</span>This is a good time to end our archaeological dig through numbers. We started with fingers and tally marks, and ended with two numerals that can represent any number a computer needs.</p>
+<p id="p-02-so-how-do-you-make-a-number-bigger" data-note-target><span class="passage-margin" data-passage-margin aria-label="Margin for this passage">
+<span class="passage-margin-notes" data-passage-margin-notes></span>
+
+</span>So how do you make a number bigger than your fingers? You invent a better way to write it down.</p>
   <nav class="chapter-pagination" aria-label="Chapter navigation">
     <a rel="prev" href="interlude-01-useful-tricks.html"><span>Previous</span>Interlude</a>
     <a rel="next" href="03-logic-turning-truth-into-machinery.html"><span>Next</span>Logic: the truth is out there</a>

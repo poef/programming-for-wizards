@@ -1,7 +1,7 @@
 {
   "id": "programming-for-wizards",
   "title": "Programming for Wizards",
-  "generatedAt": "2026-07-18T20:22:25.306Z",
+  "generatedAt": "2026-07-19T15:25:24.509Z",
   "phase": "01-enhanced-static-manuscript",
   "features": {
     "notes": "planned",
@@ -2442,7 +2442,7 @@
     {
       "id": "p-08-a-common-misconception-is-that-programming-languages-are",
       "type": "paragraph",
-      "label": "A common misconception is that programming languages are designed to allow you to program computers. If that were the on",
+      "label": "A common misconception is that programming languages exist simply to tell computers what to do. If that were their only ",
       "chapter": "08-programming-languages-are-for-humans",
       "url": "chapters/08-programming-languages-are-for-humans.html#p-08-a-common-misconception-is-that-programming-languages-are"
     },
