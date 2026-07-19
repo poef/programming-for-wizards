@@ -5,7 +5,7 @@ tags: programming for wizards
 # Teaching machines our words
 
 <!-- paragraph-id: p-08-a-common-misconception-is-that-programming-languages-are -->
-A common misconception is that programming languages are designed to allow you to program computers. If that were the only reason, there wouldn't be that many programming languages. 
+A common misconception is that programming languages exist simply to tell computers what to do. If that were their only purpose, we wouldn’t need so many of them.
 
 <!-- paragraph-id: p-08-a-computer-doesnt-need-a-programming-language-humans -->
 A computer doesn't need a programming language. Humans do. 
