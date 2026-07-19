@@ -15,6 +15,7 @@ const siteDir = path.join(rootDir, "www")
 const siteChapterDir = path.join(siteDir, "chapters")
 const siteAssetDir = path.join(siteDir, "assets")
 const siteDataDir = path.join(siteDir, "data")
+const buildAssetVersion = await buildAssetRevision()
 const epubFileName = "programming-for-wizards.epub"
 const epubPath = path.join(siteDir, epubFileName)
 const epubExternalImageAssets = new Map([
@@ -190,6 +191,32 @@ async function copyLocalMarginNotesBundle() {
   } catch (error) {
     if (error?.code === "ENOENT") {
       console.warn("[margin-notes] No local bundle found; run npm run build in ../solid-margin-notes to enable the local demo.")
+      return
+    }
+
+    throw error
+  }
+}
+
+async function buildAssetRevision() {
+  const revision = createHash("sha1")
+
+  await addFileToRevision(revision, path.join(phaseDir, "assets", "margin-notes-demo.js"))
+  await addFileToRevision(revision, path.join(marginNotesDistDir, "index.js"), { optional: true })
+
+  return revision.digest("hex").slice(0, 10)
+}
+
+async function addFileToRevision(revision, file, options = {}) {
+  try {
+    revision.update(path.relative(rootDir, file))
+    revision.update("\0")
+    revision.update(await readFile(file))
+    revision.update("\0")
+  } catch (error) {
+    if (options.optional && error?.code === "ENOENT") {
+      revision.update(`${path.relative(rootDir, file)}:missing`)
+      revision.update("\0")
       return
     }
 
@@ -2605,7 +2632,7 @@ function pageShell({ title, book, currentId, chapters, main, pageKind }) {
   <script defer src="${relativeRoot}assets/exhibits/exhibit-kit.js"></script>
   <script defer src="https://cdn.jsdelivr.net/gh/muze-labs/simplyflow@main/packages/simplyflow/dist/simply.flow.js"></script>
   <script type="module" src="${relativeRoot}assets/exhibits/exhibits.js"></script>
-  <script type="module" src="${relativeRoot}assets/margin-notes-demo.js"></script>
+  <script type="module" src="${relativeRoot}assets/margin-notes-demo.js?v=${buildAssetVersion}"></script>
 </head>
 <body>
   <a class="skip-link" href="#main">Skip to manuscript</a>

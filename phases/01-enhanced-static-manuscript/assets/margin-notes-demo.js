@@ -5,9 +5,10 @@ const ready = document.readyState === "loading"
 ready.then(async () => {
   if (document.documentElement.dataset.pageKind !== "chapter") return
 
+  const assetVersion = new URL(import.meta.url).searchParams.get("v") || "dev"
   let marginNotes
   try {
-    marginNotes = await import("./margin-notes/index.js")
+    marginNotes = await import(`./margin-notes/index.js?v=${encodeURIComponent(assetVersion)}`)
   } catch (error) {
     console.info("[margin-notes] Local demo bundle is not available.", error)
     return
@@ -32,14 +33,20 @@ ready.then(async () => {
   const chapterId = document.querySelector("[data-book-chapter-id]")?.dataset.bookChapterId
     || location.pathname.replace(/^.*\/([^/]+)\.html$/, "$1")
 
-  window.programmingForWizardsMarginNotes = marginNotes.MarginNotesAPI.mount({
+  const app = marginNotes.MarginNotesAPI.mount({
     anchors,
     container: { element: container },
     namespace: "programming-for-wizards",
     storeKey: `programming-for-wizards.margin-notes.${chapterId}`,
-    expandedStackBackground: "var(--color-page)"
+    expandedStackBackground: "var(--color-page)",
+    theme: marginNotesThemeFromBook()
   })
-  bindPassageMarginTabOrder()
+  window.programmingForWizardsMarginNotes = app
+
+  bindMarginNotesLifecycle(app, [
+    bindMarginNotesTheme(app),
+    bindPassageMarginTabOrder()
+  ])
 })
 
 function elementLabel(element) {
@@ -67,8 +74,53 @@ function passageMarginNotesSlot(element) {
   return slot
 }
 
+function marginNotesThemeFromBook() {
+  return marginNotesThemeFromReaderTheme(document.documentElement.dataset.theme)
+}
+
+function marginNotesThemeFromReaderTheme(theme) {
+  if (theme === "dark") return "dark"
+  if (theme === "system" || theme === "auto") return "system"
+  return "light"
+}
+
+function bindMarginNotesTheme(app) {
+  const update = theme => {
+    void app.setTheme(marginNotesThemeFromReaderTheme(theme))
+  }
+
+  const onReaderSettingsChange = event => {
+    update(event.detail?.settings?.theme || document.documentElement.dataset.theme)
+  }
+  document.addEventListener("reader-settings-change", onReaderSettingsChange)
+
+  const observer = new MutationObserver(() => {
+    update(document.documentElement.dataset.theme)
+  })
+  observer.observe(document.documentElement, {
+    attributes: true,
+    attributeFilter: ["data-theme"]
+  })
+
+  return () => {
+    document.removeEventListener("reader-settings-change", onReaderSettingsChange)
+    observer.disconnect()
+  }
+}
+
+function bindMarginNotesLifecycle(app, cleanups) {
+  const destroy = app.destroy.bind(app)
+
+  app.destroy = async function destroyProgrammingForWizardsMarginNotes() {
+    for (const cleanup of cleanups.splice(0)) {
+      cleanup()
+    }
+    await destroy()
+  }
+}
+
 function bindPassageMarginTabOrder() {
-  document.addEventListener("keydown", event => {
+  const onKeydown = event => {
     if (event.key !== "Tab") return
 
     const addButton = event.target.closest?.(".passage-margin .margin-notes-target-add-btn")
@@ -86,7 +138,10 @@ function bindPassageMarginTabOrder() {
     event.preventDefault()
     target.focus({ preventScroll: true })
     if (!event.shiftKey) target.scrollIntoView({ block: "nearest", inline: "nearest" })
-  }, true)
+  }
+
+  document.addEventListener("keydown", onKeydown, true)
+  return () => document.removeEventListener("keydown", onKeydown, true)
 }
 
 function focusTargetFromAddButton({ passage, reverse }) {

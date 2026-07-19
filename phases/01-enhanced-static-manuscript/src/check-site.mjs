@@ -402,6 +402,10 @@ function checkHtmlPages(htmlByFile) {
       fail(`${relativeFile} is missing the exhibit registry script`)
     }
 
+    if (!/<script\s+type="module"\s+src="(?:\.\.\/)?assets\/margin-notes-demo\.js\?v=[a-f0-9]{10}"><\/script>/.test(html)) {
+      fail(`${relativeFile} is missing the versioned margin-notes demo script`)
+    }
+
     if (!/\bdata-reader-tools-toggle\b/.test(html)) {
       fail(`${relativeFile} is missing the reader tools toggle`)
     }
