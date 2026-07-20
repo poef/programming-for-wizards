@@ -16,7 +16,7 @@ async function main() {
   const book = await readBook()
   const chapters = await readSourceChapters(book)
   const manifest = await readJson(manifestPath)
-  const htmlFiles = await listFiles(siteDir, file => file.endsWith(".html"))
+  const htmlFiles = await listFiles(siteDir, isGeneratedBookHtml)
   const htmlByFile = new Map()
   const idsByFile = new Map()
 
@@ -51,6 +51,12 @@ async function main() {
   for (const note of notes) {
     console.log(`- ${note}`)
   }
+}
+
+function isGeneratedBookHtml(file) {
+  return file.endsWith(".html") && !path.relative(path.join(siteDir, "assets"), file).startsWith("..")
+    ? false
+    : file.endsWith(".html")
 }
 
 async function readBook() {
