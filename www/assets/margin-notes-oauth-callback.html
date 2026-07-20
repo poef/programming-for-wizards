@@ -1,0 +1,9 @@
+<!doctype html>
+<meta charset="utf-8">
+<title>Connecting Margin Notes</title>
+<script type="module">
+  import { MarginNotesAPI } from "./margin-notes/index.js?oauth-callback=1"
+
+  MarginNotesAPI.popupHandleRedirect()
+  window.close()
+</script>

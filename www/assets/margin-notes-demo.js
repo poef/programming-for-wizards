@@ -29,7 +29,7 @@ ready.then(async () => {
   container.id = "margin-notes-local-demo"
   container.hidden = true
   document.body.append(container)
-
+  const solidConnectionSlot = createSolidConnectionSlot()
   const chapterId = document.querySelector("[data-book-chapter-id]")?.dataset.bookChapterId
     || location.pathname.replace(/^.*\/([^/]+)\.html$/, "$1")
 
@@ -39,13 +39,21 @@ ready.then(async () => {
     namespace: "programming-for-wizards",
     storeKey: `programming-for-wizards.margin-notes.${chapterId}`,
     expandedStackBackground: "var(--color-page)",
-    theme: marginNotesThemeFromBook()
+    theme: marginNotesThemeFromBook(),
+    ...(solidConnectionSlot ? {
+      solidConnection: {
+        container: { element: solidConnectionSlot },
+        pageUrl: window.location.href,
+        callbackUrl: new URL("margin-notes-oauth-callback.html", import.meta.url).href
+      }
+    } : {})
   })
   window.programmingForWizardsMarginNotes = app
 
   bindMarginNotesLifecycle(app, [
     bindMarginNotesTheme(app),
-    bindPassageMarginTabOrder()
+    bindPassageMarginTabOrder(),
+    () => removeSolidConnectionSlot(solidConnectionSlot)
   ])
 })
 
@@ -72,6 +80,33 @@ function passageMarginNotesSlot(element) {
   element.prepend(margin)
 
   return slot
+}
+
+function createSolidConnectionSlot() {
+  const readerPanel = document.querySelector("[data-reader-tools-panel]")
+  if (!readerPanel) return null
+
+  const section = document.createElement("section")
+  section.className = "reader-panel"
+  section.dataset.marginNotesSolidConnectionPanel = ""
+
+  const heading = document.createElement("h2")
+  heading.textContent = "Notes"
+  section.append(heading)
+
+  const slot = document.createElement("div")
+  slot.dataset.marginNotesSolidConnectionSlot = ""
+  section.append(slot)
+
+  const bookDataPanel = Array.from(readerPanel.querySelectorAll(".reader-panel"))
+    .find(panel => panel.querySelector("h2")?.textContent === "Book Data")
+  readerPanel.insertBefore(section, bookDataPanel || null)
+
+  return slot
+}
+
+function removeSolidConnectionSlot(slot) {
+  slot?.closest("[data-margin-notes-solid-connection-panel]")?.remove()
 }
 
 function marginNotesThemeFromBook() {
