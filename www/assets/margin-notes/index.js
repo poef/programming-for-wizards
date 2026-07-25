@@ -4,9 +4,6 @@ var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
 var __getOwnPropNames = Object.getOwnPropertyNames;
 var __getProtoOf = Object.getPrototypeOf;
 var __hasOwnProp = Object.prototype.hasOwnProperty;
-var __esm = (fn, res) => function __init() {
-  return fn && (res = (0, fn[__getOwnPropNames(fn)[0]])(fn = 0)), res;
-};
 var __commonJS = (cb, mod) => function __require() {
   return mod || (0, cb[__getOwnPropNames(cb)[0]])((mod = { exports: {} }).exports, mod), mod.exports;
 };
@@ -14,11 +11,11 @@ var __export = (target, all) => {
   for (var name in all)
     __defProp(target, name, { get: all[name], enumerable: true });
 };
-var __copyProps = (to, from, except, desc) => {
-  if (from && typeof from === "object" || typeof from === "function") {
-    for (let key of __getOwnPropNames(from))
+var __copyProps = (to, from3, except, desc3) => {
+  if (from3 && typeof from3 === "object" || typeof from3 === "function") {
+    for (let key of __getOwnPropNames(from3))
       if (!__hasOwnProp.call(to, key) && key !== except)
-        __defProp(to, key, { get: () => from[key], enumerable: !(desc = __getOwnPropDesc(from, key)) || desc.enumerable });
+        __defProp(to, key, { get: () => from3[key], enumerable: !(desc3 = __getOwnPropDesc(from3, key)) || desc3.enumerable });
   }
   return to;
 };
@@ -30,2722 +27,6 @@ var __toESM = (mod, isNodeMode, target) => (target = mod != null ? __create(__ge
   isNodeMode || !mod || !mod.__esModule ? __defProp(target, "default", { value: mod, enumerable: true }) : target,
   mod
 ));
-
-// ../solid-tools/node_modules/@muze-nl/metro-core/src/metro.mjs
-function fetchOptionsFrom(...options) {
-  const result = {};
-  for (const option of options) {
-    if (!isPlainObject2(option)) {
-      continue;
-    }
-    for (const key of TRACE_OPTION_KEYS) {
-      if (key in option) {
-        result[key] = option[key];
-      }
-    }
-  }
-  return result;
-}
-function createTraceContext(req, options = {}) {
-  const parent = traceParentFrom(options.trace || options.tracer || options.tracers);
-  let localTracers = [];
-  if (parent) {
-    localTracers = parent.localTracers || [];
-  } else {
-    localTracers = normalizeTracers(options.trace).concat(normalizeTracers(options.tracer)).concat(normalizeTracers(options.tracers));
-  }
-  const globalTracers = Object.values(Client.tracers || {});
-  const context = {
-    __metroTraceContext: true,
-    id: "metro-trace-context-" + ++traceContextId,
-    parent,
-    request: req,
-    options,
-    globalTracers,
-    localTracers,
-    tracers: globalTracers.concat(localTracers)
-  };
-  return context;
-}
-function traceParentFrom(value) {
-  if (!value) {
-    return null;
-  }
-  if (value.context?.__metroTraceContext) {
-    return value.context;
-  }
-  if (value.__metroTraceContext) {
-    return value;
-  }
-  return null;
-}
-function normalizeTracers(value) {
-  if (!value || value.__metroTraceContext || value.context?.__metroTraceContext) {
-    return [];
-  }
-  if (Array.isArray(value)) {
-    return value.flatMap(normalizeTracers);
-  }
-  if (isTracer(value)) {
-    return [value];
-  }
-  if (isPlainObject2(value)) {
-    return Object.values(value).flatMap(normalizeTracers);
-  }
-  return [];
-}
-function isTracer(value) {
-  return value && typeof value == "object" && [
-    "request",
-    "response",
-    "error",
-    "event",
-    "diagnostic",
-    "span",
-    "link",
-    "current"
-  ].some((name) => typeof value[name] == "function");
-}
-function createMiddlewareContext(client3, options, traceContext) {
-  const trace3 = createTraceAPI(traceContext);
-  return Object.freeze({
-    client: client3,
-    options,
-    trace: trace3,
-    fetch(req, fetchOptions = {}) {
-      return client3.fetch(req, Object.assign({}, fetchOptions, { trace: trace3 }));
-    }
-  });
-}
-function createTraceAPI(context) {
-  const api3 = {
-    __metroTraceContext: true,
-    context,
-    event(name, data = {}) {
-      callTracers2(context.tracers, "event", name, data, context);
-    },
-    diagnostic(diagnostic = {}) {
-      callTracers2(context.tracers, "diagnostic", diagnostic, context);
-    },
-    current() {
-      for (const tracer of context.tracers) {
-        if (typeof tracer.current == "function") {
-          const current = tracer.current(context);
-          if (current) {
-            return current;
-          }
-        }
-      }
-      return { traceId: null, spanId: null };
-    },
-    async span(name, fn, data = {}) {
-      const tracer = context.tracers.find((tracer2) => typeof tracer2.span == "function");
-      if (!tracer) {
-        return fn();
-      }
-      return tracer.span(name, fn, data, context);
-    },
-    link(key) {
-      let traceId = null;
-      for (const tracer of context.tracers) {
-        if (typeof tracer.link == "function") {
-          traceId = tracer.link(key, void 0, context) || traceId;
-        }
-      }
-      return traceId;
-    },
-    options(extra = {}) {
-      return Object.assign({}, extra, { trace: api3 });
-    }
-  };
-  return api3;
-}
-function callTracers2(tracers2, method, ...args) {
-  for (const tracer of tracers2) {
-    if (tracer && typeof tracer[method] == "function") {
-      tracer[method].call(tracer, ...args);
-    }
-  }
-}
-function isPlainObject2(value) {
-  return value && typeof value == "object" && (Object.getPrototypeOf(value) === Object.prototype || Object.getPrototypeOf(value) === null);
-}
-function client(...options) {
-  return new Client(...deepClone(options));
-}
-function getRequestParams(req, current) {
-  let params = current || {};
-  if (!params.url && current.url) {
-    params.url = current.url;
-  }
-  for (let prop of [
-    "method",
-    "headers",
-    "body",
-    "mode",
-    "credentials",
-    "cache",
-    "redirect",
-    "referrer",
-    "referrerPolicy",
-    "integrity",
-    "keepalive",
-    "signal",
-    "priority",
-    "url"
-  ]) {
-    let value = req[prop];
-    if (typeof value == "undefined" || value == null) {
-      continue;
-    }
-    if (value?.[Symbol.metroProxy]) {
-      value = value[Symbol.metroSource];
-    }
-    if (typeof value == "function") {
-      params[prop] = value(params[prop], params);
-    } else {
-      if (prop == "url") {
-        params.url = url(params.url, value);
-      } else if (prop == "headers") {
-        params.headers = new Headers(current.headers);
-        if (!(value instanceof Headers)) {
-          value = new Headers(req.headers);
-        }
-        for (let [key, val] of value.entries()) {
-          params.headers.set(key, val);
-        }
-      } else {
-        params[prop] = value;
-      }
-    }
-  }
-  if (req instanceof Request && req.data) {
-    params.body = req.data;
-  }
-  return params;
-}
-function request(...options) {
-  let requestParams = {
-    url: typeof window != "undefined" ? url(window.location) : url("https://localhost/"),
-    duplex: "half"
-    // required when setting body to ReadableStream, just set it here by default already
-  };
-  for (let option of options) {
-    if (typeof option == "string" || option instanceof URL || option instanceof URLSearchParams) {
-      requestParams.url = url(requestParams.url, option);
-    } else if (option && (option instanceof FormData || option instanceof ReadableStream || option instanceof Blob || option instanceof ArrayBuffer || option instanceof DataView)) {
-      requestParams.body = option;
-    } else if (option && typeof option == "object") {
-      Object.assign(requestParams, getRequestParams(option, requestParams));
-    }
-  }
-  let r = new Request(requestParams.url, requestParams);
-  let data = requestParams.body;
-  if (data) {
-    if (typeof data == "object" && !(data instanceof String) && !(data instanceof ReadableStream) && !(data instanceof Blob) && !(data instanceof ArrayBuffer) && !(data instanceof DataView) && !(data instanceof FormData) && !(data instanceof URLSearchParams) && (globalThis.ArrayBuffer && ArrayBuffer.isView(data))) {
-      if (typeof data.toString == "function") {
-        requestParams.body = data.toString({ headers: r.headers });
-        r = new Request(requestParams.url, requestParams);
-      }
-    }
-  }
-  Object.freeze(r);
-  return new Proxy(r, {
-    get(target, prop) {
-      let result;
-      switch (prop) {
-        case Symbol.metroSource:
-          result = target;
-          break;
-        case Symbol.metroProxy:
-          result = true;
-          break;
-        case "with":
-          result = function(...options2) {
-            if (typeof data !== "undefined") {
-              options2.unshift({ body: data });
-            }
-            return request(target, ...options2);
-          };
-          break;
-        case "data":
-          result = data;
-          break;
-        default:
-          if (target[prop] instanceof Function) {
-            if (prop === "clone") {
-              result = function() {
-                const cloned = target.clone();
-                if (typeof data != "undefined" && !(typeof ReadableStream != "undefined" && data instanceof ReadableStream)) {
-                  return request(cloned, { body: data });
-                }
-                return request(cloned);
-              };
-            } else {
-              result = target[prop].bind(target);
-            }
-          } else {
-            result = target[prop];
-          }
-          break;
-      }
-      return result;
-    }
-  });
-}
-function getResponseParams(res, current) {
-  let params = current || {};
-  if (!params.url && current.url) {
-    params.url = current.url;
-  }
-  for (let prop of ["status", "statusText", "headers", "body", "url", "type", "redirected"]) {
-    let value = res[prop];
-    if (typeof value == "undefined" || value == null) {
-      continue;
-    }
-    if (value?.[Symbol.metroProxy]) {
-      value = value[Symbol.metroSource];
-    }
-    if (typeof value == "function") {
-      params[prop] = value(params[prop], params);
-    } else {
-      if (prop == "url") {
-        params.url = new URL(value, params.url || "https://localhost/");
-      } else {
-        params[prop] = value;
-      }
-    }
-  }
-  if (res instanceof Response && res.data) {
-    params.body = res.data;
-  }
-  return params;
-}
-function response(...options) {
-  let responseParams = {};
-  for (let option of options) {
-    if (typeof option == "string") {
-      responseParams.body = option;
-    } else if (option instanceof Response) {
-      Object.assign(responseParams, getResponseParams(option, responseParams));
-    } else if (option && typeof option == "object") {
-      if (option instanceof FormData || option instanceof Blob || option instanceof ArrayBuffer || option instanceof DataView || option instanceof ReadableStream || option instanceof URLSearchParams || option instanceof String || typeof globalThis.TypedArray != "undefined" && option instanceof globalThis.TypedArray) {
-        responseParams.body = option;
-      } else {
-        Object.assign(responseParams, getResponseParams(option, responseParams));
-      }
-    }
-  }
-  let data = void 0;
-  if (responseParams.body) {
-    data = responseParams.body;
-  }
-  if ([101, 204, 205, 304].includes(responseParams.status)) {
-    responseParams.body = null;
-  }
-  let r = new Response(responseParams.body, responseParams);
-  Object.freeze(r);
-  return new Proxy(r, {
-    get(target, prop) {
-      let result;
-      switch (prop) {
-        case Symbol.metroProxy:
-          result = true;
-          break;
-        case Symbol.metroSource:
-          result = target;
-          break;
-        case "with":
-          result = function(...options2) {
-            return response(target, ...options2);
-          };
-          break;
-        case "data":
-          result = data;
-          break;
-        case "ok":
-          result = target.status >= 200 && target.status < 300;
-          break;
-        default:
-          if (typeof target[prop] == "function") {
-            result = target[prop].bind(target);
-          } else {
-            result = target[prop];
-          }
-          break;
-      }
-      return result;
-    }
-  });
-}
-function appendSearchParams(url3, params) {
-  if (typeof params == "function") {
-    params(url3.searchParams, url3);
-  } else {
-    params = new URLSearchParams(params);
-    params.forEach((value, key) => {
-      url3.searchParams.append(key, value);
-    });
-  }
-}
-function appendHashParams(value, params) {
-  const target = value[Symbol.metroSource] || value;
-  if (!(params instanceof URLSearchParams)) {
-    params = new URLSearchParams(params);
-  }
-  let hash = target.hash || "#";
-  hash += "?" + params;
-  return url(target, { hash });
-}
-function url(...options) {
-  let validParams = [
-    "hash",
-    "fragment",
-    "host",
-    "hostname",
-    "href",
-    "password",
-    "pathname",
-    "port",
-    "protocol",
-    "username",
-    "search",
-    "searchParams",
-    "hashParams"
-  ];
-  let u = new URL("https://localhost/");
-  let hParams = null;
-  for (let option of options) {
-    if (typeof option == "string" || option instanceof String) {
-      u = new URL(option, u);
-    } else if (option instanceof URL || typeof Location != "undefined" && option instanceof Location) {
-      u = new URL(option);
-    } else if (option instanceof URLSearchParams) {
-      appendSearchParams(u, option);
-    } else if (option && typeof option == "object") {
-      for (let param in option) {
-        switch (param) {
-          case "search":
-            if (typeof option.search == "function") {
-              option.search(u.search, u);
-            } else {
-              u.search = new URLSearchParams(option.search);
-            }
-            break;
-          case "searchParams":
-            appendSearchParams(u, option.searchParams);
-            break;
-          default:
-            if (!validParams.includes(param)) {
-              throw metroError("metro.url: unknown url parameter " + metroURL + "url/unknown-param-name/", param);
-            }
-            if (param == "fragment") {
-              let fragment = option.fragment;
-              if (fragment && typeof fragment == "string" && fragment[0] != "#") {
-                fragment = "#" + fragment;
-              }
-              option.hash = fragment;
-              param = "hash";
-            } else if (param == "hashParams") {
-              hParams = option.hashParams;
-            }
-            if (typeof option[param] == "function") {
-              option[param](u[param], u);
-            } else if (typeof option[param] == "string" || option[param] instanceof String || typeof option[param] == "number" || option[param] instanceof Number || typeof option[param] == "boolean" || option[param] instanceof Boolean) {
-              u[param] = "" + option[param];
-            } else if (typeof option[param] == "object" && option[param].toString) {
-              u[param] = option[param].toString();
-            } else {
-              throw metroError("metro.url: unsupported value for " + param + " " + metroURL + "url/unsupported-param-value/", options[param]);
-            }
-            break;
-        }
-      }
-    } else {
-      throw metroError("metro.url: unsupported option value " + metroURL + "url/unsupported-option-value/", option);
-    }
-  }
-  if (hParams) {
-    if (!u.hash) {
-      u.hash = "#";
-    }
-    if (typeof hParams == "string") {
-      u.hash += hParams;
-    } else {
-      u = appendHashParams(u, hParams);
-    }
-  }
-  Object.freeze(u);
-  return new Proxy(u, {
-    get(target, prop) {
-      let result;
-      switch (prop) {
-        case Symbol.metroProxy:
-          result = true;
-          break;
-        case Symbol.metroSource:
-          result = target;
-          break;
-        case "with":
-          result = function(...options2) {
-            return url(target, ...options2);
-          };
-          break;
-        case "filename":
-          result = target.pathname.split("/").pop();
-          break;
-        case "folderpath":
-          result = target.pathname.substring(0, target.pathname.lastIndexOf("/") + 1);
-          break;
-        case "authority":
-          result = target.username ?? "";
-          result += target.password ? ":" + target.password : "";
-          result += result ? "@" : "";
-          result += target.hostname;
-          result += target.port ? ":" + target.port : "";
-          result += "/";
-          result = target.protocol + "//" + result;
-          break;
-        case "fragment":
-          result = target.hash.substring(1);
-          break;
-        case "scheme":
-          if (target.protocol) {
-            result = target.protocol.substring(0, target.protocol.length - 1);
-          } else {
-            result = "";
-          }
-          break;
-        default:
-          if (target[prop] instanceof Function) {
-            result = target[prop].bind(target);
-          } else {
-            result = target[prop];
-          }
-          break;
-      }
-      return result;
-    }
-  });
-}
-function metroError(message, ...details) {
-  metroConsole.error(message, ...details);
-  return new Error(message, ...details);
-}
-function deepClone(object) {
-  if (Array.isArray(object)) {
-    return object.slice().map(deepClone);
-  }
-  if (object && typeof object === "object") {
-    if (object.__proto__?.constructor == Object || !object.__proto__) {
-      let result = Object.assign({}, object);
-      Object.keys(result).forEach((key) => {
-        result[key] = deepClone(object[key]);
-      });
-      return result;
-    } else {
-      return object;
-    }
-  }
-  return object;
-}
-var metroURL, Client, traceContextId, TRACE_OPTION_KEYS, metroConsole;
-var init_metro = __esm({
-  "../solid-tools/node_modules/@muze-nl/metro-core/src/metro.mjs"() {
-    metroURL = "https://metro.muze.nl/details/";
-    if (!Symbol.metroProxy) {
-      Symbol.metroProxy = Symbol("isProxy");
-    }
-    if (!Symbol.metroSource) {
-      Symbol.metroSource = Symbol("source");
-    }
-    Client = class _Client {
-      clientOptions = {
-        url: typeof window != "undefined" ? url(window.location) : url("https://localhost"),
-        verbs: ["get", "post", "put", "delete", "patch", "head", "options", "query"]
-      };
-      static tracers = {};
-      /**
-       * @typedef {Object} ClientOptions
-       * @property {Array} middlewares - list of middleware functions
-       * @property {string|URL} url - default url of the client
-       * @property {[string]} verbs - a list of verb methods to expose, e.g. ['get','post']
-       * 
-       * Constructs a new metro client. Can have any number of params.
-       * @params {ClientOptions|URL|Function|Client}
-       * @returns {Client} - A metro client object with given or default verb methods
-       */
-      constructor(...options) {
-        for (let option of options) {
-          if (typeof option == "string" || option instanceof String) {
-            this.clientOptions.url = url(this.clientOptions.url.href, option);
-          } else if (option instanceof _Client) {
-            Object.assign(this.clientOptions, option.clientOptions);
-          } else if (option instanceof Function) {
-            this.#addMiddlewares([option]);
-          } else if (option && typeof option == "object") {
-            for (let param in option) {
-              if (param == "middlewares") {
-                this.#addMiddlewares(option[param]);
-              } else if (param == "url") {
-                this.clientOptions.url = url(this.clientOptions.url.href, option[param]);
-              } else if (typeof option[param] == "function") {
-                this.clientOptions[param] = option[param](this.clientOptions[param], this.clientOptions);
-              } else {
-                this.clientOptions[param] = option[param];
-              }
-            }
-          }
-        }
-        for (const verb of this.clientOptions.verbs) {
-          this[verb] = async function(...options2) {
-            return this.fetch(
-              request(
-                this.clientOptions,
-                ...options2,
-                { method: verb.toUpperCase() }
-              ),
-              fetchOptionsFrom(...options2)
-            );
-          };
-        }
-      }
-      #addMiddlewares(middlewares) {
-        if (typeof middlewares == "function") {
-          middlewares = [middlewares];
-        }
-        let index = middlewares.findIndex((m) => typeof m != "function");
-        if (index >= 0) {
-          throw metroError("metro.client: middlewares must be a function or an array of functions " + metroURL + "client/invalid-middlewares/", middlewares[index]);
-        }
-        if (!Array.isArray(this.clientOptions.middlewares)) {
-          this.clientOptions.middlewares = [];
-        }
-        this.clientOptions.middlewares = this.clientOptions.middlewares.concat(middlewares);
-      }
-      /**
-       * Mimics the standard browser fetch method, but uses any middleware installed through
-       * the constructor.
-       * @param {Request|string|Object} - Required. The URL or Request object, accepts all types that are accepted by metro.request
-       * @param {Object} - Optional. Any object that is accepted by metro.request
-       * @return {Promise<Response|*>} - The metro.response to this request, or any other result as changed by any included middleware.
-       */
-      fetch(req, options) {
-        req = request(req, options);
-        if (!req.url) {
-          throw metroError("metro.client." + req.method.toLowerCase() + ": Missing url parameter " + metroURL + "client/fetch-missing-url/", req);
-        }
-        if (!options) {
-          options = {};
-        }
-        if (!(typeof options === "object") || options instanceof String) {
-          throw metroError("metro.client.fetch: Invalid options parameter " + metroURL + "client/fetch-invalid-options/", options);
-        }
-        const metrofetch = async function browserFetch(req2) {
-          if (req2[Symbol.metroProxy]) {
-            req2 = req2[Symbol.metroSource];
-          }
-          const res = await fetch(req2);
-          return response(res);
-        };
-        let middlewares = [metrofetch].concat(this.clientOptions?.middlewares?.slice() || []);
-        options = Object.assign({}, this.clientOptions, options);
-        const traceContext = createTraceContext(req, options);
-        const middlewareContext = createMiddlewareContext(this, options, traceContext);
-        let next;
-        for (let middleware of middlewares) {
-          next = /* @__PURE__ */ (function(next2, middleware2) {
-            return async function(req2) {
-              let res;
-              let tracers2 = traceContext.tracers;
-              callTracers2(tracers2, "request", req2, middleware2, traceContext);
-              try {
-                res = await middleware2(req2, next2, middlewareContext);
-              } catch (error4) {
-                callTracers2(tracers2, "error", error4, req2, middleware2, traceContext);
-                throw error4;
-              }
-              callTracers2(tracers2, "response", res, middleware2, traceContext);
-              return res;
-            };
-          })(next, middleware);
-        }
-        return next(req);
-      }
-      with(...options) {
-        return new _Client(deepClone(this.clientOptions), ...options);
-      }
-      get location() {
-        return this.clientOptions.url;
-      }
-    };
-    traceContextId = 0;
-    TRACE_OPTION_KEYS = ["trace", "tracer", "tracers"];
-    metroConsole = {
-      error: (message, ...details) => {
-        console.error("\u24C2\uFE0F  ", message, ...details);
-      },
-      info: (message, ...details) => {
-        console.info("\u24C2\uFE0F  ", message, ...details);
-      },
-      group: (name) => {
-        console.group("\u24C2\uFE0F  " + name);
-      },
-      groupEnd: (name) => {
-        console.groupEnd("\u24C2\uFE0F  " + name);
-      }
-    };
-  }
-});
-
-// ../solid-tools/node_modules/@muze-nl/metro-core/src/index.mjs
-var src_exports3 = {};
-__export(src_exports3, {
-  Client: () => Client,
-  client: () => client,
-  deepClone: () => deepClone,
-  metroError: () => metroError,
-  request: () => request,
-  response: () => response,
-  url: () => url
-});
-var init_src = __esm({
-  "../solid-tools/node_modules/@muze-nl/metro-core/src/index.mjs"() {
-    init_metro();
-  }
-});
-
-// ../solid-tools/node_modules/@muze-nl/metro-middleware/src/json.mjs
-function jsonmw(options) {
-  options = Object.assign({
-    contentType: "application/json",
-    reviver: null,
-    replacer: null,
-    space: ""
-  }, options);
-  return async function json(req, next) {
-    if (!req.headers.get("Accept")) {
-      req = req.with({
-        headers: {
-          "Accept": options.accept ?? options.contentType
-        }
-      });
-    }
-    if (req.method !== "GET" && req.method !== "HEAD") {
-      if (req.data && typeof req.data == "object" && !(req.data instanceof ReadableStream)) {
-        const contentType = req.headers.get("Content-Type");
-        if (!contentType || isPlainText(contentType)) {
-          req = req.with({
-            headers: {
-              "Content-Type": options.contentType
-            }
-          });
-        }
-        if (isJSON(req.headers.get("Content-Type"))) {
-          req = req.with({
-            body: JSON.stringify(req.data, options.replacer, options.space)
-          });
-        }
-      }
-    }
-    let res = await next(req);
-    if (res && isJSON(res.headers?.get("Content-Type"))) {
-      let tempRes = res.clone();
-      let body = await tempRes.text();
-      try {
-        let json2 = JSON.parse(body, options.reviver);
-        return res.with({
-          body: json2
-        });
-      } catch (e) {
-      }
-    }
-    return res;
-  };
-}
-function isJSON(contentType) {
-  return jsonRE.exec(contentType);
-}
-function isPlainText(contentType) {
-  return /^text\/plain\b/.exec(contentType);
-}
-var jsonRE;
-var init_json = __esm({
-  "../solid-tools/node_modules/@muze-nl/metro-middleware/src/json.mjs"() {
-    jsonRE = /^application\/([a-zA-Z0-9\-_]+\+)?json\b/;
-  }
-});
-
-// ../solid-tools/node_modules/@muze-nl/metro-middleware/src/thrower.mjs
-function throwermw(options) {
-  return async function thrower(req, next) {
-    let res = await next(req);
-    if (!res.ok) {
-      if (options && typeof options[res.status] == "function") {
-        res = options[res.status].apply(res, req);
-      } else {
-        throw new Error(res.status + ": " + res.statusText, {
-          cause: res
-        });
-      }
-    }
-    return res;
-  };
-}
-var init_thrower = __esm({
-  "../solid-tools/node_modules/@muze-nl/metro-middleware/src/thrower.mjs"() {
-  }
-});
-
-// ../solid-tools/node_modules/@muze-nl/metro-middleware/src/getdata.mjs
-function getdatamw() {
-  return async function getdata(req, next) {
-    let res = await next(req);
-    if (res.ok && res.data) {
-      return res.data;
-    }
-    return res;
-  };
-}
-var init_getdata = __esm({
-  "../solid-tools/node_modules/@muze-nl/metro-middleware/src/getdata.mjs"() {
-  }
-});
-
-// ../solid-tools/node_modules/@muze-nl/metro-middleware/src/_trace.mjs
-function traceEvent(name, data = {}, context = null) {
-  for (const tracer of tracersFor(context)) {
-    if (tracer && typeof tracer.event == "function") {
-      tracer.event.call(tracer, name, data, context);
-    }
-  }
-}
-function traceDiagnostic(diagnostic = {}, context = null) {
-  for (const tracer of tracersFor(context)) {
-    if (tracer && typeof tracer.diagnostic == "function") {
-      tracer.diagnostic.call(tracer, diagnostic, context);
-    }
-  }
-}
-function tracersFor(context) {
-  return context?.tracers || Object.values(Client.tracers || {});
-}
-var init_trace = __esm({
-  "../solid-tools/node_modules/@muze-nl/metro-middleware/src/_trace.mjs"() {
-    init_src();
-  }
-});
-
-// ../solid-tools/node_modules/@muze-nl/metro-middleware/src/backoff.mjs
-function backoffmw(options = {}) {
-  options = Object.assign({
-    name: "backoff",
-    store: memoryBackoffStore(),
-    scope: "origin",
-    statuses: DEFAULT_BACKOFF_STATUSES,
-    maxDelay: 6e4,
-    sleep,
-    now: () => Date.now()
-  }, options);
-  async function backoff(req, next, context) {
-    const key = backoffKey(req, options);
-    const until = options.store.get(key) || 0;
-    const wait = Math.max(0, until - options.now());
-    if (wait > 0) {
-      traceEvent("server backoff wait", {
-        severity: "warning",
-        label: formatDelay(wait),
-        method: req.method,
-        url: req.url,
-        wait,
-        key
-      }, context);
-      await options.sleep(wait, req.signal);
-    }
-    const res = await next(req);
-    const delay = responseBackoffDelay(res, options);
-    if (delay > 0) {
-      options.store.set(key, options.now() + delay);
-      traceEvent("server requested backoff", {
-        severity: res.status >= 400 ? "warning" : "info",
-        label: formatDelay(delay),
-        method: req.method,
-        url: req.url,
-        status: res.status,
-        delay,
-        key
-      }, context);
-      traceDiagnostic({
-        severity: res.status >= 400 ? "warning" : "info",
-        code: "server-backoff",
-        message: `Server asked Metro to back off ${formatDelay(delay)}`,
-        data: {
-          method: req.method,
-          url: req.url,
-          status: res.status,
-          delay,
-          key
-        }
-      }, context);
-    }
-    return res;
-  }
-  backoff.traceName = options.name;
-  return backoff;
-}
-function responseBackoffDelay(res, options = {}) {
-  options = Object.assign({
-    statuses: DEFAULT_BACKOFF_STATUSES,
-    maxDelay: 6e4
-  }, options);
-  if (!res?.headers) {
-    return 0;
-  }
-  const retryAfter = parseRetryAfter(res.headers.get("Retry-After"));
-  if (retryAfter > 0 && statusAllowsBackoff(res.status, options)) {
-    return capDelay(retryAfter, options.maxDelay);
-  }
-  const rateLimitReset = parseRateLimitReset(res.headers.get("RateLimit-Reset"));
-  const rateLimitRemaining = parseNumberHeader(res.headers.get("RateLimit-Remaining"));
-  if (rateLimitReset > 0 && rateLimitRemaining === 0) {
-    return capDelay(rateLimitReset, options.maxDelay);
-  }
-  const combinedRateLimit = parseCombinedRateLimit(res.headers.get("RateLimit"));
-  if (combinedRateLimit.delay > 0 && combinedRateLimit.remaining === 0) {
-    return capDelay(combinedRateLimit.delay, options.maxDelay);
-  }
-  return 0;
-}
-function parseRetryAfter(value, now2 = Date.now()) {
-  if (!value) {
-    return 0;
-  }
-  value = String(value).trim();
-  if (/^\d+$/.test(value)) {
-    return parseInt(value, 10) * 1e3;
-  }
-  const date = Date.parse(value);
-  if (!Number.isNaN(date)) {
-    return Math.max(0, date - now2);
-  }
-  return 0;
-}
-function parseRateLimitReset(value) {
-  if (!value) {
-    return 0;
-  }
-  const match = String(value).trim().match(/^\d+(?:\.\d+)?/);
-  if (!match) {
-    return 0;
-  }
-  return Math.ceil(parseFloat(match[0]) * 1e3);
-}
-function parseCombinedRateLimit(value) {
-  const result = { remaining: null, delay: 0 };
-  if (!value) {
-    return result;
-  }
-  for (const part of String(value).split(/[;,]/)) {
-    const [rawName, rawValue] = part.split("=").map((item) => item?.trim());
-    const name = rawName?.toLowerCase();
-    const value2 = rawValue?.replace(/^"|"$/g, "");
-    if (name == "r") {
-      result.remaining = parseNumberHeader(value2);
-    } else if (name == "t") {
-      result.delay = parseRateLimitReset(value2);
-    }
-  }
-  return result;
-}
-function memoryBackoffStore() {
-  const values5 = /* @__PURE__ */ new Map();
-  return {
-    get(key) {
-      return values5.get(key) || 0;
-    },
-    set(key, until) {
-      values5.set(key, until);
-    },
-    clear(key = null) {
-      if (key == null) {
-        values5.clear();
-      } else {
-        values5.delete(key);
-      }
-    }
-  };
-}
-function localStorageBackoffStore(options = {}) {
-  const storage = options.storage || safeLocalStorage();
-  if (!storage) {
-    return memoryBackoffStore();
-  }
-  const prefix = options.prefix || "metro:backoff:";
-  return {
-    get(key) {
-      const until = parseInt(storage.getItem(prefix + key), 10);
-      return Number.isNaN(until) ? 0 : until;
-    },
-    set(key, until) {
-      storage.setItem(prefix + key, String(until));
-    },
-    clear(key = null) {
-      if (key != null) {
-        storage.removeItem(prefix + key);
-        return;
-      }
-      const keys = [];
-      for (let index = 0; index < storage.length; index++) {
-        const name = storage.key(index);
-        if (name?.startsWith(prefix)) {
-          keys.push(name);
-        }
-      }
-      for (const name of keys) {
-        storage.removeItem(name);
-      }
-    }
-  };
-}
-function sleep(ms, signal3) {
-  if (!ms || ms <= 0) {
-    return Promise.resolve();
-  }
-  if (signal3?.aborted) {
-    return Promise.reject(signal3.reason || new Error("Request was aborted"));
-  }
-  return new Promise((resolve, reject) => {
-    const timer = setTimeout(done, ms);
-    function done() {
-      cleanup();
-      resolve();
-    }
-    function abort() {
-      cleanup();
-      reject(signal3.reason || new Error("Request was aborted"));
-    }
-    function cleanup() {
-      clearTimeout(timer);
-      signal3?.removeEventListener?.("abort", abort);
-    }
-    signal3?.addEventListener?.("abort", abort, { once: true });
-  });
-}
-function statusAllowsBackoff(status2, options) {
-  return options.statuses == "*" || options.statuses.includes(status2);
-}
-function capDelay(delay, maxDelay) {
-  if (!maxDelay || maxDelay < 0) {
-    return delay;
-  }
-  return Math.min(delay, maxDelay);
-}
-function parseNumberHeader(value) {
-  if (value == null) {
-    return null;
-  }
-  const match = String(value).trim().match(/^\d+(?:\.\d+)?/);
-  return match ? Number(match[0]) : null;
-}
-function backoffKey(req, options) {
-  if (typeof options.scope == "function") {
-    return options.scope(req);
-  }
-  const url3 = new URL(req.url);
-  if (options.scope == "url") {
-    return url3.href;
-  }
-  if (options.scope == "path") {
-    return `${url3.origin}${url3.pathname}`;
-  }
-  return url3.origin;
-}
-function formatDelay(delay) {
-  return delay < 1e3 ? `${Math.round(delay)}ms` : `${(delay / 1e3).toFixed(delay < 1e4 ? 1 : 0)}s`;
-}
-function safeLocalStorage() {
-  try {
-    return typeof localStorage != "undefined" ? localStorage : null;
-  } catch (e) {
-    return null;
-  }
-}
-var DEFAULT_BACKOFF_STATUSES;
-var init_backoff = __esm({
-  "../solid-tools/node_modules/@muze-nl/metro-middleware/src/backoff.mjs"() {
-    init_trace();
-    DEFAULT_BACKOFF_STATUSES = [429, 503];
-    backoffmw.memoryStore = memoryBackoffStore;
-    backoffmw.localStorageStore = localStorageBackoffStore;
-    backoffmw.parseRetryAfter = parseRetryAfter;
-    backoffmw.responseDelay = responseBackoffDelay;
-  }
-});
-
-// ../solid-tools/node_modules/@muze-nl/metro-middleware/src/retry.mjs
-function retrymw(options = {}) {
-  if (typeof options == "number") {
-    options = { attempts: options };
-  }
-  options = Object.assign({
-    name: "retry",
-    attempts: 3,
-    delay: 250,
-    factor: 2,
-    maxDelay: 3e4,
-    jitter: true,
-    methods: DEFAULT_RETRY_METHODS,
-    status: DEFAULT_RETRY_STATUS,
-    respectRetryAfter: true,
-    respectRateLimit: true,
-    sleep,
-    random: Math.random
-  }, options);
-  async function retry(req, next, context) {
-    const attempts = attemptsFor(options.attempts, req);
-    if (attempts <= 1 || !methodCanRetry(req, options)) {
-      return next(req);
-    }
-    let lastError = null;
-    for (let attempt = 1; attempt <= attempts; attempt++) {
-      try {
-        if (attempt > 1) {
-          traceEvent("retry attempt", {
-            severity: "info",
-            label: `${attempt}/${attempts}`,
-            attempt,
-            attempts,
-            method: req.method,
-            url: req.url
-          }, context);
-        }
-        const res = await next(req.with ? req.with() : req);
-        if (!responseCanRetry(res, options) || attempt >= attempts) {
-          return res;
-        }
-        const delay = retryDelay(options, attempt, res);
-        traceEvent("retry scheduled", {
-          severity: "warning",
-          label: `${res.status}, ${formatDelay2(delay)}`,
-          attempt,
-          attempts,
-          status: res.status,
-          method: req.method,
-          url: req.url,
-          delay
-        }, context);
-        traceDiagnostic({
-          severity: "warning",
-          code: "retry",
-          message: `Retrying ${req.method} ${displayURL(req.url)} after HTTP ${res.status}`,
-          data: { attempt, attempts, status: res.status, delay, method: req.method, url: req.url }
-        }, context);
-        await options.sleep(delay, req.signal);
-      } catch (error4) {
-        lastError = error4;
-        if (!errorCanRetry(error4, options) || attempt >= attempts || req.signal?.aborted) {
-          throw error4;
-        }
-        const delay = retryDelay(options, attempt);
-        traceEvent("retry scheduled", {
-          severity: "warning",
-          label: `${error4.name || "Error"}, ${formatDelay2(delay)}`,
-          attempt,
-          attempts,
-          method: req.method,
-          url: req.url,
-          delay
-        }, context);
-        traceDiagnostic({
-          severity: "warning",
-          code: "retry",
-          message: `Retrying ${req.method} ${displayURL(req.url)} after ${error4.message || error4}`,
-          data: { attempt, attempts, delay, method: req.method, url: req.url, error: error4.message }
-        }, context);
-        await options.sleep(delay, req.signal);
-      }
-    }
-    throw lastError;
-  }
-  retry.traceName = options.name;
-  return retry;
-}
-function retryDelay(options, attempt, res = null) {
-  let serverDelay = 0;
-  if (res && (options.respectRetryAfter || options.respectRateLimit)) {
-    serverDelay = responseBackoffDelay(res, {
-      statuses: options.status,
-      maxDelay: options.maxDelay
-    });
-  }
-  let delay = delayFor(options.delay, attempt, res);
-  if (delay > 0 && options.factor && attempt > 1) {
-    delay = delay * Math.pow(options.factor, attempt - 1);
-  }
-  if (options.jitter && delay > 0) {
-    delay = delay * (0.5 + options.random());
-  }
-  if (options.maxDelay && options.maxDelay > 0) {
-    delay = Math.min(delay, options.maxDelay);
-  }
-  return Math.max(serverDelay, Math.round(delay));
-}
-function methodCanRetry(req, options) {
-  if (options.methods == "*") {
-    return true;
-  }
-  return options.methods.map((method) => method.toUpperCase()).includes(req.method.toUpperCase());
-}
-function responseCanRetry(res, options) {
-  if (typeof options.when == "function") {
-    return options.when(res);
-  }
-  return options.status == "*" || options.status.includes(res.status);
-}
-function errorCanRetry(error4, options) {
-  if (typeof options.onError == "function") {
-    return options.onError(error4);
-  }
-  return error4?.name != "AbortError" && error4?.name != "TimeoutError";
-}
-function attemptsFor(attempts, req) {
-  return typeof attempts == "function" ? attempts(req) : attempts;
-}
-function delayFor(delay, attempt, res) {
-  return typeof delay == "function" ? delay(attempt, res) : delay;
-}
-function formatDelay2(delay) {
-  return delay < 1e3 ? `${Math.round(delay)}ms` : `${(delay / 1e3).toFixed(delay < 1e4 ? 1 : 0)}s`;
-}
-function displayURL(value) {
-  try {
-    const url3 = new URL(value, "https://localhost/");
-    return url3.origin == "https://localhost" ? url3.pathname + url3.search : url3.href;
-  } catch (e) {
-    return String(value);
-  }
-}
-var DEFAULT_RETRY_STATUS, DEFAULT_RETRY_METHODS;
-var init_retry = __esm({
-  "../solid-tools/node_modules/@muze-nl/metro-middleware/src/retry.mjs"() {
-    init_backoff();
-    init_trace();
-    DEFAULT_RETRY_STATUS = [408, 425, 429, 500, 502, 503, 504];
-    DEFAULT_RETRY_METHODS = ["GET", "HEAD", "OPTIONS"];
-  }
-});
-
-// ../solid-tools/node_modules/@muze-nl/metro-middleware/src/abort.mjs
-function abortmw(options = {}) {
-  if (isAbortSignal(options)) {
-    options = { signal: options };
-  }
-  if (typeof options == "function") {
-    options = { signal: options };
-  }
-  options = Object.assign({
-    name: "abort"
-  }, options);
-  async function abort(req, next, context) {
-    const signal3 = signalFor(options.signal, req);
-    if (!signal3) {
-      return next(req);
-    }
-    if (signal3.aborted) {
-      const error4 = signal3.reason || abortError();
-      traceDiagnostic({
-        severity: "error",
-        code: "aborted",
-        message: error4.message || "Request was aborted",
-        data: { method: req.method, url: req.url }
-      }, context);
-      throw error4;
-    }
-    traceEvent("abort signal attached", {
-      severity: "info",
-      method: req.method,
-      url: req.url
-    }, context);
-    return next(req.with({ signal: combineSignals(req.signal, signal3) }));
-  }
-  abort.traceName = options.name;
-  return abort;
-}
-function combineSignals(...signals2) {
-  signals2 = signals2.filter(Boolean);
-  if (!signals2.length) {
-    return null;
-  }
-  if (signals2.length == 1) {
-    return signals2[0];
-  }
-  const controller = new AbortController();
-  const cleanup = [];
-  const abort = (event) => {
-    for (const remove2 of cleanup) {
-      remove2();
-    }
-    const source = event?.target || signals2.find((signal3) => signal3.aborted);
-    if (!controller.signal.aborted) {
-      controller.abort(source?.reason || abortError());
-    }
-  };
-  for (const signal3 of signals2) {
-    if (signal3.aborted) {
-      abort({ target: signal3 });
-      break;
-    }
-    signal3.addEventListener("abort", abort, { once: true });
-    cleanup.push(() => signal3.removeEventListener("abort", abort));
-  }
-  return controller.signal;
-}
-function abortError(message = "Request was aborted") {
-  if (typeof DOMException != "undefined") {
-    return new DOMException(message, "AbortError");
-  }
-  const error4 = new Error(message);
-  error4.name = "AbortError";
-  return error4;
-}
-function signalFor(signal3, req) {
-  return typeof signal3 == "function" ? signal3(req) : signal3;
-}
-function isAbortSignal(value) {
-  return value && typeof value == "object" && typeof value.aborted == "boolean" && typeof value.addEventListener == "function";
-}
-var init_abort = __esm({
-  "../solid-tools/node_modules/@muze-nl/metro-middleware/src/abort.mjs"() {
-    init_trace();
-    abortmw.combineSignals = combineSignals;
-    abortmw.abortError = abortError;
-  }
-});
-
-// ../solid-tools/node_modules/@muze-nl/metro-middleware/src/timeout.mjs
-function timeoutmw(options = 3e4) {
-  if (typeof options == "number") {
-    options = { ms: options };
-  }
-  options = Object.assign({
-    ms: 3e4,
-    name: "timeout"
-  }, options);
-  async function timeout(req, next, context) {
-    const ms = delayFor2(options.ms, req);
-    if (!ms || ms <= 0) {
-      return next(req);
-    }
-    const controller = new AbortController();
-    const timer = setTimeout(() => {
-      controller.abort(timeoutError(ms));
-    }, ms);
-    const signal3 = combineSignals(req.signal, options.signal, controller.signal);
-    traceEvent("timeout armed", {
-      severity: "info",
-      label: `${ms}ms`,
-      method: req.method,
-      url: req.url,
-      ms
-    }, context);
-    try {
-      return await next(req.with({ signal: signal3 }));
-    } catch (error4) {
-      if (controller.signal.aborted) {
-        traceDiagnostic({
-          severity: "error",
-          code: "timeout",
-          message: `Request timed out after ${ms}ms`,
-          data: { method: req.method, url: req.url, ms }
-        }, context);
-      }
-      throw error4;
-    } finally {
-      clearTimeout(timer);
-    }
-  }
-  timeout.traceName = options.name;
-  return timeout;
-}
-function timeoutError(ms) {
-  const error4 = new Error(`Request timed out after ${ms}ms`);
-  error4.name = "TimeoutError";
-  error4.code = "ETIMEDOUT";
-  return error4;
-}
-function delayFor2(ms, req) {
-  return typeof ms == "function" ? ms(req) : ms;
-}
-var init_timeout = __esm({
-  "../solid-tools/node_modules/@muze-nl/metro-middleware/src/timeout.mjs"() {
-    init_abort();
-    init_trace();
-    timeoutmw.timeoutError = timeoutError;
-  }
-});
-
-// ../solid-tools/node_modules/@muze-nl/metro-middleware/src/echo.mock.mjs
-function echomw() {
-  return async function echo(req) {
-    let options = {
-      status: 200,
-      statusText: "OK",
-      url: req.url,
-      headers: req.headers,
-      body: req.body
-    };
-    return response(options);
-  };
-}
-var init_echo_mock = __esm({
-  "../solid-tools/node_modules/@muze-nl/metro-middleware/src/echo.mock.mjs"() {
-    init_src();
-  }
-});
-
-// ../solid-tools/node_modules/@muze-nl/metro-middleware/src/error.mock.mjs
-function errormw(options) {
-  const customStatus = Object.assign({}, status, options);
-  return async function error4(req) {
-    let url3 = url(req.url);
-    if (status[url3.pathname]) {
-      let error5 = {
-        code: parseInt(url3.pathname.substring(1)),
-        message: customStatus[url3.pathname]
-      };
-      return response(badRequest(error5));
-    } else {
-      return response(baseResponse);
-    }
-  };
-}
-var baseResponse, badRequest, status;
-var init_error_mock = __esm({
-  "../solid-tools/node_modules/@muze-nl/metro-middleware/src/error.mock.mjs"() {
-    init_src();
-    baseResponse = {
-      status: 200,
-      statusText: "OK",
-      headers: {
-        "Content-Type": "application/json"
-      }
-    };
-    badRequest = (error4) => {
-      return {
-        status: error4.code,
-        statusText: error4.message,
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify(error4)
-      };
-    };
-    status = {
-      "/400/": "Bad Request",
-      "/401/": "Unauthorized",
-      "/402/": "Payment Required",
-      "/403/": "Forbidden",
-      "/404/": "Not Found",
-      "/405/": "Method Not Allowed",
-      "/406/": "Not Acceptable",
-      "/407/": "Proxy Authentication Required",
-      "/408/": "Request Timeout",
-      "/409/": "Conflict",
-      "/410/": "Gone",
-      "/411/": "Length Required",
-      "/412/": "Precondition Failed",
-      "/413/": "Payload Too Large",
-      "/414/": "URI Too Long",
-      "/415/": "Unsupported Media Type",
-      "/416/": "Range Not Satisfiable",
-      "/417/": "Expectation Failed",
-      "/418/": "I'm a teapot",
-      "/421/": "Misdireceted Request",
-      "/422/": "Unprocessable Content",
-      "/423/": "Locked",
-      "/424/": "Failed Dependency",
-      "/425/": "Too Early",
-      "/426/": "Upgrade Required",
-      "/428/": "Precondition Required",
-      "/429/": "Too Many Requests",
-      "/431/": "Request Header Fields Too Large",
-      "/451/": "Unavailable For Legal Reasons",
-      "/500/": "Internal Server Error",
-      "/501/": "Not Implemented",
-      "/502/": "Bad Gateway",
-      "/503/": "Service Unavailable",
-      "/504/": "Gateway Timeout",
-      "/505/": "HTTP Version Not Supported",
-      "/506/": "Variant Also Negotiated",
-      "/507/": "Insufficient Storage",
-      "/508/": "Loop Detected",
-      "/510/": "Not Extended",
-      "/511/": "Network Authentication Required"
-    };
-  }
-});
-
-// ../solid-tools/node_modules/@muze-nl/metro-middleware/src/index.mjs
-var src_default2;
-var init_src2 = __esm({
-  "../solid-tools/node_modules/@muze-nl/metro-middleware/src/index.mjs"() {
-    init_json();
-    init_thrower();
-    init_getdata();
-    init_retry();
-    init_timeout();
-    init_abort();
-    init_backoff();
-    init_echo_mock();
-    init_error_mock();
-    init_json();
-    init_thrower();
-    init_getdata();
-    init_retry();
-    init_timeout();
-    init_abort();
-    init_backoff();
-    init_echo_mock();
-    init_error_mock();
-    src_default2 = {
-      json: jsonmw,
-      thrower: throwermw,
-      getdata: getdatamw,
-      retry: retrymw,
-      timeout: timeoutmw,
-      abort: abortmw,
-      backoff: backoffmw,
-      echoMock: echomw,
-      errorMock: errormw
-    };
-  }
-});
-
-// ../solid-tools/node_modules/@muze-nl/metro-api/src/index.mjs
-function api(...options) {
-  return new API(...deepClone(options));
-}
-function jsonApi(...options) {
-  return new JsonAPI(...deepClone(options));
-}
-var API, JsonAPI;
-var init_src3 = __esm({
-  "../solid-tools/node_modules/@muze-nl/metro-api/src/index.mjs"() {
-    init_src();
-    init_src2();
-    init_src2();
-    init_src2();
-    API = class extends Client {
-      #methods = null;
-      #base = "";
-      constructor(base, methods, bind2 = null) {
-        if (base instanceof Client) {
-          super(base.clientOptions, throwermw(), getdatamw());
-        } else {
-          super(base, throwermw(), getdatamw());
-        }
-        if (!bind2) {
-          bind2 = this;
-        }
-        this.#methods = methods;
-        this.#base = base;
-        for (const methodName in methods) {
-          if (typeof methods[methodName] == "function") {
-            this[methodName] = methods[methodName].bind(bind2);
-          } else if (methods[methodName] && typeof methods[methodName] == "object" && (Object.getPrototypeOf(methods[methodName]) === null || Object.getPrototypeOf(methods[methodName]).constructor === Object)) {
-            this[methodName] = new this.constructor(base, methods[methodName], bind2);
-          } else {
-            this[methodName] = methods[methodName];
-          }
-        }
-      }
-      extend(methods) {
-        return new this.constructor(this.#base, Object.assign({}, this.#methods, methods));
-      }
-    };
-    JsonAPI = class extends API {
-      constructor(base, methods, bind2 = null) {
-        if (base instanceof Client) {
-          super(base.with(jsonmw()), methods, bind2);
-        } else {
-          super(client(base, jsonmw()), methods, bind2);
-        }
-      }
-    };
-  }
-});
-
-// ../solid-tools/node_modules/@muze-nl/metro-trace/src/tracegraph.mjs
-function graph(options = {}) {
-  return new GraphTracer(options);
-}
-function localConsole(options = {}) {
-  return graph(options);
-}
-function traceState() {
-  return {
-    stack: [],
-    activeTraceId: null,
-    activeParentSpanId: null,
-    lastTraceId: null
-  };
-}
-function renderTrace(trace3, options = {}) {
-  options = Object.assign({}, DEFAULT_OPTIONS, options);
-  const diagnostics = trace3.diagnostics || [];
-  const lines = [];
-  lines.push(`${traceTitle(trace3)} ${trace3.status || ""} ${formatDuration(trace3.duration || elapsed(trace3))}`.trim());
-  const primary = primaryDiagnostic(diagnostics);
-  if (primary) {
-    lines.push("");
-    lines.push("Primary diagnostic:");
-    lines.push(`${symbol(primary.severity)} ${primary.code}: ${primary.message}`);
-  }
-  if (diagnostics.length) {
-    lines.push("");
-    lines.push("Diagnostics:");
-    for (const diagnostic of diagnostics) {
-      lines.push(`${symbol(diagnostic.severity)} ${diagnostic.code}: ${diagnostic.message}`);
-    }
-  }
-  lines.push("");
-  lines.push(options.view == "sequence" ? renderSequence(trace3, options) : renderTree(trace3, options));
-  return lines.join("\n");
-}
-function renderTree(trace3, options = {}) {
-  const spans = trace3.spans || [];
-  const events = trace3.events || [];
-  const children = /* @__PURE__ */ new Map();
-  for (const span of spans) {
-    const parent = span.parentSpanId || "";
-    if (!children.has(parent)) {
-      children.set(parent, []);
-    }
-    children.get(parent).push(span);
-  }
-  for (const group2 of children.values()) {
-    group2.sort((a, b) => a.start - b.start);
-  }
-  const eventsBySpan = /* @__PURE__ */ new Map();
-  for (const event of events) {
-    const spanId = event.spanId || "";
-    if (!eventsBySpan.has(spanId)) {
-      eventsBySpan.set(spanId, []);
-    }
-    eventsBySpan.get(spanId).push(event);
-  }
-  for (const group2 of eventsBySpan.values()) {
-    group2.sort((a, b) => a.time - b.time);
-  }
-  const roots = children.get("") || [];
-  const lines = [];
-  if (!roots.length && !events.length) {
-    return "(empty trace)";
-  }
-  for (let index = 0; index < roots.length; index++) {
-    appendSpan(lines, roots[index], children, eventsBySpan, "", index == roots.length - 1);
-  }
-  for (const event of eventsBySpan.get("") || []) {
-    lines.push(`${symbol(event.severity)} ${event.name}${eventLabel(event)}`);
-  }
-  return lines.join("\n");
-}
-function renderSequence(trace3, options = {}) {
-  const arrows = sequenceArrows(trace3);
-  if (!arrows.length) {
-    return renderTree(trace3, options);
-  }
-  const actors = collectActors(arrows);
-  const width = Math.max(14, ...actors.map((actor) => actor.length));
-  const gap = "    ";
-  const lines = [];
-  lines.push(actors.map((actor) => pad(actor, width)).join(gap));
-  lines.push(actors.map(() => pad("\u2502", width)).join(gap));
-  for (const arrow of arrows) {
-    lines.push(sequenceLine(actors, arrow, width, gap));
-  }
-  return lines.join("\n");
-}
-function printTrace(trace3, options = {}) {
-  const output = renderTrace(trace3, options);
-  const out = options.console || console;
-  if (!out) {
-    return output;
-  }
-  const title = `${symbol(trace3.severity)} ${traceTitle(trace3)} ${trace3.status || ""} ${formatDuration(trace3.duration || elapsed(trace3))}`.trim();
-  if (out.groupCollapsed) {
-    out.groupCollapsed("\u24C2\uFE0F  " + title);
-  } else if (out.group) {
-    out.group("\u24C2\uFE0F  " + title);
-  }
-  printDiagnostics(trace3.diagnostics || [], out);
-  for (const line of output.split("\n")) {
-    printLine(line, out);
-  }
-  if (options.includeRawTrace && out.dir) {
-    out.dir(trace3);
-  }
-  if (out.groupEnd) {
-    out.groupEnd();
-  }
-  return output;
-}
-function memoryStore() {
-  let traces = /* @__PURE__ */ new Map();
-  let spans = /* @__PURE__ */ new Map();
-  let events = /* @__PURE__ */ new Map();
-  let diagnostics = /* @__PURE__ */ new Map();
-  let links = /* @__PURE__ */ new Map();
-  let last = null;
-  return {
-    saveTrace(trace3) {
-      traces.set(trace3.id, Object.assign({}, trace3));
-      last = trace3.id;
-    },
-    saveSpan(span) {
-      spans.set(span.spanId, Object.assign({}, span));
-    },
-    saveEvent(event) {
-      events.set(event.id, Object.assign({}, event));
-    },
-    saveDiagnostic(diagnostic) {
-      diagnostics.set(diagnostic.id, Object.assign({}, diagnostic));
-    },
-    read(traceId) {
-      return assemble(traceId, traces, spans, events, diagnostics);
-    },
-    lastTraceId() {
-      return last;
-    },
-    link(key, traceId) {
-      links.set(key, traceId);
-    },
-    lookup(key) {
-      return links.get(key);
-    },
-    cleanup() {
-    },
-    clear() {
-      traces.clear();
-      spans.clear();
-      events.clear();
-      diagnostics.clear();
-      links.clear();
-      last = null;
-    }
-  };
-}
-function localStorageStore(options = {}) {
-  const storage = options.storage || safeLocalStorage2();
-  if (!storage) {
-    return memoryStore();
-  }
-  const prefix = options.prefix || "metro:trace:";
-  const key = (suffix) => prefix + suffix;
-  return {
-    saveTrace(trace3) {
-      safeStore(() => {
-        storage.setItem(key(`trace:${trace3.id}`), JSON.stringify(trace3));
-        storage.setItem(key("last"), trace3.id);
-        updateIndex(storage, prefix, trace3.id);
-      });
-    },
-    saveSpan(span) {
-      safeStore(() => storage.setItem(key(`span:${span.traceId}:${span.spanId}`), JSON.stringify(span)));
-    },
-    saveEvent(event) {
-      safeStore(() => storage.setItem(key(`event:${event.traceId}:${event.id}`), JSON.stringify(event)));
-    },
-    saveDiagnostic(diagnostic) {
-      safeStore(() => storage.setItem(key(`diagnostic:${diagnostic.traceId}:${diagnostic.id}`), JSON.stringify(diagnostic)));
-    },
-    read(traceId) {
-      return safeStore(() => readLocalTrace(storage, prefix, traceId), null);
-    },
-    lastTraceId() {
-      return safeStore(() => storage.getItem(key("last")), null);
-    },
-    link(linkKey, traceId) {
-      safeStore(() => storage.setItem(key(`link:${linkKey}`), traceId));
-    },
-    lookup(linkKey) {
-      return safeStore(() => storage.getItem(key(`link:${linkKey}`)), null);
-    },
-    cleanup(cleanupOptions = options) {
-      safeStore(() => cleanupLocalStorage(storage, prefix, cleanupOptions));
-    },
-    clear() {
-      safeStore(() => clearLocalStorage(storage, prefix));
-    }
-  };
-}
-function safeStore(fn, fallback = void 0) {
-  try {
-    return fn();
-  } catch (e) {
-    return fallback;
-  }
-}
-function appendSpan(lines, span, children, eventsBySpan, prefix, isLast) {
-  const branch = isLast ? "\u2514\u2500 " : "\u251C\u2500 ";
-  lines.push(`${prefix}${branch}${spanLine(span)}`);
-  const childPrefix = prefix + (isLast ? "   " : "\u2502  ");
-  const childSpans = children.get(span.spanId) || [];
-  const childEvents = eventsBySpan.get(span.spanId) || [];
-  const items = [
-    ...childSpans.map((item) => ({ type: "span", item, time: item.start })),
-    ...childEvents.map((item) => ({ type: "event", item, time: item.time }))
-  ].sort((a, b) => a.time - b.time);
-  for (let index = 0; index < items.length; index++) {
-    const item = items[index];
-    const last = index == items.length - 1;
-    if (item.type == "span") {
-      appendSpan(lines, item.item, children, eventsBySpan, childPrefix, last);
-    } else {
-      lines.push(`${childPrefix}${last ? "\u2514\u2500 " : "\u251C\u2500 "}${symbol(item.item.severity)} ${item.item.name}${eventLabel(item.item)}`);
-    }
-  }
-}
-function spanLine(span) {
-  const status2 = span.status == "running" ? "pending" : span.severity || span.status || "ok";
-  const response3 = span.response?.status ? ` HTTP ${span.response.status}` : "";
-  const url3 = span.data?.url ? ` ${displayURL2(span.data.url)}` : "";
-  return `${symbol(status2)} ${span.name}${response3}${url3} ${formatDuration(span.duration || elapsed(span))}`.trim();
-}
-function eventLabel(event) {
-  if (event.data?.label) {
-    return ` \u2014 ${event.data.label}`;
-  }
-  if (event.data?.url) {
-    return ` ${displayURL2(event.data.url)}`;
-  }
-  return "";
-}
-function sequenceArrows(trace3) {
-  const arrows = [];
-  const spans = [...trace3.spans || []].sort((a, b) => a.start - b.start);
-  const roots = spans.filter((span) => !span.parentSpanId);
-  for (const span of roots) {
-    arrows.push({
-      from: "App",
-      to: "Metro",
-      label: `${span.data?.method || ""} ${displayURL2(span.data?.url)}`.trim() || span.name,
-      severity: span.severity,
-      time: span.start
-    });
-  }
-  for (const span of spans) {
-    if (span.kind == "fetch" || span.name == "browserFetch") {
-      const host = hostActor(span.data?.url);
-      arrows.push({
-        from: "Metro",
-        to: host,
-        label: `${span.data?.method || "GET"} ${pathLabel(span.data?.url)}`,
-        severity: span.severity,
-        time: span.start
-      });
-      if (span.response || span.error || span.status == "running") {
-        arrows.push({
-          from: host,
-          to: "Metro",
-          label: span.error ? `error: ${span.error.message}` : span.response?.status ? `${span.response.status}` : "pending",
-          severity: span.severity,
-          time: span.end || now()
-        });
-      }
-    }
-  }
-  for (const event of trace3.events || []) {
-    if (event.data?.from && event.data?.to) {
-      arrows.push({
-        from: event.data.from,
-        to: event.data.to,
-        label: event.data.label || event.name,
-        severity: event.severity,
-        time: event.time
-      });
-    }
-  }
-  return arrows.sort((a, b) => a.time - b.time);
-}
-function collectActors(arrows) {
-  const actors = [];
-  for (const arrow of arrows) {
-    if (!actors.includes(arrow.from)) {
-      actors.push(arrow.from);
-    }
-    if (!actors.includes(arrow.to)) {
-      actors.push(arrow.to);
-    }
-  }
-  return actors;
-}
-function sequenceLine(actors, arrow, width, gap) {
-  const from = actors.indexOf(arrow.from);
-  const to = actors.indexOf(arrow.to);
-  const left = Math.min(from, to);
-  const right = Math.max(from, to);
-  const cells = actors.map(() => pad("\u2502", width));
-  const label = `${symbol(arrow.severity)} ${arrow.label}`.trim();
-  for (let index = left; index <= right; index++) {
-    if (index == from) {
-      cells[index] = pad(from < to ? "\u251C" : "\u25C0", width);
-    } else if (index == to) {
-      cells[index] = pad(from < to ? "\u25B6" : "\u2524", width);
-    } else {
-      cells[index] = pad("\u2500", width);
-    }
-  }
-  return cells.join(gap) + "  " + label;
-}
-function printDiagnostics(diagnostics, out) {
-  const primary = primaryDiagnostic(diagnostics);
-  if (primary && out.error) {
-    out.error(`${symbol(primary.severity)} ${primary.code}: ${primary.message}`);
-  }
-  for (const diagnostic of diagnostics) {
-    if (diagnostic == primary) {
-      continue;
-    }
-    printLine(`${symbol(diagnostic.severity)} ${diagnostic.code}: ${diagnostic.message}`, out);
-  }
-}
-function printLine(line, out) {
-  if (/✖|⛔/.test(line) && out.error) {
-    out.error(line);
-  } else if (/⚠/.test(line) && out.warn) {
-    out.warn(line);
-  } else if (out.log) {
-    out.log(line);
-  }
-}
-function assemble(traceId, traces, spans, events, diagnostics) {
-  const trace3 = traces.get(traceId);
-  if (!trace3) {
-    return null;
-  }
-  const result = Object.assign({}, trace3);
-  result.spans = [...spans.values()].filter((span) => span.traceId == traceId);
-  result.events = [...events.values()].filter((event) => event.traceId == traceId);
-  result.diagnostics = [...diagnostics.values()].filter((diagnostic) => diagnostic.traceId == traceId);
-  result.status = result.status == "running" ? traceStatus(result) : result.status;
-  result.severity = traceSeverity(result);
-  return result;
-}
-function readLocalTrace(storage, prefix, traceId) {
-  if (!traceId) {
-    return null;
-  }
-  const trace3 = parseJSON(storage.getItem(prefix + `trace:${traceId}`));
-  if (!trace3) {
-    return null;
-  }
-  trace3.spans = [];
-  trace3.events = [];
-  trace3.diagnostics = [];
-  for (let index = 0; index < storage.length; index++) {
-    const key = storage.key(index);
-    if (key?.startsWith(prefix + `span:${traceId}:`)) {
-      trace3.spans.push(parseJSON(storage.getItem(key)));
-    } else if (key?.startsWith(prefix + `event:${traceId}:`)) {
-      trace3.events.push(parseJSON(storage.getItem(key)));
-    } else if (key?.startsWith(prefix + `diagnostic:${traceId}:`)) {
-      trace3.diagnostics.push(parseJSON(storage.getItem(key)));
-    }
-  }
-  trace3.spans = trace3.spans.filter(Boolean);
-  trace3.events = trace3.events.filter(Boolean);
-  trace3.diagnostics = trace3.diagnostics.filter(Boolean);
-  trace3.status = trace3.status == "running" ? traceStatus(trace3) : trace3.status;
-  trace3.severity = traceSeverity(trace3);
-  return trace3;
-}
-function updateIndex(storage, prefix, traceId) {
-  const indexKey = prefix + "index";
-  const index = parseJSON(storage.getItem(indexKey)) || [];
-  const next = [traceId, ...index.filter((id2) => id2 != traceId)];
-  storage.setItem(indexKey, JSON.stringify(next));
-}
-function cleanupLocalStorage(storage, prefix, options = {}) {
-  const indexKey = prefix + "index";
-  const index = parseJSON(storage.getItem(indexKey)) || [];
-  const maxAge = options.maxAge ?? DEFAULT_OPTIONS.maxAge;
-  const maxTraces = options.maxTraces ?? DEFAULT_OPTIONS.maxTraces;
-  const keep = [];
-  const remove2 = [];
-  const cutoff = now() - maxAge;
-  for (const traceId of index) {
-    const trace3 = parseJSON(storage.getItem(prefix + `trace:${traceId}`));
-    if (!trace3 || trace3.start < cutoff || keep.length >= maxTraces) {
-      remove2.push(traceId);
-    } else {
-      keep.push(traceId);
-    }
-  }
-  for (const traceId of remove2) {
-    removeTrace(storage, prefix, traceId);
-  }
-  storage.setItem(indexKey, JSON.stringify(keep));
-}
-function clearLocalStorage(storage, prefix) {
-  const keys = [];
-  for (let index = 0; index < storage.length; index++) {
-    const key = storage.key(index);
-    if (key?.startsWith(prefix)) {
-      keys.push(key);
-    }
-  }
-  for (const key of keys) {
-    storage.removeItem(key);
-  }
-}
-function removeTrace(storage, prefix, traceId) {
-  const keys = [];
-  for (let index = 0; index < storage.length; index++) {
-    const key = storage.key(index);
-    if (key == prefix + `trace:${traceId}` || key?.startsWith(prefix + `span:${traceId}:`) || key?.startsWith(prefix + `event:${traceId}:`) || key?.startsWith(prefix + `diagnostic:${traceId}:`)) {
-      keys.push(key);
-    }
-  }
-  for (const key of keys) {
-    storage.removeItem(key);
-  }
-}
-function traceStatus(trace3) {
-  const spans = trace3.spans || [];
-  if (spans.some((span) => span.status == "running")) {
-    return "incomplete";
-  }
-  if ((trace3.diagnostics || []).some((diagnostic) => diagnostic.severity == "error" || diagnostic.severity == "blocked")) {
-    return "error";
-  }
-  if ((trace3.diagnostics || []).some((diagnostic) => diagnostic.severity == "warning")) {
-    return "warning";
-  }
-  return "ok";
-}
-function traceSeverity(trace3) {
-  let severity = trace3.status == "running" ? "pending" : "ok";
-  for (const span of trace3.spans || []) {
-    severity = maxSeverity(severity, span.severity || span.status || "ok");
-  }
-  for (const diagnostic of trace3.diagnostics || []) {
-    severity = maxSeverity(severity, diagnostic.severity || "warning");
-  }
-  return severity;
-}
-function primaryDiagnostic(diagnostics) {
-  return [...diagnostics].sort((a, b) => (SEVERITY_WEIGHT[b.severity] || 0) - (SEVERITY_WEIGHT[a.severity] || 0))[0];
-}
-function maxSeverity(a, b) {
-  return (SEVERITY_WEIGHT[b] || 0) > (SEVERITY_WEIGHT[a] || 0) ? b : a;
-}
-function symbol(status2) {
-  return SEVERITY_SYMBOL[status2] || SEVERITY_SYMBOL.info;
-}
-function requestName(req) {
-  return `${req?.method || "GET"} ${displayURL2(req?.url)}`;
-}
-function middlewareName(middleware) {
-  return middleware?.displayName || middleware?.traceName || middleware?.name || "anonymous middleware";
-}
-function middlewareKind(middleware) {
-  return middlewareName(middleware) == "browserFetch" ? "fetch" : "middleware";
-}
-function responseSummary(res) {
-  if (!res) {
-    return null;
-  }
-  return {
-    status: res.status,
-    statusText: res.statusText,
-    ok: res.ok,
-    url: safeURL(res.url),
-    redirected: res.redirected,
-    type: res.type
-  };
-}
-function errorSummary(error4) {
-  return {
-    name: error4?.name,
-    message: error4?.message || String(error4),
-    stack: error4?.stack
-  };
-}
-function traceTitle(trace3) {
-  return trace3?.name || trace3?.id || "Metro trace";
-}
-function safeURL(value) {
-  if (!value) {
-    return value;
-  }
-  try {
-    const url3 = new URL(value, typeof window != "undefined" ? window.location.href : "https://localhost/");
-    url3.username = "";
-    url3.password = "";
-    for (const param of [...url3.searchParams.keys()]) {
-      if (isSecretName(param)) {
-        url3.searchParams.set(param, "\u2026");
-      }
-    }
-    return url3.href;
-  } catch (e) {
-    return String(value);
-  }
-}
-function displayURL2(value) {
-  if (!value) {
-    return "";
-  }
-  try {
-    const url3 = new URL(value, "https://localhost/");
-    return url3.origin == "https://localhost" ? url3.pathname + url3.search : url3.href;
-  } catch (e) {
-    return String(value);
-  }
-}
-function hostActor(value) {
-  try {
-    return new URL(value, "https://localhost/").host || "Network";
-  } catch (e) {
-    return "Network";
-  }
-}
-function pathLabel(value) {
-  try {
-    const url3 = new URL(value, "https://localhost/");
-    return url3.pathname + url3.search;
-  } catch (e) {
-    return displayURL2(value);
-  }
-}
-function sanitizeData(data) {
-  const result = {};
-  for (const [key, value] of Object.entries(data || {})) {
-    if (["traceId", "parentSpanId", "severity"].includes(key)) {
-      continue;
-    }
-    if (isSecretName(key)) {
-      result[key] = "\u2026";
-    } else if (value instanceof URL) {
-      result[key] = safeURL(value.href);
-    } else if (typeof value == "string" && looksLikeURL(value)) {
-      result[key] = safeURL(value);
-    } else if (value == null || ["string", "number", "boolean"].includes(typeof value)) {
-      result[key] = value;
-    } else {
-      result[key] = String(value);
-    }
-  }
-  return result;
-}
-function isSecretName(name) {
-  return /token|secret|password|credential|cookie|authorization|verifier|assertion|code/i.test(name);
-}
-function looksLikeURL(value) {
-  return /^https?:\/\//.test(value) || /^\//.test(value);
-}
-function formatDuration(duration) {
-  if (typeof duration != "number" || Number.isNaN(duration)) {
-    return "";
-  }
-  if (duration < 1e3) {
-    return `${Math.round(duration)}ms`;
-  }
-  return `${(duration / 1e3).toFixed(2)}s`;
-}
-function elapsed(item) {
-  return item?.start ? now() - item.start : 0;
-}
-function now() {
-  return Date.now();
-}
-function id(prefix) {
-  return `${prefix}_${Math.random().toString(36).slice(2, 10)}_${Date.now().toString(36)}`;
-}
-function pad(value, width) {
-  value = String(value);
-  return value + " ".repeat(Math.max(0, width - value.length));
-}
-function parseJSON(value) {
-  try {
-    return value ? JSON.parse(value) : null;
-  } catch (e) {
-    return null;
-  }
-}
-function safeLocalStorage2() {
-  try {
-    return typeof localStorage != "undefined" ? localStorage : null;
-  } catch (e) {
-    return null;
-  }
-}
-var DEFAULT_OPTIONS, SEVERITY_WEIGHT, SEVERITY_SYMBOL, GraphTracer;
-var init_tracegraph = __esm({
-  "../solid-tools/node_modules/@muze-nl/metro-trace/src/tracegraph.mjs"() {
-    DEFAULT_OPTIONS = {
-      name: "Metro trace",
-      view: "tree",
-      persist: true,
-      autoPrint: true,
-      includeRawTrace: false,
-      maxAge: 10 * 60 * 1e3,
-      maxTraces: 20,
-      slowStepMs: 1e3,
-      store: null,
-      expectedStatus: (status2) => status2 < 400,
-      console: typeof console != "undefined" ? console : null
-    };
-    SEVERITY_WEIGHT = {
-      ok: 0,
-      info: 1,
-      warning: 2,
-      error: 3,
-      blocked: 4
-    };
-    SEVERITY_SYMBOL = {
-      ok: "\u2713",
-      info: "\u2139",
-      warning: "\u26A0",
-      error: "\u2716",
-      blocked: "\u26D4",
-      skipped: "\u23ED",
-      pending: "\u2026"
-    };
-    GraphTracer = class {
-      constructor(options = {}) {
-        this.options = Object.assign({}, DEFAULT_OPTIONS, options);
-        if (!this.options.store) {
-          this.options.store = this.options.persist ? localStorageStore(this.options) : memoryStore();
-        }
-        this.store = this.options.store;
-        this.defaultState = traceState();
-        this.runs = /* @__PURE__ */ new Map();
-        this.lastTraceId = null;
-        this.store.cleanup?.(this.options);
-      }
-      request(req, middleware, context = null) {
-        const state = this.state(context);
-        if (!state.activeTraceId) {
-          this.startTrace(requestName(req), {}, context);
-        }
-        this.startSpan(middlewareName(middleware), {
-          kind: middlewareKind(middleware),
-          method: req?.method,
-          url: safeURL(req?.url)
-        }, context);
-      }
-      response(res, middleware, context = null) {
-        const state = this.state(context);
-        const span = state.stack.pop();
-        if (!span) {
-          return;
-        }
-        span.end = now();
-        span.duration = span.end - span.start;
-        span.response = responseSummary(res);
-        span.status = "ok";
-        span.severity = "ok";
-        this.addResponseDiagnostics(span, res, context);
-        this.store.saveSpan(span);
-        this.finishTraceIfComplete(null, context);
-      }
-      error(error4, req, middleware, context = null) {
-        const state = this.state(context);
-        const span = state.stack.pop();
-        if (!span) {
-          return;
-        }
-        span.end = now();
-        span.duration = span.end - span.start;
-        span.status = "error";
-        span.severity = "error";
-        span.error = errorSummary(error4);
-        this.store.saveSpan(span);
-        const message = error4?.message || "Middleware failed";
-        const trace3 = this.store.read(span.traceId);
-        const alreadyReported = trace3?.diagnostics?.some((diagnostic) => diagnostic.data?.errorMessage == message);
-        if (span.kind == "fetch" || !alreadyReported) {
-          this.diagnostic({
-            traceId: span.traceId,
-            spanId: span.spanId,
-            severity: "error",
-            code: span.kind == "fetch" ? "network-error" : "middleware-error",
-            message,
-            data: {
-              middleware: middlewareName(middleware),
-              method: req?.method,
-              url: safeURL(req?.url),
-              name: error4?.name,
-              errorMessage: message
-            }
-          }, context);
-        }
-        this.finishTraceIfComplete("error", context);
-      }
-      /**
-       * Add a custom event to the current trace. Use from/to metadata to make it
-       * appear in sequence diagrams.
-       */
-      event(name, data = {}, context = null) {
-        const state = this.state(context);
-        const traceId = data.traceId || state.activeTraceId || state.lastTraceId || this.lastTraceId || this.startTrace(this.options.name, {}, context);
-        const parent = data.parentSpanId || state.stack[state.stack.length - 1]?.spanId || state.activeParentSpanId || null;
-        const event = {
-          id: id("event"),
-          traceId,
-          spanId: parent,
-          time: now(),
-          name,
-          severity: data.severity || "info",
-          data: sanitizeData(data)
-        };
-        this.store.saveEvent(event);
-        return event;
-      }
-      /**
-       * Record a manual span. This is useful for middleware internals that are not
-       * represented by a Metro fetch call, for example token validation or PKCE.
-       */
-      async span(name, fn, data = {}, context = null) {
-        this.startSpan(name, data, context);
-        try {
-          const result = await fn();
-          this.response(data.response || { status: 200 }, { name }, context);
-          return result;
-        } catch (error4) {
-          this.error(error4, null, { name }, context);
-          throw error4;
-        }
-      }
-      startTrace(name, data = {}, context = null) {
-        const state = this.state(context);
-        const trace3 = {
-          id: data.traceId || id("trace"),
-          name,
-          start: now(),
-          status: "running",
-          severity: "ok",
-          data: sanitizeData(data)
-        };
-        state.activeTraceId = trace3.id;
-        state.lastTraceId = trace3.id;
-        this.lastTraceId = trace3.id;
-        this.store.saveTrace(trace3);
-        return trace3.id;
-      }
-      startSpan(name, data = {}, context = null) {
-        const state = this.state(context);
-        const traceId = data.traceId || state.activeTraceId || this.startTrace(this.options.name, {}, context);
-        const parentSpanId = data.parentSpanId || state.stack[state.stack.length - 1]?.spanId || state.activeParentSpanId || null;
-        const span = {
-          traceId,
-          spanId: id("span"),
-          parentSpanId,
-          name,
-          kind: data.kind || "manual",
-          start: now(),
-          status: "running",
-          severity: "ok",
-          data: sanitizeData(data)
-        };
-        state.stack.push(span);
-        this.store.saveSpan(span);
-        return span;
-      }
-      diagnostic(diagnostic, context = null) {
-        const state = this.state(context);
-        const currentSpan = state.stack[state.stack.length - 1];
-        const traceId = diagnostic.traceId || currentSpan?.traceId || state.activeTraceId || state.lastTraceId || this.lastTraceId;
-        if (!traceId) {
-          return null;
-        }
-        const result = Object.assign({
-          id: id("diagnostic"),
-          traceId,
-          spanId: diagnostic.spanId || currentSpan?.spanId || null,
-          time: now(),
-          severity: "warning"
-        }, diagnostic);
-        result.data = sanitizeData(result.data || {});
-        this.store.saveDiagnostic(result);
-        return result;
-      }
-      current(context = null) {
-        const state = this.state(context);
-        return {
-          traceId: state.activeTraceId,
-          spanId: state.stack[state.stack.length - 1]?.spanId || state.activeParentSpanId || null
-        };
-      }
-      /**
-       * Remember a trace id under a stable key, for example an OAuth state value.
-       * The key is local to this trace store.
-       */
-      link(key, traceId = void 0, context = null) {
-        const state = this.state(context);
-        traceId = traceId || state.activeTraceId || state.lastTraceId || this.lastTraceId;
-        if (key && traceId) {
-          this.store.link(key, traceId);
-        }
-        return traceId;
-      }
-      /**
-       * Resume adding manual events/spans to a trace after a redirect or popup.
-       */
-      resume(traceId, parentSpanId = null, context = null) {
-        if (!traceId) {
-          return null;
-        }
-        const state = this.state(context);
-        state.activeTraceId = traceId;
-        state.activeParentSpanId = parentSpanId;
-        state.lastTraceId = traceId;
-        this.lastTraceId = traceId;
-        return this.current(context);
-      }
-      resumeLink(key, parentSpanId = null, context = null) {
-        return this.resume(this.store.lookup(key), parentSpanId, context);
-      }
-      pause(context = null) {
-        if (context?.__metroTraceContext) {
-          this.runs.delete(context.id);
-          return;
-        }
-        this.defaultState = traceState();
-      }
-      get(traceId = this.lastTraceId) {
-        return this.store.read(traceId);
-      }
-      print(traceId = this.lastTraceId, options = {}) {
-        const trace3 = typeof traceId == "object" ? traceId : this.get(traceId);
-        if (!trace3) {
-          return null;
-        }
-        return printTrace(trace3, Object.assign({}, this.options, options));
-      }
-      printLast(options = {}) {
-        return this.print(this.lastTraceId || this.store.lastTraceId?.(), options);
-      }
-      render(traceId = this.lastTraceId, options = {}) {
-        const trace3 = typeof traceId == "object" ? traceId : this.get(traceId);
-        if (!trace3) {
-          return "";
-        }
-        return renderTrace(trace3, Object.assign({}, this.options, options));
-      }
-      clear() {
-        this.store.clear();
-        this.defaultState = traceState();
-        this.runs.clear();
-        this.lastTraceId = null;
-      }
-      addResponseDiagnostics(span, res, context = null) {
-        if (span.duration >= this.options.slowStepMs) {
-          span.severity = maxSeverity(span.severity, "warning");
-          this.diagnostic({
-            traceId: span.traceId,
-            spanId: span.spanId,
-            severity: "warning",
-            code: "slow-step",
-            message: `${span.name} took ${formatDuration(span.duration)}`,
-            data: { threshold: this.options.slowStepMs, actual: span.duration }
-          }, context);
-        }
-        if (!res || typeof res.status == "undefined" || span.kind != "fetch") {
-          return;
-        }
-        if (this.statusExpected(res.status, span) === false) {
-          const severity = res.status >= 500 ? "error" : "warning";
-          span.status = severity == "error" ? "error" : "warning";
-          span.severity = maxSeverity(span.severity, severity);
-          this.diagnostic({
-            traceId: span.traceId,
-            spanId: span.spanId,
-            severity,
-            code: "unexpected-status",
-            message: `${span.name} returned unexpected HTTP ${res.status}`,
-            data: { status: res.status, url: span.data?.url }
-          }, context);
-        }
-      }
-      statusExpected(status2, span) {
-        const expected = this.options.expectedStatus;
-        if (typeof expected == "function") {
-          return expected(status2, span);
-        }
-        if (Array.isArray(expected)) {
-          return expected.includes(status2);
-        }
-        return status2 < 400;
-      }
-      finishTraceIfComplete(status2 = null, context = null) {
-        const state = this.state(context);
-        if (state.stack.length || !state.activeTraceId) {
-          return;
-        }
-        if (context?.parent) {
-          this.runs.delete(context.id);
-          return;
-        }
-        const trace3 = this.store.read(state.activeTraceId);
-        if (!trace3) {
-          this.pause(context);
-          return;
-        }
-        trace3.end = now();
-        trace3.duration = trace3.end - trace3.start;
-        trace3.status = status2 || traceStatus(trace3);
-        trace3.severity = traceSeverity(trace3);
-        this.store.saveTrace(trace3);
-        state.lastTraceId = trace3.id;
-        this.lastTraceId = trace3.id;
-        if (this.options.autoPrint) {
-          this.print(trace3.id);
-        }
-        this.pause(context);
-      }
-      state(context = null) {
-        if (!context?.__metroTraceContext) {
-          return this.defaultState;
-        }
-        let state = this.runs.get(context.id);
-        if (state) {
-          return state;
-        }
-        state = traceState();
-        const parentState = context.parent ? this.runs.get(context.parent.id) : null;
-        if (parentState) {
-          state.activeTraceId = parentState.activeTraceId;
-          state.activeParentSpanId = parentState.stack[parentState.stack.length - 1]?.spanId || parentState.activeParentSpanId || null;
-          state.lastTraceId = parentState.lastTraceId;
-        }
-        this.runs.set(context.id, state);
-        return state;
-      }
-    };
-  }
-});
-
-// ../solid-tools/node_modules/@muze-nl/metro-trace/src/index.mjs
-var src_exports4 = {};
-__export(src_exports4, {
-  GraphTracer: () => GraphTracer,
-  add: () => add,
-  clear: () => clear,
-  default: () => src_default3,
-  delete: () => remove,
-  graph: () => graph,
-  group: () => group,
-  localConsole: () => localConsole,
-  remove: () => remove
-});
-function add(name, tracer) {
-  Client.tracers[name] = tracer;
-}
-function remove(name) {
-  delete Client.tracers[name];
-}
-function clear() {
-  Client.tracers = {};
-}
-function group() {
-  let group2 = 0;
-  return {
-    request: (req, middleware) => {
-      group2++;
-      metroConsole2.group(group2);
-      metroConsole2.info(req?.url, req, middleware);
-    },
-    response: (res, middleware) => {
-      metroConsole2.info(res?.body ? res.body[Symbol.metroSource] : null, res, middleware);
-      metroConsole2.groupEnd(group2);
-      group2--;
-    },
-    error: (error4) => {
-      metroConsole2.info(error4);
-      metroConsole2.groupEnd(group2);
-      group2--;
-    }
-  };
-}
-var metroConsole2, src_default3;
-var init_src4 = __esm({
-  "../solid-tools/node_modules/@muze-nl/metro-trace/src/index.mjs"() {
-    init_src();
-    init_tracegraph();
-    init_tracegraph();
-    metroConsole2 = {
-      info: (message, ...details) => console.info("\u24C2\uFE0F  ", message, ...details),
-      group: (name) => console.group("\u24C2\uFE0F  " + name),
-      groupEnd: (name) => console.groupEnd("\u24C2\uFE0F  " + name)
-    };
-    src_default3 = {
-      add,
-      delete: remove,
-      remove,
-      clear,
-      group,
-      graph: (...args) => graph(...args),
-      localConsole: (...args) => localConsole(...args)
-    };
-  }
-});
-
-// ../solid-tools/node_modules/@muze-nl/metro-hashparams/src/index.mjs
-var src_exports5 = {};
-__export(src_exports5, {
-  append: () => append,
-  clear: () => clear2,
-  parse: () => parse
-});
-function parse(url3) {
-  const hash = url(url3).hash.substr(1);
-  const query = /\?[^#]*/.exec(hash)?.[0];
-  return new URLSearchParams(query);
-}
-function append(url3, params) {
-  url3 = url(url3);
-  if (!(params instanceof URLSearchParams)) {
-    params = new URLSearchParams(params);
-  }
-  let hash = url3.hash || "#";
-  hash += "?" + params;
-  return url3.with({ hash });
-}
-function clear2(url3) {
-  url3 = url(url3);
-  let hash = url3.hash.replace(/\?[^#]*/, "");
-  if (hash.substr(0, 2) === "##") {
-    hash = hash.substr(1);
-  }
-  return url3.with({ hash });
-}
-var init_src5 = __esm({
-  "../solid-tools/node_modules/@muze-nl/metro-hashparams/src/index.mjs"() {
-    init_src();
-  }
-});
-
-// ../solid-tools/node_modules/@muze-nl/metro-formdata/src/index.mjs
-function formdata(...options) {
-  var params = new FormData();
-  for (let option of options) {
-    if (typeof HTMLFormElement != "undefined" && option instanceof HTMLFormElement) {
-      option = new FormData(option);
-    }
-    if (option instanceof FormData) {
-      for (let entry of option.entries()) {
-        params.append(entry[0], entry[1]);
-      }
-    } else if (option && typeof option == "object") {
-      for (let entry of Object.entries(option)) {
-        if (Array.isArray(entry[1])) {
-          for (let value of entry[1]) {
-            params.append(entry[0], value);
-          }
-        } else {
-          params.append(entry[0], entry[1]);
-        }
-      }
-    } else {
-      throw metroError("metro.formdata: unknown option type " + metroURL2 + "formdata/unknown-option-value/", option);
-    }
-  }
-  Object.freeze(params);
-  return new Proxy(params, {
-    get(target, prop) {
-      let result;
-      switch (prop) {
-        case Symbol.metroProxy:
-          result = true;
-          break;
-        case Symbol.metroSource:
-          result = target;
-          break;
-        //TODO: add toString() that can check
-        //headers param: toString({headers:request.headers})
-        //for the content-type
-        case "with":
-          result = function(...options2) {
-            return formdata(target, ...options2);
-          };
-          break;
-        default:
-          if (target[prop] instanceof Function) {
-            result = target[prop].bind(target);
-          } else {
-            result = target[prop];
-          }
-          break;
-      }
-      return result;
-    }
-  });
-}
-var metroURL2;
-var init_src6 = __esm({
-  "../solid-tools/node_modules/@muze-nl/metro-formdata/src/index.mjs"() {
-    init_src();
-    metroURL2 = "https://metro.muze.nl/details/";
-    if (!Symbol.metroProxy) {
-      Symbol.metroProxy = Symbol("isProxy");
-    }
-    if (!Symbol.metroSource) {
-      Symbol.metroSource = Symbol("source");
-    }
-  }
-});
-
-// ../solid-tools/node_modules/@muze-nl/metro/src/index.mjs
-var src_exports6 = {};
-__export(src_exports6, {
-  API: () => API,
-  Client: () => Client,
-  JsonAPI: () => JsonAPI,
-  api: () => api,
-  client: () => client,
-  deepClone: () => deepClone,
-  default: () => src_default4,
-  formdata: () => formdata,
-  hashParams: () => src_exports5,
-  jsonApi: () => jsonApi,
-  metroError: () => metroError,
-  mw: () => src_default2,
-  request: () => request,
-  response: () => response,
-  trace: () => src_exports4,
-  url: () => url
-});
-var metro, src_default4;
-var init_src7 = __esm({
-  "../solid-tools/node_modules/@muze-nl/metro/src/index.mjs"() {
-    init_src();
-    init_src3();
-    init_src2();
-    init_src4();
-    init_src5();
-    init_src6();
-    init_src();
-    init_src3();
-    init_src2();
-    init_src4();
-    init_src5();
-    init_src6();
-    metro = Object.assign({}, src_exports3, {
-      API,
-      JsonAPI,
-      api,
-      jsonApi,
-      mw: src_default2,
-      trace: src_exports4,
-      hashParams: src_exports5,
-      formdata
-    });
-    src_default4 = metro;
-  }
-});
 
 // ../solid-tools/node_modules/base64-js/index.js
 var require_base64_js = __commonJS({
@@ -2993,10 +274,10 @@ var require_buffer = __commonJS({
         }
         return allocUnsafe(arg);
       }
-      return from(arg, encodingOrOffset, length);
+      return from3(arg, encodingOrOffset, length);
     }
     Buffer4.poolSize = 8192;
-    function from(value, encodingOrOffset, length) {
+    function from3(value, encodingOrOffset, length) {
       if (typeof value === "string") {
         return fromString(value, encodingOrOffset);
       }
@@ -3033,7 +314,7 @@ var require_buffer = __commonJS({
       );
     }
     Buffer4.from = function(value, encodingOrOffset, length) {
-      return from(value, encodingOrOffset, length);
+      return from3(value, encodingOrOffset, length);
     };
     Object.setPrototypeOf(Buffer4.prototype, Uint8Array.prototype);
     Object.setPrototypeOf(Buffer4, Uint8Array);
@@ -4769,10 +2050,10 @@ var require_buffer2 = __commonJS({
         }
         return allocUnsafe(arg);
       }
-      return from(arg, encodingOrOffset, length);
+      return from3(arg, encodingOrOffset, length);
     }
     Buffer4.poolSize = 8192;
-    function from(value, encodingOrOffset, length) {
+    function from3(value, encodingOrOffset, length) {
       if (typeof value === "string") {
         return fromString(value, encodingOrOffset);
       }
@@ -4809,7 +2090,7 @@ var require_buffer2 = __commonJS({
       );
     }
     Buffer4.from = function(value, encodingOrOffset, length) {
-      return from(value, encodingOrOffset, length);
+      return from3(value, encodingOrOffset, length);
     };
     Object.setPrototypeOf(Buffer4.prototype, Uint8Array.prototype);
     Object.setPrototypeOf(Buffer4, Uint8Array);
@@ -6372,16 +3653,16 @@ function bindMethod(target, receiver, value) {
   return value.bind(receiver);
 }
 function collectRemovedArrayValues(target, nextLength) {
-  const values5 = /* @__PURE__ */ new Map();
+  const values3 = /* @__PURE__ */ new Map();
   if (!Array.isArray(target) || nextLength >= target.length) {
-    return values5;
+    return values3;
   }
   for (let index = nextLength; index < target.length; index++) {
     if (Object.hasOwn(target, index)) {
-      values5.set(index, target[index]);
+      values3.set(index, target[index]);
     }
   }
-  return values5;
+  return values3;
 }
 function addArrayLengthChanges(context, target, oldLength, removedValues = /* @__PURE__ */ new Map()) {
   if (!Array.isArray(target) || oldLength === target.length) {
@@ -7115,8 +4396,8 @@ function cannotClone(value, path2) {
     `simplyflow/state: clone() cannot clone ${typeName(value)} at ${path2}; add a toClone() method for custom objects`
   );
 }
-function cloneDescriptorProperties(source, result, cloneValue, skip = () => false) {
-  const descriptors = Object.getOwnPropertyDescriptors(source);
+function cloneDescriptorProperties(source2, result, cloneValue2, skip = () => false) {
+  const descriptors = Object.getOwnPropertyDescriptors(source2);
   for (const key of Reflect.ownKeys(descriptors)) {
     if (skip(key)) {
       delete descriptors[key];
@@ -7124,9 +4405,9 @@ function cloneDescriptorProperties(source, result, cloneValue, skip = () => fals
     }
     const descriptor = descriptors[key];
     if (!Object.hasOwn(descriptor, "value")) {
-      cannotClone(source, String(key));
+      cannotClone(source2, String(key));
     }
-    descriptor.value = cloneValue(descriptor.value, String(key));
+    descriptor.value = cloneValue2(descriptor.value, String(key));
   }
   Object.defineProperties(result, descriptors);
   return result;
@@ -7139,7 +4420,7 @@ function cloneSharedArrayBuffer(value) {
   new Uint8Array(result).set(new Uint8Array(value));
   return result;
 }
-function cloneErrorObject(value, cloneValue, path2) {
+function cloneErrorObject(value, cloneValue2, path2) {
   const standardErrors = /* @__PURE__ */ new Set([
     Error,
     EvalError,
@@ -7153,9 +4434,9 @@ function cloneErrorObject(value, cloneValue, path2) {
   if (!standardErrors.has(value.constructor)) {
     cannotClone(value, path2);
   }
-  const options = Object.hasOwn(value, "cause") ? { cause: cloneValue(value.cause, "cause") } : void 0;
+  const options = Object.hasOwn(value, "cause") ? { cause: cloneValue2(value.cause, "cause") } : void 0;
   if (typeof AggregateError !== "undefined" && value instanceof AggregateError) {
-    const errors = Array.from(value.errors || [], (error4, index) => cloneValue(error4, `errors.${index}`));
+    const errors = Array.from(value.errors || [], (error4, index) => cloneValue2(error4, `errors.${index}`));
     return new AggregateError(errors, value.message, options);
   }
   return new value.constructor(value.message, options);
@@ -7164,116 +4445,116 @@ function clone(value, options) {
   const { deep } = cloneOptions(options);
   const seen = /* @__PURE__ */ new Map();
   function cloneChild(value2, path2) {
-    return deep ? cloneValue(value2, path2) : raw(value2);
+    return deep ? cloneValue2(value2, path2) : raw(value2);
   }
-  function cloneValue(value2, path2 = "value") {
-    const source = raw(value2);
-    if (!isObjectLike(source)) {
-      return source;
+  function cloneValue2(value2, path2 = "value") {
+    const source2 = raw(value2);
+    if (!isObjectLike(source2)) {
+      return source2;
     }
-    if (seen.has(source)) {
-      return seen.get(source);
+    if (seen.has(source2)) {
+      return seen.get(source2);
     }
-    if (hasToClone(source)) {
-      const result = raw(source.toClone());
-      if (Object.is(result, source)) {
+    if (hasToClone(source2)) {
+      const result = raw(source2.toClone());
+      if (Object.is(result, source2)) {
         throw new TypeError(`simplyflow/state: clone() toClone() returned the original object at ${path2}`);
       }
-      seen.set(source, result);
+      seen.set(source2, result);
       return result;
     }
-    if (Array.isArray(source)) {
-      const result = new Array(source.length);
-      seen.set(source, result);
-      return cloneDescriptorProperties(source, result, cloneChild, (key) => key === "length");
+    if (Array.isArray(source2)) {
+      const result = new Array(source2.length);
+      seen.set(source2, result);
+      return cloneDescriptorProperties(source2, result, cloneChild, (key) => key === "length");
     }
-    if (isPlainObject(source)) {
-      const result = Object.create(Object.getPrototypeOf(source));
-      seen.set(source, result);
-      return cloneDescriptorProperties(source, result, cloneChild);
+    if (isPlainObject(source2)) {
+      const result = Object.create(Object.getPrototypeOf(source2));
+      seen.set(source2, result);
+      return cloneDescriptorProperties(source2, result, cloneChild);
     }
-    if (source instanceof Map) {
+    if (source2 instanceof Map) {
       const result = /* @__PURE__ */ new Map();
-      seen.set(source, result);
-      source.forEach((mapValue, mapKey) => {
+      seen.set(source2, result);
+      source2.forEach((mapValue, mapKey) => {
         result.set(cloneChild(mapKey, "map key"), cloneChild(mapValue, "map value"));
       });
-      return cloneDescriptorProperties(source, result, cloneChild);
+      return cloneDescriptorProperties(source2, result, cloneChild);
     }
-    if (source instanceof Set) {
+    if (source2 instanceof Set) {
       const result = /* @__PURE__ */ new Set();
-      seen.set(source, result);
-      source.forEach((setValue) => result.add(cloneChild(setValue, "set value")));
-      return cloneDescriptorProperties(source, result, cloneChild);
+      seen.set(source2, result);
+      source2.forEach((setValue) => result.add(cloneChild(setValue, "set value")));
+      return cloneDescriptorProperties(source2, result, cloneChild);
     }
-    if (source instanceof Date) {
-      const result = new Date(source.getTime());
-      seen.set(source, result);
-      return cloneDescriptorProperties(source, result, cloneChild);
+    if (source2 instanceof Date) {
+      const result = new Date(source2.getTime());
+      seen.set(source2, result);
+      return cloneDescriptorProperties(source2, result, cloneChild);
     }
-    if (source instanceof RegExp) {
-      const result = new RegExp(source.source, source.flags);
-      result.lastIndex = source.lastIndex;
-      seen.set(source, result);
-      return cloneDescriptorProperties(source, result, cloneChild, (key) => key === "lastIndex");
+    if (source2 instanceof RegExp) {
+      const result = new RegExp(source2.source, source2.flags);
+      result.lastIndex = source2.lastIndex;
+      seen.set(source2, result);
+      return cloneDescriptorProperties(source2, result, cloneChild, (key) => key === "lastIndex");
     }
-    if (source instanceof ArrayBuffer) {
-      const result = cloneArrayBuffer(source);
-      seen.set(source, result);
-      return cloneDescriptorProperties(source, result, cloneChild);
+    if (source2 instanceof ArrayBuffer) {
+      const result = cloneArrayBuffer(source2);
+      seen.set(source2, result);
+      return cloneDescriptorProperties(source2, result, cloneChild);
     }
-    if (typeof SharedArrayBuffer !== "undefined" && source instanceof SharedArrayBuffer) {
-      const result = cloneSharedArrayBuffer(source);
-      seen.set(source, result);
-      return cloneDescriptorProperties(source, result, cloneChild);
+    if (typeof SharedArrayBuffer !== "undefined" && source2 instanceof SharedArrayBuffer) {
+      const result = cloneSharedArrayBuffer(source2);
+      seen.set(source2, result);
+      return cloneDescriptorProperties(source2, result, cloneChild);
     }
-    if (source instanceof DataView) {
-      const buffer = source.buffer.slice(source.byteOffset, source.byteOffset + source.byteLength);
+    if (source2 instanceof DataView) {
+      const buffer = source2.buffer.slice(source2.byteOffset, source2.byteOffset + source2.byteLength);
       const result = new DataView(buffer);
-      seen.set(source, result);
-      return cloneDescriptorProperties(source, result, cloneChild);
+      seen.set(source2, result);
+      return cloneDescriptorProperties(source2, result, cloneChild);
     }
-    if (isTypedArray(source)) {
-      const result = new source.constructor(source);
-      seen.set(source, result);
-      return cloneDescriptorProperties(source, result, cloneChild, isIntegerKey);
+    if (isTypedArray(source2)) {
+      const result = new source2.constructor(source2);
+      seen.set(source2, result);
+      return cloneDescriptorProperties(source2, result, cloneChild, isIntegerKey);
     }
-    if (typeof URL !== "undefined" && source instanceof URL) {
-      const result = new URL(source.href);
-      seen.set(source, result);
+    if (typeof URL !== "undefined" && source2 instanceof URL) {
+      const result = new URL(source2.href);
+      seen.set(source2, result);
       return result;
     }
-    if (typeof URLSearchParams !== "undefined" && source instanceof URLSearchParams) {
-      const result = new URLSearchParams(source);
-      seen.set(source, result);
+    if (typeof URLSearchParams !== "undefined" && source2 instanceof URLSearchParams) {
+      const result = new URLSearchParams(source2);
+      seen.set(source2, result);
       return result;
     }
-    if (typeof File !== "undefined" && source instanceof File) {
-      const result = new File([source], source.name, {
-        type: source.type,
-        lastModified: source.lastModified
+    if (typeof File !== "undefined" && source2 instanceof File) {
+      const result = new File([source2], source2.name, {
+        type: source2.type,
+        lastModified: source2.lastModified
       });
-      seen.set(source, result);
+      seen.set(source2, result);
       return result;
     }
-    if (typeof Blob !== "undefined" && source instanceof Blob) {
-      const result = source.slice(0, source.size, source.type);
-      seen.set(source, result);
+    if (typeof Blob !== "undefined" && source2 instanceof Blob) {
+      const result = source2.slice(0, source2.size, source2.type);
+      seen.set(source2, result);
       return result;
     }
-    if (source instanceof Error) {
-      const result = cloneErrorObject(source, cloneChild, path2);
-      seen.set(source, result);
-      return cloneDescriptorProperties(source, result, cloneChild, (key) => key === "message" || key === "cause" || key === "errors" || key === "stack");
+    if (source2 instanceof Error) {
+      const result = cloneErrorObject(source2, cloneChild, path2);
+      seen.set(source2, result);
+      return cloneDescriptorProperties(source2, result, cloneChild, (key) => key === "message" || key === "cause" || key === "errors" || key === "stack");
     }
-    if (typeof Node !== "undefined" && source instanceof Node && typeof source.cloneNode === "function") {
-      const result = source.cloneNode(deep);
-      seen.set(source, result);
+    if (typeof Node !== "undefined" && source2 instanceof Node && typeof source2.cloneNode === "function") {
+      const result = source2.cloneNode(deep);
+      seen.set(source2, result);
       return result;
     }
-    cannotClone(source, path2);
+    cannotClone(source2, path2);
   }
-  return cloneValue(value);
+  return cloneValue2(value);
 }
 
 // ../simplyflow/packages/bind/src/dom.mjs
@@ -7601,11 +4882,11 @@ function checkboxIsChecked(el, value) {
 function checkboxEditValue(el, currentValue) {
   if (Array.isArray(currentValue)) {
     const value = el.value;
-    const values5 = currentValue.filter((item) => !matchValue(item, value));
+    const values3 = currentValue.filter((item) => !matchValue(item, value));
     if (el.checked) {
-      values5.push(value);
+      values3.push(value);
     }
-    return values5;
+    return values3;
   }
   if (typeof currentValue === "boolean") {
     return el.checked;
@@ -7920,7 +5201,7 @@ function trackDomList(element2) {
       batch(() => {
         let key = 0;
         const currentList = getValueByPath(this.options.root, path2);
-        const source = currentList.slice();
+        const source2 = currentList.slice();
         for (const item of children) {
           if (item.tagName === "TEMPLATE") {
             continue;
@@ -7930,7 +5211,7 @@ function trackDomList(element2) {
               setValueByPath(
                 this.options.root,
                 path2 + "." + key,
-                source[item.dataset.flowKey]
+                source2[item.dataset.flowKey]
               );
             }
             key++;
@@ -8702,12 +5983,12 @@ function columns(options = {}) {
         }
       }
       return data.current.map((input2) => {
-        const source = raw(input2);
-        let result = source && typeof source === "object" ? projections.get(source) : null;
+        const source2 = raw(input2);
+        let result = source2 && typeof source2 === "object" ? projections.get(source2) : null;
         if (!result) {
           result = {};
-          if (source && typeof source === "object") {
-            projections.set(source, result);
+          if (source2 && typeof source2 === "object") {
+            projections.set(source2, result);
           }
         }
         for (let key of visibleKeys) {
@@ -8838,7 +6119,7 @@ function editDistance(a, b, maxDistance = 2) {
   if (Math.abs(a.length - b.length) > maxDistance) {
     return tooFar;
   }
-  const previous = Array.from({ length: b.length + 1 }, (_, index) => index);
+  const previous = Array.from({ length: b.length + 1 }, (_3, index) => index);
   const current = new Array(b.length + 1);
   for (let ai = 1; ai <= a.length; ai++) {
     current[0] = ai;
@@ -9162,7 +6443,7 @@ function routeRegexp(route, exact = false, params = []) {
   return new RegExp(prefix + routeRegexpSource(route, params) + suffix);
 }
 function routeRegexpSource(route, params) {
-  let source = "";
+  let source2 = "";
   let index = 0;
   while (index < route.length) {
     if (route[index] === ":") {
@@ -9171,19 +6452,19 @@ function routeRegexpSource(route, params) {
         throw new TypeError(`simplyflow/route: invalid route parameter in "${route}"`);
       }
       params.push(match[1]);
-      source += match[2] ? "(.*)" : "([^/]+)";
+      source2 += match[2] ? "(.*)" : "([^/]+)";
       index += match[0].length;
       continue;
     }
     if (route[index] === "*") {
-      source += ".*";
+      source2 += ".*";
       index++;
       continue;
     }
-    source += escapeRegexp(route[index]);
+    source2 += escapeRegexp(route[index]);
     index++;
   }
-  return source;
+  return source2;
 }
 function escapeRegexp(value) {
   return value.replace(/[\\^$.*+?()[\]{}|]/g, "\\$&");
@@ -9360,13 +6641,13 @@ var defaultHandlers = [
         return configuredValue.value;
       }
       if (el.tagName === "SELECT" && el.multiple) {
-        let values5 = [];
+        let values3 = [];
         for (let option of el.options) {
           if (option.selected) {
-            values5.push(option.value);
+            values3.push(option.value);
           }
         }
-        return values5;
+        return values3;
       }
       return el.value;
     },
@@ -9423,7 +6704,7 @@ var defaultHandlers = [
   }
 ];
 var unknownCommandWarnings = /* @__PURE__ */ new WeakMap();
-function warnUnknownCommand(commands2, command, source) {
+function warnUnknownCommand(commands2, command, source2) {
   let warned = unknownCommandWarnings.get(commands2);
   if (!warned) {
     warned = /* @__PURE__ */ new Set();
@@ -9435,8 +6716,8 @@ function warnUnknownCommand(commands2, command, source) {
   warned.add(command);
   const suggestion = closest(command, commandNames(commands2));
   const suffix = suggestion ? `. Did you mean "${suggestion}"?` : "";
-  if (source) {
-    console.warn(`simplyflow/command: unknown command "${command}"${suffix}`, { cause: source });
+  if (source2) {
+    console.warn(`simplyflow/command: unknown command "${command}"${suffix}`, { cause: source2 });
   } else {
     console.warn(`simplyflow/command: unknown command "${command}"${suffix}`);
   }
@@ -10170,14 +7451,14 @@ function mergeComponents(options, components) {
 }
 
 // ../simplyflow/packages/app/src/highlight.mjs
-function html(strings, ...values5) {
-  const outputArray = values5.map(
+function html(strings, ...values3) {
+  const outputArray = values3.map(
     (value, index) => `${strings[index]}${value}`
   );
   return outputArray.join("") + strings[strings.length - 1];
 }
-function css(strings, ...values5) {
-  return html(strings, ...values5);
+function css(strings, ...values3) {
+  return html(strings, ...values3);
 }
 
 // ../simplyflow/packages/simplyflow/src/index.mjs
@@ -10223,5268 +7504,6 @@ Object.assign(globalThis.simply, {
 delete globalThis.simply.advanced;
 var src_default = globalThis.simply;
 
-// ../../poef/cobalt-note/packages/rich-text-note/dist/fragment.js
-function getJoinOffsetAfterSeparator(first3, second, separator) {
-  if (separator.length > 0) {
-    return first3.text.length + separator.length;
-  }
-  if (first3.text.endsWith("\n")) {
-    return first3.text.length;
-  }
-  if (second.text.startsWith("\n")) {
-    return first3.text.length + 1;
-  }
-  return first3.text.length;
-}
-function getNextOrder(fragment) {
-  if (fragment.annotations.length === 0) {
-    return 1;
-  }
-  return Math.max(...fragment.annotations.map((annotation) => annotation.order)) + 1;
-}
-function addAnnotation(fragment, range, tag) {
-  const [start, end] = range;
-  if (end <= start) {
-    return null;
-  }
-  const annotation = {
-    range: [start, end],
-    tag,
-    order: getNextOrder(fragment)
-  };
-  fragment.annotations.push(annotation);
-  return annotation;
-}
-function insertText(fragment, offset, text, options = {}) {
-  if (text.length === 0) {
-    return;
-  }
-  const normalizedOffset = clamp(offset, 0, fragment.text.length);
-  const growAtEnd = options.growAtEnd ?? true;
-  const delta = text.length;
-  fragment.text = fragment.text.slice(0, normalizedOffset) + text + fragment.text.slice(normalizedOffset);
-  for (const annotation of fragment.annotations) {
-    let [start, end] = annotation.range;
-    if (normalizedOffset <= start) {
-      start += delta;
-      end += delta;
-    } else if (normalizedOffset < end || growAtEnd && normalizedOffset === end) {
-      end += delta;
-    }
-    annotation.range = [start, end];
-  }
-}
-function deleteRange(fragment, startOffset, endOffset) {
-  const start = clamp(startOffset, 0, fragment.text.length);
-  const end = clamp(endOffset, 0, fragment.text.length);
-  if (end <= start) {
-    return;
-  }
-  fragment.text = fragment.text.slice(0, start) + fragment.text.slice(end);
-  fragment.annotations = mergeAdjacentMatchingAnnotations(fragment.annotations.map((annotation) => {
-    const [annotationStart, annotationEnd] = annotation.range;
-    return {
-      ...annotation,
-      range: [
-        transformDeletedOffset(annotationStart, start, end),
-        transformDeletedOffset(annotationEnd, start, end)
-      ]
-    };
-  }).filter((annotation) => annotation.range[1] > annotation.range[0]));
-}
-function sliceFragment(fragment, startOffset, endOffset) {
-  const start = clamp(startOffset, 0, fragment.text.length);
-  const end = clamp(endOffset, 0, fragment.text.length);
-  if (end <= start) {
-    return {
-      text: "",
-      annotations: []
-    };
-  }
-  return {
-    text: fragment.text.slice(start, end),
-    annotations: fragment.annotations.map((annotation) => {
-      const annotationStart = Math.max(annotation.range[0], start);
-      const annotationEnd = Math.min(annotation.range[1], end);
-      if (annotationEnd <= annotationStart) {
-        return null;
-      }
-      return {
-        ...annotation,
-        range: [
-          annotationStart - start,
-          annotationEnd - start
-        ]
-      };
-    }).filter((annotation) => annotation !== null)
-  };
-}
-function insertFragment(fragment, offset, inserted, options = {}) {
-  const normalizedOffset = clamp(offset, 0, fragment.text.length);
-  if (inserted.text.length === 0) {
-    return;
-  }
-  const maxOrder = getNextOrder(fragment) - 1;
-  insertText(fragment, normalizedOffset, inserted.text, options);
-  const sortedAnnotations = [...inserted.annotations].sort((a, b) => {
-    if (a.order !== b.order) {
-      return a.order - b.order;
-    }
-    if (a.range[0] !== b.range[0]) {
-      return a.range[0] - b.range[0];
-    }
-    return a.range[1] - b.range[1];
-  });
-  for (let i = 0; i < sortedAnnotations.length; i++) {
-    const annotation = sortedAnnotations[i];
-    fragment.annotations.push({
-      ...annotation,
-      range: [
-        annotation.range[0] + normalizedOffset,
-        annotation.range[1] + normalizedOffset
-      ],
-      order: maxOrder + i + 1
-    });
-  }
-  fragment.annotations = mergeAdjacentMatchingAnnotations(fragment.annotations);
-}
-function splitFragment(fragment, offset) {
-  const splitOffset = clamp(offset, 0, fragment.text.length);
-  const before = {
-    text: fragment.text.slice(0, splitOffset),
-    annotations: []
-  };
-  const after = {
-    text: fragment.text.slice(splitOffset),
-    annotations: []
-  };
-  for (const annotation of fragment.annotations) {
-    const [start, end] = annotation.range;
-    const beforeStart = start;
-    const beforeEnd = Math.min(end, splitOffset);
-    if (beforeEnd > beforeStart) {
-      before.annotations.push({
-        ...annotation,
-        range: [beforeStart, beforeEnd]
-      });
-    }
-    const afterStart = Math.max(start, splitOffset) - splitOffset;
-    const afterEnd = end - splitOffset;
-    if (afterEnd > afterStart) {
-      after.annotations.push({
-        ...annotation,
-        range: [afterStart, afterEnd]
-      });
-    }
-  }
-  return { before, after };
-}
-function concatFragments(first3, second, separator = "") {
-  const joinOffset = getJoinOffsetAfterSeparator(first3, second, separator);
-  const secondOffset = first3.text.length + separator.length;
-  return {
-    fragment: {
-      text: first3.text + separator + second.text,
-      annotations: mergeAdjacentMatchingAnnotations([
-        ...first3.annotations.map((annotation) => ({
-          ...annotation,
-          range: [...annotation.range]
-        })),
-        ...second.annotations.map((annotation) => ({
-          ...annotation,
-          range: [
-            annotation.range[0] + secondOffset,
-            annotation.range[1] + secondOffset
-          ]
-        }))
-      ])
-    },
-    joinOffset
-  };
-}
-function joinFragments(first3, second) {
-  return concatFragments(first3, second, needsJoinSeparator(first3, second) ? "\n" : "");
-}
-function mergeAdjacentMatchingAnnotations(annotations) {
-  const sorted = [...annotations].sort((a, b) => {
-    if (a.order !== b.order) {
-      return a.order - b.order;
-    }
-    if (a.tag !== b.tag) {
-      return a.tag.localeCompare(b.tag);
-    }
-    if (a.range[0] !== b.range[0]) {
-      return a.range[0] - b.range[0];
-    }
-    return a.range[1] - b.range[1];
-  });
-  const merged = [];
-  for (const annotation of sorted) {
-    const previous = merged[merged.length - 1];
-    if (previous && previous.order === annotation.order && previous.tag === annotation.tag && previous.range[1] === annotation.range[0]) {
-      previous.range = [
-        previous.range[0],
-        annotation.range[1]
-      ];
-    } else {
-      merged.push({
-        ...annotation,
-        range: [...annotation.range]
-      });
-    }
-  }
-  return merged;
-}
-function needsJoinSeparator(first3, second) {
-  if (first3.text.length === 0 || second.text.length === 0) {
-    return false;
-  }
-  return !first3.text.endsWith("\n") && !second.text.startsWith("\n");
-}
-function transformDeletedOffset(offset, deleteStart, deleteEnd) {
-  if (offset <= deleteStart) {
-    return offset;
-  }
-  if (offset >= deleteEnd) {
-    return offset - (deleteEnd - deleteStart);
-  }
-  return deleteStart;
-}
-function clamp(value, min, max) {
-  return Math.max(min, Math.min(max, value));
-}
-
-// ../../poef/cobalt-note/packages/rich-text-note/dist/commands.js
-var InsertTextCommand = class {
-  offset;
-  text;
-  options;
-  constructor(offset, text, options = {}) {
-    this.offset = offset;
-    this.text = text;
-    this.options = options;
-  }
-  apply(fragment) {
-    insertText(fragment, this.offset, this.text, this.options);
-  }
-};
-var InsertFragmentCommand = class {
-  offset;
-  fragmentToInsert;
-  options;
-  constructor(offset, fragmentToInsert, options = {}) {
-    this.offset = offset;
-    this.fragmentToInsert = fragmentToInsert;
-    this.options = options;
-  }
-  apply(fragment) {
-    insertFragment(fragment, this.offset, this.fragmentToInsert, this.options);
-  }
-};
-var DeleteRangeCommand = class {
-  startOffset;
-  endOffset;
-  constructor(startOffset, endOffset) {
-    this.startOffset = startOffset;
-    this.endOffset = endOffset;
-  }
-  apply(fragment) {
-    deleteRange(fragment, this.startOffset, this.endOffset);
-  }
-};
-var AddAnnotationCommand = class {
-  range;
-  tag;
-  constructor(range, tag) {
-    this.range = range;
-    this.tag = tag;
-  }
-  apply(fragment) {
-    addAnnotation(fragment, this.range, this.tag);
-  }
-};
-function applyCommands(fragment, commands2) {
-  for (const command of commands2) {
-    command.apply(fragment);
-  }
-}
-
-// ../../poef/cobalt-note/packages/rich-text-note/dist/registry.js
-var AnnotationRegistry = class {
-  definitions = /* @__PURE__ */ new Map();
-  register(definition) {
-    this.definitions.set(definition.name, definition);
-  }
-  get(name) {
-    return this.definitions.get(name);
-  }
-  getAll() {
-    return Array.from(this.definitions.values());
-  }
-  findByShortcut(event) {
-    const key = shortcutFromKeyboardEvent(event);
-    return this.getAll().find((definition) => definition.shortcut?.toLowerCase() === key);
-  }
-  findByTag(tag) {
-    const trimmed = tag.trim();
-    for (const definition of this.definitions.values()) {
-      if (trimmed === definition.tag) {
-        return {
-          name: definition.name,
-          enabled: true,
-          tag: definition.tag,
-          closeTag: createHtmlCloseTag(definition.tag),
-          priority: definition.priority ?? 100
-        };
-      }
-      if (trimmed === createInverseAnnotationTag(definition.tag)) {
-        return {
-          name: definition.name,
-          enabled: false,
-          priority: definition.priority ?? 100
-        };
-      }
-    }
-    return null;
-  }
-};
-var defaultRegistry = new AnnotationRegistry();
-defaultRegistry.register({
-  name: "__selection",
-  tag: '<span data-cobalt-selection="true">',
-  priority: -100,
-  supportsPending: false
-});
-defaultRegistry.register({
-  name: "link",
-  tag: "<a>",
-  priority: 0,
-  shortcut: "Ctrl+K",
-  supportsPending: false
-});
-defaultRegistry.register({
-  name: "underline",
-  tag: "<u>",
-  priority: 10,
-  shortcut: "Ctrl+U",
-  supportsPending: true
-});
-defaultRegistry.register({
-  name: "em",
-  tag: "<em>",
-  priority: 20,
-  shortcut: "Ctrl+I",
-  supportsPending: true
-});
-defaultRegistry.register({
-  name: "strong",
-  tag: "<strong>",
-  priority: 30,
-  shortcut: "Ctrl+B",
-  supportsPending: true
-});
-function parseAnnotationTag(tag, registry = defaultRegistry) {
-  const trimmed = tag.trim();
-  const registryMatch = registry.findByTag(trimmed);
-  if (registryMatch) {
-    return registryMatch;
-  }
-  if (isOpeningTag(trimmed, "a")) {
-    return {
-      name: "link",
-      enabled: true,
-      tag: trimmed,
-      closeTag: createHtmlCloseTag(trimmed),
-      priority: registry.get("link")?.priority ?? 0
-    };
-  }
-  if (isClosingTag(trimmed, "a")) {
-    return {
-      name: "link",
-      enabled: false,
-      priority: registry.get("link")?.priority ?? 0
-    };
-  }
-  if (isCobaltSelectionOpeningTag(trimmed)) {
-    return {
-      name: "__selection",
-      enabled: true,
-      tag: trimmed,
-      closeTag: createHtmlCloseTag(trimmed),
-      priority: registry.get("__selection")?.priority ?? -100
-    };
-  }
-  return null;
-}
-function createAnnotationTag(name, enabled, registry = defaultRegistry) {
-  const definition = registry.get(name);
-  if (!definition) {
-    throw new Error(`Unknown annotation type: ${name}`);
-  }
-  return enabled ? definition.tag : createInverseAnnotationTag(definition.tag);
-}
-function createLinkAnnotationTag(href) {
-  return `<a href="${escapeAttribute(href)}">`;
-}
-function createInverseAnnotationTag(openingTag) {
-  const trimmed = openingTag.trim();
-  if (!trimmed.startsWith("<") || trimmed.startsWith("</")) {
-    throw new Error(`Expected opening annotation tag: ${openingTag}`);
-  }
-  return `</${trimmed.slice(1)}`;
-}
-function createHtmlCloseTag(tag) {
-  const tagName = getTagName(tag);
-  if (!tagName) {
-    throw new Error(`Could not determine tag name: ${tag}`);
-  }
-  return `</${tagName}>`;
-}
-function getTagName(tag) {
-  const match = tag.trim().match(/^<\/?\s*([^\s>/]+)/);
-  return match?.[1] ?? null;
-}
-function isOpeningTag(tag, tagName) {
-  return new RegExp(`^<${tagName}(?:\\s[^>]*)?>$`, "i").test(tag);
-}
-function isClosingTag(tag, tagName) {
-  return new RegExp(`^</${tagName}(?:\\s[^>]*)?>$`, "i").test(tag);
-}
-function isCobaltSelectionOpeningTag(tag) {
-  return /^<span\s[^>]*data-cobalt-selection=["']true["'][^>]*>$/i.test(tag);
-}
-function shortcutFromKeyboardEvent(event) {
-  const parts = [];
-  if (event.ctrlKey) {
-    parts.push("ctrl");
-  }
-  if (event.metaKey) {
-    parts.push("meta");
-  }
-  if (event.altKey) {
-    parts.push("alt");
-  }
-  if (event.shiftKey) {
-    parts.push("shift");
-  }
-  parts.push(event.key.toLowerCase());
-  return parts.join("+");
-}
-function escapeAttribute(value) {
-  return value.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
-}
-
-// ../../poef/cobalt-note/packages/rich-text-note/dist/editor-state.js
-function createEditorState() {
-  return {
-    pending: {}
-  };
-}
-function buildPendingAnnotations(state, start, end, registry = defaultRegistry) {
-  const result = [];
-  for (const name of Object.keys(state.pending)) {
-    const enabled = state.pending[name];
-    if (enabled === void 0) {
-      continue;
-    }
-    result.push({
-      start,
-      end,
-      tag: createAnnotationTag(name, enabled, registry)
-    });
-  }
-  return result;
-}
-function clearPendingAnnotations(state) {
-  for (const name of Object.keys(state.pending)) {
-    delete state.pending[name];
-  }
-}
-
-// ../../poef/cobalt-note/packages/rich-text-note/dist/clipboard.js
-var COBALT_CLIPBOARD_MIME = "application/x-cobalt-fragment+json";
-function writeFragmentToClipboard(clipboardData, fragment) {
-  clipboardData.setData("text/plain", fragment.text);
-  clipboardData.setData(COBALT_CLIPBOARD_MIME, JSON.stringify(fragment));
-}
-function readFragmentFromClipboard(clipboardData) {
-  const serialized = clipboardData.getData(COBALT_CLIPBOARD_MIME);
-  if (serialized) {
-    const parsed = JSON.parse(serialized);
-    return normalizeClipboardFragment(parsed);
-  }
-  return {
-    text: clipboardData.getData("text/plain"),
-    annotations: []
-  };
-}
-function getClipboardFragment(fragment, start, end) {
-  return sliceFragment(fragment, start, end);
-}
-function normalizeClipboardFragment(fragment) {
-  const text = typeof fragment.text === "string" ? fragment.text : "";
-  const annotations = Array.isArray(fragment.annotations) ? fragment.annotations.filter((annotation) => Array.isArray(annotation.range) && annotation.range.length === 2 && typeof annotation.range[0] === "number" && typeof annotation.range[1] === "number" && typeof annotation.tag === "string" && typeof annotation.order === "number").map((annotation) => ({
-    range: [
-      Math.max(0, Math.min(text.length, annotation.range[0])),
-      Math.max(0, Math.min(text.length, annotation.range[1]))
-    ],
-    tag: annotation.tag,
-    order: annotation.order
-  })).filter((annotation) => annotation.range[1] > annotation.range[0]) : [];
-  return {
-    text,
-    annotations
-  };
-}
-
-// ../../poef/cobalt-note/packages/rich-text-note/dist/runs.js
-function createEmptyState() {
-  return {};
-}
-function getEffectiveState(annotations, offset) {
-  const state = createEmptyState();
-  const activeAnnotations = annotations.filter((annotation) => offset >= annotation.range[0] && offset < annotation.range[1]).sort((a, b) => a.order - b.order);
-  for (const annotation of activeAnnotations) {
-    applyAnnotationToState(state, annotation.tag);
-  }
-  return state;
-}
-function getTypingEffectiveState(annotations, offset) {
-  const state = createEmptyState();
-  const activeAnnotations = annotations.filter((annotation) => {
-    const [start, end] = annotation.range;
-    return start < offset && offset <= end;
-  }).sort((a, b) => a.order - b.order);
-  for (const annotation of activeAnnotations) {
-    applyAnnotationToState(state, annotation.tag);
-  }
-  return state;
-}
-function generateRuns(fragment) {
-  const boundaries = /* @__PURE__ */ new Set();
-  boundaries.add(0);
-  boundaries.add(fragment.text.length);
-  for (const annotation of fragment.annotations) {
-    boundaries.add(annotation.range[0]);
-    boundaries.add(annotation.range[1]);
-  }
-  const sortedBoundaries = Array.from(boundaries).filter((boundary) => boundary >= 0 && boundary <= fragment.text.length).sort((a, b) => a - b);
-  const runs = [];
-  for (let i = 0; i < sortedBoundaries.length - 1; i++) {
-    const start = sortedBoundaries[i];
-    const end = sortedBoundaries[i + 1];
-    if (start === end) {
-      continue;
-    }
-    runs.push({
-      start,
-      end,
-      state: getEffectiveState(fragment.annotations, start)
-    });
-  }
-  return mergeAdjacentRuns(runs);
-}
-function stateEquals(a, b) {
-  const aKeys = Object.keys(a).sort();
-  const bKeys = Object.keys(b).sort();
-  if (aKeys.length !== bKeys.length) {
-    return false;
-  }
-  for (let i = 0; i < aKeys.length; i++) {
-    const key = aKeys[i];
-    if (key !== bKeys[i]) {
-      return false;
-    }
-    if (a[key].tag !== b[key].tag || a[key].priority !== b[key].priority) {
-      return false;
-    }
-  }
-  return true;
-}
-function mergeAdjacentRuns(runs) {
-  if (runs.length === 0) {
-    return [];
-  }
-  const merged = [
-    {
-      start: runs[0].start,
-      end: runs[0].end,
-      state: copyState(runs[0].state)
-    }
-  ];
-  for (let i = 1; i < runs.length; i++) {
-    const current = runs[i];
-    const previous = merged[merged.length - 1];
-    if (previous.end === current.start && stateEquals(previous.state, current.state)) {
-      previous.end = current.end;
-    } else {
-      merged.push({
-        start: current.start,
-        end: current.end,
-        state: copyState(current.state)
-      });
-    }
-  }
-  return merged;
-}
-function copyState(state) {
-  return Object.fromEntries(Object.entries(state).map(([key, value]) => [
-    key,
-    { ...value }
-  ]));
-}
-function applyAnnotationToState(state, tag) {
-  const parsed = parseAnnotationTag(tag);
-  if (!parsed) {
-    return;
-  }
-  if (!parsed.enabled) {
-    delete state[parsed.name];
-    return;
-  }
-  if (!parsed.tag) {
-    return;
-  }
-  state[parsed.name] = {
-    name: parsed.name,
-    tag: parsed.tag,
-    priority: parsed.priority
-  };
-}
-
-// ../../poef/cobalt-note/packages/rich-text-note/dist/render.js
-function render(fragment) {
-  const runs = generateRuns(fragment);
-  let html2 = "";
-  let openTags = [];
-  for (const run of runs) {
-    const nextTags = getRenderTags(run.state);
-    const sharedPrefixLength = getSharedPrefixLength(openTags, nextTags);
-    for (let i = openTags.length - 1; i >= sharedPrefixLength; i--) {
-      html2 += openTags[i].close;
-    }
-    for (let i = sharedPrefixLength; i < nextTags.length; i++) {
-      html2 += nextTags[i].open;
-    }
-    html2 += escapeHtml(fragment.text.slice(run.start, run.end));
-    openTags = nextTags;
-  }
-  for (let i = openTags.length - 1; i >= 0; i--) {
-    html2 += openTags[i].close;
-  }
-  return appendTrailingNewlineSentinel(fragment, html2);
-}
-function appendTrailingNewlineSentinel(fragment, html2) {
-  if (!fragment.text.endsWith("\n")) {
-    return html2;
-  }
-  return `${html2}<span data-cobalt-sentinel="true">\u200B</span>`;
-}
-function getRenderTags(state) {
-  return Object.values(state).sort(compareActiveAnnotations).map((annotation) => ({
-    key: `${annotation.name}:${annotation.tag}`,
-    open: annotation.tag,
-    close: createHtmlCloseTag(annotation.tag)
-  }));
-}
-function compareActiveAnnotations(a, b) {
-  if (a.priority !== b.priority) {
-    return a.priority - b.priority;
-  }
-  return a.name.localeCompare(b.name);
-}
-function getSharedPrefixLength(current, next) {
-  const length = Math.min(current.length, next.length);
-  for (let i = 0; i < length; i++) {
-    if (current[i].key !== next[i].key) {
-      return i;
-    }
-  }
-  return length;
-}
-function escapeHtml(text) {
-  return text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
-}
-
-// ../../poef/cobalt-note/packages/note-core/dist/selection.js
-function getTextNodes(root) {
-  const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT);
-  const nodes = [];
-  let current = walker.nextNode();
-  while (current) {
-    const text = current;
-    if (!isSentinelTextNode(text)) {
-      nodes.push(text);
-    }
-    current = walker.nextNode();
-  }
-  return nodes;
-}
-function getOffset(root, targetNode, targetOffset) {
-  const result = getOffsetFromPosition(root, targetNode, targetOffset);
-  return result ?? getTextLength(root);
-}
-function getDomPosition(root, offset) {
-  const textNodes = getTextNodes(root);
-  if (textNodes.length === 0) {
-    return {
-      node: root,
-      offset: 0
-    };
-  }
-  let currentOffset = 0;
-  for (const node of textNodes) {
-    const length = node.textContent?.length ?? 0;
-    if (offset <= currentOffset + length) {
-      return {
-        node,
-        offset: offset - currentOffset
-      };
-    }
-    currentOffset += length;
-  }
-  const lastNode = textNodes[textNodes.length - 1];
-  return {
-    node: lastNode,
-    offset: lastNode.textContent?.length ?? 0
-  };
-}
-function getSelectionRange(root) {
-  const selection = window.getSelection();
-  if (!selection || selection.rangeCount === 0) {
-    return null;
-  }
-  const range = selection.getRangeAt(0);
-  if (!root.contains(range.startContainer) || !root.contains(range.endContainer)) {
-    return null;
-  }
-  const start = getOffset(root, range.startContainer, range.startOffset);
-  const end = getOffset(root, range.endContainer, range.endOffset);
-  return {
-    start: Math.min(start, end),
-    end: Math.max(start, end)
-  };
-}
-function setSelectionRange(root, start, end) {
-  const startPosition = getDomPosition(root, start);
-  const endPosition = getDomPosition(root, end);
-  const range = document.createRange();
-  range.setStart(startPosition.node, startPosition.offset);
-  range.setEnd(endPosition.node, endPosition.offset);
-  const selection = window.getSelection();
-  if (!selection) {
-    return false;
-  }
-  selection.removeAllRanges();
-  selection.addRange(range);
-  return true;
-}
-function getCaretClientRect(root, offset) {
-  const textLength = getTextLength(root);
-  if (offset === textLength) {
-    const sentinel = getSentinelTextNode(root);
-    if (sentinel) {
-      const sentinelRect = getTextNodeCaretRect(sentinel, 0);
-      if (sentinelRect) {
-        return sentinelRect;
-      }
-    }
-  }
-  const position = getDomPosition(root, offset);
-  const range = document.createRange();
-  range.setStart(position.node, position.offset);
-  range.collapse(true);
-  const rect = firstRect(range);
-  if (rect) {
-    return rect;
-  }
-  return getMarkerRect(root, range);
-}
-function isOffsetOnFirstVisualLine(root, offset, tolerance = 3) {
-  const current = getCaretClientRect(root, offset);
-  const first3 = getCaretClientRect(root, 0);
-  if (!current || !first3) {
-    return false;
-  }
-  return current.top <= first3.top + tolerance;
-}
-function isOffsetOnLastVisualLine(root, offset, textLength, tolerance = 3) {
-  const current = getCaretClientRect(root, offset);
-  const last = getCaretClientRect(root, textLength);
-  if (!current || !last) {
-    return false;
-  }
-  return current.bottom >= last.bottom - tolerance;
-}
-function getOffsetAtPoint(root, x, y) {
-  const nearestOffset = getNearestCaretOffset(root, x, y);
-  if (nearestOffset !== null) {
-    return nearestOffset;
-  }
-  const position = getDomPositionFromPoint(x, y);
-  if (!position || !root.contains(position.node)) {
-    return getNearestBoundaryOffset(root, y);
-  }
-  return getOffset(root, position.node, position.offset);
-}
-function getWordRangeAtPoint(root, x, y) {
-  const offset = getOffsetAtPoint(root, x, y);
-  const text = getRootText(root);
-  return getWordRange(text, offset);
-}
-function getParagraphRangeAtPoint(root, x, y) {
-  const offset = getOffsetAtPoint(root, x, y);
-  const text = getRootText(root);
-  return getParagraphRange(text, offset);
-}
-function getWordRange(text, offset) {
-  if (text.length === 0) {
-    return { start: 0, end: 0 };
-  }
-  const clampedOffset = Math.max(0, Math.min(offset, text.length));
-  let index = clampedOffset;
-  if (index === text.length || !isWordCharacter(text[index])) {
-    index = Math.max(0, index - 1);
-  }
-  if (!isWordCharacter(text[index])) {
-    return {
-      start: clampedOffset,
-      end: clampedOffset
-    };
-  }
-  let start = index;
-  let end = index + 1;
-  while (start > 0 && isWordCharacter(text[start - 1])) {
-    start--;
-  }
-  while (end < text.length && isWordCharacter(text[end])) {
-    end++;
-  }
-  return { start, end };
-}
-function getParagraphRange(text, offset) {
-  const clampedOffset = Math.max(0, Math.min(offset, text.length));
-  let start = clampedOffset;
-  let end = clampedOffset;
-  while (start > 0 && text[start - 1] !== "\n") {
-    start--;
-  }
-  while (end < text.length && text[end] !== "\n") {
-    end++;
-  }
-  return { start, end };
-}
-function isWordCharacter(character) {
-  return character !== void 0 && /[\p{L}\p{N}_]/u.test(character);
-}
-function getRootText(root) {
-  return getTextNodes(root).map((node) => node.textContent ?? "").join("");
-}
-function getNearestCaretOffset(root, x, y) {
-  const textLength = getTextLength(root);
-  let best = null;
-  for (let offset = 0; offset <= textLength; offset++) {
-    const rect = getCaretClientRect(root, offset);
-    if (!rect) {
-      continue;
-    }
-    const verticalDistance = getVerticalDistanceToRect(y, rect);
-    const horizontalDistance = Math.abs(x - rect.left);
-    if (!best || verticalDistance < best.verticalDistance || verticalDistance === best.verticalDistance && horizontalDistance < best.horizontalDistance) {
-      best = {
-        offset,
-        verticalDistance,
-        horizontalDistance
-      };
-    }
-  }
-  return best?.offset ?? null;
-}
-function getVerticalDistanceToRect(y, rect) {
-  if (y >= rect.top && y <= rect.bottom) {
-    return 0;
-  }
-  return Math.min(Math.abs(y - rect.top), Math.abs(y - rect.bottom));
-}
-function getDomPositionFromPoint(x, y) {
-  const doc = document;
-  if (doc.caretPositionFromPoint) {
-    const position = doc.caretPositionFromPoint(x, y);
-    if (position) {
-      return {
-        node: position.offsetNode,
-        offset: position.offset
-      };
-    }
-  }
-  if (doc.caretRangeFromPoint) {
-    const range = doc.caretRangeFromPoint(x, y);
-    if (range) {
-      return {
-        node: range.startContainer,
-        offset: range.startOffset
-      };
-    }
-  }
-  return null;
-}
-function getNearestBoundaryOffset(root, y) {
-  const rect = root.getBoundingClientRect();
-  if (y <= rect.top) {
-    return 0;
-  }
-  return getTextLength(root);
-}
-function getTextNodeCaretRect(node, offset) {
-  const range = document.createRange();
-  range.setStart(node, offset);
-  range.collapse(true);
-  const rect = firstRect(range);
-  if (rect) {
-    return rect;
-  }
-  return node.parentElement?.getBoundingClientRect() ?? null;
-}
-function getSentinelTextNode(root) {
-  const sentinel = root.querySelector('[data-cobalt-sentinel="true"]');
-  const node = sentinel?.firstChild;
-  return node?.nodeType === Node.TEXT_NODE ? node : null;
-}
-function firstRect(range) {
-  const rects = Array.from(range.getClientRects());
-  return rects.length > 0 ? rects[0] : null;
-}
-function getMarkerRect(root, range) {
-  const marker = document.createElement("span");
-  marker.setAttribute("data-cobalt-caret-marker", "true");
-  marker.textContent = "\u200B";
-  range.insertNode(marker);
-  const rect = marker.getBoundingClientRect();
-  marker.remove();
-  root.normalize();
-  return rect.width === 0 && rect.height === 0 ? null : rect;
-}
-function getOffsetFromPosition(root, targetNode, targetOffset) {
-  let offset = 0;
-  let found = false;
-  function walk(node) {
-    if (found) {
-      return;
-    }
-    if (node === targetNode) {
-      if (node.nodeType === Node.TEXT_NODE) {
-        const text = node;
-        if (!isSentinelTextNode(text)) {
-          offset += Math.min(targetOffset, text.textContent?.length ?? 0);
-        }
-      } else {
-        for (let i = 0; i < targetOffset; i++) {
-          offset += getTextLength(node.childNodes[i]);
-        }
-      }
-      found = true;
-      return;
-    }
-    if (node.nodeType === Node.TEXT_NODE) {
-      offset += getTextLength(node);
-      return;
-    }
-    for (const child of Array.from(node.childNodes)) {
-      walk(child);
-    }
-  }
-  walk(root);
-  return found ? offset : null;
-}
-function getTextLength(node) {
-  if (!node) {
-    return 0;
-  }
-  if (node.nodeType === Node.TEXT_NODE) {
-    const text = node;
-    return isSentinelTextNode(text) ? 0 : text.textContent?.length ?? 0;
-  }
-  let length = 0;
-  for (const child of Array.from(node.childNodes)) {
-    length += getTextLength(child);
-  }
-  return length;
-}
-function isSentinelTextNode(node) {
-  return node.parentElement?.hasAttribute("data-cobalt-sentinel") ?? false;
-}
-
-// ../../poef/cobalt-note/packages/rich-text-note/dist/editor.js
-var RICH_TEXT_NOTE_FRAGMENT_TYPE = "cobalt.rich-text";
-function cloneFragment(fragment) {
-  return {
-    text: fragment.text,
-    annotations: fragment.annotations.map((annotation) => ({
-      ...annotation,
-      range: [...annotation.range]
-    }))
-  };
-}
-function replaceFragment(target, source) {
-  target.text = source.text;
-  target.annotations = source.annotations.map((annotation) => ({
-    ...annotation,
-    range: [...annotation.range]
-  }));
-}
-function wrapRichTextFragment(fragment) {
-  return {
-    type: RICH_TEXT_NOTE_FRAGMENT_TYPE,
-    data: cloneFragment(fragment)
-  };
-}
-function isFragment(value) {
-  if (!value || typeof value !== "object") {
-    return false;
-  }
-  const fragment = value;
-  return typeof fragment.text === "string" && Array.isArray(fragment.annotations);
-}
-function isRichTextNotebookFragment(fragment) {
-  return fragment.type === RICH_TEXT_NOTE_FRAGMENT_TYPE && isFragment(fragment.data);
-}
-function renderDecoratedFragment(fragment, ranges, active = true) {
-  if (ranges.length === 0) {
-    return render(fragment);
-  }
-  const maxOrder = fragment.annotations.reduce((max, annotation) => Math.max(max, annotation.order), 0);
-  const annotations = [
-    ...fragment.annotations,
-    ...ranges.filter((range) => range !== null && range.end > range.start).map((range, index) => ({
-      range: [range.start, range.end],
-      tag: active ? '<span data-cobalt-selection="true" data-cobalt-selection-active="true">' : '<span data-cobalt-selection="true" data-cobalt-selection-active="false">',
-      order: maxOrder + index + 1
-    }))
-  ];
-  return render({
-    text: fragment.text,
-    annotations
-  });
-}
-function edit(element2, fragment) {
-  const state = createEditorState();
-  let selectionDecorationRanges = [];
-  let selectionDecorationActive = true;
-  function rerender(start, end) {
-    element2.innerHTML = renderDecoratedFragment(fragment, selectionDecorationRanges, selectionDecorationActive);
-    if (start !== void 0 && end !== void 0) {
-      setSelectionRange(element2, start, end);
-    }
-  }
-  const editor = {
-    element: element2,
-    fragment,
-    state,
-    getType() {
-      return RICH_TEXT_NOTE_FRAGMENT_TYPE;
-    },
-    getValue() {
-      return cloneFragment(fragment);
-    },
-    setValue(value) {
-      if (!isFragment(value)) {
-        throw new Error("Expected a rich-text fragment value.");
-      }
-      replaceFragment(fragment, value);
-      const selection = getSelectionRange(element2);
-      rerender(selection?.start, selection?.end);
-    },
-    getLength() {
-      return fragment.text.length;
-    },
-    getText(start = 0, end = fragment.text.length) {
-      return fragment.text.slice(Math.max(0, Math.min(fragment.text.length, start)), Math.max(0, Math.min(fragment.text.length, end)));
-    },
-    focus(start = 0, end = start) {
-      element2.focus();
-      setSelectionRange(element2, start, end);
-    },
-    getSelection() {
-      return getSelectionRange(element2);
-    },
-    getCaretClientRect(offset) {
-      if (offset !== void 0) {
-        return getCaretClientRect(element2, offset);
-      }
-      const selection = getSelectionRange(element2);
-      if (!selection || selection.start !== selection.end) {
-        return null;
-      }
-      return getCaretClientRect(element2, selection.start);
-    },
-    isCaretOnFirstVisualLine() {
-      const selection = getSelectionRange(element2);
-      if (!selection || selection.start !== selection.end) {
-        return false;
-      }
-      return isOffsetOnFirstVisualLine(element2, selection.start);
-    },
-    isCaretOnLastVisualLine() {
-      const selection = getSelectionRange(element2);
-      if (!selection || selection.start !== selection.end) {
-        return false;
-      }
-      return isOffsetOnLastVisualLine(element2, selection.start, fragment.text.length);
-    },
-    focusNearestPoint(x, y) {
-      const offset = getOffsetAtPoint(element2, x, y);
-      this.focus(offset, offset);
-    },
-    getOffsetAtPoint(x, y) {
-      return getOffsetAtPoint(element2, x, y);
-    },
-    getWordRangeAtPoint(x, y) {
-      return getWordRangeAtPoint(element2, x, y);
-    },
-    getParagraphRangeAtPoint(x, y) {
-      return getParagraphRangeAtPoint(element2, x, y);
-    },
-    getClientRect() {
-      return element2.getBoundingClientRect();
-    },
-    showSelectionRanges(ranges, active = true) {
-      selectionDecorationActive = active;
-      selectionDecorationRanges = ranges.filter((range) => range !== null && range.end > range.start);
-      const selection = getSelectionRange(element2);
-      rerender(selection?.start, selection?.end);
-    },
-    clearSelectionRanges() {
-      if (selectionDecorationRanges.length === 0) {
-        return;
-      }
-      selectionDecorationRanges = [];
-      const selection = getSelectionRange(element2);
-      rerender(selection?.start, selection?.end);
-    },
-    deleteRange(start, end) {
-      deleteRange(fragment, start, end);
-      rerender(start, start);
-    },
-    insertText(offset, text) {
-      insertText(fragment, offset, text);
-      const caret = Math.min(fragment.text.length, Math.max(0, offset) + text.length);
-      rerender(caret, caret);
-    },
-    sliceFragment(start, end) {
-      return wrapRichTextFragment(sliceFragment(fragment, start, end));
-    },
-    canInsertFragment(notebookFragment) {
-      return isRichTextNotebookFragment(notebookFragment);
-    },
-    insertFragment(offset, notebookFragment) {
-      if (!isRichTextNotebookFragment(notebookFragment)) {
-        return offset;
-      }
-      const inserted = notebookFragment.data;
-      insertFragment(fragment, offset, inserted);
-      const caret = Math.min(fragment.text.length, Math.max(0, offset) + inserted.text.length);
-      rerender(caret, caret);
-      return caret;
-    },
-    splitFragment(offset) {
-      const result = splitFragment(fragment, offset);
-      return {
-        before: wrapRichTextFragment(result.before),
-        after: wrapRichTextFragment(result.after)
-      };
-    },
-    canMergeFragment(notebookFragment, _direction) {
-      return isRichTextNotebookFragment(notebookFragment);
-    },
-    mergeFragment(notebookFragment, direction) {
-      if (!isRichTextNotebookFragment(notebookFragment)) {
-        return null;
-      }
-      const result = direction === "after" ? joinFragments(fragment, notebookFragment.data) : joinFragments(notebookFragment.data, fragment);
-      return {
-        fragment: wrapRichTextFragment(result.fragment),
-        joinOffset: result.joinOffset
-      };
-    },
-    canApplyCommand(command, range, value) {
-      if (range.end <= range.start || command === "__selection") {
-        return false;
-      }
-      if (command === "link") {
-        return typeof value === "string" && value.length > 0;
-      }
-      return defaultRegistry.get(command) !== void 0;
-    },
-    getCommandState(command, offset) {
-      return getEffectiveState(fragment.annotations, offset)[command];
-    },
-    applyCommand(command, range, value) {
-      if (!this.canApplyCommand(command, range, value)) {
-        return false;
-      }
-      const tag = command === "link" && typeof value === "string" ? createLinkAnnotationTag(value) : createAnnotationTag(command, value !== false);
-      addAnnotation(fragment, [range.start, range.end], tag);
-      rerender(range.start, range.end);
-      return true;
-    },
-    destroy() {
-      element2.removeEventListener("keydown", handleKeyDown);
-      element2.removeEventListener("beforeinput", handleBeforeInput);
-      element2.removeEventListener("copy", handleCopy);
-      element2.removeEventListener("cut", handleCut);
-      element2.removeEventListener("paste", handlePaste);
-      element2.removeAttribute("contenteditable");
-    }
-  };
-  function handleKeyDown(event) {
-    if (event.key === "Enter") {
-      if (event.ctrlKey || event.metaKey || event.altKey) {
-        return;
-      }
-      event.preventDefault();
-      insertNewline();
-      return;
-    }
-    if (!event.ctrlKey) {
-      return;
-    }
-    const definition = defaultRegistry.findByShortcut(event);
-    if (!definition) {
-      return;
-    }
-    event.preventDefault();
-    if (definition.name === "link") {
-      addLink();
-      return;
-    }
-    toggleAnnotation(definition);
-  }
-  function handleBeforeInput(event) {
-    const inputEvent = event;
-    const selection = getSelectionRange(element2);
-    if (!selection) {
-      return;
-    }
-    const commands2 = buildInputCommands(inputEvent, selection.start, selection.end);
-    if (commands2.length === 0) {
-      return;
-    }
-    event.preventDefault();
-    applyCommands(fragment, commands2);
-    const caret = getNextCaretPosition(inputEvent, selection.start, selection.end);
-    rerender(caret, caret);
-  }
-  function handleCopy(event) {
-    const selection = getSelectionRange(element2);
-    if (!selection || selection.start === selection.end || !event.clipboardData) {
-      return;
-    }
-    event.preventDefault();
-    writeFragmentToClipboard(event.clipboardData, getClipboardFragment(fragment, selection.start, selection.end));
-  }
-  function handleCut(event) {
-    const selection = getSelectionRange(element2);
-    if (!selection || selection.start === selection.end || !event.clipboardData) {
-      return;
-    }
-    event.preventDefault();
-    writeFragmentToClipboard(event.clipboardData, getClipboardFragment(fragment, selection.start, selection.end));
-    applyCommands(fragment, [
-      new DeleteRangeCommand(selection.start, selection.end)
-    ]);
-    rerender(selection.start, selection.start);
-  }
-  function handlePaste(event) {
-    const selection = getSelectionRange(element2);
-    if (!selection || !event.clipboardData) {
-      return;
-    }
-    event.preventDefault();
-    const pastedFragment = readFragmentFromClipboard(event.clipboardData);
-    const commands2 = [];
-    if (selection.start !== selection.end) {
-      commands2.push(new DeleteRangeCommand(selection.start, selection.end));
-    }
-    commands2.push(new InsertFragmentCommand(selection.start, pastedFragment));
-    applyCommands(fragment, commands2);
-    const caret = selection.start + pastedFragment.text.length;
-    rerender(caret, caret);
-  }
-  function toggleAnnotation(definition) {
-    const selection = getSelectionRange(element2);
-    if (!selection) {
-      return;
-    }
-    if (selection.start === selection.end) {
-      const inheritedState = getTypingEffectiveState(fragment.annotations, selection.start);
-      if (!definition.supportsPending) {
-        return;
-      }
-      const inheritedEnabled = inheritedState[definition.name] !== void 0;
-      const currentTypingEnabled = state.pending[definition.name] ?? inheritedEnabled;
-      const nextTypingEnabled = !currentTypingEnabled;
-      if (nextTypingEnabled === inheritedEnabled) {
-        delete state.pending[definition.name];
-      } else {
-        state.pending[definition.name] = nextTypingEnabled;
-      }
-      rerender(selection.start, selection.end);
-      return;
-    }
-    const currentState = getEffectiveState(fragment.annotations, selection.start);
-    const tag = createAnnotationTag(definition.name, currentState[definition.name] === void 0);
-    applyCommands(fragment, [
-      new AddAnnotationCommand([selection.start, selection.end], tag)
-    ]);
-    rerender(selection.start, selection.end);
-  }
-  function insertNewline() {
-    const selection = getSelectionRange(element2);
-    if (!selection) {
-      return;
-    }
-    const commands2 = [];
-    if (selection.start !== selection.end) {
-      commands2.push(new DeleteRangeCommand(selection.start, selection.end));
-    }
-    commands2.push(new InsertTextCommand(selection.start, "\n", { growAtEnd: false }));
-    applyCommands(fragment, commands2);
-    const caret = selection.start + 1;
-    rerender(caret, caret);
-  }
-  function addLink() {
-    const selection = getSelectionRange(element2);
-    if (!selection || selection.start === selection.end) {
-      return;
-    }
-    const href = promptForHref();
-    if (!href) {
-      return;
-    }
-    applyCommands(fragment, [
-      new AddAnnotationCommand([selection.start, selection.end], createLinkAnnotationTag(href))
-    ]);
-    rerender(selection.start, selection.end);
-  }
-  function promptForHref() {
-    const href = window.prompt("Enter URL");
-    if (href === null) {
-      return null;
-    }
-    const trimmed = href.trim();
-    return trimmed.length > 0 ? trimmed : null;
-  }
-  function buildInputCommands(event, selectionStart, selectionEnd) {
-    switch (event.inputType) {
-      case "insertText":
-      case "insertFromPaste":
-        return buildInsertCommands(selectionStart, selectionEnd, event.data ?? "");
-      case "deleteContentBackward":
-        return buildDeleteBackwardCommands(selectionStart, selectionEnd);
-      case "deleteContentForward":
-        return buildDeleteForwardCommands(selectionStart, selectionEnd);
-      case "insertParagraph":
-      case "insertLineBreak": {
-        const commands2 = [];
-        if (selectionStart !== selectionEnd) {
-          commands2.push(new DeleteRangeCommand(selectionStart, selectionEnd));
-        }
-        commands2.push(new InsertTextCommand(selectionStart, "\n", { growAtEnd: false }));
-        return commands2;
-      }
-      default:
-        return [];
-    }
-  }
-  function buildInsertCommands(selectionStart, selectionEnd, text) {
-    const commands2 = [];
-    if (selectionStart !== selectionEnd) {
-      commands2.push(new DeleteRangeCommand(selectionStart, selectionEnd));
-    }
-    if (text.length === 0) {
-      return commands2;
-    }
-    commands2.push(new InsertTextCommand(selectionStart, text));
-    const pendingAnnotations = buildPendingAnnotations(state, selectionStart, selectionStart + text.length);
-    for (const pending of pendingAnnotations) {
-      commands2.push(new AddAnnotationCommand([pending.start, pending.end], pending.tag));
-    }
-    if (pendingAnnotations.length > 0) {
-      clearPendingAnnotations(state);
-    }
-    return commands2;
-  }
-  function buildDeleteBackwardCommands(selectionStart, selectionEnd) {
-    if (selectionStart !== selectionEnd) {
-      return [
-        new DeleteRangeCommand(selectionStart, selectionEnd)
-      ];
-    }
-    if (selectionStart === 0) {
-      return [];
-    }
-    return [
-      new DeleteRangeCommand(selectionStart - 1, selectionStart)
-    ];
-  }
-  function buildDeleteForwardCommands(selectionStart, selectionEnd) {
-    if (selectionStart !== selectionEnd) {
-      return [
-        new DeleteRangeCommand(selectionStart, selectionEnd)
-      ];
-    }
-    if (selectionStart >= fragment.text.length) {
-      return [];
-    }
-    return [
-      new DeleteRangeCommand(selectionStart, selectionStart + 1)
-    ];
-  }
-  function getNextCaretPosition(event, selectionStart, selectionEnd) {
-    switch (event.inputType) {
-      case "insertText":
-      case "insertFromPaste":
-        return selectionStart + (event.data?.length ?? 0);
-      case "deleteContentBackward":
-        return selectionStart === selectionEnd ? Math.max(0, selectionStart - 1) : selectionStart;
-      case "deleteContentForward":
-        return selectionStart;
-      case "insertParagraph":
-      case "insertLineBreak":
-        return selectionStart + 1;
-      default:
-        return selectionStart;
-    }
-  }
-  element2.contentEditable = "true";
-  rerender();
-  element2.addEventListener("keydown", handleKeyDown);
-  element2.addEventListener("beforeinput", handleBeforeInput);
-  element2.addEventListener("copy", handleCopy);
-  element2.addEventListener("cut", handleCut);
-  element2.addEventListener("paste", handlePaste);
-  return editor;
-}
-
-// src/cobalt-editor-modal.html
-var cobalt_editor_modal_default = '<div class="margin-notes-editor-modal-dialog ds-dialog">\n  <div class="margin-notes-editor-modal-header">\n    <h2 data-title></h2>\n    <button type="button" data-action="cancel" class="margin-notes-editor-close ds-button ds-button-naked" aria-label="Close">x</button>\n  </div>\n  <div class="margin-notes-editor-modal-content">\n    <div class="margin-notes-cobalt-editor" data-editor-container></div>\n  </div>\n  <div class="margin-notes-editor-modal-footer">\n    <button type="button" data-action="cancel" class="margin-notes-editor-btn-cancel ds-button ds-button-default">Cancel</button>\n    <button type="button" data-action="save" class="margin-notes-editor-btn-save ds-button ds-button-primary">Save</button>\n  </div>\n</div>\n';
-
-// src/cobalt-editor-modal.css
-var cobalt_editor_modal_default2 = '.margin-notes-editor-modal {\n  background: transparent;\n  border: 0;\n  color: inherit;\n  color-scheme: var(--ds-color-scheme, light);\n  font-family: var(--ds-font-body, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif);\n  margin: auto;\n  max-height: min(80vh, 100%);\n  max-width: min(90vw, 600px);\n  overflow: visible;\n  padding: 0;\n  width: min(90vw, 600px);\n}\n\n.margin-notes-editor-modal:not(:popover-open) {\n  display: none;\n}\n\n.margin-notes-editor-modal:popover-open {\n  display: flex;\n}\n\n.margin-notes-editor-modal::backdrop {\n  background: rgba(0, 0, 0, 0.5);\n}\n\n.margin-notes-editor-modal-dialog {\n  display: flex;\n  flex-direction: column;\n  max-height: 80vh;\n  max-width: 600px;\n  position: relative;\n  width: 100%;\n}\n\n.margin-notes-editor-modal-header {\n  justify-content: space-between;\n  align-items: center;\n  border-bottom: 1px solid var(--ds-grey-low, #e5e7eb);\n  display: flex;\n  padding: var(--ds-space, 1.5rem);\n}\n\n.margin-notes-editor-modal-header h2 {\n  font-family: var(--ds-font-heading, inherit);\n  margin: 0;\n  font-size: 1.25rem;\n  font-weight: var(--ds-heading-weight, 600);\n}\n\n.margin-notes-editor-close {\n  align-items: center;\n  color: var(--ds-grey-medium, #6b7280);\n  display: flex;\n  font-size: 2rem;\n  height: 32px;\n  justify-content: center;\n  line-height: 1;\n  margin: 0;\n  padding: 0;\n  width: 32px;\n}\n\n.margin-notes-editor-close:hover {\n  background: var(--ds-grey-low, #f3f4f6);\n  color: var(--ds-grey-high, #1f2937);\n}\n\n.margin-notes-editor-modal-content {\n  flex: 1;\n  overflow-y: auto;\n  padding: var(--ds-space, 1.5rem);\n}\n\n.margin-notes-cobalt-editor {\n  background: var(--ds-color-background, #fff);\n  border: 1px solid var(--ds-input-border, #d1d5db);\n  border-radius: var(--ds-box-radius, 4px);\n  color: var(--ds-color-contrast, #111);\n  font-family: inherit;\n  font-size: 1rem;\n  line-height: 1.5;\n  max-height: 400px;\n  min-height: 150px;\n  overflow-y: auto;\n  padding: var(--ds-space-d2, 0.75rem);\n}\n\n.margin-notes-cobalt-editor[contenteditable="true"],\n.margin-notes-cobalt-editor textarea,\n.margin-notes-cobalt-editor input {\n  background: var(--ds-color-background, #fff);\n  color: var(--ds-color-contrast, #111);\n  caret-color: var(--ds-color-contrast, #111);\n}\n\n.margin-notes-cobalt-editor:focus-within {\n  background: var(--ds-color-background, white);\n  border-color: var(--ds-primary-high, #3b82f6);\n  outline: none;\n}\n\n.margin-notes-editor-modal-footer {\n  display: flex;\n  gap: var(--ds-space-d2, 0.75rem);\n  justify-content: flex-end;\n  border-top: 1px solid var(--ds-grey-low, #e5e7eb);\n  padding: var(--ds-space, 1.5rem);\n}\n\n.margin-notes-editor-btn-cancel,\n.margin-notes-editor-btn-save {\n  font-weight: 500;\n  margin: 0;\n}\n\n.margin-notes-editor-btn-cancel {\n  color: var(--ds-grey-high, #374151);\n}\n\n.margin-notes-editor-btn-cancel:hover {\n  background: var(--ds-grey-low, #f3f4f6);\n}\n';
-
-// src/cobalt-editor-modal.js
-var modalId = 0;
-var CobaltEditorModal = class {
-  constructor(options = {}) {
-    this.options = options;
-    this.modal = null;
-    this.editor = null;
-    this.fragment = options.initialFragment || { text: "", annotations: [] };
-  }
-  /**
-   * Show the modal and return a promise that resolves with the edited fragment.
-   * 
-   * @returns {Promise<Object>} The edited fragment, or null if cancelled
-   */
-  async show() {
-    return new Promise((resolve) => {
-      this.createModal();
-      const modal = this.modal;
-      let settled = false;
-      const finish = (value) => {
-        if (settled) return;
-        settled = true;
-        if (modal.matches(":popover-open")) {
-          modal.hidePopover();
-        }
-        this.destroy();
-        resolve(value);
-      };
-      const onSave = async () => {
-        const edited = this.editor.getValue();
-        finish(edited);
-      };
-      const onCancel = () => {
-        finish(null);
-      };
-      const onModalKeydown = (e) => {
-        if ((e.ctrlKey || e.metaKey) && e.key === "s") {
-          e.preventDefault();
-          e.stopPropagation();
-          onSave();
-          return;
-        }
-        e.stopPropagation();
-      };
-      const onToggle = (e) => {
-        if (e.newState === "closed") {
-          onCancel();
-        }
-      };
-      modal.querySelector('[data-action="save"]').addEventListener("click", onSave);
-      modal.addEventListener("keydown", onModalKeydown);
-      modal.addEventListener("toggle", onToggle);
-      modal.showPopover();
-      setTimeout(() => {
-        this.editor.focus();
-      }, 0);
-    });
-  }
-  /**
-   * Create the modal DOM structure.
-   * 
-   * @private
-   */
-  createModal() {
-    this.modal = document.createElement("div");
-    this.modal.className = "margin-notes-editor-modal";
-    modalId += 1;
-    this.modal.id = `margin-notes-editor-modal-${modalId}`;
-    this.modal.dataset.readerKeyScope = "margin-notes-editor";
-    this.modal.setAttribute("popover", "auto");
-    this.modal.innerHTML = cobalt_editor_modal_default;
-    this.modal.querySelector("[data-title]").textContent = this.options.title || "Edit note";
-    this.modal.querySelectorAll('[data-action="cancel"]').forEach((cancelBtn) => {
-      cancelBtn.setAttribute("popovertarget", this.modal.id);
-      cancelBtn.setAttribute("popovertargetaction", "hide");
-    });
-    document.body.appendChild(this.modal);
-    const editorContainer = this.modal.querySelector("[data-editor-container]");
-    this.editor = edit(editorContainer, this.fragment);
-  }
-  /**
-   * Destroy the modal and clean up.
-   * 
-   * @private
-   */
-  destroy() {
-    if (this.editor) {
-      this.editor.destroy();
-      this.editor = null;
-    }
-    if (this.modal) {
-      this.modal.remove();
-      this.modal = null;
-    }
-  }
-};
-
-// src/features/paragraph-note-stacks/annotation-model.js
-var annotationModel = {
-  vocabulary: {
-    prefixes: {
-      rdf: "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
-      rdfs: "http://www.w3.org/2000/01/rdf-schema#",
-      dcterms: "http://purl.org/dc/terms/",
-      oa: "http://www.w3.org/ns/oa#",
-      schema: "https://schema.org/",
-      cobalt: "https://vocab.muze.nl/cobalt#"
-    },
-    classes: {
-      annotation: "oa$Annotation",
-      textualBody: "oa$TextualBody",
-      specificResource: "oa$SpecificResource",
-      fragmentSelector: "oa$FragmentSelector",
-      cobaltFragment: "cobalt$Fragment"
-    },
-    predicates: {
-      type: "rdf$type",
-      label: "rdfs$label",
-      created: "dcterms$created",
-      modified: "dcterms$modified",
-      format: "dcterms$format",
-      value: "rdf$value",
-      hasBody: "oa$hasBody",
-      hasTarget: "oa$hasTarget",
-      hasSource: "oa$hasSource",
-      hasSelector: "oa$hasSelector",
-      text: "schema$text",
-      cobaltFragment: "cobalt$fragment"
-    },
-    mediaTypes: {
-      cobaltFragment: "application/vnd.cobalt.fragment+json"
-    }
-  },
-  createAnnotationNote({ anchorId, fragment, now: now2 = (/* @__PURE__ */ new Date()).toISOString() }) {
-    const annotationId = this.createLocalSubjectId({});
-    const body = {
-      id: `${annotationId}#body`,
-      rdf$type: [
-        this.vocabulary.classes.textualBody,
-        this.vocabulary.classes.cobaltFragment
-      ],
-      dcterms$format: this.vocabulary.mediaTypes.cobaltFragment,
-      rdf$value: this.noteText({ fragment }),
-      schema$text: this.noteText({ fragment }),
-      cobalt$fragment: fragment
-    };
-    const target = {
-      id: `${annotationId}#target`,
-      rdf$type: this.vocabulary.classes.specificResource,
-      oa$hasSource: this.currentDocumentIri({}),
-      oa$hasSelector: {
-        id: `${annotationId}#selector-fragment`,
-        rdf$type: this.vocabulary.classes.fragmentSelector,
-        rdf$value: anchorId
-      }
-    };
-    return {
-      id: annotationId,
-      rdf$type: this.vocabulary.classes.annotation,
-      dcterms$created: now2,
-      dcterms$modified: now2,
-      oa$hasBody: body,
-      oa$hasTarget: target
-    };
-  },
-  createLocalSubjectId() {
-    if (globalThis.crypto?.randomUUID) {
-      return `urn:uuid:${globalThis.crypto.randomUUID()}`;
-    }
-    return `urn:muze:margin-notes:${Date.now()}-${Math.random().toString(16).slice(2)}`;
-  },
-  currentDocumentIri() {
-    const href = globalThis.location?.href;
-    if (!href) {
-      return "urn:muze:margin-notes:local-document";
-    }
-    return href.replace(/#.*/, "");
-  },
-  annotationAnchorId({ annotation }) {
-    const target = this.firstValue({ value: annotation?.oa$hasTarget });
-    const selectors = this.values({ value: target?.oa$hasSelector });
-    const fragment = selectors.find((selector) => {
-      return this.values({ value: selector?.rdf$type }).includes(this.vocabulary.classes.fragmentSelector);
-    });
-    return fragment?.rdf$value;
-  },
-  annotationBody({ annotation }) {
-    return this.firstValue({ value: annotation?.oa$hasBody });
-  },
-  annotationBodyFragment({ annotation }) {
-    return this.annotationBody({ annotation })?.cobalt$fragment || { text: "", annotations: [] };
-  },
-  updateAnnotationBody({ annotation, fragment, now: now2 = (/* @__PURE__ */ new Date()).toISOString() }) {
-    const body = this.annotationBody({ annotation });
-    if (!body) return;
-    body.rdf$value = this.noteText({ fragment });
-    body.schema$text = this.noteText({ fragment });
-    body.cobalt$fragment = fragment;
-    annotation.dcterms$modified = now2;
-  },
-  removeAnnotationFromGraph({ app: app2, annotationId }) {
-    const index = app2.data.marginNotes.graph.findIndex((annotation) => annotation.id === annotationId);
-    if (index >= 0) {
-      app2.data.marginNotes.graph.splice(index, 1);
-    }
-  },
-  toRenderableNote({ annotation }) {
-    const note = {
-      id: annotation.id,
-      annotation,
-      anchorId: this.annotationAnchorId({ annotation }),
-      body: this.annotationBodyFragment({ annotation }),
-      created: annotation.dcterms$created,
-      modified: annotation.dcterms$modified
-    };
-    return this.syncRenderableNote({ note });
-  },
-  syncRenderableNote({ note }) {
-    const annotation = note.annotation;
-    const fragment = this.annotationBodyFragment({ annotation });
-    note.anchorId = this.annotationAnchorId({ annotation });
-    note.body = fragment;
-    note.bodyText = this.noteText({ fragment });
-    note.created = annotation.dcterms$created;
-    note.modified = annotation.dcterms$modified;
-    note.createdLabel = `Created: ${(note.created || "").substring(0, 10)}`;
-    return note;
-  },
-  toStoredAnnotation({ annotation }) {
-    return this.cloneValue({ value: annotation });
-  },
-  toStorageDocument({ subjects }) {
-    return {
-      format: "margin-notes-oldmed-graph",
-      version: 1,
-      prefixes: this.vocabulary.prefixes,
-      subjects: Array.from(subjects).filter((annotation) => this.isMarginNoteAnnotation({ value: annotation })).map((annotation) => this.toStoredAnnotation({ annotation }))
-    };
-  },
-  toStoredGraph({ value }) {
-    if (Array.isArray(value)) {
-      return Array.from(value, (note) => {
-        return this.isMarginNoteAnnotation({ value: note }) ? note : this.annotationFromLegacyNote({ note });
-      }).filter((annotation) => this.isMarginNoteAnnotation({ value: annotation }));
-    }
-    if (Array.isArray(value?.subjects)) {
-      return value.subjects.filter((subject) => this.isMarginNoteAnnotation({ value: subject }));
-    }
-    return [];
-  },
-  isOldmedAnnotation({ value }) {
-    return this.values({ value: value?.rdf$type }).includes(this.vocabulary.classes.annotation);
-  },
-  isMarginNoteAnnotation({ value }) {
-    return Boolean(
-      this.isOldmedAnnotation({ value }) && this.annotationBody({ annotation: value }) && this.annotationAnchorId({ annotation: value })
-    );
-  },
-  annotationFromLegacyNote({ note }) {
-    const annotation = this.createAnnotationNote({
-      anchorId: note.anchorId,
-      fragment: note.body || { text: "", annotations: [] },
-      now: note.created || (/* @__PURE__ */ new Date()).toISOString()
-    });
-    annotation.id = this.legacyLocalSubjectId({ id: note.id });
-    annotation.dcterms$created = note.created || annotation.dcterms$created;
-    annotation.dcterms$modified = note.modified || annotation.dcterms$modified;
-    annotation.oa$hasBody.id = `${annotation.id}#body`;
-    annotation.oa$hasTarget.id = `${annotation.id}#target`;
-    annotation.oa$hasTarget.oa$hasSelector.id = `${annotation.id}#selector-fragment`;
-    return annotation;
-  },
-  legacyLocalSubjectId({ id: id2 }) {
-    if (typeof id2 === "string" && /^(?:[a-z][a-z0-9+.-]*:)/i.test(id2)) {
-      return id2;
-    }
-    return `urn:muze:margin-notes:${encodeURIComponent(id2 || this.createLocalSubjectId({}))}`;
-  },
-  firstValue({ value }) {
-    return Array.isArray(value) ? value[0] : value;
-  },
-  values({ value }) {
-    if (value === void 0 || value === null) return [];
-    return Array.isArray(value) ? value : [value];
-  },
-  cloneValue({ value }) {
-    return JSON.parse(JSON.stringify(value));
-  },
-  noteText({ fragment }) {
-    return fragment?.text || "(empty note)";
-  }
-};
-
-// src/features/paragraph-note-stacks/root.html
-var root_default = '<div class="margin-notes-root" hidden></div>\n';
-
-// src/features/paragraph-note-stacks/anchor-widget.html
-var anchor_widget_default = '<span class="margin-notes-anchor-widget">\n  <button\n    type="button"\n    class="margin-notes-target-add-btn"\n    title="Add note"\n    aria-label="Add note"\n    data-simply-command="createNote"\n    data-simply-value=":value"\n  >+</button>\n  <span class="margin-notes-target-note-list" data-simply-shortcuts="marginNotesNote">\n    <span class="margin-notes-target-note-items" data-simply-list="visibleNotes">\n      <template rel="margin-notes-inline-note"></template>\n    </span>\n    <button\n      type="button"\n      class="margin-notes-target-note-count"\n      aria-expanded="false"\n      data-margin-notes-empty="true"\n      data-simply-command="toggleAnchorNoteList"\n      data-simply-value=":value"\n    ><span data-simply-field="overflowLabel"></span></button>\n  </span>\n</span>\n';
-
-// src/features/paragraph-note-stacks/inline-note.html
-var inline_note_default = '<article class="margin-notes-target-note">\n  <button\n    type="button"\n    class="margin-notes-target-note-toggle"\n    aria-expanded="false"\n    data-simply-shortcuts="marginNotesNote"\n    data-simply-command="expandInlineNote"\n    data-simply-value=":value"\n  ><span class="margin-notes-target-note-text" data-simply-field="bodyText"></span></button>\n  <button\n    type="button"\n    class="margin-notes-target-note-close"\n    aria-label="Close note"\n    data-simply-command="collapseInlineNote"\n    data-simply-value=":value"\n  >x</button>\n  <span class="margin-notes-target-note-actions">\n    <button\n      type="button"\n      class="margin-notes-target-note-action"\n      data-simply-command="updateNote"\n      data-simply-value=":value"\n    >Edit</button>\n    <button\n      type="button"\n      class="margin-notes-target-note-action"\n      data-simply-command="deleteNote"\n      data-simply-value=":value"\n    >Delete</button>\n  </span>\n</article>\n';
-
-// src/features/solid-connection/control.html
-var control_default = '<form class="margin-notes-solid-connection" data-margin-notes-solid-connection>\n  <label class="margin-notes-solid-connection-webid">\n    <span>WebID</span>\n    <input\n      type="url"\n      inputmode="url"\n      autocomplete="url"\n      placeholder="https://example.solidcommunity.net/profile/card#me"\n      data-margin-notes-solid-webid\n    >\n  </label>\n  <button type="submit" class="ds-button ds-button-primary">Connect</button>\n  <p class="margin-notes-solid-connection-status" data-margin-notes-solid-status>Not connected</p>\n</form>\n';
-
-// src/design-system.css
-var design_system_default = '/*\n * Curated the-ds subset for margin-notes.\n *\n * This intentionally does not import the-ds wholesale. Margin notes is embedded\n * into host documents, so this file only defines design tokens and the small\n * button/dialog primitives used by the component.\n */\n\n@layer reset, setup, theme, base, component, page, utility;\n\n@layer setup {\n  :root,\n  :host {\n    --ds-black: #000;\n    --ds-white: #fff;\n    --ds-primary: oklch(0.7388 0.1792 126.69);\n    --ds-support: oklch(0.7388 0.1792 216.69);\n\n    --ds-grey-0: #eef1f8;\n    --ds-grey-5: #e9edf6;\n    --ds-grey-10: #e4eaf4;\n    --ds-grey-20: #dae2ed;\n    --ds-grey-30: #cdd7e3;\n    --ds-grey-40: #bdc8d4;\n    --ds-grey-50: #a8b4c0;\n    --ds-grey-60: #8f9ba6;\n    --ds-grey-70: #707c84;\n    --ds-grey-80: #4d565c;\n    --ds-grey-90: #262c2f;\n    --ds-grey-100: #000;\n\n    --ds-color-error: rgb(253, 143, 143);\n    --ds-color-warning: #ffffcc;\n    --ds-color-info: rgb(140, 180, 250);\n  }\n}\n\n@layer theme {\n  :root,\n  :host {\n    --ds-color-scheme: light;\n    --ds-font-heading: var(--margin-notes-font-family, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif);\n    --ds-font-body: var(--margin-notes-font-family, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif);\n    --ds-font-weight: 400;\n    --ds-font-size: 1rem;\n    --ds-line-height: 1.5rem;\n\n    --ds-heading-weight: 600;\n    --ds-space: var(--ds-line-height);\n    --ds-space-d4: calc(var(--ds-space) / 4);\n    --ds-space-d3: calc(var(--ds-space) / 3);\n    --ds-space-d2: calc(var(--ds-space) / 2);\n    --ds-space-x2: calc(2 * var(--ds-space));\n    --ds-space-x3: calc(3 * var(--ds-space));\n    --ds-space-x4: calc(4 * var(--ds-space));\n\n    --ds-primary-10: oklch(from var(--ds-primary) calc(l + 0.3) c h);\n    --ds-primary-90: oklch(from var(--ds-primary) calc(l - 0.3) c h);\n    --ds-primary-high: var(--ds-primary-90);\n    --ds-primary-low: var(--ds-primary-10);\n    --ds-primary-contrast: var(--ds-white);\n\n    --ds-support-10: oklch(from var(--ds-support) calc(l + 0.3) c h);\n    --ds-support-90: oklch(from var(--ds-support) calc(l - 0.3) c h);\n    --ds-support-high: var(--ds-support-90);\n    --ds-support-low: var(--ds-support-10);\n    --ds-support-contrast: var(--ds-white);\n\n    --ds-grey-high: var(--ds-grey-90);\n    --ds-grey-medium: var(--ds-grey-60);\n    --ds-grey-low: var(--ds-grey-10);\n    --ds-color: var(--ds-black);\n    --ds-color-background: var(--ds-white);\n    --ds-color-contrast: var(--ds-color);\n\n    --ds-shadow-light: rgba(0, 0, 0, 0.07);\n    --ds-shadow-middle: rgba(0, 0, 0, 0.09);\n    --ds-shadow-dark: rgba(0, 0, 0, 0.11);\n    --ds-shadow-tiny: 0 1px 1px var(--ds-shadow-dark);\n    --ds-shadow-small:\n      0 1px 1px var(--ds-shadow-dark),\n      0 2px 2px var(--ds-shadow-middle),\n      0 4px 4px var(--ds-shadow-light);\n    --ds-shadow-medium:\n      0 1px 1px var(--ds-shadow-middle),\n      0 2px 2px var(--ds-shadow-middle),\n      0 4px 4px var(--ds-shadow-middle),\n      0 6px 8px var(--ds-shadow-middle),\n      0 8px 16px var(--ds-shadow-middle);\n    --ds-shadow-large:\n      0 -2px 2px var(--ds-shadow-light),\n      0 4px 2px var(--ds-shadow-light),\n      0 8px 4px var(--ds-shadow-light),\n      0 16px 8px var(--ds-shadow-light),\n      0 32px 16px var(--ds-shadow-light);\n\n    --ds-box-radius: 4px;\n\n    --ds-input-border: var(--ds-grey-medium);\n    --ds-input-space: var(--ds-space);\n    --ds-input-font: var(--ds-font-body);\n    --ds-input-height: calc(var(--ds-line-height) * 1.5);\n    --ds-input-margin: calc(var(--ds-line-height) * 0.5);\n\n    --ds-button-space: calc(0.5 * var(--ds-input-space));\n    --ds-button-bg-color: var(--ds-grey-low);\n    --ds-button-default-bg-color: var(--ds-white);\n    --ds-button-border: 1px solid var(--ds-grey-low);\n    --ds-button-disabled-color: var(--ds-grey-medium);\n    --ds-button-disabled-bg-color: var(--ds-white);\n    --ds-button-primary-bg-color: var(--ds-primary);\n    --ds-button-primary-color: var(--ds-primary-contrast);\n    --ds-button-primary-border-color: transparent;\n    --ds-button-support-bg-color: var(--ds-support);\n    --ds-button-support-color: var(--ds-support-contrast);\n    --ds-button-support-border-color: transparent;\n    --ds-button-line-height: calc(var(--ds-line-height) * 1.5);\n    --ds-button-shadow: 0;\n    --ds-button-shadow-hover: var(--ds-shadow-small);\n    --ds-button-radius: var(--ds-box-radius);\n    --ds-button-padding: calc(0.5 * var(--ds-line-height));\n    --ds-button-font-size: calc(0.875 * var(--ds-font-size));\n\n    --ds-dialog-background: var(--ds-color-background);\n    --ds-dialog-color: var(--ds-color-contrast);\n    --ds-dialog-shadow: var(--ds-shadow-large);\n    --ds-dialog-radius: calc(2 * var(--ds-box-radius));\n    --ds-dialog-size: calc(50% - (1 / 2 * var(--ds-space)));\n    --ds-dialog-min-width: 25em;\n  }\n\n  :root[data-margin-notes-theme="dark"],\n  :host([data-margin-notes-theme="dark"]) {\n    --ds-color-scheme: dark;\n    --ds-primary: oklch(0.78 0.14 142);\n    --ds-support: oklch(0.78 0.13 225);\n    --ds-primary-high: oklch(0.84 0.11 142);\n    --ds-primary-low: oklch(0.3 0.08 142);\n    --ds-support-high: oklch(0.82 0.1 225);\n    --ds-support-low: oklch(0.3 0.08 225);\n    --ds-grey-high: #f3f3ed;\n    --ds-grey-medium: #b8bbad;\n    --ds-grey-low: #343831;\n    --ds-color: #f3f3ed;\n    --ds-color-background: #1b1d19;\n    --ds-color-contrast: #f3f3ed;\n    --ds-shadow-light: rgba(0, 0, 0, 0.18);\n    --ds-shadow-middle: rgba(0, 0, 0, 0.24);\n    --ds-shadow-dark: rgba(0, 0, 0, 0.32);\n    --ds-input-border: #5b6054;\n    --ds-button-bg-color: #343831;\n    --ds-button-default-bg-color: #242720;\n    --ds-button-border: 1px solid #4a5045;\n    --ds-button-disabled-color: #8e9285;\n    --ds-button-disabled-bg-color: #242720;\n    --ds-dialog-background: #1f211d;\n  }\n\n  @media (prefers-color-scheme: dark) {\n    :root[data-margin-notes-theme="system"],\n    :host([data-margin-notes-theme="system"]) {\n      --ds-color-scheme: dark;\n      --ds-primary: oklch(0.78 0.14 142);\n      --ds-support: oklch(0.78 0.13 225);\n      --ds-primary-high: oklch(0.84 0.11 142);\n      --ds-primary-low: oklch(0.3 0.08 142);\n      --ds-support-high: oklch(0.82 0.1 225);\n      --ds-support-low: oklch(0.3 0.08 225);\n      --ds-grey-high: #f3f3ed;\n      --ds-grey-medium: #b8bbad;\n      --ds-grey-low: #343831;\n      --ds-color: #f3f3ed;\n      --ds-color-background: #1b1d19;\n      --ds-color-contrast: #f3f3ed;\n      --ds-shadow-light: rgba(0, 0, 0, 0.18);\n      --ds-shadow-middle: rgba(0, 0, 0, 0.24);\n      --ds-shadow-dark: rgba(0, 0, 0, 0.32);\n      --ds-input-border: #5b6054;\n      --ds-button-bg-color: #343831;\n      --ds-button-default-bg-color: #242720;\n      --ds-button-border: 1px solid #4a5045;\n      --ds-button-disabled-color: #8e9285;\n      --ds-button-disabled-bg-color: #242720;\n      --ds-dialog-background: #1f211d;\n    }\n  }\n}\n\n@layer component {\n  .ds-button {\n    background-color: var(--ds-button-bg-color);\n    border: 0;\n    border-radius: var(--ds-button-radius);\n    box-shadow: var(--ds-button-shadow);\n    box-sizing: border-box;\n    color: inherit;\n    cursor: pointer;\n    display: inline-block;\n    font: inherit;\n    font-size: var(--ds-button-font-size);\n    line-height: var(--ds-button-line-height);\n    margin: 0 var(--ds-button-space) var(--ds-button-space) 0;\n    min-height: var(--ds-button-line-height);\n    outline: var(--ds-button-border);\n    overflow: visible;\n    padding: 0 var(--ds-button-padding);\n    text-align: center;\n    text-decoration: none;\n    white-space: nowrap;\n  }\n\n  .ds-button:hover,\n  .ds-button:focus {\n    box-shadow: var(--ds-button-shadow-hover);\n    text-decoration: none;\n  }\n\n  .ds-button-default {\n    background-color: var(--ds-button-default-bg-color);\n  }\n\n  .ds-button-primary,\n  .ds-button-primary:hover {\n    background-color: var(--ds-button-primary-bg-color);\n    color: var(--ds-button-primary-color);\n    outline: 1px solid var(--ds-button-primary-border-color);\n  }\n\n  .ds-button-support,\n  .ds-button-support:hover {\n    background-color: var(--ds-button-support-bg-color);\n    color: var(--ds-button-support-color);\n    outline: 1px solid var(--ds-button-support-border-color);\n  }\n\n  .ds-button-naked {\n    background: none;\n    box-shadow: none;\n    outline: none;\n  }\n\n  .ds-dialog {\n    background: var(--ds-dialog-background);\n    border: 0;\n    border-radius: var(--ds-dialog-radius);\n    box-shadow: var(--ds-dialog-shadow);\n    color: var(--ds-dialog-color);\n    max-width: 100%;\n    min-width: min(100%, var(--ds-dialog-min-width));\n    padding: 0;\n    width: var(--ds-dialog-size);\n  }\n}\n';
-
-// src/features/paragraph-note-stacks/ui.css
-var ui_default = '[data-margin-notes-target],\n.margin-notes-anchor-widget {\n  --margin-notes-paper-background: var(--ds-color-background, #fff);\n  --margin-notes-open-background: var(--ds-color-background, #fffefb);\n  --margin-notes-note-color: var(--ds-grey-high, #302a1d);\n  --margin-notes-muted-color: var(--ds-grey-medium, #5d5a51);\n  --margin-notes-rule-color: var(--ds-grey-low, #ebe4d1);\n  --margin-notes-marker-color: var(--ds-support, #c9a84f);\n  --margin-notes-action-color: var(--ds-primary-high, #4d5f8f);\n  --margin-notes-focus-color: var(--ds-primary-high, #3162d4);\n  --margin-notes-radius: var(--ds-box-radius, 4px);\n  --margin-notes-shadow: var(--ds-shadow-small, 0 4px 14px rgba(20, 31, 56, 0.16));\n  --margin-notes-font: var(--ds-font-body, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif);\n  color-scheme: var(--ds-color-scheme, light);\n}\n\n[data-margin-notes-target] {\n  position: relative;\n  outline: none;\n}\n\n.margin-notes-anchor-widget,\n.margin-notes-anchor-widget-host {\n  display: contents;\n}\n\n[data-margin-notes-target]::before {\n  bottom: 0;\n  content: "";\n  left: -3rem;\n  position: absolute;\n  top: 0;\n  width: 3rem;\n}\n\n[data-margin-notes-target].margin-notes-target-tabstop:focus-visible {\n  outline: 2px solid var(--margin-notes-focus-color);\n  outline-offset: 4px;\n}\n\n.margin-notes-target-add-btn {\n  align-items: center;\n  background: var(--margin-notes-paper-background);\n  border: 1px solid var(--ds-grey-30, #cfd6e6);\n  border-radius: 999px;\n  box-shadow: var(--margin-notes-shadow);\n  color: var(--margin-notes-action-color);\n  cursor: pointer;\n  display: inline-flex;\n  font: 600 1rem/1 var(--margin-notes-font);\n  height: 2rem;\n  justify-content: center;\n  left: -2.75rem;\n  opacity: 0;\n  pointer-events: none;\n  position: absolute;\n  top: 0.35rem;\n  transform: translateX(0.25rem);\n  transition: opacity 120ms ease, transform 120ms ease, border-color 120ms ease;\n  width: 2rem;\n  z-index: 2;\n}\n\n[data-margin-notes-target]:hover .margin-notes-target-add-btn,\n[data-margin-notes-target]:focus .margin-notes-target-add-btn,\n[data-margin-notes-target]:focus-within .margin-notes-target-add-btn,\n.margin-notes-target-add-btn:focus-visible {\n  opacity: 1;\n  pointer-events: auto;\n  transform: translateX(0);\n}\n\n.margin-notes-target-add-btn:hover,\n.margin-notes-target-add-btn:focus-visible {\n  border-color: var(--margin-notes-focus-color);\n}\n\n.margin-notes-target-note-list {\n  display: flex;\n  flex-direction: column;\n  gap: 0;\n  left: calc(100% + 1.25rem);\n  position: absolute;\n  top: 0;\n  width: min(17rem, 34vw);\n  z-index: 3;\n}\n\n.margin-notes-target-note-list.is-expanded {\n  background: var(--margin-notes-open-background);\n  border-radius: var(--margin-notes-radius);\n  box-shadow: 0 0 0 0.35rem var(--margin-notes-open-background);\n  z-index: 30;\n}\n\n.margin-notes-target-note-count {\n  align-items: center;\n  align-self: flex-start;\n  background: transparent;\n  border: 0;\n  color: var(--margin-notes-muted-color);\n  cursor: pointer;\n  display: inline-flex;\n  font: 600 0.78rem/1 var(--margin-notes-font);\n  gap: 0.25rem;\n  padding: 0.05rem 0.2rem;\n}\n\n.margin-notes-target-note-count::before,\n.margin-notes-target-note-toggle::before {\n  background: var(--margin-notes-marker-color);\n  border-radius: 1px;\n  content: "";\n  display: inline-block;\n  flex: 0 0 auto;\n  height: 0.72rem;\n  opacity: 0.72;\n  transform: rotate(-2deg);\n  width: 0.58rem;\n}\n\n.margin-notes-target-note-count[hidden],\n.margin-notes-target-note-count[data-margin-notes-empty="true"],\n.margin-notes-target-note[hidden] {\n  display: none;\n}\n\n.margin-notes-target-note-items {\n  display: flex;\n  flex-direction: column;\n  gap: 0;\n}\n\n.margin-notes-target-note {\n  background: transparent;\n  border-radius: var(--margin-notes-radius);\n  color: var(--margin-notes-note-color);\n  min-height: 2rem;\n  position: relative;\n}\n\n.margin-notes-target-note.is-expanded {\n  background: var(--margin-notes-open-background);\n  left: 0;\n  position: absolute;\n  right: auto;\n  top: var(--margin-notes-expanded-top, 0);\n  width: min(24rem, 54vw);\n  z-index: 20;\n}\n\n.margin-notes-target-note-toggle {\n  align-items: baseline;\n  background: transparent;\n  border: 0;\n  color: inherit;\n  cursor: pointer;\n  display: flex;\n  gap: 0.38rem;\n  font: 0.875rem/1.35 var(--margin-notes-font);\n  overflow: hidden;\n  padding: 0.16rem 0;\n  text-align: left;\n  width: 100%;\n}\n\n.margin-notes-target-note-text {\n  min-width: 0;\n  overflow: hidden;\n  text-overflow: ellipsis;\n  white-space: nowrap;\n}\n\n.margin-notes-target-note.is-expanded .margin-notes-target-note-toggle {\n  cursor: text;\n  overflow: visible;\n  padding: 0.35rem 2rem 0.55rem 0;\n}\n\n.margin-notes-target-note.is-expanded .margin-notes-target-note-text {\n  overflow: visible;\n  text-overflow: clip;\n  white-space: normal;\n}\n\n.margin-notes-target-note-actions {\n  border-top: 1px solid var(--margin-notes-rule-color);\n  display: none;\n  gap: 0.35rem;\n  justify-content: flex-end;\n  padding: 0 0.45rem 0.45rem;\n}\n\n.margin-notes-target-note.is-expanded .margin-notes-target-note-actions {\n  display: flex;\n}\n\n.margin-notes-target-note-action {\n  background: transparent;\n  border: 0;\n  color: var(--margin-notes-action-color);\n  cursor: pointer;\n  font: 600 0.78rem/1 var(--margin-notes-font);\n  padding: 0.35rem;\n}\n\n.margin-notes-target-note-close {\n  align-items: center;\n  background: transparent;\n  border: 0;\n  color: var(--margin-notes-muted-color);\n  cursor: pointer;\n  display: none;\n  font: 1.1rem/1 var(--margin-notes-font);\n  height: 1.65rem;\n  justify-content: center;\n  padding: 0;\n  position: absolute;\n  right: 0.25rem;\n  top: 0.25rem;\n  width: 1.65rem;\n}\n\n.margin-notes-target-note.is-expanded .margin-notes-target-note-close {\n  display: inline-flex;\n}\n\n@media (max-width: 760px) {\n  [data-margin-notes-target]::before {\n    display: none;\n  }\n\n  .margin-notes-target-add-btn {\n    left: auto;\n    right: 0;\n    top: -0.85rem;\n  }\n\n  .margin-notes-target-note-list {\n    left: 0;\n    position: relative;\n    top: auto;\n    width: 100%;\n  }\n\n  .margin-notes-target-note.is-expanded {\n    width: min(100%, 24rem);\n  }\n}\n';
-
-// src/features/solid-connection/ui.css
-var ui_default2 = '.margin-notes-solid-connection {\n  color: var(--ds-color-contrast);\n  display: grid;\n  font-family: var(--ds-font-body);\n  font-size: 0.875rem;\n  gap: calc(var(--ds-space) / 3);\n  line-height: 1.35;\n}\n\n.margin-notes-solid-connection-webid {\n  display: grid;\n  gap: calc(var(--ds-space) / 4);\n}\n\n.margin-notes-solid-connection-webid span {\n  color: var(--ds-grey-medium);\n  font-size: 0.75rem;\n  font-weight: 600;\n}\n\n.margin-notes-solid-connection-webid input {\n  background: var(--ds-color-background);\n  border: 1px solid var(--ds-input-border);\n  border-radius: var(--ds-box-radius);\n  box-sizing: border-box;\n  color: var(--ds-color-contrast);\n  font: inherit;\n  inline-size: 100%;\n  min-block-size: var(--ds-input-height);\n  padding: 0 calc(var(--ds-space) / 3);\n}\n\n.margin-notes-solid-connection-status {\n  color: var(--ds-grey-medium);\n  margin: 0;\n}\n\n.margin-notes-solid-connection-status[data-status="connected"] {\n  color: var(--ds-primary-high);\n}\n\n.margin-notes-solid-connection-status[data-status="error"] {\n  color: var(--ds-color-error);\n}\n';
-
-// node_modules/@muze-nl/assert/src/assert-core.mjs
-var assert_core_exports = {};
-__export(assert_core_exports, {
-  Optional: () => Optional,
-  Recommended: () => Recommended,
-  Required: () => Required,
-  allOf: () => allOf,
-  anyOf: () => anyOf,
-  assert: () => assert,
-  disable: () => disable,
-  enable: () => enable,
-  error: () => error,
-  fails: () => fails,
-  formatIssue: () => formatIssue,
-  formatIssues: () => formatIssues,
-  instanceOf: () => instanceOf,
-  issues: () => issues,
-  not: () => not,
-  oneOf: () => oneOf,
-  validEmail: () => validEmail,
-  validURL: () => validURL,
-  warn: () => warn
-});
-var assertEnabled = false;
-function enable() {
-  assertEnabled = true;
-}
-function disable() {
-  assertEnabled = false;
-}
-function appendPath(path2 = "", key) {
-  if (typeof path2 == "undefined" || path2 == null) {
-    path2 = "";
-  }
-  if (typeof key == "number") {
-    return `${path2}[${key}]`;
-  }
-  return `${path2}.${key}`;
-}
-function pathToArray(path2 = "") {
-  if (Array.isArray(path2)) {
-    return path2;
-  }
-  if (!path2) {
-    return [];
-  }
-  let result = [];
-  let matcher = /(?:^|\.)([^.\[\]]+)|\[(\d+)\]/g;
-  let match;
-  while (match = matcher.exec(path2)) {
-    if (typeof match[1] != "undefined") {
-      result.push(match[1]);
-    } else if (typeof match[2] != "undefined") {
-      result.push(Number(match[2]));
-    }
-  }
-  return result;
-}
-function pathToString(path2 = []) {
-  if (typeof path2 == "string") {
-    return path2.startsWith(".") ? path2.slice(1) : path2;
-  }
-  return path2.map((part, index) => {
-    if (typeof part == "number") {
-      return `[${part}]`;
-    }
-    return `${index ? "." : ""}${part}`;
-  }).join("");
-}
-function describeFunction(value) {
-  if (value === String) {
-    return "string";
-  }
-  if (value === Number) {
-    return "number";
-  }
-  if (value === Boolean) {
-    return "boolean";
-  }
-  return value.name || "function";
-}
-function clip(text, maxLength = 60) {
-  if (text.length <= maxLength) {
-    return text;
-  }
-  return text.slice(0, maxLength - 1) + "\u2026";
-}
-function quoteString(value) {
-  return `'${clip(String(value).replace(/\\/g, "\\\\").replace(/'/g, "\\'").replace(/\n/g, "\\n"))}'`;
-}
-function jsonSummary(value) {
-  try {
-    let json = JSON.stringify(value);
-    if (typeof json == "string") {
-      return clip(json);
-    }
-  } catch (e) {
-  }
-  let name = value?.constructor?.name;
-  if (name && name != "Object") {
-    return name;
-  }
-  return Object.prototype.toString.call(value);
-}
-function formatValue(value) {
-  if (typeof value == "string") {
-    return quoteString(value);
-  }
-  if (typeof value == "undefined") {
-    return "undefined";
-  }
-  if (value === null) {
-    return "null";
-  }
-  if (typeof value == "function") {
-    return describeFunction(value);
-  }
-  if (value instanceof RegExp) {
-    return value.toString();
-  }
-  if (typeof value == "number" || typeof value == "boolean" || typeof value == "bigint") {
-    return String(value);
-  }
-  if (typeof value == "symbol") {
-    return value.toString();
-  }
-  return jsonSummary(value);
-}
-function describeExpected(value) {
-  if (value === String || value === Number || value === Boolean) {
-    return describeFunction(value);
-  }
-  if (typeof value == "function") {
-    return describeFunction(value);
-  }
-  if (value instanceof RegExp) {
-    return value.toString();
-  }
-  if (Array.isArray(value)) {
-    return "[" + value.map(describeExpected).join(", ") + "]";
-  }
-  return formatValue(value);
-}
-function describeOneOf(patterns) {
-  return patterns.map(describeExpected).join(", ");
-}
-function conciseMessage(message, actual, expected) {
-  if (message == "data and pattern are not equal") {
-    return `expected ${formatValue(expected)}, found ${formatValue(actual)}`;
-  }
-  if (message == "data does not match pattern" || /^data\[\d+\] does not match pattern$/.test(message)) {
-    return `expected ${describeExpected(expected)}, found ${formatValue(actual)}`;
-  }
-  if (message == "data is undefined, should match pattern") {
-    return `missing; expected ${describeExpected(expected)}`;
-  }
-  if (message == "data is required") {
-    return "required";
-  }
-  if (message == "data is an empty string, which is not allowed") {
-    return "empty string is not allowed";
-  }
-  if (message == "data is not an object, pattern is") {
-    return "data is not an object";
-  }
-  if (message == "data is not an instanceof pattern") {
-    return `expected instance of ${describeExpected(expected)}, found ${formatValue(actual)}`;
-  }
-  if (message == "data does not match oneOf patterns" || message == "data does not match anyOf patterns") {
-    return `expected one of ${describeOneOf(expected)}, found ${formatValue(actual)}`;
-  }
-  if (message == "data matches pattern, when required not to") {
-    return `must not match ${describeExpected(expected)}`;
-  }
-  return message;
-}
-function formatIssue(issue, options = {}) {
-  if (!issue || typeof issue != "object") {
-    return String(issue);
-  }
-  let path2 = issue.pathString || pathToString(issue.path || []) || "value";
-  let indent = options.indent ?? "";
-  return `${indent}${path2}: ${issue.message}`;
-}
-function formatIssues(issues3, options = {}) {
-  if (!issues3) {
-    return false;
-  }
-  let indent = options.indent ?? "  - ";
-  return (Array.isArray(issues3) ? issues3 : [issues3]).map((issue) => formatIssue(issue, { ...options, indent }));
-}
-function issueFromProblem(problem) {
-  if (!problem || typeof problem != "object") {
-    return {
-      path: [],
-      pathString: "",
-      message: String(problem),
-      expected: void 0,
-      actual: void 0
-    };
-  }
-  let path2 = pathToArray(problem.path);
-  let pathString = pathToString(path2);
-  let actual = problem.actual ?? problem.found;
-  let expected = describeExpected(problem.expected);
-  let message = conciseMessage(problem.message, actual, problem.expected);
-  return {
-    path: path2,
-    pathString,
-    message,
-    expected,
-    actual
-  };
-}
-function problemsToIssues(problems) {
-  if (!problems) {
-    return [];
-  }
-  let result = [];
-  for (let problem of Array.isArray(problems) ? problems : [problems]) {
-    if (!problem) {
-      continue;
-    }
-    if (problem && typeof problem == "object" && problem.problems) {
-      let nested = problemsToIssues(problem.problems);
-      if (nested.length) {
-        result = result.concat(nested);
-        continue;
-      }
-    }
-    result.push(issueFromProblem(problem));
-  }
-  return result;
-}
-function assert(source, test) {
-  if (assertEnabled) {
-    let problems = fails(source, test);
-    if (problems) {
-      let assertionIssues = problemsToIssues(problems);
-      let formattedIssues = formatIssues(assertionIssues);
-      let message = "Assertions failed:\n" + formattedIssues.join("\n");
-      console.error("\u{1F170}\uFE0F  " + message);
-      throw new Error(message, {
-        cause: { problems, issues: assertionIssues, source }
-      });
-    }
-  }
-}
-function Optional(pattern) {
-  return function _Optional(data, root, path2) {
-    if (typeof data != "undefined" && data != null && typeof pattern != "undefined") {
-      return fails(data, pattern, root, path2);
-    }
-  };
-}
-function Required(pattern) {
-  return function _Required(data, root, path2) {
-    if (data == null || typeof data == "undefined") {
-      return error("data is required", data, pattern || "any value", path2);
-    } else if (typeof pattern != "undefined") {
-      return fails(data, pattern, root, path2);
-    } else {
-      return false;
-    }
-  };
-}
-function Recommended(pattern) {
-  return function _Recommended(data, root, path2) {
-    if (data == null || typeof data == "undefined") {
-      warn("data does not contain recommended value", data, pattern, path2);
-      return false;
-    } else {
-      return fails(data, pattern, root, path2);
-    }
-  };
-}
-function oneOf(...patterns) {
-  return function _oneOf(data, root, path2) {
-    for (let pattern of patterns) {
-      if (!fails(data, pattern, root, path2)) {
-        return false;
-      }
-    }
-    return error("data does not match oneOf patterns", data, patterns, path2);
-  };
-}
-function anyOf(...patterns) {
-  return function _anyOf(data, root, path2) {
-    if (!Array.isArray(data)) {
-      return error("data is not an array", data, "anyOf", path2);
-    }
-    for (let [index, value] of data.entries()) {
-      let itemPath = appendPath(path2, index);
-      if (oneOf(...patterns)(value, root, itemPath)) {
-        return error("data does not match anyOf patterns", value, patterns, itemPath);
-      }
-    }
-    return false;
-  };
-}
-function allOf(...patterns) {
-  return function _allOf(data, root, path2) {
-    let problems = [];
-    for (let pattern of patterns) {
-      problems = problems.concat(fails(data, pattern, root, path2));
-    }
-    problems = problems.filter(Boolean);
-    if (problems.length) {
-      return error("data does not match all given patterns", data, patterns, path2, problems);
-    }
-  };
-}
-function validURL(data, root, path2) {
-  try {
-    if (data instanceof URL) {
-      data = data.href;
-    }
-    let url3 = new URL(data);
-    if (url3.href != data) {
-      if (!(url3.href + "/" == data || url3.href == data + "/")) {
-        return error("data is not a valid url", data, "validURL", path2);
-      }
-    }
-  } catch (e) {
-    return error("data is not a valid url", data, "validURL", path2);
-  }
-}
-function validEmail(data, root, path2) {
-  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data)) {
-    return error("data is not a valid email", data, "validEmail", path2);
-  }
-}
-function instanceOf(constructor) {
-  return function _instanceOf(data, root, path2) {
-    if (!(data instanceof constructor)) {
-      return error("data is not an instanceof pattern", data, constructor, path2);
-    }
-  };
-}
-function not(pattern) {
-  return function _not(data, root, path2) {
-    if (!fails(data, pattern, root, path2)) {
-      return error("data matches pattern, when required not to", data, pattern, path2);
-    }
-  };
-}
-function issues(data, pattern, root) {
-  let problems = fails(data, pattern, root);
-  if (!problems) {
-    return false;
-  }
-  return problemsToIssues(problems);
-}
-function fails(data, pattern, root, path2 = "") {
-  if (typeof root == "undefined") {
-    root = data;
-  }
-  let problems = [];
-  if (pattern === Boolean) {
-    if (typeof data != "boolean" && !(data instanceof Boolean)) {
-      problems.push(error("data is not a boolean", data, pattern, path2));
-    }
-  } else if (pattern === Number) {
-    if (typeof data != "number" && !(data instanceof Number)) {
-      problems.push(error("data is not a number", data, pattern, path2));
-    }
-  } else if (pattern === String) {
-    if (typeof data != "string" && !(data instanceof String)) {
-      problems.push(error("data is not a string", data, pattern, path2));
-    }
-    if (data == "") {
-      problems.push(error("data is an empty string, which is not allowed", data, pattern, path2));
-    }
-  } else if (pattern instanceof RegExp) {
-    if (Array.isArray(data)) {
-      let index = data.findIndex((element2, index2) => fails(element2, pattern, root, appendPath(path2, index2)));
-      if (index > -1) {
-        problems.push(error("data[" + index + "] does not match pattern", data[index], pattern, appendPath(path2, index)));
-      }
-    } else if (typeof data == "undefined") {
-      problems.push(error("data is undefined, should match pattern", data, pattern, path2));
-    } else if (!pattern.test(data)) {
-      problems.push(error("data does not match pattern", data, pattern, path2));
-    }
-  } else if (pattern instanceof Function) {
-    let problem = pattern(data, root, path2);
-    if (problem) {
-      if (Array.isArray(problem)) {
-        problems = problems.concat(problem);
-      } else {
-        problems.push(problem);
-      }
-    }
-  } else if (Array.isArray(pattern)) {
-    if (!Array.isArray(data)) {
-      problems.push(error("data is not an array", data, [], path2));
-    } else {
-      for (let p of pattern) {
-        for (let index of data.keys()) {
-          let problem = fails(data[index], p, root, appendPath(path2, index));
-          if (Array.isArray(problem)) {
-            problems = problems.concat(problem);
-          } else if (problem) {
-            problems.push(problem);
-          }
-        }
-      }
-    }
-  } else if (pattern && typeof pattern == "object") {
-    if (Array.isArray(data)) {
-      let index = data.findIndex((element2, index2) => fails(element2, pattern, root, appendPath(path2, index2)));
-      if (index > -1) {
-        problems.push(error("data[" + index + "] does not match pattern", data[index], pattern, appendPath(path2, index)));
-      }
-    } else if (!data || typeof data != "object") {
-      problems.push(error("data is not an object, pattern is", data, pattern, path2));
-    } else {
-      if (data instanceof URLSearchParams) {
-        data = Object.fromEntries(data);
-      }
-      if (pattern instanceof Function) {
-        let result = fails(data, pattern, root, path2);
-        if (result) {
-          problems = problems.concat(result);
-        }
-      } else {
-        for (const [patternKey, subpattern] of Object.entries(pattern)) {
-          let result = fails(data[patternKey], subpattern, root, appendPath(path2, patternKey));
-          if (result) {
-            problems = problems.concat(result);
-          }
-        }
-      }
-    }
-  } else {
-    if (pattern != data) {
-      problems.push(error("data and pattern are not equal", data, pattern, path2));
-    }
-  }
-  if (problems.length) {
-    return problems;
-  }
-  return false;
-}
-function error(message, found, expected, path2 = "", problems) {
-  let pathParts = pathToArray(path2);
-  let result = {
-    path: path2,
-    pathString: pathToString(pathParts),
-    pathParts,
-    message,
-    found,
-    expected
-  };
-  if (problems) {
-    result.problems = problems;
-  }
-  return result;
-}
-function warn(message, data, pattern, path2) {
-  console.warn("\u{1F170}\uFE0F  Assert: " + path2, message, pattern, data);
-}
-
-// node_modules/@muze-nl/assert/src/assert.mjs
-globalThis.assert = { ...assert_core_exports };
-
-// ../solid-tools/packages/lading/src/headers.mjs
-var BASIC_CONTAINER = "http://www.w3.org/ns/ldp#BasicContainer";
-function headersObject(headers = {}) {
-  if (!headers) {
-    return {};
-  }
-  if (headers instanceof Headers) {
-    return Object.fromEntries(headers.entries());
-  }
-  if (typeof headers.entries === "function" && typeof headers.get === "function") {
-    return Object.fromEntries(headers.entries());
-  }
-  return { ...headers };
-}
-function getHeader(headers, name) {
-  if (!headers) {
-    return null;
-  }
-  if (typeof headers.get === "function") {
-    return headers.get(name);
-  }
-  const wanted = name.toLowerCase();
-  const entry = Object.entries(headers).find(([key]) => key.toLowerCase() === wanted);
-  return entry ? entry[1] : null;
-}
-function mergeHeaders(...parts) {
-  return parts.reduce((merged, part) => ({ ...merged, ...headersObject(part) }), {});
-}
-function solidRequestHeaders(options = {}) {
-  const headers = headersObject(options.headers);
-  if (options.accept) {
-    headers.Accept = options.accept;
-  }
-  if (options.contentType || options.type) {
-    headers["Content-Type"] = options.contentType ?? options.type;
-  }
-  if (options.slug) {
-    headers.Slug = options.slug;
-  }
-  if (options.ifMatch) {
-    headers["If-Match"] = options.ifMatch;
-  }
-  if (options.ifNoneMatch) {
-    headers["If-None-Match"] = options.ifNoneMatch;
-  }
-  if (options.etag && !headers["If-Match"]) {
-    headers["If-Match"] = options.etag;
-  }
-  return headers;
-}
-function containerLinkHeader(type = BASIC_CONTAINER) {
-  return `<${type}>; rel="type"`;
-}
-function containerHeaders(options = {}) {
-  return solidRequestHeaders({
-    ...options,
-    headers: mergeHeaders({ Link: containerLinkHeader(options.containerType) }, options.headers)
-  });
-}
-function getLocation(response3) {
-  return getHeader(response3?.headers, "Location");
-}
-function getETag(response3) {
-  return getHeader(response3?.headers, "ETag");
-}
-
-// ../solid-tools/packages/lading/src/client.mjs
-var metro2 = null;
-try {
-  const imported = await Promise.resolve().then(() => (init_src7(), src_exports6));
-  metro2 = imported.default ?? imported;
-} catch {
-  metro2 = null;
-}
-var LINKED_DATA_ACCEPT = "text/turtle, application/ld+json;q=0.9, */*;q=0.1";
-var CONTAINER_ACCEPT = "text/turtle, application/ld+json;q=0.9, */*;q=0.1";
-function ensureSlash(url3) {
-  return String(url3).endsWith("/") ? String(url3) : `${url3}/`;
-}
-function values(value) {
-  if (value == null) {
-    return [];
-  }
-  return Array.isArray(value) ? value : [value];
-}
-function ids(value) {
-  return values(value).map((item) => typeof item === "string" ? item : item?.id).filter(Boolean);
-}
-function unique(items) {
-  return [...new Set(items)];
-}
-function storageUrlsFromProfile(profile) {
-  if (!profile) {
-    return [];
-  }
-  return unique([
-    ...ids(profile.space$storage),
-    ...ids(profile.pim$storage),
-    ...ids(profile.solid$storage)
-  ].map(ensureSlash));
-}
-function storageFromProfile(profile, options = {}) {
-  return storageUrlsFromProfile(profile).map((url3) => ({
-    profile,
-    response: options.response ?? null,
-    id: url3,
-    url: url3
-  }));
-}
-function throwerFactory(options = {}) {
-  if (options.thrower === false) {
-    return null;
-  }
-  if (typeof options.thrower === "function") {
-    return options.thrower;
-  }
-  return metro2?.mw?.thrower ?? null;
-}
-function withThrower(client3, options = {}) {
-  const createThrower = throwerFactory(options);
-  if (!createThrower || !client3 || typeof client3.with !== "function") {
-    return client3;
-  }
-  return client3.with(createThrower(options.thrower));
-}
-function bodyOptions(body, options = {}) {
-  return {
-    ...options,
-    body,
-    headers: solidRequestHeaders(options)
-  };
-}
-function requestOptions(options = {}) {
-  return {
-    ...options,
-    headers: solidRequestHeaders(options)
-  };
-}
-function safeCreateOptions(options = {}) {
-  if (Object.hasOwn(options, "ifNoneMatch")) {
-    return options;
-  }
-  return {
-    ...options,
-    ifNoneMatch: "*"
-  };
-}
-var LadingClient = class {
-  constructor(metroClient, options = {}) {
-    if (!metroClient) {
-      throw new TypeError("lading: metro client is required");
-    }
-    this.metro = withThrower(metroClient, options);
-    this.options = options;
-  }
-  resource(url3) {
-    return new SolidResource(this, url3);
-  }
-  container(url3) {
-    return new SolidContainer(this, url3);
-  }
-  async discoverProfile(webId, options = {}) {
-    const response3 = await this.resource(webId).get({
-      accept: LINKED_DATA_ACCEPT,
-      ...options
-    });
-    return {
-      response: response3,
-      profile: response3?.data?.primary ?? null
-    };
-  }
-  async discoverStorage(webId, options = {}) {
-    const { profile, response: response3 } = await this.discoverProfile(webId, options);
-    return storageFromProfile(profile, { response: response3 });
-  }
-  async discoverWebId(webId, options = {}) {
-    const { profile, response: response3 } = await this.discoverProfile(webId, options);
-    if (!profile) {
-      return { webId, profile: null, storage: [], issuer: null, inbox: null, response: response3 };
-    }
-    return {
-      webId,
-      profile,
-      storage: storageUrlsFromProfile(profile),
-      issuer: ids(profile.solid$oidcIssuer)[0] ?? null,
-      inbox: ids(profile.ldp$inbox)[0] ?? null,
-      response: response3
-    };
-  }
-  storageFromProfile(profile, options = {}) {
-    return storageFromProfile(profile, options);
-  }
-};
-var SolidResource = class {
-  constructor(client3, url3) {
-    this.client = client3;
-    this.url = String(url3);
-  }
-  get(options = {}) {
-    return this.client.metro.get(this.url, requestOptions(options));
-  }
-  head(options = {}) {
-    return this.client.metro.head(this.url, requestOptions(options));
-  }
-  put(body, options = {}) {
-    return this.client.metro.put(this.url, bodyOptions(body, options));
-  }
-  create(body, options = {}) {
-    return this.put(body, safeCreateOptions(options));
-  }
-  patch(body, options = {}) {
-    return this.client.metro.patch(this.url, bodyOptions(body, options));
-  }
-  delete(options = {}) {
-    return this.client.metro.delete(this.url, requestOptions(options));
-  }
-};
-var SolidContainer = class extends SolidResource {
-  constructor(client3, url3) {
-    super(client3, ensureSlash(url3));
-  }
-  get(options = {}) {
-    return this.client.metro.get(this.url, requestOptions({
-      accept: CONTAINER_ACCEPT,
-      ...options
-    }));
-  }
-  create(options = {}) {
-    const createOptions = safeCreateOptions(options);
-    return this.client.metro.put(this.url, bodyOptions(createOptions.body ?? "", {
-      ...createOptions,
-      headers: containerHeaders(createOptions)
-    }));
-  }
-  async post(body, options = {}) {
-    const response3 = await this.client.metro.post(this.url, bodyOptions(body, options));
-    return {
-      response: response3,
-      location: getLocation(response3),
-      etag: getETag(response3)
-    };
-  }
-  async contains(options = {}) {
-    const response3 = await this.get(options);
-    const contains = values(response3?.data?.primary?.ldp$contains);
-    return contains.map((resource) => {
-      const id2 = typeof resource === "string" ? resource : resource?.id;
-      return id2 ? { id: id2, url: id2, resource, response: response3 } : null;
-    }).filter(Boolean);
-  }
-};
-function lading(metroClient, options = {}) {
-  return new LadingClient(metroClient, options);
-}
-
-// ../solid-tools/packages/jsfs-solid/src/metro.mjs
-init_src7();
-
-// ../solid-tools/node_modules/@muze-nl/metro-oidc/node_modules/@muze-nl/metro/src/metro.mjs
-var metro_exports = {};
-__export(metro_exports, {
-  Client: () => Client2,
-  client: () => client2,
-  deepClone: () => deepClone2,
-  formdata: () => formdata2,
-  metroError: () => metroError2,
-  request: () => request2,
-  response: () => response2,
-  trace: () => trace2,
-  url: () => url2
-});
-var metroURL3 = "https://metro.muze.nl/details/";
-if (!Symbol.metroProxy) {
-  Symbol.metroProxy = Symbol("isProxy");
-}
-if (!Symbol.metroSource) {
-  Symbol.metroSource = Symbol("source");
-}
-var Client2 = class _Client {
-  clientOptions = {
-    url: typeof window != "undefined" ? url2(window.location) : url2("https://localhost"),
-    verbs: ["get", "post", "put", "delete", "patch", "head", "options", "query"]
-  };
-  static tracers = {};
-  /**
-   * @typedef {Object} ClientOptions
-   * @property {Array} middlewares - list of middleware functions
-   * @property {string|URL} url - default url of the client
-   * @property {[string]} verbs - a list of verb methods to expose, e.g. ['get','post']
-   * 
-   * Constructs a new metro client. Can have any number of params.
-   * @params {ClientOptions|URL|Function|Client}
-   * @returns {Client} - A metro client object with given or default verb methods
-   */
-  constructor(...options) {
-    for (let option of options) {
-      if (typeof option == "string" || option instanceof String) {
-        this.clientOptions.url = url2(this.clientOptions.url.href, option);
-      } else if (option instanceof _Client) {
-        Object.assign(this.clientOptions, option.clientOptions);
-      } else if (option instanceof Function) {
-        this.#addMiddlewares([option]);
-      } else if (option && typeof option == "object") {
-        for (let param in option) {
-          if (param == "middlewares") {
-            this.#addMiddlewares(option[param]);
-          } else if (param == "url") {
-            this.clientOptions.url = url2(this.clientOptions.url.href, option[param]);
-          } else if (typeof option[param] == "function") {
-            this.clientOptions[param] = option[param](this.clientOptions[param], this.clientOptions);
-          } else {
-            this.clientOptions[param] = option[param];
-          }
-        }
-      }
-    }
-    for (const verb of this.clientOptions.verbs) {
-      this[verb] = async function(...options2) {
-        return this.fetch(request2(
-          this.clientOptions,
-          ...options2,
-          { method: verb.toUpperCase() }
-        ));
-      };
-    }
-  }
-  #addMiddlewares(middlewares) {
-    if (typeof middlewares == "function") {
-      middlewares = [middlewares];
-    }
-    let index = middlewares.findIndex((m) => typeof m != "function");
-    if (index >= 0) {
-      throw metroError2("metro.client: middlewares must be a function or an array of functions " + metroURL3 + "client/invalid-middlewares/", middlewares[index]);
-    }
-    if (!Array.isArray(this.clientOptions.middlewares)) {
-      this.clientOptions.middlewares = [];
-    }
-    this.clientOptions.middlewares = this.clientOptions.middlewares.concat(middlewares);
-  }
-  /**
-   * Mimics the standard browser fetch method, but uses any middleware installed through
-   * the constructor.
-   * @param {Request|string|Object} - Required. The URL or Request object, accepts all types that are accepted by metro.request
-   * @param {Object} - Optional. Any object that is accepted by metro.request
-   * @return {Promise<Response|*>} - The metro.response to this request, or any other result as changed by any included middleware.
-   */
-  fetch(req, options) {
-    req = request2(req, options);
-    if (!req.url) {
-      throw metroError2("metro.client." + req.method.toLowerCase() + ": Missing url parameter " + metroURL3 + "client/fetch-missing-url/", req);
-    }
-    if (!options) {
-      options = {};
-    }
-    if (!(typeof options === "object") || options instanceof String) {
-      throw metroError2("metro.client.fetch: Invalid options parameter " + metroURL3 + "client/fetch-invalid-options/", options);
-    }
-    const metrofetch = async function browserFetch(req2) {
-      if (req2[Symbol.metroProxy]) {
-        req2 = req2[Symbol.metroSource];
-      }
-      const res = await fetch(req2);
-      return response2(res);
-    };
-    let middlewares = [metrofetch].concat(this.clientOptions?.middlewares?.slice() || []);
-    options = Object.assign({}, this.clientOptions, options);
-    let next;
-    for (let middleware of middlewares) {
-      next = /* @__PURE__ */ (function(next2, middleware2) {
-        return async function(req2) {
-          let res;
-          let tracers2 = Object.values(_Client.tracers);
-          for (let tracer of tracers2) {
-            if (tracer.request) {
-              tracer.request.call(tracer, req2, middleware2);
-            }
-          }
-          res = await middleware2(req2, next2);
-          for (let tracer of tracers2) {
-            if (tracer.response) {
-              tracer.response.call(tracer, res, middleware2);
-            }
-          }
-          return res;
-        };
-      })(next, middleware);
-    }
-    return next(req);
-  }
-  with(...options) {
-    return new _Client(deepClone2(this.clientOptions), ...options);
-  }
-  get location() {
-    return this.clientOptions.url;
-  }
-};
-function client2(...options) {
-  return new Client2(...deepClone2(options));
-}
-function getRequestParams2(req, current) {
-  let params = current || {};
-  if (!params.url && current.url) {
-    params.url = current.url;
-  }
-  for (let prop of [
-    "method",
-    "headers",
-    "body",
-    "mode",
-    "credentials",
-    "cache",
-    "redirect",
-    "referrer",
-    "referrerPolicy",
-    "integrity",
-    "keepalive",
-    "signal",
-    "priority",
-    "url"
-  ]) {
-    let value = req[prop];
-    if (typeof value == "undefined" || value == null) {
-      continue;
-    }
-    if (value?.[Symbol.metroProxy]) {
-      value = value[Symbol.metroSource];
-    }
-    if (typeof value == "function") {
-      params[prop] = value(params[prop], params);
-    } else {
-      if (prop == "url") {
-        params.url = url2(params.url, value);
-      } else if (prop == "headers") {
-        params.headers = new Headers(current.headers);
-        if (!(value instanceof Headers)) {
-          value = new Headers(req.headers);
-        }
-        for (let [key, val] of value.entries()) {
-          params.headers.set(key, val);
-        }
-      } else {
-        params[prop] = value;
-      }
-    }
-  }
-  if (req instanceof Request && req.data) {
-    params.body = req.data;
-  }
-  return params;
-}
-function request2(...options) {
-  let requestParams = {
-    url: typeof window != "undefined" ? url2(window.location) : url2("https://localhost/"),
-    duplex: "half"
-    // required when setting body to ReadableStream, just set it here by default already
-  };
-  for (let option of options) {
-    if (typeof option == "string" || option instanceof URL || option instanceof URLSearchParams) {
-      requestParams.url = url2(requestParams.url, option);
-    } else if (option && (option instanceof FormData || option instanceof ReadableStream || option instanceof Blob || option instanceof ArrayBuffer || option instanceof DataView)) {
-      requestParams.body = option;
-    } else if (option && typeof option == "object") {
-      Object.assign(requestParams, getRequestParams2(option, requestParams));
-    }
-  }
-  let r = new Request(requestParams.url, requestParams);
-  let data = requestParams.body;
-  if (data) {
-    if (typeof data == "object" && !(data instanceof String) && !(data instanceof ReadableStream) && !(data instanceof Blob) && !(data instanceof ArrayBuffer) && !(data instanceof DataView) && !(data instanceof FormData) && !(data instanceof URLSearchParams) && (typeof globalThis.TypedArray == "undefined" || !(data instanceof globalThis.TypedArray))) {
-      if (typeof data.toString == "function") {
-        requestParams.body = data.toString({ headers: r.headers });
-        r = new Request(requestParams.url, requestParams);
-      }
-    }
-  }
-  Object.freeze(r);
-  return new Proxy(r, {
-    get(target, prop) {
-      let result;
-      switch (prop) {
-        case Symbol.metroSource:
-          result = target;
-          break;
-        case Symbol.metroProxy:
-          result = true;
-          break;
-        case "with":
-          result = function(...options2) {
-            if (data) {
-              options2.unshift({ body: data });
-            }
-            return request2(target, ...options2);
-          };
-          break;
-        case "data":
-          result = data;
-          break;
-        default:
-          if (target[prop] instanceof Function) {
-            if (prop === "clone") {
-            }
-            result = target[prop].bind(target);
-          } else {
-            result = target[prop];
-          }
-          break;
-      }
-      return result;
-    }
-  });
-}
-function getResponseParams2(res, current) {
-  let params = current || {};
-  if (!params.url && current.url) {
-    params.url = current.url;
-  }
-  for (let prop of ["status", "statusText", "headers", "body", "url", "type", "redirected"]) {
-    let value = res[prop];
-    if (typeof value == "undefined" || value == null) {
-      continue;
-    }
-    if (value?.[Symbol.metroProxy]) {
-      value = value[Symbol.metroSource];
-    }
-    if (typeof value == "function") {
-      params[prop] = value(params[prop], params);
-    } else {
-      if (prop == "url") {
-        params.url = new URL(value, params.url || "https://localhost/");
-      } else {
-        params[prop] = value;
-      }
-    }
-  }
-  if (res instanceof Response && res.data) {
-    params.body = res.data;
-  }
-  return params;
-}
-function response2(...options) {
-  let responseParams = {};
-  for (let option of options) {
-    if (typeof option == "string") {
-      responseParams.body = option;
-    } else if (option instanceof Response) {
-      Object.assign(responseParams, getResponseParams2(option, responseParams));
-    } else if (option && typeof option == "object") {
-      if (option instanceof FormData || option instanceof Blob || option instanceof ArrayBuffer || option instanceof DataView || option instanceof ReadableStream || option instanceof URLSearchParams || option instanceof String || typeof globalThis.TypedArray != "undefined" && option instanceof globalThis.TypedArray) {
-        responseParams.body = option;
-      } else {
-        Object.assign(responseParams, getResponseParams2(option, responseParams));
-      }
-    }
-  }
-  let data = void 0;
-  if (responseParams.body) {
-    data = responseParams.body;
-  }
-  if ([101, 204, 205, 304].includes(responseParams.status)) {
-    responseParams.body = null;
-  }
-  let r = new Response(responseParams.body, responseParams);
-  Object.freeze(r);
-  return new Proxy(r, {
-    get(target, prop) {
-      let result;
-      switch (prop) {
-        case Symbol.metroProxy:
-          result = true;
-          break;
-        case Symbol.metroSource:
-          result = target;
-          break;
-        case "with":
-          result = function(...options2) {
-            return response2(target, ...options2);
-          };
-          break;
-        case "data":
-          result = data;
-          break;
-        case "ok":
-          result = target.status >= 200 && target.status < 400;
-          break;
-        default:
-          if (typeof target[prop] == "function") {
-            result = target[prop].bind(target);
-          } else {
-            result = target[prop];
-          }
-          break;
-      }
-      return result;
-    }
-  });
-}
-function appendSearchParams2(url3, params) {
-  if (typeof params == "function") {
-    params(url3.searchParams, url3);
-  } else {
-    params = new URLSearchParams(params);
-    params.forEach((value, key) => {
-      url3.searchParams.append(key, value);
-    });
-  }
-}
-function url2(...options) {
-  let validParams = [
-    "hash",
-    "host",
-    "hostname",
-    "href",
-    "password",
-    "pathname",
-    "port",
-    "protocol",
-    "username",
-    "search",
-    "searchParams"
-  ];
-  let u = new URL("https://localhost/");
-  for (let option of options) {
-    if (typeof option == "string" || option instanceof String) {
-      u = new URL(option, u);
-    } else if (option instanceof URL || typeof Location != "undefined" && option instanceof Location) {
-      u = new URL(option);
-    } else if (option instanceof URLSearchParams) {
-      appendSearchParams2(u, option);
-    } else if (option && typeof option == "object") {
-      for (let param in option) {
-        switch (param) {
-          case "search":
-            if (typeof option.search == "function") {
-              option.search(u.search, u);
-            } else {
-              u.search = new URLSearchParams(option.search);
-            }
-            break;
-          case "searchParams":
-            appendSearchParams2(u, option.searchParams);
-            break;
-          default:
-            if (!validParams.includes(param)) {
-              throw metroError2("metro.url: unknown url parameter " + metroURL3 + "url/unknown-param-name/", param);
-            }
-            if (typeof option[param] == "function") {
-              option[param](u[param], u);
-            } else if (typeof option[param] == "string" || option[param] instanceof String || typeof option[param] == "number" || option[param] instanceof Number || typeof option[param] == "boolean" || option[param] instanceof Boolean) {
-              u[param] = "" + option[param];
-            } else if (typeof option[param] == "object" && option[param].toString) {
-              u[param] = option[param].toString();
-            } else {
-              throw metroError2("metro.url: unsupported value for " + param + " " + metroURL3 + "url/unsupported-param-value/", options[param]);
-            }
-            break;
-        }
-      }
-    } else {
-      throw metroError2("metro.url: unsupported option value " + metroURL3 + "url/unsupported-option-value/", option);
-    }
-  }
-  Object.freeze(u);
-  return new Proxy(u, {
-    get(target, prop) {
-      let result;
-      switch (prop) {
-        case Symbol.metroProxy:
-          result = true;
-          break;
-        case Symbol.metroSource:
-          result = target;
-          break;
-        case "with":
-          result = function(...options2) {
-            return url2(target, ...options2);
-          };
-          break;
-        case "filename":
-          result = target.pathname.split("/").pop();
-          break;
-        case "folderpath":
-          result = target.pathname.substring(0, target.pathname.lastIndexOf("\\") + 1);
-          break;
-        case "authority":
-          result = target.username ?? "";
-          result += target.password ? ":" + target.password : "";
-          result += result ? "@" : "";
-          result += target.hostname;
-          result += target.port ? ":" + target.port : "";
-          result += "/";
-          result = target.protocol + "//" + result;
-          break;
-        case "origin":
-          result = target.protocol + "//" + target.hostname;
-          result += target.port ? ":" + target.port : "";
-          result += "/";
-          break;
-        case "fragment":
-          result = target.hash.substring(1);
-          break;
-        case "scheme":
-          if (target.protocol) {
-            result = target.protocol.substring(0, target.protocol.length - 1);
-          } else {
-            result = "";
-          }
-          break;
-        default:
-          if (target[prop] instanceof Function) {
-            result = target[prop].bind(target);
-          } else {
-            result = target[prop];
-          }
-          break;
-      }
-      return result;
-    }
-  });
-}
-function formdata2(...options) {
-  var params = new FormData();
-  for (let option of options) {
-    if (option instanceof HTMLFormElement) {
-      option = new FormData(option);
-    }
-    if (option instanceof FormData) {
-      for (let entry of option.entries()) {
-        params.append(entry[0], entry[1]);
-      }
-    } else if (option && typeof option == "object") {
-      for (let entry of Object.entries(option)) {
-        if (Array.isArray(entry[1])) {
-          for (let value of entry[1]) {
-            params.append(entry[0], value);
-          }
-        } else {
-          params.append(entry[0], entry[1]);
-        }
-      }
-    } else {
-      throw new metroError2("metro.formdata: unknown option type " + metroURL3 + "formdata/unknown-option-value/", option);
-    }
-  }
-  Object.freeze(params);
-  return new Proxy(params, {
-    get(target, prop) {
-      let result;
-      switch (prop) {
-        case Symbol.metroProxy:
-          result = true;
-          break;
-        case Symbol.metroSource:
-          result = target;
-          break;
-        //TODO: add toString() that can check
-        //headers param: toString({headers:request.headers})
-        //for the content-type
-        case "with":
-          result = function(...options2) {
-            return formdata2(target, ...options2);
-          };
-          break;
-        default:
-          if (target[prop] instanceof Function) {
-            result = target[prop].bind(target);
-          } else {
-            result = target[prop];
-          }
-          break;
-      }
-      return result;
-    }
-  });
-}
-var metroConsole3 = {
-  error: (message, ...details) => {
-    console.error("\u24C2\uFE0F  ", message, ...details);
-  },
-  info: (message, ...details) => {
-    console.info("\u24C2\uFE0F  ", message, ...details);
-  },
-  group: (name) => {
-    console.group("\u24C2\uFE0F  " + name);
-  },
-  groupEnd: (name) => {
-    console.groupEnd("\u24C2\uFE0F  " + name);
-  }
-};
-function metroError2(message, ...details) {
-  metroConsole3.error(message, ...details);
-  return new Error(message, ...details);
-}
-var trace2 = {
-  /**
-   * Adds a named tracer function
-   * @param {string} name - the name of the tracer
-   * @param {Function} tracer - the tracer function to call
-   */
-  add(name, tracer) {
-    Client2.tracers[name] = tracer;
-  },
-  /**
-   * Removes a named tracer function
-   * @param {string} name
-   */
-  delete(name) {
-    delete Client2.tracers[name];
-  },
-  /**
-   * Removes all tracer functions
-   */
-  clear() {
-    Client2.tracers = {};
-  },
-  /**
-   * Returns a set of request and response tracer functions that use the
-   * console.group feature to shows nested request/response pairs, with
-   * most commonly needed information for debugging
-   */
-  group() {
-    let group2 = 0;
-    return {
-      request: (req, middleware) => {
-        group2++;
-        metroConsole3.group(group2);
-        metroConsole3.info(req?.url, req, middleware);
-      },
-      response: (res, middleware) => {
-        metroConsole3.info(res?.body ? res.body[Symbol.metroSource] : null, res, middleware);
-        metroConsole3.groupEnd(group2);
-        group2--;
-      }
-    };
-  }
-};
-function deepClone2(object) {
-  if (Array.isArray(object)) {
-    return object.slice().map(deepClone2);
-  }
-  if (object && typeof object === "object") {
-    if (object.__proto__.constructor == Object || !object.__proto__) {
-      let result = Object.assign({}, object);
-      Object.keys(result).forEach((key) => {
-        result[key] = deepClone2(object[key]);
-      });
-      return result;
-    } else {
-      return object;
-    }
-  }
-  return object;
-}
-
-// ../solid-tools/node_modules/@muze-nl/metro-oidc/node_modules/@muze-nl/metro/src/mw/json.mjs
-function jsonmw2(options) {
-  options = Object.assign({
-    contentType: "application/json",
-    reviver: null,
-    replacer: null,
-    space: ""
-  }, options);
-  return async function json(req, next) {
-    if (!req.headers.get("Accept")) {
-      req = req.with({
-        headers: {
-          "Accept": options.accept ?? options.contentType
-        }
-      });
-    }
-    if (req.method !== "GET" && req.method !== "HEAD") {
-      if (req.data && typeof req.data == "object" && !(req.data instanceof ReadableStream)) {
-        const contentType = req.headers.get("Content-Type");
-        if (!contentType || isPlainText2(contentType)) {
-          req = req.with({
-            headers: {
-              "Content-Type": options.contentType
-            }
-          });
-        }
-        if (isJSON2(req.headers.get("Content-Type"))) {
-          req = req.with({
-            body: JSON.stringify(req.data, options.replacer, options.space)
-          });
-        }
-      }
-    }
-    let res = await next(req);
-    if (res && isJSON2(res.headers?.get("Content-Type"))) {
-      let tempRes = res.clone();
-      let body = await tempRes.text();
-      try {
-        let json2 = JSON.parse(body, options.reviver);
-        return res.with({
-          body: json2
-        });
-      } catch (e) {
-      }
-    }
-    return res;
-  };
-}
-var jsonRE2 = /^application\/([a-zA-Z0-9\-_]+\+)?json\b/;
-function isJSON2(contentType) {
-  return jsonRE2.exec(contentType);
-}
-function isPlainText2(contentType) {
-  return /^text\/plain\b/.exec(contentType);
-}
-
-// ../solid-tools/node_modules/@muze-nl/metro-oidc/node_modules/@muze-nl/metro/src/mw/thrower.mjs
-function throwermw2(options) {
-  return async function thrower(req, next) {
-    let res = await next(req);
-    if (!res.ok) {
-      if (options && typeof options[res.status] == "function") {
-        res = options[res.status].apply(res, req);
-      } else {
-        throw new Error(res.status + ": " + res.statusText, {
-          cause: res
-        });
-      }
-    }
-    return res;
-  };
-}
-
-// ../solid-tools/node_modules/@muze-nl/metro-oidc/node_modules/@muze-nl/metro/src/mw/getdata.mjs
-function getdatamw2() {
-  return async function getdata(req, next) {
-    let res = await next(req);
-    if (res.ok && res.data) {
-      return res.data;
-    }
-    return res;
-  };
-}
-
-// ../solid-tools/node_modules/@muze-nl/metro-oidc/node_modules/@muze-nl/metro/src/api.mjs
-var API2 = class extends Client2 {
-  #methods = null;
-  #base = "";
-  constructor(base, methods, bind2 = null) {
-    if (base instanceof Client2) {
-      super(base.clientOptions, throwermw2(), getdatamw2());
-    } else {
-      super(base, throwermw2(), getdatamw2());
-    }
-    if (!bind2) {
-      bind2 = this;
-    }
-    this.#methods = methods;
-    this.#base = base;
-    for (const methodName in methods) {
-      if (typeof methods[methodName] == "function") {
-        this[methodName] = methods[methodName].bind(bind2);
-      } else if (methods[methodName] && typeof methods[methodName] == "object" && (Object.getPrototypeOf(methods[methodName]) === null || Object.getPrototypeOf(methods[methodName]).constructor === Object)) {
-        this[methodName] = new this.constructor(base, methods[methodName], bind2);
-      } else {
-        this[methodName] = methods[methodName];
-      }
-    }
-  }
-  extend(methods) {
-    return new this.constructor(this.#base, Object.assign({}, this.#methods, methods));
-  }
-};
-var JsonAPI2 = class extends API2 {
-  constructor(base, methods, bind2 = null) {
-    if (base instanceof Client2) {
-      super(base.with(jsonmw2()), methods, bind2);
-    } else {
-      super(client2(base, jsonmw2()), methods, bind2);
-    }
-  }
-};
-function api2(...options) {
-  return new API2(...deepClone2(options));
-}
-function jsonApi2(...options) {
-  return new JsonAPI2(...deepClone2(options));
-}
-
-// ../solid-tools/node_modules/@muze-nl/metro-oidc/node_modules/@muze-nl/metro/src/everything.mjs
-var metro3 = Object.assign({}, metro_exports, {
-  mw: {
-    json: jsonmw2,
-    thrower: throwermw2,
-    getdata: getdatamw2
-  },
-  api: api2,
-  jsonApi: jsonApi2
-});
-if (!globalThis.metro) {
-  globalThis.metro = metro3;
-}
-var everything_default = metro3;
-
-// ../solid-tools/node_modules/@muze-nl/metro-oauth2/src/oauth2.mjs
-var oauth2_exports = {};
-__export(oauth2_exports, {
-  base64url_encode: () => base64url_encode,
-  createState: () => createState,
-  default: () => oauth2mw,
-  generateCodeChallenge: () => generateCodeChallenge,
-  generateCodeVerifier: () => generateCodeVerifier,
-  getExpires: () => getExpires,
-  isAuthorized: () => isAuthorized,
-  isExpired: () => isExpired,
-  isRedirected: () => isRedirected,
-  parseBearerChallenge: () => parseBearerChallenge
-});
-init_src();
-
-// ../solid-tools/node_modules/@muze-nl/assert/src/assert-core.mjs
-var assert_core_exports2 = {};
-__export(assert_core_exports2, {
-  Optional: () => Optional2,
-  Recommended: () => Recommended2,
-  Required: () => Required2,
-  allOf: () => allOf2,
-  anyOf: () => anyOf2,
-  assert: () => assert2,
-  disable: () => disable2,
-  enable: () => enable2,
-  error: () => error2,
-  fails: () => fails2,
-  formatIssue: () => formatIssue2,
-  formatIssues: () => formatIssues2,
-  instanceOf: () => instanceOf2,
-  issues: () => issues2,
-  not: () => not2,
-  oneOf: () => oneOf2,
-  validEmail: () => validEmail2,
-  validURL: () => validURL2,
-  warn: () => warn2
-});
-var assertEnabled2 = false;
-function enable2() {
-  assertEnabled2 = true;
-}
-function disable2() {
-  assertEnabled2 = false;
-}
-function appendPath2(path2 = "", key) {
-  if (typeof path2 == "undefined" || path2 == null) {
-    path2 = "";
-  }
-  if (typeof key == "number") {
-    return `${path2}[${key}]`;
-  }
-  return `${path2}.${key}`;
-}
-function pathToArray2(path2 = "") {
-  if (Array.isArray(path2)) {
-    return path2;
-  }
-  if (!path2) {
-    return [];
-  }
-  let result = [];
-  let matcher = /(?:^|\.)([^.\[\]]+)|\[(\d+)\]/g;
-  let match;
-  while (match = matcher.exec(path2)) {
-    if (typeof match[1] != "undefined") {
-      result.push(match[1]);
-    } else if (typeof match[2] != "undefined") {
-      result.push(Number(match[2]));
-    }
-  }
-  return result;
-}
-function pathToString2(path2 = []) {
-  if (typeof path2 == "string") {
-    return path2.startsWith(".") ? path2.slice(1) : path2;
-  }
-  return path2.map((part, index) => {
-    if (typeof part == "number") {
-      return `[${part}]`;
-    }
-    return `${index ? "." : ""}${part}`;
-  }).join("");
-}
-function describeFunction2(value) {
-  if (value === String) {
-    return "string";
-  }
-  if (value === Number) {
-    return "number";
-  }
-  if (value === Boolean) {
-    return "boolean";
-  }
-  return value.name || "function";
-}
-function clip2(text, maxLength = 60) {
-  if (text.length <= maxLength) {
-    return text;
-  }
-  return text.slice(0, maxLength - 1) + "\u2026";
-}
-function quoteString2(value) {
-  return `'${clip2(String(value).replace(/\\/g, "\\\\").replace(/'/g, "\\'").replace(/\n/g, "\\n"))}'`;
-}
-function jsonSummary2(value) {
-  try {
-    let json = JSON.stringify(value);
-    if (typeof json == "string") {
-      return clip2(json);
-    }
-  } catch (e) {
-  }
-  let name = value?.constructor?.name;
-  if (name && name != "Object") {
-    return name;
-  }
-  return Object.prototype.toString.call(value);
-}
-function formatValue2(value) {
-  if (typeof value == "string") {
-    return quoteString2(value);
-  }
-  if (typeof value == "undefined") {
-    return "undefined";
-  }
-  if (value === null) {
-    return "null";
-  }
-  if (typeof value == "function") {
-    return describeFunction2(value);
-  }
-  if (value instanceof RegExp) {
-    return value.toString();
-  }
-  if (typeof value == "number" || typeof value == "boolean" || typeof value == "bigint") {
-    return String(value);
-  }
-  if (typeof value == "symbol") {
-    return value.toString();
-  }
-  return jsonSummary2(value);
-}
-function describeExpected2(value) {
-  if (value === String || value === Number || value === Boolean) {
-    return describeFunction2(value);
-  }
-  if (typeof value == "function") {
-    return describeFunction2(value);
-  }
-  if (value instanceof RegExp) {
-    return value.toString();
-  }
-  if (Array.isArray(value)) {
-    return "[" + value.map(describeExpected2).join(", ") + "]";
-  }
-  return formatValue2(value);
-}
-function describeOneOf2(patterns) {
-  return patterns.map(describeExpected2).join(", ");
-}
-function conciseMessage2(message, actual, expected) {
-  if (message == "data and pattern are not equal") {
-    return `expected ${formatValue2(expected)}, found ${formatValue2(actual)}`;
-  }
-  if (message == "data does not match pattern" || /^data\[\d+\] does not match pattern$/.test(message)) {
-    return `expected ${describeExpected2(expected)}, found ${formatValue2(actual)}`;
-  }
-  if (message == "data is undefined, should match pattern") {
-    return `missing; expected ${describeExpected2(expected)}`;
-  }
-  if (message == "data is required") {
-    return "required";
-  }
-  if (message == "data is an empty string, which is not allowed") {
-    return "empty string is not allowed";
-  }
-  if (message == "data is not an object, pattern is") {
-    return "data is not an object";
-  }
-  if (message == "data is not an instanceof pattern") {
-    return `expected instance of ${describeExpected2(expected)}, found ${formatValue2(actual)}`;
-  }
-  if (message == "data does not match oneOf patterns" || message == "data does not match anyOf patterns") {
-    return `expected one of ${describeOneOf2(expected)}, found ${formatValue2(actual)}`;
-  }
-  if (message == "data matches pattern, when required not to") {
-    return `must not match ${describeExpected2(expected)}`;
-  }
-  return message;
-}
-function formatIssue2(issue, options = {}) {
-  if (!issue || typeof issue != "object") {
-    return String(issue);
-  }
-  let path2 = issue.pathString || pathToString2(issue.path || []) || "value";
-  let indent = options.indent ?? "";
-  return `${indent}${path2}: ${issue.message}`;
-}
-function formatIssues2(issues3, options = {}) {
-  if (!issues3) {
-    return false;
-  }
-  let indent = options.indent ?? "  - ";
-  return (Array.isArray(issues3) ? issues3 : [issues3]).map((issue) => formatIssue2(issue, { ...options, indent }));
-}
-function issueFromProblem2(problem) {
-  if (!problem || typeof problem != "object") {
-    return {
-      path: [],
-      pathString: "",
-      message: String(problem),
-      expected: void 0,
-      actual: void 0
-    };
-  }
-  let path2 = pathToArray2(problem.path);
-  let pathString = pathToString2(path2);
-  let actual = problem.actual ?? problem.found;
-  let expected = describeExpected2(problem.expected);
-  let message = conciseMessage2(problem.message, actual, problem.expected);
-  return {
-    path: path2,
-    pathString,
-    message,
-    expected,
-    actual
-  };
-}
-function problemsToIssues2(problems) {
-  if (!problems) {
-    return [];
-  }
-  let result = [];
-  for (let problem of Array.isArray(problems) ? problems : [problems]) {
-    if (!problem) {
-      continue;
-    }
-    if (problem && typeof problem == "object" && problem.problems) {
-      let nested = problemsToIssues2(problem.problems);
-      if (nested.length) {
-        result = result.concat(nested);
-        continue;
-      }
-    }
-    result.push(issueFromProblem2(problem));
-  }
-  return result;
-}
-function assert2(source, test) {
-  if (assertEnabled2) {
-    let problems = fails2(source, test);
-    if (problems) {
-      let assertionIssues = problemsToIssues2(problems);
-      let formattedIssues = formatIssues2(assertionIssues);
-      let message = "Assertions failed:\n" + formattedIssues.join("\n");
-      console.error("\u{1F170}\uFE0F  " + message);
-      throw new Error(message, {
-        cause: { problems, issues: assertionIssues, source }
-      });
-    }
-  }
-}
-function Optional2(pattern) {
-  return function _Optional(data, root, path2) {
-    if (typeof data != "undefined" && data != null && typeof pattern != "undefined") {
-      return fails2(data, pattern, root, path2);
-    }
-  };
-}
-function Required2(pattern) {
-  return function _Required(data, root, path2) {
-    if (data == null || typeof data == "undefined") {
-      return error2("data is required", data, pattern || "any value", path2);
-    } else if (typeof pattern != "undefined") {
-      return fails2(data, pattern, root, path2);
-    } else {
-      return false;
-    }
-  };
-}
-function Recommended2(pattern) {
-  return function _Recommended(data, root, path2) {
-    if (data == null || typeof data == "undefined") {
-      warn2("data does not contain recommended value", data, pattern, path2);
-      return false;
-    } else {
-      return fails2(data, pattern, root, path2);
-    }
-  };
-}
-function oneOf2(...patterns) {
-  return function _oneOf(data, root, path2) {
-    for (let pattern of patterns) {
-      if (!fails2(data, pattern, root, path2)) {
-        return false;
-      }
-    }
-    return error2("data does not match oneOf patterns", data, patterns, path2);
-  };
-}
-function anyOf2(...patterns) {
-  return function _anyOf(data, root, path2) {
-    if (!Array.isArray(data)) {
-      return error2("data is not an array", data, "anyOf", path2);
-    }
-    for (let [index, value] of data.entries()) {
-      let itemPath = appendPath2(path2, index);
-      if (oneOf2(...patterns)(value, root, itemPath)) {
-        return error2("data does not match anyOf patterns", value, patterns, itemPath);
-      }
-    }
-    return false;
-  };
-}
-function allOf2(...patterns) {
-  return function _allOf(data, root, path2) {
-    let problems = [];
-    for (let pattern of patterns) {
-      problems = problems.concat(fails2(data, pattern, root, path2));
-    }
-    problems = problems.filter(Boolean);
-    if (problems.length) {
-      return error2("data does not match all given patterns", data, patterns, path2, problems);
-    }
-  };
-}
-function validURL2(data, root, path2) {
-  try {
-    if (data instanceof URL) {
-      data = data.href;
-    }
-    let url3 = new URL(data);
-    if (url3.href != data) {
-      if (!(url3.href + "/" == data || url3.href == data + "/")) {
-        return error2("data is not a valid url", data, "validURL", path2);
-      }
-    }
-  } catch (e) {
-    return error2("data is not a valid url", data, "validURL", path2);
-  }
-}
-function validEmail2(data, root, path2) {
-  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data)) {
-    return error2("data is not a valid email", data, "validEmail", path2);
-  }
-}
-function instanceOf2(constructor) {
-  return function _instanceOf(data, root, path2) {
-    if (!(data instanceof constructor)) {
-      return error2("data is not an instanceof pattern", data, constructor, path2);
-    }
-  };
-}
-function not2(pattern) {
-  return function _not(data, root, path2) {
-    if (!fails2(data, pattern, root, path2)) {
-      return error2("data matches pattern, when required not to", data, pattern, path2);
-    }
-  };
-}
-function issues2(data, pattern, root) {
-  let problems = fails2(data, pattern, root);
-  if (!problems) {
-    return false;
-  }
-  return problemsToIssues2(problems);
-}
-function fails2(data, pattern, root, path2 = "") {
-  if (typeof root == "undefined") {
-    root = data;
-  }
-  let problems = [];
-  if (pattern === Boolean) {
-    if (typeof data != "boolean" && !(data instanceof Boolean)) {
-      problems.push(error2("data is not a boolean", data, pattern, path2));
-    }
-  } else if (pattern === Number) {
-    if (typeof data != "number" && !(data instanceof Number)) {
-      problems.push(error2("data is not a number", data, pattern, path2));
-    }
-  } else if (pattern === String) {
-    if (typeof data != "string" && !(data instanceof String)) {
-      problems.push(error2("data is not a string", data, pattern, path2));
-    }
-    if (data == "") {
-      problems.push(error2("data is an empty string, which is not allowed", data, pattern, path2));
-    }
-  } else if (pattern instanceof RegExp) {
-    if (Array.isArray(data)) {
-      let index = data.findIndex((element2, index2) => fails2(element2, pattern, root, appendPath2(path2, index2)));
-      if (index > -1) {
-        problems.push(error2("data[" + index + "] does not match pattern", data[index], pattern, appendPath2(path2, index)));
-      }
-    } else if (typeof data == "undefined") {
-      problems.push(error2("data is undefined, should match pattern", data, pattern, path2));
-    } else if (!pattern.test(data)) {
-      problems.push(error2("data does not match pattern", data, pattern, path2));
-    }
-  } else if (pattern instanceof Function) {
-    let problem = pattern(data, root, path2);
-    if (problem) {
-      if (Array.isArray(problem)) {
-        problems = problems.concat(problem);
-      } else {
-        problems.push(problem);
-      }
-    }
-  } else if (Array.isArray(pattern)) {
-    if (!Array.isArray(data)) {
-      problems.push(error2("data is not an array", data, [], path2));
-    } else {
-      for (let p of pattern) {
-        for (let index of data.keys()) {
-          let problem = fails2(data[index], p, root, appendPath2(path2, index));
-          if (Array.isArray(problem)) {
-            problems = problems.concat(problem);
-          } else if (problem) {
-            problems.push(problem);
-          }
-        }
-      }
-    }
-  } else if (pattern && typeof pattern == "object") {
-    if (Array.isArray(data)) {
-      let index = data.findIndex((element2, index2) => fails2(element2, pattern, root, appendPath2(path2, index2)));
-      if (index > -1) {
-        problems.push(error2("data[" + index + "] does not match pattern", data[index], pattern, appendPath2(path2, index)));
-      }
-    } else if (!data || typeof data != "object") {
-      problems.push(error2("data is not an object, pattern is", data, pattern, path2));
-    } else {
-      if (data instanceof URLSearchParams) {
-        data = Object.fromEntries(data);
-      }
-      if (pattern instanceof Function) {
-        let result = fails2(data, pattern, root, path2);
-        if (result) {
-          problems = problems.concat(result);
-        }
-      } else {
-        for (const [patternKey, subpattern] of Object.entries(pattern)) {
-          let result = fails2(data[patternKey], subpattern, root, appendPath2(path2, patternKey));
-          if (result) {
-            problems = problems.concat(result);
-          }
-        }
-      }
-    }
-  } else {
-    if (pattern != data) {
-      problems.push(error2("data and pattern are not equal", data, pattern, path2));
-    }
-  }
-  if (problems.length) {
-    return problems;
-  }
-  return false;
-}
-function error2(message, found, expected, path2 = "", problems) {
-  let pathParts = pathToArray2(path2);
-  let result = {
-    path: path2,
-    pathString: pathToString2(pathParts),
-    pathParts,
-    message,
-    found,
-    expected
-  };
-  if (problems) {
-    result.problems = problems;
-  }
-  return result;
-}
-function warn2(message, data, pattern, path2) {
-  console.warn("\u{1F170}\uFE0F  Assert: " + path2, message, pattern, data);
-}
-
-// ../solid-tools/node_modules/@muze-nl/assert/src/assert.mjs
-globalThis.assert = { ...assert_core_exports2 };
-
-// ../solid-tools/node_modules/@muze-nl/metro-oauth2/src/tokenstore.mjs
-function tokenStore(site) {
-  let localState, localTokens;
-  if (typeof localStorage !== "undefined") {
-    localState = {
-      get: () => localStorage.getItem("metro/state:" + site),
-      set: (value) => localStorage.setItem("metro/state:" + site, value),
-      has: () => localStorage.getItem("metro/state:" + site) !== null,
-      delete: () => localStorage.removeItem("metro/state:" + site)
-    };
-    localTokens = {
-      get: (name) => JSON.parse(localStorage.getItem(site + ":" + name)),
-      set: (name, value) => localStorage.setItem(site + ":" + name, JSON.stringify(value)),
-      has: (name) => localStorage.getItem(site + ":" + name) !== null,
-      delete: (name) => localStorage.removeItem(site + ":" + name)
-    };
-  } else {
-    let stateMap = /* @__PURE__ */ new Map();
-    localState = {
-      get: () => stateMap.get("metro/state:" + site),
-      set: (value) => stateMap.set("metro/state:" + site, value),
-      has: () => stateMap.has("metro/state:" + site),
-      delete: () => stateMap.delete("metro/state:" + site)
-    };
-    localTokens = /* @__PURE__ */ new Map();
-  }
-  return {
-    state: localState,
-    tokens: localTokens
-  };
-}
-
-// ../solid-tools/node_modules/@muze-nl/metro-oauth2/src/oauth2.mjs
-var SUPPORTED_TOKEN_TYPES = /* @__PURE__ */ new Map([
-  ["bearer", "Bearer"],
-  ["dpop", "DPoP"]
-]);
-var SUPPORTED_TOKEN_ENDPOINT_AUTH_METHODS = /* @__PURE__ */ new Set([
-  "none",
-  "client_secret_post",
-  "client_secret_basic"
-]);
-function oauth2mw(options) {
-  const defaultOptions = {
-    client: client(),
-    force_authorization: false,
-    site: "default",
-    oauth2_configuration: {
-      authorization_endpoint: "/authorize",
-      token_endpoint: "/token",
-      redirect_uri: globalThis.document?.location.href,
-      grant_type: "authorization_code",
-      code_verifier: generateCodeVerifier(64)
-    },
-    authorize_callback: async (url3) => {
-      if (window.location.href != url3.href) {
-        window.location.replace(url3.href);
-      }
-      return false;
-    }
-  };
-  assert2(options, {});
-  const oauth22 = Object.assign({}, defaultOptions.oauth2_configuration, options?.oauth2_configuration);
-  options = Object.assign({}, defaultOptions, options);
-  options.oauth2_configuration = oauth22;
-  const store = tokenStore(options.site);
-  if (!options.tokens) {
-    options.tokens = store.tokens;
-  }
-  if (!options.state) {
-    options.state = store.state;
-  }
-  assert2(options, {
-    oauth2_configuration: {
-      client_id: Required2(/.+/),
-      grant_type: "authorization_code",
-      authorization_endpoint: Required2(validURL2),
-      token_endpoint: Required2(validURL2),
-      redirect_uri: Required2(validURL2)
-    }
-  });
-  for (let option in oauth22) {
-    switch (option) {
-      case "access_token":
-      case "authorization_code":
-      case "refresh_token":
-        options.tokens.set(option, normalizeInitialToken(option, oauth22[option]));
-        break;
-    }
-  }
-  return async function(req, next) {
-    if (options.force_authorization) {
-      return oauth2authorized(req, next);
-    }
-    const res = await next(req);
-    if (res.ok || !shouldAuthorizeResponse(res)) {
-      return res;
-    }
-    return oauth2authorized(req, next);
-  };
-  async function oauth2authorized(req, next, retryState = {}) {
-    getTokensFromLocation();
-    const accessToken = options.tokens.get("access_token");
-    const refreshToken = options.tokens.get("refresh_token");
-    const tokenIsExpired = isExpired(accessToken);
-    if (!accessToken || tokenIsExpired && !refreshToken) {
-      const token = await fetchAccessToken();
-      if (!token) {
-        return response("false");
-      }
-      return oauth2authorized(req, next);
-    } else if (tokenIsExpired && refreshToken) {
-      const token = await refreshAccessToken();
-      if (!token) {
-        return response("false");
-      }
-      return oauth2authorized(req, next);
-    } else {
-      const authorizedReq = request(req, {
-        headers: {
-          Authorization: accessToken.type + " " + accessToken.value
-        }
-      });
-      const res = await next(authorizedReq);
-      if (!shouldAuthorizeResponse(res) || retryState.handledRejectedToken) {
-        return res;
-      }
-      options.tokens.delete("access_token");
-      const token = refreshToken ? await refreshAccessToken() : await fetchAccessToken();
-      if (!token) {
-        return response("false");
-      }
-      return oauth2authorized(req, next, { handledRejectedToken: true });
-    }
-  }
-  function getTokensFromLocation() {
-    if (typeof window !== "undefined" && window?.location) {
-      let url3 = url(window.location);
-      let code, state, params;
-      if (url3.searchParams.has("code") || url3.searchParams.has("error")) {
-        params = url3.searchParams;
-        url3 = url3.with({ search: "" });
-        history.pushState({}, "", url3.href);
-      } else if (url3.hash) {
-        let query = url3.hash.substr(1);
-        params = new URLSearchParams("?" + query);
-        url3 = url3.with({ hash: "" });
-        history.pushState({}, "", url3.href);
-      }
-      if (params) {
-        if (params.has("error")) {
-          throw metroError("oauth2mw: authorization failed: " + params.get("error") + (params.get("error_description") ? " (" + params.get("error_description") + ")" : ""));
-        }
-        code = params.get("code");
-        state = params.get("state");
-        validateState(state);
-        if (code) {
-          options.tokens.set("authorization_code", code);
-        }
-      }
-    }
-  }
-  async function fetchAccessToken() {
-    if (oauth22.grant_type === "authorization_code" && !options.tokens.has("authorization_code")) {
-      let authReqURL = await getAuthorizationCodeURL();
-      if (!options.authorize_callback || typeof options.authorize_callback !== "function") {
-        throw metroError("oauth2mw: oauth2 with grant_type:authorization_code requires a callback function in client options.authorize_callback");
-      }
-      let authorization = await options.authorize_callback(authReqURL);
-      if (authorization) {
-        storeAuthorizationResult(authorization);
-      } else {
-        return false;
-      }
-    }
-    let tokenReq = getAccessTokenRequest();
-    let response3 = await options.client.post(tokenReq);
-    if (!response3.ok) {
-      let msg = await response3.text();
-      throw metroError("OAuth2mw: fetch access_token: " + response3.status + ": " + response3.statusText + " (" + msg + ")", { cause: tokenReq });
-    }
-    let data = await response3.json();
-    storeTokenResponse(data);
-    options.tokens.delete("authorization_code");
-    return data;
-  }
-  async function refreshAccessToken() {
-    let refreshTokenReq = getAccessTokenRequest("refresh_token");
-    let response3 = await options.client.post(refreshTokenReq);
-    if (!response3.ok) {
-      let msg = await response3.text();
-      throw metroError("OAuth2mw: refresh access_token: " + response3.status + ": " + response3.statusText + " (" + msg + ")", { cause: refreshTokenReq });
-    }
-    let data = await response3.json();
-    storeTokenResponse(data);
-    return data;
-  }
-  async function getAuthorizationCodeURL() {
-    if (!oauth22.authorization_endpoint) {
-      throw metroError("oauth2mw: Missing options.oauth2_configuration.authorization_endpoint");
-    }
-    let url3 = url(oauth22.authorization_endpoint, { hash: "" });
-    assert2(oauth22, {
-      client_id: /.+/,
-      redirect_uri: /.+/,
-      scope: /.*/
-    });
-    let search = {
-      response_type: "code",
-      client_id: oauth22.client_id,
-      redirect_uri: oauth22.redirect_uri,
-      state: oauth22.state || createState(40)
-    };
-    if (oauth22.response_type) {
-      search.response_type = oauth22.response_type;
-    }
-    if (oauth22.response_mode) {
-      search.response_mode = oauth22.response_mode;
-    }
-    options.state.set(search.state);
-    if (oauth22.code_verifier) {
-      options.tokens.set("code_verifier", oauth22.code_verifier);
-      search.code_challenge = await generateCodeChallenge(oauth22.code_verifier);
-      search.code_challenge_method = "S256";
-    }
-    if (oauth22.scope) {
-      search.scope = oauth22.scope;
-    }
-    if (oauth22.prompt) {
-      search.prompt = oauth22.prompt;
-    }
-    if (oauth22.nonce) {
-      search.nonce = oauth22.nonce;
-    }
-    return url(url3, { search });
-  }
-  function getAccessTokenRequest(grant_type = null) {
-    assert2(oauth22, {
-      client_id: /.+/,
-      redirect_uri: /.+/
-    });
-    if (!oauth22.token_endpoint) {
-      throw metroError("oauth2mw: Missing options.endpoints.token url");
-    }
-    let url3 = url(oauth22.token_endpoint, { hash: "" });
-    let params = {
-      grant_type: grant_type || oauth22.grant_type
-    };
-    let headers = {};
-    applyTokenEndpointAuthentication(params, headers);
-    if (oauth22.scope) {
-      params.scope = oauth22.scope;
-    }
-    switch (params.grant_type) {
-      case "authorization_code":
-        params.redirect_uri = oauth22.redirect_uri;
-        params.code = options.tokens.get("authorization_code");
-        const code_verifier = options.tokens.get("code_verifier");
-        if (code_verifier) {
-          params.code_verifier = code_verifier;
-        }
-        break;
-      case "client_credentials":
-        break;
-      case "refresh_token":
-        params.refresh_token = tokenValue(options.tokens.get("refresh_token"));
-        break;
-      default:
-        throw new Error("Unknown grant_type: " + params.grant_type);
-        break;
-    }
-    return request(url3, { method: "POST", headers, body: new URLSearchParams(params) });
-  }
-  function applyTokenEndpointAuthentication(params, headers) {
-    const method = tokenEndpointAuthMethod(oauth22);
-    if (method === "none") {
-      params.client_id = oauth22.client_id;
-      return;
-    }
-    if (!oauth22.client_secret) {
-      throw metroError("oauth2mw: token_endpoint_auth_method " + method + " requires oauth2_configuration.client_secret");
-    }
-    if (method === "client_secret_post") {
-      params.client_id = oauth22.client_id;
-      params.client_secret = oauth22.client_secret;
-      return;
-    }
-    if (method === "client_secret_basic") {
-      headers.Authorization = basicAuth(oauth22.client_id, oauth22.client_secret);
-      return;
-    }
-  }
-  function storeAuthorizationResult(authorization) {
-    let code = authorization;
-    if (authorization && typeof authorization === "object") {
-      if (authorization.error) {
-        throw metroError("oauth2mw: authorization failed: " + authorization.error);
-      }
-      validateState(authorization.state);
-      code = authorization.authorization_code || authorization.code;
-    }
-    if (!code) {
-      throw metroError("oauth2mw: authorization callback did not return an authorization code");
-    }
-    options.tokens.set("authorization_code", code);
-  }
-  function validateState(state) {
-    let storedState = options.state.get();
-    if (!state || state !== storedState) {
-      throw metroError("oauth2mw: authorization state mismatch");
-    }
-  }
-  function storeTokenResponse(data) {
-    const token = validateTokenResponse(data);
-    options.tokens.set("access_token", token);
-    if (data.refresh_token) {
-      options.tokens.set("refresh_token", { value: data.refresh_token });
-    }
-  }
-}
-function shouldAuthorizeResponse(res) {
-  if (!res) {
-    return false;
-  }
-  if (res.status === 400) {
-    return true;
-  }
-  const challenge = parseBearerChallenge(res.headers?.get("WWW-Authenticate"));
-  if (challenge?.error === "insufficient_scope") {
-    return false;
-  }
-  return res.status === 401;
-}
-function normalizeInitialToken(name, token) {
-  if (name === "access_token" && token && typeof token === "object") {
-    return token;
-  }
-  if (name === "access_token") {
-    return { value: token, type: "Bearer", expires: null };
-  }
-  if (name === "refresh_token" && token && typeof token === "object") {
-    return token;
-  }
-  return token;
-}
-function validateTokenResponse(data) {
-  if (!data || typeof data !== "object") {
-    throw metroError("OAuth2mw: token endpoint did not return a JSON object");
-  }
-  if (!data.access_token) {
-    throw metroError("OAuth2mw: token response did not include access_token");
-  }
-  if (!data.token_type) {
-    throw metroError("OAuth2mw: token response did not include token_type");
-  }
-  const tokenType = normalizeTokenType(data.token_type);
-  return {
-    value: data.access_token,
-    expires: data.expires_in === void 0 ? null : getExpires(data.expires_in),
-    type: tokenType,
-    scope: data.scope
-  };
-}
-function normalizeTokenType(type) {
-  const normalized = SUPPORTED_TOKEN_TYPES.get(String(type).toLowerCase());
-  if (!normalized) {
-    throw metroError("OAuth2mw: unsupported token_type " + type);
-  }
-  return normalized;
-}
-function tokenEndpointAuthMethod(oauth22) {
-  const method = oauth22.token_endpoint_auth_method || (oauth22.client_secret ? "client_secret_post" : "none");
-  if (!SUPPORTED_TOKEN_ENDPOINT_AUTH_METHODS.has(method)) {
-    throw metroError("oauth2mw: unsupported token_endpoint_auth_method " + method);
-  }
-  return method;
-}
-function basicAuth(clientId, clientSecret) {
-  const value = formEncode(clientId) + ":" + formEncode(clientSecret);
-  return "Basic " + base64_encode(value);
-}
-function formEncode(value) {
-  return encodeURIComponent(value).replace(/%20/g, "+");
-}
-function base64_encode(value) {
-  if (typeof btoa === "function") {
-    return btoa(value);
-  }
-  return Buffer.from(value, "binary").toString("base64");
-}
-function tokenValue(token) {
-  return token && typeof token === "object" ? token.value : token;
-}
-function isExpired(token) {
-  if (!token) {
-    return true;
-  }
-  if (!token.expires) {
-    return false;
-  }
-  let expires = new Date(token.expires);
-  let now2 = /* @__PURE__ */ new Date();
-  return now2.getTime() > expires.getTime();
-}
-function getExpires(duration) {
-  if (duration instanceof Date) {
-    return new Date(duration.getTime());
-  }
-  if (typeof duration === "number") {
-    let date = /* @__PURE__ */ new Date();
-    date.setSeconds(date.getSeconds() + duration);
-    return date;
-  }
-  throw new TypeError("Unknown expires type " + duration);
-}
-function generateCodeVerifier(size = 64) {
-  const code_verifier = new Uint8Array(size);
-  globalThis.crypto.getRandomValues(code_verifier);
-  return base64url_encode(code_verifier);
-}
-async function generateCodeChallenge(code_verifier) {
-  const encoder2 = new TextEncoder();
-  const data = encoder2.encode(code_verifier);
-  const challenge = await globalThis.crypto.subtle.digest("SHA-256", data);
-  return base64url_encode(challenge);
-}
-function base64url_encode(buffer) {
-  const byteString = Array.from(new Uint8Array(buffer), (b) => String.fromCharCode(b)).join("");
-  return btoa(byteString).replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, "");
-}
-function createState(length) {
-  const bytes = new Uint8Array(Math.ceil(length * 3 / 4) + 1);
-  if (globalThis.crypto?.getRandomValues) {
-    globalThis.crypto.getRandomValues(bytes);
-    return base64url_encode(bytes).slice(0, length);
-  }
-  const validChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-  let randomState = "";
-  let counter = 0;
-  while (counter < length) {
-    randomState += validChars.charAt(Math.floor(Math.random() * validChars.length));
-    counter++;
-  }
-  return randomState;
-}
-function isRedirected() {
-  let url3 = new URL(document.location.href);
-  if (!url3.searchParams.has("code")) {
-    if (url3.hash) {
-      let query = url3.hash.substr(1);
-      const params = new URLSearchParams("?" + query);
-      if (params.has("code")) {
-        return true;
-      }
-    }
-    return false;
-  }
-  return true;
-}
-function isAuthorized(tokens) {
-  if (typeof tokens == "string") {
-    tokens = tokenStore(tokens).tokens;
-  }
-  let accessToken = tokens.get("access_token");
-  if (accessToken && !isExpired(accessToken)) {
-    return true;
-  }
-  let refreshToken = tokens.get("refresh_token");
-  if (refreshToken) {
-    return true;
-  }
-  return false;
-}
-function parseBearerChallenge(value) {
-  if (!value || typeof value !== "string") {
-    return null;
-  }
-  const trimmed = value.trim();
-  const index = trimmed.search(/\s/);
-  const scheme = index < 0 ? trimmed : trimmed.slice(0, index);
-  const rest = index < 0 ? "" : trimmed.slice(index + 1);
-  if (!["bearer", "dpop"].includes(scheme.toLowerCase())) {
-    return null;
-  }
-  const result = { scheme };
-  const pattern = /([A-Za-z][A-Za-z0-9_-]*)=("(?:[^"\\]|\\.)*"|[^,\s]*)/g;
-  let match;
-  while (match = pattern.exec(rest)) {
-    let value2 = match[2];
-    if (value2.startsWith('"') && value2.endsWith('"')) {
-      value2 = value2.slice(1, -1).replace(/\\"/g, '"');
-    }
-    result[match[1]] = value2;
-  }
-  return result;
-}
-
-// ../solid-tools/node_modules/@muze-nl/metro-oauth2/src/oauth2.discovery.mjs
-var oauth2_discovery_exports = {};
-__export(oauth2_discovery_exports, {
-  default: () => makeClient
-});
-init_src();
-var validAlgorithms = [
-  "HS256",
-  "HS384",
-  "HS512",
-  "RS256",
-  "RS384",
-  "RS512",
-  "ES256",
-  "ES384",
-  "ES512"
-];
-var validAuthMethods = [
-  "client_secret_post",
-  "client_secret_base",
-  "client_secret_jwt",
-  "private_key_jwt"
-];
-var oauth_authorization_server_metadata = {
-  authorization_endpoint: Required2(validURL2),
-  issuer: Required2(validURL2),
-  response_types_supported: Required2(anyOf2("code", "token")),
-  token_endpoint: Required2(validURL2),
-  scopes_supported: Recommended2([]),
-  code_challendge_methods_supported: Optional2([]),
-  grant_types_supported: Optional2([]),
-  introspection_endpoint: Optional2(validURL2),
-  introspection_endpoint_auth_methods_supported: Optional2(validAuthMethods),
-  introspection_endpoint_auth_signing_alg_values_supported: Optional2(validAlgorithms),
-  jwks_uri: Optional2(validURL2),
-  op_policy_uri: Optional2(validURL2),
-  op_tos_uri: Optional2(validURL2),
-  registration_endpoint: Optional2(validURL2),
-  response_modes_supported: Optional2([]),
-  revocation_endpoint: Optional2(validURL2),
-  revocation_endpoint_auth_methods_supported: Optional2(validAuthMethods),
-  revocation_endpoint_auth_signing_alg_values_supported: Optional2(validAlgorithms),
-  service_documentation: Optional2(validURL2),
-  token_endpoint_auth_methods_supported: Optional2([]),
-  token_endpoint_auth_signing_alg_values_supported: Optional2([]),
-  ui_locales_supported: Optional2([])
-};
-function makeClient(options = {}) {
-  const defaultOptions = {
-    client: client()
-  };
-  options = Object.assign({}, defaultOptions, options);
-  assert2(options, {
-    issuer: Required2(validURL2)
-  });
-  const oauth_authorization_server_configuration = fetchWellknownOauthAuthorizationServer(options.issuer);
-  return options.client.with(options.issuer);
-}
-async function fetchWellknownOauthAuthorizationServer(issuer, client3) {
-  let res = client3.get(url(issuer, ".wellknown/oauth_authorization_server"));
-  if (!res.ok) {
-    throw metroError("metro.oidcmw: Error while fetching " + issuer + ".wellknown/oauth_authorization_server", res);
-  }
-  assert2(res.headers.get("Content-Type"), /application\/json.*/);
-  let configuration = await res.json();
-  assert2(configuration, oauth_authorization_server_metadata);
-  return configuration;
-}
-
-// ../solid-tools/node_modules/@muze-nl/metro-oauth2/src/oauth2.popup.mjs
-function handleRedirect(origin = null) {
-  let success = false;
-  origin = origin || window.location.origin;
-  let params = new URLSearchParams(window.location.search);
-  if (!params.has("code") && !params.has("error") && window.location.hash) {
-    let query = window.location.hash.substring(1);
-    params = new URLSearchParams("?" + query);
-  }
-  let parent = window.parent !== window ? window.parent : window.opener;
-  if (!parent) {
-    console.error("No parent window found, cannot post authorization code (or error)");
-  } else {
-    let message;
-    if (params.has("code")) {
-      success = true;
-      message = {
-        authorization_code: params.get("code"),
-        state: params.get("state")
-      };
-    } else if (params.has("error")) {
-      message = {
-        error: params.get("error"),
-        error_description: params.get("error_description"),
-        state: params.get("state")
-      };
-    } else {
-      message = { error: "Could not find an authorization_code" };
-    }
-    parent.postMessage(message, origin);
-  }
-  return success;
-}
-function authorizePopup(authorizationCodeURL, options = {}) {
-  const url3 = new URL(authorizationCodeURL, window.location.href);
-  const expectedState = url3.searchParams.get("state");
-  const redirectUri = url3.searchParams.get("redirect_uri");
-  const expectedOrigin = redirectUri ? new URL(redirectUri, window.location.href).origin : window.location.origin;
-  return new Promise((resolve, reject) => {
-    const cleanup = () => {
-      if (typeof removeEventListener === "function") {
-        removeEventListener("message", handler);
-      }
-    };
-    const handler = (event) => {
-      if (event.origin && event.origin !== expectedOrigin) {
-        return;
-      }
-      if (event.data.authorization_code) {
-        if (expectedState && event.data.state !== expectedState) {
-          cleanup();
-          reject("OAuth2 authorization state mismatch");
-          return;
-        }
-        cleanup();
-        resolve(event.data.authorization_code);
-      } else if (event.data.error) {
-        if (expectedState && event.data.state && event.data.state !== expectedState) {
-          cleanup();
-          reject("OAuth2 authorization state mismatch");
-          return;
-        }
-        cleanup();
-        reject(event.data.error_description || event.data.error);
-      } else {
-        cleanup();
-        reject("Unknown authorization error");
-      }
-    };
-    addEventListener("message", handler);
-    const popup = options.popup || window.open(authorizationCodeURL);
-    if (!popup || popup.closed) {
-      cleanup();
-      reject("OAuth2 popup was blocked");
-      return;
-    }
-    if (options.popup) {
-      popup.location.href = authorizationCodeURL;
-    }
-  });
-}
-
-// ../solid-tools/node_modules/@muze-nl/metro-oauth2/src/keysstore.mjs
-function keysStore() {
-  return new Promise((resolve, reject) => {
-    const request3 = globalThis.indexedDB.open("metro", 1);
-    request3.onupgradeneeded = () => request3.result.createObjectStore("keyPairs", { keyPath: "domain" });
-    request3.onerror = (event) => {
-      reject(event);
-    };
-    request3.onsuccess = (event) => {
-      const db = event.target.result;
-      resolve({
-        set: function(value, key) {
-          return new Promise((resolve2, reject2) => {
-            const tx = db.transaction("keyPairs", "readwrite", { durability: "strict" });
-            const objectStore = tx.objectStore("keyPairs");
-            tx.oncomplete = () => {
-              resolve2();
-            };
-            tx.onerror = reject2;
-            objectStore.put(value, key);
-          });
-        },
-        get: function(key) {
-          return new Promise((resolve2, reject2) => {
-            const tx = db.transaction("keyPairs", "readonly");
-            const objectStore = tx.objectStore("keyPairs");
-            const request4 = objectStore.get(key);
-            request4.onsuccess = () => {
-              resolve2(request4.result);
-            };
-            request4.onerror = reject2;
-            tx.onerror = reject2;
-          });
-        },
-        clear: function() {
-          return new Promise((resolve2, reject2) => {
-            const tx = db.transaction("keyPairs", "readwrite");
-            const objectStore = tx.objectStore("keyPairs");
-            const request4 = objectStore.clear();
-            request4.onsuccess = () => {
-              resolve2();
-            };
-            request4.onerror = reject2;
-            tx.onerror = reject2;
-          });
-        }
-      });
-    };
-  });
-}
-
-// ../solid-tools/node_modules/@muze-nl/metro-oauth2/src/oauth2.dpop.mjs
-init_src();
-
-// ../solid-tools/node_modules/dpop/build/index.js
-var encoder = new TextEncoder();
-var decoder = new TextDecoder();
-function buf(input2) {
-  if (typeof input2 === "string") {
-    return encoder.encode(input2);
-  }
-  return decoder.decode(input2);
-}
-function checkRsaKeyAlgorithm(algorithm) {
-  if (typeof algorithm.modulusLength !== "number" || algorithm.modulusLength < 2048) {
-    throw new OperationProcessingError(`${algorithm.name} modulusLength must be at least 2048 bits`);
-  }
-}
-function subtleAlgorithm(key) {
-  switch (key.algorithm.name) {
-    case "ECDSA":
-      return { name: key.algorithm.name, hash: "SHA-256" };
-    case "RSA-PSS":
-      checkRsaKeyAlgorithm(key.algorithm);
-      return {
-        name: key.algorithm.name,
-        saltLength: 256 >> 3
-      };
-    case "RSASSA-PKCS1-v1_5":
-      checkRsaKeyAlgorithm(key.algorithm);
-      return { name: key.algorithm.name };
-    case "Ed25519":
-      return { name: key.algorithm.name };
-  }
-  throw new UnsupportedOperationError();
-}
-async function jwt(header, claimsSet, key) {
-  if (key.usages.includes("sign") === false) {
-    throw new TypeError('private CryptoKey instances used for signing assertions must include "sign" in their "usages"');
-  }
-  const input2 = `${b64u(buf(JSON.stringify(header)))}.${b64u(buf(JSON.stringify(claimsSet)))}`;
-  const signature = b64u(await crypto.subtle.sign(subtleAlgorithm(key), key, buf(input2)));
-  return `${input2}.${signature}`;
-}
-var encodeBase64Url;
-if (Uint8Array.prototype.toBase64) {
-  encodeBase64Url = (input2) => {
-    if (input2 instanceof ArrayBuffer) {
-      input2 = new Uint8Array(input2);
-    }
-    return input2.toBase64({ alphabet: "base64url", omitPadding: true });
-  };
-} else {
-  const CHUNK_SIZE = 32768;
-  encodeBase64Url = (input2) => {
-    if (input2 instanceof ArrayBuffer) {
-      input2 = new Uint8Array(input2);
-    }
-    const arr = [];
-    for (let i = 0; i < input2.byteLength; i += CHUNK_SIZE) {
-      arr.push(String.fromCharCode.apply(null, input2.subarray(i, i + CHUNK_SIZE)));
-    }
-    return btoa(arr.join("")).replace(/=/g, "").replace(/\+/g, "-").replace(/\//g, "_");
-  };
-}
-function b64u(input2) {
-  return encodeBase64Url(input2);
-}
-var UnsupportedOperationError = class extends Error {
-  constructor(message) {
-    var _a;
-    super(message !== null && message !== void 0 ? message : "operation not supported");
-    this.name = this.constructor.name;
-    (_a = Error.captureStackTrace) === null || _a === void 0 ? void 0 : _a.call(Error, this, this.constructor);
-  }
-};
-var OperationProcessingError = class extends Error {
-  constructor(message) {
-    var _a;
-    super(message);
-    this.name = this.constructor.name;
-    (_a = Error.captureStackTrace) === null || _a === void 0 ? void 0 : _a.call(Error, this, this.constructor);
-  }
-};
-function psAlg(key) {
-  switch (key.algorithm.hash.name) {
-    case "SHA-256":
-      return "PS256";
-    default:
-      throw new UnsupportedOperationError("unsupported RsaHashedKeyAlgorithm hash name");
-  }
-}
-function rsAlg(key) {
-  switch (key.algorithm.hash.name) {
-    case "SHA-256":
-      return "RS256";
-    default:
-      throw new UnsupportedOperationError("unsupported RsaHashedKeyAlgorithm hash name");
-  }
-}
-function esAlg(key) {
-  switch (key.algorithm.namedCurve) {
-    case "P-256":
-      return "ES256";
-    default:
-      throw new UnsupportedOperationError("unsupported EcKeyAlgorithm namedCurve");
-  }
-}
-function determineJWSAlgorithm(key) {
-  switch (key.algorithm.name) {
-    case "RSA-PSS":
-      return psAlg(key);
-    case "RSASSA-PKCS1-v1_5":
-      return rsAlg(key);
-    case "ECDSA":
-      return esAlg(key);
-    case "Ed25519":
-      return "Ed25519";
-    default:
-      throw new UnsupportedOperationError("unsupported CryptoKey algorithm name");
-  }
-}
-function isCryptoKey(key) {
-  return key instanceof CryptoKey;
-}
-function isPrivateKey(key) {
-  return isCryptoKey(key) && key.type === "private";
-}
-function isPublicKey(key) {
-  return isCryptoKey(key) && key.type === "public";
-}
-function epochTime() {
-  return Math.floor(Date.now() / 1e3);
-}
-async function generateProof(keypair, htu, htm, nonce, accessToken, additional) {
-  const privateKey = keypair === null || keypair === void 0 ? void 0 : keypair.privateKey;
-  const publicKey = keypair === null || keypair === void 0 ? void 0 : keypair.publicKey;
-  if (!isPrivateKey(privateKey)) {
-    throw new TypeError('"keypair.privateKey" must be a private CryptoKey');
-  }
-  if (!isPublicKey(publicKey)) {
-    throw new TypeError('"keypair.publicKey" must be a public CryptoKey');
-  }
-  if (publicKey.extractable !== true) {
-    throw new TypeError('"keypair.publicKey.extractable" must be true');
-  }
-  if (typeof htu !== "string") {
-    throw new TypeError('"htu" must be a string');
-  }
-  if (typeof htm !== "string") {
-    throw new TypeError('"htm" must be a string');
-  }
-  if (nonce !== void 0 && typeof nonce !== "string") {
-    throw new TypeError('"nonce" must be a string or undefined');
-  }
-  if (accessToken !== void 0 && typeof accessToken !== "string") {
-    throw new TypeError('"accessToken" must be a string or undefined');
-  }
-  if (additional !== void 0 && (typeof additional !== "object" || additional === null || Array.isArray(additional))) {
-    throw new TypeError('"additional" must be an object');
-  }
-  return jwt({
-    alg: determineJWSAlgorithm(privateKey),
-    typ: "dpop+jwt",
-    jwk: await publicJwk(publicKey)
-  }, Object.assign(Object.assign({}, additional), {
-    iat: epochTime(),
-    jti: crypto.randomUUID(),
-    htm,
-    nonce,
-    htu,
-    ath: accessToken ? b64u(await crypto.subtle.digest("SHA-256", buf(accessToken))) : void 0
-  }), privateKey);
-}
-async function publicJwk(key) {
-  const { kty, e, n, x, y, crv } = await crypto.subtle.exportKey("jwk", key);
-  return { kty, crv, e, n, x, y };
-}
-async function generateKeyPair(alg, options) {
-  var _a;
-  let algorithm;
-  if (typeof alg !== "string" || alg.length === 0) {
-    throw new TypeError('"alg" must be a non-empty string');
-  }
-  switch (alg) {
-    case "PS256":
-      algorithm = {
-        name: "RSA-PSS",
-        hash: "SHA-256",
-        modulusLength: 2048,
-        publicExponent: new Uint8Array([1, 0, 1])
-      };
-      break;
-    case "RS256":
-      algorithm = {
-        name: "RSASSA-PKCS1-v1_5",
-        hash: "SHA-256",
-        modulusLength: 2048,
-        publicExponent: new Uint8Array([1, 0, 1])
-      };
-      break;
-    case "ES256":
-      algorithm = { name: "ECDSA", namedCurve: "P-256" };
-      break;
-    case "Ed25519":
-      algorithm = { name: "Ed25519" };
-      break;
-    default:
-      throw new UnsupportedOperationError();
-  }
-  return crypto.subtle.generateKey(algorithm, (_a = options === null || options === void 0 ? void 0 : options.extractable) !== null && _a !== void 0 ? _a : false, ["sign", "verify"]);
-}
-
-// ../solid-tools/node_modules/@muze-nl/metro-oauth2/src/oauth2.dpop.mjs
-function dpopmw(options) {
-  assert2(options, {
-    site: Required2(validURL2),
-    authorization_endpoint: Required2(validURL2),
-    token_endpoint: Required2(validURL2),
-    dpop_signing_alg_values_supported: Optional2([])
-    // this property is unfortunately rarely supported
-  });
-  return async (req, next) => {
-    const keys = await keysStore();
-    let keyInfo = await keys.get(options.site);
-    if (!keyInfo) {
-      let keyPair = await generateKeyPair("ES256");
-      keyInfo = { domain: options.site, keyPair };
-      await keys.set(keyInfo);
-    }
-    const url3 = url(req.url);
-    if (req.url.startsWith(options.authorization_endpoint)) {
-      let params = req.body;
-      if (params instanceof URLSearchParams || params instanceof FormData) {
-        params.set("dpop_jkt", keyInfo.keyPair.publicKey);
-      } else {
-        params.dpop_jkt = keyInfo.keyPair.publicKey;
-      }
-    } else if (req.url.startsWith(options.token_endpoint)) {
-      const dpopHeader = await generateProof(keyInfo.keyPair, req.url, req.method);
-      req = req.with({
-        headers: {
-          "DPoP": dpopHeader
-        }
-      });
-    } else if (req.headers.has("Authorization")) {
-      const nonce = localStorage.getItem(url3.host + ":nonce") || void 0;
-      const accessToken = req.headers.get("Authorization").split(" ")[1];
-      const dpopHeader = await generateProof(keyInfo.keyPair, req.url, req.method, nonce, accessToken);
-      req = req.with({
-        headers: {
-          "Authorization": "DPoP " + accessToken,
-          "DPoP": dpopHeader
-        }
-      });
-    }
-    let response3 = await next(req);
-    if (response3.headers.get("DPoP-Nonce")) {
-      localStorage.setItem(url3.host + ":nonce", response3.headers.get("DPoP-Nonce"));
-    }
-    return response3;
-  };
-}
-
-// ../solid-tools/node_modules/@muze-nl/metro-oauth2/src/index.mjs
-var oauth2 = Object.assign({}, oauth2_exports, {
-  oauth2mw,
-  discover: oauth2_discovery_exports,
-  tokenstore: tokenStore,
-  dpopmw,
-  keysstore: keysStore,
-  authorizePopup,
-  popupHandleRedirect: handleRedirect
-});
-
-// ../solid-tools/node_modules/@muze-nl/metro-oidc/node_modules/@muze-nl/assert/src/assert.mjs
-globalThis.assertEnabled = false;
-function enable3() {
-  globalThis.assertEnabled = true;
-}
-function disable3() {
-  globalThis.assertEnabled = false;
-}
-function assert3(source, test) {
-  if (globalThis.assertEnabled) {
-    let problems = fails3(source, test);
-    if (problems) {
-      console.error("\u{1F170}\uFE0F  Assertions failed because of:", problems, "in this source:", source);
-      throw new Error("Assertions failed", {
-        cause: { problems, source }
-      });
-    }
-  }
-}
-function Optional3(pattern) {
-  return function _Optional(data, root, path2) {
-    if (typeof data != "undefined" && data != null && typeof pattern != "undefined") {
-      return fails3(data, pattern, root, path2);
-    }
-  };
-}
-function Required3(pattern) {
-  return function _Required(data, root, path2) {
-    if (data == null || typeof data == "undefined") {
-      return error3("data is required", data, pattern || "any value", path2);
-    } else if (typeof pattern != "undefined") {
-      return fails3(data, pattern, root, path2);
-    } else {
-      return false;
-    }
-  };
-}
-function Recommended3(pattern) {
-  return function _Recommended(data, root, path2) {
-    if (data == null || typeof data == "undefined") {
-      warn3("data does not contain recommended value", data, pattern, path2);
-      return false;
-    } else {
-      return fails3(data, pattern, root, path2);
-    }
-  };
-}
-function oneOf3(...patterns) {
-  return function _oneOf(data, root, path2) {
-    for (let pattern of patterns) {
-      if (!fails3(data, pattern, root, path2)) {
-        return false;
-      }
-    }
-    return error3("data does not match oneOf patterns", data, patterns, path2);
-  };
-}
-function anyOf3(...patterns) {
-  return function _anyOf(data, root, path2) {
-    if (!Array.isArray(data)) {
-      return error3("data is not an array", data, "anyOf", path2);
-    }
-    for (let value of data) {
-      if (oneOf3(...patterns)(value)) {
-        return error3("data does not match anyOf patterns", value, patterns, path2);
-      }
-    }
-    return false;
-  };
-}
-function allOf3(...patterns) {
-  return function _allOf(data, root, path2) {
-    let problems = [];
-    for (let pattern of patterns) {
-      problems = problems.concat(fails3(data, pattern, root, path2));
-    }
-    problems = problems.filter(Boolean);
-    if (problems.length) {
-      return error3("data does not match all given patterns", data, patterns, path2, problems);
-    }
-  };
-}
-function validURL3(data, root, path2) {
-  try {
-    if (data instanceof URL) {
-      data = data.href;
-    }
-    let url3 = new URL(data);
-    if (url3.href != data) {
-      if (!(url3.href + "/" == data || url3.href == data + "/")) {
-        return error3("data is not a valid url", data, "validURL", path2);
-      }
-    }
-  } catch (e) {
-    return error3("data is not a valid url", data, "validURL", path2);
-  }
-}
-function validEmail3(data, root, path2) {
-  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data)) {
-    return error3("data is not a valid email", data, "validEmail", path2);
-  }
-}
-function instanceOf3(constructor) {
-  return function _instanceOf(data, root, path2) {
-    if (!(data instanceof constructor)) {
-      return error3("data is not an instanceof pattern", data, constructor, path2);
-    }
-  };
-}
-function not3(pattern) {
-  return function _not(data, root, path2) {
-    if (!fails3(data, pattern, root, path2)) {
-      return error3("data matches pattern, when required not to", data, pattern, path2);
-    }
-  };
-}
-function fails3(data, pattern, root, path2 = "") {
-  if (!root) {
-    root = data;
-  }
-  let problems = [];
-  if (pattern === Boolean) {
-    if (typeof data != "boolean" && !(data instanceof Boolean)) {
-      problems.push(error3("data is not a boolean", data, pattern, path2));
-    }
-  } else if (pattern === Number) {
-    if (typeof data != "number" && !(data instanceof Number)) {
-      problems.push(error3("data is not a number", data, pattern, path2));
-    }
-  } else if (pattern === String) {
-    if (typeof data != "string" && !(data instanceof String)) {
-      problems.push(error3("data is not a string", data, pattern, path2));
-    }
-    if (data == "") {
-      problems.push(error3("data is an empty string, which is not allowed", data, pattern, path2));
-    }
-  } else if (pattern instanceof RegExp) {
-    if (Array.isArray(data)) {
-      let index = data.findIndex((element2, index2) => fails3(element2, pattern, root, path2 + "[" + index2 + "]"));
-      if (index > -1) {
-        problems.push(error3("data[" + index + "] does not match pattern", data[index], pattern, path2 + "[" + index + "]"));
-      }
-    } else if (typeof data == "undefined") {
-      problems.push(error3("data is undefined, should match pattern", data, pattern, path2));
-    } else if (!pattern.test(data)) {
-      problems.push(error3("data does not match pattern", data, pattern, path2));
-    }
-  } else if (pattern instanceof Function) {
-    let problem = pattern(data, root, path2);
-    if (problem) {
-      if (Array.isArray(problem)) {
-        problems = problems.concat(problem);
-      } else {
-        problems.push(problem);
-      }
-    }
-  } else if (Array.isArray(pattern)) {
-    if (!Array.isArray(data)) {
-      problems.push(error3("data is not an array", data, [], path2));
-    }
-    for (let p of pattern) {
-      for (let index of data.keys()) {
-        let problem = fails3(data[index], p, root, path2 + "[" + index + "]");
-        if (Array.isArray(problem)) {
-          problems = problems.concat(problem);
-        } else if (problem) {
-          problems.push(problem);
-        }
-      }
-    }
-  } else if (pattern && typeof pattern == "object") {
-    if (Array.isArray(data)) {
-      let index = data.findIndex((element2, index2) => fails3(element2, pattern, root, path2 + "[" + index2 + "]"));
-      if (index > -1) {
-        problems.push(error3("data[" + index + "] does not match pattern", data[index], pattern, path2 + "[" + index + "]"));
-      }
-    } else if (!data || typeof data != "object") {
-      problems.push(error3("data is not an object, pattern is", data, pattern, path2));
-    } else {
-      if (data instanceof URLSearchParams) {
-        data = Object.fromEntries(data);
-      }
-      if (pattern instanceof Function) {
-        let result = fails3(data, pattern, root, path2);
-        if (result) {
-          problems = problems.concat(result);
-        }
-      } else {
-        for (const [patternKey, subpattern] of Object.entries(pattern)) {
-          let result = fails3(data[patternKey], subpattern, root, path2 + "." + patternKey);
-          if (result) {
-            problems = problems.concat(result);
-          }
-        }
-      }
-    }
-  } else {
-    if (pattern != data) {
-      problems.push(error3("data and pattern are not equal", data, pattern, path2));
-    }
-  }
-  if (problems.length) {
-    return problems;
-  }
-  return false;
-}
-function error3(message, found, expected, path2, problems) {
-  let result = {
-    path: path2,
-    message,
-    found,
-    expected
-  };
-  if (problems) {
-    result.problems = problems;
-  }
-  return result;
-}
-function warn3(message, data, pattern, path2) {
-  console.warn("\u{1F170}\uFE0F  Assert: " + path2, message, pattern, data);
-}
-globalThis.assert = {
-  warn: warn3,
-  error: error3,
-  assert: assert3,
-  enable: enable3,
-  disable: disable3,
-  Required: Required3,
-  Recommended: Recommended3,
-  Optional: Optional3,
-  oneOf: oneOf3,
-  anyOf: anyOf3,
-  allOf: allOf3,
-  validURL: validURL3,
-  validEmail: validEmail3,
-  instanceOf: instanceOf3,
-  not: not3,
-  fails: fails3
-};
-
-// ../solid-tools/node_modules/@muze-nl/metro-oidc/src/oidc.util.mjs
-var MustHave = (...options) => (value, root) => {
-  if (options.filter((o) => root.hasOwnKey(o)).length > 0) {
-    return false;
-  }
-  return error3("root data must have all of", root, options);
-};
-var MustInclude = (...options) => (value) => {
-  if (Array.isArray(value) && options.filter((o) => !value.includes(o)).length == 0) {
-    return false;
-  } else {
-    return error3("data must be an array which includes", value, options);
-  }
-};
-var validJWA = [
-  "HS256",
-  "HS384",
-  "HS512",
-  "RS256",
-  "RS384",
-  "RS512",
-  "ES256",
-  "ES384",
-  "ES512"
-];
-var validAuthMethods2 = [
-  "client_secret_post",
-  "client_secret_basic",
-  "client_secret_jwt",
-  "private_key_jwt"
-];
-
-// ../solid-tools/node_modules/@muze-nl/metro-oidc/src/oidc.discovery.mjs
-async function oidcDiscovery(options = {}) {
-  assert3(options, {
-    client: Optional3(instanceOf3(everything_default.client().constructor)),
-    issuer: Required3(validURL3)
-  });
-  const defaultOptions = {
-    client: everything_default.client().with(throwermw2()).with(jsonmw2()),
-    requireDynamicRegistration: false
-  };
-  options = Object.assign({}, defaultOptions, options);
-  const TestSucceeded = false;
-  function MustUseHTTPS(url3) {
-    return TestSucceeded;
-  }
-  const openid_provider_metadata = {
-    issuer: Required3(allOf3(options.issuer, MustUseHTTPS)),
-    authorization_endpoint: Required3(validURL3),
-    token_endpoint: Required3(validURL3),
-    userinfo_endpoint: Recommended3(validURL3),
-    // todo: test for https protocol
-    jwks_uri: Required3(validURL3),
-    registration_endpoint: options.requireDynamicRegistration ? Required3(validURL3) : Recommended3(validURL3),
-    scopes_supported: Recommended3(MustInclude("openid")),
-    response_types_supported: options.requireDynamicRegistration ? Required3(MustInclude("code", "id_token", "id_token token")) : Required3([]),
-    response_modes_supported: Optional3([]),
-    grant_types_supported: options.requireDynamicRegistration ? Optional3(MustInclude("authorization_code")) : Optional3([]),
-    acr_values_supported: Optional3([]),
-    subject_types_supported: Required3([]),
-    id_token_signing_alg_values_supported: Required3(MustInclude("RS256")),
-    id_token_encryption_alg_values_supported: Optional3([]),
-    id_token_encryption_enc_values_supported: Optional3([]),
-    userinfo_signing_alg_values_supported: Optional3([]),
-    userinfo_encryption_alg_values_supported: Optional3([]),
-    userinfo_encryption_enc_values_supported: Optional3([]),
-    request_object_signing_alg_values_supported: Optional3(MustInclude("RS256")),
-    // not testing for 'none'
-    request_object_encryption_alg_values_supported: Optional3([]),
-    request_object_encryption_enc_values_supported: Optional3([]),
-    token_endpoint_auth_methods_supported: Optional3(anyOf3(...validAuthMethods2)),
-    token_endpoint_auth_signing_alg_values_supported: Optional3(MustInclude("RS256"), not3(MustInclude("none"))),
-    display_values_supported: Optional3(anyOf3("page", "popup", "touch", "wap")),
-    claim_types_supported: Optional3(anyOf3("normal", "aggregated", "distributed")),
-    claims_supported: Recommended3([]),
-    service_documentation: Optional3(validURL3),
-    claims_locales_supported: Optional3([]),
-    ui_locales_supported: Optional3([]),
-    claims_parameter_supported: Optional3(Boolean),
-    request_parameter_supported: Optional3(Boolean),
-    request_uri_parameter_supported: Optional3(Boolean),
-    op_policy_uri: Optional3(validURL3),
-    op_tos_uri: Optional3(validURL3)
-  };
-  const configURL = everything_default.url(options.issuer, ".well-known/openid-configuration");
-  const response3 = await options.client.get(
-    // https://openid.net/specs/openid-connect-discovery-1_0.html#ProviderConfigurationRequest
-    // note: this allows path components in the options.issuer url
-    configURL
-  );
-  const openid_config = response3.data;
-  assert3(openid_config, openid_provider_metadata);
-  assert3(openid_config.issuer, options.issuer);
-  return openid_config;
-}
-
-// ../solid-tools/node_modules/@muze-nl/metro-oidc/src/oidc.register.mjs
-async function register(options) {
-  const openid_client_metadata = {
-    redirect_uris: Required3([validURL3]),
-    response_types: Optional3([]),
-    grant_types: Optional3(anyOf3("authorization_code", "refresh_token")),
-    //TODO: match response_types with grant_types
-    application_type: Optional3(oneOf3("native", "web")),
-    contacts: Optional3([validEmail3]),
-    client_name: Optional3(String),
-    logo_uri: Optional3(validURL3),
-    client_uri: Optional3(validURL3),
-    policy_uri: Optional3(validURL3),
-    tos_uri: Optional3(validURL3),
-    jwks_uri: Optional3(validURL3, not3(MustHave("jwks"))),
-    jwks: Optional3(validURL3, not3(MustHave("jwks_uri"))),
-    sector_identifier_uri: Optional3(validURL3),
-    subject_type: Optional3(String),
-    id_token_signed_response_alg: Optional3(oneOf3(...validJWA)),
-    id_token_encrypted_response_alg: Optional3(oneOf3(...validJWA)),
-    id_token_encrypted_response_enc: Optional3(oneOf3(...validJWA), MustHave("id_token_encrypted_response_alg")),
-    userinfo_signed_response_alg: Optional3(oneOf3(...validJWA)),
-    userinfo_encrypted_response_alg: Optional3(oneOf3(...validJWA)),
-    userinfo_encrypted_response_enc: Optional3(oneOf3(...validJWA), MustHave("userinfo_encrypted_response_alg")),
-    request_object_signing_alg: Optional3(oneOf3(...validJWA)),
-    request_object_encryption_alg: Optional3(oneOf3(...validJWA)),
-    request_object_encryption_enc: Optional3(oneOf3(...validJWA)),
-    token_endpoint_auth_method: Optional3(oneOf3(...validAuthMethods2)),
-    token_endpoint_auth_signing_alg: Optional3(oneOf3(...validJWA)),
-    default_max_age: Optional3(Number),
-    require_auth_time: Optional3(Boolean),
-    default_acr_values: Optional3([String]),
-    initiate_login_uri: Optional3([validURL3]),
-    request_uris: Optional3([validURL3])
-  };
-  assert3(options, {
-    client: Optional3(instanceOf3(everything_default.client().constructor)),
-    registration_endpoint: validURL3,
-    client_info: openid_client_metadata
-  });
-  const defaultOptions = {
-    client: everything_default.client().with(throwermw2()).with(jsonmw2()),
-    client_info: {
-      redirect_uris: [globalThis.document?.location.href]
-    }
-  };
-  options = Object.assign({}, defaultOptions, options);
-  if (!options.client_info) {
-    options.client_info = {};
-  }
-  if (!options.client_info.redirect_uris) {
-    options.client_info.redirect_uris = [globalThis.document?.location.href];
-  }
-  let response3 = await options.client.post(options.registration_endpoint, {
-    body: options.client_info
-  });
-  let info = response3.data;
-  if (!info.client_id || !info.client_secret) {
-    throw everything_default.metroError("metro.oidc: Error: dynamic registration of client failed, no client_id or client_secret returned", response3);
-  }
-  options.client_info = Object.assign(options.client_info, info);
-  return options.client_info;
-}
-
-// ../solid-tools/node_modules/@muze-nl/metro-oidc/src/oidc.store.mjs
-function oidcStore(site) {
-  let store;
-  if (typeof localStorage !== "undefined") {
-    store = {
-      get: (name) => JSON.parse(localStorage.getItem("metro/oidc:" + site + ":" + name)),
-      set: (name, value) => localStorage.setItem("metro/oidc:" + site + ":" + name, JSON.stringify(value)),
-      has: (name) => localStorage.getItem("metro/oidc:" + site + ":" + name) !== null
-    };
-  } else {
-    let storeMap = /* @__PURE__ */ new Map();
-    store = {
-      get: (name) => JSON.parse(storeMap.get("metro/oidc:" + site + ":" + name) || null),
-      set: (name, value) => storeMap.set("metro/oidc:" + site + ":" + name, JSON.stringify(value)),
-      has: (name) => storeMap.has("metro/oidc:" + site + ":" + name)
-    };
-  }
-  return store;
-}
-
-// ../solid-tools/node_modules/@muze-nl/metro-oidc/src/oidcmw.mjs
-function oidcmw(options = {}) {
-  const defaultOptions = {
-    client: client2(),
-    force_authorization: false,
-    use_dpop: true,
-    authorize_callback: async (url3) => {
-      if (window.location.href != url3.href) {
-        window.location.replace(url3.href);
-      }
-      return false;
-    }
-  };
-  options = Object.assign({}, defaultOptions, options);
-  const requestedClientInfo = options.client_info;
-  assert3(options, {
-    client: Required3(instanceOf3(client2().constructor)),
-    // required because it is set in defaultOptions
-    client_info: Required3(),
-    issuer: Required3(validURL3),
-    oauth2: Optional3({}),
-    openid_configuration: Optional3()
-  });
-  if (!options.store) {
-    options.store = oidcStore(options.issuer);
-  }
-  if (!options.openid_configuration && options.store.has("openid_configuration")) {
-    options.openid_configuration = options.store.get("openid_configuration");
-  }
-  if (!options.client_info?.client_id && options.store.has("client_info")) {
-    const storedClientInfo = options.store.get("client_info");
-    if (clientInfoMatchesRequest(storedClientInfo, requestedClientInfo)) {
-      options.client_info = storedClientInfo;
-    }
-  }
-  return async (req, next) => {
-    let res;
-    if (!options.force_authorization) {
-      try {
-        res = await next(req);
-      } catch (err) {
-        if (res.status != 401 && res.status != 403) {
-          throw err;
-        }
-      }
-      if (res.ok || res.status != 401 && res.status != 403) {
-        return res;
-      }
-    }
-    if (!options.openid_configuration) {
-      options.openid_configuration = await oidcDiscovery({
-        issuer: options.issuer
-      });
-      options.store.set("openid_configuration", options.openid_configuration);
-    }
-    if (!options.client_info?.client_id) {
-      if (!options.openid_configuration.registration_endpoint) {
-        throw metroError2("metro.oidcmw: Error: issuer " + options.issuer + " does not support dynamic client registration, but you haven't specified a client_id");
-      }
-      options.client_info = await register({
-        registration_endpoint: options.openid_configuration.registration_endpoint,
-        client_info: options.client_info
-      });
-      options.store.set("client_info", options.client_info);
-    }
-    const scope = options.scope || "openid";
-    const oauth2Options = Object.assign(
-      {
-        site: options.issuer,
-        client: options.client,
-        force_authorization: true,
-        authorize_callback: options.authorize_callback,
-        oauth2_configuration: {
-          client_id: options.client_info?.client_id,
-          client_secret: options.client_info?.client_secret,
-          grant_type: "authorization_code",
-          response_type: "code",
-          response_mode: "query",
-          authorization_endpoint: options.openid_configuration.authorization_endpoint,
-          token_endpoint: options.openid_configuration.token_endpoint,
-          scope,
-          //FIXME: should only use scopes supported by server
-          redirect_uri: options.client_info.redirect_uris[0]
-        }
-      }
-      //...
-    );
-    const storeIdToken = async (req2, next2) => {
-      const res2 = await next2(req2);
-      const contentType = res2.headers.get("content-type");
-      if (contentType?.startsWith("application/json")) {
-        let id_token = res2.data?.id_token;
-        if (!id_token) {
-          const res22 = res2.clone();
-          try {
-            let data = await res22.json();
-            if (data && data.id_token) {
-              id_token = data.id_token;
-            }
-          } catch (e) {
-          }
-        }
-        if (id_token) {
-          options.store.set("id_token", id_token);
-        }
-      }
-      return res2;
-    };
-    let oauth2client = options.client.with(options.issuer).with(storeIdToken);
-    if (options.use_dpop) {
-      const dpopOptions = {
-        site: options.issuer,
-        authorization_endpoint: options.openid_configuration.authorization_endpoint,
-        token_endpoint: options.openid_configuration.token_endpoint,
-        dpop_signing_alg_values_supported: options.openid_configuration.dpop_signing_alg_values_supported
-      };
-      oauth2client = oauth2client.with(dpopmw(dpopOptions));
-      oauth2Options.client = oauth2client;
-    }
-    oauth2client = oauth2client.with(oauth2mw(oauth2Options));
-    res = await oauth2client.fetch(req);
-    return res;
-  };
-}
-function clientInfoMatchesRequest(storedClientInfo, requestedClientInfo) {
-  if (!storedClientInfo?.client_id) {
-    return false;
-  }
-  if (!Array.isArray(requestedClientInfo?.redirect_uris)) {
-    return true;
-  }
-  const storedRedirectUris = new Set(storedClientInfo.redirect_uris || []);
-  return requestedClientInfo.redirect_uris.every((uri) => storedRedirectUris.has(uri));
-}
-function isRedirected2() {
-  return isRedirected();
-}
-function idToken(options) {
-  if (!options.store) {
-    if (!options.issuer) {
-      throw metroError2("Must supply options.issuer or options.store to get the id_token");
-    }
-    options.store = oidcStore(options.issuer);
-  }
-  return options.store.get("id_token");
-}
-
-// ../solid-tools/node_modules/@muze-nl/metro-oidc/src/browser.mjs
-var oidc = {
-  oidcmw,
-  discover: oidcDiscovery,
-  register,
-  isRedirected: isRedirected2,
-  idToken
-};
-if (!globalThis.metro.oidc) {
-  globalThis.metro.oidc = oidc;
-}
-var browser_default = oidc;
-
 // ../solid-tools/node_modules/@muze-nl/oldm-core/src/oldm.mjs
 var oldm_exports = {};
 __export(oldm_exports, {
@@ -15524,39 +7543,39 @@ var prefixes = {
   vcard: "http://www.w3.org/2006/vcard/ns#",
   xsd: "http://www.w3.org/2001/XMLSchema#"
 };
-function one(values5, whichOne = "last") {
-  let result = values5;
-  if (Array.isArray(values5)) {
+function one(values3, whichOne = "last") {
+  let result = values3;
+  if (Array.isArray(values3)) {
     if (whichOne == "last") {
-      result = values5[values5.length - 1];
+      result = values3[values3.length - 1];
     } else if (whichOne == "first") {
-      result = values5[0];
+      result = values3[0];
     } else if (typeof whichOne == "function") {
-      result = whichOne(values5);
+      result = whichOne(values3);
     } else {
       throw new Error("Unknown value for whichOne parameter");
     }
   }
   return result;
 }
-function many(values5) {
-  if (Array.isArray(values5)) {
-    return values5;
+function many(values3) {
+  if (Array.isArray(values3)) {
+    return values3;
   }
-  if (values5 == null) {
+  if (values3 == null) {
     return [];
   }
-  return [values5];
+  return [values3];
 }
-function first(...values5) {
-  for (const value of values5) {
+function first(...values3) {
+  for (const value of values3) {
     if (value !== null && value !== void 0) {
       return value;
     }
   }
   return null;
 }
-function values2(value) {
+function values(value) {
   if (Array.isArray(value) && !(value instanceof Collection)) {
     return value;
   }
@@ -15566,8 +7585,8 @@ function values2(value) {
   return [value];
 }
 function mergeValue(existing, value) {
-  const result = values2(existing);
-  for (const item of values2(value)) {
+  const result = values(existing);
+  for (const item of values(value)) {
     if (!result.some((existingItem) => sameValue(existingItem, item))) {
       result.push(item);
     }
@@ -15628,11 +7647,11 @@ function sameSourceValue(left, right) {
 }
 function resolveValue(value, subjects, context) {
   if (value instanceof Collection) {
-    const collection = new Collection(context);
+    const collection2 = new Collection(context);
     for (const item of value) {
-      collection.push(resolveValue(item, subjects, context));
+      collection2.push(resolveValue(item, subjects, context));
     }
-    return collection;
+    return collection2;
   }
   if (Array.isArray(value)) {
     return value.map((item) => resolveValue(item, subjects, context));
@@ -15820,7 +7839,7 @@ var Context = class {
     if (!hasValue) {
       return true;
     }
-    return values2(subject[property]).some((item) => sameSourceValue(item, value));
+    return values(subject[property]).some((item) => sameSourceValue(item, value));
   }
   subjectID(subject) {
     if (subject?.id) {
@@ -15864,12 +7883,12 @@ var Context = class {
     }
     return subjects;
   }
-  mergeSubject(target, source, subjects) {
-    for (const [predicate, value] of Object.entries(source)) {
+  mergeSubject(target, source2, subjects) {
+    for (const [predicate, value] of Object.entries(source2)) {
       if (predicate == "id") {
         continue;
       }
-      const contextPredicate = predicate == "a" ? "a" : this.propertyName(source.graph.fullURI(predicate, null, "source"));
+      const contextPredicate = predicate == "a" ? "a" : this.propertyName(source2.graph.fullURI(predicate, null, "source"));
       target[contextPredicate] = mergeValue(
         target[contextPredicate],
         resolveValue(value, subjects, this)
@@ -16121,9 +8140,9 @@ var Graph = class {
       delete node[property];
       return true;
     }
-    const deleteValues = property == "a" ? values2(this.normalizeTypeValues(value, preference)) : values2(this.normalizeValues(value, preference));
-    const remaining = values2(node[property]).filter((item) => !deleteValues.some((deleteValue) => sameValue(item, deleteValue)));
-    if (remaining.length == values2(node[property]).length) {
+    const deleteValues = property == "a" ? values(this.normalizeTypeValues(value, preference)) : values(this.normalizeValues(value, preference));
+    const remaining = values(node[property]).filter((item) => !deleteValues.some((deleteValue) => sameValue(item, deleteValue)));
+    if (remaining.length == values(node[property]).length) {
       return false;
     }
     if (remaining.length == 0) {
@@ -16162,11 +8181,11 @@ var Graph = class {
   }
   normalizeValue(value, preference = "source") {
     if (value instanceof Collection) {
-      const collection = new Collection(this);
+      const collection2 = new Collection(this);
       for (const item of value) {
-        collection.push(this.normalizeValue(item, preference));
+        collection2.push(this.normalizeValue(item, preference));
       }
-      return collection;
+      return collection2;
     }
     if (value instanceof NamedNode) {
       return this.addNamedNode(value.id);
@@ -18573,13 +10592,13 @@ var n3Parser = (input2, uri, type) => {
   });
   return { quads, prefixes: prefixes4 };
 };
-var n3Writer = (source) => {
+var n3Writer = (source2) => {
   return new Promise((resolve, reject) => {
     const writer = new N3Writer({
-      format: source.mimetype,
-      prefixes: source.prefixDeclarations("source")
+      format: source2.mimetype,
+      prefixes: source2.prefixDeclarations("source")
     });
-    const xsd7 = source.prefixes.xsd;
+    const xsd7 = source2.prefixes.xsd;
     const { quad: quad3, namedNode: namedNode3, literal: literal3, blankNode: blankNode3 } = N3DataFactory_default;
     const writeClassNames = (id2, subject) => {
       let classNames = subject.a;
@@ -18591,7 +10610,7 @@ var n3Writer = (source) => {
       }
       if (classNames?.length) {
         for (let name of classNames) {
-          name = source.fullURI(name);
+          name = source2.fullURI(name);
           writer.addQuad(quad3(
             namedNode3(id2),
             namedNode3(rdfType),
@@ -18626,7 +10645,7 @@ var n3Writer = (source) => {
       Object.entries(object).forEach((entry) => {
         const predicate = entry[0];
         let object2 = entry[1];
-        const fullPred = source.fullURI(predicate);
+        const fullPred = source2.fullURI(predicate);
         let pred = {
           predicate: namedNode3(fullPred)
         };
@@ -18648,12 +10667,12 @@ var n3Writer = (source) => {
       return preds;
     };
     const getLiteral = (object) => {
-      let type = source.getType(object) || void 0;
+      let type = source2.getType(object) || void 0;
       if (type) {
-        if (type == xsd7 + source.context.separator + "string" || type == xsd7 + source.context.separator + "number") {
+        if (type == xsd7 + source2.context.separator + "string" || type == xsd7 + source2.context.separator + "number") {
           type = void 0;
         } else {
-          type = source.fullURI(type);
+          type = source2.fullURI(type);
         }
         type = namedNode3(type);
       } else {
@@ -18703,8 +10722,8 @@ var n3Writer = (source) => {
       }
       return list2;
     };
-    Object.entries(source.subjects).forEach(([id2, subject]) => {
-      id2 = source.shortURI(id2, ":");
+    Object.entries(source2.subjects).forEach(([id2, subject]) => {
+      id2 = source2.shortURI(id2, ":");
       writeClassNames(id2, subject);
       writeProperties(id2, subject);
     });
@@ -18717,19 +10736,19 @@ var n3Writer = (source) => {
     });
   });
 };
-var n3PatchWriter = async (source) => {
-  if (source.originalSource == null) {
+var n3PatchWriter = async (source2) => {
+  if (source2.originalSource == null) {
     throw new Error("Cannot generate a patch without the original graph source");
   }
-  const currentSource = await n3Writer(source);
-  const original = n3Parser(source.originalSource, source.url, source.mimetype).quads;
-  const current = n3Parser(currentSource, source.url, source.mimetype).quads;
+  const currentSource = await n3Writer(source2);
+  const original = n3Parser(source2.originalSource, source2.url, source2.mimetype).quads;
+  const current = n3Parser(currentSource, source2.url, source2.mimetype).quads;
   const patch = solidPatchChanges(original, current, {
     quad: N3DataFactory_default.quad,
     variable: N3DataFactory_default.variable,
     blankNode: N3DataFactory_default.blankNode
   });
-  return serializePatch(source, patch.inserts, patch.deletes, patch.where);
+  return serializePatch(source2, patch.inserts, patch.deletes, patch.where);
 };
 function diffQuads(original, current) {
   const originalByKey = new Map(original.map((quad3) => [quadKey(quad3), quad3]));
@@ -18967,9 +10986,9 @@ function isBlankNode(term) {
 function termValue(term) {
   return term?.value ?? term?.id ?? "";
 }
-function serializePatch(source, inserts, deletes, where = []) {
+function serializePatch(source2, inserts, deletes, where = []) {
   const prefixes4 = {
-    ...source.prefixDeclarations("source")
+    ...source2.prefixDeclarations("source")
   };
   if (quadsUseNamespace([...where, ...deletes, ...inserts], rdfNamespace)) {
     prefixes4.rdf ??= rdfNamespace;
@@ -19042,7 +11061,3019 @@ var oldm2 = {
   ...oldm_n3_exports
 };
 globalThis.oldm = oldm2;
-var src_default5 = oldm2;
+var src_default2 = oldm2;
+
+// ../solid-tools/node_modules/@muze-nl/jaqt/src/jaqt.mjs
+function isPrimitiveWrapper(data) {
+  return [String, Boolean, Number, BigInt].includes(data?.constructor);
+}
+function getSelectFn(filter2) {
+  let fns = [];
+  if (filter2 instanceof Function) {
+    fns.push(filter2);
+  } else for (const [filterKey, filterValue] of Object.entries(filter2)) {
+    if (filterValue instanceof Function) {
+      fns.push((data) => {
+        if (filterKey == "_") {
+          return filterValue(data, filterKey, "select");
+        } else {
+          return {
+            [filterKey]: filterValue(data, filterKey, "select")
+          };
+        }
+      });
+    } else if (!isPrimitiveWrapper(filterValue)) {
+      fns.push((data) => {
+        if (filterKey == "_") {
+          return from(data[filterKey]).select(filterValue);
+        } else {
+          return {
+            [filterKey]: from(data[filterKey]).select(filterValue)
+          };
+        }
+      });
+    } else {
+      fns.push(() => {
+        if (filterKey == "_") {
+          return filterValue;
+        } else {
+          return {
+            [filterKey]: filterValue
+          };
+        }
+      });
+    }
+  }
+  if (fns.length == 1) {
+    return fns[0];
+  }
+  return (data) => {
+    let result = {};
+    for (let fn of fns) {
+      Object.assign(result, fn(data));
+    }
+    return result;
+  };
+}
+function getMatchFn(pattern) {
+  let fns = [];
+  if (Array.isArray(pattern)) {
+    fns.push(anyOf(...pattern));
+  } else if (pattern instanceof RegExp) {
+    fns.push((data) => pattern.test(data));
+  } else if (pattern instanceof Function) {
+    fns.push((data) => pattern(data));
+  } else if (!isPrimitiveWrapper(pattern)) {
+    let patternMatches = {};
+    for (const [wKey, wVal] of Object.entries(pattern)) {
+      patternMatches[wKey] = getMatchFn(wVal);
+    }
+    let matchFn = (data) => {
+      if (Array.isArray(data)) {
+        return data.filter((element2) => matchFn(element2)).length > 0;
+      }
+      if (isPrimitiveWrapper(data)) {
+        return false;
+      }
+      for (let wKey in patternMatches) {
+        let patternMatchFn = patternMatches[wKey];
+        if (!patternMatchFn(data?.[wKey])) {
+          return false;
+        }
+      }
+      return true;
+    };
+    fns.push(matchFn);
+  } else {
+    fns.push((data) => {
+      if (Array.isArray(data)) {
+        return data.filter((element2) => pattern == element2).length > 0;
+      } else {
+        return pattern == data;
+      }
+    });
+  }
+  if (fns.length == 1) {
+    return fns[0];
+  }
+  return (data) => {
+    for (let fn of fns) {
+      if (!fn(data)) {
+        return false;
+      }
+    }
+    return true;
+  };
+}
+var asc = Symbol("asc");
+var desc = Symbol("desc");
+function getSortFn(pattern) {
+  let comparisons = Object.entries(pattern);
+  let fns = [];
+  for (let [key, compare] of comparisons) {
+    if (compare instanceof Function) {
+      fns.push(compare);
+    } else if (compare === asc) {
+      fns.push((a, b) => a[key] > b[key] ? 1 : a[key] < b[key] ? -1 : 0);
+    } else if (compare === desc) {
+      fns.push((a, b) => a[key] < b[key] ? 1 : a[key] > b[key] ? -1 : 0);
+    } else if (!isPrimitiveWrapper(compare)) {
+      let subFn = getSortFn(compare);
+      fns.push((a, b) => subFn(a[key], b[key]));
+    } else {
+      throw new Error("Unknown sort order", compare);
+    }
+  }
+  if (fns.length == 1) {
+    return fns[0];
+  }
+  return (a, b) => {
+    for (let fn of fns) {
+      let result = fn(a, b);
+      if (result !== 0) {
+        return result;
+      }
+    }
+    return 0;
+  };
+}
+function getAggregateFn(filter2) {
+  let fns = [];
+  if (filter2 instanceof Function) {
+    fns.push(filter2);
+  } else for (const [filterKey, filterValue] of Object.entries(filter2)) {
+    if (filterValue instanceof Function) {
+      fns.push((a, o, i, l) => {
+        if (isPrimitiveWrapper(a)) {
+          a = {};
+        }
+        if (o.reduce) {
+          a[filterKey] = o.reduce(filterValue, a[filterKey] || []);
+        } else {
+          a[filterKey] = filterValue(a[filterKey] || [], o, i, l);
+        }
+        return a;
+      });
+    } else if (!isPrimitiveWrapper(filterValue)) {
+      fns.push((a, o) => {
+        if (isPrimitiveWrapper(a)) {
+          a = {};
+        }
+        a[filterKey] = from(o[filterKey]).reduce(filterValue, []);
+        return a;
+      });
+    } else {
+      fns.push((a) => {
+        if (isPrimitiveWrapper(a)) {
+          a = {};
+        }
+        a[filterKey] = filterValue;
+        return a;
+      });
+    }
+  }
+  if (fns.length == 1) {
+    return fns[0];
+  }
+  return (a, o, i, l) => {
+    let result = {};
+    for (let fn of fns) {
+      Object.assign(result, fn(a, o, i, l));
+    }
+    return result;
+  };
+}
+function getMatchingGroups(data, pointerFn) {
+  let result = {};
+  for (let entity of data) {
+    let groups = pointerFn(entity);
+    if (!Array.isArray(groups)) {
+      groups = [groups];
+    }
+    for (let group2 of groups) {
+      if (typeof group2 != "string" && !(group2 instanceof String)) {
+        console.warn("JAQT: groupBy(selector) can only handle string values, got:", group2);
+        continue;
+      }
+      if (!result[group2]) {
+        result[group2] = [];
+      }
+      result[group2].push(entity);
+    }
+  }
+  return result;
+}
+function groupBy(data, pointerFunctions) {
+  let pointerFn = pointerFunctions.shift();
+  if (typeof pointerFn == "string") {
+    pointerFn = _[pointerFn];
+  }
+  if (typeof pointerFn != "function") {
+    throw new Error("groupBy parameters must be either a property name or a pointer function (e.g.: _.name)");
+  }
+  let groups = getMatchingGroups(data, pointerFn);
+  if (pointerFunctions.length) {
+    for (let group2 in groups) {
+      groups[group2] = groupBy(groups[group2], pointerFunctions);
+    }
+  }
+  return groups;
+}
+function anyOf(...patterns) {
+  let matchFns = patterns.map((pattern) => getMatchFn(pattern));
+  return (data) => matchFns.some((fn) => fn(data));
+}
+var FunctionProxyHandler = {
+  apply(target, thisArg, argumentsList) {
+    let result = target.apply(thisArg, argumentsList);
+    if (typeof result === "object") {
+      return new Proxy(result, DataProxyHandler);
+    }
+    return result;
+  }
+};
+var DataProxyHandler = {
+  get(target, property) {
+    let result = null;
+    if (typeof property === "symbol") {
+      result = target[property];
+    }
+    if (Array.isArray(target)) {
+      switch (property) {
+        case "where":
+          result = function(shape) {
+            let matchFn = getMatchFn(shape);
+            return new Proxy(
+              target.filter((element2) => matchFn(element2)),
+              DataProxyHandler
+            );
+          };
+          break;
+        case "select":
+          result = function(filter2) {
+            let selectFn = getSelectFn(filter2);
+            return new Proxy(
+              target.map(selectFn),
+              DataProxyHandler
+            );
+          };
+          break;
+        case "reduce":
+          result = function(pattern, initial = []) {
+            let aggregateFn = getAggregateFn(pattern);
+            let temp = target.reduce(aggregateFn, initial);
+            if (Array.isArray(temp)) {
+              return new Proxy(temp, DataProxyHandler);
+            } else if (!isPrimitiveWrapper(temp)) {
+              return new Proxy(temp, GroupByProxyHandler);
+            } else {
+              return temp;
+            }
+          };
+          break;
+        case "orderBy":
+          result = function(pattern) {
+            let sortFn = getSortFn(pattern);
+            return new Proxy(
+              target.toSorted(sortFn),
+              DataProxyHandler
+            );
+          };
+          break;
+        case "groupBy":
+          result = function(...groups) {
+            let temp = groupBy(target, groups);
+            return new Proxy(
+              temp,
+              GroupByProxyHandler
+            );
+          };
+          break;
+      }
+    }
+    if (!result && target && typeof target === "object") {
+      if (property === "select") {
+        result = function(filter2) {
+          let selector = getSelectFn(filter2);
+          return new Proxy(selector(target), DataProxyHandler);
+        };
+      }
+    }
+    if (!result && target && typeof target[property] === "function") {
+      result = new Proxy(target[property], FunctionProxyHandler);
+    }
+    if (!result) {
+      result = target[property];
+    }
+    return result;
+  }
+};
+var GroupByProxyHandler = {
+  get(target, property) {
+    let result = null;
+    switch (property) {
+      case "select":
+        result = function(filter2) {
+          let selectFn = getSelectFn(filter2);
+          let result2 = {};
+          for (let group2 in target) {
+            if (Array.isArray(target[group2])) {
+              result2[group2] = new Proxy(target[group2].map(selectFn), DataProxyHandler);
+            } else {
+              result2[group2] = new Proxy(target[group2], GroupByProxyHandler);
+            }
+          }
+          return result2;
+        };
+        break;
+      case "reduce":
+        result = function(pattern, initial = []) {
+          let aggregateFn = getAggregateFn(pattern);
+          let result2 = {};
+          for (let group2 in target) {
+            if (Array.isArray(target[group2])) {
+              let temp = target[group2].reduce(aggregateFn, initial);
+              if (Array.isArray(temp)) {
+                result2[group2] = new Proxy(temp, DataProxyHandler);
+              } else if (!isPrimitiveWrapper(temp)) {
+                result2[group2] = new Proxy(temp, GroupByProxyHandler);
+              } else {
+                result2[group2] = temp;
+              }
+            } else {
+              result2[group2] = new Proxy(target[group2], GroupByProxyHandler);
+            }
+          }
+          return result2;
+        };
+        break;
+      default:
+        if (Array.isArray(target[property])) {
+          result = from(target[property]);
+        } else {
+          result = target[property];
+        }
+        break;
+    }
+    return result;
+  }
+};
+var EmptyHandler = {
+  get(target, property) {
+    let result = null;
+    switch (property) {
+      case "where":
+        result = function() {
+          return new Proxy(new Null(), EmptyHandler);
+        };
+        break;
+      case "reduce":
+      case "select":
+        result = function() {
+          return null;
+        };
+        break;
+      case "orderBy":
+        result = function() {
+          return new Proxy(new Null(), EmptyHandler);
+        };
+        break;
+      case "groupBy":
+        result = function() {
+          return new Proxy(new Null(), EmptyHandler);
+        };
+        break;
+    }
+    if (!result && typeof target?.[property] == "function") {
+      result = target[property];
+    }
+    return result;
+  }
+};
+var Null = class {
+  toJSON() {
+    return null;
+  }
+};
+function from(data) {
+  if (!data || typeof data !== "object") {
+    return new Proxy(new Null(), EmptyHandler);
+  }
+  return new Proxy(data, DataProxyHandler);
+}
+function getPointerFn(path2) {
+  return (data, key) => {
+    if (path2?.length > 0) {
+      let localPath = path2.slice();
+      let prop = localPath.shift();
+      while (prop) {
+        if (Array.isArray(data) && parseInt(prop) != prop) {
+          localPath.unshift(prop);
+          return data.map(getPointerFn(localPath));
+        } else if (typeof data?.[prop] != "undefined") {
+          data = data[prop];
+        } else {
+          data = null;
+        }
+        prop = localPath.shift();
+      }
+      return data;
+    } else if (key && key !== "_") {
+      if (typeof data?.[key] != "undefined") {
+        return data[key];
+      } else {
+        return null;
+      }
+    } else {
+      return data;
+    }
+  };
+}
+var pointerHandler = (path2) => {
+  if (!path2) {
+    path2 = [];
+  }
+  return {
+    get(target, property) {
+      if (property == "constructor" || typeof property == "symbol") {
+        return target[property];
+      }
+      let newpath = path2.concat([property]);
+      return new Proxy(getPointerFn(newpath), pointerHandler(newpath));
+    },
+    apply(target, thisArg, argumentsList) {
+      let result = target(...argumentsList);
+      if (Array.isArray(result)) {
+        result = result.flat(Infinity);
+      }
+      return result;
+    }
+  };
+};
+var _ = new Proxy(getPointerFn(), pointerHandler());
+
+// ../solid-tools/node_modules/@muze-nl/metro-core/src/index.mjs
+var src_exports3 = {};
+__export(src_exports3, {
+  Client: () => Client,
+  client: () => client,
+  deepClone: () => deepClone,
+  metroError: () => metroError,
+  request: () => request,
+  response: () => response,
+  url: () => url
+});
+
+// ../solid-tools/node_modules/@muze-nl/metro-core/src/metro.mjs
+var metroURL = "https://metro.muze.nl/details/";
+if (!Symbol.metroProxy) {
+  Symbol.metroProxy = Symbol("isProxy");
+}
+if (!Symbol.metroSource) {
+  Symbol.metroSource = Symbol("source");
+}
+var Client = class _Client {
+  clientOptions = {
+    url: typeof window != "undefined" ? url(window.location) : url("https://localhost"),
+    verbs: ["get", "post", "put", "delete", "patch", "head", "options", "query"]
+  };
+  static tracers = {};
+  /**
+   * @typedef {Object} ClientOptions
+   * @property {Array} middlewares - list of middleware functions
+   * @property {string|URL} url - default url of the client
+   * @property {[string]} verbs - a list of verb methods to expose, e.g. ['get','post']
+   * 
+   * Constructs a new metro client. Can have any number of params.
+   * @params {ClientOptions|URL|Function|Client}
+   * @returns {Client} - A metro client object with given or default verb methods
+   */
+  constructor(...options) {
+    for (let option of options) {
+      if (typeof option == "string" || option instanceof String) {
+        this.clientOptions.url = url(this.clientOptions.url.href, option);
+      } else if (option instanceof _Client) {
+        Object.assign(this.clientOptions, option.clientOptions);
+      } else if (option instanceof Function) {
+        this.#addMiddlewares([option]);
+      } else if (option && typeof option == "object") {
+        for (let param in option) {
+          if (param == "middlewares") {
+            this.#addMiddlewares(option[param]);
+          } else if (param == "url") {
+            this.clientOptions.url = url(this.clientOptions.url.href, option[param]);
+          } else if (typeof option[param] == "function") {
+            this.clientOptions[param] = option[param](this.clientOptions[param], this.clientOptions);
+          } else {
+            this.clientOptions[param] = option[param];
+          }
+        }
+      }
+    }
+    for (const verb of this.clientOptions.verbs) {
+      this[verb] = async function(...options2) {
+        return this.fetch(
+          request(
+            this.clientOptions,
+            ...options2,
+            { method: verb.toUpperCase() }
+          ),
+          fetchOptionsFrom(...options2)
+        );
+      };
+    }
+  }
+  #addMiddlewares(middlewares) {
+    if (typeof middlewares == "function") {
+      middlewares = [middlewares];
+    }
+    let index = middlewares.findIndex((m) => typeof m != "function");
+    if (index >= 0) {
+      throw metroError("metro.client: middlewares must be a function or an array of functions " + metroURL + "client/invalid-middlewares/", middlewares[index]);
+    }
+    if (!Array.isArray(this.clientOptions.middlewares)) {
+      this.clientOptions.middlewares = [];
+    }
+    this.clientOptions.middlewares = this.clientOptions.middlewares.concat(middlewares);
+  }
+  /**
+   * Mimics the standard browser fetch method, but uses any middleware installed through
+   * the constructor.
+   * @param {Request|string|Object} - Required. The URL or Request object, accepts all types that are accepted by metro.request
+   * @param {Object} - Optional. Any object that is accepted by metro.request
+   * @return {Promise<Response|*>} - The metro.response to this request, or any other result as changed by any included middleware.
+   */
+  fetch(req, options) {
+    req = request(req, options);
+    if (!req.url) {
+      throw metroError("metro.client." + req.method.toLowerCase() + ": Missing url parameter " + metroURL + "client/fetch-missing-url/", req);
+    }
+    if (!options) {
+      options = {};
+    }
+    if (!(typeof options === "object") || options instanceof String) {
+      throw metroError("metro.client.fetch: Invalid options parameter " + metroURL + "client/fetch-invalid-options/", options);
+    }
+    const metrofetch = async function browserFetch(req2) {
+      if (req2[Symbol.metroProxy]) {
+        req2 = req2[Symbol.metroSource];
+      }
+      const res = await fetch(req2);
+      return response(res);
+    };
+    let middlewares = [metrofetch].concat(this.clientOptions?.middlewares?.slice() || []);
+    options = Object.assign({}, this.clientOptions, options);
+    const traceContext = createTraceContext(req, options);
+    const middlewareContext = createMiddlewareContext(this, options, traceContext);
+    let next;
+    for (let middleware of middlewares) {
+      next = /* @__PURE__ */ (function(next2, middleware2) {
+        return async function(req2) {
+          let res;
+          let tracers2 = traceContext.tracers;
+          callTracers2(tracers2, "request", req2, middleware2, traceContext);
+          try {
+            res = await middleware2(req2, next2, middlewareContext);
+          } catch (error4) {
+            callTracers2(tracers2, "error", error4, req2, middleware2, traceContext);
+            throw error4;
+          }
+          callTracers2(tracers2, "response", res, middleware2, traceContext);
+          return res;
+        };
+      })(next, middleware);
+    }
+    return next(req);
+  }
+  with(...options) {
+    return new _Client(deepClone(this.clientOptions), ...options);
+  }
+  get location() {
+    return this.clientOptions.url;
+  }
+};
+var traceContextId = 0;
+var TRACE_OPTION_KEYS = ["trace", "tracer", "tracers"];
+function fetchOptionsFrom(...options) {
+  const result = {};
+  for (const option of options) {
+    if (!isPlainObject2(option)) {
+      continue;
+    }
+    for (const key of TRACE_OPTION_KEYS) {
+      if (key in option) {
+        result[key] = option[key];
+      }
+    }
+  }
+  return result;
+}
+function createTraceContext(req, options = {}) {
+  const parent = traceParentFrom(options.trace || options.tracer || options.tracers);
+  let localTracers = [];
+  if (parent) {
+    localTracers = parent.localTracers || [];
+  } else {
+    localTracers = normalizeTracers(options.trace).concat(normalizeTracers(options.tracer)).concat(normalizeTracers(options.tracers));
+  }
+  const globalTracers = Object.values(Client.tracers || {});
+  const context = {
+    __metroTraceContext: true,
+    id: "metro-trace-context-" + ++traceContextId,
+    parent,
+    request: req,
+    options,
+    globalTracers,
+    localTracers,
+    tracers: globalTracers.concat(localTracers)
+  };
+  return context;
+}
+function traceParentFrom(value) {
+  if (!value) {
+    return null;
+  }
+  if (value.context?.__metroTraceContext) {
+    return value.context;
+  }
+  if (value.__metroTraceContext) {
+    return value;
+  }
+  return null;
+}
+function normalizeTracers(value) {
+  if (!value || value.__metroTraceContext || value.context?.__metroTraceContext) {
+    return [];
+  }
+  if (Array.isArray(value)) {
+    return value.flatMap(normalizeTracers);
+  }
+  if (isTracer(value)) {
+    return [value];
+  }
+  if (isPlainObject2(value)) {
+    return Object.values(value).flatMap(normalizeTracers);
+  }
+  return [];
+}
+function isTracer(value) {
+  return value && typeof value == "object" && [
+    "request",
+    "response",
+    "error",
+    "event",
+    "diagnostic",
+    "span",
+    "link",
+    "current"
+  ].some((name) => typeof value[name] == "function");
+}
+function createMiddlewareContext(client3, options, traceContext) {
+  const trace3 = createTraceAPI(traceContext);
+  return Object.freeze({
+    client: client3,
+    options,
+    trace: trace3,
+    fetch(req, fetchOptions = {}) {
+      return client3.fetch(req, Object.assign({}, fetchOptions, { trace: trace3 }));
+    }
+  });
+}
+function createTraceAPI(context) {
+  const api3 = {
+    __metroTraceContext: true,
+    context,
+    event(name, data = {}) {
+      callTracers2(context.tracers, "event", name, data, context);
+    },
+    diagnostic(diagnostic = {}) {
+      callTracers2(context.tracers, "diagnostic", diagnostic, context);
+    },
+    current() {
+      for (const tracer of context.tracers) {
+        if (typeof tracer.current == "function") {
+          const current = tracer.current(context);
+          if (current) {
+            return current;
+          }
+        }
+      }
+      return { traceId: null, spanId: null };
+    },
+    async span(name, fn, data = {}) {
+      const tracer = context.tracers.find((tracer2) => typeof tracer2.span == "function");
+      if (!tracer) {
+        return fn();
+      }
+      return tracer.span(name, fn, data, context);
+    },
+    link(key) {
+      let traceId = null;
+      for (const tracer of context.tracers) {
+        if (typeof tracer.link == "function") {
+          traceId = tracer.link(key, void 0, context) || traceId;
+        }
+      }
+      return traceId;
+    },
+    options(extra = {}) {
+      return Object.assign({}, extra, { trace: api3 });
+    }
+  };
+  return api3;
+}
+function callTracers2(tracers2, method, ...args) {
+  for (const tracer of tracers2) {
+    if (tracer && typeof tracer[method] == "function") {
+      tracer[method].call(tracer, ...args);
+    }
+  }
+}
+function isPlainObject2(value) {
+  return value && typeof value == "object" && (Object.getPrototypeOf(value) === Object.prototype || Object.getPrototypeOf(value) === null);
+}
+function client(...options) {
+  return new Client(...deepClone(options));
+}
+function getRequestParams(req, current) {
+  let params = current || {};
+  if (!params.url && current.url) {
+    params.url = current.url;
+  }
+  for (let prop of [
+    "method",
+    "headers",
+    "body",
+    "mode",
+    "credentials",
+    "cache",
+    "redirect",
+    "referrer",
+    "referrerPolicy",
+    "integrity",
+    "keepalive",
+    "signal",
+    "priority",
+    "url"
+  ]) {
+    let value = req[prop];
+    if (typeof value == "undefined" || value == null) {
+      continue;
+    }
+    if (value?.[Symbol.metroProxy]) {
+      value = value[Symbol.metroSource];
+    }
+    if (typeof value == "function") {
+      params[prop] = value(params[prop], params);
+    } else {
+      if (prop == "url") {
+        params.url = url(params.url, value);
+      } else if (prop == "headers") {
+        params.headers = new Headers(current.headers);
+        if (!(value instanceof Headers)) {
+          value = new Headers(req.headers);
+        }
+        for (let [key, val] of value.entries()) {
+          params.headers.set(key, val);
+        }
+      } else {
+        params[prop] = value;
+      }
+    }
+  }
+  if (req instanceof Request && req.data) {
+    params.body = req.data;
+  }
+  return params;
+}
+function request(...options) {
+  let requestParams = {
+    url: typeof window != "undefined" ? url(window.location) : url("https://localhost/"),
+    duplex: "half"
+    // required when setting body to ReadableStream, just set it here by default already
+  };
+  for (let option of options) {
+    if (typeof option == "string" || option instanceof URL || option instanceof URLSearchParams) {
+      requestParams.url = url(requestParams.url, option);
+    } else if (option && (option instanceof FormData || option instanceof ReadableStream || option instanceof Blob || option instanceof ArrayBuffer || option instanceof DataView)) {
+      requestParams.body = option;
+    } else if (option && typeof option == "object") {
+      Object.assign(requestParams, getRequestParams(option, requestParams));
+    }
+  }
+  let r = new Request(requestParams.url, requestParams);
+  let data = requestParams.body;
+  if (data) {
+    if (typeof data == "object" && !(data instanceof String) && !(data instanceof ReadableStream) && !(data instanceof Blob) && !(data instanceof ArrayBuffer) && !(data instanceof DataView) && !(data instanceof FormData) && !(data instanceof URLSearchParams) && (globalThis.ArrayBuffer && ArrayBuffer.isView(data))) {
+      if (typeof data.toString == "function") {
+        requestParams.body = data.toString({ headers: r.headers });
+        r = new Request(requestParams.url, requestParams);
+      }
+    }
+  }
+  Object.freeze(r);
+  return new Proxy(r, {
+    get(target, prop) {
+      let result;
+      switch (prop) {
+        case Symbol.metroSource:
+          result = target;
+          break;
+        case Symbol.metroProxy:
+          result = true;
+          break;
+        case "with":
+          result = function(...options2) {
+            if (typeof data !== "undefined") {
+              options2.unshift({ body: data });
+            }
+            return request(target, ...options2);
+          };
+          break;
+        case "data":
+          result = data;
+          break;
+        default:
+          if (target[prop] instanceof Function) {
+            if (prop === "clone") {
+              result = function() {
+                const cloned = target.clone();
+                if (typeof data != "undefined" && !(typeof ReadableStream != "undefined" && data instanceof ReadableStream)) {
+                  return request(cloned, { body: data });
+                }
+                return request(cloned);
+              };
+            } else {
+              result = target[prop].bind(target);
+            }
+          } else {
+            result = target[prop];
+          }
+          break;
+      }
+      return result;
+    }
+  });
+}
+function getResponseParams(res, current) {
+  let params = current || {};
+  if (!params.url && current.url) {
+    params.url = current.url;
+  }
+  for (let prop of ["status", "statusText", "headers", "body", "url", "type", "redirected"]) {
+    let value = res[prop];
+    if (typeof value == "undefined" || value == null) {
+      continue;
+    }
+    if (value?.[Symbol.metroProxy]) {
+      value = value[Symbol.metroSource];
+    }
+    if (typeof value == "function") {
+      params[prop] = value(params[prop], params);
+    } else {
+      if (prop == "url") {
+        params.url = new URL(value, params.url || "https://localhost/");
+      } else {
+        params[prop] = value;
+      }
+    }
+  }
+  if (res instanceof Response && res.data) {
+    params.body = res.data;
+  }
+  return params;
+}
+function response(...options) {
+  let responseParams = {};
+  for (let option of options) {
+    if (typeof option == "string") {
+      responseParams.body = option;
+    } else if (option instanceof Response) {
+      Object.assign(responseParams, getResponseParams(option, responseParams));
+    } else if (option && typeof option == "object") {
+      if (option instanceof FormData || option instanceof Blob || option instanceof ArrayBuffer || option instanceof DataView || option instanceof ReadableStream || option instanceof URLSearchParams || option instanceof String || typeof globalThis.TypedArray != "undefined" && option instanceof globalThis.TypedArray) {
+        responseParams.body = option;
+      } else {
+        Object.assign(responseParams, getResponseParams(option, responseParams));
+      }
+    }
+  }
+  let data = void 0;
+  if (responseParams.body) {
+    data = responseParams.body;
+  }
+  if ([101, 204, 205, 304].includes(responseParams.status)) {
+    responseParams.body = null;
+  }
+  let r = new Response(responseParams.body, responseParams);
+  Object.freeze(r);
+  return new Proxy(r, {
+    get(target, prop) {
+      let result;
+      switch (prop) {
+        case Symbol.metroProxy:
+          result = true;
+          break;
+        case Symbol.metroSource:
+          result = target;
+          break;
+        case "with":
+          result = function(...options2) {
+            return response(target, ...options2);
+          };
+          break;
+        case "data":
+          result = data;
+          break;
+        case "ok":
+          result = target.status >= 200 && target.status < 300;
+          break;
+        default:
+          if (typeof target[prop] == "function") {
+            result = target[prop].bind(target);
+          } else {
+            result = target[prop];
+          }
+          break;
+      }
+      return result;
+    }
+  });
+}
+function appendSearchParams(url3, params) {
+  if (typeof params == "function") {
+    params(url3.searchParams, url3);
+  } else {
+    params = new URLSearchParams(params);
+    params.forEach((value, key) => {
+      url3.searchParams.append(key, value);
+    });
+  }
+}
+function appendHashParams(value, params) {
+  const target = value[Symbol.metroSource] || value;
+  if (!(params instanceof URLSearchParams)) {
+    params = new URLSearchParams(params);
+  }
+  let hash = target.hash || "#";
+  hash += "?" + params;
+  return url(target, { hash });
+}
+function url(...options) {
+  let validParams = [
+    "hash",
+    "fragment",
+    "host",
+    "hostname",
+    "href",
+    "password",
+    "pathname",
+    "port",
+    "protocol",
+    "username",
+    "search",
+    "searchParams",
+    "hashParams"
+  ];
+  let u = new URL("https://localhost/");
+  let hParams = null;
+  for (let option of options) {
+    if (typeof option == "string" || option instanceof String) {
+      u = new URL(option, u);
+    } else if (option instanceof URL || typeof Location != "undefined" && option instanceof Location) {
+      u = new URL(option);
+    } else if (option instanceof URLSearchParams) {
+      appendSearchParams(u, option);
+    } else if (option && typeof option == "object") {
+      for (let param in option) {
+        switch (param) {
+          case "search":
+            if (typeof option.search == "function") {
+              option.search(u.search, u);
+            } else {
+              u.search = new URLSearchParams(option.search);
+            }
+            break;
+          case "searchParams":
+            appendSearchParams(u, option.searchParams);
+            break;
+          default:
+            if (!validParams.includes(param)) {
+              throw metroError("metro.url: unknown url parameter " + metroURL + "url/unknown-param-name/", param);
+            }
+            if (param == "fragment") {
+              let fragment = option.fragment;
+              if (fragment && typeof fragment == "string" && fragment[0] != "#") {
+                fragment = "#" + fragment;
+              }
+              option.hash = fragment;
+              param = "hash";
+            } else if (param == "hashParams") {
+              hParams = option.hashParams;
+            }
+            if (typeof option[param] == "function") {
+              option[param](u[param], u);
+            } else if (typeof option[param] == "string" || option[param] instanceof String || typeof option[param] == "number" || option[param] instanceof Number || typeof option[param] == "boolean" || option[param] instanceof Boolean) {
+              u[param] = "" + option[param];
+            } else if (typeof option[param] == "object" && option[param].toString) {
+              u[param] = option[param].toString();
+            } else {
+              throw metroError("metro.url: unsupported value for " + param + " " + metroURL + "url/unsupported-param-value/", options[param]);
+            }
+            break;
+        }
+      }
+    } else {
+      throw metroError("metro.url: unsupported option value " + metroURL + "url/unsupported-option-value/", option);
+    }
+  }
+  if (hParams) {
+    if (!u.hash) {
+      u.hash = "#";
+    }
+    if (typeof hParams == "string") {
+      u.hash += hParams;
+    } else {
+      u = appendHashParams(u, hParams);
+    }
+  }
+  Object.freeze(u);
+  return new Proxy(u, {
+    get(target, prop) {
+      let result;
+      switch (prop) {
+        case Symbol.metroProxy:
+          result = true;
+          break;
+        case Symbol.metroSource:
+          result = target;
+          break;
+        case "with":
+          result = function(...options2) {
+            return url(target, ...options2);
+          };
+          break;
+        case "filename":
+          result = target.pathname.split("/").pop();
+          break;
+        case "folderpath":
+          result = target.pathname.substring(0, target.pathname.lastIndexOf("/") + 1);
+          break;
+        case "authority":
+          result = target.username ?? "";
+          result += target.password ? ":" + target.password : "";
+          result += result ? "@" : "";
+          result += target.hostname;
+          result += target.port ? ":" + target.port : "";
+          result += "/";
+          result = target.protocol + "//" + result;
+          break;
+        case "fragment":
+          result = target.hash.substring(1);
+          break;
+        case "scheme":
+          if (target.protocol) {
+            result = target.protocol.substring(0, target.protocol.length - 1);
+          } else {
+            result = "";
+          }
+          break;
+        default:
+          if (target[prop] instanceof Function) {
+            result = target[prop].bind(target);
+          } else {
+            result = target[prop];
+          }
+          break;
+      }
+      return result;
+    }
+  });
+}
+var metroConsole = {
+  error: (message, ...details) => {
+    console.error("\u24C2\uFE0F  ", message, ...details);
+  },
+  info: (message, ...details) => {
+    console.info("\u24C2\uFE0F  ", message, ...details);
+  },
+  group: (name) => {
+    console.group("\u24C2\uFE0F  " + name);
+  },
+  groupEnd: (name) => {
+    console.groupEnd("\u24C2\uFE0F  " + name);
+  }
+};
+function metroError(message, ...details) {
+  metroConsole.error(message, ...details);
+  return new Error(message, ...details);
+}
+function deepClone(object) {
+  if (Array.isArray(object)) {
+    return object.slice().map(deepClone);
+  }
+  if (object && typeof object === "object") {
+    if (object.__proto__?.constructor == Object || !object.__proto__) {
+      let result = Object.assign({}, object);
+      Object.keys(result).forEach((key) => {
+        result[key] = deepClone(object[key]);
+      });
+      return result;
+    } else {
+      return object;
+    }
+  }
+  return object;
+}
+
+// ../solid-tools/node_modules/@muze-nl/metro-middleware/src/json.mjs
+function jsonmw(options) {
+  options = Object.assign({
+    contentType: "application/json",
+    reviver: null,
+    replacer: null,
+    space: ""
+  }, options);
+  return async function json(req, next) {
+    if (!req.headers.get("Accept")) {
+      req = req.with({
+        headers: {
+          "Accept": options.accept ?? options.contentType
+        }
+      });
+    }
+    if (req.method !== "GET" && req.method !== "HEAD") {
+      if (req.data && typeof req.data == "object" && !(req.data instanceof ReadableStream)) {
+        const contentType = req.headers.get("Content-Type");
+        if (!contentType || isPlainText(contentType)) {
+          req = req.with({
+            headers: {
+              "Content-Type": options.contentType
+            }
+          });
+        }
+        if (isJSON(req.headers.get("Content-Type"))) {
+          req = req.with({
+            body: JSON.stringify(req.data, options.replacer, options.space)
+          });
+        }
+      }
+    }
+    let res = await next(req);
+    if (res && isJSON(res.headers?.get("Content-Type"))) {
+      let tempRes = res.clone();
+      let body = await tempRes.text();
+      try {
+        let json2 = JSON.parse(body, options.reviver);
+        return res.with({
+          body: json2
+        });
+      } catch (e) {
+      }
+    }
+    return res;
+  };
+}
+var jsonRE = /^application\/([a-zA-Z0-9\-_]+\+)?json\b/;
+function isJSON(contentType) {
+  return jsonRE.exec(contentType);
+}
+function isPlainText(contentType) {
+  return /^text\/plain\b/.exec(contentType);
+}
+
+// ../solid-tools/node_modules/@muze-nl/metro-middleware/src/thrower.mjs
+function throwermw(options) {
+  return async function thrower(req, next) {
+    let res = await next(req);
+    if (!res.ok) {
+      if (options && typeof options[res.status] == "function") {
+        res = options[res.status].apply(res, req);
+      } else {
+        throw new Error(res.status + ": " + res.statusText, {
+          cause: res
+        });
+      }
+    }
+    return res;
+  };
+}
+
+// ../solid-tools/node_modules/@muze-nl/metro-middleware/src/getdata.mjs
+function getdatamw() {
+  return async function getdata(req, next) {
+    let res = await next(req);
+    if (res.ok && res.data) {
+      return res.data;
+    }
+    return res;
+  };
+}
+
+// ../solid-tools/node_modules/@muze-nl/metro-middleware/src/_trace.mjs
+function traceEvent(name, data = {}, context = null) {
+  for (const tracer of tracersFor(context)) {
+    if (tracer && typeof tracer.event == "function") {
+      tracer.event.call(tracer, name, data, context);
+    }
+  }
+}
+function traceDiagnostic(diagnostic = {}, context = null) {
+  for (const tracer of tracersFor(context)) {
+    if (tracer && typeof tracer.diagnostic == "function") {
+      tracer.diagnostic.call(tracer, diagnostic, context);
+    }
+  }
+}
+function tracersFor(context) {
+  return context?.tracers || Object.values(Client.tracers || {});
+}
+
+// ../solid-tools/node_modules/@muze-nl/metro-middleware/src/backoff.mjs
+var DEFAULT_BACKOFF_STATUSES = [429, 503];
+function backoffmw(options = {}) {
+  options = Object.assign({
+    name: "backoff",
+    store: memoryBackoffStore(),
+    scope: "origin",
+    statuses: DEFAULT_BACKOFF_STATUSES,
+    maxDelay: 6e4,
+    sleep,
+    now: () => Date.now()
+  }, options);
+  async function backoff(req, next, context) {
+    const key = backoffKey(req, options);
+    const until = options.store.get(key) || 0;
+    const wait = Math.max(0, until - options.now());
+    if (wait > 0) {
+      traceEvent("server backoff wait", {
+        severity: "warning",
+        label: formatDelay(wait),
+        method: req.method,
+        url: req.url,
+        wait,
+        key
+      }, context);
+      await options.sleep(wait, req.signal);
+    }
+    const res = await next(req);
+    const delay = responseBackoffDelay(res, options);
+    if (delay > 0) {
+      options.store.set(key, options.now() + delay);
+      traceEvent("server requested backoff", {
+        severity: res.status >= 400 ? "warning" : "info",
+        label: formatDelay(delay),
+        method: req.method,
+        url: req.url,
+        status: res.status,
+        delay,
+        key
+      }, context);
+      traceDiagnostic({
+        severity: res.status >= 400 ? "warning" : "info",
+        code: "server-backoff",
+        message: `Server asked Metro to back off ${formatDelay(delay)}`,
+        data: {
+          method: req.method,
+          url: req.url,
+          status: res.status,
+          delay,
+          key
+        }
+      }, context);
+    }
+    return res;
+  }
+  backoff.traceName = options.name;
+  return backoff;
+}
+function responseBackoffDelay(res, options = {}) {
+  options = Object.assign({
+    statuses: DEFAULT_BACKOFF_STATUSES,
+    maxDelay: 6e4
+  }, options);
+  if (!res?.headers) {
+    return 0;
+  }
+  const retryAfter = parseRetryAfter(res.headers.get("Retry-After"));
+  if (retryAfter > 0 && statusAllowsBackoff(res.status, options)) {
+    return capDelay(retryAfter, options.maxDelay);
+  }
+  const rateLimitReset = parseRateLimitReset(res.headers.get("RateLimit-Reset"));
+  const rateLimitRemaining = parseNumberHeader(res.headers.get("RateLimit-Remaining"));
+  if (rateLimitReset > 0 && rateLimitRemaining === 0) {
+    return capDelay(rateLimitReset, options.maxDelay);
+  }
+  const combinedRateLimit = parseCombinedRateLimit(res.headers.get("RateLimit"));
+  if (combinedRateLimit.delay > 0 && combinedRateLimit.remaining === 0) {
+    return capDelay(combinedRateLimit.delay, options.maxDelay);
+  }
+  return 0;
+}
+function parseRetryAfter(value, now2 = Date.now()) {
+  if (!value) {
+    return 0;
+  }
+  value = String(value).trim();
+  if (/^\d+$/.test(value)) {
+    return parseInt(value, 10) * 1e3;
+  }
+  const date = Date.parse(value);
+  if (!Number.isNaN(date)) {
+    return Math.max(0, date - now2);
+  }
+  return 0;
+}
+function parseRateLimitReset(value) {
+  if (!value) {
+    return 0;
+  }
+  const match = String(value).trim().match(/^\d+(?:\.\d+)?/);
+  if (!match) {
+    return 0;
+  }
+  return Math.ceil(parseFloat(match[0]) * 1e3);
+}
+function parseCombinedRateLimit(value) {
+  const result = { remaining: null, delay: 0 };
+  if (!value) {
+    return result;
+  }
+  for (const part of String(value).split(/[;,]/)) {
+    const [rawName, rawValue] = part.split("=").map((item) => item?.trim());
+    const name = rawName?.toLowerCase();
+    const value2 = rawValue?.replace(/^"|"$/g, "");
+    if (name == "r") {
+      result.remaining = parseNumberHeader(value2);
+    } else if (name == "t") {
+      result.delay = parseRateLimitReset(value2);
+    }
+  }
+  return result;
+}
+function memoryBackoffStore() {
+  const values3 = /* @__PURE__ */ new Map();
+  return {
+    get(key) {
+      return values3.get(key) || 0;
+    },
+    set(key, until) {
+      values3.set(key, until);
+    },
+    clear(key = null) {
+      if (key == null) {
+        values3.clear();
+      } else {
+        values3.delete(key);
+      }
+    }
+  };
+}
+function localStorageBackoffStore(options = {}) {
+  const storage = options.storage || safeLocalStorage();
+  if (!storage) {
+    return memoryBackoffStore();
+  }
+  const prefix = options.prefix || "metro:backoff:";
+  return {
+    get(key) {
+      const until = parseInt(storage.getItem(prefix + key), 10);
+      return Number.isNaN(until) ? 0 : until;
+    },
+    set(key, until) {
+      storage.setItem(prefix + key, String(until));
+    },
+    clear(key = null) {
+      if (key != null) {
+        storage.removeItem(prefix + key);
+        return;
+      }
+      const keys = [];
+      for (let index = 0; index < storage.length; index++) {
+        const name = storage.key(index);
+        if (name?.startsWith(prefix)) {
+          keys.push(name);
+        }
+      }
+      for (const name of keys) {
+        storage.removeItem(name);
+      }
+    }
+  };
+}
+function sleep(ms, signal3) {
+  if (!ms || ms <= 0) {
+    return Promise.resolve();
+  }
+  if (signal3?.aborted) {
+    return Promise.reject(signal3.reason || new Error("Request was aborted"));
+  }
+  return new Promise((resolve, reject) => {
+    const timer = setTimeout(done, ms);
+    function done() {
+      cleanup();
+      resolve();
+    }
+    function abort() {
+      cleanup();
+      reject(signal3.reason || new Error("Request was aborted"));
+    }
+    function cleanup() {
+      clearTimeout(timer);
+      signal3?.removeEventListener?.("abort", abort);
+    }
+    signal3?.addEventListener?.("abort", abort, { once: true });
+  });
+}
+function statusAllowsBackoff(status2, options) {
+  return options.statuses == "*" || options.statuses.includes(status2);
+}
+function capDelay(delay, maxDelay) {
+  if (!maxDelay || maxDelay < 0) {
+    return delay;
+  }
+  return Math.min(delay, maxDelay);
+}
+function parseNumberHeader(value) {
+  if (value == null) {
+    return null;
+  }
+  const match = String(value).trim().match(/^\d+(?:\.\d+)?/);
+  return match ? Number(match[0]) : null;
+}
+function backoffKey(req, options) {
+  if (typeof options.scope == "function") {
+    return options.scope(req);
+  }
+  const url3 = new URL(req.url);
+  if (options.scope == "url") {
+    return url3.href;
+  }
+  if (options.scope == "path") {
+    return `${url3.origin}${url3.pathname}`;
+  }
+  return url3.origin;
+}
+function formatDelay(delay) {
+  return delay < 1e3 ? `${Math.round(delay)}ms` : `${(delay / 1e3).toFixed(delay < 1e4 ? 1 : 0)}s`;
+}
+function safeLocalStorage() {
+  try {
+    return typeof localStorage != "undefined" ? localStorage : null;
+  } catch (e) {
+    return null;
+  }
+}
+backoffmw.memoryStore = memoryBackoffStore;
+backoffmw.localStorageStore = localStorageBackoffStore;
+backoffmw.parseRetryAfter = parseRetryAfter;
+backoffmw.responseDelay = responseBackoffDelay;
+
+// ../solid-tools/node_modules/@muze-nl/metro-middleware/src/retry.mjs
+var DEFAULT_RETRY_STATUS = [408, 425, 429, 500, 502, 503, 504];
+var DEFAULT_RETRY_METHODS = ["GET", "HEAD", "OPTIONS"];
+function retrymw(options = {}) {
+  if (typeof options == "number") {
+    options = { attempts: options };
+  }
+  options = Object.assign({
+    name: "retry",
+    attempts: 3,
+    delay: 250,
+    factor: 2,
+    maxDelay: 3e4,
+    jitter: true,
+    methods: DEFAULT_RETRY_METHODS,
+    status: DEFAULT_RETRY_STATUS,
+    respectRetryAfter: true,
+    respectRateLimit: true,
+    sleep,
+    random: Math.random
+  }, options);
+  async function retry(req, next, context) {
+    const attempts = attemptsFor(options.attempts, req);
+    if (attempts <= 1 || !methodCanRetry(req, options)) {
+      return next(req);
+    }
+    let lastError = null;
+    for (let attempt = 1; attempt <= attempts; attempt++) {
+      try {
+        if (attempt > 1) {
+          traceEvent("retry attempt", {
+            severity: "info",
+            label: `${attempt}/${attempts}`,
+            attempt,
+            attempts,
+            method: req.method,
+            url: req.url
+          }, context);
+        }
+        const res = await next(req.with ? req.with() : req);
+        if (!responseCanRetry(res, options) || attempt >= attempts) {
+          return res;
+        }
+        const delay = retryDelay(options, attempt, res);
+        traceEvent("retry scheduled", {
+          severity: "warning",
+          label: `${res.status}, ${formatDelay2(delay)}`,
+          attempt,
+          attempts,
+          status: res.status,
+          method: req.method,
+          url: req.url,
+          delay
+        }, context);
+        traceDiagnostic({
+          severity: "warning",
+          code: "retry",
+          message: `Retrying ${req.method} ${displayURL(req.url)} after HTTP ${res.status}`,
+          data: { attempt, attempts, status: res.status, delay, method: req.method, url: req.url }
+        }, context);
+        await options.sleep(delay, req.signal);
+      } catch (error4) {
+        lastError = error4;
+        if (!errorCanRetry(error4, options) || attempt >= attempts || req.signal?.aborted) {
+          throw error4;
+        }
+        const delay = retryDelay(options, attempt);
+        traceEvent("retry scheduled", {
+          severity: "warning",
+          label: `${error4.name || "Error"}, ${formatDelay2(delay)}`,
+          attempt,
+          attempts,
+          method: req.method,
+          url: req.url,
+          delay
+        }, context);
+        traceDiagnostic({
+          severity: "warning",
+          code: "retry",
+          message: `Retrying ${req.method} ${displayURL(req.url)} after ${error4.message || error4}`,
+          data: { attempt, attempts, delay, method: req.method, url: req.url, error: error4.message }
+        }, context);
+        await options.sleep(delay, req.signal);
+      }
+    }
+    throw lastError;
+  }
+  retry.traceName = options.name;
+  return retry;
+}
+function retryDelay(options, attempt, res = null) {
+  let serverDelay = 0;
+  if (res && (options.respectRetryAfter || options.respectRateLimit)) {
+    serverDelay = responseBackoffDelay(res, {
+      statuses: options.status,
+      maxDelay: options.maxDelay
+    });
+  }
+  let delay = delayFor(options.delay, attempt, res);
+  if (delay > 0 && options.factor && attempt > 1) {
+    delay = delay * Math.pow(options.factor, attempt - 1);
+  }
+  if (options.jitter && delay > 0) {
+    delay = delay * (0.5 + options.random());
+  }
+  if (options.maxDelay && options.maxDelay > 0) {
+    delay = Math.min(delay, options.maxDelay);
+  }
+  return Math.max(serverDelay, Math.round(delay));
+}
+function methodCanRetry(req, options) {
+  if (options.methods == "*") {
+    return true;
+  }
+  return options.methods.map((method) => method.toUpperCase()).includes(req.method.toUpperCase());
+}
+function responseCanRetry(res, options) {
+  if (typeof options.when == "function") {
+    return options.when(res);
+  }
+  return options.status == "*" || options.status.includes(res.status);
+}
+function errorCanRetry(error4, options) {
+  if (typeof options.onError == "function") {
+    return options.onError(error4);
+  }
+  return error4?.name != "AbortError" && error4?.name != "TimeoutError";
+}
+function attemptsFor(attempts, req) {
+  return typeof attempts == "function" ? attempts(req) : attempts;
+}
+function delayFor(delay, attempt, res) {
+  return typeof delay == "function" ? delay(attempt, res) : delay;
+}
+function formatDelay2(delay) {
+  return delay < 1e3 ? `${Math.round(delay)}ms` : `${(delay / 1e3).toFixed(delay < 1e4 ? 1 : 0)}s`;
+}
+function displayURL(value) {
+  try {
+    const url3 = new URL(value, "https://localhost/");
+    return url3.origin == "https://localhost" ? url3.pathname + url3.search : url3.href;
+  } catch (e) {
+    return String(value);
+  }
+}
+
+// ../solid-tools/node_modules/@muze-nl/metro-middleware/src/abort.mjs
+function abortmw(options = {}) {
+  if (isAbortSignal(options)) {
+    options = { signal: options };
+  }
+  if (typeof options == "function") {
+    options = { signal: options };
+  }
+  options = Object.assign({
+    name: "abort"
+  }, options);
+  async function abort(req, next, context) {
+    const signal3 = signalFor(options.signal, req);
+    if (!signal3) {
+      return next(req);
+    }
+    if (signal3.aborted) {
+      const error4 = signal3.reason || abortError();
+      traceDiagnostic({
+        severity: "error",
+        code: "aborted",
+        message: error4.message || "Request was aborted",
+        data: { method: req.method, url: req.url }
+      }, context);
+      throw error4;
+    }
+    traceEvent("abort signal attached", {
+      severity: "info",
+      method: req.method,
+      url: req.url
+    }, context);
+    return next(req.with({ signal: combineSignals(req.signal, signal3) }));
+  }
+  abort.traceName = options.name;
+  return abort;
+}
+function combineSignals(...signals2) {
+  signals2 = signals2.filter(Boolean);
+  if (!signals2.length) {
+    return null;
+  }
+  if (signals2.length == 1) {
+    return signals2[0];
+  }
+  const controller = new AbortController();
+  const cleanup = [];
+  const abort = (event) => {
+    for (const remove2 of cleanup) {
+      remove2();
+    }
+    const source2 = event?.target || signals2.find((signal3) => signal3.aborted);
+    if (!controller.signal.aborted) {
+      controller.abort(source2?.reason || abortError());
+    }
+  };
+  for (const signal3 of signals2) {
+    if (signal3.aborted) {
+      abort({ target: signal3 });
+      break;
+    }
+    signal3.addEventListener("abort", abort, { once: true });
+    cleanup.push(() => signal3.removeEventListener("abort", abort));
+  }
+  return controller.signal;
+}
+function abortError(message = "Request was aborted") {
+  if (typeof DOMException != "undefined") {
+    return new DOMException(message, "AbortError");
+  }
+  const error4 = new Error(message);
+  error4.name = "AbortError";
+  return error4;
+}
+function signalFor(signal3, req) {
+  return typeof signal3 == "function" ? signal3(req) : signal3;
+}
+function isAbortSignal(value) {
+  return value && typeof value == "object" && typeof value.aborted == "boolean" && typeof value.addEventListener == "function";
+}
+abortmw.combineSignals = combineSignals;
+abortmw.abortError = abortError;
+
+// ../solid-tools/node_modules/@muze-nl/metro-middleware/src/timeout.mjs
+function timeoutmw(options = 3e4) {
+  if (typeof options == "number") {
+    options = { ms: options };
+  }
+  options = Object.assign({
+    ms: 3e4,
+    name: "timeout"
+  }, options);
+  async function timeout(req, next, context) {
+    const ms = delayFor2(options.ms, req);
+    if (!ms || ms <= 0) {
+      return next(req);
+    }
+    const controller = new AbortController();
+    const timer = setTimeout(() => {
+      controller.abort(timeoutError(ms));
+    }, ms);
+    const signal3 = combineSignals(req.signal, options.signal, controller.signal);
+    traceEvent("timeout armed", {
+      severity: "info",
+      label: `${ms}ms`,
+      method: req.method,
+      url: req.url,
+      ms
+    }, context);
+    try {
+      return await next(req.with({ signal: signal3 }));
+    } catch (error4) {
+      if (controller.signal.aborted) {
+        traceDiagnostic({
+          severity: "error",
+          code: "timeout",
+          message: `Request timed out after ${ms}ms`,
+          data: { method: req.method, url: req.url, ms }
+        }, context);
+      }
+      throw error4;
+    } finally {
+      clearTimeout(timer);
+    }
+  }
+  timeout.traceName = options.name;
+  return timeout;
+}
+function timeoutError(ms) {
+  const error4 = new Error(`Request timed out after ${ms}ms`);
+  error4.name = "TimeoutError";
+  error4.code = "ETIMEDOUT";
+  return error4;
+}
+function delayFor2(ms, req) {
+  return typeof ms == "function" ? ms(req) : ms;
+}
+timeoutmw.timeoutError = timeoutError;
+
+// ../solid-tools/node_modules/@muze-nl/metro-middleware/src/echo.mock.mjs
+function echomw() {
+  return async function echo(req) {
+    let options = {
+      status: 200,
+      statusText: "OK",
+      url: req.url,
+      headers: req.headers,
+      body: req.body
+    };
+    return response(options);
+  };
+}
+
+// ../solid-tools/node_modules/@muze-nl/metro-middleware/src/error.mock.mjs
+var baseResponse = {
+  status: 200,
+  statusText: "OK",
+  headers: {
+    "Content-Type": "application/json"
+  }
+};
+var badRequest = (error4) => {
+  return {
+    status: error4.code,
+    statusText: error4.message,
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify(error4)
+  };
+};
+var status = {
+  "/400/": "Bad Request",
+  "/401/": "Unauthorized",
+  "/402/": "Payment Required",
+  "/403/": "Forbidden",
+  "/404/": "Not Found",
+  "/405/": "Method Not Allowed",
+  "/406/": "Not Acceptable",
+  "/407/": "Proxy Authentication Required",
+  "/408/": "Request Timeout",
+  "/409/": "Conflict",
+  "/410/": "Gone",
+  "/411/": "Length Required",
+  "/412/": "Precondition Failed",
+  "/413/": "Payload Too Large",
+  "/414/": "URI Too Long",
+  "/415/": "Unsupported Media Type",
+  "/416/": "Range Not Satisfiable",
+  "/417/": "Expectation Failed",
+  "/418/": "I'm a teapot",
+  "/421/": "Misdireceted Request",
+  "/422/": "Unprocessable Content",
+  "/423/": "Locked",
+  "/424/": "Failed Dependency",
+  "/425/": "Too Early",
+  "/426/": "Upgrade Required",
+  "/428/": "Precondition Required",
+  "/429/": "Too Many Requests",
+  "/431/": "Request Header Fields Too Large",
+  "/451/": "Unavailable For Legal Reasons",
+  "/500/": "Internal Server Error",
+  "/501/": "Not Implemented",
+  "/502/": "Bad Gateway",
+  "/503/": "Service Unavailable",
+  "/504/": "Gateway Timeout",
+  "/505/": "HTTP Version Not Supported",
+  "/506/": "Variant Also Negotiated",
+  "/507/": "Insufficient Storage",
+  "/508/": "Loop Detected",
+  "/510/": "Not Extended",
+  "/511/": "Network Authentication Required"
+};
+function errormw(options) {
+  const customStatus = Object.assign({}, status, options);
+  return async function error4(req) {
+    let url3 = url(req.url);
+    if (status[url3.pathname]) {
+      let error5 = {
+        code: parseInt(url3.pathname.substring(1)),
+        message: customStatus[url3.pathname]
+      };
+      return response(badRequest(error5));
+    } else {
+      return response(baseResponse);
+    }
+  };
+}
+
+// ../solid-tools/node_modules/@muze-nl/metro-middleware/src/index.mjs
+var src_default3 = {
+  json: jsonmw,
+  thrower: throwermw,
+  getdata: getdatamw,
+  retry: retrymw,
+  timeout: timeoutmw,
+  abort: abortmw,
+  backoff: backoffmw,
+  echoMock: echomw,
+  errorMock: errormw
+};
+
+// ../solid-tools/node_modules/@muze-nl/metro-api/src/index.mjs
+var API = class extends Client {
+  #methods = null;
+  #base = "";
+  constructor(base, methods, bind2 = null) {
+    if (base instanceof Client) {
+      super(base.clientOptions, throwermw(), getdatamw());
+    } else {
+      super(base, throwermw(), getdatamw());
+    }
+    if (!bind2) {
+      bind2 = this;
+    }
+    this.#methods = methods;
+    this.#base = base;
+    for (const methodName in methods) {
+      if (typeof methods[methodName] == "function") {
+        this[methodName] = methods[methodName].bind(bind2);
+      } else if (methods[methodName] && typeof methods[methodName] == "object" && (Object.getPrototypeOf(methods[methodName]) === null || Object.getPrototypeOf(methods[methodName]).constructor === Object)) {
+        this[methodName] = new this.constructor(base, methods[methodName], bind2);
+      } else {
+        this[methodName] = methods[methodName];
+      }
+    }
+  }
+  extend(methods) {
+    return new this.constructor(this.#base, Object.assign({}, this.#methods, methods));
+  }
+};
+var JsonAPI = class extends API {
+  constructor(base, methods, bind2 = null) {
+    if (base instanceof Client) {
+      super(base.with(jsonmw()), methods, bind2);
+    } else {
+      super(client(base, jsonmw()), methods, bind2);
+    }
+  }
+};
+function api(...options) {
+  return new API(...deepClone(options));
+}
+function jsonApi(...options) {
+  return new JsonAPI(...deepClone(options));
+}
+
+// ../solid-tools/node_modules/@muze-nl/metro-trace/src/index.mjs
+var src_exports4 = {};
+__export(src_exports4, {
+  GraphTracer: () => GraphTracer,
+  add: () => add,
+  clear: () => clear,
+  default: () => src_default4,
+  delete: () => remove,
+  graph: () => graph,
+  group: () => group,
+  localConsole: () => localConsole,
+  remove: () => remove
+});
+
+// ../solid-tools/node_modules/@muze-nl/metro-trace/src/tracegraph.mjs
+var DEFAULT_OPTIONS = {
+  name: "Metro trace",
+  view: "tree",
+  persist: true,
+  autoPrint: true,
+  includeRawTrace: false,
+  maxAge: 10 * 60 * 1e3,
+  maxTraces: 20,
+  slowStepMs: 1e3,
+  store: null,
+  expectedStatus: (status2) => status2 < 400,
+  console: typeof console != "undefined" ? console : null
+};
+var SEVERITY_WEIGHT = {
+  ok: 0,
+  info: 1,
+  warning: 2,
+  error: 3,
+  blocked: 4
+};
+var SEVERITY_SYMBOL = {
+  ok: "\u2713",
+  info: "\u2139",
+  warning: "\u26A0",
+  error: "\u2716",
+  blocked: "\u26D4",
+  skipped: "\u23ED",
+  pending: "\u2026"
+};
+function graph(options = {}) {
+  return new GraphTracer(options);
+}
+function localConsole(options = {}) {
+  return graph(options);
+}
+var GraphTracer = class {
+  constructor(options = {}) {
+    this.options = Object.assign({}, DEFAULT_OPTIONS, options);
+    if (!this.options.store) {
+      this.options.store = this.options.persist ? localStorageStore(this.options) : memoryStore();
+    }
+    this.store = this.options.store;
+    this.defaultState = traceState();
+    this.runs = /* @__PURE__ */ new Map();
+    this.lastTraceId = null;
+    this.store.cleanup?.(this.options);
+  }
+  request(req, middleware, context = null) {
+    const state = this.state(context);
+    if (!state.activeTraceId) {
+      this.startTrace(requestName(req), {}, context);
+    }
+    this.startSpan(middlewareName(middleware), {
+      kind: middlewareKind(middleware),
+      method: req?.method,
+      url: safeURL(req?.url)
+    }, context);
+  }
+  response(res, middleware, context = null) {
+    const state = this.state(context);
+    const span = state.stack.pop();
+    if (!span) {
+      return;
+    }
+    span.end = now();
+    span.duration = span.end - span.start;
+    span.response = responseSummary(res);
+    span.status = "ok";
+    span.severity = "ok";
+    this.addResponseDiagnostics(span, res, context);
+    this.store.saveSpan(span);
+    this.finishTraceIfComplete(null, context);
+  }
+  error(error4, req, middleware, context = null) {
+    const state = this.state(context);
+    const span = state.stack.pop();
+    if (!span) {
+      return;
+    }
+    span.end = now();
+    span.duration = span.end - span.start;
+    span.status = "error";
+    span.severity = "error";
+    span.error = errorSummary(error4);
+    this.store.saveSpan(span);
+    const message = error4?.message || "Middleware failed";
+    const trace3 = this.store.read(span.traceId);
+    const alreadyReported = trace3?.diagnostics?.some((diagnostic) => diagnostic.data?.errorMessage == message);
+    if (span.kind == "fetch" || !alreadyReported) {
+      this.diagnostic({
+        traceId: span.traceId,
+        spanId: span.spanId,
+        severity: "error",
+        code: span.kind == "fetch" ? "network-error" : "middleware-error",
+        message,
+        data: {
+          middleware: middlewareName(middleware),
+          method: req?.method,
+          url: safeURL(req?.url),
+          name: error4?.name,
+          errorMessage: message
+        }
+      }, context);
+    }
+    this.finishTraceIfComplete("error", context);
+  }
+  /**
+   * Add a custom event to the current trace. Use from/to metadata to make it
+   * appear in sequence diagrams.
+   */
+  event(name, data = {}, context = null) {
+    const state = this.state(context);
+    const traceId = data.traceId || state.activeTraceId || state.lastTraceId || this.lastTraceId || this.startTrace(this.options.name, {}, context);
+    const parent = data.parentSpanId || state.stack[state.stack.length - 1]?.spanId || state.activeParentSpanId || null;
+    const event = {
+      id: id("event"),
+      traceId,
+      spanId: parent,
+      time: now(),
+      name,
+      severity: data.severity || "info",
+      data: sanitizeData(data)
+    };
+    this.store.saveEvent(event);
+    return event;
+  }
+  /**
+   * Record a manual span. This is useful for middleware internals that are not
+   * represented by a Metro fetch call, for example token validation or PKCE.
+   */
+  async span(name, fn, data = {}, context = null) {
+    this.startSpan(name, data, context);
+    try {
+      const result = await fn();
+      this.response(data.response || { status: 200 }, { name }, context);
+      return result;
+    } catch (error4) {
+      this.error(error4, null, { name }, context);
+      throw error4;
+    }
+  }
+  startTrace(name, data = {}, context = null) {
+    const state = this.state(context);
+    const trace3 = {
+      id: data.traceId || id("trace"),
+      name,
+      start: now(),
+      status: "running",
+      severity: "ok",
+      data: sanitizeData(data)
+    };
+    state.activeTraceId = trace3.id;
+    state.lastTraceId = trace3.id;
+    this.lastTraceId = trace3.id;
+    this.store.saveTrace(trace3);
+    return trace3.id;
+  }
+  startSpan(name, data = {}, context = null) {
+    const state = this.state(context);
+    const traceId = data.traceId || state.activeTraceId || this.startTrace(this.options.name, {}, context);
+    const parentSpanId = data.parentSpanId || state.stack[state.stack.length - 1]?.spanId || state.activeParentSpanId || null;
+    const span = {
+      traceId,
+      spanId: id("span"),
+      parentSpanId,
+      name,
+      kind: data.kind || "manual",
+      start: now(),
+      status: "running",
+      severity: "ok",
+      data: sanitizeData(data)
+    };
+    state.stack.push(span);
+    this.store.saveSpan(span);
+    return span;
+  }
+  diagnostic(diagnostic, context = null) {
+    const state = this.state(context);
+    const currentSpan = state.stack[state.stack.length - 1];
+    const traceId = diagnostic.traceId || currentSpan?.traceId || state.activeTraceId || state.lastTraceId || this.lastTraceId;
+    if (!traceId) {
+      return null;
+    }
+    const result = Object.assign({
+      id: id("diagnostic"),
+      traceId,
+      spanId: diagnostic.spanId || currentSpan?.spanId || null,
+      time: now(),
+      severity: "warning"
+    }, diagnostic);
+    result.data = sanitizeData(result.data || {});
+    this.store.saveDiagnostic(result);
+    return result;
+  }
+  current(context = null) {
+    const state = this.state(context);
+    return {
+      traceId: state.activeTraceId,
+      spanId: state.stack[state.stack.length - 1]?.spanId || state.activeParentSpanId || null
+    };
+  }
+  /**
+   * Remember a trace id under a stable key, for example an OAuth state value.
+   * The key is local to this trace store.
+   */
+  link(key, traceId = void 0, context = null) {
+    const state = this.state(context);
+    traceId = traceId || state.activeTraceId || state.lastTraceId || this.lastTraceId;
+    if (key && traceId) {
+      this.store.link(key, traceId);
+    }
+    return traceId;
+  }
+  /**
+   * Resume adding manual events/spans to a trace after a redirect or popup.
+   */
+  resume(traceId, parentSpanId = null, context = null) {
+    if (!traceId) {
+      return null;
+    }
+    const state = this.state(context);
+    state.activeTraceId = traceId;
+    state.activeParentSpanId = parentSpanId;
+    state.lastTraceId = traceId;
+    this.lastTraceId = traceId;
+    return this.current(context);
+  }
+  resumeLink(key, parentSpanId = null, context = null) {
+    return this.resume(this.store.lookup(key), parentSpanId, context);
+  }
+  pause(context = null) {
+    if (context?.__metroTraceContext) {
+      this.runs.delete(context.id);
+      return;
+    }
+    this.defaultState = traceState();
+  }
+  get(traceId = this.lastTraceId) {
+    return this.store.read(traceId);
+  }
+  print(traceId = this.lastTraceId, options = {}) {
+    const trace3 = typeof traceId == "object" ? traceId : this.get(traceId);
+    if (!trace3) {
+      return null;
+    }
+    return printTrace(trace3, Object.assign({}, this.options, options));
+  }
+  printLast(options = {}) {
+    return this.print(this.lastTraceId || this.store.lastTraceId?.(), options);
+  }
+  render(traceId = this.lastTraceId, options = {}) {
+    const trace3 = typeof traceId == "object" ? traceId : this.get(traceId);
+    if (!trace3) {
+      return "";
+    }
+    return renderTrace(trace3, Object.assign({}, this.options, options));
+  }
+  clear() {
+    this.store.clear();
+    this.defaultState = traceState();
+    this.runs.clear();
+    this.lastTraceId = null;
+  }
+  addResponseDiagnostics(span, res, context = null) {
+    if (span.duration >= this.options.slowStepMs) {
+      span.severity = maxSeverity(span.severity, "warning");
+      this.diagnostic({
+        traceId: span.traceId,
+        spanId: span.spanId,
+        severity: "warning",
+        code: "slow-step",
+        message: `${span.name} took ${formatDuration(span.duration)}`,
+        data: { threshold: this.options.slowStepMs, actual: span.duration }
+      }, context);
+    }
+    if (!res || typeof res.status == "undefined" || span.kind != "fetch") {
+      return;
+    }
+    if (this.statusExpected(res.status, span) === false) {
+      const severity = res.status >= 500 ? "error" : "warning";
+      span.status = severity == "error" ? "error" : "warning";
+      span.severity = maxSeverity(span.severity, severity);
+      this.diagnostic({
+        traceId: span.traceId,
+        spanId: span.spanId,
+        severity,
+        code: "unexpected-status",
+        message: `${span.name} returned unexpected HTTP ${res.status}`,
+        data: { status: res.status, url: span.data?.url }
+      }, context);
+    }
+  }
+  statusExpected(status2, span) {
+    const expected = this.options.expectedStatus;
+    if (typeof expected == "function") {
+      return expected(status2, span);
+    }
+    if (Array.isArray(expected)) {
+      return expected.includes(status2);
+    }
+    return status2 < 400;
+  }
+  finishTraceIfComplete(status2 = null, context = null) {
+    const state = this.state(context);
+    if (state.stack.length || !state.activeTraceId) {
+      return;
+    }
+    if (context?.parent) {
+      this.runs.delete(context.id);
+      return;
+    }
+    const trace3 = this.store.read(state.activeTraceId);
+    if (!trace3) {
+      this.pause(context);
+      return;
+    }
+    trace3.end = now();
+    trace3.duration = trace3.end - trace3.start;
+    trace3.status = status2 || traceStatus(trace3);
+    trace3.severity = traceSeverity(trace3);
+    this.store.saveTrace(trace3);
+    state.lastTraceId = trace3.id;
+    this.lastTraceId = trace3.id;
+    if (this.options.autoPrint) {
+      this.print(trace3.id);
+    }
+    this.pause(context);
+  }
+  state(context = null) {
+    if (!context?.__metroTraceContext) {
+      return this.defaultState;
+    }
+    let state = this.runs.get(context.id);
+    if (state) {
+      return state;
+    }
+    state = traceState();
+    const parentState = context.parent ? this.runs.get(context.parent.id) : null;
+    if (parentState) {
+      state.activeTraceId = parentState.activeTraceId;
+      state.activeParentSpanId = parentState.stack[parentState.stack.length - 1]?.spanId || parentState.activeParentSpanId || null;
+      state.lastTraceId = parentState.lastTraceId;
+    }
+    this.runs.set(context.id, state);
+    return state;
+  }
+};
+function traceState() {
+  return {
+    stack: [],
+    activeTraceId: null,
+    activeParentSpanId: null,
+    lastTraceId: null
+  };
+}
+function renderTrace(trace3, options = {}) {
+  options = Object.assign({}, DEFAULT_OPTIONS, options);
+  const diagnostics = trace3.diagnostics || [];
+  const lines = [];
+  lines.push(`${traceTitle(trace3)} ${trace3.status || ""} ${formatDuration(trace3.duration || elapsed(trace3))}`.trim());
+  const primary = primaryDiagnostic(diagnostics);
+  if (primary) {
+    lines.push("");
+    lines.push("Primary diagnostic:");
+    lines.push(`${symbol(primary.severity)} ${primary.code}: ${primary.message}`);
+  }
+  if (diagnostics.length) {
+    lines.push("");
+    lines.push("Diagnostics:");
+    for (const diagnostic of diagnostics) {
+      lines.push(`${symbol(diagnostic.severity)} ${diagnostic.code}: ${diagnostic.message}`);
+    }
+  }
+  lines.push("");
+  lines.push(options.view == "sequence" ? renderSequence(trace3, options) : renderTree(trace3, options));
+  return lines.join("\n");
+}
+function renderTree(trace3, options = {}) {
+  const spans = trace3.spans || [];
+  const events = trace3.events || [];
+  const children = /* @__PURE__ */ new Map();
+  for (const span of spans) {
+    const parent = span.parentSpanId || "";
+    if (!children.has(parent)) {
+      children.set(parent, []);
+    }
+    children.get(parent).push(span);
+  }
+  for (const group2 of children.values()) {
+    group2.sort((a, b) => a.start - b.start);
+  }
+  const eventsBySpan = /* @__PURE__ */ new Map();
+  for (const event of events) {
+    const spanId = event.spanId || "";
+    if (!eventsBySpan.has(spanId)) {
+      eventsBySpan.set(spanId, []);
+    }
+    eventsBySpan.get(spanId).push(event);
+  }
+  for (const group2 of eventsBySpan.values()) {
+    group2.sort((a, b) => a.time - b.time);
+  }
+  const roots = children.get("") || [];
+  const lines = [];
+  if (!roots.length && !events.length) {
+    return "(empty trace)";
+  }
+  for (let index = 0; index < roots.length; index++) {
+    appendSpan(lines, roots[index], children, eventsBySpan, "", index == roots.length - 1);
+  }
+  for (const event of eventsBySpan.get("") || []) {
+    lines.push(`${symbol(event.severity)} ${event.name}${eventLabel(event)}`);
+  }
+  return lines.join("\n");
+}
+function renderSequence(trace3, options = {}) {
+  const arrows = sequenceArrows(trace3);
+  if (!arrows.length) {
+    return renderTree(trace3, options);
+  }
+  const actors = collectActors(arrows);
+  const width = Math.max(14, ...actors.map((actor) => actor.length));
+  const gap = "    ";
+  const lines = [];
+  lines.push(actors.map((actor) => pad(actor, width)).join(gap));
+  lines.push(actors.map(() => pad("\u2502", width)).join(gap));
+  for (const arrow of arrows) {
+    lines.push(sequenceLine(actors, arrow, width, gap));
+  }
+  return lines.join("\n");
+}
+function printTrace(trace3, options = {}) {
+  const output = renderTrace(trace3, options);
+  const out = options.console || console;
+  if (!out) {
+    return output;
+  }
+  const title = `${symbol(trace3.severity)} ${traceTitle(trace3)} ${trace3.status || ""} ${formatDuration(trace3.duration || elapsed(trace3))}`.trim();
+  if (out.groupCollapsed) {
+    out.groupCollapsed("\u24C2\uFE0F  " + title);
+  } else if (out.group) {
+    out.group("\u24C2\uFE0F  " + title);
+  }
+  printDiagnostics(trace3.diagnostics || [], out);
+  for (const line of output.split("\n")) {
+    printLine(line, out);
+  }
+  if (options.includeRawTrace && out.dir) {
+    out.dir(trace3);
+  }
+  if (out.groupEnd) {
+    out.groupEnd();
+  }
+  return output;
+}
+function memoryStore() {
+  let traces = /* @__PURE__ */ new Map();
+  let spans = /* @__PURE__ */ new Map();
+  let events = /* @__PURE__ */ new Map();
+  let diagnostics = /* @__PURE__ */ new Map();
+  let links = /* @__PURE__ */ new Map();
+  let last = null;
+  return {
+    saveTrace(trace3) {
+      traces.set(trace3.id, Object.assign({}, trace3));
+      last = trace3.id;
+    },
+    saveSpan(span) {
+      spans.set(span.spanId, Object.assign({}, span));
+    },
+    saveEvent(event) {
+      events.set(event.id, Object.assign({}, event));
+    },
+    saveDiagnostic(diagnostic) {
+      diagnostics.set(diagnostic.id, Object.assign({}, diagnostic));
+    },
+    read(traceId) {
+      return assemble(traceId, traces, spans, events, diagnostics);
+    },
+    lastTraceId() {
+      return last;
+    },
+    link(key, traceId) {
+      links.set(key, traceId);
+    },
+    lookup(key) {
+      return links.get(key);
+    },
+    cleanup() {
+    },
+    clear() {
+      traces.clear();
+      spans.clear();
+      events.clear();
+      diagnostics.clear();
+      links.clear();
+      last = null;
+    }
+  };
+}
+function localStorageStore(options = {}) {
+  const storage = options.storage || safeLocalStorage2();
+  if (!storage) {
+    return memoryStore();
+  }
+  const prefix = options.prefix || "metro:trace:";
+  const key = (suffix) => prefix + suffix;
+  return {
+    saveTrace(trace3) {
+      safeStore(() => {
+        storage.setItem(key(`trace:${trace3.id}`), JSON.stringify(trace3));
+        storage.setItem(key("last"), trace3.id);
+        updateIndex(storage, prefix, trace3.id);
+      });
+    },
+    saveSpan(span) {
+      safeStore(() => storage.setItem(key(`span:${span.traceId}:${span.spanId}`), JSON.stringify(span)));
+    },
+    saveEvent(event) {
+      safeStore(() => storage.setItem(key(`event:${event.traceId}:${event.id}`), JSON.stringify(event)));
+    },
+    saveDiagnostic(diagnostic) {
+      safeStore(() => storage.setItem(key(`diagnostic:${diagnostic.traceId}:${diagnostic.id}`), JSON.stringify(diagnostic)));
+    },
+    read(traceId) {
+      return safeStore(() => readLocalTrace(storage, prefix, traceId), null);
+    },
+    lastTraceId() {
+      return safeStore(() => storage.getItem(key("last")), null);
+    },
+    link(linkKey, traceId) {
+      safeStore(() => storage.setItem(key(`link:${linkKey}`), traceId));
+    },
+    lookup(linkKey) {
+      return safeStore(() => storage.getItem(key(`link:${linkKey}`)), null);
+    },
+    cleanup(cleanupOptions = options) {
+      safeStore(() => cleanupLocalStorage(storage, prefix, cleanupOptions));
+    },
+    clear() {
+      safeStore(() => clearLocalStorage(storage, prefix));
+    }
+  };
+}
+function safeStore(fn, fallback = void 0) {
+  try {
+    return fn();
+  } catch (e) {
+    return fallback;
+  }
+}
+function appendSpan(lines, span, children, eventsBySpan, prefix, isLast) {
+  const branch = isLast ? "\u2514\u2500 " : "\u251C\u2500 ";
+  lines.push(`${prefix}${branch}${spanLine(span)}`);
+  const childPrefix = prefix + (isLast ? "   " : "\u2502  ");
+  const childSpans = children.get(span.spanId) || [];
+  const childEvents = eventsBySpan.get(span.spanId) || [];
+  const items = [
+    ...childSpans.map((item) => ({ type: "span", item, time: item.start })),
+    ...childEvents.map((item) => ({ type: "event", item, time: item.time }))
+  ].sort((a, b) => a.time - b.time);
+  for (let index = 0; index < items.length; index++) {
+    const item = items[index];
+    const last = index == items.length - 1;
+    if (item.type == "span") {
+      appendSpan(lines, item.item, children, eventsBySpan, childPrefix, last);
+    } else {
+      lines.push(`${childPrefix}${last ? "\u2514\u2500 " : "\u251C\u2500 "}${symbol(item.item.severity)} ${item.item.name}${eventLabel(item.item)}`);
+    }
+  }
+}
+function spanLine(span) {
+  const status2 = span.status == "running" ? "pending" : span.severity || span.status || "ok";
+  const response3 = span.response?.status ? ` HTTP ${span.response.status}` : "";
+  const url3 = span.data?.url ? ` ${displayURL2(span.data.url)}` : "";
+  return `${symbol(status2)} ${span.name}${response3}${url3} ${formatDuration(span.duration || elapsed(span))}`.trim();
+}
+function eventLabel(event) {
+  if (event.data?.label) {
+    return ` \u2014 ${event.data.label}`;
+  }
+  if (event.data?.url) {
+    return ` ${displayURL2(event.data.url)}`;
+  }
+  return "";
+}
+function sequenceArrows(trace3) {
+  const arrows = [];
+  const spans = [...trace3.spans || []].sort((a, b) => a.start - b.start);
+  const roots = spans.filter((span) => !span.parentSpanId);
+  for (const span of roots) {
+    arrows.push({
+      from: "App",
+      to: "Metro",
+      label: `${span.data?.method || ""} ${displayURL2(span.data?.url)}`.trim() || span.name,
+      severity: span.severity,
+      time: span.start
+    });
+  }
+  for (const span of spans) {
+    if (span.kind == "fetch" || span.name == "browserFetch") {
+      const host = hostActor(span.data?.url);
+      arrows.push({
+        from: "Metro",
+        to: host,
+        label: `${span.data?.method || "GET"} ${pathLabel(span.data?.url)}`,
+        severity: span.severity,
+        time: span.start
+      });
+      if (span.response || span.error || span.status == "running") {
+        arrows.push({
+          from: host,
+          to: "Metro",
+          label: span.error ? `error: ${span.error.message}` : span.response?.status ? `${span.response.status}` : "pending",
+          severity: span.severity,
+          time: span.end || now()
+        });
+      }
+    }
+  }
+  for (const event of trace3.events || []) {
+    if (event.data?.from && event.data?.to) {
+      arrows.push({
+        from: event.data.from,
+        to: event.data.to,
+        label: event.data.label || event.name,
+        severity: event.severity,
+        time: event.time
+      });
+    }
+  }
+  return arrows.sort((a, b) => a.time - b.time);
+}
+function collectActors(arrows) {
+  const actors = [];
+  for (const arrow of arrows) {
+    if (!actors.includes(arrow.from)) {
+      actors.push(arrow.from);
+    }
+    if (!actors.includes(arrow.to)) {
+      actors.push(arrow.to);
+    }
+  }
+  return actors;
+}
+function sequenceLine(actors, arrow, width, gap) {
+  const from3 = actors.indexOf(arrow.from);
+  const to = actors.indexOf(arrow.to);
+  const left = Math.min(from3, to);
+  const right = Math.max(from3, to);
+  const cells = actors.map(() => pad("\u2502", width));
+  const label = `${symbol(arrow.severity)} ${arrow.label}`.trim();
+  for (let index = left; index <= right; index++) {
+    if (index == from3) {
+      cells[index] = pad(from3 < to ? "\u251C" : "\u25C0", width);
+    } else if (index == to) {
+      cells[index] = pad(from3 < to ? "\u25B6" : "\u2524", width);
+    } else {
+      cells[index] = pad("\u2500", width);
+    }
+  }
+  return cells.join(gap) + "  " + label;
+}
+function printDiagnostics(diagnostics, out) {
+  const primary = primaryDiagnostic(diagnostics);
+  if (primary && out.error) {
+    out.error(`${symbol(primary.severity)} ${primary.code}: ${primary.message}`);
+  }
+  for (const diagnostic of diagnostics) {
+    if (diagnostic == primary) {
+      continue;
+    }
+    printLine(`${symbol(diagnostic.severity)} ${diagnostic.code}: ${diagnostic.message}`, out);
+  }
+}
+function printLine(line, out) {
+  if (/✖|⛔/.test(line) && out.error) {
+    out.error(line);
+  } else if (/⚠/.test(line) && out.warn) {
+    out.warn(line);
+  } else if (out.log) {
+    out.log(line);
+  }
+}
+function assemble(traceId, traces, spans, events, diagnostics) {
+  const trace3 = traces.get(traceId);
+  if (!trace3) {
+    return null;
+  }
+  const result = Object.assign({}, trace3);
+  result.spans = [...spans.values()].filter((span) => span.traceId == traceId);
+  result.events = [...events.values()].filter((event) => event.traceId == traceId);
+  result.diagnostics = [...diagnostics.values()].filter((diagnostic) => diagnostic.traceId == traceId);
+  result.status = result.status == "running" ? traceStatus(result) : result.status;
+  result.severity = traceSeverity(result);
+  return result;
+}
+function readLocalTrace(storage, prefix, traceId) {
+  if (!traceId) {
+    return null;
+  }
+  const trace3 = parseJSON(storage.getItem(prefix + `trace:${traceId}`));
+  if (!trace3) {
+    return null;
+  }
+  trace3.spans = [];
+  trace3.events = [];
+  trace3.diagnostics = [];
+  for (let index = 0; index < storage.length; index++) {
+    const key = storage.key(index);
+    if (key?.startsWith(prefix + `span:${traceId}:`)) {
+      trace3.spans.push(parseJSON(storage.getItem(key)));
+    } else if (key?.startsWith(prefix + `event:${traceId}:`)) {
+      trace3.events.push(parseJSON(storage.getItem(key)));
+    } else if (key?.startsWith(prefix + `diagnostic:${traceId}:`)) {
+      trace3.diagnostics.push(parseJSON(storage.getItem(key)));
+    }
+  }
+  trace3.spans = trace3.spans.filter(Boolean);
+  trace3.events = trace3.events.filter(Boolean);
+  trace3.diagnostics = trace3.diagnostics.filter(Boolean);
+  trace3.status = trace3.status == "running" ? traceStatus(trace3) : trace3.status;
+  trace3.severity = traceSeverity(trace3);
+  return trace3;
+}
+function updateIndex(storage, prefix, traceId) {
+  const indexKey = prefix + "index";
+  const index = parseJSON(storage.getItem(indexKey)) || [];
+  const next = [traceId, ...index.filter((id2) => id2 != traceId)];
+  storage.setItem(indexKey, JSON.stringify(next));
+}
+function cleanupLocalStorage(storage, prefix, options = {}) {
+  const indexKey = prefix + "index";
+  const index = parseJSON(storage.getItem(indexKey)) || [];
+  const maxAge = options.maxAge ?? DEFAULT_OPTIONS.maxAge;
+  const maxTraces = options.maxTraces ?? DEFAULT_OPTIONS.maxTraces;
+  const keep = [];
+  const remove2 = [];
+  const cutoff = now() - maxAge;
+  for (const traceId of index) {
+    const trace3 = parseJSON(storage.getItem(prefix + `trace:${traceId}`));
+    if (!trace3 || trace3.start < cutoff || keep.length >= maxTraces) {
+      remove2.push(traceId);
+    } else {
+      keep.push(traceId);
+    }
+  }
+  for (const traceId of remove2) {
+    removeTrace(storage, prefix, traceId);
+  }
+  storage.setItem(indexKey, JSON.stringify(keep));
+}
+function clearLocalStorage(storage, prefix) {
+  const keys = [];
+  for (let index = 0; index < storage.length; index++) {
+    const key = storage.key(index);
+    if (key?.startsWith(prefix)) {
+      keys.push(key);
+    }
+  }
+  for (const key of keys) {
+    storage.removeItem(key);
+  }
+}
+function removeTrace(storage, prefix, traceId) {
+  const keys = [];
+  for (let index = 0; index < storage.length; index++) {
+    const key = storage.key(index);
+    if (key == prefix + `trace:${traceId}` || key?.startsWith(prefix + `span:${traceId}:`) || key?.startsWith(prefix + `event:${traceId}:`) || key?.startsWith(prefix + `diagnostic:${traceId}:`)) {
+      keys.push(key);
+    }
+  }
+  for (const key of keys) {
+    storage.removeItem(key);
+  }
+}
+function traceStatus(trace3) {
+  const spans = trace3.spans || [];
+  if (spans.some((span) => span.status == "running")) {
+    return "incomplete";
+  }
+  if ((trace3.diagnostics || []).some((diagnostic) => diagnostic.severity == "error" || diagnostic.severity == "blocked")) {
+    return "error";
+  }
+  if ((trace3.diagnostics || []).some((diagnostic) => diagnostic.severity == "warning")) {
+    return "warning";
+  }
+  return "ok";
+}
+function traceSeverity(trace3) {
+  let severity = trace3.status == "running" ? "pending" : "ok";
+  for (const span of trace3.spans || []) {
+    severity = maxSeverity(severity, span.severity || span.status || "ok");
+  }
+  for (const diagnostic of trace3.diagnostics || []) {
+    severity = maxSeverity(severity, diagnostic.severity || "warning");
+  }
+  return severity;
+}
+function primaryDiagnostic(diagnostics) {
+  return [...diagnostics].sort((a, b) => (SEVERITY_WEIGHT[b.severity] || 0) - (SEVERITY_WEIGHT[a.severity] || 0))[0];
+}
+function maxSeverity(a, b) {
+  return (SEVERITY_WEIGHT[b] || 0) > (SEVERITY_WEIGHT[a] || 0) ? b : a;
+}
+function symbol(status2) {
+  return SEVERITY_SYMBOL[status2] || SEVERITY_SYMBOL.info;
+}
+function requestName(req) {
+  return `${req?.method || "GET"} ${displayURL2(req?.url)}`;
+}
+function middlewareName(middleware) {
+  return middleware?.displayName || middleware?.traceName || middleware?.name || "anonymous middleware";
+}
+function middlewareKind(middleware) {
+  return middlewareName(middleware) == "browserFetch" ? "fetch" : "middleware";
+}
+function responseSummary(res) {
+  if (!res) {
+    return null;
+  }
+  return {
+    status: res.status,
+    statusText: res.statusText,
+    ok: res.ok,
+    url: safeURL(res.url),
+    redirected: res.redirected,
+    type: res.type
+  };
+}
+function errorSummary(error4) {
+  return {
+    name: error4?.name,
+    message: error4?.message || String(error4),
+    stack: error4?.stack
+  };
+}
+function traceTitle(trace3) {
+  return trace3?.name || trace3?.id || "Metro trace";
+}
+function safeURL(value) {
+  if (!value) {
+    return value;
+  }
+  try {
+    const url3 = new URL(value, typeof window != "undefined" ? window.location.href : "https://localhost/");
+    url3.username = "";
+    url3.password = "";
+    for (const param of [...url3.searchParams.keys()]) {
+      if (isSecretName(param)) {
+        url3.searchParams.set(param, "\u2026");
+      }
+    }
+    return url3.href;
+  } catch (e) {
+    return String(value);
+  }
+}
+function displayURL2(value) {
+  if (!value) {
+    return "";
+  }
+  try {
+    const url3 = new URL(value, "https://localhost/");
+    return url3.origin == "https://localhost" ? url3.pathname + url3.search : url3.href;
+  } catch (e) {
+    return String(value);
+  }
+}
+function hostActor(value) {
+  try {
+    return new URL(value, "https://localhost/").host || "Network";
+  } catch (e) {
+    return "Network";
+  }
+}
+function pathLabel(value) {
+  try {
+    const url3 = new URL(value, "https://localhost/");
+    return url3.pathname + url3.search;
+  } catch (e) {
+    return displayURL2(value);
+  }
+}
+function sanitizeData(data) {
+  const result = {};
+  for (const [key, value] of Object.entries(data || {})) {
+    if (["traceId", "parentSpanId", "severity"].includes(key)) {
+      continue;
+    }
+    if (isSecretName(key)) {
+      result[key] = "\u2026";
+    } else if (value instanceof URL) {
+      result[key] = safeURL(value.href);
+    } else if (typeof value == "string" && looksLikeURL(value)) {
+      result[key] = safeURL(value);
+    } else if (value == null || ["string", "number", "boolean"].includes(typeof value)) {
+      result[key] = value;
+    } else {
+      result[key] = String(value);
+    }
+  }
+  return result;
+}
+function isSecretName(name) {
+  return /token|secret|password|credential|cookie|authorization|verifier|assertion|code/i.test(name);
+}
+function looksLikeURL(value) {
+  return /^https?:\/\//.test(value) || /^\//.test(value);
+}
+function formatDuration(duration) {
+  if (typeof duration != "number" || Number.isNaN(duration)) {
+    return "";
+  }
+  if (duration < 1e3) {
+    return `${Math.round(duration)}ms`;
+  }
+  return `${(duration / 1e3).toFixed(2)}s`;
+}
+function elapsed(item) {
+  return item?.start ? now() - item.start : 0;
+}
+function now() {
+  return Date.now();
+}
+function id(prefix) {
+  return `${prefix}_${Math.random().toString(36).slice(2, 10)}_${Date.now().toString(36)}`;
+}
+function pad(value, width) {
+  value = String(value);
+  return value + " ".repeat(Math.max(0, width - value.length));
+}
+function parseJSON(value) {
+  try {
+    return value ? JSON.parse(value) : null;
+  } catch (e) {
+    return null;
+  }
+}
+function safeLocalStorage2() {
+  try {
+    return typeof localStorage != "undefined" ? localStorage : null;
+  } catch (e) {
+    return null;
+  }
+}
+
+// ../solid-tools/node_modules/@muze-nl/metro-trace/src/index.mjs
+var metroConsole2 = {
+  info: (message, ...details) => console.info("\u24C2\uFE0F  ", message, ...details),
+  group: (name) => console.group("\u24C2\uFE0F  " + name),
+  groupEnd: (name) => console.groupEnd("\u24C2\uFE0F  " + name)
+};
+function add(name, tracer) {
+  Client.tracers[name] = tracer;
+}
+function remove(name) {
+  delete Client.tracers[name];
+}
+function clear() {
+  Client.tracers = {};
+}
+function group() {
+  let group2 = 0;
+  return {
+    request: (req, middleware) => {
+      group2++;
+      metroConsole2.group(group2);
+      metroConsole2.info(req?.url, req, middleware);
+    },
+    response: (res, middleware) => {
+      metroConsole2.info(res?.body ? res.body[Symbol.metroSource] : null, res, middleware);
+      metroConsole2.groupEnd(group2);
+      group2--;
+    },
+    error: (error4) => {
+      metroConsole2.info(error4);
+      metroConsole2.groupEnd(group2);
+      group2--;
+    }
+  };
+}
+var src_default4 = {
+  add,
+  delete: remove,
+  remove,
+  clear,
+  group,
+  graph: (...args) => graph(...args),
+  localConsole: (...args) => localConsole(...args)
+};
+
+// ../solid-tools/node_modules/@muze-nl/metro-hashparams/src/index.mjs
+var src_exports5 = {};
+__export(src_exports5, {
+  append: () => append,
+  clear: () => clear2,
+  parse: () => parse
+});
+function parse(url3) {
+  const hash = url(url3).hash.substr(1);
+  const query = /\?[^#]*/.exec(hash)?.[0];
+  return new URLSearchParams(query);
+}
+function append(url3, params) {
+  url3 = url(url3);
+  if (!(params instanceof URLSearchParams)) {
+    params = new URLSearchParams(params);
+  }
+  let hash = url3.hash || "#";
+  hash += "?" + params;
+  return url3.with({ hash });
+}
+function clear2(url3) {
+  url3 = url(url3);
+  let hash = url3.hash.replace(/\?[^#]*/, "");
+  if (hash.substr(0, 2) === "##") {
+    hash = hash.substr(1);
+  }
+  return url3.with({ hash });
+}
+
+// ../solid-tools/node_modules/@muze-nl/metro-formdata/src/index.mjs
+var metroURL2 = "https://metro.muze.nl/details/";
+if (!Symbol.metroProxy) {
+  Symbol.metroProxy = Symbol("isProxy");
+}
+if (!Symbol.metroSource) {
+  Symbol.metroSource = Symbol("source");
+}
+function formdata(...options) {
+  var params = new FormData();
+  for (let option of options) {
+    if (typeof HTMLFormElement != "undefined" && option instanceof HTMLFormElement) {
+      option = new FormData(option);
+    }
+    if (option instanceof FormData) {
+      for (let entry of option.entries()) {
+        params.append(entry[0], entry[1]);
+      }
+    } else if (option && typeof option == "object") {
+      for (let entry of Object.entries(option)) {
+        if (Array.isArray(entry[1])) {
+          for (let value of entry[1]) {
+            params.append(entry[0], value);
+          }
+        } else {
+          params.append(entry[0], entry[1]);
+        }
+      }
+    } else {
+      throw metroError("metro.formdata: unknown option type " + metroURL2 + "formdata/unknown-option-value/", option);
+    }
+  }
+  Object.freeze(params);
+  return new Proxy(params, {
+    get(target, prop) {
+      let result;
+      switch (prop) {
+        case Symbol.metroProxy:
+          result = true;
+          break;
+        case Symbol.metroSource:
+          result = target;
+          break;
+        //TODO: add toString() that can check
+        //headers param: toString({headers:request.headers})
+        //for the content-type
+        case "with":
+          result = function(...options2) {
+            return formdata(target, ...options2);
+          };
+          break;
+        default:
+          if (target[prop] instanceof Function) {
+            result = target[prop].bind(target);
+          } else {
+            result = target[prop];
+          }
+          break;
+      }
+      return result;
+    }
+  });
+}
+
+// ../solid-tools/node_modules/@muze-nl/metro/src/index.mjs
+var metro = Object.assign({}, src_exports3, {
+  API,
+  JsonAPI,
+  api,
+  jsonApi,
+  mw: src_default3,
+  trace: src_exports4,
+  hashParams: src_exports5,
+  formdata
+});
+var src_default5 = metro;
 
 // ../solid-tools/node_modules/@muze-nl/metro-oldm/src/oldmmw.mjs
 function oldmmw(options) {
@@ -19061,13 +14092,13 @@ function oldmmw(options) {
       "vcard": "http://www.w3.org/2006/vcard/ns#",
       "foaf": "http://xmlns.com/foaf/0.1/"
     },
-    parser: src_default5.n3Parser,
-    writer: src_default5.n3Writer
+    parser: src_default2.n3Parser,
+    writer: src_default2.n3Writer
   }, options);
   if (!options.prefixes["ldp"]) {
     options.prefixes["ldp"] = "http://www.w3.org/ns/ldp#";
   }
-  const context = src_default5.context(options);
+  const context = src_default2.context(options);
   return async function oldmmw2(req, next) {
     if (!req.headers.get("Accept")) {
       req = req.with({
@@ -19079,7 +14110,7 @@ function oldmmw(options) {
     if (req.method !== "GET" && req.method !== "HEAD") {
       if (req.data && typeof req.data == "object" && !(req.data instanceof ReadableStream)) {
         const contentType = req.headers.get("Content-Type");
-        if (!contentType || isPlainText3(contentType)) {
+        if (!contentType || isPlainText2(contentType)) {
           req = req.with({
             headers: {
               "Content-Type": options.contentType
@@ -19123,31 +14154,4107 @@ function isLinkedData(contentType) {
   }
   return false;
 }
-function isPlainText3(contentType) {
+function isPlainText2(contentType) {
   return /^text\/plain\b/.exec(contentType);
 }
 
 // ../solid-tools/node_modules/@muze-nl/metro-oldm/src/index.mjs
 var src_default6 = oldmmw;
 
-// ../solid-tools/packages/jsfs-solid/src/metro.mjs
-function createSolidMetroClient(input2, options = {}) {
-  const providedClient = options.metroClient ?? options.metro ?? options.client;
-  let metroClient = providedClient ?? input2;
-  if (!(metroClient instanceof src_default4.Client)) {
-    metroClient = src_default4.client(metroClient);
+// ../solid-tools/packages/metro-solid/src/headers.mjs
+var BASIC_CONTAINER = "http://www.w3.org/ns/ldp#BasicContainer";
+function headersObject(headers = {}) {
+  if (!headers) {
+    return {};
   }
-  if (providedClient && options.configureMetro !== true) {
-    return metroClient;
+  if (headers instanceof Headers) {
+    return Object.fromEntries(headers.entries());
   }
-  if (options.oidc !== false && browser_default?.oidcmw && typeof metroClient?.with === "function") {
-    metroClient = metroClient.with(browser_default.oidcmw(options));
+  if (typeof headers.entries === "function" && typeof headers.get === "function") {
+    return Object.fromEntries(headers.entries());
   }
-  if (options.oldm !== false && typeof src_default6 === "function" && typeof metroClient?.with === "function") {
-    metroClient = metroClient.with(src_default6(options));
-  }
-  return metroClient;
+  return { ...headers };
 }
+function getHeader(headers, name) {
+  if (!headers) {
+    return null;
+  }
+  if (typeof headers.get === "function") {
+    return headers.get(name);
+  }
+  const wanted = name.toLowerCase();
+  const entry = Object.entries(headers).find(([key]) => key.toLowerCase() === wanted);
+  return entry ? entry[1] : null;
+}
+function mergeHeaders(...parts) {
+  return parts.reduce((merged, part) => ({ ...merged, ...headersObject(part) }), {});
+}
+function solidRequestHeaders(options = {}) {
+  const headers = headersObject(options.headers);
+  if (options.accept) {
+    headers.Accept = options.accept;
+  }
+  if (options.contentType || options.type) {
+    headers["Content-Type"] = options.contentType ?? options.type;
+  }
+  if (options.slug) {
+    headers.Slug = options.slug;
+  }
+  if (options.ifMatch) {
+    headers["If-Match"] = options.ifMatch;
+  }
+  if (options.ifNoneMatch) {
+    headers["If-None-Match"] = options.ifNoneMatch;
+  }
+  if (options.etag && !headers["If-Match"]) {
+    headers["If-Match"] = options.etag;
+  }
+  return headers;
+}
+function containerLinkHeader(type = BASIC_CONTAINER) {
+  return `<${type}>; rel="type"`;
+}
+function containerHeaders(options = {}) {
+  return solidRequestHeaders({
+    ...options,
+    headers: mergeHeaders({ Link: containerLinkHeader(options.containerType) }, options.headers)
+  });
+}
+function getLocation(response3) {
+  return getHeader(response3?.headers, "Location");
+}
+function getETag(response3) {
+  return getHeader(response3?.headers, "ETag");
+}
+
+// ../solid-tools/packages/metro-solid/src/client.mjs
+var LINKED_DATA_ACCEPT = "text/turtle, application/ld+json;q=0.9, */*;q=0.1";
+var CONTAINER_ACCEPT = "text/turtle, application/ld+json;q=0.9, */*;q=0.1";
+var SOLID_OLDM_MIDDLEWARE = Symbol.for("muze.metro-solid.oldmMiddleware");
+var SOLID_METADATA_MIDDLEWARE = Symbol.for("muze.metro-solid.metadataMiddleware");
+var SOLID_RESPONSE = Symbol.for("muze.metro-solid.response");
+function ensureSlash(url3) {
+  return String(url3).endsWith("/") ? String(url3) : `${url3}/`;
+}
+function ids(value) {
+  return Array.from(from(src_default2.many(value)).select((item) => typeof item === "string" ? item : item?.id).where(Boolean));
+}
+function storageUrlsFromProfile(profile) {
+  if (!profile) {
+    return [];
+  }
+  return [...new Set(ids(profile.pims$storage).map(ensureSlash))];
+}
+function storageFromProfile(profile, options = {}) {
+  return storageUrlsFromProfile(profile).map((url3) => ({
+    profile,
+    response: options.response ?? null,
+    id: url3,
+    url: url3
+  }));
+}
+function solidResponseMetadataMiddleware() {
+  async function solidResponseMetadata(req, next) {
+    const response3 = await next(req);
+    const data = response3?.data;
+    if (data && (typeof data === "object" || typeof data === "function") && !data[SOLID_RESPONSE]) {
+      Object.defineProperty(data, SOLID_RESPONSE, {
+        value: response3,
+        enumerable: false,
+        configurable: true
+      });
+    }
+    return response3;
+  }
+  solidResponseMetadata[SOLID_METADATA_MIDDLEWARE] = true;
+  return solidResponseMetadata;
+}
+var SolidAPI = class extends src_default5.API {
+  constructor(base, methods = {}, bind2 = null) {
+    if (!base) {
+      throw new TypeError("metro-solid: base URL or Metro client is required");
+    }
+    if (!methods || typeof methods !== "object") {
+      throw new TypeError("metro-solid: API methods must be an object");
+    }
+    let client3 = base;
+    const middlewares = [];
+    if (base instanceof src_default5.Client) {
+      if (!base.clientOptions.middlewares?.some((middleware) => middleware?.[SOLID_OLDM_MIDDLEWARE] === true || middleware?.name === "oldmmw")) {
+        const oldmMiddleware = src_default6();
+        oldmMiddleware[SOLID_OLDM_MIDDLEWARE] = true;
+        middlewares.push(oldmMiddleware);
+      }
+      if (!base.clientOptions.middlewares?.some((middleware) => middleware?.[SOLID_METADATA_MIDDLEWARE] === true || middleware?.name === "solidResponseMetadata")) {
+        middlewares.push(solidResponseMetadataMiddleware());
+      }
+      if (middlewares.length > 0) {
+        client3 = base.with(...middlewares);
+      }
+    } else {
+      const oldmMiddleware = src_default6();
+      oldmMiddleware[SOLID_OLDM_MIDDLEWARE] = true;
+      client3 = src_default5.client(base, oldmMiddleware, solidResponseMetadataMiddleware());
+    }
+    super(client3, {
+      create(url3, body, options = {}) {
+        let createOptions = options;
+        if (!Object.hasOwn(options, "ifNoneMatch")) {
+          createOptions = { ...options, ifNoneMatch: "*" };
+        }
+        return this.put(String(url3), {
+          ...createOptions,
+          body,
+          headers: solidRequestHeaders(createOptions)
+        });
+      },
+      createContainer(url3, options = {}) {
+        let createOptions = options;
+        if (!Object.hasOwn(options, "ifNoneMatch")) {
+          createOptions = { ...options, ifNoneMatch: "*" };
+        }
+        return this.put(ensureSlash(url3), {
+          ...createOptions,
+          body: createOptions.body ?? "",
+          headers: containerHeaders(createOptions)
+        });
+      },
+      async postToContainer(url3, body, options = {}) {
+        const result = await this.post(ensureSlash(url3), {
+          ...options,
+          body,
+          headers: solidRequestHeaders(options)
+        });
+        let response3 = result;
+        if (result?.data === void 0) {
+          response3 = result?.[SOLID_RESPONSE] ?? result;
+        }
+        return {
+          response: response3,
+          location: getLocation(response3),
+          etag: getETag(response3)
+        };
+      },
+      async contains(url3, options = {}) {
+        const request3 = { accept: CONTAINER_ACCEPT, ...options };
+        const result = await this.get(ensureSlash(url3), {
+          ...request3,
+          headers: solidRequestHeaders(request3)
+        });
+        const data = result?.data ?? result;
+        let response3 = result;
+        if (result?.data === void 0) {
+          response3 = result?.[SOLID_RESPONSE] ?? null;
+        }
+        return Array.from(from(src_default2.many(data?.primary?.ldp$contains)).select((resource2) => {
+          const id2 = typeof resource2 === "string" ? resource2 : resource2?.id;
+          return { id: id2, url: id2, resource: resource2, response: response3 };
+        }).where((entry) => entry.id));
+      },
+      async discoverProfile(webId, options = {}) {
+        const request3 = { accept: LINKED_DATA_ACCEPT, ...options };
+        const result = await this.get(webId, {
+          ...request3,
+          headers: solidRequestHeaders(request3)
+        });
+        const data = result?.data ?? result;
+        const subjectId = new URL(webId, this.location).href;
+        let subjects = [];
+        if (data?.primary) {
+          subjects = [data.primary];
+        } else if (Array.isArray(data)) {
+          subjects = data;
+        } else if (Array.isArray(data?.subjects)) {
+          subjects = data.subjects;
+        } else if (data?.subjects && typeof data.subjects === "object") {
+          subjects = Object.values(data.subjects);
+        } else if (data?.id) {
+          subjects = src_default2.many(data);
+        }
+        let profile = from(subjects).where({ id: subjectId })[0];
+        if (!profile) {
+          profile = from(subjects).where({ pims$storage: (value) => src_default2.many(value).length > 0 })[0] ?? null;
+        }
+        let response3 = result;
+        if (result?.data === void 0) {
+          response3 = result?.[SOLID_RESPONSE] ?? null;
+        }
+        return {
+          response: response3,
+          profile
+        };
+      },
+      async discoverStorage(webId, options = {}) {
+        const { profile, response: response3 } = await this.discoverProfile(webId, options);
+        return storageFromProfile(profile, { response: response3 });
+      },
+      async discoverWebId(webId, options = {}) {
+        const { profile, response: response3 } = await this.discoverProfile(webId, options);
+        if (!profile) {
+          return { webId, profile: null, storage: [], issuer: null, inbox: null, response: response3 };
+        }
+        return {
+          webId,
+          profile,
+          storage: storageUrlsFromProfile(profile),
+          issuer: ids(profile.solid$oidcIssuer)[0] ?? null,
+          inbox: ids(profile.ldp$inbox)[0] ?? null,
+          response: response3
+        };
+      },
+      storageFromProfile(profile, options = {}) {
+        return storageFromProfile(profile, options);
+      },
+      ...methods
+    }, bind2);
+  }
+};
+function solidApi(...options) {
+  return new SolidAPI(...src_default5.deepClone(options));
+}
+
+// ../solid-tools/packages/solid-workspace/src/index.mjs
+function workspace(options = {}) {
+  return new SolidWorkspace(options);
+}
+function collection(options = {}) {
+  return {
+    kind: "collection",
+    ...options
+  };
+}
+function resource(idOrOptions, options = {}) {
+  let config = { ...idOrOptions };
+  if (typeof idOrOptions === "string") {
+    config = { ...options, id: idOrOptions };
+  }
+  if (!config.id) {
+    throw new TypeError("solid-workspace: resource id is required");
+  }
+  if (!config.local && !config.remote) {
+    throw new TypeError("solid-workspace: resource() needs a local or remote replica");
+  }
+  if (config.local) {
+    assertWorkspaceSource(config.local, "local");
+  }
+  if (config.remote) {
+    assertWorkspaceSource(config.remote, "remote");
+  }
+  return Object.freeze({
+    ...config,
+    workspacePart: "resource",
+    type: config.type ?? "replicated-resource",
+    id: String(config.id)
+  });
+}
+function mergeGraphDocuments(documents = [], options = {}) {
+  if (!Array.isArray(documents)) {
+    throw new TypeError("solid-workspace: graph documents must be an array");
+  }
+  const base = graphDocumentFrom(documents[0]);
+  const merged = {
+    format: options.format ?? base.format,
+    version: options.version ?? base.version,
+    prefixes: {},
+    subjects: []
+  };
+  const subjectsById = /* @__PURE__ */ new Map();
+  for (const document2 of documents.map(graphDocumentFrom)) {
+    Object.assign(merged.prefixes, document2.prefixes);
+    for (const subject of document2.subjects) {
+      if (!subject?.id) continue;
+      const current = subjectsById.get(subject.id);
+      if (!current) {
+        const clone2 = cloneValue(subject);
+        subjectsById.set(subject.id, clone2);
+        merged.subjects.push(clone2);
+        continue;
+      }
+      mergeSubject(current, subject);
+    }
+  }
+  const target = {
+    ...merged,
+    changed: !graphDocumentsEqual(base, merged)
+  };
+  if (Object.keys(target.prefixes).length === 0) {
+    delete target.prefixes;
+  }
+  if (target.format == null) delete target.format;
+  if (target.version == null) delete target.version;
+  return target;
+}
+var solid = {
+  resource(url3, options = {}) {
+    return source("resource", url3, {
+      type: "solid-resource",
+      ...options
+    });
+  },
+  turtleResource(url3, options = {}) {
+    return source("resource", url3, {
+      type: "solid-turtle-resource",
+      ...options
+    });
+  },
+  container(url3, options = {}) {
+    return source("container", ensureSlash2(url3), {
+      type: "solid-container",
+      ...options
+    });
+  },
+  client(client3, options = {}) {
+    if (!client3) {
+      throw new TypeError("solid-workspace: solid client is required");
+    }
+    return Object.freeze({
+      ...options,
+      workspacePart: "client",
+      type: options.type ?? "solid-api-client",
+      client: client3
+    });
+  }
+};
+var local = {
+  memory(idOrOptions, options = {}) {
+    let config = { ...idOrOptions };
+    if (typeof idOrOptions === "string") {
+      config = { ...options, id: idOrOptions };
+    }
+    const id2 = config.id ?? config.key ?? "local-memory";
+    const url3 = config.url ?? `memory://${encodeURIComponent(id2)}`;
+    let initialDocument = config.document;
+    if (initialDocument == null) {
+      initialDocument = {
+        format: config.format ?? "oldmed-graph",
+        version: config.version ?? 1,
+        prefixes: config.prefixes ?? {},
+        subjects: []
+      };
+    }
+    let document2 = graphDocumentFrom(initialDocument);
+    return graphResource({
+      ...config,
+      id: id2,
+      url: url3,
+      local: true,
+      type: "local-memory",
+      async load() {
+        return cloneGraphDocument(document2);
+      },
+      async save(value) {
+        document2 = graphDocumentFrom(value);
+        return {
+          ok: true,
+          status: "saved",
+          sourceUrl: url3,
+          document: cloneGraphDocument(document2)
+        };
+      },
+      async turtle() {
+        return graphDocumentToTurtle(document2, {
+          url: url3,
+          prefixes: config.prefixes
+        });
+      }
+    });
+  },
+  indexedDB(nameOrOptions, options = {}) {
+    let config = { ...nameOrOptions };
+    if (typeof nameOrOptions === "string") {
+      config = { ...options, name: nameOrOptions };
+    }
+    const databaseName = config.name ?? config.databaseName ?? config.database;
+    if (!databaseName) {
+      throw new TypeError("solid-workspace: IndexedDB database name is required");
+    }
+    const storeName = config.store ?? config.storeName ?? "resources";
+    const key = config.key ?? config.id ?? "default";
+    const id2 = config.id ?? `${databaseName}:${key}`;
+    const url3 = config.url ?? `indexeddb://${encodeURIComponent(databaseName)}/${encodeURIComponent(storeName)}/${encodeURIComponent(key)}`;
+    const databaseVersion = config.databaseVersion ?? 1;
+    const initialDocument = config.document === void 0 ? null : graphDocumentFrom(config.document);
+    const indexedDBFactory = config.indexedDB;
+    const sourceConfig = { ...config };
+    delete sourceConfig.indexedDB;
+    delete sourceConfig.document;
+    delete sourceConfig.databaseVersion;
+    async function loadDocument() {
+      const database = await openIndexedDatabase({
+        indexedDB: indexedDBFactory,
+        name: databaseName,
+        version: databaseVersion,
+        storeName
+      });
+      try {
+        const entry = await indexedDBGet(database, storeName, key);
+        if (entry?.document) {
+          return graphDocumentFrom(entry.document);
+        }
+        return graphDocumentFrom(initialDocument);
+      } finally {
+        database.close?.();
+      }
+    }
+    return graphResource({
+      ...sourceConfig,
+      id: id2,
+      url: url3,
+      local: true,
+      type: "local-indexeddb",
+      async load() {
+        return cloneGraphDocument(await loadDocument());
+      },
+      async save(value) {
+        const document2 = graphDocumentFrom(value);
+        const database = await openIndexedDatabase({
+          indexedDB: indexedDBFactory,
+          name: databaseName,
+          version: databaseVersion,
+          storeName
+        });
+        try {
+          await indexedDBPut(database, storeName, {
+            key,
+            document: cloneGraphDocument(document2),
+            updatedAt: (/* @__PURE__ */ new Date()).toISOString()
+          });
+        } finally {
+          database.close?.();
+        }
+        return {
+          ok: true,
+          status: "saved",
+          sourceUrl: url3,
+          document: cloneGraphDocument(document2)
+        };
+      },
+      async turtle() {
+        return graphDocumentToTurtle(await loadDocument(), {
+          url: url3,
+          prefixes: config.prefixes
+        });
+      }
+    });
+  }
+};
+var SolidWorkspace = class {
+  constructor(options = {}) {
+    if (!options || typeof options !== "object") {
+      throw new TypeError("solid-workspace: workspace options must be an object");
+    }
+    const client3 = options.solid ?? options.solidApi ?? options.client;
+    this.solid = client3;
+    this.sources = [];
+    this.sourceById = /* @__PURE__ */ new Map();
+    this.resources = [];
+    this.resourceById = /* @__PURE__ */ new Map();
+    this.status = {
+      state: "idle",
+      error: null,
+      sources: {},
+      resources: {}
+    };
+    this.records = [];
+    this.objects = /* @__PURE__ */ new WeakMap();
+    if (options.sources) {
+      this.addSource(options.sources);
+    }
+    if (options.resources) {
+      this.add(options.resources);
+    }
+    this.collections = Object.fromEntries(
+      Object.entries(options.collections ?? {}).map(([name, descriptor]) => [
+        name,
+        new WorkspaceCollection(this, name, descriptor)
+      ])
+    );
+  }
+  add(part) {
+    if (Array.isArray(part)) {
+      for (const item of part) {
+        this.add(item);
+      }
+      return this;
+    }
+    if (part?.workspacePart === "source") {
+      this.addSource(part);
+      return this;
+    }
+    if (part?.workspacePart === "resource") {
+      this.addResource(part);
+      return this;
+    }
+    if (part?.workspacePart === "client") {
+      this.setClient(part.client);
+      return this;
+    }
+    throw new TypeError("solid-workspace: add() expects a workspace part from a factory");
+  }
+  addSource(sourceOrSources) {
+    const sources = normalizeSources(Array.isArray(sourceOrSources) ? sourceOrSources : [sourceOrSources]);
+    for (const descriptor of sources) {
+      const existing = this.sources.findIndex((source2) => source2.id === descriptor.id);
+      if (existing >= 0) {
+        this.sources[existing] = descriptor;
+      } else {
+        this.sources.push(descriptor);
+      }
+      this.sourceById.set(descriptor.id, descriptor);
+      this.setSourceStatus(descriptor, this.status.sources[descriptor.id] ?? { state: "idle" });
+      for (const record of this.records) {
+        const source2 = record.source?.parent ?? record.source;
+        if (source2?.id === descriptor.id) {
+          record.source = descriptor;
+        }
+      }
+    }
+    return sources.length === 1 ? sources[0] : sources;
+  }
+  addResource(part) {
+    if (part?.workspacePart !== "resource") {
+      throw new TypeError("solid-workspace: addResource() expects a resource() workspace part");
+    }
+    const existing = this.resourceById.get(part.id);
+    let current = {
+      id: part.id,
+      type: part.type ?? "replicated-resource",
+      local: null,
+      remote: null
+    };
+    if (existing) {
+      current = { ...existing };
+    }
+    let remoteSource = current.remote;
+    if (part.remote) {
+      remoteSource = resourceReplicaSource(part.remote, {
+        resource: current,
+        replica: "remote"
+      });
+    }
+    let localSource = current.local;
+    if (part.local) {
+      localSource = resourceReplicaSource(part.local, {
+        resource: current,
+        replica: "local",
+        syncTo: remoteSource?.id
+      });
+    } else if (current.local && remoteSource) {
+      localSource = resourceReplicaSource(current.local, {
+        resource: current,
+        replica: "local",
+        syncTo: remoteSource.id
+      });
+    }
+    if (localSource) {
+      current.local = this.addSource(localSource);
+    }
+    if (remoteSource) {
+      current.remote = this.addSource(remoteSource);
+    }
+    const index = this.resources.findIndex((item) => item.id === current.id);
+    if (index >= 0) {
+      this.resources[index] = current;
+    } else {
+      this.resources.push(current);
+    }
+    this.resourceById.set(current.id, current);
+    this.setResourceStatus(current);
+    return current;
+  }
+  setClient(client3) {
+    this.solid = client3;
+    return this;
+  }
+  async open(options = {}) {
+    if (isResourceReference(this, options)) {
+      return this.openResource(options);
+    }
+    if (isOpenAllOptions(options) && this.resources.length > 0) {
+      const resourceSourceIds = new Set(this.resources.flatMap((item) => resourceSources(item).map((source2) => source2.id)));
+      for (const item of this.resources) {
+        await this.openResource(item, options);
+      }
+      const directSources = this.sources.filter((source2) => !resourceSourceIds.has(source2.id));
+      if (directSources.length > 0) {
+        await this.load({
+          ...options,
+          sources: directSources,
+          throwOnError: options.throwOnError ?? false
+        });
+      }
+      return this;
+    }
+    if (Array.isArray(options) && options.some((item) => isResourceReference(this, item))) {
+      for (const item of options) {
+        if (isResourceReference(this, item)) {
+          await this.openResource(item);
+        } else {
+          await this.load({ sources: item, throwOnError: false });
+        }
+      }
+      return this;
+    }
+    if (options?.resources) {
+      const resources = Array.isArray(options.resources) ? options.resources : [options.resources];
+      for (const item of resources) {
+        await this.openResource(item, options);
+      }
+      return this;
+    }
+    if (typeof options === "string" || Array.isArray(options) || options?.workspacePart === "source") {
+      return this.load({ sources: options, throwOnError: false });
+    }
+    return this.load({
+      throwOnError: false,
+      ...options
+    });
+  }
+  async openResource(resourceOrId, options = {}) {
+    const logicalResource = resolveResource(this, resourceOrId);
+    const sources = resourceSources(logicalResource);
+    const failures = [];
+    const loaded = [];
+    const throwOnError = options.throwOnError ?? false;
+    this.status.state = "opening";
+    this.status.error = null;
+    this.setResourceStatus(logicalResource, { state: "opening", error: null });
+    for (const source2 of sources) {
+      try {
+        loaded.push({
+          source: source2,
+          objects: await this.loadSource(source2)
+        });
+      } catch (error4) {
+        failures.push({ source: source2, error: error4 });
+        if (throwOnError) {
+          this.status.state = "error";
+          this.status.error = error4;
+          this.setResourceStatus(logicalResource, { state: "error", error: error4 });
+          throw error4;
+        }
+      }
+    }
+    if (logicalResource.local && logicalResource.remote && this.status.sources[logicalResource.remote.id]?.state === "ready") {
+      try {
+        const document2 = mergeGraphDocuments([
+          this.dataset({ sources: [logicalResource.local.id] }),
+          this.dataset({ sources: [logicalResource.remote.id] })
+        ], options);
+        if (document2.changed || options.force === true) {
+          await saveGraphDocument(this, logicalResource.local, document2, options.writeOptions);
+          this.replaceSourceRecords(logicalResource.local, cloneValue(document2.subjects), {
+            source: logicalResource.local,
+            sourceUrl: logicalResource.local.url,
+            status: "loaded"
+          });
+          this.setSourceStatus(logicalResource.local, { state: "ready", error: null });
+        }
+      } catch (error4) {
+        failures.push({ source: logicalResource.local, error: error4 });
+        this.setSourceStatus(logicalResource.local, {
+          state: sourceFailureState(error4),
+          error: error4
+        });
+        if (throwOnError) {
+          this.status.state = "error";
+          this.status.error = error4;
+          this.setResourceStatus(logicalResource, { state: "error", error: error4 });
+          throw error4;
+        }
+      }
+    }
+    this.status.lastOpen = { resource: logicalResource, sources, loaded, failures };
+    this.status.state = workspaceState(this);
+    this.status.error = failures[0]?.error ?? null;
+    this.setResourceStatus(logicalResource, {
+      state: resourceState(this, logicalResource),
+      error: failures[0]?.error ?? null
+    });
+    return this;
+  }
+  async load(options = {}) {
+    const sources = normalizeLoadSources(this, options.sources ?? this.sources);
+    const failures = [];
+    const loaded = [];
+    const throwOnError = options.throwOnError ?? true;
+    this.status.state = "opening";
+    this.status.error = null;
+    for (const source2 of sources) {
+      try {
+        loaded.push(await this.loadSource(source2));
+      } catch (error4) {
+        failures.push({ source: source2, error: error4 });
+        if (throwOnError) {
+          this.status.state = "error";
+          this.status.error = error4;
+          throw error4;
+        }
+      }
+    }
+    this.status.lastOpen = { sources, loaded, failures };
+    this.status.state = workspaceState(this);
+    this.status.error = failures[0]?.error ?? null;
+    return this;
+  }
+  async loadSource(sourceOrId) {
+    const descriptor = resolveSource(this, sourceOrId);
+    this.setSourceStatus(descriptor, { state: "opening", error: null });
+    try {
+      if (descriptor.kind === "container") {
+        assertSolidClient(this);
+        const entries = await this.solid.contains(descriptor.url, descriptor.options);
+        this.replaceSourceRecords(descriptor, [], {
+          source: descriptor,
+          sourceUrl: descriptor.url,
+          status: "loaded"
+        });
+        for (const entry of entries) {
+          await this.loadSource({
+            ...descriptor,
+            append: true,
+            kind: "resource",
+            url: entry.url,
+            parent: descriptor
+          });
+        }
+        this.setSourceStatus(descriptor, { state: "ready", error: null });
+        return entries;
+      }
+      if (typeof descriptor.load === "function") {
+        const document2 = graphDocumentFrom(await descriptor.load({
+          source: descriptor,
+          workspace: this
+        }));
+        const objects2 = document2.subjects;
+        if (descriptor.append) {
+          this.trackObjects(objects2, {
+            source: descriptor,
+            sourceUrl: descriptor.url,
+            status: "loaded"
+          });
+        } else {
+          this.replaceSourceRecords(descriptor, objects2, {
+            source: descriptor,
+            sourceUrl: descriptor.url,
+            status: "loaded"
+          });
+        }
+        this.setSourceStatus(descriptor, { state: "ready", error: null });
+        return objects2;
+      }
+      assertSolidClient(this);
+      let response3;
+      try {
+        response3 = await this.solid.get(descriptor.url, requestOptions(descriptor.options));
+      } catch (error4) {
+        if ([404, 410].includes(statusFromError(error4))) {
+          if (!descriptor.append) {
+            this.replaceSourceRecords(descriptor, [], {
+              source: descriptor,
+              sourceUrl: descriptor.url,
+              status: "loaded"
+            });
+          }
+          this.setSourceStatus(descriptor, { state: "ready", error: null });
+          return [];
+        }
+        throw error4;
+      }
+      const responseStatus = response3?.status ?? 200;
+      if (responseStatus === 404 || responseStatus === 410) {
+        if (!descriptor.append) {
+          this.replaceSourceRecords(descriptor, [], {
+            source: descriptor,
+            sourceUrl: descriptor.url,
+            status: "loaded"
+          });
+        }
+        this.setSourceStatus(descriptor, { state: "ready", error: null });
+        return [];
+      }
+      if (responseStatus >= 400) {
+        throw responseError({ source: descriptor, response: response3 });
+      }
+      const objects = subjectsFromResponse(response3);
+      if (descriptor.append) {
+        this.trackObjects(objects, {
+          response: response3,
+          source: descriptor,
+          sourceUrl: descriptor.url,
+          status: "loaded"
+        });
+      } else {
+        this.replaceSourceRecords(descriptor, objects, {
+          response: response3,
+          source: descriptor,
+          sourceUrl: descriptor.url,
+          status: "loaded"
+        });
+      }
+      this.setSourceStatus(descriptor, { state: "ready", error: null });
+      return objects;
+    } catch (error4) {
+      this.setSourceStatus(descriptor, {
+        state: sourceFailureState(error4),
+        error: error4
+      });
+      throw error4;
+    }
+  }
+  trackObjects(objects, options = {}) {
+    for (const object of objects) {
+      this.track(object, options);
+    }
+    return objects;
+  }
+  replaceSourceRecords(source2, objects, options = {}) {
+    this.records = this.records.filter((record) => record.status === "new" || !recordBelongsToSources(record, [source2]));
+    this.objects = /* @__PURE__ */ new WeakMap();
+    for (const record of this.records) {
+      this.objects.set(record.object, record);
+    }
+    return this.trackObjects(objects, options);
+  }
+  dataset(options = {}) {
+    const config = normalizeDatasetOptions(this, options);
+    const records = recordsForSources(this, config.sources ?? this.sources);
+    return mergeGraphDocuments([
+      {
+        format: config.format,
+        version: config.version,
+        prefixes: config.prefixes,
+        subjects: records.map((record) => record.object)
+      }
+    ], config);
+  }
+  async sync(options = {}) {
+    if (isResourceReference(this, options)) {
+      return this.syncResource(options);
+    }
+    const target = resolveSource(this, options.into);
+    if (target.kind !== "resource") {
+      throw new Error("solid-workspace: sync target must be a resource source");
+    }
+    if (target.readOnly) {
+      throw new Error(`solid-workspace: source ${target.id} is read-only`);
+    }
+    let sourceDocument = options.document;
+    if (sourceDocument == null) {
+      sourceDocument = this.dataset({
+        sources: options.from ?? this.sources,
+        format: options.format,
+        version: options.version,
+        prefixes: options.prefixes
+      });
+    }
+    let targetDocument;
+    if (options.loadTarget === false) {
+      targetDocument = graphDocumentFrom(options.targetDocument);
+    } else {
+      targetDocument = await this.loadGraphDocument(target, options);
+    }
+    const document2 = mergeGraphDocuments([
+      targetDocument,
+      sourceDocument
+    ], options);
+    if (!document2.changed && options.force !== true) {
+      this.clearSyncPending(target);
+      return {
+        ok: true,
+        status: "unchanged",
+        source: target,
+        sourceUrl: target.url,
+        document: document2
+      };
+    }
+    try {
+      this.setSourceStatus(target, { state: "syncing", error: null });
+      const response3 = await saveGraphDocument(this, target, document2, options.writeOptions);
+      this.clearSyncPending(target);
+      this.setSourceStatus(target, { state: "ready", error: null });
+      return {
+        ok: true,
+        status: "synced",
+        source: target,
+        sourceUrl: target.url,
+        document: document2,
+        response: response3
+      };
+    } catch (error4) {
+      this.setSourceStatus(target, {
+        state: sourceFailureState(error4),
+        error: error4
+      });
+      throw error4;
+    }
+  }
+  async syncResource(resourceOrId, options = {}) {
+    const logicalResource = resolveResource(this, resourceOrId);
+    const localSource = logicalResource.local;
+    const remoteSource = logicalResource.remote;
+    if (!localSource) {
+      throw new Error(`solid-workspace: resource ${logicalResource.id} needs a local replica to sync`);
+    }
+    if (!remoteSource) {
+      throw new Error(`solid-workspace: resource ${logicalResource.id} needs a remote replica to sync`);
+    }
+    if (remoteSource.readOnly) {
+      throw new Error(`solid-workspace: source ${remoteSource.id} is read-only`);
+    }
+    this.setResourceStatus(logicalResource, { state: "syncing", error: null });
+    this.setSourceStatus(remoteSource, { state: "syncing", error: null });
+    let remoteDocument;
+    try {
+      if (options.loadRemote === false) {
+        remoteDocument = graphDocumentFrom(options.remoteDocument);
+      } else {
+        remoteDocument = await this.loadGraphDocument(remoteSource, options);
+      }
+    } catch (error4) {
+      this.setSourceStatus(remoteSource, {
+        state: sourceFailureState(error4),
+        error: error4
+      });
+      this.markSyncPending({
+        from: localSource.id,
+        into: remoteSource.id
+      });
+      this.setResourceStatus(logicalResource, {
+        state: "sync-pending",
+        error: error4
+      });
+      return {
+        ok: false,
+        status: this.status.sources[remoteSource.id].state,
+        resource: logicalResource,
+        source: remoteSource,
+        sourceUrl: remoteSource.url,
+        error: error4
+      };
+    }
+    const localDocument = this.dataset({
+      sources: [localSource.id],
+      format: options.format,
+      version: options.version,
+      prefixes: options.prefixes
+    });
+    const document2 = mergeGraphDocuments([
+      remoteDocument,
+      localDocument
+    ], options);
+    if (!document2.changed && options.force !== true) {
+      this.clearSyncPending(remoteSource);
+      this.setResourceStatus(logicalResource, { state: "ready", error: null });
+      return {
+        ok: true,
+        status: "unchanged",
+        resource: logicalResource,
+        source: remoteSource,
+        sourceUrl: remoteSource.url,
+        document: document2
+      };
+    }
+    let response3;
+    try {
+      response3 = await saveGraphDocument(this, remoteSource, document2, options.writeOptions);
+    } catch (error4) {
+      this.setSourceStatus(remoteSource, {
+        state: sourceFailureState(error4),
+        error: error4
+      });
+      this.markSyncPending({
+        from: localSource.id,
+        into: remoteSource.id
+      });
+      this.setResourceStatus(logicalResource, {
+        state: "sync-pending",
+        error: error4
+      });
+      return {
+        ok: false,
+        status: this.status.sources[remoteSource.id].state,
+        resource: logicalResource,
+        source: remoteSource,
+        sourceUrl: remoteSource.url,
+        error: error4
+      };
+    }
+    try {
+      await saveGraphDocument(this, localSource, document2, options.localWriteOptions ?? options.writeOptions);
+      this.replaceSourceRecords(remoteSource, cloneValue(document2.subjects), {
+        source: remoteSource,
+        sourceUrl: remoteSource.url,
+        status: "loaded"
+      });
+      this.replaceSourceRecords(localSource, cloneValue(document2.subjects), {
+        source: localSource,
+        sourceUrl: localSource.url,
+        status: "loaded"
+      });
+      this.clearSyncPending(remoteSource);
+      this.setSourceStatus(remoteSource, { state: "ready", error: null });
+      this.setSourceStatus(localSource, { state: "ready", error: null });
+      this.setResourceStatus(logicalResource, { state: "ready", error: null });
+      return {
+        ok: true,
+        status: "synced",
+        resource: logicalResource,
+        source: remoteSource,
+        sourceUrl: remoteSource.url,
+        document: document2,
+        response: response3
+      };
+    } catch (error4) {
+      this.setSourceStatus(localSource, {
+        state: sourceFailureState(error4),
+        error: error4
+      });
+      this.setResourceStatus(logicalResource, {
+        state: "error",
+        error: error4
+      });
+      return {
+        ok: false,
+        status: this.status.sources[localSource.id].state,
+        resource: logicalResource,
+        source: localSource,
+        sourceUrl: localSource.url,
+        error: error4
+      };
+    }
+  }
+  async loadGraphDocument(sourceOrId, options = {}) {
+    const descriptor = resolveSource(this, sourceOrId);
+    if (descriptor.kind !== "resource") {
+      throw new Error("solid-workspace: graph documents can only be loaded from resource sources");
+    }
+    if (typeof descriptor.load === "function") {
+      return graphDocumentFrom(await descriptor.load({
+        source: descriptor,
+        workspace: this,
+        ...options.readOptions
+      }));
+    }
+    assertSolidClient(this);
+    try {
+      const response3 = await this.solid.get(descriptor.url, requestOptions({
+        ...descriptor.options,
+        ...options.readOptions
+      }));
+      if (response3?.status === 404 || response3?.status === 410) {
+        return graphDocumentFrom(null);
+      }
+      if ((response3?.status ?? 200) >= 400) {
+        throw responseError({ source: descriptor, response: response3 });
+      }
+      return graphDocumentFrom(dataFromResult(response3));
+    } catch (error4) {
+      const status2 = statusFromError(error4);
+      if (status2 === 404 || status2 === 410) {
+        return graphDocumentFrom(null);
+      }
+      throw error4;
+    }
+  }
+  track(object, options = {}) {
+    if (!isObject(object)) {
+      throw new TypeError("solid-workspace: can only track object values");
+    }
+    const record = {
+      object,
+      source: options.source ?? null,
+      sourceUrl: options.sourceUrl ?? options.source?.url ?? object.id ?? null,
+      response: options.response ?? null,
+      status: options.status ?? "loaded",
+      readOnly: Boolean(options.readOnly ?? options.source?.readOnly),
+      created: Boolean(options.created),
+      deleted: Boolean(options.deleted),
+      error: null
+    };
+    this.records.push(record);
+    this.objects.set(object, record);
+    return record;
+  }
+  sourceOf(object, predicate, value) {
+    return src_default2.one(this.sourcesOf(object, predicate, value), "first") ?? null;
+  }
+  sourcesOf(object, predicate, value) {
+    const record = this.objects.get(object);
+    if (!record) {
+      return [];
+    }
+    const oldmSources = oldmSourcesOf(record, object, predicate, value);
+    if (oldmSources.length > 0) {
+      return oldmSources.map((sourceUrl) => ({
+        sourceUrl,
+        source: this.sourceById.get(sourceUrl) ?? record.source,
+        record
+      }));
+    }
+    return [{
+      sourceUrl: record.sourceUrl,
+      source: record.source,
+      record
+    }];
+  }
+  async createIn(sourceOrId, object, options = {}) {
+    const descriptor = resolveCreateSource(this, sourceOrId);
+    if (descriptor.readOnly) {
+      throw new Error(`solid-workspace: source ${descriptor.id} is read-only`);
+    }
+    this.track(object, {
+      source: descriptor,
+      sourceUrl: null,
+      status: "new",
+      created: true
+    });
+    if (options.save === false) {
+      return object;
+    }
+    await this.save(object, options);
+    return object;
+  }
+  async save(object, options = {}) {
+    const record = this.objects.get(object);
+    if (!record) {
+      throw new Error("solid-workspace: cannot save an object that is not tracked by this workspace");
+    }
+    const validation = validateRecord(record);
+    if (!validation.ok) {
+      return updateRecordStatus(record, {
+        ok: false,
+        status: "validation_failed",
+        issues: validation.issues
+      });
+    }
+    if (record.readOnly) {
+      return updateRecordStatus(record, {
+        ok: false,
+        status: "read_only",
+        error: new Error(`solid-workspace: source ${record.source?.id ?? record.sourceUrl} is read-only`)
+      });
+    }
+    try {
+      if (typeof record.source?.save === "function") {
+        const document2 = this.dataset({
+          sources: [record.source.id]
+        });
+        const response4 = await saveGraphDocument(this, record.source, document2, options);
+        record.sourceUrl = record.source.url;
+        record.created = false;
+        this.setSourceStatus(record.source, { state: "ready", error: null });
+        const syncTo = options.syncTo ?? record.source.syncTo;
+        if (syncTo) {
+          this.markSyncPending({
+            from: record.source.id,
+            into: syncTo
+          });
+        }
+        return updateRecordStatus(record, {
+          ok: true,
+          status: record.deleted ? "deleted" : "saved",
+          response: response4
+        });
+      }
+      assertSolidClient(this);
+      if (record.deleted) {
+        const response4 = await this.solid.delete(record.sourceUrl, requestOptions(options));
+        this.setSourceStatus(record.source, { state: "ready", error: null });
+        return updateRecordStatus(record, { ok: true, status: "deleted", response: response4 });
+      }
+      if (record.created || !record.sourceUrl) {
+        const source2 = record.source;
+        let response4;
+        if (source2.kind === "container") {
+          response4 = await this.solid.postToContainer(source2.url, record.object, writeOptions(source2, options));
+        } else {
+          response4 = await this.solid.create(source2.url, record.object, writeOptions(source2, options));
+        }
+        record.sourceUrl = response4.location ?? source2.url;
+        record.created = false;
+        this.setSourceStatus(record.source, { state: "ready", error: null });
+        return updateRecordStatus(record, { ok: true, status: "created", response: response4 });
+      }
+      const response3 = await this.solid.put(record.sourceUrl, bodyOptions(record.object, writeOptions(record.source, options)));
+      this.setSourceStatus(record.source, { state: "ready", error: null });
+      return updateRecordStatus(record, { ok: true, status: "saved", response: response3 });
+    } catch (error4) {
+      this.setSourceStatus(record.source, {
+        state: sourceFailureState(error4),
+        error: error4
+      });
+      return updateRecordStatus(record, { ok: false, status: "error", error: error4 });
+    }
+  }
+  async delete(object, options = {}) {
+    const record = this.objects.get(object);
+    if (!record) {
+      throw new Error("solid-workspace: cannot delete an object that is not tracked by this workspace");
+    }
+    record.deleted = true;
+    if (options.save === false) {
+      record.status = "deleted_pending";
+      return statusFor(record, { ok: true, status: record.status });
+    }
+    return this.save(object, options);
+  }
+  async saveAll(records = this.records) {
+    const statuses = [];
+    for (const recordOrObject of records) {
+      const object = recordOrObject?.object ?? recordOrObject;
+      statuses.push(await this.save(object));
+    }
+    const failures = statuses.filter((status2) => !status2.ok);
+    if (failures.length > 0) {
+      const error4 = new Error("solid-workspace: saveAll failed");
+      error4.statuses = statuses;
+      error4.failures = failures;
+      throw error4;
+    }
+    return statuses;
+  }
+  markSyncPending({ from: from3, into }) {
+    const targets = Array.isArray(into) ? into : [into];
+    for (const target of targets) {
+      const source2 = resolveSource(this, target);
+      const current = this.status.sources[source2.id] ?? sourceStatus(source2, { state: "idle" });
+      let state = "sync-pending";
+      if (current.state === "opening" || current.state === "syncing") {
+        state = current.state;
+      }
+      this.setSourceStatus(source2, {
+        ...current,
+        state,
+        syncPending: true,
+        pendingFrom: unique([
+          ...src_default2.many(current.pendingFrom),
+          ...src_default2.many(from3)
+        ])
+      });
+    }
+    return this;
+  }
+  clearSyncPending(sourceOrId) {
+    const source2 = resolveSource(this, sourceOrId);
+    const current = this.status.sources[source2.id] ?? sourceStatus(source2, { state: "idle" });
+    let state = current.state;
+    if (current.state === "sync-pending") {
+      state = "ready";
+    }
+    this.setSourceStatus(source2, {
+      ...current,
+      state,
+      syncPending: false,
+      pendingFrom: []
+    });
+    return this;
+  }
+  setSourceStatus(sourceOrId, status2 = {}) {
+    let source2 = sourceOrId?.parent ?? sourceOrId;
+    if (typeof sourceOrId === "string") {
+      source2 = this.sourceById.get(sourceOrId) ?? { id: sourceOrId };
+    }
+    if (!source2?.id) {
+      return null;
+    }
+    const current = this.status?.sources?.[source2.id] ?? {};
+    const next = sourceStatus(source2, {
+      ...current,
+      ...status2
+    });
+    this.status.sources[source2.id] = next;
+    return next;
+  }
+  setResourceStatus(resourceOrId, status2 = {}) {
+    let logicalResource = resourceOrId;
+    if (typeof resourceOrId === "string") {
+      logicalResource = this.resourceById.get(resourceOrId) ?? { id: resourceOrId };
+    }
+    if (!logicalResource?.id) {
+      return null;
+    }
+    const current = this.status?.resources?.[logicalResource.id] ?? {};
+    const next = {
+      id: logicalResource.id,
+      type: logicalResource.type ?? "replicated-resource",
+      local: logicalResource.local?.id ?? null,
+      remote: logicalResource.remote?.id ?? null,
+      state: status2.state ?? current.state ?? "idle",
+      error: status2.error ?? current.error ?? null
+    };
+    this.status.resources[logicalResource.id] = next;
+    return next;
+  }
+};
+var WorkspaceCollection = class {
+  constructor(workspace2, name, descriptor = {}) {
+    this.workspace = workspace2;
+    this.name = name;
+    this.descriptor = normalizeCollection(descriptor);
+  }
+  list() {
+    return Array.from(from(this.workspace.records).where((record) => !record.deleted).where((record) => collectionIncludesRecord(this.workspace, this.descriptor, record)).select((record) => record.object));
+  }
+  get(id2) {
+    return this.list().find((object) => object.id === id2 || object["@id"] === id2) ?? null;
+  }
+  async create(object = {}, options = {}) {
+    let data = { ...object };
+    if (this.descriptor.shape?.applyDefaults) {
+      data = this.descriptor.shape.applyDefaults(object);
+    }
+    const validation = this.descriptor.shape?.validate?.(data);
+    if (validation && !validation.ok) {
+      const error4 = new Error(`solid-workspace: ${this.name} object does not match its shape`);
+      error4.validation = validation;
+      throw error4;
+    }
+    return this.workspace.createIn(options.createIn ?? this.descriptor.createIn, data, {
+      ...options,
+      save: options.save ?? false
+    });
+  }
+  update(object, changes = {}) {
+    Object.assign(object, changes);
+    return object;
+  }
+  delete(object, options = {}) {
+    return this.workspace.delete(object, options);
+  }
+  save(object, options = {}) {
+    return this.workspace.save(object, options);
+  }
+  saveAll() {
+    return this.workspace.saveAll(Array.from(from(this.workspace.records).where((record) => collectionIncludesRecord(this.workspace, this.descriptor, record))));
+  }
+};
+function source(kind, url3, options) {
+  if (!url3) {
+    throw new TypeError("solid-workspace: source url is required");
+  }
+  return Object.freeze({
+    ...options,
+    workspacePart: "source",
+    kind,
+    type: options.type ?? kind,
+    id: options.id ?? String(url3),
+    url: String(url3),
+    readOnly: Boolean(options.readOnly),
+    shape: options.shape ?? null,
+    options: options.options ?? {}
+  });
+}
+function graphResource(options = {}) {
+  if (!options || typeof options !== "object") {
+    throw new TypeError("solid-workspace: graph resource options must be an object");
+  }
+  if (!options.id) {
+    throw new TypeError("solid-workspace: graph resource id is required");
+  }
+  if (!options.url) {
+    throw new TypeError("solid-workspace: graph resource url is required");
+  }
+  if (typeof options.load !== "function") {
+    throw new TypeError("solid-workspace: graph resource load() is required");
+  }
+  return Object.freeze({
+    ...options,
+    workspacePart: "source",
+    kind: "resource",
+    type: options.type ?? "graph-resource",
+    readOnly: Boolean(options.readOnly),
+    shape: options.shape ?? null,
+    options: options.options ?? {},
+    writeOptions: options.writeOptions,
+    id: options.id,
+    url: String(options.url)
+  });
+}
+function assertWorkspaceSource(descriptor, role = "source") {
+  if (descriptor?.workspacePart !== "source") {
+    throw new TypeError(`solid-workspace: resource ${role} replica must be a source from a factory`);
+  }
+}
+function resourceReplicaSource(descriptor, { resource: resource2, replica, syncTo } = {}) {
+  assertWorkspaceSource(descriptor, replica);
+  return Object.freeze({
+    ...descriptor,
+    logicalResource: resource2.id,
+    replica,
+    syncTo: syncTo ?? descriptor.syncTo
+  });
+}
+function normalizeSources(sources) {
+  if (!Array.isArray(sources)) {
+    throw new TypeError("solid-workspace: sources must be an array");
+  }
+  return sources.map((descriptor) => {
+    if (!descriptor || descriptor.kind !== "resource" && descriptor.kind !== "container") {
+      throw new TypeError("solid-workspace: sources must be solid.resource() or solid.container() descriptors");
+    }
+    return descriptor;
+  });
+}
+function normalizeCollection(descriptor) {
+  if (!descriptor || typeof descriptor !== "object") {
+    throw new TypeError("solid-workspace: collection descriptor must be an object");
+  }
+  const sources = descriptor.sources ?? [];
+  if (!Array.isArray(sources)) {
+    throw new TypeError("solid-workspace: collection sources must be an array");
+  }
+  return {
+    ...descriptor,
+    sources,
+    createIn: descriptor.createIn ?? sources[0]
+  };
+}
+function normalizeDatasetOptions(currentWorkspace, options = {}) {
+  if (isResourceReference(currentWorkspace, options)) {
+    return {
+      resources: [options],
+      sources: datasetSourcesForResources(currentWorkspace, [options])
+    };
+  }
+  if (options?.resources) {
+    const resources = Array.isArray(options.resources) ? options.resources : [options.resources];
+    return {
+      ...options,
+      sources: datasetSourcesForResources(currentWorkspace, resources)
+    };
+  }
+  return options;
+}
+function normalizeLoadSources(currentWorkspace, sources) {
+  if (!Array.isArray(sources)) {
+    sources = [sources];
+  }
+  return sources.map((sourceOrId) => resolveSource(currentWorkspace, sourceOrId));
+}
+function isResourceReference(currentWorkspace, value) {
+  return Boolean(
+    value?.workspacePart === "resource" || typeof value === "string" && currentWorkspace.resourceById.has(value)
+  );
+}
+function isOpenAllOptions(options) {
+  return Boolean(
+    isObject(options) && !Array.isArray(options) && !options.sources && !options.resources && !options.workspacePart
+  );
+}
+function resolveResource(currentWorkspace, resourceOrId) {
+  if (!resourceOrId) {
+    throw new TypeError("solid-workspace: resource is required");
+  }
+  if (typeof resourceOrId === "string") {
+    const logicalResource = currentWorkspace.resourceById.get(resourceOrId);
+    if (!logicalResource) {
+      throw new Error(`solid-workspace: unknown resource ${resourceOrId}`);
+    }
+    return logicalResource;
+  }
+  if (resourceOrId.workspacePart === "resource") {
+    return currentWorkspace.resourceById.get(resourceOrId.id) ?? resourceOrId;
+  }
+  return resourceOrId;
+}
+function resourceSources(logicalResource) {
+  return [logicalResource.local, logicalResource.remote].filter(Boolean);
+}
+function datasetSourcesForResources(currentWorkspace, resources) {
+  return resources.flatMap((resourceOrId) => {
+    const logicalResource = resolveResource(currentWorkspace, resourceOrId);
+    return [logicalResource.local ?? logicalResource.remote].filter(Boolean);
+  });
+}
+function resolveSource(currentWorkspace, sourceOrId) {
+  if (!sourceOrId) {
+    throw new TypeError("solid-workspace: source is required");
+  }
+  if (typeof sourceOrId === "string") {
+    const descriptor = currentWorkspace.sourceById.get(sourceOrId);
+    if (!descriptor) {
+      throw new Error(`solid-workspace: unknown source ${sourceOrId}`);
+    }
+    return descriptor;
+  }
+  return sourceOrId;
+}
+function resolveCreateSource(currentWorkspace, sourceOrResourceOrId) {
+  if (isResourceReference(currentWorkspace, sourceOrResourceOrId)) {
+    const logicalResource = resolveResource(currentWorkspace, sourceOrResourceOrId);
+    if (!logicalResource.local) {
+      throw new Error(`solid-workspace: resource ${logicalResource.id} needs a local replica for local-first writes`);
+    }
+    return logicalResource.local;
+  }
+  return resolveSource(currentWorkspace, sourceOrResourceOrId);
+}
+function recordsForSources(currentWorkspace, sources) {
+  const descriptors = new Set(normalizeLoadSources(currentWorkspace, sources));
+  const ids2 = new Set([...descriptors].map((source2) => source2.id));
+  return Array.from(from(currentWorkspace.records).where((record) => !record.deleted).where((record) => {
+    const source2 = record.source?.parent ?? record.source;
+    return source2 && (descriptors.has(source2) || ids2.has(source2.id));
+  }));
+}
+function recordBelongsToSources(record, sources) {
+  const source2 = record.source?.parent ?? record.source;
+  return Boolean(source2 && sources.some((candidate) => candidate === source2 || candidate.id === source2.id));
+}
+function collectionIncludesRecord(currentWorkspace, descriptor, record) {
+  if (descriptor.sources.length > 0) {
+    const sourceId = record.source?.parent?.id ?? record.source?.id;
+    const matches = descriptor.sources.some((collectionSource) => {
+      const logicalResource = currentWorkspace.resourceById.get(collectionSource);
+      if (logicalResource) {
+        const preferredSource = logicalResource.local ?? logicalResource.remote;
+        return preferredSource?.id === sourceId;
+      }
+      return collectionSource === sourceId;
+    });
+    if (!matches) {
+      return false;
+    }
+  }
+  if (descriptor.shape?.class) {
+    const classes = src_default2.many(record.object.rdf$type);
+    if (!classes.includes(descriptor.shape.class)) {
+      return false;
+    }
+  }
+  return true;
+}
+function subjectsFromResponse(response3) {
+  const data = dataFromResult(response3);
+  if (!data) {
+    return [];
+  }
+  if (Array.isArray(data)) {
+    return Array.from(from(data).where(isObject));
+  }
+  if (Array.isArray(data.data)) {
+    return Array.from(from(data.data).where(isObject));
+  }
+  if (data.subjects && typeof data.subjects === "object") {
+    return Array.from(from(Object.values(data.subjects)).where(isObject));
+  }
+  if (isObject(data.primary)) {
+    return [data.primary];
+  }
+  return isObject(data) ? [data] : [];
+}
+function dataFromResult(result) {
+  return result?.data ?? result;
+}
+function graphDocumentFrom(value) {
+  if (!value) {
+    return {
+      format: null,
+      version: null,
+      prefixes: {},
+      subjects: []
+    };
+  }
+  if (Array.isArray(value)) {
+    return {
+      format: null,
+      version: null,
+      prefixes: {},
+      subjects: Array.from(from(value).where(isObject))
+    };
+  }
+  if (Array.isArray(value.subjects)) {
+    return {
+      format: value.format ?? null,
+      version: value.version ?? null,
+      prefixes: value.prefixes ?? {},
+      subjects: Array.from(from(value.subjects).where(isObject))
+    };
+  }
+  if (value.subjects && typeof value.subjects === "object") {
+    return {
+      format: value.format ?? null,
+      version: value.version ?? null,
+      prefixes: value.prefixes ?? {},
+      subjects: Array.from(from(Object.values(value.subjects)).where(isObject))
+    };
+  }
+  if (Array.isArray(value.data)) {
+    return {
+      format: value.format ?? null,
+      version: value.version ?? null,
+      prefixes: value.prefixes ?? {},
+      subjects: Array.from(from(value.data).where(isObject))
+    };
+  }
+  if (isObject(value.primary)) {
+    return {
+      format: value.format ?? null,
+      version: value.version ?? null,
+      prefixes: value.prefixes ?? {},
+      subjects: [value.primary]
+    };
+  }
+  return {
+    format: null,
+    version: null,
+    prefixes: {},
+    subjects: isObject(value) ? [value] : []
+  };
+}
+function mergeSubject(target, incoming) {
+  for (const [predicate, value] of Object.entries(incoming)) {
+    if (predicate === "id") continue;
+    if (!Object.hasOwn(target, predicate)) {
+      target[predicate] = cloneValue(value);
+      continue;
+    }
+    target[predicate] = mergeValues(target[predicate], value);
+  }
+  return target;
+}
+function mergeValues(left, right) {
+  if (valueEquals(left, right)) {
+    return left;
+  }
+  if (isObject(left) && isObject(right) && left.id && left.id === right.id) {
+    return mergeSubject(left, right);
+  }
+  const values3 = [];
+  for (const item of [...arrayValues(left), ...arrayValues(right)]) {
+    if (!values3.some((existing) => valueEquals(existing, item))) {
+      values3.push(cloneValue(item));
+    }
+  }
+  return values3.length === 1 ? values3[0] : values3;
+}
+function arrayValues(value) {
+  return Array.isArray(value) ? value : [value];
+}
+function valueEquals(left, right) {
+  return valueKey(left) === valueKey(right);
+}
+function valueKey(value) {
+  if (isObject(value)) {
+    return value.id ? `id:${value.id}` : `json:${JSON.stringify(sortObject(value))}`;
+  }
+  return `${typeof value}:${String(value)}`;
+}
+function sortObject(value) {
+  if (Array.isArray(value)) {
+    return value.map(sortObject);
+  }
+  if (!isObject(value)) {
+    return value;
+  }
+  return Object.fromEntries(
+    Object.entries(value).sort(([left], [right]) => left.localeCompare(right)).map(([key, item]) => [key, sortObject(item)])
+  );
+}
+function graphDocumentsEqual(left, right) {
+  return JSON.stringify(sortObject(graphDocumentComparable(left))) === JSON.stringify(sortObject(graphDocumentComparable(right)));
+}
+function graphDocumentComparable(document2) {
+  return {
+    format: document2.format ?? null,
+    version: document2.version ?? null,
+    prefixes: document2.prefixes ?? {},
+    subjects: document2.subjects ?? []
+  };
+}
+function cloneGraphDocument(document2) {
+  const graphDocument = graphDocumentFrom(document2);
+  return {
+    ...graphDocument,
+    prefixes: cloneValue(graphDocument.prefixes),
+    subjects: cloneValue(graphDocument.subjects)
+  };
+}
+function graphDocumentToTurtle(document2, options = {}) {
+  const graphDocument = graphDocumentFrom(document2);
+  const context = src_default2.context({
+    defaultGraph: options.url,
+    prefixes: {
+      ...graphDocument.prefixes,
+      ...options.prefixes
+    }
+  });
+  const graph2 = context.parse("", options.url, "text/turtle");
+  for (const subject of graphDocument.subjects) {
+    writeSubjectToGraph({ graph: graph2, subject });
+  }
+  return graph2.write();
+}
+function writeSubjectToGraph({ graph: graph2, subject }) {
+  if (!subject?.id) return null;
+  for (const [predicate, value] of Object.entries(subject)) {
+    if (predicate === "id") continue;
+    graph2.set(subject.id, predicate, graphValueFromObjectValue({ graph: graph2, value }));
+  }
+  return subject.id;
+}
+function graphValueFromObjectValue({ graph: graph2, value }) {
+  if (Array.isArray(value)) {
+    return value.map((item) => graphValueFromObjectValue({ graph: graph2, value: item }));
+  }
+  if (isObject(value)) {
+    if (value.id) {
+      writeSubjectToGraph({ graph: graph2, subject: value });
+      return value.id;
+    }
+    return JSON.stringify(value);
+  }
+  return value;
+}
+async function saveGraphDocument(workspace2, source2, document2, options = {}) {
+  if (typeof source2.save === "function") {
+    return source2.save(document2, {
+      source: source2,
+      workspace: workspace2,
+      ...options
+    });
+  }
+  assertSolidClient(workspace2);
+  return workspace2.solid.put(source2.url, bodyOptions(document2, writeOptions(source2, options)));
+}
+function openIndexedDatabase({ indexedDB, name, version, storeName }) {
+  const factory = indexedDB ?? globalThis.indexedDB;
+  if (!factory) {
+    throw new TypeError("solid-workspace: IndexedDB is not available");
+  }
+  return new Promise((resolve, reject) => {
+    const request3 = factory.open(name, version);
+    request3.onerror = () => reject(request3.error ?? new Error(`solid-workspace: could not open IndexedDB database ${name}`));
+    request3.onblocked = () => reject(new Error(`solid-workspace: IndexedDB database ${name} is blocked`));
+    request3.onupgradeneeded = () => {
+      const database = request3.result;
+      if (!objectStoreExists(database.objectStoreNames, storeName)) {
+        database.createObjectStore(storeName, { keyPath: "key" });
+      }
+    };
+    request3.onsuccess = () => resolve(request3.result);
+  });
+}
+function indexedDBGet(database, storeName, key) {
+  return indexedDBRequest(
+    database.transaction(storeName, "readonly").objectStore(storeName).get(key)
+  );
+}
+function indexedDBPut(database, storeName, value) {
+  return indexedDBRequest(
+    database.transaction(storeName, "readwrite").objectStore(storeName).put(value)
+  );
+}
+function indexedDBRequest(request3) {
+  return new Promise((resolve, reject) => {
+    request3.onerror = () => reject(request3.error ?? new Error("solid-workspace: IndexedDB request failed"));
+    request3.onsuccess = () => resolve(request3.result);
+  });
+}
+function objectStoreExists(objectStoreNames, storeName) {
+  if (typeof objectStoreNames?.contains === "function") {
+    return objectStoreNames.contains(storeName);
+  }
+  return src_default2.many(objectStoreNames).includes(storeName);
+}
+function assertSolidClient(workspace2) {
+  if (!workspace2.solid) {
+    throw new TypeError("solid-workspace: a Solid API client is required for Solid sources");
+  }
+}
+function cloneValue(value) {
+  if (Array.isArray(value)) {
+    return value.map(cloneValue);
+  }
+  if (isObject(value)) {
+    return Object.fromEntries(
+      Object.entries(value).map(([key, item]) => [key, cloneValue(item)])
+    );
+  }
+  return value;
+}
+function oldmSourcesOf(record, object, predicate, value) {
+  const data = dataFromResult(record.response);
+  const context = data?.context ?? data?.primary?.context;
+  if (!context || typeof context.sources !== "function") {
+    return [];
+  }
+  return context.sources(object, predicate, value).map((source2) => typeof source2 === "string" ? source2 : source2?.url ?? source2?.id).filter(Boolean);
+}
+function statusFromError(error4) {
+  return error4?.cause?.status ?? error4?.response?.status ?? error4?.status;
+}
+function validateRecord(record) {
+  const validation = record.source?.shape?.validate?.(record.object);
+  return validation ?? { ok: true, issues: [] };
+}
+function writeOptions(source2, options) {
+  return {
+    contentType: "text/turtle",
+    ...source2?.writeOptions,
+    ...options
+  };
+}
+function requestOptions(options = {}) {
+  return {
+    ...options,
+    headers: solidRequestHeaders(options)
+  };
+}
+function bodyOptions(body, options = {}) {
+  return {
+    ...options,
+    body,
+    headers: solidRequestHeaders(options)
+  };
+}
+function updateRecordStatus(record, status2) {
+  record.status = status2.status;
+  record.error = status2.error ?? null;
+  record.response = status2.response?.response ?? status2.response ?? record.response;
+  return statusFor(record, status2);
+}
+function statusFor(record, status2 = {}) {
+  return {
+    object: record.object,
+    sourceUrl: record.sourceUrl,
+    source: record.source,
+    ...status2
+  };
+}
+function sourceStatus(source2, status2 = {}) {
+  return {
+    id: source2.id,
+    type: source2.type ?? source2.kind ?? "source",
+    url: source2.url ?? null,
+    local: Boolean(source2.local),
+    logicalResource: source2.logicalResource ?? null,
+    replica: source2.replica ?? null,
+    state: status2.state ?? "idle",
+    error: status2.error ?? null,
+    syncPending: Boolean(status2.syncPending),
+    pendingFrom: src_default2.many(status2.pendingFrom)
+  };
+}
+function workspaceState(currentWorkspace) {
+  const states = Object.values(currentWorkspace.status.sources).map((status2) => status2.state);
+  if (states.length === 0) {
+    return "idle";
+  }
+  if (states.some((state) => state === "ready" || state === "sync-pending")) {
+    return "ready";
+  }
+  if (states.some((state) => state === "opening" || state === "syncing")) {
+    return "opening";
+  }
+  return "error";
+}
+function resourceState(currentWorkspace, logicalResource) {
+  const states = resourceSources(logicalResource).map((source2) => currentWorkspace.status.sources[source2.id]?.state).filter(Boolean);
+  if (states.length === 0) {
+    return "idle";
+  }
+  if (states.some((state) => state === "sync-pending")) {
+    return "sync-pending";
+  }
+  if (states.some((state) => state === "ready")) {
+    return "ready";
+  }
+  if (states.some((state) => state === "opening" || state === "syncing")) {
+    return "opening";
+  }
+  return states[0] ?? "idle";
+}
+function sourceFailureState(error4) {
+  const status2 = errorStatus(error4);
+  if (status2 === 401 || status2 === 403) {
+    return "auth-needed";
+  }
+  if (!status2 || error4?.name === "TypeError") {
+    return "offline";
+  }
+  return "error";
+}
+function responseError({ source: source2, response: response3 }) {
+  const error4 = new Error(`solid-workspace: source ${source2.id} returned HTTP ${response3?.status}`);
+  error4.response = response3;
+  error4.source = source2;
+  return error4;
+}
+function errorStatus(error4) {
+  if (error4?.response?.status !== void 0) {
+    return error4.response.status;
+  }
+  if (error4?.cause?.status !== void 0) {
+    return error4.cause.status;
+  }
+  return error4?.status;
+}
+function ensureSlash2(url3) {
+  return String(url3).endsWith("/") ? String(url3) : `${url3}/`;
+}
+function unique(items) {
+  return [...new Set(items)];
+}
+function isObject(value) {
+  return Boolean(value && typeof value === "object" && !Array.isArray(value));
+}
+
+// ../solid-tools/packages/simplysolid/src/index.mjs
+function simplySolid(config = {}) {
+  return new SimplySolid(config);
+}
+var SimplySolid = class {
+  constructor(config = {}) {
+    if (!config || typeof config !== "object") {
+      throw new TypeError("simplysolid: config must be an object");
+    }
+    const normalized = normalizeConfig(config);
+    this.solid = normalized.client ?? config.workspace?.solid ?? null;
+    this.conventions = normalized.conventions;
+    this.settings = normalized.settings;
+    this.registrations = normalized.registrations;
+    this.status = {
+      state: "idle",
+      error: null,
+      profile: config.profile ?? null,
+      storage: normalizeStorage(config.storage),
+      setup: setupStatus("unknown", normalized.conventions, normalized.registrations),
+      collections: {},
+      resources: {}
+    };
+    this.workspace = config.workspace ?? workspace({
+      solid: normalized.client,
+      sources: normalized.sources,
+      resources: normalized.resources,
+      collections: normalized.collections
+    });
+    this.status.resources = this.workspace.status.resources;
+    this.data = Object.fromEntries(
+      Object.entries(this.workspace.collections).map(([name, collection2]) => [
+        name,
+        new SimplySolidCollection(this, name, collection2)
+      ])
+    );
+    for (const name of Object.keys(this.data)) {
+      this.status.collections[name] = this.data[name].status;
+    }
+  }
+  install(app2) {
+    app2.solid = this;
+    if (app2.data && typeof app2.data === "object") {
+      app2.data.solid = this.status;
+    }
+    return this;
+  }
+  async open(options = {}) {
+    this.status.state = "opening";
+    this.status.error = null;
+    try {
+      await this.workspace.open(options);
+      for (const handle of Object.values(this.data)) {
+        handle.refresh();
+      }
+      this.status.state = "ready";
+      this.status.lastOpen = /* @__PURE__ */ new Date();
+      return this.data;
+    } catch (error4) {
+      this.status.state = "error";
+      this.status.error = error4;
+      throw error4;
+    }
+  }
+  async sync(options = {}) {
+    if (isResourceSyncRequest(this.workspace, options)) {
+      return this.syncResources(options);
+    }
+    this.status.state = "syncing";
+    this.status.error = null;
+    try {
+      await this.workspace.open(options);
+      for (const handle of Object.values(this.data)) {
+        handle.refresh();
+      }
+      this.status.state = "ready";
+      this.status.lastSync = /* @__PURE__ */ new Date();
+      return this.data;
+    } catch (error4) {
+      this.status.state = "error";
+      this.status.error = error4;
+      throw error4;
+    }
+  }
+  dataset(options = {}) {
+    return this.workspace.dataset(options);
+  }
+  async connect(options = {}) {
+    this.status.state = "connecting";
+    this.status.error = null;
+    try {
+      const client3 = options.solid ?? options.solidApi ?? options.client;
+      if (client3) {
+        this.solid = client3;
+        this.workspace.setClient(client3);
+      }
+      const resources = connectionResources(options);
+      const opened = [];
+      for (const [name, descriptor] of Object.entries(resources)) {
+        const part = remoteResourcePart(name, descriptor, this);
+        this.workspace.add(part);
+        opened.push(name);
+      }
+      if (options.open !== false && opened.length > 0) {
+        await this.workspace.open({ resources: opened });
+      }
+      for (const handle of Object.values(this.data)) {
+        handle.refresh();
+      }
+      this.status.state = "ready";
+      this.status.lastConnect = /* @__PURE__ */ new Date();
+      return this;
+    } catch (error4) {
+      this.status.state = "error";
+      this.status.error = error4;
+      throw error4;
+    }
+  }
+  async syncResources(options = {}) {
+    this.status.state = "syncing";
+    this.status.error = null;
+    try {
+      const status2 = await this.workspace.sync(options);
+      for (const handle of Object.values(this.data)) {
+        handle.refresh();
+      }
+      this.status.state = "ready";
+      this.status.lastSync = /* @__PURE__ */ new Date();
+      return status2;
+    } catch (error4) {
+      this.status.state = "error";
+      this.status.error = error4;
+      throw error4;
+    }
+  }
+  async checkSetup() {
+    if (!this.solid) {
+      this.status.setup = setupStatus("unknown", this.conventions, this.registrations, {
+        error: new Error("simplysolid: setup checks require a Solid API client")
+      });
+      return this.status.setup;
+    }
+    const checks = [];
+    for (const url3 of this.conventions.requiredContainers) {
+      checks.push(await checkContainer(this.solid, url3));
+    }
+    const missing = checks.filter((check) => check.status === "missing");
+    const repair = checks.filter((check) => check.status === "error");
+    const state = repair.length > 0 ? "repair-needed" : missing.length > 0 ? "setup-needed" : "ready";
+    this.status.setup = setupStatus(state, this.conventions, this.registrations, {
+      checks,
+      needed: missing,
+      repair
+    });
+    return this.status.setup;
+  }
+  async setup() {
+    const setup = await this.checkSetup();
+    if (setup.state === "ready") {
+      return setup;
+    }
+    if (setup.state === "repair-needed") {
+      return setup;
+    }
+    this.status.setup = {
+      ...setup,
+      state: "creating"
+    };
+    const created = [];
+    const repair = [];
+    for (const item of setup.needed) {
+      try {
+        const response3 = await this.solid.createContainer(item.url);
+        created.push({ ...item, response: response3 });
+      } catch (error4) {
+        repair.push({ ...item, status: "error", error: error4 });
+      }
+    }
+    if (repair.length > 0) {
+      this.status.setup = setupStatus("repair-needed", this.conventions, this.registrations, {
+        created,
+        repair
+      });
+      return this.status.setup;
+    }
+    return this.checkSetup();
+  }
+};
+var SimplySolidCollection = class {
+  constructor(service, name, collection2) {
+    this.solid = service;
+    this.name = name;
+    this.collection = collection2;
+    this.items = [];
+    this.status = {
+      state: "idle",
+      error: null,
+      lastSync: null,
+      lastSave: null
+    };
+  }
+  refresh() {
+    this.items = this.collection.list();
+    this.status.state = "ready";
+    this.status.lastSync = /* @__PURE__ */ new Date();
+    return this.items;
+  }
+  async sync() {
+    this.status.state = "syncing";
+    this.status.error = null;
+    try {
+      await this.solid.workspace.open(this.collection.descriptor.sources);
+      return this.refresh();
+    } catch (error4) {
+      this.status.state = "error";
+      this.status.error = error4;
+      throw error4;
+    }
+  }
+  list() {
+    return this.refresh();
+  }
+  get(id2) {
+    return this.collection.get(id2);
+  }
+  async create(data = {}, options = {}) {
+    return this.write("creating", async () => {
+      const object = await this.collection.create(data, {
+        ...options,
+        save: false
+      });
+      if (options.save === false) {
+        this.refresh();
+        return object;
+      }
+      const status2 = await this.collection.save(object, options);
+      this.status.lastSave = status2;
+      this.refresh();
+      return object;
+    });
+  }
+  async update(idOrObject, changes = {}, options = {}) {
+    return this.write("saving", async () => {
+      const object = this.resolve(idOrObject);
+      this.collection.update(object, changes);
+      if (options.save === false) {
+        this.refresh();
+        return object;
+      }
+      const status2 = await this.collection.save(object, options);
+      this.status.lastSave = status2;
+      this.refresh();
+      return object;
+    });
+  }
+  async delete(idOrObject, options = {}) {
+    return this.write("deleting", async () => {
+      const object = this.resolve(idOrObject);
+      const status2 = await this.collection.delete(object, {
+        ...options,
+        save: options.save ?? true
+      });
+      this.status.lastSave = status2;
+      this.refresh();
+      return status2;
+    });
+  }
+  async saveAll() {
+    return this.write("saving", async () => {
+      const statuses = await this.collection.saveAll();
+      this.status.lastSave = statuses;
+      this.refresh();
+      return statuses;
+    });
+  }
+  async write(state, fn) {
+    this.status.state = state;
+    this.status.error = null;
+    try {
+      const result = await fn();
+      this.status.state = "ready";
+      return result;
+    } catch (error4) {
+      this.status.state = "error";
+      this.status.error = error4;
+      throw error4;
+    }
+  }
+  resolve(idOrObject) {
+    if (typeof idOrObject === "string") {
+      const object = this.get(idOrObject);
+      if (!object) {
+        throw new Error(`simplysolid: ${this.name} item ${idOrObject} was not found`);
+      }
+      return object;
+    }
+    if (!idOrObject || typeof idOrObject !== "object") {
+      throw new TypeError(`simplysolid: ${this.name} item must be an object or id`);
+    }
+    return idOrObject;
+  }
+};
+function normalizeConfig(config) {
+  if (config.workspace) {
+    const conventions2 = setupConventions(config, {
+      sources: config.workspace.sources ?? [],
+      resources: config.workspace.resources ?? [],
+      collections: config.workspace.collections ?? {}
+    });
+    return {
+      client: null,
+      sources: [],
+      resources: [],
+      collections: {},
+      conventions: conventions2,
+      settings: settingsFor(config, conventions2),
+      registrations: registrationsFor(config, conventions2)
+    };
+  }
+  const client3 = config.solid ?? config.solidApi ?? config.client;
+  const explicitSources = config.sources ?? [];
+  const explicitResources = config.resources ?? [];
+  const data = config.data ?? config.collections ?? {};
+  const generatedSources = [];
+  const generatedResources = [];
+  const collections = {};
+  const hasLocalFirstData = Object.values(data).some((descriptor) => isLocalFirstDescriptor(null, descriptor, config));
+  if (!client3 && explicitSources.length === 0 && explicitResources.length === 0 && !hasLocalFirstData) {
+    throw new TypeError("simplysolid: a Solid API client, workspace, source, resource, or local-first data config is required");
+  }
+  for (const [name, descriptor] of Object.entries(data)) {
+    const normalized = normalizeCollection2(name, descriptor, config);
+    collections[name] = normalized.collection;
+    if (normalized.source) {
+      generatedSources.push(normalized.source);
+    }
+    if (normalized.resource) {
+      generatedResources.push(normalized.resource);
+    }
+  }
+  const sources = [...explicitSources, ...generatedSources];
+  const resources = [...explicitResources, ...generatedResources];
+  const conventions = setupConventions(config, { sources, resources, collections });
+  return {
+    client: client3,
+    sources,
+    resources,
+    collections,
+    conventions,
+    settings: settingsFor(config, conventions),
+    registrations: registrationsFor(config, conventions)
+  };
+}
+function normalizeCollection2(name, descriptor = {}, config = {}) {
+  if (!descriptor || typeof descriptor !== "object") {
+    throw new TypeError(`simplysolid: collection ${name} must be an object`);
+  }
+  if (descriptor.kind === "collection" && !descriptor.path) {
+    return {
+      collection: descriptor,
+      source: null,
+      resource: null
+    };
+  }
+  if (isLocalFirstDescriptor(name, descriptor, config)) {
+    const resourceId = descriptor.resourceId ?? descriptor.resource ?? descriptor.source ?? name;
+    const resource2 = resource(resourceId, {
+      local: localSourceForResource(name, descriptor, config),
+      remote: remoteSourceForResource(name, descriptor, config, resourceId)
+    });
+    return {
+      source: null,
+      resource: resource2,
+      collection: collection({
+        ...descriptor,
+        sources: descriptor.sources ?? [resourceId],
+        createIn: descriptor.createIn ?? resourceId
+      })
+    };
+  }
+  const source2 = descriptor.path ? sourceFromPath(name, descriptor, config) : null;
+  const sourceId = descriptor.source ?? source2?.id;
+  const sources = descriptor.sources ?? (sourceId ? [sourceId] : []);
+  const createIn = descriptor.createIn ?? sourceId ?? sources[0];
+  return {
+    source: source2,
+    resource: null,
+    collection: collection({
+      ...descriptor,
+      sources,
+      createIn
+    })
+  };
+}
+function isLocalFirstDescriptor(_name, descriptor = {}, config = {}) {
+  if (!descriptor || typeof descriptor !== "object") {
+    return false;
+  }
+  return Boolean(
+    descriptor.local || descriptor.localFirst || config.localFirst && (descriptor.kind === "resource" || descriptor.resource === true || descriptor.path && !String(descriptor.path).endsWith("/"))
+  );
+}
+function localSourceForResource(name, descriptor = {}, config = {}) {
+  const localConfig = descriptor.local === true ? {} : descriptor.local ?? {};
+  if (localConfig?.workspacePart === "source") {
+    return localConfig;
+  }
+  const indexedDBName = typeof localConfig.indexedDB === "string" ? localConfig.indexedDB : null;
+  const indexedDBFactory = localConfig.indexedDB && typeof localConfig.indexedDB !== "string" ? localConfig.indexedDB : localConfig.indexedDBFactory;
+  const databaseName = indexedDBName ?? localConfig.name ?? localConfig.databaseName ?? localConfig.database ?? config.local?.indexedDB ?? config.local?.name ?? slugFrom(config.app?.slug ?? config.slug ?? config.app?.id ?? config.id ?? defaultAppId());
+  return local.indexedDB(databaseName, {
+    ...localConfig,
+    id: localConfig.id ?? `${descriptor.resourceId ?? descriptor.resource ?? descriptor.source ?? name}:local`,
+    key: localConfig.key ?? name,
+    prefixes: localConfig.prefixes ?? descriptor.prefixes,
+    document: localConfig.document ?? descriptor.document,
+    indexedDB: indexedDBFactory
+  });
+}
+function remoteSourceForResource(name, descriptor = {}, config = {}, resourceId = name) {
+  if (descriptor.remote === false) {
+    return null;
+  }
+  const remoteConfig = descriptor.remote === true ? {} : descriptor.remote ?? {};
+  if (remoteConfig?.workspacePart === "source") {
+    return remoteConfig;
+  }
+  const url3 = remoteConfig.url ?? remoteConfig.resourceUrl ?? (descriptor.path && firstStorage(config.storage) ? new URL(descriptor.path, firstStorage(config.storage)).href : null);
+  if (!url3) {
+    return null;
+  }
+  return solid.turtleResource(url3, {
+    id: remoteConfig.id ?? descriptor.remoteSource ?? `${resourceId}:solid`,
+    readOnly: Boolean(remoteConfig.readOnly ?? descriptor.readOnly),
+    shape: remoteConfig.shape ?? descriptor.shape ?? null,
+    options: remoteConfig.options ?? descriptor.options ?? {},
+    writeOptions: remoteConfig.writeOptions ?? descriptor.writeOptions
+  });
+}
+function connectionResources(options = {}) {
+  if (options.resourceUrl) {
+    return {
+      [options.resource ?? options.name ?? "default"]: {
+        ...options,
+        url: options.resourceUrl
+      }
+    };
+  }
+  return options.resources ?? options.data ?? {};
+}
+function remoteResourcePart(name, descriptor = {}, service) {
+  const config = typeof descriptor === "string" ? { url: descriptor } : descriptor;
+  const resourceId = config.resourceId ?? config.resource ?? name;
+  const url3 = config.url ?? config.resourceUrl ?? (config.path && firstStorage(service.status.storage) ? new URL(config.path, firstStorage(service.status.storage)).href : null);
+  if (!url3) {
+    throw new TypeError(`simplysolid: connected resource ${name} needs a url, resourceUrl, or path`);
+  }
+  return resource(resourceId, {
+    remote: solid.turtleResource(url3, {
+      id: config.id ?? config.source ?? `${resourceId}:solid`,
+      readOnly: Boolean(config.readOnly),
+      shape: config.shape ?? null,
+      options: config.options ?? {},
+      writeOptions: config.writeOptions
+    })
+  });
+}
+function isResourceSyncRequest(currentWorkspace, options) {
+  return Boolean(
+    options?.workspacePart === "resource" || typeof options === "string" && currentWorkspace.resourceById.has(options)
+  );
+}
+function sourceFromPath(name, descriptor, config) {
+  const storage = firstStorage(config.storage);
+  if (!storage) {
+    throw new TypeError(`simplysolid: collection ${name} uses path but no storage root was configured`);
+  }
+  const url3 = new URL(descriptor.path, storage).href;
+  const options = {
+    id: descriptor.source ?? name,
+    readOnly: Boolean(descriptor.readOnly),
+    shape: descriptor.shape ?? null,
+    options: descriptor.options ?? {},
+    writeOptions: descriptor.writeOptions
+  };
+  return descriptor.kind === "resource" || descriptor.resource === true || !url3.endsWith("/") ? solid.resource(url3, options) : solid.container(url3, options);
+}
+function normalizeStorage(storage) {
+  if (!storage) {
+    return [];
+  }
+  if (Array.isArray(storage)) {
+    return storage.map(storageUrl);
+  }
+  return [storageUrl(storage)];
+}
+function firstStorage(storage) {
+  return normalizeStorage(storage)[0] ?? null;
+}
+function storageUrl(storage) {
+  const url3 = typeof storage === "string" ? storage : storage?.url ?? storage?.id;
+  return url3 && !String(url3).endsWith("/") ? `${url3}/` : url3;
+}
+function setupConventions(config, normalized) {
+  const storage = firstStorage(config.storage);
+  const appId = config.app?.id ?? config.id ?? defaultAppId();
+  const appSlug = config.app?.slug ?? config.slug ?? slugFrom(appId);
+  const appStorage = ensureSlash3(config.appStorage ?? config.setup?.appStorage ?? (storage ? new URL(`apps/${appSlug}/`, storage).href : null));
+  const settingsUrl = config.settings?.url ?? config.setup?.settingsUrl ?? (appStorage ? new URL("settings.ttl", appStorage).href : null);
+  const sourceContainers = (normalized.sources ?? []).filter((source2) => source2.kind === "container").map((source2) => source2.url);
+  const requiredContainers = unique2([
+    appStorage,
+    ...sourceContainers,
+    ...config.setup?.containers ?? []
+  ].filter(Boolean).map(ensureSlash3));
+  return {
+    appId,
+    appSlug,
+    appStorage,
+    settingsUrl,
+    requiredContainers
+  };
+}
+function settingsFor(config, conventions) {
+  return {
+    url: conventions.settingsUrl,
+    data: config.settings?.data ?? {},
+    shape: config.settings?.shape ?? null
+  };
+}
+function registrationsFor(config, conventions) {
+  if (config.registrations) {
+    return config.registrations;
+  }
+  const data = config.data ?? config.collections ?? {};
+  return Object.entries(data).map(([name, descriptor]) => {
+    if (!descriptor?.shape?.class) {
+      return null;
+    }
+    const sourceUrl = descriptor.path && conventions.appStorage ? new URL(descriptor.path, firstStorage(config.storage)).href : descriptor.url ?? null;
+    return {
+      collection: name,
+      forClass: descriptor.shape.class,
+      instanceContainer: sourceUrl?.endsWith("/") ? sourceUrl : null,
+      instance: sourceUrl && !sourceUrl.endsWith("/") ? sourceUrl : null,
+      private: descriptor.private ?? true,
+      registered: false
+    };
+  }).filter(Boolean);
+}
+function setupStatus(state, conventions, registrations, options = {}) {
+  return {
+    state,
+    needed: options.needed ?? [],
+    repair: options.repair ?? [],
+    checks: options.checks ?? [],
+    created: options.created ?? [],
+    error: options.error ?? null,
+    appStorage: conventions.appStorage,
+    settingsUrl: conventions.settingsUrl,
+    registrations
+  };
+}
+async function checkContainer(client3, url3) {
+  try {
+    const response3 = await client3.head(url3);
+    const status2 = response3?.status ?? 200;
+    if (status2 === 404) {
+      return { url: url3, status: "missing", response: response3 };
+    }
+    if (status2 >= 400) {
+      return { url: url3, status: "error", response: response3 };
+    }
+    return { url: url3, status: "ready", response: response3 };
+  } catch (error4) {
+    const status2 = error4.cause?.status ?? error4.response?.status;
+    if (status2 === 404) {
+      return { url: url3, status: "missing", error: error4 };
+    }
+    return { url: url3, status: "error", error: error4 };
+  }
+}
+function defaultAppId() {
+  const location = globalThis.location?.href;
+  if (!location) {
+    return "app";
+  }
+  const url3 = new URL(location);
+  url3.hash = "";
+  return url3.href;
+}
+function slugFrom(value) {
+  const input2 = String(value);
+  let source2 = input2;
+  try {
+    const url3 = new URL(input2);
+    source2 = url3.pathname.split("/").filter(Boolean).at(-1) ?? url3.hostname;
+  } catch {
+    source2 = input2;
+  }
+  return source2.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "") || "app";
+}
+function ensureSlash3(url3) {
+  return url3 && !String(url3).endsWith("/") ? `${url3}/` : url3;
+}
+function unique2(values3) {
+  return [...new Set(values3)];
+}
+
+// ../../poef/cobalt-note/packages/rich-text-note/dist/fragment.js
+function getJoinOffsetAfterSeparator(first3, second, separator) {
+  if (separator.length > 0) {
+    return first3.text.length + separator.length;
+  }
+  if (first3.text.endsWith("\n")) {
+    return first3.text.length;
+  }
+  if (second.text.startsWith("\n")) {
+    return first3.text.length + 1;
+  }
+  return first3.text.length;
+}
+function getNextOrder(fragment) {
+  if (fragment.annotations.length === 0) {
+    return 1;
+  }
+  return Math.max(...fragment.annotations.map((annotation) => annotation.order)) + 1;
+}
+function addAnnotation(fragment, range, tag) {
+  const [start, end] = range;
+  if (end <= start) {
+    return null;
+  }
+  const annotation = {
+    range: [start, end],
+    tag,
+    order: getNextOrder(fragment)
+  };
+  fragment.annotations.push(annotation);
+  return annotation;
+}
+function insertText(fragment, offset, text, options = {}) {
+  if (text.length === 0) {
+    return;
+  }
+  const normalizedOffset = clamp(offset, 0, fragment.text.length);
+  const growAtEnd = options.growAtEnd ?? true;
+  const delta = text.length;
+  fragment.text = fragment.text.slice(0, normalizedOffset) + text + fragment.text.slice(normalizedOffset);
+  for (const annotation of fragment.annotations) {
+    let [start, end] = annotation.range;
+    if (normalizedOffset <= start) {
+      start += delta;
+      end += delta;
+    } else if (normalizedOffset < end || growAtEnd && normalizedOffset === end) {
+      end += delta;
+    }
+    annotation.range = [start, end];
+  }
+}
+function deleteRange(fragment, startOffset, endOffset) {
+  const start = clamp(startOffset, 0, fragment.text.length);
+  const end = clamp(endOffset, 0, fragment.text.length);
+  if (end <= start) {
+    return;
+  }
+  fragment.text = fragment.text.slice(0, start) + fragment.text.slice(end);
+  fragment.annotations = mergeAdjacentMatchingAnnotations(fragment.annotations.map((annotation) => {
+    const [annotationStart, annotationEnd] = annotation.range;
+    return {
+      ...annotation,
+      range: [
+        transformDeletedOffset(annotationStart, start, end),
+        transformDeletedOffset(annotationEnd, start, end)
+      ]
+    };
+  }).filter((annotation) => annotation.range[1] > annotation.range[0]));
+}
+function sliceFragment(fragment, startOffset, endOffset) {
+  const start = clamp(startOffset, 0, fragment.text.length);
+  const end = clamp(endOffset, 0, fragment.text.length);
+  if (end <= start) {
+    return {
+      text: "",
+      annotations: []
+    };
+  }
+  return {
+    text: fragment.text.slice(start, end),
+    annotations: fragment.annotations.map((annotation) => {
+      const annotationStart = Math.max(annotation.range[0], start);
+      const annotationEnd = Math.min(annotation.range[1], end);
+      if (annotationEnd <= annotationStart) {
+        return null;
+      }
+      return {
+        ...annotation,
+        range: [
+          annotationStart - start,
+          annotationEnd - start
+        ]
+      };
+    }).filter((annotation) => annotation !== null)
+  };
+}
+function insertFragment(fragment, offset, inserted, options = {}) {
+  const normalizedOffset = clamp(offset, 0, fragment.text.length);
+  if (inserted.text.length === 0) {
+    return;
+  }
+  const maxOrder = getNextOrder(fragment) - 1;
+  insertText(fragment, normalizedOffset, inserted.text, options);
+  const sortedAnnotations = [...inserted.annotations].sort((a, b) => {
+    if (a.order !== b.order) {
+      return a.order - b.order;
+    }
+    if (a.range[0] !== b.range[0]) {
+      return a.range[0] - b.range[0];
+    }
+    return a.range[1] - b.range[1];
+  });
+  for (let i = 0; i < sortedAnnotations.length; i++) {
+    const annotation = sortedAnnotations[i];
+    fragment.annotations.push({
+      ...annotation,
+      range: [
+        annotation.range[0] + normalizedOffset,
+        annotation.range[1] + normalizedOffset
+      ],
+      order: maxOrder + i + 1
+    });
+  }
+  fragment.annotations = mergeAdjacentMatchingAnnotations(fragment.annotations);
+}
+function splitFragment(fragment, offset) {
+  const splitOffset = clamp(offset, 0, fragment.text.length);
+  const before = {
+    text: fragment.text.slice(0, splitOffset),
+    annotations: []
+  };
+  const after = {
+    text: fragment.text.slice(splitOffset),
+    annotations: []
+  };
+  for (const annotation of fragment.annotations) {
+    const [start, end] = annotation.range;
+    const beforeStart = start;
+    const beforeEnd = Math.min(end, splitOffset);
+    if (beforeEnd > beforeStart) {
+      before.annotations.push({
+        ...annotation,
+        range: [beforeStart, beforeEnd]
+      });
+    }
+    const afterStart = Math.max(start, splitOffset) - splitOffset;
+    const afterEnd = end - splitOffset;
+    if (afterEnd > afterStart) {
+      after.annotations.push({
+        ...annotation,
+        range: [afterStart, afterEnd]
+      });
+    }
+  }
+  return { before, after };
+}
+function concatFragments(first3, second, separator = "") {
+  const joinOffset = getJoinOffsetAfterSeparator(first3, second, separator);
+  const secondOffset = first3.text.length + separator.length;
+  return {
+    fragment: {
+      text: first3.text + separator + second.text,
+      annotations: mergeAdjacentMatchingAnnotations([
+        ...first3.annotations.map((annotation) => ({
+          ...annotation,
+          range: [...annotation.range]
+        })),
+        ...second.annotations.map((annotation) => ({
+          ...annotation,
+          range: [
+            annotation.range[0] + secondOffset,
+            annotation.range[1] + secondOffset
+          ]
+        }))
+      ])
+    },
+    joinOffset
+  };
+}
+function joinFragments(first3, second) {
+  return concatFragments(first3, second, needsJoinSeparator(first3, second) ? "\n" : "");
+}
+function mergeAdjacentMatchingAnnotations(annotations) {
+  const sorted = [...annotations].sort((a, b) => {
+    if (a.order !== b.order) {
+      return a.order - b.order;
+    }
+    if (a.tag !== b.tag) {
+      return a.tag.localeCompare(b.tag);
+    }
+    if (a.range[0] !== b.range[0]) {
+      return a.range[0] - b.range[0];
+    }
+    return a.range[1] - b.range[1];
+  });
+  const merged = [];
+  for (const annotation of sorted) {
+    const previous = merged[merged.length - 1];
+    if (previous && previous.order === annotation.order && previous.tag === annotation.tag && previous.range[1] === annotation.range[0]) {
+      previous.range = [
+        previous.range[0],
+        annotation.range[1]
+      ];
+    } else {
+      merged.push({
+        ...annotation,
+        range: [...annotation.range]
+      });
+    }
+  }
+  return merged;
+}
+function needsJoinSeparator(first3, second) {
+  if (first3.text.length === 0 || second.text.length === 0) {
+    return false;
+  }
+  return !first3.text.endsWith("\n") && !second.text.startsWith("\n");
+}
+function transformDeletedOffset(offset, deleteStart, deleteEnd) {
+  if (offset <= deleteStart) {
+    return offset;
+  }
+  if (offset >= deleteEnd) {
+    return offset - (deleteEnd - deleteStart);
+  }
+  return deleteStart;
+}
+function clamp(value, min, max) {
+  return Math.max(min, Math.min(max, value));
+}
+
+// ../../poef/cobalt-note/packages/rich-text-note/dist/commands.js
+var InsertTextCommand = class {
+  offset;
+  text;
+  options;
+  constructor(offset, text, options = {}) {
+    this.offset = offset;
+    this.text = text;
+    this.options = options;
+  }
+  apply(fragment) {
+    insertText(fragment, this.offset, this.text, this.options);
+  }
+};
+var InsertFragmentCommand = class {
+  offset;
+  fragmentToInsert;
+  options;
+  constructor(offset, fragmentToInsert, options = {}) {
+    this.offset = offset;
+    this.fragmentToInsert = fragmentToInsert;
+    this.options = options;
+  }
+  apply(fragment) {
+    insertFragment(fragment, this.offset, this.fragmentToInsert, this.options);
+  }
+};
+var DeleteRangeCommand = class {
+  startOffset;
+  endOffset;
+  constructor(startOffset, endOffset) {
+    this.startOffset = startOffset;
+    this.endOffset = endOffset;
+  }
+  apply(fragment) {
+    deleteRange(fragment, this.startOffset, this.endOffset);
+  }
+};
+var AddAnnotationCommand = class {
+  range;
+  tag;
+  constructor(range, tag) {
+    this.range = range;
+    this.tag = tag;
+  }
+  apply(fragment) {
+    addAnnotation(fragment, this.range, this.tag);
+  }
+};
+function applyCommands(fragment, commands2) {
+  for (const command of commands2) {
+    command.apply(fragment);
+  }
+}
+
+// ../../poef/cobalt-note/packages/rich-text-note/dist/registry.js
+var AnnotationRegistry = class {
+  definitions = /* @__PURE__ */ new Map();
+  register(definition) {
+    this.definitions.set(definition.name, definition);
+  }
+  get(name) {
+    return this.definitions.get(name);
+  }
+  getAll() {
+    return Array.from(this.definitions.values());
+  }
+  findByShortcut(event) {
+    const key = shortcutFromKeyboardEvent(event);
+    return this.getAll().find((definition) => definition.shortcut?.toLowerCase() === key);
+  }
+  findByTag(tag) {
+    const trimmed = tag.trim();
+    for (const definition of this.definitions.values()) {
+      if (trimmed === definition.tag) {
+        return {
+          name: definition.name,
+          enabled: true,
+          tag: definition.tag,
+          closeTag: createHtmlCloseTag(definition.tag),
+          priority: definition.priority ?? 100
+        };
+      }
+      if (trimmed === createInverseAnnotationTag(definition.tag)) {
+        return {
+          name: definition.name,
+          enabled: false,
+          priority: definition.priority ?? 100
+        };
+      }
+    }
+    return null;
+  }
+};
+var defaultRegistry = new AnnotationRegistry();
+defaultRegistry.register({
+  name: "__selection",
+  tag: '<span data-cobalt-selection="true">',
+  priority: -100,
+  supportsPending: false
+});
+defaultRegistry.register({
+  name: "link",
+  tag: "<a>",
+  priority: 0,
+  shortcut: "Ctrl+K",
+  supportsPending: false
+});
+defaultRegistry.register({
+  name: "underline",
+  tag: "<u>",
+  priority: 10,
+  shortcut: "Ctrl+U",
+  supportsPending: true
+});
+defaultRegistry.register({
+  name: "em",
+  tag: "<em>",
+  priority: 20,
+  shortcut: "Ctrl+I",
+  supportsPending: true
+});
+defaultRegistry.register({
+  name: "strong",
+  tag: "<strong>",
+  priority: 30,
+  shortcut: "Ctrl+B",
+  supportsPending: true
+});
+function parseAnnotationTag(tag, registry = defaultRegistry) {
+  const trimmed = tag.trim();
+  const registryMatch = registry.findByTag(trimmed);
+  if (registryMatch) {
+    return registryMatch;
+  }
+  if (isOpeningTag(trimmed, "a")) {
+    return {
+      name: "link",
+      enabled: true,
+      tag: trimmed,
+      closeTag: createHtmlCloseTag(trimmed),
+      priority: registry.get("link")?.priority ?? 0
+    };
+  }
+  if (isClosingTag(trimmed, "a")) {
+    return {
+      name: "link",
+      enabled: false,
+      priority: registry.get("link")?.priority ?? 0
+    };
+  }
+  if (isCobaltSelectionOpeningTag(trimmed)) {
+    return {
+      name: "__selection",
+      enabled: true,
+      tag: trimmed,
+      closeTag: createHtmlCloseTag(trimmed),
+      priority: registry.get("__selection")?.priority ?? -100
+    };
+  }
+  return null;
+}
+function createAnnotationTag(name, enabled, registry = defaultRegistry) {
+  const definition = registry.get(name);
+  if (!definition) {
+    throw new Error(`Unknown annotation type: ${name}`);
+  }
+  return enabled ? definition.tag : createInverseAnnotationTag(definition.tag);
+}
+function createLinkAnnotationTag(href) {
+  return `<a href="${escapeAttribute(href)}">`;
+}
+function createInverseAnnotationTag(openingTag) {
+  const trimmed = openingTag.trim();
+  if (!trimmed.startsWith("<") || trimmed.startsWith("</")) {
+    throw new Error(`Expected opening annotation tag: ${openingTag}`);
+  }
+  return `</${trimmed.slice(1)}`;
+}
+function createHtmlCloseTag(tag) {
+  const tagName = getTagName(tag);
+  if (!tagName) {
+    throw new Error(`Could not determine tag name: ${tag}`);
+  }
+  return `</${tagName}>`;
+}
+function getTagName(tag) {
+  const match = tag.trim().match(/^<\/?\s*([^\s>/]+)/);
+  return match?.[1] ?? null;
+}
+function isOpeningTag(tag, tagName) {
+  return new RegExp(`^<${tagName}(?:\\s[^>]*)?>$`, "i").test(tag);
+}
+function isClosingTag(tag, tagName) {
+  return new RegExp(`^</${tagName}(?:\\s[^>]*)?>$`, "i").test(tag);
+}
+function isCobaltSelectionOpeningTag(tag) {
+  return /^<span\s[^>]*data-cobalt-selection=["']true["'][^>]*>$/i.test(tag);
+}
+function shortcutFromKeyboardEvent(event) {
+  const parts = [];
+  if (event.ctrlKey) {
+    parts.push("ctrl");
+  }
+  if (event.metaKey) {
+    parts.push("meta");
+  }
+  if (event.altKey) {
+    parts.push("alt");
+  }
+  if (event.shiftKey) {
+    parts.push("shift");
+  }
+  parts.push(event.key.toLowerCase());
+  return parts.join("+");
+}
+function escapeAttribute(value) {
+  return value.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+}
+
+// ../../poef/cobalt-note/packages/rich-text-note/dist/editor-state.js
+function createEditorState() {
+  return {
+    pending: {}
+  };
+}
+function buildPendingAnnotations(state, start, end, registry = defaultRegistry) {
+  const result = [];
+  for (const name of Object.keys(state.pending)) {
+    const enabled = state.pending[name];
+    if (enabled === void 0) {
+      continue;
+    }
+    result.push({
+      start,
+      end,
+      tag: createAnnotationTag(name, enabled, registry)
+    });
+  }
+  return result;
+}
+function clearPendingAnnotations(state) {
+  for (const name of Object.keys(state.pending)) {
+    delete state.pending[name];
+  }
+}
+
+// ../../poef/cobalt-note/packages/rich-text-note/dist/clipboard.js
+var COBALT_CLIPBOARD_MIME = "application/x-cobalt-fragment+json";
+function writeFragmentToClipboard(clipboardData, fragment) {
+  clipboardData.setData("text/plain", fragment.text);
+  clipboardData.setData(COBALT_CLIPBOARD_MIME, JSON.stringify(fragment));
+}
+function readFragmentFromClipboard(clipboardData) {
+  const serialized = clipboardData.getData(COBALT_CLIPBOARD_MIME);
+  if (serialized) {
+    const parsed = JSON.parse(serialized);
+    return normalizeClipboardFragment(parsed);
+  }
+  return {
+    text: clipboardData.getData("text/plain"),
+    annotations: []
+  };
+}
+function getClipboardFragment(fragment, start, end) {
+  return sliceFragment(fragment, start, end);
+}
+function normalizeClipboardFragment(fragment) {
+  const text = typeof fragment.text === "string" ? fragment.text : "";
+  const annotations = Array.isArray(fragment.annotations) ? fragment.annotations.filter((annotation) => Array.isArray(annotation.range) && annotation.range.length === 2 && typeof annotation.range[0] === "number" && typeof annotation.range[1] === "number" && typeof annotation.tag === "string" && typeof annotation.order === "number").map((annotation) => ({
+    range: [
+      Math.max(0, Math.min(text.length, annotation.range[0])),
+      Math.max(0, Math.min(text.length, annotation.range[1]))
+    ],
+    tag: annotation.tag,
+    order: annotation.order
+  })).filter((annotation) => annotation.range[1] > annotation.range[0]) : [];
+  return {
+    text,
+    annotations
+  };
+}
+
+// ../../poef/cobalt-note/packages/rich-text-note/dist/runs.js
+function createEmptyState() {
+  return {};
+}
+function getEffectiveState(annotations, offset) {
+  const state = createEmptyState();
+  const activeAnnotations = annotations.filter((annotation) => offset >= annotation.range[0] && offset < annotation.range[1]).sort((a, b) => a.order - b.order);
+  for (const annotation of activeAnnotations) {
+    applyAnnotationToState(state, annotation.tag);
+  }
+  return state;
+}
+function getTypingEffectiveState(annotations, offset) {
+  const state = createEmptyState();
+  const activeAnnotations = annotations.filter((annotation) => {
+    const [start, end] = annotation.range;
+    return start < offset && offset <= end;
+  }).sort((a, b) => a.order - b.order);
+  for (const annotation of activeAnnotations) {
+    applyAnnotationToState(state, annotation.tag);
+  }
+  return state;
+}
+function generateRuns(fragment) {
+  const boundaries = /* @__PURE__ */ new Set();
+  boundaries.add(0);
+  boundaries.add(fragment.text.length);
+  for (const annotation of fragment.annotations) {
+    boundaries.add(annotation.range[0]);
+    boundaries.add(annotation.range[1]);
+  }
+  const sortedBoundaries = Array.from(boundaries).filter((boundary) => boundary >= 0 && boundary <= fragment.text.length).sort((a, b) => a - b);
+  const runs = [];
+  for (let i = 0; i < sortedBoundaries.length - 1; i++) {
+    const start = sortedBoundaries[i];
+    const end = sortedBoundaries[i + 1];
+    if (start === end) {
+      continue;
+    }
+    runs.push({
+      start,
+      end,
+      state: getEffectiveState(fragment.annotations, start)
+    });
+  }
+  return mergeAdjacentRuns(runs);
+}
+function stateEquals(a, b) {
+  const aKeys = Object.keys(a).sort();
+  const bKeys = Object.keys(b).sort();
+  if (aKeys.length !== bKeys.length) {
+    return false;
+  }
+  for (let i = 0; i < aKeys.length; i++) {
+    const key = aKeys[i];
+    if (key !== bKeys[i]) {
+      return false;
+    }
+    if (a[key].tag !== b[key].tag || a[key].priority !== b[key].priority) {
+      return false;
+    }
+  }
+  return true;
+}
+function mergeAdjacentRuns(runs) {
+  if (runs.length === 0) {
+    return [];
+  }
+  const merged = [
+    {
+      start: runs[0].start,
+      end: runs[0].end,
+      state: copyState(runs[0].state)
+    }
+  ];
+  for (let i = 1; i < runs.length; i++) {
+    const current = runs[i];
+    const previous = merged[merged.length - 1];
+    if (previous.end === current.start && stateEquals(previous.state, current.state)) {
+      previous.end = current.end;
+    } else {
+      merged.push({
+        start: current.start,
+        end: current.end,
+        state: copyState(current.state)
+      });
+    }
+  }
+  return merged;
+}
+function copyState(state) {
+  return Object.fromEntries(Object.entries(state).map(([key, value]) => [
+    key,
+    { ...value }
+  ]));
+}
+function applyAnnotationToState(state, tag) {
+  const parsed = parseAnnotationTag(tag);
+  if (!parsed) {
+    return;
+  }
+  if (!parsed.enabled) {
+    delete state[parsed.name];
+    return;
+  }
+  if (!parsed.tag) {
+    return;
+  }
+  state[parsed.name] = {
+    name: parsed.name,
+    tag: parsed.tag,
+    priority: parsed.priority
+  };
+}
+
+// ../../poef/cobalt-note/packages/rich-text-note/dist/render.js
+function render(fragment) {
+  const runs = generateRuns(fragment);
+  let html2 = "";
+  let openTags = [];
+  for (const run of runs) {
+    const nextTags = getRenderTags(run.state);
+    const sharedPrefixLength = getSharedPrefixLength(openTags, nextTags);
+    for (let i = openTags.length - 1; i >= sharedPrefixLength; i--) {
+      html2 += openTags[i].close;
+    }
+    for (let i = sharedPrefixLength; i < nextTags.length; i++) {
+      html2 += nextTags[i].open;
+    }
+    html2 += escapeHtml(fragment.text.slice(run.start, run.end));
+    openTags = nextTags;
+  }
+  for (let i = openTags.length - 1; i >= 0; i--) {
+    html2 += openTags[i].close;
+  }
+  return appendTrailingNewlineSentinel(fragment, html2);
+}
+function appendTrailingNewlineSentinel(fragment, html2) {
+  if (!fragment.text.endsWith("\n")) {
+    return html2;
+  }
+  return `${html2}<span data-cobalt-sentinel="true">\u200B</span>`;
+}
+function getRenderTags(state) {
+  return Object.values(state).sort(compareActiveAnnotations).map((annotation) => ({
+    key: `${annotation.name}:${annotation.tag}`,
+    open: annotation.tag,
+    close: createHtmlCloseTag(annotation.tag)
+  }));
+}
+function compareActiveAnnotations(a, b) {
+  if (a.priority !== b.priority) {
+    return a.priority - b.priority;
+  }
+  return a.name.localeCompare(b.name);
+}
+function getSharedPrefixLength(current, next) {
+  const length = Math.min(current.length, next.length);
+  for (let i = 0; i < length; i++) {
+    if (current[i].key !== next[i].key) {
+      return i;
+    }
+  }
+  return length;
+}
+function escapeHtml(text) {
+  return text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+}
+
+// ../../poef/cobalt-note/packages/note-core/dist/selection.js
+function getTextNodes(root) {
+  const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT);
+  const nodes = [];
+  let current = walker.nextNode();
+  while (current) {
+    const text = current;
+    if (!isSentinelTextNode(text)) {
+      nodes.push(text);
+    }
+    current = walker.nextNode();
+  }
+  return nodes;
+}
+function getOffset(root, targetNode, targetOffset) {
+  const result = getOffsetFromPosition(root, targetNode, targetOffset);
+  return result ?? getTextLength(root);
+}
+function getDomPosition(root, offset) {
+  const textNodes = getTextNodes(root);
+  if (textNodes.length === 0) {
+    return {
+      node: root,
+      offset: 0
+    };
+  }
+  let currentOffset = 0;
+  for (const node of textNodes) {
+    const length = node.textContent?.length ?? 0;
+    if (offset <= currentOffset + length) {
+      return {
+        node,
+        offset: offset - currentOffset
+      };
+    }
+    currentOffset += length;
+  }
+  const lastNode = textNodes[textNodes.length - 1];
+  return {
+    node: lastNode,
+    offset: lastNode.textContent?.length ?? 0
+  };
+}
+function getSelectionRange(root) {
+  const selection = window.getSelection();
+  if (!selection || selection.rangeCount === 0) {
+    return null;
+  }
+  const range = selection.getRangeAt(0);
+  if (!root.contains(range.startContainer) || !root.contains(range.endContainer)) {
+    return null;
+  }
+  const start = getOffset(root, range.startContainer, range.startOffset);
+  const end = getOffset(root, range.endContainer, range.endOffset);
+  return {
+    start: Math.min(start, end),
+    end: Math.max(start, end)
+  };
+}
+function setSelectionRange(root, start, end) {
+  const startPosition = getDomPosition(root, start);
+  const endPosition = getDomPosition(root, end);
+  const range = document.createRange();
+  range.setStart(startPosition.node, startPosition.offset);
+  range.setEnd(endPosition.node, endPosition.offset);
+  const selection = window.getSelection();
+  if (!selection) {
+    return false;
+  }
+  selection.removeAllRanges();
+  selection.addRange(range);
+  return true;
+}
+function getCaretClientRect(root, offset) {
+  const textLength = getTextLength(root);
+  if (offset === textLength) {
+    const sentinel = getSentinelTextNode(root);
+    if (sentinel) {
+      const sentinelRect = getTextNodeCaretRect(sentinel, 0);
+      if (sentinelRect) {
+        return sentinelRect;
+      }
+    }
+  }
+  const position = getDomPosition(root, offset);
+  const range = document.createRange();
+  range.setStart(position.node, position.offset);
+  range.collapse(true);
+  const rect = firstRect(range);
+  if (rect) {
+    return rect;
+  }
+  return getMarkerRect(root, range);
+}
+function isOffsetOnFirstVisualLine(root, offset, tolerance = 3) {
+  const current = getCaretClientRect(root, offset);
+  const first3 = getCaretClientRect(root, 0);
+  if (!current || !first3) {
+    return false;
+  }
+  return current.top <= first3.top + tolerance;
+}
+function isOffsetOnLastVisualLine(root, offset, textLength, tolerance = 3) {
+  const current = getCaretClientRect(root, offset);
+  const last = getCaretClientRect(root, textLength);
+  if (!current || !last) {
+    return false;
+  }
+  return current.bottom >= last.bottom - tolerance;
+}
+function getOffsetAtPoint(root, x, y) {
+  const nearestOffset = getNearestCaretOffset(root, x, y);
+  if (nearestOffset !== null) {
+    return nearestOffset;
+  }
+  const position = getDomPositionFromPoint(x, y);
+  if (!position || !root.contains(position.node)) {
+    return getNearestBoundaryOffset(root, y);
+  }
+  return getOffset(root, position.node, position.offset);
+}
+function getWordRangeAtPoint(root, x, y) {
+  const offset = getOffsetAtPoint(root, x, y);
+  const text = getRootText(root);
+  return getWordRange(text, offset);
+}
+function getParagraphRangeAtPoint(root, x, y) {
+  const offset = getOffsetAtPoint(root, x, y);
+  const text = getRootText(root);
+  return getParagraphRange(text, offset);
+}
+function getWordRange(text, offset) {
+  if (text.length === 0) {
+    return { start: 0, end: 0 };
+  }
+  const clampedOffset = Math.max(0, Math.min(offset, text.length));
+  let index = clampedOffset;
+  if (index === text.length || !isWordCharacter(text[index])) {
+    index = Math.max(0, index - 1);
+  }
+  if (!isWordCharacter(text[index])) {
+    return {
+      start: clampedOffset,
+      end: clampedOffset
+    };
+  }
+  let start = index;
+  let end = index + 1;
+  while (start > 0 && isWordCharacter(text[start - 1])) {
+    start--;
+  }
+  while (end < text.length && isWordCharacter(text[end])) {
+    end++;
+  }
+  return { start, end };
+}
+function getParagraphRange(text, offset) {
+  const clampedOffset = Math.max(0, Math.min(offset, text.length));
+  let start = clampedOffset;
+  let end = clampedOffset;
+  while (start > 0 && text[start - 1] !== "\n") {
+    start--;
+  }
+  while (end < text.length && text[end] !== "\n") {
+    end++;
+  }
+  return { start, end };
+}
+function isWordCharacter(character) {
+  return character !== void 0 && /[\p{L}\p{N}_]/u.test(character);
+}
+function getRootText(root) {
+  return getTextNodes(root).map((node) => node.textContent ?? "").join("");
+}
+function getNearestCaretOffset(root, x, y) {
+  const textLength = getTextLength(root);
+  let best = null;
+  for (let offset = 0; offset <= textLength; offset++) {
+    const rect = getCaretClientRect(root, offset);
+    if (!rect) {
+      continue;
+    }
+    const verticalDistance = getVerticalDistanceToRect(y, rect);
+    const horizontalDistance = Math.abs(x - rect.left);
+    if (!best || verticalDistance < best.verticalDistance || verticalDistance === best.verticalDistance && horizontalDistance < best.horizontalDistance) {
+      best = {
+        offset,
+        verticalDistance,
+        horizontalDistance
+      };
+    }
+  }
+  return best?.offset ?? null;
+}
+function getVerticalDistanceToRect(y, rect) {
+  if (y >= rect.top && y <= rect.bottom) {
+    return 0;
+  }
+  return Math.min(Math.abs(y - rect.top), Math.abs(y - rect.bottom));
+}
+function getDomPositionFromPoint(x, y) {
+  const doc = document;
+  if (doc.caretPositionFromPoint) {
+    const position = doc.caretPositionFromPoint(x, y);
+    if (position) {
+      return {
+        node: position.offsetNode,
+        offset: position.offset
+      };
+    }
+  }
+  if (doc.caretRangeFromPoint) {
+    const range = doc.caretRangeFromPoint(x, y);
+    if (range) {
+      return {
+        node: range.startContainer,
+        offset: range.startOffset
+      };
+    }
+  }
+  return null;
+}
+function getNearestBoundaryOffset(root, y) {
+  const rect = root.getBoundingClientRect();
+  if (y <= rect.top) {
+    return 0;
+  }
+  return getTextLength(root);
+}
+function getTextNodeCaretRect(node, offset) {
+  const range = document.createRange();
+  range.setStart(node, offset);
+  range.collapse(true);
+  const rect = firstRect(range);
+  if (rect) {
+    return rect;
+  }
+  return node.parentElement?.getBoundingClientRect() ?? null;
+}
+function getSentinelTextNode(root) {
+  const sentinel = root.querySelector('[data-cobalt-sentinel="true"]');
+  const node = sentinel?.firstChild;
+  return node?.nodeType === Node.TEXT_NODE ? node : null;
+}
+function firstRect(range) {
+  const rects = Array.from(range.getClientRects());
+  return rects.length > 0 ? rects[0] : null;
+}
+function getMarkerRect(root, range) {
+  const marker = document.createElement("span");
+  marker.setAttribute("data-cobalt-caret-marker", "true");
+  marker.textContent = "\u200B";
+  range.insertNode(marker);
+  const rect = marker.getBoundingClientRect();
+  marker.remove();
+  root.normalize();
+  return rect.width === 0 && rect.height === 0 ? null : rect;
+}
+function getOffsetFromPosition(root, targetNode, targetOffset) {
+  let offset = 0;
+  let found = false;
+  function walk(node) {
+    if (found) {
+      return;
+    }
+    if (node === targetNode) {
+      if (node.nodeType === Node.TEXT_NODE) {
+        const text = node;
+        if (!isSentinelTextNode(text)) {
+          offset += Math.min(targetOffset, text.textContent?.length ?? 0);
+        }
+      } else {
+        for (let i = 0; i < targetOffset; i++) {
+          offset += getTextLength(node.childNodes[i]);
+        }
+      }
+      found = true;
+      return;
+    }
+    if (node.nodeType === Node.TEXT_NODE) {
+      offset += getTextLength(node);
+      return;
+    }
+    for (const child of Array.from(node.childNodes)) {
+      walk(child);
+    }
+  }
+  walk(root);
+  return found ? offset : null;
+}
+function getTextLength(node) {
+  if (!node) {
+    return 0;
+  }
+  if (node.nodeType === Node.TEXT_NODE) {
+    const text = node;
+    return isSentinelTextNode(text) ? 0 : text.textContent?.length ?? 0;
+  }
+  let length = 0;
+  for (const child of Array.from(node.childNodes)) {
+    length += getTextLength(child);
+  }
+  return length;
+}
+function isSentinelTextNode(node) {
+  return node.parentElement?.hasAttribute("data-cobalt-sentinel") ?? false;
+}
+
+// ../../poef/cobalt-note/packages/rich-text-note/dist/editor.js
+var RICH_TEXT_NOTE_FRAGMENT_TYPE = "cobalt.rich-text";
+function cloneFragment(fragment) {
+  return {
+    text: fragment.text,
+    annotations: fragment.annotations.map((annotation) => ({
+      ...annotation,
+      range: [...annotation.range]
+    }))
+  };
+}
+function replaceFragment(target, source2) {
+  target.text = source2.text;
+  target.annotations = source2.annotations.map((annotation) => ({
+    ...annotation,
+    range: [...annotation.range]
+  }));
+}
+function wrapRichTextFragment(fragment) {
+  return {
+    type: RICH_TEXT_NOTE_FRAGMENT_TYPE,
+    data: cloneFragment(fragment)
+  };
+}
+function isFragment(value) {
+  if (!value || typeof value !== "object") {
+    return false;
+  }
+  const fragment = value;
+  return typeof fragment.text === "string" && Array.isArray(fragment.annotations);
+}
+function isRichTextNotebookFragment(fragment) {
+  return fragment.type === RICH_TEXT_NOTE_FRAGMENT_TYPE && isFragment(fragment.data);
+}
+function renderDecoratedFragment(fragment, ranges, active = true) {
+  if (ranges.length === 0) {
+    return render(fragment);
+  }
+  const maxOrder = fragment.annotations.reduce((max, annotation) => Math.max(max, annotation.order), 0);
+  const annotations = [
+    ...fragment.annotations,
+    ...ranges.filter((range) => range !== null && range.end > range.start).map((range, index) => ({
+      range: [range.start, range.end],
+      tag: active ? '<span data-cobalt-selection="true" data-cobalt-selection-active="true">' : '<span data-cobalt-selection="true" data-cobalt-selection-active="false">',
+      order: maxOrder + index + 1
+    }))
+  ];
+  return render({
+    text: fragment.text,
+    annotations
+  });
+}
+function edit(element2, fragment) {
+  const state = createEditorState();
+  let selectionDecorationRanges = [];
+  let selectionDecorationActive = true;
+  function rerender(start, end) {
+    element2.innerHTML = renderDecoratedFragment(fragment, selectionDecorationRanges, selectionDecorationActive);
+    if (start !== void 0 && end !== void 0) {
+      setSelectionRange(element2, start, end);
+    }
+  }
+  const editor = {
+    element: element2,
+    fragment,
+    state,
+    getType() {
+      return RICH_TEXT_NOTE_FRAGMENT_TYPE;
+    },
+    getValue() {
+      return cloneFragment(fragment);
+    },
+    setValue(value) {
+      if (!isFragment(value)) {
+        throw new Error("Expected a rich-text fragment value.");
+      }
+      replaceFragment(fragment, value);
+      const selection = getSelectionRange(element2);
+      rerender(selection?.start, selection?.end);
+    },
+    getLength() {
+      return fragment.text.length;
+    },
+    getText(start = 0, end = fragment.text.length) {
+      return fragment.text.slice(Math.max(0, Math.min(fragment.text.length, start)), Math.max(0, Math.min(fragment.text.length, end)));
+    },
+    focus(start = 0, end = start) {
+      element2.focus();
+      setSelectionRange(element2, start, end);
+    },
+    getSelection() {
+      return getSelectionRange(element2);
+    },
+    getCaretClientRect(offset) {
+      if (offset !== void 0) {
+        return getCaretClientRect(element2, offset);
+      }
+      const selection = getSelectionRange(element2);
+      if (!selection || selection.start !== selection.end) {
+        return null;
+      }
+      return getCaretClientRect(element2, selection.start);
+    },
+    isCaretOnFirstVisualLine() {
+      const selection = getSelectionRange(element2);
+      if (!selection || selection.start !== selection.end) {
+        return false;
+      }
+      return isOffsetOnFirstVisualLine(element2, selection.start);
+    },
+    isCaretOnLastVisualLine() {
+      const selection = getSelectionRange(element2);
+      if (!selection || selection.start !== selection.end) {
+        return false;
+      }
+      return isOffsetOnLastVisualLine(element2, selection.start, fragment.text.length);
+    },
+    focusNearestPoint(x, y) {
+      const offset = getOffsetAtPoint(element2, x, y);
+      this.focus(offset, offset);
+    },
+    getOffsetAtPoint(x, y) {
+      return getOffsetAtPoint(element2, x, y);
+    },
+    getWordRangeAtPoint(x, y) {
+      return getWordRangeAtPoint(element2, x, y);
+    },
+    getParagraphRangeAtPoint(x, y) {
+      return getParagraphRangeAtPoint(element2, x, y);
+    },
+    getClientRect() {
+      return element2.getBoundingClientRect();
+    },
+    showSelectionRanges(ranges, active = true) {
+      selectionDecorationActive = active;
+      selectionDecorationRanges = ranges.filter((range) => range !== null && range.end > range.start);
+      const selection = getSelectionRange(element2);
+      rerender(selection?.start, selection?.end);
+    },
+    clearSelectionRanges() {
+      if (selectionDecorationRanges.length === 0) {
+        return;
+      }
+      selectionDecorationRanges = [];
+      const selection = getSelectionRange(element2);
+      rerender(selection?.start, selection?.end);
+    },
+    deleteRange(start, end) {
+      deleteRange(fragment, start, end);
+      rerender(start, start);
+    },
+    insertText(offset, text) {
+      insertText(fragment, offset, text);
+      const caret = Math.min(fragment.text.length, Math.max(0, offset) + text.length);
+      rerender(caret, caret);
+    },
+    sliceFragment(start, end) {
+      return wrapRichTextFragment(sliceFragment(fragment, start, end));
+    },
+    canInsertFragment(notebookFragment) {
+      return isRichTextNotebookFragment(notebookFragment);
+    },
+    insertFragment(offset, notebookFragment) {
+      if (!isRichTextNotebookFragment(notebookFragment)) {
+        return offset;
+      }
+      const inserted = notebookFragment.data;
+      insertFragment(fragment, offset, inserted);
+      const caret = Math.min(fragment.text.length, Math.max(0, offset) + inserted.text.length);
+      rerender(caret, caret);
+      return caret;
+    },
+    splitFragment(offset) {
+      const result = splitFragment(fragment, offset);
+      return {
+        before: wrapRichTextFragment(result.before),
+        after: wrapRichTextFragment(result.after)
+      };
+    },
+    canMergeFragment(notebookFragment, _direction) {
+      return isRichTextNotebookFragment(notebookFragment);
+    },
+    mergeFragment(notebookFragment, direction) {
+      if (!isRichTextNotebookFragment(notebookFragment)) {
+        return null;
+      }
+      const result = direction === "after" ? joinFragments(fragment, notebookFragment.data) : joinFragments(notebookFragment.data, fragment);
+      return {
+        fragment: wrapRichTextFragment(result.fragment),
+        joinOffset: result.joinOffset
+      };
+    },
+    canApplyCommand(command, range, value) {
+      if (range.end <= range.start || command === "__selection") {
+        return false;
+      }
+      if (command === "link") {
+        return typeof value === "string" && value.length > 0;
+      }
+      return defaultRegistry.get(command) !== void 0;
+    },
+    getCommandState(command, offset) {
+      return getEffectiveState(fragment.annotations, offset)[command];
+    },
+    applyCommand(command, range, value) {
+      if (!this.canApplyCommand(command, range, value)) {
+        return false;
+      }
+      const tag = command === "link" && typeof value === "string" ? createLinkAnnotationTag(value) : createAnnotationTag(command, value !== false);
+      addAnnotation(fragment, [range.start, range.end], tag);
+      rerender(range.start, range.end);
+      return true;
+    },
+    destroy() {
+      element2.removeEventListener("keydown", handleKeyDown);
+      element2.removeEventListener("beforeinput", handleBeforeInput);
+      element2.removeEventListener("copy", handleCopy);
+      element2.removeEventListener("cut", handleCut);
+      element2.removeEventListener("paste", handlePaste);
+      element2.removeAttribute("contenteditable");
+    }
+  };
+  function handleKeyDown(event) {
+    if (event.key === "Enter") {
+      if (event.ctrlKey || event.metaKey || event.altKey) {
+        return;
+      }
+      event.preventDefault();
+      insertNewline();
+      return;
+    }
+    if (!event.ctrlKey) {
+      return;
+    }
+    const definition = defaultRegistry.findByShortcut(event);
+    if (!definition) {
+      return;
+    }
+    event.preventDefault();
+    if (definition.name === "link") {
+      addLink();
+      return;
+    }
+    toggleAnnotation(definition);
+  }
+  function handleBeforeInput(event) {
+    const inputEvent = event;
+    const selection = getSelectionRange(element2);
+    if (!selection) {
+      return;
+    }
+    const commands2 = buildInputCommands(inputEvent, selection.start, selection.end);
+    if (commands2.length === 0) {
+      return;
+    }
+    event.preventDefault();
+    applyCommands(fragment, commands2);
+    const caret = getNextCaretPosition(inputEvent, selection.start, selection.end);
+    rerender(caret, caret);
+  }
+  function handleCopy(event) {
+    const selection = getSelectionRange(element2);
+    if (!selection || selection.start === selection.end || !event.clipboardData) {
+      return;
+    }
+    event.preventDefault();
+    writeFragmentToClipboard(event.clipboardData, getClipboardFragment(fragment, selection.start, selection.end));
+  }
+  function handleCut(event) {
+    const selection = getSelectionRange(element2);
+    if (!selection || selection.start === selection.end || !event.clipboardData) {
+      return;
+    }
+    event.preventDefault();
+    writeFragmentToClipboard(event.clipboardData, getClipboardFragment(fragment, selection.start, selection.end));
+    applyCommands(fragment, [
+      new DeleteRangeCommand(selection.start, selection.end)
+    ]);
+    rerender(selection.start, selection.start);
+  }
+  function handlePaste(event) {
+    const selection = getSelectionRange(element2);
+    if (!selection || !event.clipboardData) {
+      return;
+    }
+    event.preventDefault();
+    const pastedFragment = readFragmentFromClipboard(event.clipboardData);
+    const commands2 = [];
+    if (selection.start !== selection.end) {
+      commands2.push(new DeleteRangeCommand(selection.start, selection.end));
+    }
+    commands2.push(new InsertFragmentCommand(selection.start, pastedFragment));
+    applyCommands(fragment, commands2);
+    const caret = selection.start + pastedFragment.text.length;
+    rerender(caret, caret);
+  }
+  function toggleAnnotation(definition) {
+    const selection = getSelectionRange(element2);
+    if (!selection) {
+      return;
+    }
+    if (selection.start === selection.end) {
+      const inheritedState = getTypingEffectiveState(fragment.annotations, selection.start);
+      if (!definition.supportsPending) {
+        return;
+      }
+      const inheritedEnabled = inheritedState[definition.name] !== void 0;
+      const currentTypingEnabled = state.pending[definition.name] ?? inheritedEnabled;
+      const nextTypingEnabled = !currentTypingEnabled;
+      if (nextTypingEnabled === inheritedEnabled) {
+        delete state.pending[definition.name];
+      } else {
+        state.pending[definition.name] = nextTypingEnabled;
+      }
+      rerender(selection.start, selection.end);
+      return;
+    }
+    const currentState = getEffectiveState(fragment.annotations, selection.start);
+    const tag = createAnnotationTag(definition.name, currentState[definition.name] === void 0);
+    applyCommands(fragment, [
+      new AddAnnotationCommand([selection.start, selection.end], tag)
+    ]);
+    rerender(selection.start, selection.end);
+  }
+  function insertNewline() {
+    const selection = getSelectionRange(element2);
+    if (!selection) {
+      return;
+    }
+    const commands2 = [];
+    if (selection.start !== selection.end) {
+      commands2.push(new DeleteRangeCommand(selection.start, selection.end));
+    }
+    commands2.push(new InsertTextCommand(selection.start, "\n", { growAtEnd: false }));
+    applyCommands(fragment, commands2);
+    const caret = selection.start + 1;
+    rerender(caret, caret);
+  }
+  function addLink() {
+    const selection = getSelectionRange(element2);
+    if (!selection || selection.start === selection.end) {
+      return;
+    }
+    const href = promptForHref();
+    if (!href) {
+      return;
+    }
+    applyCommands(fragment, [
+      new AddAnnotationCommand([selection.start, selection.end], createLinkAnnotationTag(href))
+    ]);
+    rerender(selection.start, selection.end);
+  }
+  function promptForHref() {
+    const href = window.prompt("Enter URL");
+    if (href === null) {
+      return null;
+    }
+    const trimmed = href.trim();
+    return trimmed.length > 0 ? trimmed : null;
+  }
+  function buildInputCommands(event, selectionStart, selectionEnd) {
+    switch (event.inputType) {
+      case "insertText":
+      case "insertFromPaste":
+        return buildInsertCommands(selectionStart, selectionEnd, event.data ?? "");
+      case "deleteContentBackward":
+        return buildDeleteBackwardCommands(selectionStart, selectionEnd);
+      case "deleteContentForward":
+        return buildDeleteForwardCommands(selectionStart, selectionEnd);
+      case "insertParagraph":
+      case "insertLineBreak": {
+        const commands2 = [];
+        if (selectionStart !== selectionEnd) {
+          commands2.push(new DeleteRangeCommand(selectionStart, selectionEnd));
+        }
+        commands2.push(new InsertTextCommand(selectionStart, "\n", { growAtEnd: false }));
+        return commands2;
+      }
+      default:
+        return [];
+    }
+  }
+  function buildInsertCommands(selectionStart, selectionEnd, text) {
+    const commands2 = [];
+    if (selectionStart !== selectionEnd) {
+      commands2.push(new DeleteRangeCommand(selectionStart, selectionEnd));
+    }
+    if (text.length === 0) {
+      return commands2;
+    }
+    commands2.push(new InsertTextCommand(selectionStart, text));
+    const pendingAnnotations = buildPendingAnnotations(state, selectionStart, selectionStart + text.length);
+    for (const pending of pendingAnnotations) {
+      commands2.push(new AddAnnotationCommand([pending.start, pending.end], pending.tag));
+    }
+    if (pendingAnnotations.length > 0) {
+      clearPendingAnnotations(state);
+    }
+    return commands2;
+  }
+  function buildDeleteBackwardCommands(selectionStart, selectionEnd) {
+    if (selectionStart !== selectionEnd) {
+      return [
+        new DeleteRangeCommand(selectionStart, selectionEnd)
+      ];
+    }
+    if (selectionStart === 0) {
+      return [];
+    }
+    return [
+      new DeleteRangeCommand(selectionStart - 1, selectionStart)
+    ];
+  }
+  function buildDeleteForwardCommands(selectionStart, selectionEnd) {
+    if (selectionStart !== selectionEnd) {
+      return [
+        new DeleteRangeCommand(selectionStart, selectionEnd)
+      ];
+    }
+    if (selectionStart >= fragment.text.length) {
+      return [];
+    }
+    return [
+      new DeleteRangeCommand(selectionStart, selectionStart + 1)
+    ];
+  }
+  function getNextCaretPosition(event, selectionStart, selectionEnd) {
+    switch (event.inputType) {
+      case "insertText":
+      case "insertFromPaste":
+        return selectionStart + (event.data?.length ?? 0);
+      case "deleteContentBackward":
+        return selectionStart === selectionEnd ? Math.max(0, selectionStart - 1) : selectionStart;
+      case "deleteContentForward":
+        return selectionStart;
+      case "insertParagraph":
+      case "insertLineBreak":
+        return selectionStart + 1;
+      default:
+        return selectionStart;
+    }
+  }
+  element2.contentEditable = "true";
+  rerender();
+  element2.addEventListener("keydown", handleKeyDown);
+  element2.addEventListener("beforeinput", handleBeforeInput);
+  element2.addEventListener("copy", handleCopy);
+  element2.addEventListener("cut", handleCut);
+  element2.addEventListener("paste", handlePaste);
+  return editor;
+}
+
+// src/cobalt-editor-modal.html
+var cobalt_editor_modal_default = '<div class="margin-notes-editor-modal-dialog ds-dialog">\n  <div class="margin-notes-editor-modal-header">\n    <h2 data-title></h2>\n    <button type="button" data-action="cancel" class="margin-notes-editor-close ds-button ds-button-naked" aria-label="Close">x</button>\n  </div>\n  <div class="margin-notes-editor-modal-content">\n    <div class="margin-notes-cobalt-editor" data-editor-container></div>\n  </div>\n  <div class="margin-notes-editor-modal-footer">\n    <button type="button" data-action="cancel" class="margin-notes-editor-btn-cancel ds-button ds-button-default">Cancel</button>\n    <button type="button" data-action="save" class="margin-notes-editor-btn-save ds-button ds-button-primary">Save</button>\n  </div>\n</div>\n';
+
+// src/cobalt-editor-modal.css
+var cobalt_editor_modal_default2 = '.margin-notes-editor-modal {\n  background: transparent;\n  border: 0;\n  color: inherit;\n  color-scheme: var(--ds-color-scheme, light);\n  font-family: var(--ds-font-body, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif);\n  margin: auto;\n  max-height: min(80vh, 100%);\n  max-width: min(90vw, 600px);\n  overflow: visible;\n  padding: 0;\n  width: min(90vw, 600px);\n}\n\n.margin-notes-editor-modal:not(:popover-open) {\n  display: none;\n}\n\n.margin-notes-editor-modal:popover-open {\n  display: flex;\n}\n\n.margin-notes-editor-modal::backdrop {\n  background: rgba(0, 0, 0, 0.5);\n}\n\n.margin-notes-editor-modal-dialog {\n  display: flex;\n  flex-direction: column;\n  max-height: 80vh;\n  max-width: 600px;\n  position: relative;\n  width: 100%;\n}\n\n.margin-notes-editor-modal-header {\n  justify-content: space-between;\n  align-items: center;\n  border-bottom: 1px solid var(--ds-grey-low, #e5e7eb);\n  display: flex;\n  padding: var(--ds-space, 1.5rem);\n}\n\n.margin-notes-editor-modal-header h2 {\n  font-family: var(--ds-font-heading, inherit);\n  margin: 0;\n  font-size: 1.25rem;\n  font-weight: var(--ds-heading-weight, 600);\n}\n\n.margin-notes-editor-close {\n  align-items: center;\n  color: var(--ds-grey-medium, #6b7280);\n  display: flex;\n  font-size: 2rem;\n  height: 32px;\n  justify-content: center;\n  line-height: 1;\n  margin: 0;\n  padding: 0;\n  width: 32px;\n}\n\n.margin-notes-editor-close:hover {\n  background: var(--ds-grey-low, #f3f4f6);\n  color: var(--ds-grey-high, #1f2937);\n}\n\n.margin-notes-editor-modal-content {\n  flex: 1;\n  overflow-y: auto;\n  padding: var(--ds-space, 1.5rem);\n}\n\n.margin-notes-cobalt-editor {\n  background: var(--ds-color-background, #fff);\n  border: 1px solid var(--ds-input-border, #d1d5db);\n  border-radius: var(--ds-box-radius, 4px);\n  color: var(--ds-color-contrast, #111);\n  font-family: inherit;\n  font-size: 1rem;\n  line-height: 1.5;\n  max-height: 400px;\n  min-height: 150px;\n  overflow-y: auto;\n  padding: var(--ds-space-d2, 0.75rem);\n}\n\n.margin-notes-cobalt-editor[contenteditable="true"],\n.margin-notes-cobalt-editor textarea,\n.margin-notes-cobalt-editor input {\n  background: var(--ds-color-background, #fff);\n  color: var(--ds-color-contrast, #111);\n  caret-color: var(--ds-color-contrast, #111);\n}\n\n.margin-notes-cobalt-editor:focus-within {\n  background: var(--ds-color-background, white);\n  border-color: var(--ds-primary-high, #3b82f6);\n  outline: none;\n}\n\n.margin-notes-editor-modal-footer {\n  display: flex;\n  gap: var(--ds-space-d2, 0.75rem);\n  justify-content: flex-end;\n  border-top: 1px solid var(--ds-grey-low, #e5e7eb);\n  padding: var(--ds-space, 1.5rem);\n}\n\n.margin-notes-editor-btn-cancel,\n.margin-notes-editor-btn-save {\n  font-weight: 500;\n  margin: 0;\n}\n\n.margin-notes-editor-btn-cancel {\n  color: var(--ds-grey-high, #374151);\n}\n\n.margin-notes-editor-btn-cancel:hover {\n  background: var(--ds-grey-low, #f3f4f6);\n}\n';
+
+// src/cobalt-editor-modal.js
+var modalId = 0;
+var CobaltEditorModal = class {
+  constructor(options = {}) {
+    this.options = options;
+    this.modal = null;
+    this.editor = null;
+    this.fragment = options.initialFragment || { text: "", annotations: [] };
+  }
+  /**
+   * Show the modal and return a promise that resolves with the edited fragment.
+   * 
+   * @returns {Promise<Object>} The edited fragment, or null if cancelled
+   */
+  async show() {
+    return new Promise((resolve) => {
+      this.createModal();
+      const modal = this.modal;
+      let settled = false;
+      const finish = (value) => {
+        if (settled) return;
+        settled = true;
+        if (modal.matches(":popover-open")) {
+          modal.hidePopover();
+        }
+        this.destroy();
+        resolve(value);
+      };
+      const onSave = async () => {
+        const edited = this.editor.getValue();
+        finish(edited);
+      };
+      const onCancel = () => {
+        finish(null);
+      };
+      const onModalKeydown = (e) => {
+        if ((e.ctrlKey || e.metaKey) && e.key === "s") {
+          e.preventDefault();
+          e.stopPropagation();
+          onSave();
+          return;
+        }
+        e.stopPropagation();
+      };
+      const onToggle = (e) => {
+        if (e.newState === "closed") {
+          onCancel();
+        }
+      };
+      modal.querySelector('[data-action="save"]').addEventListener("click", onSave);
+      modal.addEventListener("keydown", onModalKeydown);
+      modal.addEventListener("toggle", onToggle);
+      modal.showPopover();
+      setTimeout(() => {
+        this.editor.focus();
+      }, 0);
+    });
+  }
+  /**
+   * Create the modal DOM structure.
+   * 
+   * @private
+   */
+  createModal() {
+    this.modal = document.createElement("div");
+    this.modal.className = "margin-notes-editor-modal";
+    modalId += 1;
+    this.modal.id = `margin-notes-editor-modal-${modalId}`;
+    this.modal.dataset.readerKeyScope = "margin-notes-editor";
+    this.modal.setAttribute("popover", "auto");
+    this.modal.innerHTML = cobalt_editor_modal_default;
+    this.modal.querySelector("[data-title]").textContent = this.options.title || "Edit note";
+    this.modal.querySelectorAll('[data-action="cancel"]').forEach((cancelBtn) => {
+      cancelBtn.setAttribute("popovertarget", this.modal.id);
+      cancelBtn.setAttribute("popovertargetaction", "hide");
+    });
+    document.body.appendChild(this.modal);
+    const editorContainer = this.modal.querySelector("[data-editor-container]");
+    this.editor = edit(editorContainer, this.fragment);
+  }
+  /**
+   * Destroy the modal and clean up.
+   * 
+   * @private
+   */
+  destroy() {
+    if (this.editor) {
+      this.editor.destroy();
+      this.editor = null;
+    }
+    if (this.modal) {
+      this.modal.remove();
+      this.modal = null;
+    }
+  }
+};
 
 // node_modules/@muze-nl/oldm-core/src/oldm.mjs
 var oldm_exports2 = {};
@@ -19188,39 +18295,39 @@ var prefixes2 = {
   vcard: "http://www.w3.org/2006/vcard/ns#",
   xsd: "http://www.w3.org/2001/XMLSchema#"
 };
-function one2(values5, whichOne = "last") {
-  let result = values5;
-  if (Array.isArray(values5)) {
+function one2(values3, whichOne = "last") {
+  let result = values3;
+  if (Array.isArray(values3)) {
     if (whichOne == "last") {
-      result = values5[values5.length - 1];
+      result = values3[values3.length - 1];
     } else if (whichOne == "first") {
-      result = values5[0];
+      result = values3[0];
     } else if (typeof whichOne == "function") {
-      result = whichOne(values5);
+      result = whichOne(values3);
     } else {
       throw new Error("Unknown value for whichOne parameter");
     }
   }
   return result;
 }
-function many2(values5) {
-  if (Array.isArray(values5)) {
-    return values5;
+function many2(values3) {
+  if (Array.isArray(values3)) {
+    return values3;
   }
-  if (values5 == null) {
+  if (values3 == null) {
     return [];
   }
-  return [values5];
+  return [values3];
 }
-function first2(...values5) {
-  for (const value of values5) {
+function first2(...values3) {
+  for (const value of values3) {
     if (value !== null && value !== void 0) {
       return value;
     }
   }
   return null;
 }
-function values3(value) {
+function values2(value) {
   if (Array.isArray(value) && !(value instanceof Collection2)) {
     return value;
   }
@@ -19230,8 +18337,8 @@ function values3(value) {
   return [value];
 }
 function mergeValue2(existing, value) {
-  const result = values3(existing);
-  for (const item of values3(value)) {
+  const result = values2(existing);
+  for (const item of values2(value)) {
     if (!result.some((existingItem) => sameValue2(existingItem, item))) {
       result.push(item);
     }
@@ -19292,11 +18399,11 @@ function sameSourceValue2(left, right) {
 }
 function resolveValue2(value, subjects, context) {
   if (value instanceof Collection2) {
-    const collection = new Collection2(context);
+    const collection2 = new Collection2(context);
     for (const item of value) {
-      collection.push(resolveValue2(item, subjects, context));
+      collection2.push(resolveValue2(item, subjects, context));
     }
-    return collection;
+    return collection2;
   }
   if (Array.isArray(value)) {
     return value.map((item) => resolveValue2(item, subjects, context));
@@ -19484,7 +18591,7 @@ var Context2 = class {
     if (!hasValue) {
       return true;
     }
-    return values3(subject[property]).some((item) => sameSourceValue2(item, value));
+    return values2(subject[property]).some((item) => sameSourceValue2(item, value));
   }
   subjectID(subject) {
     if (subject?.id) {
@@ -19528,12 +18635,12 @@ var Context2 = class {
     }
     return subjects;
   }
-  mergeSubject(target, source, subjects) {
-    for (const [predicate, value] of Object.entries(source)) {
+  mergeSubject(target, source2, subjects) {
+    for (const [predicate, value] of Object.entries(source2)) {
       if (predicate == "id") {
         continue;
       }
-      const contextPredicate = predicate == "a" ? "a" : this.propertyName(source.graph.fullURI(predicate, null, "source"));
+      const contextPredicate = predicate == "a" ? "a" : this.propertyName(source2.graph.fullURI(predicate, null, "source"));
       target[contextPredicate] = mergeValue2(
         target[contextPredicate],
         resolveValue2(value, subjects, this)
@@ -19785,9 +18892,9 @@ var Graph2 = class {
       delete node[property];
       return true;
     }
-    const deleteValues = property == "a" ? values3(this.normalizeTypeValues(value, preference)) : values3(this.normalizeValues(value, preference));
-    const remaining = values3(node[property]).filter((item) => !deleteValues.some((deleteValue) => sameValue2(item, deleteValue)));
-    if (remaining.length == values3(node[property]).length) {
+    const deleteValues = property == "a" ? values2(this.normalizeTypeValues(value, preference)) : values2(this.normalizeValues(value, preference));
+    const remaining = values2(node[property]).filter((item) => !deleteValues.some((deleteValue) => sameValue2(item, deleteValue)));
+    if (remaining.length == values2(node[property]).length) {
       return false;
     }
     if (remaining.length == 0) {
@@ -19826,11 +18933,11 @@ var Graph2 = class {
   }
   normalizeValue(value, preference = "source") {
     if (value instanceof Collection2) {
-      const collection = new Collection2(this);
+      const collection2 = new Collection2(this);
       for (const item of value) {
-        collection.push(this.normalizeValue(item, preference));
+        collection2.push(this.normalizeValue(item, preference));
       }
-      return collection;
+      return collection2;
     }
     if (value instanceof NamedNode3) {
       return this.addNamedNode(value.id);
@@ -22237,13 +21344,13 @@ var n3Parser2 = (input2, uri, type) => {
   });
   return { quads, prefixes: prefixes4 };
 };
-var n3Writer2 = (source) => {
+var n3Writer2 = (source2) => {
   return new Promise((resolve, reject) => {
     const writer = new N3Writer2({
-      format: source.mimetype,
-      prefixes: source.prefixDeclarations("source")
+      format: source2.mimetype,
+      prefixes: source2.prefixDeclarations("source")
     });
-    const xsd7 = source.prefixes.xsd;
+    const xsd7 = source2.prefixes.xsd;
     const { quad: quad3, namedNode: namedNode3, literal: literal3, blankNode: blankNode3 } = N3DataFactory_default2;
     const writeClassNames = (id2, subject) => {
       let classNames = subject.a;
@@ -22255,7 +21362,7 @@ var n3Writer2 = (source) => {
       }
       if (classNames?.length) {
         for (let name of classNames) {
-          name = source.fullURI(name);
+          name = source2.fullURI(name);
           writer.addQuad(quad3(
             namedNode3(id2),
             namedNode3(rdfType2),
@@ -22290,7 +21397,7 @@ var n3Writer2 = (source) => {
       Object.entries(object).forEach((entry) => {
         const predicate = entry[0];
         let object2 = entry[1];
-        const fullPred = source.fullURI(predicate);
+        const fullPred = source2.fullURI(predicate);
         let pred = {
           predicate: namedNode3(fullPred)
         };
@@ -22312,12 +21419,12 @@ var n3Writer2 = (source) => {
       return preds;
     };
     const getLiteral = (object) => {
-      let type = source.getType(object) || void 0;
+      let type = source2.getType(object) || void 0;
       if (type) {
-        if (type == xsd7 + source.context.separator + "string" || type == xsd7 + source.context.separator + "number") {
+        if (type == xsd7 + source2.context.separator + "string" || type == xsd7 + source2.context.separator + "number") {
           type = void 0;
         } else {
-          type = source.fullURI(type);
+          type = source2.fullURI(type);
         }
         type = namedNode3(type);
       } else {
@@ -22367,8 +21474,8 @@ var n3Writer2 = (source) => {
       }
       return list2;
     };
-    Object.entries(source.subjects).forEach(([id2, subject]) => {
-      id2 = source.shortURI(id2, ":");
+    Object.entries(source2.subjects).forEach(([id2, subject]) => {
+      id2 = source2.shortURI(id2, ":");
       writeClassNames(id2, subject);
       writeProperties(id2, subject);
     });
@@ -22381,19 +21488,19 @@ var n3Writer2 = (source) => {
     });
   });
 };
-var n3PatchWriter2 = async (source) => {
-  if (source.originalSource == null) {
+var n3PatchWriter2 = async (source2) => {
+  if (source2.originalSource == null) {
     throw new Error("Cannot generate a patch without the original graph source");
   }
-  const currentSource = await n3Writer2(source);
-  const original = n3Parser2(source.originalSource, source.url, source.mimetype).quads;
-  const current = n3Parser2(currentSource, source.url, source.mimetype).quads;
+  const currentSource = await n3Writer2(source2);
+  const original = n3Parser2(source2.originalSource, source2.url, source2.mimetype).quads;
+  const current = n3Parser2(currentSource, source2.url, source2.mimetype).quads;
   const patch = solidPatchChanges2(original, current, {
     quad: N3DataFactory_default2.quad,
     variable: N3DataFactory_default2.variable,
     blankNode: N3DataFactory_default2.blankNode
   });
-  return serializePatch2(source, patch.inserts, patch.deletes, patch.where);
+  return serializePatch2(source2, patch.inserts, patch.deletes, patch.where);
 };
 function diffQuads2(original, current) {
   const originalByKey = new Map(original.map((quad3) => [quadKey2(quad3), quad3]));
@@ -22631,9 +21738,9 @@ function isBlankNode2(term) {
 function termValue2(term) {
   return term?.value ?? term?.id ?? "";
 }
-function serializePatch2(source, inserts, deletes, where = []) {
+function serializePatch2(source2, inserts, deletes, where = []) {
   const prefixes4 = {
-    ...source.prefixDeclarations("source")
+    ...source2.prefixDeclarations("source")
   };
   if (quadsUseNamespace2([...where, ...deletes, ...inserts], rdfNamespace2)) {
     prefixes4.rdf ??= rdfNamespace2;
@@ -22708,380 +21815,3918 @@ var oldm4 = {
 globalThis.oldm = oldm4;
 var src_default7 = oldm4;
 
-// src/storage/solid-resource-store.js
-var DEFAULT_ACCEPT = "text/turtle, application/ld+json;q=0.9, application/json;q=0.2";
-var DEFAULT_CONTENT_TYPE = "text/turtle";
-var DEFAULT_FORMAT = "margin-notes-oldmed-graph";
-var DEFAULT_VERSION = 1;
-var NODE_PREDICATES = /* @__PURE__ */ new Set([
-  "oa$hasBody",
-  "oa$hasTarget",
-  "oa$hasSource",
-  "oa$hasSelector",
-  "schema$about"
-]);
-var INLINE_PREDICATES = /* @__PURE__ */ new Set([
-  "oa$hasBody",
-  "oa$hasTarget",
-  "oa$hasSelector"
-]);
-function createSolidResourceStore(options = {}) {
-  assertOptions(options);
-  const defaultResourceUrl = options.resourceUrl || "";
-  const accept = options.accept || DEFAULT_ACCEPT;
-  const contentType = options.contentType || DEFAULT_CONTENT_TYPE;
-  const providedSolid = options.solid || options.lading || null;
-  const generatedClient = {
-    clients: /* @__PURE__ */ new Map()
-  };
-  function solidFor(resourceUrl, requestOptions2 = {}) {
-    return solidClientFor({ options, providedSolid, resourceUrl, generatedClient, requestOptions: requestOptions2 });
-  }
-  return {
-    name: "solidResourceStore",
-    async load({ key } = {}) {
-      const resourceUrl = resourceUrlFrom({ key, defaultResourceUrl });
-      const solid = solidFor(resourceUrl);
-      const response3 = await callResource(() => solid.resource(resourceUrl).get({ accept }));
-      if (isMissing(response3)) return null;
-      await ensureOk({ response: response3, operation: "load" });
-      if (isOldmGraph(response3?.data)) {
-        return storageDocumentFromGraph({ graph: response3.data, resourceUrl });
-      }
-      if (isStorageDocument(response3?.data)) {
-        return response3.data;
-      }
-      const text = await responseText(response3);
-      if (!text.trim()) return null;
-      if (isLinkedDataResponse(response3)) {
-        return storageDocumentFromGraph({
-          graph: oldmContext({ resourceUrl }).parse(text, resourceUrl, responseContentType(response3) || DEFAULT_CONTENT_TYPE),
-          resourceUrl
-        });
-      }
-      let parsed;
-      try {
-        parsed = JSON.parse(text);
-      } catch (error4) {
-        throw new Error(`Solid resource load returned invalid linked data or JSON from ${resourceUrl}: ${error4.message}`);
-      }
-      if (!isStorageDocument(parsed) && !Array.isArray(parsed)) {
-        throw new Error(`Solid resource load returned JSON that is not a notes document from ${resourceUrl}`);
-      }
-      return parsed;
-    },
-    async save({ key, value } = {}) {
-      const resourceUrl = resourceUrlFrom({ key, defaultResourceUrl });
-      const solid = solidFor(resourceUrl, { writesBody: true });
-      const graph2 = graphFromStorageDocument({ document: value, resourceUrl });
-      const response3 = await callResource(() => solid.resource(resourceUrl).put(
-        graph2,
-        { contentType }
-      ));
-      await ensureOk({ response: response3, operation: "save" });
-      return {
-        key: resourceUrl,
-        resourceUrl,
-        status: response3.status
-      };
-    },
-    async remove({ key } = {}) {
-      const resourceUrl = resourceUrlFrom({ key, defaultResourceUrl });
-      const solid = solidFor(resourceUrl, { needsAuthorization: true });
-      const response3 = await callResource(() => solid.resource(resourceUrl).delete());
-      if (isMissing(response3) || response3.status === 410) {
-        return {
-          key: resourceUrl,
-          resourceUrl,
-          status: response3.status
-        };
-      }
-      await ensureOk({ response: response3, operation: "remove" });
-      return {
-        key: resourceUrl,
-        resourceUrl,
-        status: response3.status
-      };
+// node_modules/@muze-nl/jaqt/src/jaqt.mjs
+function isPrimitiveWrapper2(data) {
+  return [String, Boolean, Number, BigInt].includes(data?.constructor);
+}
+function getSelectFn2(filter2) {
+  let fns = [];
+  if (filter2 instanceof Function) {
+    fns.push(filter2);
+  } else for (const [filterKey, filterValue] of Object.entries(filter2)) {
+    if (filterValue instanceof Function) {
+      fns.push((data) => {
+        if (filterKey == "_") {
+          return filterValue(data, filterKey, "select");
+        } else {
+          return {
+            [filterKey]: filterValue(data, filterKey, "select")
+          };
+        }
+      });
+    } else if (!isPrimitiveWrapper2(filterValue)) {
+      fns.push((data) => {
+        if (filterKey == "_") {
+          return from2(data[filterKey]).select(filterValue);
+        } else {
+          return {
+            [filterKey]: from2(data[filterKey]).select(filterValue)
+          };
+        }
+      });
+    } else {
+      fns.push(() => {
+        if (filterKey == "_") {
+          return filterValue;
+        } else {
+          return {
+            [filterKey]: filterValue
+          };
+        }
+      });
     }
+  }
+  if (fns.length == 1) {
+    return fns[0];
+  }
+  return (data) => {
+    let result = {};
+    for (let fn of fns) {
+      Object.assign(result, fn(data));
+    }
+    return result;
   };
 }
-function assertOptions(options) {
-  const optionIssues = issues(options, {
-    resourceUrl: Optional(String),
-    rootUrl: Optional(String),
-    storageUrl: Optional(String),
-    accept: Optional(String),
-    contentType: Optional(String),
-    force_authorization: Optional(Boolean),
-    forceAuthorizationForWrites: Optional(Boolean)
-  });
-  if (optionIssues) {
-    throw new TypeError(`Invalid Solid resource store options: ${optionIssues[0].pathString} ${optionIssues[0].message}`);
-  }
-}
-function oldmContext({ resourceUrl, prefixes: prefixes4 = {} }) {
-  return src_default7.context({
-    defaultGraph: resourceUrl,
-    prefixes: annotationPrefixes(prefixes4)
-  });
-}
-function annotationPrefixes(prefixes4 = {}) {
-  return {
-    rdf: "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
-    rdfs: "http://www.w3.org/2000/01/rdf-schema#",
-    dcterms: "http://purl.org/dc/terms/",
-    oa: "http://www.w3.org/ns/oa#",
-    schema: "https://schema.org/",
-    cobalt: "https://vocab.muze.nl/cobalt#",
-    ...prefixes4
-  };
-}
-function graphFromStorageDocument({ document: document2, resourceUrl }) {
-  const storageDocument = isStorageDocument(document2) ? document2 : { subjects: [] };
-  const context = oldmContext({
-    resourceUrl,
-    prefixes: storageDocument.prefixes
-  });
-  const graph2 = context.parse("", resourceUrl, DEFAULT_CONTENT_TYPE);
-  for (const subject of storageDocument.subjects) {
-    writeSubjectToGraph({ graph: graph2, subject });
-  }
-  return graph2;
-}
-function writeSubjectToGraph({ graph: graph2, subject }) {
-  if (!subject?.id) return null;
-  for (const [predicate, value] of Object.entries(subject)) {
-    if (predicate === "id") continue;
-    if (predicate === "rdf$type") {
-      graph2.set(subject.id, "rdf$type", value);
-      continue;
+function getMatchFn2(pattern) {
+  let fns = [];
+  if (Array.isArray(pattern)) {
+    fns.push(anyOf2(...pattern));
+  } else if (pattern instanceof RegExp) {
+    fns.push((data) => pattern.test(data));
+  } else if (pattern instanceof Function) {
+    fns.push((data) => pattern(data));
+  } else if (!isPrimitiveWrapper2(pattern)) {
+    let patternMatches = {};
+    for (const [wKey, wVal] of Object.entries(pattern)) {
+      patternMatches[wKey] = getMatchFn2(wVal);
     }
-    graph2.set(subject.id, predicate, graphValueFromStorageValue({ graph: graph2, predicate, value }));
-  }
-  return subject.id;
-}
-function graphValueFromStorageValue({ graph: graph2, predicate, value }) {
-  if (Array.isArray(value)) {
-    return value.map((item) => graphValueFromStorageValue({ graph: graph2, predicate, value: item }));
-  }
-  if (value && typeof value === "object") {
-    if (predicate === "cobalt$fragment") {
-      return JSON.stringify(value);
-    }
-    if (value.id) {
-      writeSubjectToGraph({ graph: graph2, subject: value });
-      return value.id;
-    }
-    return JSON.stringify(value);
-  }
-  if (typeof value === "string" && !NODE_PREDICATES.has(predicate)) {
-    return new String(value);
-  }
-  return value;
-}
-function storageDocumentFromGraph({ graph: graph2, resourceUrl }) {
-  const subjects = graphSubjects(graph2).filter((subject) => values4(subject.a).includes("oa$Annotation") || values4(subject.rdf$type).includes("oa$Annotation")).map((subject) => repairConventionalAnnotationParts({
-    graph: graph2,
-    annotation: storageSubjectFromOldmSubject({ graph: graph2, subject })
-  }));
-  return {
-    format: DEFAULT_FORMAT,
-    version: DEFAULT_VERSION,
-    prefixes: annotationPrefixes(graph2?.prefixes ?? graph2?.context?.prefixes),
-    resourceUrl,
-    subjects
-  };
-}
-function repairConventionalAnnotationParts({ graph: graph2, annotation }) {
-  if (!annotation?.id) return annotation;
-  const body = annotation.oa$hasBody || conventionalSubject({
-    graph: graph2,
-    subjectId: annotation.id,
-    suffixes: ["#body", "-body"],
-    types: ["oa$TextualBody", "cobalt$Fragment"]
-  });
-  if (body) {
-    annotation.oa$hasBody = body;
-  }
-  const target = annotation.oa$hasTarget || conventionalSubject({
-    graph: graph2,
-    subjectId: annotation.id,
-    suffixes: ["#target", "-target"],
-    types: ["oa$SpecificResource"]
-  });
-  if (target) {
-    target.oa$hasSelector = target.oa$hasSelector || conventionalSubject({
-      graph: graph2,
-      subjectId: annotation.id,
-      suffixes: ["#selector-fragment", "-selector", "#selector"],
-      types: ["oa$FragmentSelector"]
+    let matchFn = (data) => {
+      if (Array.isArray(data)) {
+        return data.filter((element2) => matchFn(element2)).length > 0;
+      }
+      if (isPrimitiveWrapper2(data)) {
+        return false;
+      }
+      for (let wKey in patternMatches) {
+        let patternMatchFn = patternMatches[wKey];
+        if (!patternMatchFn(data?.[wKey])) {
+          return false;
+        }
+      }
+      return true;
+    };
+    fns.push(matchFn);
+  } else {
+    fns.push((data) => {
+      if (Array.isArray(data)) {
+        return data.filter((element2) => pattern == element2).length > 0;
+      } else {
+        return pattern == data;
+      }
     });
-    annotation.oa$hasTarget = target;
   }
-  return annotation;
-}
-function conventionalSubject({ graph: graph2, subjectId, suffixes, types }) {
-  const subject = suffixes.map((suffix) => graph2?.subjects?.[`${subjectId}${suffix}`]).find((candidate) => candidate && values4(candidate.a).some((type) => types.includes(type)));
-  if (!subject) return null;
-  return storageSubjectFromOldmSubject({ graph: graph2, subject });
-}
-function storageSubjectFromOldmSubject({ graph: graph2, subject, seen = /* @__PURE__ */ new Set() }) {
-  if (!subject || seen.has(subject.id)) {
-    return subject?.id;
+  if (fns.length == 1) {
+    return fns[0];
   }
-  seen.add(subject.id);
-  const result = {};
-  for (const [predicate, value] of Object.entries(subject)) {
-    if (predicate === "graph") continue;
-    if (predicate === "a") {
-      result.rdf$type = storageValueFromOldmValue({ graph: graph2, predicate, value, seen });
-      continue;
+  return (data) => {
+    for (let fn of fns) {
+      if (!fn(data)) {
+        return false;
+      }
     }
-    result[predicate] = storageValueFromOldmValue({ graph: graph2, predicate, value, seen });
+    return true;
+  };
+}
+var asc2 = Symbol("asc");
+var desc2 = Symbol("desc");
+function getSortFn2(pattern) {
+  let comparisons = Object.entries(pattern);
+  let fns = [];
+  for (let [key, compare] of comparisons) {
+    if (compare instanceof Function) {
+      fns.push(compare);
+    } else if (compare === asc2) {
+      fns.push((a, b) => a[key] > b[key] ? 1 : a[key] < b[key] ? -1 : 0);
+    } else if (compare === desc2) {
+      fns.push((a, b) => a[key] < b[key] ? 1 : a[key] > b[key] ? -1 : 0);
+    } else if (!isPrimitiveWrapper2(compare)) {
+      let subFn = getSortFn2(compare);
+      fns.push((a, b) => subFn(a[key], b[key]));
+    } else {
+      throw new Error("Unknown sort order", compare);
+    }
+  }
+  if (fns.length == 1) {
+    return fns[0];
+  }
+  return (a, b) => {
+    for (let fn of fns) {
+      let result = fn(a, b);
+      if (result !== 0) {
+        return result;
+      }
+    }
+    return 0;
+  };
+}
+function getAggregateFn2(filter2) {
+  let fns = [];
+  if (filter2 instanceof Function) {
+    fns.push(filter2);
+  } else for (const [filterKey, filterValue] of Object.entries(filter2)) {
+    if (filterValue instanceof Function) {
+      fns.push((a, o, i, l) => {
+        if (isPrimitiveWrapper2(a)) {
+          a = {};
+        }
+        if (o.reduce) {
+          a[filterKey] = o.reduce(filterValue, a[filterKey] || []);
+        } else {
+          a[filterKey] = filterValue(a[filterKey] || [], o, i, l);
+        }
+        return a;
+      });
+    } else if (!isPrimitiveWrapper2(filterValue)) {
+      fns.push((a, o) => {
+        if (isPrimitiveWrapper2(a)) {
+          a = {};
+        }
+        a[filterKey] = from2(o[filterKey]).reduce(filterValue, []);
+        return a;
+      });
+    } else {
+      fns.push((a) => {
+        if (isPrimitiveWrapper2(a)) {
+          a = {};
+        }
+        a[filterKey] = filterValue;
+        return a;
+      });
+    }
+  }
+  if (fns.length == 1) {
+    return fns[0];
+  }
+  return (a, o, i, l) => {
+    let result = {};
+    for (let fn of fns) {
+      Object.assign(result, fn(a, o, i, l));
+    }
+    return result;
+  };
+}
+function getMatchingGroups2(data, pointerFn) {
+  let result = {};
+  for (let entity of data) {
+    let groups = pointerFn(entity);
+    if (!Array.isArray(groups)) {
+      groups = [groups];
+    }
+    for (let group2 of groups) {
+      if (typeof group2 != "string" && !(group2 instanceof String)) {
+        console.warn("JAQT: groupBy(selector) can only handle string values, got:", group2);
+        continue;
+      }
+      if (!result[group2]) {
+        result[group2] = [];
+      }
+      result[group2].push(entity);
+    }
   }
   return result;
 }
-function storageValueFromOldmValue({ graph: graph2, predicate, value, seen }) {
-  if (Array.isArray(value)) {
-    return value.map((item) => storageValueFromOldmValue({ graph: graph2, predicate, value: item, seen }));
+function groupBy2(data, pointerFunctions) {
+  let pointerFn = pointerFunctions.shift();
+  if (typeof pointerFn == "string") {
+    pointerFn = _2[pointerFn];
   }
-  if (isOldmNamedNode(value)) {
-    const linkedSubject = graph2?.subjects?.[value.id];
-    if (linkedSubject && INLINE_PREDICATES.has(predicate)) {
-      return storageSubjectFromOldmSubject({ graph: graph2, subject: linkedSubject, seen });
-    }
-    return value.id;
+  if (typeof pointerFn != "function") {
+    throw new Error("groupBy parameters must be either a property name or a pointer function (e.g.: _.name)");
   }
-  if (value instanceof String) {
-    return storageLiteralValue({ predicate, value: value.toString() });
-  }
-  if (value && typeof value === "object") {
-    return storageSubjectFromOldmSubject({ graph: graph2, subject: value, seen });
-  }
-  return storageLiteralValue({ predicate, value });
-}
-function storageLiteralValue({ predicate, value }) {
-  if (predicate === "cobalt$fragment" && typeof value === "string") {
-    try {
-      return JSON.parse(value);
-    } catch {
-      return { text: value, annotations: [] };
+  let groups = getMatchingGroups2(data, pointerFn);
+  if (pointerFunctions.length) {
+    for (let group2 in groups) {
+      groups[group2] = groupBy2(groups[group2], pointerFunctions);
     }
   }
-  return value;
+  return groups;
 }
-function graphSubjects(graph2) {
-  if (Array.isArray(graph2?.data)) {
-    return graph2.data;
-  }
-  if (Array.isArray(graph2?.subjects)) {
-    return graph2.subjects;
-  }
-  if (graph2?.subjects && typeof graph2.subjects === "object") {
-    return Object.values(graph2.subjects);
-  }
-  return [];
+function anyOf2(...patterns) {
+  let matchFns = patterns.map((pattern) => getMatchFn2(pattern));
+  return (data) => matchFns.some((fn) => fn(data));
 }
-function resourceUrlFrom({ key, defaultResourceUrl }) {
-  const resourceUrl = defaultResourceUrl || key;
-  if (issues(resourceUrl, String)) {
-    throw new Error("Solid resource store requires a resourceUrl option or key");
+var FunctionProxyHandler2 = {
+  apply(target, thisArg, argumentsList) {
+    let result = target.apply(thisArg, argumentsList);
+    if (typeof result === "object") {
+      return new Proxy(result, DataProxyHandler2);
+    }
+    return result;
   }
-  return resourceUrl;
+};
+var DataProxyHandler2 = {
+  get(target, property) {
+    let result = null;
+    if (typeof property === "symbol") {
+      result = target[property];
+    }
+    if (Array.isArray(target)) {
+      switch (property) {
+        case "where":
+          result = function(shape) {
+            let matchFn = getMatchFn2(shape);
+            return new Proxy(
+              target.filter((element2) => matchFn(element2)),
+              DataProxyHandler2
+            );
+          };
+          break;
+        case "select":
+          result = function(filter2) {
+            let selectFn = getSelectFn2(filter2);
+            return new Proxy(
+              target.map(selectFn),
+              DataProxyHandler2
+            );
+          };
+          break;
+        case "reduce":
+          result = function(pattern, initial = []) {
+            let aggregateFn = getAggregateFn2(pattern);
+            let temp = target.reduce(aggregateFn, initial);
+            if (Array.isArray(temp)) {
+              return new Proxy(temp, DataProxyHandler2);
+            } else if (!isPrimitiveWrapper2(temp)) {
+              return new Proxy(temp, GroupByProxyHandler2);
+            } else {
+              return temp;
+            }
+          };
+          break;
+        case "orderBy":
+          result = function(pattern) {
+            let sortFn = getSortFn2(pattern);
+            return new Proxy(
+              target.toSorted(sortFn),
+              DataProxyHandler2
+            );
+          };
+          break;
+        case "groupBy":
+          result = function(...groups) {
+            let temp = groupBy2(target, groups);
+            return new Proxy(
+              temp,
+              GroupByProxyHandler2
+            );
+          };
+          break;
+      }
+    }
+    if (!result && target && typeof target === "object") {
+      if (property === "select") {
+        result = function(filter2) {
+          let selector = getSelectFn2(filter2);
+          return new Proxy(selector(target), DataProxyHandler2);
+        };
+      }
+    }
+    if (!result && target && typeof target[property] === "function") {
+      result = new Proxy(target[property], FunctionProxyHandler2);
+    }
+    if (!result) {
+      result = target[property];
+    }
+    return result;
+  }
+};
+var GroupByProxyHandler2 = {
+  get(target, property) {
+    let result = null;
+    switch (property) {
+      case "select":
+        result = function(filter2) {
+          let selectFn = getSelectFn2(filter2);
+          let result2 = {};
+          for (let group2 in target) {
+            if (Array.isArray(target[group2])) {
+              result2[group2] = new Proxy(target[group2].map(selectFn), DataProxyHandler2);
+            } else {
+              result2[group2] = new Proxy(target[group2], GroupByProxyHandler2);
+            }
+          }
+          return result2;
+        };
+        break;
+      case "reduce":
+        result = function(pattern, initial = []) {
+          let aggregateFn = getAggregateFn2(pattern);
+          let result2 = {};
+          for (let group2 in target) {
+            if (Array.isArray(target[group2])) {
+              let temp = target[group2].reduce(aggregateFn, initial);
+              if (Array.isArray(temp)) {
+                result2[group2] = new Proxy(temp, DataProxyHandler2);
+              } else if (!isPrimitiveWrapper2(temp)) {
+                result2[group2] = new Proxy(temp, GroupByProxyHandler2);
+              } else {
+                result2[group2] = temp;
+              }
+            } else {
+              result2[group2] = new Proxy(target[group2], GroupByProxyHandler2);
+            }
+          }
+          return result2;
+        };
+        break;
+      default:
+        if (Array.isArray(target[property])) {
+          result = from2(target[property]);
+        } else {
+          result = target[property];
+        }
+        break;
+    }
+    return result;
+  }
+};
+var EmptyHandler2 = {
+  get(target, property) {
+    let result = null;
+    switch (property) {
+      case "where":
+        result = function() {
+          return new Proxy(new Null2(), EmptyHandler2);
+        };
+        break;
+      case "reduce":
+      case "select":
+        result = function() {
+          return null;
+        };
+        break;
+      case "orderBy":
+        result = function() {
+          return new Proxy(new Null2(), EmptyHandler2);
+        };
+        break;
+      case "groupBy":
+        result = function() {
+          return new Proxy(new Null2(), EmptyHandler2);
+        };
+        break;
+    }
+    if (!result && typeof target?.[property] == "function") {
+      result = target[property];
+    }
+    return result;
+  }
+};
+var Null2 = class {
+  toJSON() {
+    return null;
+  }
+};
+function from2(data) {
+  if (!data || typeof data !== "object") {
+    return new Proxy(new Null2(), EmptyHandler2);
+  }
+  return new Proxy(data, DataProxyHandler2);
 }
-function solidClientFor({ options, providedSolid, resourceUrl, generatedClient, requestOptions: requestOptions2 = {} }) {
-  if (providedSolid) {
-    assertSolidClient(providedSolid);
-    return providedSolid;
-  }
-  const rootUrl = options.rootUrl || options.storageUrl || resourceUrl;
-  const forceAuthorization = forceAuthorizationForRequest({ options, requestOptions: requestOptions2 });
-  const cacheKey = `${rootUrl}
-force:${forceAuthorization}`;
-  if (generatedClient.clients.has(cacheKey)) {
-    return generatedClient.clients.get(cacheKey);
-  }
-  const metroClient = createSolidMetroClient(rootUrl, {
-    ...options,
-    oidc: options.oidc ?? Boolean(options.issuer),
-    force_authorization: forceAuthorization,
-    configureMetro: options.configureMetro ?? true
-  });
-  const solid = lading(metroClient, {
-    thrower: options.thrower ?? false
-  });
-  generatedClient.clients.set(cacheKey, solid);
-  return solid;
+function getPointerFn2(path2) {
+  return (data, key) => {
+    if (path2?.length > 0) {
+      let localPath = path2.slice();
+      let prop = localPath.shift();
+      while (prop) {
+        if (Array.isArray(data) && parseInt(prop) != prop) {
+          localPath.unshift(prop);
+          return data.map(getPointerFn2(localPath));
+        } else if (typeof data?.[prop] != "undefined") {
+          data = data[prop];
+        } else {
+          data = null;
+        }
+        prop = localPath.shift();
+      }
+      return data;
+    } else if (key && key !== "_") {
+      if (typeof data?.[key] != "undefined") {
+        return data[key];
+      } else {
+        return null;
+      }
+    } else {
+      return data;
+    }
+  };
 }
-function forceAuthorizationForRequest({ options, requestOptions: requestOptions2 }) {
-  if (options.force_authorization !== void 0) {
-    return options.force_authorization;
+var pointerHandler2 = (path2) => {
+  if (!path2) {
+    path2 = [];
   }
-  if (requestOptions2.writesBody || requestOptions2.needsAuthorization) {
-    return Boolean(options.forceAuthorizationForWrites);
+  return {
+    get(target, property) {
+      if (property == "constructor" || typeof property == "symbol") {
+        return target[property];
+      }
+      let newpath = path2.concat([property]);
+      return new Proxy(getPointerFn2(newpath), pointerHandler2(newpath));
+    },
+    apply(target, thisArg, argumentsList) {
+      let result = target(...argumentsList);
+      if (Array.isArray(result)) {
+        result = result.flat(Infinity);
+      }
+      return result;
+    }
+  };
+};
+var _2 = new Proxy(getPointerFn2(), pointerHandler2());
+
+// src/features/paragraph-note-stacks/annotation-model.js
+var annotationModel = {
+  vocabulary: {
+    prefixes: {
+      rdf: "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+      rdfs: "http://www.w3.org/2000/01/rdf-schema#",
+      dcterms: "http://purl.org/dc/terms/",
+      oa: "http://www.w3.org/ns/oa#",
+      schema: "https://schema.org/",
+      cobalt: "https://vocab.muze.nl/cobalt#"
+    },
+    classes: {
+      annotation: "oa$Annotation",
+      textualBody: "oa$TextualBody",
+      specificResource: "oa$SpecificResource",
+      fragmentSelector: "oa$FragmentSelector",
+      cobaltFragment: "cobalt$Fragment"
+    },
+    predicates: {
+      type: "rdf$type",
+      label: "rdfs$label",
+      created: "dcterms$created",
+      modified: "dcterms$modified",
+      format: "dcterms$format",
+      value: "rdf$value",
+      hasBody: "oa$hasBody",
+      hasTarget: "oa$hasTarget",
+      hasSource: "oa$hasSource",
+      hasSelector: "oa$hasSelector",
+      text: "schema$text",
+      cobaltFragment: "cobalt$fragment"
+    },
+    mediaTypes: {
+      cobaltFragment: "application/vnd.cobalt.fragment+json"
+    }
+  },
+  createAnnotationNote({ anchorId, fragment, now: now2 = (/* @__PURE__ */ new Date()).toISOString() }) {
+    const annotationId = this.createLocalSubjectId({});
+    const body = {
+      id: `${annotationId}#body`,
+      rdf$type: [
+        this.vocabulary.classes.textualBody,
+        this.vocabulary.classes.cobaltFragment
+      ],
+      dcterms$format: this.vocabulary.mediaTypes.cobaltFragment,
+      rdf$value: this.noteText({ fragment }),
+      schema$text: this.noteText({ fragment }),
+      cobalt$fragment: fragment
+    };
+    const target = {
+      id: `${annotationId}#target`,
+      rdf$type: this.vocabulary.classes.specificResource,
+      oa$hasSource: this.currentDocumentIri({}),
+      oa$hasSelector: {
+        id: `${annotationId}#selector-fragment`,
+        rdf$type: this.vocabulary.classes.fragmentSelector,
+        rdf$value: anchorId
+      }
+    };
+    return {
+      id: annotationId,
+      rdf$type: this.vocabulary.classes.annotation,
+      dcterms$created: now2,
+      dcterms$modified: now2,
+      oa$hasBody: body,
+      oa$hasTarget: target
+    };
+  },
+  createLocalSubjectId() {
+    if (globalThis.crypto?.randomUUID) {
+      return `urn:uuid:${globalThis.crypto.randomUUID()}`;
+    }
+    return `urn:muze:margin-notes:${Date.now()}-${Math.random().toString(16).slice(2)}`;
+  },
+  currentDocumentIri() {
+    const href = globalThis.location?.href;
+    if (!href) {
+      return "urn:muze:margin-notes:local-document";
+    }
+    return href.replace(/#.*/, "");
+  },
+  annotationAnchorId({ annotation }) {
+    const target = src_default7.one(annotation?.oa$hasTarget, "first");
+    const fragment = from2(src_default7.many(target?.oa$hasSelector)).where((selector) => src_default7.many(selector?.rdf$type).includes(this.vocabulary.classes.fragmentSelector))[0];
+    return fragment?.rdf$value;
+  },
+  annotationBody({ annotation }) {
+    return src_default7.one(annotation?.oa$hasBody, "first");
+  },
+  annotationBodyFragment({ annotation }) {
+    return this.annotationBody({ annotation })?.cobalt$fragment || { text: "", annotations: [] };
+  },
+  updateAnnotationBody({ annotation, fragment, now: now2 = (/* @__PURE__ */ new Date()).toISOString() }) {
+    const body = this.annotationBody({ annotation });
+    if (!body) return;
+    body.rdf$value = this.noteText({ fragment });
+    body.schema$text = this.noteText({ fragment });
+    body.cobalt$fragment = fragment;
+    annotation.dcterms$modified = now2;
+  },
+  removeAnnotationFromGraph({ app: app2, annotationId }) {
+    const index = app2.data.marginNotes.graph.findIndex((annotation) => annotation.id === annotationId);
+    if (index >= 0) {
+      app2.data.marginNotes.graph.splice(index, 1);
+    }
+  },
+  toRenderableNote({ annotation }) {
+    const note = {
+      id: annotation.id,
+      annotation,
+      anchorId: this.annotationAnchorId({ annotation }),
+      body: this.annotationBodyFragment({ annotation }),
+      created: annotation.dcterms$created,
+      modified: annotation.dcterms$modified
+    };
+    return this.syncRenderableNote({ note });
+  },
+  syncRenderableNote({ note }) {
+    const annotation = note.annotation;
+    const fragment = this.annotationBodyFragment({ annotation });
+    note.anchorId = this.annotationAnchorId({ annotation });
+    note.body = fragment;
+    note.bodyText = this.noteText({ fragment });
+    note.created = annotation.dcterms$created;
+    note.modified = annotation.dcterms$modified;
+    note.createdLabel = `Created: ${(note.created || "").substring(0, 10)}`;
+    return note;
+  },
+  toStoredAnnotation({ annotation }) {
+    return this.cloneValue({ value: annotation });
+  },
+  toStorageDocument({ subjects }) {
+    return {
+      format: "margin-notes-oldmed-graph",
+      version: 1,
+      prefixes: this.vocabulary.prefixes,
+      subjects: Array.from(from2(subjects).where((annotation) => this.isMarginNoteAnnotation({ value: annotation })).select((annotation) => this.toStoredAnnotation({ annotation })))
+    };
+  },
+  toStoredGraph({ value }) {
+    if (Array.isArray(value)) {
+      return Array.from(from2(value).select((note) => {
+        if (this.isMarginNoteAnnotation({ value: note })) {
+          return note;
+        }
+        return this.annotationFromLegacyNote({ note });
+      }).where((annotation) => this.isMarginNoteAnnotation({ value: annotation })));
+    }
+    if (Array.isArray(value?.subjects)) {
+      return Array.from(from2(value.subjects).where((subject) => this.isMarginNoteAnnotation({ value: subject })));
+    }
+    return [];
+  },
+  isOldmedAnnotation({ value }) {
+    return src_default7.many(value?.rdf$type).includes(this.vocabulary.classes.annotation);
+  },
+  isMarginNoteAnnotation({ value }) {
+    return Boolean(
+      this.isOldmedAnnotation({ value }) && this.annotationBody({ annotation: value }) && this.annotationAnchorId({ annotation: value })
+    );
+  },
+  annotationFromLegacyNote({ note }) {
+    const annotation = this.createAnnotationNote({
+      anchorId: note.anchorId,
+      fragment: note.body || { text: "", annotations: [] },
+      now: note.created || (/* @__PURE__ */ new Date()).toISOString()
+    });
+    annotation.id = this.legacyLocalSubjectId({ id: note.id });
+    annotation.dcterms$created = note.created || annotation.dcterms$created;
+    annotation.dcterms$modified = note.modified || annotation.dcterms$modified;
+    annotation.oa$hasBody.id = `${annotation.id}#body`;
+    annotation.oa$hasTarget.id = `${annotation.id}#target`;
+    annotation.oa$hasTarget.oa$hasSelector.id = `${annotation.id}#selector-fragment`;
+    return annotation;
+  },
+  legacyLocalSubjectId({ id: id2 }) {
+    if (typeof id2 === "string" && /^(?:[a-z][a-z0-9+.-]*:)/i.test(id2)) {
+      return id2;
+    }
+    return `urn:muze:margin-notes:${encodeURIComponent(id2 || this.createLocalSubjectId({}))}`;
+  },
+  cloneValue({ value }) {
+    return JSON.parse(JSON.stringify(value));
+  },
+  noteText({ fragment }) {
+    return fragment?.text || "(empty note)";
   }
-  return false;
+};
+
+// src/features/paragraph-note-stacks/root.html
+var root_default = '<div class="margin-notes-root" hidden></div>\n';
+
+// src/features/paragraph-note-stacks/anchor-widget.html
+var anchor_widget_default = '<span class="margin-notes-anchor-widget">\n  <button\n    type="button"\n    class="margin-notes-target-add-btn"\n    title="Add note"\n    aria-label="Add note"\n    data-simply-command="createNote"\n    data-simply-value=":value"\n  >+</button>\n  <span class="margin-notes-target-note-list" data-simply-shortcuts="marginNotesNote">\n    <span class="margin-notes-target-note-items" data-simply-list="visibleNotes">\n      <template rel="margin-notes-inline-note"></template>\n    </span>\n    <button\n      type="button"\n      class="margin-notes-target-note-count"\n      aria-expanded="false"\n      data-margin-notes-empty="true"\n      data-simply-command="toggleAnchorNoteList"\n      data-simply-value=":value"\n    ><span data-simply-field="overflowLabel"></span></button>\n  </span>\n</span>\n';
+
+// src/features/paragraph-note-stacks/inline-note.html
+var inline_note_default = '<article class="margin-notes-target-note">\n  <button\n    type="button"\n    class="margin-notes-target-note-toggle"\n    aria-expanded="false"\n    data-simply-shortcuts="marginNotesNote"\n    data-simply-command="expandInlineNote"\n    data-simply-value=":value"\n  ><span class="margin-notes-target-note-text" data-simply-field="bodyText"></span></button>\n  <button\n    type="button"\n    class="margin-notes-target-note-close"\n    aria-label="Close note"\n    data-simply-command="collapseInlineNote"\n    data-simply-value=":value"\n  >x</button>\n  <span class="margin-notes-target-note-actions">\n    <button\n      type="button"\n      class="margin-notes-target-note-action"\n      data-simply-command="updateNote"\n      data-simply-value=":value"\n    >Edit</button>\n    <button\n      type="button"\n      class="margin-notes-target-note-action"\n      data-simply-command="deleteNote"\n      data-simply-value=":value"\n    >Delete</button>\n  </span>\n</article>\n';
+
+// src/features/solid-connection/control.html
+var control_default = '<form class="margin-notes-solid-connection" data-margin-notes-solid-connection>\n  <label class="margin-notes-solid-connection-webid">\n    <span>WebID</span>\n    <input\n      type="url"\n      inputmode="url"\n      autocomplete="url"\n      placeholder="https://example.solidcommunity.net/profile/card#me"\n      data-margin-notes-solid-webid\n    >\n  </label>\n  <button type="submit" class="ds-button ds-button-primary">Connect</button>\n  <p class="margin-notes-solid-connection-status" data-margin-notes-solid-status>Not connected</p>\n</form>\n';
+
+// src/design-system.css
+var design_system_default = '/*\n * Curated the-ds subset for margin-notes.\n *\n * This intentionally does not import the-ds wholesale. Margin notes is embedded\n * into host documents, so this file only defines design tokens and the small\n * button/dialog primitives used by the component.\n */\n\n@layer reset, setup, theme, base, component, page, utility;\n\n@layer setup {\n  :root,\n  :host {\n    --ds-black: #000;\n    --ds-white: #fff;\n    --ds-primary: oklch(0.7388 0.1792 126.69);\n    --ds-support: oklch(0.7388 0.1792 216.69);\n\n    --ds-grey-0: #eef1f8;\n    --ds-grey-5: #e9edf6;\n    --ds-grey-10: #e4eaf4;\n    --ds-grey-20: #dae2ed;\n    --ds-grey-30: #cdd7e3;\n    --ds-grey-40: #bdc8d4;\n    --ds-grey-50: #a8b4c0;\n    --ds-grey-60: #8f9ba6;\n    --ds-grey-70: #707c84;\n    --ds-grey-80: #4d565c;\n    --ds-grey-90: #262c2f;\n    --ds-grey-100: #000;\n\n    --ds-color-error: rgb(253, 143, 143);\n    --ds-color-warning: #ffffcc;\n    --ds-color-info: rgb(140, 180, 250);\n  }\n}\n\n@layer theme {\n  :root,\n  :host {\n    --ds-color-scheme: light;\n    --ds-font-heading: var(--margin-notes-font-family, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif);\n    --ds-font-body: var(--margin-notes-font-family, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif);\n    --ds-font-weight: 400;\n    --ds-font-size: 1rem;\n    --ds-line-height: 1.5rem;\n\n    --ds-heading-weight: 600;\n    --ds-space: var(--ds-line-height);\n    --ds-space-d4: calc(var(--ds-space) / 4);\n    --ds-space-d3: calc(var(--ds-space) / 3);\n    --ds-space-d2: calc(var(--ds-space) / 2);\n    --ds-space-x2: calc(2 * var(--ds-space));\n    --ds-space-x3: calc(3 * var(--ds-space));\n    --ds-space-x4: calc(4 * var(--ds-space));\n\n    --ds-primary-10: oklch(from var(--ds-primary) calc(l + 0.3) c h);\n    --ds-primary-90: oklch(from var(--ds-primary) calc(l - 0.3) c h);\n    --ds-primary-high: var(--ds-primary-90);\n    --ds-primary-low: var(--ds-primary-10);\n    --ds-primary-contrast: var(--ds-white);\n\n    --ds-support-10: oklch(from var(--ds-support) calc(l + 0.3) c h);\n    --ds-support-90: oklch(from var(--ds-support) calc(l - 0.3) c h);\n    --ds-support-high: var(--ds-support-90);\n    --ds-support-low: var(--ds-support-10);\n    --ds-support-contrast: var(--ds-white);\n\n    --ds-grey-high: var(--ds-grey-90);\n    --ds-grey-medium: var(--ds-grey-60);\n    --ds-grey-low: var(--ds-grey-10);\n    --ds-color: var(--ds-black);\n    --ds-color-background: var(--ds-white);\n    --ds-color-contrast: var(--ds-color);\n\n    --ds-shadow-light: rgba(0, 0, 0, 0.07);\n    --ds-shadow-middle: rgba(0, 0, 0, 0.09);\n    --ds-shadow-dark: rgba(0, 0, 0, 0.11);\n    --ds-shadow-tiny: 0 1px 1px var(--ds-shadow-dark);\n    --ds-shadow-small:\n      0 1px 1px var(--ds-shadow-dark),\n      0 2px 2px var(--ds-shadow-middle),\n      0 4px 4px var(--ds-shadow-light);\n    --ds-shadow-medium:\n      0 1px 1px var(--ds-shadow-middle),\n      0 2px 2px var(--ds-shadow-middle),\n      0 4px 4px var(--ds-shadow-middle),\n      0 6px 8px var(--ds-shadow-middle),\n      0 8px 16px var(--ds-shadow-middle);\n    --ds-shadow-large:\n      0 -2px 2px var(--ds-shadow-light),\n      0 4px 2px var(--ds-shadow-light),\n      0 8px 4px var(--ds-shadow-light),\n      0 16px 8px var(--ds-shadow-light),\n      0 32px 16px var(--ds-shadow-light);\n\n    --ds-box-radius: 4px;\n\n    --ds-input-border: var(--ds-grey-medium);\n    --ds-input-space: var(--ds-space);\n    --ds-input-font: var(--ds-font-body);\n    --ds-input-height: calc(var(--ds-line-height) * 1.5);\n    --ds-input-margin: calc(var(--ds-line-height) * 0.5);\n\n    --ds-button-space: calc(0.5 * var(--ds-input-space));\n    --ds-button-bg-color: var(--ds-grey-low);\n    --ds-button-default-bg-color: var(--ds-white);\n    --ds-button-border: 1px solid var(--ds-grey-low);\n    --ds-button-disabled-color: var(--ds-grey-medium);\n    --ds-button-disabled-bg-color: var(--ds-white);\n    --ds-button-primary-bg-color: var(--ds-primary);\n    --ds-button-primary-color: var(--ds-primary-contrast);\n    --ds-button-primary-border-color: transparent;\n    --ds-button-support-bg-color: var(--ds-support);\n    --ds-button-support-color: var(--ds-support-contrast);\n    --ds-button-support-border-color: transparent;\n    --ds-button-line-height: calc(var(--ds-line-height) * 1.5);\n    --ds-button-shadow: 0;\n    --ds-button-shadow-hover: var(--ds-shadow-small);\n    --ds-button-radius: var(--ds-box-radius);\n    --ds-button-padding: calc(0.5 * var(--ds-line-height));\n    --ds-button-font-size: calc(0.875 * var(--ds-font-size));\n\n    --ds-dialog-background: var(--ds-color-background);\n    --ds-dialog-color: var(--ds-color-contrast);\n    --ds-dialog-shadow: var(--ds-shadow-large);\n    --ds-dialog-radius: calc(2 * var(--ds-box-radius));\n    --ds-dialog-size: calc(50% - (1 / 2 * var(--ds-space)));\n    --ds-dialog-min-width: 25em;\n  }\n\n  :root[data-margin-notes-theme="dark"],\n  :host([data-margin-notes-theme="dark"]) {\n    --ds-color-scheme: dark;\n    --ds-primary: oklch(0.78 0.14 142);\n    --ds-support: oklch(0.78 0.13 225);\n    --ds-primary-high: oklch(0.84 0.11 142);\n    --ds-primary-low: oklch(0.3 0.08 142);\n    --ds-support-high: oklch(0.82 0.1 225);\n    --ds-support-low: oklch(0.3 0.08 225);\n    --ds-grey-high: #f3f3ed;\n    --ds-grey-medium: #b8bbad;\n    --ds-grey-low: #343831;\n    --ds-color: #f3f3ed;\n    --ds-color-background: #1b1d19;\n    --ds-color-contrast: #f3f3ed;\n    --ds-shadow-light: rgba(0, 0, 0, 0.18);\n    --ds-shadow-middle: rgba(0, 0, 0, 0.24);\n    --ds-shadow-dark: rgba(0, 0, 0, 0.32);\n    --ds-input-border: #5b6054;\n    --ds-button-bg-color: #343831;\n    --ds-button-default-bg-color: #242720;\n    --ds-button-border: 1px solid #4a5045;\n    --ds-button-disabled-color: #8e9285;\n    --ds-button-disabled-bg-color: #242720;\n    --ds-dialog-background: #1f211d;\n  }\n\n  @media (prefers-color-scheme: dark) {\n    :root[data-margin-notes-theme="system"],\n    :host([data-margin-notes-theme="system"]) {\n      --ds-color-scheme: dark;\n      --ds-primary: oklch(0.78 0.14 142);\n      --ds-support: oklch(0.78 0.13 225);\n      --ds-primary-high: oklch(0.84 0.11 142);\n      --ds-primary-low: oklch(0.3 0.08 142);\n      --ds-support-high: oklch(0.82 0.1 225);\n      --ds-support-low: oklch(0.3 0.08 225);\n      --ds-grey-high: #f3f3ed;\n      --ds-grey-medium: #b8bbad;\n      --ds-grey-low: #343831;\n      --ds-color: #f3f3ed;\n      --ds-color-background: #1b1d19;\n      --ds-color-contrast: #f3f3ed;\n      --ds-shadow-light: rgba(0, 0, 0, 0.18);\n      --ds-shadow-middle: rgba(0, 0, 0, 0.24);\n      --ds-shadow-dark: rgba(0, 0, 0, 0.32);\n      --ds-input-border: #5b6054;\n      --ds-button-bg-color: #343831;\n      --ds-button-default-bg-color: #242720;\n      --ds-button-border: 1px solid #4a5045;\n      --ds-button-disabled-color: #8e9285;\n      --ds-button-disabled-bg-color: #242720;\n      --ds-dialog-background: #1f211d;\n    }\n  }\n}\n\n@layer component {\n  .ds-button {\n    background-color: var(--ds-button-bg-color);\n    border: 0;\n    border-radius: var(--ds-button-radius);\n    box-shadow: var(--ds-button-shadow);\n    box-sizing: border-box;\n    color: inherit;\n    cursor: pointer;\n    display: inline-block;\n    font: inherit;\n    font-size: var(--ds-button-font-size);\n    line-height: var(--ds-button-line-height);\n    margin: 0 var(--ds-button-space) var(--ds-button-space) 0;\n    min-height: var(--ds-button-line-height);\n    outline: var(--ds-button-border);\n    overflow: visible;\n    padding: 0 var(--ds-button-padding);\n    text-align: center;\n    text-decoration: none;\n    white-space: nowrap;\n  }\n\n  .ds-button:hover,\n  .ds-button:focus {\n    box-shadow: var(--ds-button-shadow-hover);\n    text-decoration: none;\n  }\n\n  .ds-button-default {\n    background-color: var(--ds-button-default-bg-color);\n  }\n\n  .ds-button-primary,\n  .ds-button-primary:hover {\n    background-color: var(--ds-button-primary-bg-color);\n    color: var(--ds-button-primary-color);\n    outline: 1px solid var(--ds-button-primary-border-color);\n  }\n\n  .ds-button-support,\n  .ds-button-support:hover {\n    background-color: var(--ds-button-support-bg-color);\n    color: var(--ds-button-support-color);\n    outline: 1px solid var(--ds-button-support-border-color);\n  }\n\n  .ds-button-naked {\n    background: none;\n    box-shadow: none;\n    outline: none;\n  }\n\n  .ds-dialog {\n    background: var(--ds-dialog-background);\n    border: 0;\n    border-radius: var(--ds-dialog-radius);\n    box-shadow: var(--ds-dialog-shadow);\n    color: var(--ds-dialog-color);\n    max-width: 100%;\n    min-width: min(100%, var(--ds-dialog-min-width));\n    padding: 0;\n    width: var(--ds-dialog-size);\n  }\n}\n';
+
+// src/features/paragraph-note-stacks/ui.css
+var ui_default = '[data-margin-notes-target],\n.margin-notes-anchor-widget {\n  --margin-notes-paper-background: var(--ds-color-background, #fff);\n  --margin-notes-open-background: var(--ds-color-background, #fffefb);\n  --margin-notes-note-color: var(--ds-grey-high, #302a1d);\n  --margin-notes-muted-color: var(--ds-grey-medium, #5d5a51);\n  --margin-notes-rule-color: var(--ds-grey-low, #ebe4d1);\n  --margin-notes-marker-color: var(--ds-support, #c9a84f);\n  --margin-notes-action-color: var(--ds-primary-high, #4d5f8f);\n  --margin-notes-focus-color: var(--ds-primary-high, #3162d4);\n  --margin-notes-radius: var(--ds-box-radius, 4px);\n  --margin-notes-shadow: var(--ds-shadow-small, 0 4px 14px rgba(20, 31, 56, 0.16));\n  --margin-notes-font: var(--ds-font-body, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif);\n  color-scheme: var(--ds-color-scheme, light);\n}\n\n[data-margin-notes-target] {\n  position: relative;\n  outline: none;\n}\n\n.margin-notes-anchor-widget,\n.margin-notes-anchor-widget-host {\n  display: contents;\n}\n\n[data-margin-notes-target]::before {\n  bottom: 0;\n  content: "";\n  left: -3rem;\n  position: absolute;\n  top: 0;\n  width: 3rem;\n}\n\n[data-margin-notes-target].margin-notes-target-tabstop:focus-visible {\n  outline: 2px solid var(--margin-notes-focus-color);\n  outline-offset: 4px;\n}\n\n.margin-notes-target-add-btn {\n  align-items: center;\n  background: var(--margin-notes-paper-background);\n  border: 1px solid var(--ds-grey-30, #cfd6e6);\n  border-radius: 999px;\n  box-shadow: var(--margin-notes-shadow);\n  color: var(--margin-notes-action-color);\n  cursor: pointer;\n  display: inline-flex;\n  font: 600 1rem/1 var(--margin-notes-font);\n  height: 2rem;\n  justify-content: center;\n  left: -2.75rem;\n  opacity: 0;\n  pointer-events: none;\n  position: absolute;\n  top: 0.35rem;\n  transform: translateX(0.25rem);\n  transition: opacity 120ms ease, transform 120ms ease, border-color 120ms ease;\n  width: 2rem;\n  z-index: 2;\n}\n\n[data-margin-notes-target]:hover .margin-notes-target-add-btn,\n[data-margin-notes-target]:focus .margin-notes-target-add-btn,\n[data-margin-notes-target]:focus-within .margin-notes-target-add-btn,\n.margin-notes-target-add-btn:focus-visible {\n  opacity: 1;\n  pointer-events: auto;\n  transform: translateX(0);\n}\n\n.margin-notes-target-add-btn:hover,\n.margin-notes-target-add-btn:focus-visible {\n  border-color: var(--margin-notes-focus-color);\n}\n\n.margin-notes-target-note-list {\n  display: flex;\n  flex-direction: column;\n  gap: 0;\n  left: calc(100% + 1.25rem);\n  position: absolute;\n  top: 0;\n  width: min(17rem, 34vw);\n  z-index: 3;\n}\n\n.margin-notes-target-note-list.is-expanded {\n  background: var(--margin-notes-open-background);\n  border-radius: var(--margin-notes-radius);\n  box-shadow: 0 0 0 0.35rem var(--margin-notes-open-background);\n  z-index: 30;\n}\n\n.margin-notes-target-note-count {\n  align-items: center;\n  align-self: flex-start;\n  background: transparent;\n  border: 0;\n  color: var(--margin-notes-muted-color);\n  cursor: pointer;\n  display: inline-flex;\n  font: 600 0.78rem/1 var(--margin-notes-font);\n  gap: 0.25rem;\n  padding: 0.05rem 0.2rem;\n}\n\n.margin-notes-target-note-count::before,\n.margin-notes-target-note-toggle::before {\n  background: var(--margin-notes-marker-color);\n  border-radius: 1px;\n  content: "";\n  display: inline-block;\n  flex: 0 0 auto;\n  height: 0.72rem;\n  opacity: 0.72;\n  transform: rotate(-2deg);\n  width: 0.58rem;\n}\n\n.margin-notes-target-note-count[hidden],\n.margin-notes-target-note-count[data-margin-notes-empty="true"],\n.margin-notes-target-note[hidden] {\n  display: none;\n}\n\n.margin-notes-target-note-items {\n  display: flex;\n  flex-direction: column;\n  gap: 0;\n}\n\n.margin-notes-target-note {\n  background: transparent;\n  border-radius: var(--margin-notes-radius);\n  color: var(--margin-notes-note-color);\n  min-height: 2rem;\n  position: relative;\n}\n\n.margin-notes-target-note.is-expanded {\n  background: var(--margin-notes-open-background);\n  left: 0;\n  position: absolute;\n  right: auto;\n  top: var(--margin-notes-expanded-top, 0);\n  width: min(24rem, 54vw);\n  z-index: 20;\n}\n\n.margin-notes-target-note-toggle {\n  align-items: baseline;\n  background: transparent;\n  border: 0;\n  color: inherit;\n  cursor: pointer;\n  display: flex;\n  gap: 0.38rem;\n  font: 0.875rem/1.35 var(--margin-notes-font);\n  overflow: hidden;\n  padding: 0.16rem 0;\n  text-align: left;\n  width: 100%;\n}\n\n.margin-notes-target-note-text {\n  min-width: 0;\n  overflow: hidden;\n  text-overflow: ellipsis;\n  white-space: nowrap;\n}\n\n.margin-notes-target-note.is-expanded .margin-notes-target-note-toggle {\n  cursor: text;\n  overflow: visible;\n  padding: 0.35rem 2rem 0.55rem 0;\n}\n\n.margin-notes-target-note.is-expanded .margin-notes-target-note-text {\n  overflow: visible;\n  text-overflow: clip;\n  white-space: normal;\n}\n\n.margin-notes-target-note-actions {\n  border-top: 1px solid var(--margin-notes-rule-color);\n  display: none;\n  gap: 0.35rem;\n  justify-content: flex-end;\n  padding: 0 0.45rem 0.45rem;\n}\n\n.margin-notes-target-note.is-expanded .margin-notes-target-note-actions {\n  display: flex;\n}\n\n.margin-notes-target-note-action {\n  background: transparent;\n  border: 0;\n  color: var(--margin-notes-action-color);\n  cursor: pointer;\n  font: 600 0.78rem/1 var(--margin-notes-font);\n  padding: 0.35rem;\n}\n\n.margin-notes-target-note-close {\n  align-items: center;\n  background: transparent;\n  border: 0;\n  color: var(--margin-notes-muted-color);\n  cursor: pointer;\n  display: none;\n  font: 1.1rem/1 var(--margin-notes-font);\n  height: 1.65rem;\n  justify-content: center;\n  padding: 0;\n  position: absolute;\n  right: 0.25rem;\n  top: 0.25rem;\n  width: 1.65rem;\n}\n\n.margin-notes-target-note.is-expanded .margin-notes-target-note-close {\n  display: inline-flex;\n}\n\n@media (max-width: 760px) {\n  [data-margin-notes-target]::before {\n    display: none;\n  }\n\n  .margin-notes-target-add-btn {\n    left: auto;\n    right: 0;\n    top: -0.85rem;\n  }\n\n  .margin-notes-target-note-list {\n    left: 0;\n    position: relative;\n    top: auto;\n    width: 100%;\n  }\n\n  .margin-notes-target-note.is-expanded {\n    width: min(100%, 24rem);\n  }\n}\n';
+
+// src/features/solid-connection/ui.css
+var ui_default2 = '.margin-notes-solid-connection {\n  color: var(--ds-color-contrast);\n  display: grid;\n  font-family: var(--ds-font-body);\n  font-size: 0.875rem;\n  gap: calc(var(--ds-space) / 3);\n  line-height: 1.35;\n}\n\n.margin-notes-solid-connection-webid {\n  display: grid;\n  gap: calc(var(--ds-space) / 4);\n}\n\n.margin-notes-solid-connection-webid span {\n  color: var(--ds-grey-medium);\n  font-size: 0.75rem;\n  font-weight: 600;\n}\n\n.margin-notes-solid-connection-webid input {\n  background: var(--ds-color-background);\n  border: 1px solid var(--ds-input-border);\n  border-radius: var(--ds-box-radius);\n  box-sizing: border-box;\n  color: var(--ds-color-contrast);\n  font: inherit;\n  inline-size: 100%;\n  min-block-size: var(--ds-input-height);\n  padding: 0 calc(var(--ds-space) / 3);\n}\n\n.margin-notes-solid-connection-status {\n  color: var(--ds-grey-medium);\n  margin: 0;\n}\n\n.margin-notes-solid-connection-status[data-status="connected"] {\n  color: var(--ds-primary-high);\n}\n\n.margin-notes-solid-connection-status[data-status="error"] {\n  color: var(--ds-color-error);\n}\n';
+
+// node_modules/@muze-nl/assert/src/assert-core.mjs
+var assert_core_exports = {};
+__export(assert_core_exports, {
+  Optional: () => Optional,
+  Recommended: () => Recommended,
+  Required: () => Required,
+  allOf: () => allOf,
+  anyOf: () => anyOf3,
+  assert: () => assert,
+  disable: () => disable,
+  enable: () => enable,
+  error: () => error,
+  fails: () => fails,
+  formatIssue: () => formatIssue,
+  formatIssues: () => formatIssues,
+  instanceOf: () => instanceOf,
+  issues: () => issues,
+  not: () => not,
+  oneOf: () => oneOf,
+  validEmail: () => validEmail,
+  validURL: () => validURL,
+  warn: () => warn
+});
+var assertEnabled = false;
+function enable() {
+  assertEnabled = true;
 }
-function assertSolidClient(solid) {
-  const clientIssues = issues(solid, {
-    resource: callable
-  });
-  if (clientIssues) {
-    throw new TypeError("Solid resource store requires a Lading-style client with resource(url)");
-  }
+function disable() {
+  assertEnabled = false;
 }
-function callable(value, _root, path2) {
-  if (typeof value !== "function") {
-    return error("data is not a function", value, "function", path2);
+function appendPath(path2 = "", key) {
+  if (typeof path2 == "undefined" || path2 == null) {
+    path2 = "";
   }
-  return false;
+  if (typeof key == "number") {
+    return `${path2}[${key}]`;
+  }
+  return `${path2}.${key}`;
 }
-async function callResource(operation) {
+function pathToArray(path2 = "") {
+  if (Array.isArray(path2)) {
+    return path2;
+  }
+  if (!path2) {
+    return [];
+  }
+  let result = [];
+  let matcher = /(?:^|\.)([^.\[\]]+)|\[(\d+)\]/g;
+  let match;
+  while (match = matcher.exec(path2)) {
+    if (typeof match[1] != "undefined") {
+      result.push(match[1]);
+    } else if (typeof match[2] != "undefined") {
+      result.push(Number(match[2]));
+    }
+  }
+  return result;
+}
+function pathToString(path2 = []) {
+  if (typeof path2 == "string") {
+    return path2.startsWith(".") ? path2.slice(1) : path2;
+  }
+  return path2.map((part, index) => {
+    if (typeof part == "number") {
+      return `[${part}]`;
+    }
+    return `${index ? "." : ""}${part}`;
+  }).join("");
+}
+function describeFunction(value) {
+  if (value === String) {
+    return "string";
+  }
+  if (value === Number) {
+    return "number";
+  }
+  if (value === Boolean) {
+    return "boolean";
+  }
+  return value.name || "function";
+}
+function clip(text, maxLength = 60) {
+  if (text.length <= maxLength) {
+    return text;
+  }
+  return text.slice(0, maxLength - 1) + "\u2026";
+}
+function quoteString(value) {
+  return `'${clip(String(value).replace(/\\/g, "\\\\").replace(/'/g, "\\'").replace(/\n/g, "\\n"))}'`;
+}
+function jsonSummary(value) {
   try {
-    return await operation();
-  } catch (error4) {
-    if (isMissing(error4?.cause)) {
-      return error4.cause;
+    let json = JSON.stringify(value);
+    if (typeof json == "string") {
+      return clip(json);
     }
-    throw error4;
+  } catch (e) {
+  }
+  let name = value?.constructor?.name;
+  if (name && name != "Object") {
+    return name;
+  }
+  return Object.prototype.toString.call(value);
+}
+function formatValue(value) {
+  if (typeof value == "string") {
+    return quoteString(value);
+  }
+  if (typeof value == "undefined") {
+    return "undefined";
+  }
+  if (value === null) {
+    return "null";
+  }
+  if (typeof value == "function") {
+    return describeFunction(value);
+  }
+  if (value instanceof RegExp) {
+    return value.toString();
+  }
+  if (typeof value == "number" || typeof value == "boolean" || typeof value == "bigint") {
+    return String(value);
+  }
+  if (typeof value == "symbol") {
+    return value.toString();
+  }
+  return jsonSummary(value);
+}
+function describeExpected(value) {
+  if (value === String || value === Number || value === Boolean) {
+    return describeFunction(value);
+  }
+  if (typeof value == "function") {
+    return describeFunction(value);
+  }
+  if (value instanceof RegExp) {
+    return value.toString();
+  }
+  if (Array.isArray(value)) {
+    return "[" + value.map(describeExpected).join(", ") + "]";
+  }
+  return formatValue(value);
+}
+function describeOneOf(patterns) {
+  return patterns.map(describeExpected).join(", ");
+}
+function conciseMessage(message, actual, expected) {
+  if (message == "data and pattern are not equal") {
+    return `expected ${formatValue(expected)}, found ${formatValue(actual)}`;
+  }
+  if (message == "data does not match pattern" || /^data\[\d+\] does not match pattern$/.test(message)) {
+    return `expected ${describeExpected(expected)}, found ${formatValue(actual)}`;
+  }
+  if (message == "data is undefined, should match pattern") {
+    return `missing; expected ${describeExpected(expected)}`;
+  }
+  if (message == "data is required") {
+    return "required";
+  }
+  if (message == "data is an empty string, which is not allowed") {
+    return "empty string is not allowed";
+  }
+  if (message == "data is not an object, pattern is") {
+    return "data is not an object";
+  }
+  if (message == "data is not an instanceof pattern") {
+    return `expected instance of ${describeExpected(expected)}, found ${formatValue(actual)}`;
+  }
+  if (message == "data does not match oneOf patterns" || message == "data does not match anyOf patterns") {
+    return `expected one of ${describeOneOf(expected)}, found ${formatValue(actual)}`;
+  }
+  if (message == "data matches pattern, when required not to") {
+    return `must not match ${describeExpected(expected)}`;
+  }
+  return message;
+}
+function formatIssue(issue, options = {}) {
+  if (!issue || typeof issue != "object") {
+    return String(issue);
+  }
+  let path2 = issue.pathString || pathToString(issue.path || []) || "value";
+  let indent = options.indent ?? "";
+  return `${indent}${path2}: ${issue.message}`;
+}
+function formatIssues(issues3, options = {}) {
+  if (!issues3) {
+    return false;
+  }
+  let indent = options.indent ?? "  - ";
+  return (Array.isArray(issues3) ? issues3 : [issues3]).map((issue) => formatIssue(issue, { ...options, indent }));
+}
+function issueFromProblem(problem) {
+  if (!problem || typeof problem != "object") {
+    return {
+      path: [],
+      pathString: "",
+      message: String(problem),
+      expected: void 0,
+      actual: void 0
+    };
+  }
+  let path2 = pathToArray(problem.path);
+  let pathString = pathToString(path2);
+  let actual = problem.actual ?? problem.found;
+  let expected = describeExpected(problem.expected);
+  let message = conciseMessage(problem.message, actual, problem.expected);
+  return {
+    path: path2,
+    pathString,
+    message,
+    expected,
+    actual
+  };
+}
+function problemsToIssues(problems) {
+  if (!problems) {
+    return [];
+  }
+  let result = [];
+  for (let problem of Array.isArray(problems) ? problems : [problems]) {
+    if (!problem) {
+      continue;
+    }
+    if (problem && typeof problem == "object" && problem.problems) {
+      let nested = problemsToIssues(problem.problems);
+      if (nested.length) {
+        result = result.concat(nested);
+        continue;
+      }
+    }
+    result.push(issueFromProblem(problem));
+  }
+  return result;
+}
+function assert(source2, test) {
+  if (assertEnabled) {
+    let problems = fails(source2, test);
+    if (problems) {
+      let assertionIssues = problemsToIssues(problems);
+      let formattedIssues = formatIssues(assertionIssues);
+      let message = "Assertions failed:\n" + formattedIssues.join("\n");
+      console.error("\u{1F170}\uFE0F  " + message);
+      throw new Error(message, {
+        cause: { problems, issues: assertionIssues, source: source2 }
+      });
+    }
   }
 }
-function isMissing(response3) {
-  return response3?.status === 404;
+function Optional(pattern) {
+  return function _Optional(data, root, path2) {
+    if (typeof data != "undefined" && data != null && typeof pattern != "undefined") {
+      return fails(data, pattern, root, path2);
+    }
+  };
 }
-function isStorageDocument(value) {
-  return Boolean(value && typeof value === "object" && Array.isArray(value.subjects));
+function Required(pattern) {
+  return function _Required(data, root, path2) {
+    if (data == null || typeof data == "undefined") {
+      return error("data is required", data, pattern || "any value", path2);
+    } else if (typeof pattern != "undefined") {
+      return fails(data, pattern, root, path2);
+    } else {
+      return false;
+    }
+  };
 }
-function isOldmGraph(value) {
-  return Boolean(value && typeof value === "object" && typeof value.write === "function" && value.subjects);
+function Recommended(pattern) {
+  return function _Recommended(data, root, path2) {
+    if (data == null || typeof data == "undefined") {
+      warn("data does not contain recommended value", data, pattern, path2);
+      return false;
+    } else {
+      return fails(data, pattern, root, path2);
+    }
+  };
 }
-function isOldmNamedNode(value) {
-  return Boolean(value && typeof value === "object" && typeof value.id === "string" && value.graph);
+function oneOf(...patterns) {
+  return function _oneOf(data, root, path2) {
+    for (let pattern of patterns) {
+      if (!fails(data, pattern, root, path2)) {
+        return false;
+      }
+    }
+    return error("data does not match oneOf patterns", data, patterns, path2);
+  };
 }
-function values4(value) {
-  if (value === void 0 || value === null) return [];
-  return Array.isArray(value) ? value : [value];
+function anyOf3(...patterns) {
+  return function _anyOf(data, root, path2) {
+    if (!Array.isArray(data)) {
+      return error("data is not an array", data, "anyOf", path2);
+    }
+    for (let [index, value] of data.entries()) {
+      let itemPath = appendPath(path2, index);
+      if (oneOf(...patterns)(value, root, itemPath)) {
+        return error("data does not match anyOf patterns", value, patterns, itemPath);
+      }
+    }
+    return false;
+  };
 }
-function isLinkedDataResponse(response3) {
-  return /^text\/turtle\b|^application\/ld\+json\b|^application\/n-quads\b|^application\/trig\b/.test(responseContentType(response3));
+function allOf(...patterns) {
+  return function _allOf(data, root, path2) {
+    let problems = [];
+    for (let pattern of patterns) {
+      problems = problems.concat(fails(data, pattern, root, path2));
+    }
+    problems = problems.filter(Boolean);
+    if (problems.length) {
+      return error("data does not match all given patterns", data, patterns, path2, problems);
+    }
+  };
 }
-function responseContentType(response3) {
-  return response3?.headers?.get?.("Content-Type") || response3?.headers?.get?.("content-type") || "";
-}
-async function ensureOk({ response: response3, operation }) {
-  if (response3.ok) return;
-  const body = await responseText(response3).catch(() => "");
-  const detail = body.trim() ? `: ${body.trim()}` : "";
-  throw new Error(`Solid resource ${operation} failed (${response3.status} ${response3.statusText})${detail}`);
-}
-async function responseText(response3) {
-  if (typeof response3?.text === "function") {
-    return response3.text();
+function validURL(data, root, path2) {
+  try {
+    if (data instanceof URL) {
+      data = data.href;
+    }
+    let url3 = new URL(data);
+    if (url3.href != data) {
+      if (!(url3.href + "/" == data || url3.href == data + "/")) {
+        return error("data is not a valid url", data, "validURL", path2);
+      }
+    }
+  } catch (e) {
+    return error("data is not a valid url", data, "validURL", path2);
   }
-  if (typeof response3?.data === "string") {
-    return response3.data;
+}
+function validEmail(data, root, path2) {
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data)) {
+    return error("data is not a valid email", data, "validEmail", path2);
   }
-  return "";
+}
+function instanceOf(constructor) {
+  return function _instanceOf(data, root, path2) {
+    if (!(data instanceof constructor)) {
+      return error("data is not an instanceof pattern", data, constructor, path2);
+    }
+  };
+}
+function not(pattern) {
+  return function _not(data, root, path2) {
+    if (!fails(data, pattern, root, path2)) {
+      return error("data matches pattern, when required not to", data, pattern, path2);
+    }
+  };
+}
+function issues(data, pattern, root) {
+  let problems = fails(data, pattern, root);
+  if (!problems) {
+    return false;
+  }
+  return problemsToIssues(problems);
+}
+function fails(data, pattern, root, path2 = "") {
+  if (typeof root == "undefined") {
+    root = data;
+  }
+  let problems = [];
+  if (pattern === Boolean) {
+    if (typeof data != "boolean" && !(data instanceof Boolean)) {
+      problems.push(error("data is not a boolean", data, pattern, path2));
+    }
+  } else if (pattern === Number) {
+    if (typeof data != "number" && !(data instanceof Number)) {
+      problems.push(error("data is not a number", data, pattern, path2));
+    }
+  } else if (pattern === String) {
+    if (typeof data != "string" && !(data instanceof String)) {
+      problems.push(error("data is not a string", data, pattern, path2));
+    }
+    if (data == "") {
+      problems.push(error("data is an empty string, which is not allowed", data, pattern, path2));
+    }
+  } else if (pattern instanceof RegExp) {
+    if (Array.isArray(data)) {
+      let index = data.findIndex((element2, index2) => fails(element2, pattern, root, appendPath(path2, index2)));
+      if (index > -1) {
+        problems.push(error("data[" + index + "] does not match pattern", data[index], pattern, appendPath(path2, index)));
+      }
+    } else if (typeof data == "undefined") {
+      problems.push(error("data is undefined, should match pattern", data, pattern, path2));
+    } else if (!pattern.test(data)) {
+      problems.push(error("data does not match pattern", data, pattern, path2));
+    }
+  } else if (pattern instanceof Function) {
+    let problem = pattern(data, root, path2);
+    if (problem) {
+      if (Array.isArray(problem)) {
+        problems = problems.concat(problem);
+      } else {
+        problems.push(problem);
+      }
+    }
+  } else if (Array.isArray(pattern)) {
+    if (!Array.isArray(data)) {
+      problems.push(error("data is not an array", data, [], path2));
+    } else {
+      for (let p of pattern) {
+        for (let index of data.keys()) {
+          let problem = fails(data[index], p, root, appendPath(path2, index));
+          if (Array.isArray(problem)) {
+            problems = problems.concat(problem);
+          } else if (problem) {
+            problems.push(problem);
+          }
+        }
+      }
+    }
+  } else if (pattern && typeof pattern == "object") {
+    if (Array.isArray(data)) {
+      let index = data.findIndex((element2, index2) => fails(element2, pattern, root, appendPath(path2, index2)));
+      if (index > -1) {
+        problems.push(error("data[" + index + "] does not match pattern", data[index], pattern, appendPath(path2, index)));
+      }
+    } else if (!data || typeof data != "object") {
+      problems.push(error("data is not an object, pattern is", data, pattern, path2));
+    } else {
+      if (data instanceof URLSearchParams) {
+        data = Object.fromEntries(data);
+      }
+      if (pattern instanceof Function) {
+        let result = fails(data, pattern, root, path2);
+        if (result) {
+          problems = problems.concat(result);
+        }
+      } else {
+        for (const [patternKey, subpattern] of Object.entries(pattern)) {
+          let result = fails(data[patternKey], subpattern, root, appendPath(path2, patternKey));
+          if (result) {
+            problems = problems.concat(result);
+          }
+        }
+      }
+    }
+  } else {
+    if (pattern != data) {
+      problems.push(error("data and pattern are not equal", data, pattern, path2));
+    }
+  }
+  if (problems.length) {
+    return problems;
+  }
+  return false;
+}
+function error(message, found, expected, path2 = "", problems) {
+  let pathParts = pathToArray(path2);
+  let result = {
+    path: path2,
+    pathString: pathToString(pathParts),
+    pathParts,
+    message,
+    found,
+    expected
+  };
+  if (problems) {
+    result.problems = problems;
+  }
+  return result;
+}
+function warn(message, data, pattern, path2) {
+  console.warn("\u{1F170}\uFE0F  Assert: " + path2, message, pattern, data);
+}
+
+// node_modules/@muze-nl/assert/src/assert.mjs
+globalThis.assert = { ...assert_core_exports };
+
+// ../solid-tools/node_modules/@muze-nl/metro-oidc/node_modules/@muze-nl/metro/src/metro.mjs
+var metro_exports = {};
+__export(metro_exports, {
+  Client: () => Client2,
+  client: () => client2,
+  deepClone: () => deepClone2,
+  formdata: () => formdata2,
+  metroError: () => metroError2,
+  request: () => request2,
+  response: () => response2,
+  trace: () => trace2,
+  url: () => url2
+});
+var metroURL3 = "https://metro.muze.nl/details/";
+if (!Symbol.metroProxy) {
+  Symbol.metroProxy = Symbol("isProxy");
+}
+if (!Symbol.metroSource) {
+  Symbol.metroSource = Symbol("source");
+}
+var Client2 = class _Client {
+  clientOptions = {
+    url: typeof window != "undefined" ? url2(window.location) : url2("https://localhost"),
+    verbs: ["get", "post", "put", "delete", "patch", "head", "options", "query"]
+  };
+  static tracers = {};
+  /**
+   * @typedef {Object} ClientOptions
+   * @property {Array} middlewares - list of middleware functions
+   * @property {string|URL} url - default url of the client
+   * @property {[string]} verbs - a list of verb methods to expose, e.g. ['get','post']
+   * 
+   * Constructs a new metro client. Can have any number of params.
+   * @params {ClientOptions|URL|Function|Client}
+   * @returns {Client} - A metro client object with given or default verb methods
+   */
+  constructor(...options) {
+    for (let option of options) {
+      if (typeof option == "string" || option instanceof String) {
+        this.clientOptions.url = url2(this.clientOptions.url.href, option);
+      } else if (option instanceof _Client) {
+        Object.assign(this.clientOptions, option.clientOptions);
+      } else if (option instanceof Function) {
+        this.#addMiddlewares([option]);
+      } else if (option && typeof option == "object") {
+        for (let param in option) {
+          if (param == "middlewares") {
+            this.#addMiddlewares(option[param]);
+          } else if (param == "url") {
+            this.clientOptions.url = url2(this.clientOptions.url.href, option[param]);
+          } else if (typeof option[param] == "function") {
+            this.clientOptions[param] = option[param](this.clientOptions[param], this.clientOptions);
+          } else {
+            this.clientOptions[param] = option[param];
+          }
+        }
+      }
+    }
+    for (const verb of this.clientOptions.verbs) {
+      this[verb] = async function(...options2) {
+        return this.fetch(request2(
+          this.clientOptions,
+          ...options2,
+          { method: verb.toUpperCase() }
+        ));
+      };
+    }
+  }
+  #addMiddlewares(middlewares) {
+    if (typeof middlewares == "function") {
+      middlewares = [middlewares];
+    }
+    let index = middlewares.findIndex((m) => typeof m != "function");
+    if (index >= 0) {
+      throw metroError2("metro.client: middlewares must be a function or an array of functions " + metroURL3 + "client/invalid-middlewares/", middlewares[index]);
+    }
+    if (!Array.isArray(this.clientOptions.middlewares)) {
+      this.clientOptions.middlewares = [];
+    }
+    this.clientOptions.middlewares = this.clientOptions.middlewares.concat(middlewares);
+  }
+  /**
+   * Mimics the standard browser fetch method, but uses any middleware installed through
+   * the constructor.
+   * @param {Request|string|Object} - Required. The URL or Request object, accepts all types that are accepted by metro.request
+   * @param {Object} - Optional. Any object that is accepted by metro.request
+   * @return {Promise<Response|*>} - The metro.response to this request, or any other result as changed by any included middleware.
+   */
+  fetch(req, options) {
+    req = request2(req, options);
+    if (!req.url) {
+      throw metroError2("metro.client." + req.method.toLowerCase() + ": Missing url parameter " + metroURL3 + "client/fetch-missing-url/", req);
+    }
+    if (!options) {
+      options = {};
+    }
+    if (!(typeof options === "object") || options instanceof String) {
+      throw metroError2("metro.client.fetch: Invalid options parameter " + metroURL3 + "client/fetch-invalid-options/", options);
+    }
+    const metrofetch = async function browserFetch(req2) {
+      if (req2[Symbol.metroProxy]) {
+        req2 = req2[Symbol.metroSource];
+      }
+      const res = await fetch(req2);
+      return response2(res);
+    };
+    let middlewares = [metrofetch].concat(this.clientOptions?.middlewares?.slice() || []);
+    options = Object.assign({}, this.clientOptions, options);
+    let next;
+    for (let middleware of middlewares) {
+      next = /* @__PURE__ */ (function(next2, middleware2) {
+        return async function(req2) {
+          let res;
+          let tracers2 = Object.values(_Client.tracers);
+          for (let tracer of tracers2) {
+            if (tracer.request) {
+              tracer.request.call(tracer, req2, middleware2);
+            }
+          }
+          res = await middleware2(req2, next2);
+          for (let tracer of tracers2) {
+            if (tracer.response) {
+              tracer.response.call(tracer, res, middleware2);
+            }
+          }
+          return res;
+        };
+      })(next, middleware);
+    }
+    return next(req);
+  }
+  with(...options) {
+    return new _Client(deepClone2(this.clientOptions), ...options);
+  }
+  get location() {
+    return this.clientOptions.url;
+  }
+};
+function client2(...options) {
+  return new Client2(...deepClone2(options));
+}
+function getRequestParams2(req, current) {
+  let params = current || {};
+  if (!params.url && current.url) {
+    params.url = current.url;
+  }
+  for (let prop of [
+    "method",
+    "headers",
+    "body",
+    "mode",
+    "credentials",
+    "cache",
+    "redirect",
+    "referrer",
+    "referrerPolicy",
+    "integrity",
+    "keepalive",
+    "signal",
+    "priority",
+    "url"
+  ]) {
+    let value = req[prop];
+    if (typeof value == "undefined" || value == null) {
+      continue;
+    }
+    if (value?.[Symbol.metroProxy]) {
+      value = value[Symbol.metroSource];
+    }
+    if (typeof value == "function") {
+      params[prop] = value(params[prop], params);
+    } else {
+      if (prop == "url") {
+        params.url = url2(params.url, value);
+      } else if (prop == "headers") {
+        params.headers = new Headers(current.headers);
+        if (!(value instanceof Headers)) {
+          value = new Headers(req.headers);
+        }
+        for (let [key, val] of value.entries()) {
+          params.headers.set(key, val);
+        }
+      } else {
+        params[prop] = value;
+      }
+    }
+  }
+  if (req instanceof Request && req.data) {
+    params.body = req.data;
+  }
+  return params;
+}
+function request2(...options) {
+  let requestParams = {
+    url: typeof window != "undefined" ? url2(window.location) : url2("https://localhost/"),
+    duplex: "half"
+    // required when setting body to ReadableStream, just set it here by default already
+  };
+  for (let option of options) {
+    if (typeof option == "string" || option instanceof URL || option instanceof URLSearchParams) {
+      requestParams.url = url2(requestParams.url, option);
+    } else if (option && (option instanceof FormData || option instanceof ReadableStream || option instanceof Blob || option instanceof ArrayBuffer || option instanceof DataView)) {
+      requestParams.body = option;
+    } else if (option && typeof option == "object") {
+      Object.assign(requestParams, getRequestParams2(option, requestParams));
+    }
+  }
+  let r = new Request(requestParams.url, requestParams);
+  let data = requestParams.body;
+  if (data) {
+    if (typeof data == "object" && !(data instanceof String) && !(data instanceof ReadableStream) && !(data instanceof Blob) && !(data instanceof ArrayBuffer) && !(data instanceof DataView) && !(data instanceof FormData) && !(data instanceof URLSearchParams) && (typeof globalThis.TypedArray == "undefined" || !(data instanceof globalThis.TypedArray))) {
+      if (typeof data.toString == "function") {
+        requestParams.body = data.toString({ headers: r.headers });
+        r = new Request(requestParams.url, requestParams);
+      }
+    }
+  }
+  Object.freeze(r);
+  return new Proxy(r, {
+    get(target, prop) {
+      let result;
+      switch (prop) {
+        case Symbol.metroSource:
+          result = target;
+          break;
+        case Symbol.metroProxy:
+          result = true;
+          break;
+        case "with":
+          result = function(...options2) {
+            if (data) {
+              options2.unshift({ body: data });
+            }
+            return request2(target, ...options2);
+          };
+          break;
+        case "data":
+          result = data;
+          break;
+        default:
+          if (target[prop] instanceof Function) {
+            if (prop === "clone") {
+            }
+            result = target[prop].bind(target);
+          } else {
+            result = target[prop];
+          }
+          break;
+      }
+      return result;
+    }
+  });
+}
+function getResponseParams2(res, current) {
+  let params = current || {};
+  if (!params.url && current.url) {
+    params.url = current.url;
+  }
+  for (let prop of ["status", "statusText", "headers", "body", "url", "type", "redirected"]) {
+    let value = res[prop];
+    if (typeof value == "undefined" || value == null) {
+      continue;
+    }
+    if (value?.[Symbol.metroProxy]) {
+      value = value[Symbol.metroSource];
+    }
+    if (typeof value == "function") {
+      params[prop] = value(params[prop], params);
+    } else {
+      if (prop == "url") {
+        params.url = new URL(value, params.url || "https://localhost/");
+      } else {
+        params[prop] = value;
+      }
+    }
+  }
+  if (res instanceof Response && res.data) {
+    params.body = res.data;
+  }
+  return params;
+}
+function response2(...options) {
+  let responseParams = {};
+  for (let option of options) {
+    if (typeof option == "string") {
+      responseParams.body = option;
+    } else if (option instanceof Response) {
+      Object.assign(responseParams, getResponseParams2(option, responseParams));
+    } else if (option && typeof option == "object") {
+      if (option instanceof FormData || option instanceof Blob || option instanceof ArrayBuffer || option instanceof DataView || option instanceof ReadableStream || option instanceof URLSearchParams || option instanceof String || typeof globalThis.TypedArray != "undefined" && option instanceof globalThis.TypedArray) {
+        responseParams.body = option;
+      } else {
+        Object.assign(responseParams, getResponseParams2(option, responseParams));
+      }
+    }
+  }
+  let data = void 0;
+  if (responseParams.body) {
+    data = responseParams.body;
+  }
+  if ([101, 204, 205, 304].includes(responseParams.status)) {
+    responseParams.body = null;
+  }
+  let r = new Response(responseParams.body, responseParams);
+  Object.freeze(r);
+  return new Proxy(r, {
+    get(target, prop) {
+      let result;
+      switch (prop) {
+        case Symbol.metroProxy:
+          result = true;
+          break;
+        case Symbol.metroSource:
+          result = target;
+          break;
+        case "with":
+          result = function(...options2) {
+            return response2(target, ...options2);
+          };
+          break;
+        case "data":
+          result = data;
+          break;
+        case "ok":
+          result = target.status >= 200 && target.status < 400;
+          break;
+        default:
+          if (typeof target[prop] == "function") {
+            result = target[prop].bind(target);
+          } else {
+            result = target[prop];
+          }
+          break;
+      }
+      return result;
+    }
+  });
+}
+function appendSearchParams2(url3, params) {
+  if (typeof params == "function") {
+    params(url3.searchParams, url3);
+  } else {
+    params = new URLSearchParams(params);
+    params.forEach((value, key) => {
+      url3.searchParams.append(key, value);
+    });
+  }
+}
+function url2(...options) {
+  let validParams = [
+    "hash",
+    "host",
+    "hostname",
+    "href",
+    "password",
+    "pathname",
+    "port",
+    "protocol",
+    "username",
+    "search",
+    "searchParams"
+  ];
+  let u = new URL("https://localhost/");
+  for (let option of options) {
+    if (typeof option == "string" || option instanceof String) {
+      u = new URL(option, u);
+    } else if (option instanceof URL || typeof Location != "undefined" && option instanceof Location) {
+      u = new URL(option);
+    } else if (option instanceof URLSearchParams) {
+      appendSearchParams2(u, option);
+    } else if (option && typeof option == "object") {
+      for (let param in option) {
+        switch (param) {
+          case "search":
+            if (typeof option.search == "function") {
+              option.search(u.search, u);
+            } else {
+              u.search = new URLSearchParams(option.search);
+            }
+            break;
+          case "searchParams":
+            appendSearchParams2(u, option.searchParams);
+            break;
+          default:
+            if (!validParams.includes(param)) {
+              throw metroError2("metro.url: unknown url parameter " + metroURL3 + "url/unknown-param-name/", param);
+            }
+            if (typeof option[param] == "function") {
+              option[param](u[param], u);
+            } else if (typeof option[param] == "string" || option[param] instanceof String || typeof option[param] == "number" || option[param] instanceof Number || typeof option[param] == "boolean" || option[param] instanceof Boolean) {
+              u[param] = "" + option[param];
+            } else if (typeof option[param] == "object" && option[param].toString) {
+              u[param] = option[param].toString();
+            } else {
+              throw metroError2("metro.url: unsupported value for " + param + " " + metroURL3 + "url/unsupported-param-value/", options[param]);
+            }
+            break;
+        }
+      }
+    } else {
+      throw metroError2("metro.url: unsupported option value " + metroURL3 + "url/unsupported-option-value/", option);
+    }
+  }
+  Object.freeze(u);
+  return new Proxy(u, {
+    get(target, prop) {
+      let result;
+      switch (prop) {
+        case Symbol.metroProxy:
+          result = true;
+          break;
+        case Symbol.metroSource:
+          result = target;
+          break;
+        case "with":
+          result = function(...options2) {
+            return url2(target, ...options2);
+          };
+          break;
+        case "filename":
+          result = target.pathname.split("/").pop();
+          break;
+        case "folderpath":
+          result = target.pathname.substring(0, target.pathname.lastIndexOf("\\") + 1);
+          break;
+        case "authority":
+          result = target.username ?? "";
+          result += target.password ? ":" + target.password : "";
+          result += result ? "@" : "";
+          result += target.hostname;
+          result += target.port ? ":" + target.port : "";
+          result += "/";
+          result = target.protocol + "//" + result;
+          break;
+        case "origin":
+          result = target.protocol + "//" + target.hostname;
+          result += target.port ? ":" + target.port : "";
+          result += "/";
+          break;
+        case "fragment":
+          result = target.hash.substring(1);
+          break;
+        case "scheme":
+          if (target.protocol) {
+            result = target.protocol.substring(0, target.protocol.length - 1);
+          } else {
+            result = "";
+          }
+          break;
+        default:
+          if (target[prop] instanceof Function) {
+            result = target[prop].bind(target);
+          } else {
+            result = target[prop];
+          }
+          break;
+      }
+      return result;
+    }
+  });
+}
+function formdata2(...options) {
+  var params = new FormData();
+  for (let option of options) {
+    if (option instanceof HTMLFormElement) {
+      option = new FormData(option);
+    }
+    if (option instanceof FormData) {
+      for (let entry of option.entries()) {
+        params.append(entry[0], entry[1]);
+      }
+    } else if (option && typeof option == "object") {
+      for (let entry of Object.entries(option)) {
+        if (Array.isArray(entry[1])) {
+          for (let value of entry[1]) {
+            params.append(entry[0], value);
+          }
+        } else {
+          params.append(entry[0], entry[1]);
+        }
+      }
+    } else {
+      throw new metroError2("metro.formdata: unknown option type " + metroURL3 + "formdata/unknown-option-value/", option);
+    }
+  }
+  Object.freeze(params);
+  return new Proxy(params, {
+    get(target, prop) {
+      let result;
+      switch (prop) {
+        case Symbol.metroProxy:
+          result = true;
+          break;
+        case Symbol.metroSource:
+          result = target;
+          break;
+        //TODO: add toString() that can check
+        //headers param: toString({headers:request.headers})
+        //for the content-type
+        case "with":
+          result = function(...options2) {
+            return formdata2(target, ...options2);
+          };
+          break;
+        default:
+          if (target[prop] instanceof Function) {
+            result = target[prop].bind(target);
+          } else {
+            result = target[prop];
+          }
+          break;
+      }
+      return result;
+    }
+  });
+}
+var metroConsole3 = {
+  error: (message, ...details) => {
+    console.error("\u24C2\uFE0F  ", message, ...details);
+  },
+  info: (message, ...details) => {
+    console.info("\u24C2\uFE0F  ", message, ...details);
+  },
+  group: (name) => {
+    console.group("\u24C2\uFE0F  " + name);
+  },
+  groupEnd: (name) => {
+    console.groupEnd("\u24C2\uFE0F  " + name);
+  }
+};
+function metroError2(message, ...details) {
+  metroConsole3.error(message, ...details);
+  return new Error(message, ...details);
+}
+var trace2 = {
+  /**
+   * Adds a named tracer function
+   * @param {string} name - the name of the tracer
+   * @param {Function} tracer - the tracer function to call
+   */
+  add(name, tracer) {
+    Client2.tracers[name] = tracer;
+  },
+  /**
+   * Removes a named tracer function
+   * @param {string} name
+   */
+  delete(name) {
+    delete Client2.tracers[name];
+  },
+  /**
+   * Removes all tracer functions
+   */
+  clear() {
+    Client2.tracers = {};
+  },
+  /**
+   * Returns a set of request and response tracer functions that use the
+   * console.group feature to shows nested request/response pairs, with
+   * most commonly needed information for debugging
+   */
+  group() {
+    let group2 = 0;
+    return {
+      request: (req, middleware) => {
+        group2++;
+        metroConsole3.group(group2);
+        metroConsole3.info(req?.url, req, middleware);
+      },
+      response: (res, middleware) => {
+        metroConsole3.info(res?.body ? res.body[Symbol.metroSource] : null, res, middleware);
+        metroConsole3.groupEnd(group2);
+        group2--;
+      }
+    };
+  }
+};
+function deepClone2(object) {
+  if (Array.isArray(object)) {
+    return object.slice().map(deepClone2);
+  }
+  if (object && typeof object === "object") {
+    if (object.__proto__.constructor == Object || !object.__proto__) {
+      let result = Object.assign({}, object);
+      Object.keys(result).forEach((key) => {
+        result[key] = deepClone2(object[key]);
+      });
+      return result;
+    } else {
+      return object;
+    }
+  }
+  return object;
+}
+
+// ../solid-tools/node_modules/@muze-nl/metro-oidc/node_modules/@muze-nl/metro/src/mw/json.mjs
+function jsonmw2(options) {
+  options = Object.assign({
+    contentType: "application/json",
+    reviver: null,
+    replacer: null,
+    space: ""
+  }, options);
+  return async function json(req, next) {
+    if (!req.headers.get("Accept")) {
+      req = req.with({
+        headers: {
+          "Accept": options.accept ?? options.contentType
+        }
+      });
+    }
+    if (req.method !== "GET" && req.method !== "HEAD") {
+      if (req.data && typeof req.data == "object" && !(req.data instanceof ReadableStream)) {
+        const contentType = req.headers.get("Content-Type");
+        if (!contentType || isPlainText3(contentType)) {
+          req = req.with({
+            headers: {
+              "Content-Type": options.contentType
+            }
+          });
+        }
+        if (isJSON2(req.headers.get("Content-Type"))) {
+          req = req.with({
+            body: JSON.stringify(req.data, options.replacer, options.space)
+          });
+        }
+      }
+    }
+    let res = await next(req);
+    if (res && isJSON2(res.headers?.get("Content-Type"))) {
+      let tempRes = res.clone();
+      let body = await tempRes.text();
+      try {
+        let json2 = JSON.parse(body, options.reviver);
+        return res.with({
+          body: json2
+        });
+      } catch (e) {
+      }
+    }
+    return res;
+  };
+}
+var jsonRE2 = /^application\/([a-zA-Z0-9\-_]+\+)?json\b/;
+function isJSON2(contentType) {
+  return jsonRE2.exec(contentType);
+}
+function isPlainText3(contentType) {
+  return /^text\/plain\b/.exec(contentType);
+}
+
+// ../solid-tools/node_modules/@muze-nl/metro-oidc/node_modules/@muze-nl/metro/src/mw/thrower.mjs
+function throwermw2(options) {
+  return async function thrower(req, next) {
+    let res = await next(req);
+    if (!res.ok) {
+      if (options && typeof options[res.status] == "function") {
+        res = options[res.status].apply(res, req);
+      } else {
+        throw new Error(res.status + ": " + res.statusText, {
+          cause: res
+        });
+      }
+    }
+    return res;
+  };
+}
+
+// ../solid-tools/node_modules/@muze-nl/metro-oidc/node_modules/@muze-nl/metro/src/mw/getdata.mjs
+function getdatamw2() {
+  return async function getdata(req, next) {
+    let res = await next(req);
+    if (res.ok && res.data) {
+      return res.data;
+    }
+    return res;
+  };
+}
+
+// ../solid-tools/node_modules/@muze-nl/metro-oidc/node_modules/@muze-nl/metro/src/api.mjs
+var API2 = class extends Client2 {
+  #methods = null;
+  #base = "";
+  constructor(base, methods, bind2 = null) {
+    if (base instanceof Client2) {
+      super(base.clientOptions, throwermw2(), getdatamw2());
+    } else {
+      super(base, throwermw2(), getdatamw2());
+    }
+    if (!bind2) {
+      bind2 = this;
+    }
+    this.#methods = methods;
+    this.#base = base;
+    for (const methodName in methods) {
+      if (typeof methods[methodName] == "function") {
+        this[methodName] = methods[methodName].bind(bind2);
+      } else if (methods[methodName] && typeof methods[methodName] == "object" && (Object.getPrototypeOf(methods[methodName]) === null || Object.getPrototypeOf(methods[methodName]).constructor === Object)) {
+        this[methodName] = new this.constructor(base, methods[methodName], bind2);
+      } else {
+        this[methodName] = methods[methodName];
+      }
+    }
+  }
+  extend(methods) {
+    return new this.constructor(this.#base, Object.assign({}, this.#methods, methods));
+  }
+};
+var JsonAPI2 = class extends API2 {
+  constructor(base, methods, bind2 = null) {
+    if (base instanceof Client2) {
+      super(base.with(jsonmw2()), methods, bind2);
+    } else {
+      super(client2(base, jsonmw2()), methods, bind2);
+    }
+  }
+};
+function api2(...options) {
+  return new API2(...deepClone2(options));
+}
+function jsonApi2(...options) {
+  return new JsonAPI2(...deepClone2(options));
+}
+
+// ../solid-tools/node_modules/@muze-nl/metro-oidc/node_modules/@muze-nl/metro/src/everything.mjs
+var metro2 = Object.assign({}, metro_exports, {
+  mw: {
+    json: jsonmw2,
+    thrower: throwermw2,
+    getdata: getdatamw2
+  },
+  api: api2,
+  jsonApi: jsonApi2
+});
+if (!globalThis.metro) {
+  globalThis.metro = metro2;
+}
+var everything_default = metro2;
+
+// ../solid-tools/node_modules/@muze-nl/metro-oauth2/src/oauth2.mjs
+var oauth2_exports = {};
+__export(oauth2_exports, {
+  base64url_encode: () => base64url_encode,
+  createState: () => createState,
+  default: () => oauth2mw,
+  generateCodeChallenge: () => generateCodeChallenge,
+  generateCodeVerifier: () => generateCodeVerifier,
+  getExpires: () => getExpires,
+  isAuthorized: () => isAuthorized,
+  isExpired: () => isExpired,
+  isRedirected: () => isRedirected,
+  parseBearerChallenge: () => parseBearerChallenge
+});
+
+// ../solid-tools/node_modules/@muze-nl/assert/src/assert-core.mjs
+var assert_core_exports2 = {};
+__export(assert_core_exports2, {
+  Optional: () => Optional2,
+  Recommended: () => Recommended2,
+  Required: () => Required2,
+  allOf: () => allOf2,
+  anyOf: () => anyOf4,
+  assert: () => assert2,
+  disable: () => disable2,
+  enable: () => enable2,
+  error: () => error2,
+  fails: () => fails2,
+  formatIssue: () => formatIssue2,
+  formatIssues: () => formatIssues2,
+  instanceOf: () => instanceOf2,
+  issues: () => issues2,
+  not: () => not2,
+  oneOf: () => oneOf2,
+  validEmail: () => validEmail2,
+  validURL: () => validURL2,
+  warn: () => warn2
+});
+var assertEnabled2 = false;
+function enable2() {
+  assertEnabled2 = true;
+}
+function disable2() {
+  assertEnabled2 = false;
+}
+function appendPath2(path2 = "", key) {
+  if (typeof path2 == "undefined" || path2 == null) {
+    path2 = "";
+  }
+  if (typeof key == "number") {
+    return `${path2}[${key}]`;
+  }
+  return `${path2}.${key}`;
+}
+function pathToArray2(path2 = "") {
+  if (Array.isArray(path2)) {
+    return path2;
+  }
+  if (!path2) {
+    return [];
+  }
+  let result = [];
+  let matcher = /(?:^|\.)([^.\[\]]+)|\[(\d+)\]/g;
+  let match;
+  while (match = matcher.exec(path2)) {
+    if (typeof match[1] != "undefined") {
+      result.push(match[1]);
+    } else if (typeof match[2] != "undefined") {
+      result.push(Number(match[2]));
+    }
+  }
+  return result;
+}
+function pathToString2(path2 = []) {
+  if (typeof path2 == "string") {
+    return path2.startsWith(".") ? path2.slice(1) : path2;
+  }
+  return path2.map((part, index) => {
+    if (typeof part == "number") {
+      return `[${part}]`;
+    }
+    return `${index ? "." : ""}${part}`;
+  }).join("");
+}
+function describeFunction2(value) {
+  if (value === String) {
+    return "string";
+  }
+  if (value === Number) {
+    return "number";
+  }
+  if (value === Boolean) {
+    return "boolean";
+  }
+  return value.name || "function";
+}
+function clip2(text, maxLength = 60) {
+  if (text.length <= maxLength) {
+    return text;
+  }
+  return text.slice(0, maxLength - 1) + "\u2026";
+}
+function quoteString2(value) {
+  return `'${clip2(String(value).replace(/\\/g, "\\\\").replace(/'/g, "\\'").replace(/\n/g, "\\n"))}'`;
+}
+function jsonSummary2(value) {
+  try {
+    let json = JSON.stringify(value);
+    if (typeof json == "string") {
+      return clip2(json);
+    }
+  } catch (e) {
+  }
+  let name = value?.constructor?.name;
+  if (name && name != "Object") {
+    return name;
+  }
+  return Object.prototype.toString.call(value);
+}
+function formatValue2(value) {
+  if (typeof value == "string") {
+    return quoteString2(value);
+  }
+  if (typeof value == "undefined") {
+    return "undefined";
+  }
+  if (value === null) {
+    return "null";
+  }
+  if (typeof value == "function") {
+    return describeFunction2(value);
+  }
+  if (value instanceof RegExp) {
+    return value.toString();
+  }
+  if (typeof value == "number" || typeof value == "boolean" || typeof value == "bigint") {
+    return String(value);
+  }
+  if (typeof value == "symbol") {
+    return value.toString();
+  }
+  return jsonSummary2(value);
+}
+function describeExpected2(value) {
+  if (value === String || value === Number || value === Boolean) {
+    return describeFunction2(value);
+  }
+  if (typeof value == "function") {
+    return describeFunction2(value);
+  }
+  if (value instanceof RegExp) {
+    return value.toString();
+  }
+  if (Array.isArray(value)) {
+    return "[" + value.map(describeExpected2).join(", ") + "]";
+  }
+  return formatValue2(value);
+}
+function describeOneOf2(patterns) {
+  return patterns.map(describeExpected2).join(", ");
+}
+function conciseMessage2(message, actual, expected) {
+  if (message == "data and pattern are not equal") {
+    return `expected ${formatValue2(expected)}, found ${formatValue2(actual)}`;
+  }
+  if (message == "data does not match pattern" || /^data\[\d+\] does not match pattern$/.test(message)) {
+    return `expected ${describeExpected2(expected)}, found ${formatValue2(actual)}`;
+  }
+  if (message == "data is undefined, should match pattern") {
+    return `missing; expected ${describeExpected2(expected)}`;
+  }
+  if (message == "data is required") {
+    return "required";
+  }
+  if (message == "data is an empty string, which is not allowed") {
+    return "empty string is not allowed";
+  }
+  if (message == "data is not an object, pattern is") {
+    return "data is not an object";
+  }
+  if (message == "data is not an instanceof pattern") {
+    return `expected instance of ${describeExpected2(expected)}, found ${formatValue2(actual)}`;
+  }
+  if (message == "data does not match oneOf patterns" || message == "data does not match anyOf patterns") {
+    return `expected one of ${describeOneOf2(expected)}, found ${formatValue2(actual)}`;
+  }
+  if (message == "data matches pattern, when required not to") {
+    return `must not match ${describeExpected2(expected)}`;
+  }
+  return message;
+}
+function formatIssue2(issue, options = {}) {
+  if (!issue || typeof issue != "object") {
+    return String(issue);
+  }
+  let path2 = issue.pathString || pathToString2(issue.path || []) || "value";
+  let indent = options.indent ?? "";
+  return `${indent}${path2}: ${issue.message}`;
+}
+function formatIssues2(issues3, options = {}) {
+  if (!issues3) {
+    return false;
+  }
+  let indent = options.indent ?? "  - ";
+  return (Array.isArray(issues3) ? issues3 : [issues3]).map((issue) => formatIssue2(issue, { ...options, indent }));
+}
+function issueFromProblem2(problem) {
+  if (!problem || typeof problem != "object") {
+    return {
+      path: [],
+      pathString: "",
+      message: String(problem),
+      expected: void 0,
+      actual: void 0
+    };
+  }
+  let path2 = pathToArray2(problem.path);
+  let pathString = pathToString2(path2);
+  let actual = problem.actual ?? problem.found;
+  let expected = describeExpected2(problem.expected);
+  let message = conciseMessage2(problem.message, actual, problem.expected);
+  return {
+    path: path2,
+    pathString,
+    message,
+    expected,
+    actual
+  };
+}
+function problemsToIssues2(problems) {
+  if (!problems) {
+    return [];
+  }
+  let result = [];
+  for (let problem of Array.isArray(problems) ? problems : [problems]) {
+    if (!problem) {
+      continue;
+    }
+    if (problem && typeof problem == "object" && problem.problems) {
+      let nested = problemsToIssues2(problem.problems);
+      if (nested.length) {
+        result = result.concat(nested);
+        continue;
+      }
+    }
+    result.push(issueFromProblem2(problem));
+  }
+  return result;
+}
+function assert2(source2, test) {
+  if (assertEnabled2) {
+    let problems = fails2(source2, test);
+    if (problems) {
+      let assertionIssues = problemsToIssues2(problems);
+      let formattedIssues = formatIssues2(assertionIssues);
+      let message = "Assertions failed:\n" + formattedIssues.join("\n");
+      console.error("\u{1F170}\uFE0F  " + message);
+      throw new Error(message, {
+        cause: { problems, issues: assertionIssues, source: source2 }
+      });
+    }
+  }
+}
+function Optional2(pattern) {
+  return function _Optional(data, root, path2) {
+    if (typeof data != "undefined" && data != null && typeof pattern != "undefined") {
+      return fails2(data, pattern, root, path2);
+    }
+  };
+}
+function Required2(pattern) {
+  return function _Required(data, root, path2) {
+    if (data == null || typeof data == "undefined") {
+      return error2("data is required", data, pattern || "any value", path2);
+    } else if (typeof pattern != "undefined") {
+      return fails2(data, pattern, root, path2);
+    } else {
+      return false;
+    }
+  };
+}
+function Recommended2(pattern) {
+  return function _Recommended(data, root, path2) {
+    if (data == null || typeof data == "undefined") {
+      warn2("data does not contain recommended value", data, pattern, path2);
+      return false;
+    } else {
+      return fails2(data, pattern, root, path2);
+    }
+  };
+}
+function oneOf2(...patterns) {
+  return function _oneOf(data, root, path2) {
+    for (let pattern of patterns) {
+      if (!fails2(data, pattern, root, path2)) {
+        return false;
+      }
+    }
+    return error2("data does not match oneOf patterns", data, patterns, path2);
+  };
+}
+function anyOf4(...patterns) {
+  return function _anyOf(data, root, path2) {
+    if (!Array.isArray(data)) {
+      return error2("data is not an array", data, "anyOf", path2);
+    }
+    for (let [index, value] of data.entries()) {
+      let itemPath = appendPath2(path2, index);
+      if (oneOf2(...patterns)(value, root, itemPath)) {
+        return error2("data does not match anyOf patterns", value, patterns, itemPath);
+      }
+    }
+    return false;
+  };
+}
+function allOf2(...patterns) {
+  return function _allOf(data, root, path2) {
+    let problems = [];
+    for (let pattern of patterns) {
+      problems = problems.concat(fails2(data, pattern, root, path2));
+    }
+    problems = problems.filter(Boolean);
+    if (problems.length) {
+      return error2("data does not match all given patterns", data, patterns, path2, problems);
+    }
+  };
+}
+function validURL2(data, root, path2) {
+  try {
+    if (data instanceof URL) {
+      data = data.href;
+    }
+    let url3 = new URL(data);
+    if (url3.href != data) {
+      if (!(url3.href + "/" == data || url3.href == data + "/")) {
+        return error2("data is not a valid url", data, "validURL", path2);
+      }
+    }
+  } catch (e) {
+    return error2("data is not a valid url", data, "validURL", path2);
+  }
+}
+function validEmail2(data, root, path2) {
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data)) {
+    return error2("data is not a valid email", data, "validEmail", path2);
+  }
+}
+function instanceOf2(constructor) {
+  return function _instanceOf(data, root, path2) {
+    if (!(data instanceof constructor)) {
+      return error2("data is not an instanceof pattern", data, constructor, path2);
+    }
+  };
+}
+function not2(pattern) {
+  return function _not(data, root, path2) {
+    if (!fails2(data, pattern, root, path2)) {
+      return error2("data matches pattern, when required not to", data, pattern, path2);
+    }
+  };
+}
+function issues2(data, pattern, root) {
+  let problems = fails2(data, pattern, root);
+  if (!problems) {
+    return false;
+  }
+  return problemsToIssues2(problems);
+}
+function fails2(data, pattern, root, path2 = "") {
+  if (typeof root == "undefined") {
+    root = data;
+  }
+  let problems = [];
+  if (pattern === Boolean) {
+    if (typeof data != "boolean" && !(data instanceof Boolean)) {
+      problems.push(error2("data is not a boolean", data, pattern, path2));
+    }
+  } else if (pattern === Number) {
+    if (typeof data != "number" && !(data instanceof Number)) {
+      problems.push(error2("data is not a number", data, pattern, path2));
+    }
+  } else if (pattern === String) {
+    if (typeof data != "string" && !(data instanceof String)) {
+      problems.push(error2("data is not a string", data, pattern, path2));
+    }
+    if (data == "") {
+      problems.push(error2("data is an empty string, which is not allowed", data, pattern, path2));
+    }
+  } else if (pattern instanceof RegExp) {
+    if (Array.isArray(data)) {
+      let index = data.findIndex((element2, index2) => fails2(element2, pattern, root, appendPath2(path2, index2)));
+      if (index > -1) {
+        problems.push(error2("data[" + index + "] does not match pattern", data[index], pattern, appendPath2(path2, index)));
+      }
+    } else if (typeof data == "undefined") {
+      problems.push(error2("data is undefined, should match pattern", data, pattern, path2));
+    } else if (!pattern.test(data)) {
+      problems.push(error2("data does not match pattern", data, pattern, path2));
+    }
+  } else if (pattern instanceof Function) {
+    let problem = pattern(data, root, path2);
+    if (problem) {
+      if (Array.isArray(problem)) {
+        problems = problems.concat(problem);
+      } else {
+        problems.push(problem);
+      }
+    }
+  } else if (Array.isArray(pattern)) {
+    if (!Array.isArray(data)) {
+      problems.push(error2("data is not an array", data, [], path2));
+    } else {
+      for (let p of pattern) {
+        for (let index of data.keys()) {
+          let problem = fails2(data[index], p, root, appendPath2(path2, index));
+          if (Array.isArray(problem)) {
+            problems = problems.concat(problem);
+          } else if (problem) {
+            problems.push(problem);
+          }
+        }
+      }
+    }
+  } else if (pattern && typeof pattern == "object") {
+    if (Array.isArray(data)) {
+      let index = data.findIndex((element2, index2) => fails2(element2, pattern, root, appendPath2(path2, index2)));
+      if (index > -1) {
+        problems.push(error2("data[" + index + "] does not match pattern", data[index], pattern, appendPath2(path2, index)));
+      }
+    } else if (!data || typeof data != "object") {
+      problems.push(error2("data is not an object, pattern is", data, pattern, path2));
+    } else {
+      if (data instanceof URLSearchParams) {
+        data = Object.fromEntries(data);
+      }
+      if (pattern instanceof Function) {
+        let result = fails2(data, pattern, root, path2);
+        if (result) {
+          problems = problems.concat(result);
+        }
+      } else {
+        for (const [patternKey, subpattern] of Object.entries(pattern)) {
+          let result = fails2(data[patternKey], subpattern, root, appendPath2(path2, patternKey));
+          if (result) {
+            problems = problems.concat(result);
+          }
+        }
+      }
+    }
+  } else {
+    if (pattern != data) {
+      problems.push(error2("data and pattern are not equal", data, pattern, path2));
+    }
+  }
+  if (problems.length) {
+    return problems;
+  }
+  return false;
+}
+function error2(message, found, expected, path2 = "", problems) {
+  let pathParts = pathToArray2(path2);
+  let result = {
+    path: path2,
+    pathString: pathToString2(pathParts),
+    pathParts,
+    message,
+    found,
+    expected
+  };
+  if (problems) {
+    result.problems = problems;
+  }
+  return result;
+}
+function warn2(message, data, pattern, path2) {
+  console.warn("\u{1F170}\uFE0F  Assert: " + path2, message, pattern, data);
+}
+
+// ../solid-tools/node_modules/@muze-nl/assert/src/assert.mjs
+globalThis.assert = { ...assert_core_exports2 };
+
+// ../solid-tools/node_modules/@muze-nl/metro-oauth2/src/tokenstore.mjs
+function tokenStore(site) {
+  let localState, localTokens;
+  if (typeof localStorage !== "undefined") {
+    localState = {
+      get: () => localStorage.getItem("metro/state:" + site),
+      set: (value) => localStorage.setItem("metro/state:" + site, value),
+      has: () => localStorage.getItem("metro/state:" + site) !== null,
+      delete: () => localStorage.removeItem("metro/state:" + site)
+    };
+    localTokens = {
+      get: (name) => JSON.parse(localStorage.getItem(site + ":" + name)),
+      set: (name, value) => localStorage.setItem(site + ":" + name, JSON.stringify(value)),
+      has: (name) => localStorage.getItem(site + ":" + name) !== null,
+      delete: (name) => localStorage.removeItem(site + ":" + name)
+    };
+  } else {
+    let stateMap = /* @__PURE__ */ new Map();
+    localState = {
+      get: () => stateMap.get("metro/state:" + site),
+      set: (value) => stateMap.set("metro/state:" + site, value),
+      has: () => stateMap.has("metro/state:" + site),
+      delete: () => stateMap.delete("metro/state:" + site)
+    };
+    localTokens = /* @__PURE__ */ new Map();
+  }
+  return {
+    state: localState,
+    tokens: localTokens
+  };
+}
+
+// ../solid-tools/node_modules/@muze-nl/metro-oauth2/src/oauth2.mjs
+var SUPPORTED_TOKEN_TYPES = /* @__PURE__ */ new Map([
+  ["bearer", "Bearer"],
+  ["dpop", "DPoP"]
+]);
+var SUPPORTED_TOKEN_ENDPOINT_AUTH_METHODS = /* @__PURE__ */ new Set([
+  "none",
+  "client_secret_post",
+  "client_secret_basic"
+]);
+function oauth2mw(options) {
+  const defaultOptions = {
+    client: client(),
+    force_authorization: false,
+    site: "default",
+    oauth2_configuration: {
+      authorization_endpoint: "/authorize",
+      token_endpoint: "/token",
+      redirect_uri: globalThis.document?.location.href,
+      grant_type: "authorization_code",
+      code_verifier: generateCodeVerifier(64)
+    },
+    authorize_callback: async (url3) => {
+      if (window.location.href != url3.href) {
+        window.location.replace(url3.href);
+      }
+      return false;
+    }
+  };
+  assert2(options, {});
+  const oauth22 = Object.assign({}, defaultOptions.oauth2_configuration, options?.oauth2_configuration);
+  options = Object.assign({}, defaultOptions, options);
+  options.oauth2_configuration = oauth22;
+  const store = tokenStore(options.site);
+  if (!options.tokens) {
+    options.tokens = store.tokens;
+  }
+  if (!options.state) {
+    options.state = store.state;
+  }
+  assert2(options, {
+    oauth2_configuration: {
+      client_id: Required2(/.+/),
+      grant_type: "authorization_code",
+      authorization_endpoint: Required2(validURL2),
+      token_endpoint: Required2(validURL2),
+      redirect_uri: Required2(validURL2)
+    }
+  });
+  for (let option in oauth22) {
+    switch (option) {
+      case "access_token":
+      case "authorization_code":
+      case "refresh_token":
+        options.tokens.set(option, normalizeInitialToken(option, oauth22[option]));
+        break;
+    }
+  }
+  return async function(req, next) {
+    if (options.force_authorization) {
+      return oauth2authorized(req, next);
+    }
+    const res = await next(req);
+    if (res.ok || !shouldAuthorizeResponse(res)) {
+      return res;
+    }
+    return oauth2authorized(req, next);
+  };
+  async function oauth2authorized(req, next, retryState = {}) {
+    getTokensFromLocation();
+    const accessToken = options.tokens.get("access_token");
+    const refreshToken = options.tokens.get("refresh_token");
+    const tokenIsExpired = isExpired(accessToken);
+    if (!accessToken || tokenIsExpired && !refreshToken) {
+      const token = await fetchAccessToken();
+      if (!token) {
+        return response("false");
+      }
+      return oauth2authorized(req, next);
+    } else if (tokenIsExpired && refreshToken) {
+      const token = await refreshAccessToken();
+      if (!token) {
+        return response("false");
+      }
+      return oauth2authorized(req, next);
+    } else {
+      const authorizedReq = request(req, {
+        headers: {
+          Authorization: accessToken.type + " " + accessToken.value
+        }
+      });
+      const res = await next(authorizedReq);
+      if (!shouldAuthorizeResponse(res) || retryState.handledRejectedToken) {
+        return res;
+      }
+      options.tokens.delete("access_token");
+      const token = refreshToken ? await refreshAccessToken() : await fetchAccessToken();
+      if (!token) {
+        return response("false");
+      }
+      return oauth2authorized(req, next, { handledRejectedToken: true });
+    }
+  }
+  function getTokensFromLocation() {
+    if (typeof window !== "undefined" && window?.location) {
+      let url3 = url(window.location);
+      let code, state, params;
+      if (url3.searchParams.has("code") || url3.searchParams.has("error")) {
+        params = url3.searchParams;
+        url3 = url3.with({ search: "" });
+        history.pushState({}, "", url3.href);
+      } else if (url3.hash) {
+        let query = url3.hash.substr(1);
+        params = new URLSearchParams("?" + query);
+        url3 = url3.with({ hash: "" });
+        history.pushState({}, "", url3.href);
+      }
+      if (params) {
+        if (params.has("error")) {
+          throw metroError("oauth2mw: authorization failed: " + params.get("error") + (params.get("error_description") ? " (" + params.get("error_description") + ")" : ""));
+        }
+        code = params.get("code");
+        state = params.get("state");
+        validateState(state);
+        if (code) {
+          options.tokens.set("authorization_code", code);
+        }
+      }
+    }
+  }
+  async function fetchAccessToken() {
+    if (oauth22.grant_type === "authorization_code" && !options.tokens.has("authorization_code")) {
+      let authReqURL = await getAuthorizationCodeURL();
+      if (!options.authorize_callback || typeof options.authorize_callback !== "function") {
+        throw metroError("oauth2mw: oauth2 with grant_type:authorization_code requires a callback function in client options.authorize_callback");
+      }
+      let authorization = await options.authorize_callback(authReqURL);
+      if (authorization) {
+        storeAuthorizationResult(authorization);
+      } else {
+        return false;
+      }
+    }
+    let tokenReq = getAccessTokenRequest();
+    let response3 = await options.client.post(tokenReq);
+    if (!response3.ok) {
+      let msg = await response3.text();
+      throw metroError("OAuth2mw: fetch access_token: " + response3.status + ": " + response3.statusText + " (" + msg + ")", { cause: tokenReq });
+    }
+    let data = await response3.json();
+    storeTokenResponse(data);
+    options.tokens.delete("authorization_code");
+    return data;
+  }
+  async function refreshAccessToken() {
+    let refreshTokenReq = getAccessTokenRequest("refresh_token");
+    let response3 = await options.client.post(refreshTokenReq);
+    if (!response3.ok) {
+      let msg = await response3.text();
+      throw metroError("OAuth2mw: refresh access_token: " + response3.status + ": " + response3.statusText + " (" + msg + ")", { cause: refreshTokenReq });
+    }
+    let data = await response3.json();
+    storeTokenResponse(data);
+    return data;
+  }
+  async function getAuthorizationCodeURL() {
+    if (!oauth22.authorization_endpoint) {
+      throw metroError("oauth2mw: Missing options.oauth2_configuration.authorization_endpoint");
+    }
+    let url3 = url(oauth22.authorization_endpoint, { hash: "" });
+    assert2(oauth22, {
+      client_id: /.+/,
+      redirect_uri: /.+/,
+      scope: /.*/
+    });
+    let search = {
+      response_type: "code",
+      client_id: oauth22.client_id,
+      redirect_uri: oauth22.redirect_uri,
+      state: oauth22.state || createState(40)
+    };
+    if (oauth22.response_type) {
+      search.response_type = oauth22.response_type;
+    }
+    if (oauth22.response_mode) {
+      search.response_mode = oauth22.response_mode;
+    }
+    options.state.set(search.state);
+    if (oauth22.code_verifier) {
+      options.tokens.set("code_verifier", oauth22.code_verifier);
+      search.code_challenge = await generateCodeChallenge(oauth22.code_verifier);
+      search.code_challenge_method = "S256";
+    }
+    if (oauth22.scope) {
+      search.scope = oauth22.scope;
+    }
+    if (oauth22.prompt) {
+      search.prompt = oauth22.prompt;
+    }
+    if (oauth22.nonce) {
+      search.nonce = oauth22.nonce;
+    }
+    return url(url3, { search });
+  }
+  function getAccessTokenRequest(grant_type = null) {
+    assert2(oauth22, {
+      client_id: /.+/,
+      redirect_uri: /.+/
+    });
+    if (!oauth22.token_endpoint) {
+      throw metroError("oauth2mw: Missing options.endpoints.token url");
+    }
+    let url3 = url(oauth22.token_endpoint, { hash: "" });
+    let params = {
+      grant_type: grant_type || oauth22.grant_type
+    };
+    let headers = {};
+    applyTokenEndpointAuthentication(params, headers);
+    if (oauth22.scope) {
+      params.scope = oauth22.scope;
+    }
+    switch (params.grant_type) {
+      case "authorization_code":
+        params.redirect_uri = oauth22.redirect_uri;
+        params.code = options.tokens.get("authorization_code");
+        const code_verifier = options.tokens.get("code_verifier");
+        if (code_verifier) {
+          params.code_verifier = code_verifier;
+        }
+        break;
+      case "client_credentials":
+        break;
+      case "refresh_token":
+        params.refresh_token = tokenValue(options.tokens.get("refresh_token"));
+        break;
+      default:
+        throw new Error("Unknown grant_type: " + params.grant_type);
+        break;
+    }
+    return request(url3, { method: "POST", headers, body: new URLSearchParams(params) });
+  }
+  function applyTokenEndpointAuthentication(params, headers) {
+    const method = tokenEndpointAuthMethod(oauth22);
+    if (method === "none") {
+      params.client_id = oauth22.client_id;
+      return;
+    }
+    if (!oauth22.client_secret) {
+      throw metroError("oauth2mw: token_endpoint_auth_method " + method + " requires oauth2_configuration.client_secret");
+    }
+    if (method === "client_secret_post") {
+      params.client_id = oauth22.client_id;
+      params.client_secret = oauth22.client_secret;
+      return;
+    }
+    if (method === "client_secret_basic") {
+      headers.Authorization = basicAuth(oauth22.client_id, oauth22.client_secret);
+      return;
+    }
+  }
+  function storeAuthorizationResult(authorization) {
+    let code = authorization;
+    if (authorization && typeof authorization === "object") {
+      if (authorization.error) {
+        throw metroError("oauth2mw: authorization failed: " + authorization.error);
+      }
+      validateState(authorization.state);
+      code = authorization.authorization_code || authorization.code;
+    }
+    if (!code) {
+      throw metroError("oauth2mw: authorization callback did not return an authorization code");
+    }
+    options.tokens.set("authorization_code", code);
+  }
+  function validateState(state) {
+    let storedState = options.state.get();
+    if (!state || state !== storedState) {
+      throw metroError("oauth2mw: authorization state mismatch");
+    }
+  }
+  function storeTokenResponse(data) {
+    const token = validateTokenResponse(data);
+    options.tokens.set("access_token", token);
+    if (data.refresh_token) {
+      options.tokens.set("refresh_token", { value: data.refresh_token });
+    }
+  }
+}
+function shouldAuthorizeResponse(res) {
+  if (!res) {
+    return false;
+  }
+  if (res.status === 400) {
+    return true;
+  }
+  const challenge = parseBearerChallenge(res.headers?.get("WWW-Authenticate"));
+  if (challenge?.error === "insufficient_scope") {
+    return false;
+  }
+  return res.status === 401;
+}
+function normalizeInitialToken(name, token) {
+  if (name === "access_token" && token && typeof token === "object") {
+    return token;
+  }
+  if (name === "access_token") {
+    return { value: token, type: "Bearer", expires: null };
+  }
+  if (name === "refresh_token" && token && typeof token === "object") {
+    return token;
+  }
+  return token;
+}
+function validateTokenResponse(data) {
+  if (!data || typeof data !== "object") {
+    throw metroError("OAuth2mw: token endpoint did not return a JSON object");
+  }
+  if (!data.access_token) {
+    throw metroError("OAuth2mw: token response did not include access_token");
+  }
+  if (!data.token_type) {
+    throw metroError("OAuth2mw: token response did not include token_type");
+  }
+  const tokenType = normalizeTokenType(data.token_type);
+  return {
+    value: data.access_token,
+    expires: data.expires_in === void 0 ? null : getExpires(data.expires_in),
+    type: tokenType,
+    scope: data.scope
+  };
+}
+function normalizeTokenType(type) {
+  const normalized = SUPPORTED_TOKEN_TYPES.get(String(type).toLowerCase());
+  if (!normalized) {
+    throw metroError("OAuth2mw: unsupported token_type " + type);
+  }
+  return normalized;
+}
+function tokenEndpointAuthMethod(oauth22) {
+  const method = oauth22.token_endpoint_auth_method || (oauth22.client_secret ? "client_secret_post" : "none");
+  if (!SUPPORTED_TOKEN_ENDPOINT_AUTH_METHODS.has(method)) {
+    throw metroError("oauth2mw: unsupported token_endpoint_auth_method " + method);
+  }
+  return method;
+}
+function basicAuth(clientId, clientSecret) {
+  const value = formEncode(clientId) + ":" + formEncode(clientSecret);
+  return "Basic " + base64_encode(value);
+}
+function formEncode(value) {
+  return encodeURIComponent(value).replace(/%20/g, "+");
+}
+function base64_encode(value) {
+  if (typeof btoa === "function") {
+    return btoa(value);
+  }
+  return Buffer.from(value, "binary").toString("base64");
+}
+function tokenValue(token) {
+  return token && typeof token === "object" ? token.value : token;
+}
+function isExpired(token) {
+  if (!token) {
+    return true;
+  }
+  if (!token.expires) {
+    return false;
+  }
+  let expires = new Date(token.expires);
+  let now2 = /* @__PURE__ */ new Date();
+  return now2.getTime() > expires.getTime();
+}
+function getExpires(duration) {
+  if (duration instanceof Date) {
+    return new Date(duration.getTime());
+  }
+  if (typeof duration === "number") {
+    let date = /* @__PURE__ */ new Date();
+    date.setSeconds(date.getSeconds() + duration);
+    return date;
+  }
+  throw new TypeError("Unknown expires type " + duration);
+}
+function generateCodeVerifier(size = 64) {
+  const code_verifier = new Uint8Array(size);
+  globalThis.crypto.getRandomValues(code_verifier);
+  return base64url_encode(code_verifier);
+}
+async function generateCodeChallenge(code_verifier) {
+  const encoder2 = new TextEncoder();
+  const data = encoder2.encode(code_verifier);
+  const challenge = await globalThis.crypto.subtle.digest("SHA-256", data);
+  return base64url_encode(challenge);
+}
+function base64url_encode(buffer) {
+  const byteString = Array.from(new Uint8Array(buffer), (b) => String.fromCharCode(b)).join("");
+  return btoa(byteString).replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, "");
+}
+function createState(length) {
+  const bytes = new Uint8Array(Math.ceil(length * 3 / 4) + 1);
+  if (globalThis.crypto?.getRandomValues) {
+    globalThis.crypto.getRandomValues(bytes);
+    return base64url_encode(bytes).slice(0, length);
+  }
+  const validChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+  let randomState = "";
+  let counter = 0;
+  while (counter < length) {
+    randomState += validChars.charAt(Math.floor(Math.random() * validChars.length));
+    counter++;
+  }
+  return randomState;
+}
+function isRedirected() {
+  let url3 = new URL(document.location.href);
+  if (!url3.searchParams.has("code")) {
+    if (url3.hash) {
+      let query = url3.hash.substr(1);
+      const params = new URLSearchParams("?" + query);
+      if (params.has("code")) {
+        return true;
+      }
+    }
+    return false;
+  }
+  return true;
+}
+function isAuthorized(tokens) {
+  if (typeof tokens == "string") {
+    tokens = tokenStore(tokens).tokens;
+  }
+  let accessToken = tokens.get("access_token");
+  if (accessToken && !isExpired(accessToken)) {
+    return true;
+  }
+  let refreshToken = tokens.get("refresh_token");
+  if (refreshToken) {
+    return true;
+  }
+  return false;
+}
+function parseBearerChallenge(value) {
+  if (!value || typeof value !== "string") {
+    return null;
+  }
+  const trimmed = value.trim();
+  const index = trimmed.search(/\s/);
+  const scheme = index < 0 ? trimmed : trimmed.slice(0, index);
+  const rest = index < 0 ? "" : trimmed.slice(index + 1);
+  if (!["bearer", "dpop"].includes(scheme.toLowerCase())) {
+    return null;
+  }
+  const result = { scheme };
+  const pattern = /([A-Za-z][A-Za-z0-9_-]*)=("(?:[^"\\]|\\.)*"|[^,\s]*)/g;
+  let match;
+  while (match = pattern.exec(rest)) {
+    let value2 = match[2];
+    if (value2.startsWith('"') && value2.endsWith('"')) {
+      value2 = value2.slice(1, -1).replace(/\\"/g, '"');
+    }
+    result[match[1]] = value2;
+  }
+  return result;
+}
+
+// ../solid-tools/node_modules/@muze-nl/metro-oauth2/src/oauth2.discovery.mjs
+var oauth2_discovery_exports = {};
+__export(oauth2_discovery_exports, {
+  default: () => makeClient
+});
+var validAlgorithms = [
+  "HS256",
+  "HS384",
+  "HS512",
+  "RS256",
+  "RS384",
+  "RS512",
+  "ES256",
+  "ES384",
+  "ES512"
+];
+var validAuthMethods = [
+  "client_secret_post",
+  "client_secret_base",
+  "client_secret_jwt",
+  "private_key_jwt"
+];
+var oauth_authorization_server_metadata = {
+  authorization_endpoint: Required2(validURL2),
+  issuer: Required2(validURL2),
+  response_types_supported: Required2(anyOf4("code", "token")),
+  token_endpoint: Required2(validURL2),
+  scopes_supported: Recommended2([]),
+  code_challendge_methods_supported: Optional2([]),
+  grant_types_supported: Optional2([]),
+  introspection_endpoint: Optional2(validURL2),
+  introspection_endpoint_auth_methods_supported: Optional2(validAuthMethods),
+  introspection_endpoint_auth_signing_alg_values_supported: Optional2(validAlgorithms),
+  jwks_uri: Optional2(validURL2),
+  op_policy_uri: Optional2(validURL2),
+  op_tos_uri: Optional2(validURL2),
+  registration_endpoint: Optional2(validURL2),
+  response_modes_supported: Optional2([]),
+  revocation_endpoint: Optional2(validURL2),
+  revocation_endpoint_auth_methods_supported: Optional2(validAuthMethods),
+  revocation_endpoint_auth_signing_alg_values_supported: Optional2(validAlgorithms),
+  service_documentation: Optional2(validURL2),
+  token_endpoint_auth_methods_supported: Optional2([]),
+  token_endpoint_auth_signing_alg_values_supported: Optional2([]),
+  ui_locales_supported: Optional2([])
+};
+function makeClient(options = {}) {
+  const defaultOptions = {
+    client: client()
+  };
+  options = Object.assign({}, defaultOptions, options);
+  assert2(options, {
+    issuer: Required2(validURL2)
+  });
+  const oauth_authorization_server_configuration = fetchWellknownOauthAuthorizationServer(options.issuer);
+  return options.client.with(options.issuer);
+}
+async function fetchWellknownOauthAuthorizationServer(issuer, client3) {
+  let res = client3.get(url(issuer, ".wellknown/oauth_authorization_server"));
+  if (!res.ok) {
+    throw metroError("metro.oidcmw: Error while fetching " + issuer + ".wellknown/oauth_authorization_server", res);
+  }
+  assert2(res.headers.get("Content-Type"), /application\/json.*/);
+  let configuration = await res.json();
+  assert2(configuration, oauth_authorization_server_metadata);
+  return configuration;
+}
+
+// ../solid-tools/node_modules/@muze-nl/metro-oauth2/src/oauth2.popup.mjs
+function handleRedirect(origin = null) {
+  let success = false;
+  origin = origin || window.location.origin;
+  let params = new URLSearchParams(window.location.search);
+  if (!params.has("code") && !params.has("error") && window.location.hash) {
+    let query = window.location.hash.substring(1);
+    params = new URLSearchParams("?" + query);
+  }
+  let parent = window.parent !== window ? window.parent : window.opener;
+  if (!parent) {
+    console.error("No parent window found, cannot post authorization code (or error)");
+  } else {
+    let message;
+    if (params.has("code")) {
+      success = true;
+      message = {
+        authorization_code: params.get("code"),
+        state: params.get("state")
+      };
+    } else if (params.has("error")) {
+      message = {
+        error: params.get("error"),
+        error_description: params.get("error_description"),
+        state: params.get("state")
+      };
+    } else {
+      message = { error: "Could not find an authorization_code" };
+    }
+    parent.postMessage(message, origin);
+  }
+  return success;
+}
+function authorizePopup(authorizationCodeURL, options = {}) {
+  const url3 = new URL(authorizationCodeURL, window.location.href);
+  const expectedState = url3.searchParams.get("state");
+  const redirectUri = url3.searchParams.get("redirect_uri");
+  const expectedOrigin = redirectUri ? new URL(redirectUri, window.location.href).origin : window.location.origin;
+  return new Promise((resolve, reject) => {
+    const cleanup = () => {
+      if (typeof removeEventListener === "function") {
+        removeEventListener("message", handler);
+      }
+    };
+    const handler = (event) => {
+      if (event.origin && event.origin !== expectedOrigin) {
+        return;
+      }
+      if (event.data.authorization_code) {
+        if (expectedState && event.data.state !== expectedState) {
+          cleanup();
+          reject("OAuth2 authorization state mismatch");
+          return;
+        }
+        cleanup();
+        resolve(event.data.authorization_code);
+      } else if (event.data.error) {
+        if (expectedState && event.data.state && event.data.state !== expectedState) {
+          cleanup();
+          reject("OAuth2 authorization state mismatch");
+          return;
+        }
+        cleanup();
+        reject(event.data.error_description || event.data.error);
+      } else {
+        cleanup();
+        reject("Unknown authorization error");
+      }
+    };
+    addEventListener("message", handler);
+    const popup = options.popup || window.open(authorizationCodeURL);
+    if (!popup || popup.closed) {
+      cleanup();
+      reject("OAuth2 popup was blocked");
+      return;
+    }
+    if (options.popup) {
+      popup.location.href = authorizationCodeURL;
+    }
+  });
+}
+
+// ../solid-tools/node_modules/@muze-nl/metro-oauth2/src/keysstore.mjs
+function keysStore() {
+  return new Promise((resolve, reject) => {
+    const request3 = globalThis.indexedDB.open("metro", 1);
+    request3.onupgradeneeded = () => request3.result.createObjectStore("keyPairs", { keyPath: "domain" });
+    request3.onerror = (event) => {
+      reject(event);
+    };
+    request3.onsuccess = (event) => {
+      const db = event.target.result;
+      resolve({
+        set: function(value, key) {
+          return new Promise((resolve2, reject2) => {
+            const tx = db.transaction("keyPairs", "readwrite", { durability: "strict" });
+            const objectStore = tx.objectStore("keyPairs");
+            tx.oncomplete = () => {
+              resolve2();
+            };
+            tx.onerror = reject2;
+            objectStore.put(value, key);
+          });
+        },
+        get: function(key) {
+          return new Promise((resolve2, reject2) => {
+            const tx = db.transaction("keyPairs", "readonly");
+            const objectStore = tx.objectStore("keyPairs");
+            const request4 = objectStore.get(key);
+            request4.onsuccess = () => {
+              resolve2(request4.result);
+            };
+            request4.onerror = reject2;
+            tx.onerror = reject2;
+          });
+        },
+        clear: function() {
+          return new Promise((resolve2, reject2) => {
+            const tx = db.transaction("keyPairs", "readwrite");
+            const objectStore = tx.objectStore("keyPairs");
+            const request4 = objectStore.clear();
+            request4.onsuccess = () => {
+              resolve2();
+            };
+            request4.onerror = reject2;
+            tx.onerror = reject2;
+          });
+        }
+      });
+    };
+  });
+}
+
+// ../solid-tools/node_modules/dpop/build/index.js
+var encoder = new TextEncoder();
+var decoder = new TextDecoder();
+function buf(input2) {
+  if (typeof input2 === "string") {
+    return encoder.encode(input2);
+  }
+  return decoder.decode(input2);
+}
+function checkRsaKeyAlgorithm(algorithm) {
+  if (typeof algorithm.modulusLength !== "number" || algorithm.modulusLength < 2048) {
+    throw new OperationProcessingError(`${algorithm.name} modulusLength must be at least 2048 bits`);
+  }
+}
+function subtleAlgorithm(key) {
+  switch (key.algorithm.name) {
+    case "ECDSA":
+      return { name: key.algorithm.name, hash: "SHA-256" };
+    case "RSA-PSS":
+      checkRsaKeyAlgorithm(key.algorithm);
+      return {
+        name: key.algorithm.name,
+        saltLength: 256 >> 3
+      };
+    case "RSASSA-PKCS1-v1_5":
+      checkRsaKeyAlgorithm(key.algorithm);
+      return { name: key.algorithm.name };
+    case "Ed25519":
+      return { name: key.algorithm.name };
+  }
+  throw new UnsupportedOperationError();
+}
+async function jwt(header, claimsSet, key) {
+  if (key.usages.includes("sign") === false) {
+    throw new TypeError('private CryptoKey instances used for signing assertions must include "sign" in their "usages"');
+  }
+  const input2 = `${b64u(buf(JSON.stringify(header)))}.${b64u(buf(JSON.stringify(claimsSet)))}`;
+  const signature = b64u(await crypto.subtle.sign(subtleAlgorithm(key), key, buf(input2)));
+  return `${input2}.${signature}`;
+}
+var encodeBase64Url;
+if (Uint8Array.prototype.toBase64) {
+  encodeBase64Url = (input2) => {
+    if (input2 instanceof ArrayBuffer) {
+      input2 = new Uint8Array(input2);
+    }
+    return input2.toBase64({ alphabet: "base64url", omitPadding: true });
+  };
+} else {
+  const CHUNK_SIZE = 32768;
+  encodeBase64Url = (input2) => {
+    if (input2 instanceof ArrayBuffer) {
+      input2 = new Uint8Array(input2);
+    }
+    const arr = [];
+    for (let i = 0; i < input2.byteLength; i += CHUNK_SIZE) {
+      arr.push(String.fromCharCode.apply(null, input2.subarray(i, i + CHUNK_SIZE)));
+    }
+    return btoa(arr.join("")).replace(/=/g, "").replace(/\+/g, "-").replace(/\//g, "_");
+  };
+}
+function b64u(input2) {
+  return encodeBase64Url(input2);
+}
+var UnsupportedOperationError = class extends Error {
+  constructor(message) {
+    var _a;
+    super(message !== null && message !== void 0 ? message : "operation not supported");
+    this.name = this.constructor.name;
+    (_a = Error.captureStackTrace) === null || _a === void 0 ? void 0 : _a.call(Error, this, this.constructor);
+  }
+};
+var OperationProcessingError = class extends Error {
+  constructor(message) {
+    var _a;
+    super(message);
+    this.name = this.constructor.name;
+    (_a = Error.captureStackTrace) === null || _a === void 0 ? void 0 : _a.call(Error, this, this.constructor);
+  }
+};
+function psAlg(key) {
+  switch (key.algorithm.hash.name) {
+    case "SHA-256":
+      return "PS256";
+    default:
+      throw new UnsupportedOperationError("unsupported RsaHashedKeyAlgorithm hash name");
+  }
+}
+function rsAlg(key) {
+  switch (key.algorithm.hash.name) {
+    case "SHA-256":
+      return "RS256";
+    default:
+      throw new UnsupportedOperationError("unsupported RsaHashedKeyAlgorithm hash name");
+  }
+}
+function esAlg(key) {
+  switch (key.algorithm.namedCurve) {
+    case "P-256":
+      return "ES256";
+    default:
+      throw new UnsupportedOperationError("unsupported EcKeyAlgorithm namedCurve");
+  }
+}
+function determineJWSAlgorithm(key) {
+  switch (key.algorithm.name) {
+    case "RSA-PSS":
+      return psAlg(key);
+    case "RSASSA-PKCS1-v1_5":
+      return rsAlg(key);
+    case "ECDSA":
+      return esAlg(key);
+    case "Ed25519":
+      return "Ed25519";
+    default:
+      throw new UnsupportedOperationError("unsupported CryptoKey algorithm name");
+  }
+}
+function isCryptoKey(key) {
+  return key instanceof CryptoKey;
+}
+function isPrivateKey(key) {
+  return isCryptoKey(key) && key.type === "private";
+}
+function isPublicKey(key) {
+  return isCryptoKey(key) && key.type === "public";
+}
+function epochTime() {
+  return Math.floor(Date.now() / 1e3);
+}
+async function generateProof(keypair, htu, htm, nonce, accessToken, additional) {
+  const privateKey = keypair === null || keypair === void 0 ? void 0 : keypair.privateKey;
+  const publicKey = keypair === null || keypair === void 0 ? void 0 : keypair.publicKey;
+  if (!isPrivateKey(privateKey)) {
+    throw new TypeError('"keypair.privateKey" must be a private CryptoKey');
+  }
+  if (!isPublicKey(publicKey)) {
+    throw new TypeError('"keypair.publicKey" must be a public CryptoKey');
+  }
+  if (publicKey.extractable !== true) {
+    throw new TypeError('"keypair.publicKey.extractable" must be true');
+  }
+  if (typeof htu !== "string") {
+    throw new TypeError('"htu" must be a string');
+  }
+  if (typeof htm !== "string") {
+    throw new TypeError('"htm" must be a string');
+  }
+  if (nonce !== void 0 && typeof nonce !== "string") {
+    throw new TypeError('"nonce" must be a string or undefined');
+  }
+  if (accessToken !== void 0 && typeof accessToken !== "string") {
+    throw new TypeError('"accessToken" must be a string or undefined');
+  }
+  if (additional !== void 0 && (typeof additional !== "object" || additional === null || Array.isArray(additional))) {
+    throw new TypeError('"additional" must be an object');
+  }
+  return jwt({
+    alg: determineJWSAlgorithm(privateKey),
+    typ: "dpop+jwt",
+    jwk: await publicJwk(publicKey)
+  }, Object.assign(Object.assign({}, additional), {
+    iat: epochTime(),
+    jti: crypto.randomUUID(),
+    htm,
+    nonce,
+    htu,
+    ath: accessToken ? b64u(await crypto.subtle.digest("SHA-256", buf(accessToken))) : void 0
+  }), privateKey);
+}
+async function publicJwk(key) {
+  const { kty, e, n, x, y, crv } = await crypto.subtle.exportKey("jwk", key);
+  return { kty, crv, e, n, x, y };
+}
+async function generateKeyPair(alg, options) {
+  var _a;
+  let algorithm;
+  if (typeof alg !== "string" || alg.length === 0) {
+    throw new TypeError('"alg" must be a non-empty string');
+  }
+  switch (alg) {
+    case "PS256":
+      algorithm = {
+        name: "RSA-PSS",
+        hash: "SHA-256",
+        modulusLength: 2048,
+        publicExponent: new Uint8Array([1, 0, 1])
+      };
+      break;
+    case "RS256":
+      algorithm = {
+        name: "RSASSA-PKCS1-v1_5",
+        hash: "SHA-256",
+        modulusLength: 2048,
+        publicExponent: new Uint8Array([1, 0, 1])
+      };
+      break;
+    case "ES256":
+      algorithm = { name: "ECDSA", namedCurve: "P-256" };
+      break;
+    case "Ed25519":
+      algorithm = { name: "Ed25519" };
+      break;
+    default:
+      throw new UnsupportedOperationError();
+  }
+  return crypto.subtle.generateKey(algorithm, (_a = options === null || options === void 0 ? void 0 : options.extractable) !== null && _a !== void 0 ? _a : false, ["sign", "verify"]);
+}
+
+// ../solid-tools/node_modules/@muze-nl/metro-oauth2/src/oauth2.dpop.mjs
+function dpopmw(options) {
+  assert2(options, {
+    site: Required2(validURL2),
+    authorization_endpoint: Required2(validURL2),
+    token_endpoint: Required2(validURL2),
+    dpop_signing_alg_values_supported: Optional2([])
+    // this property is unfortunately rarely supported
+  });
+  return async (req, next) => {
+    const keys = await keysStore();
+    let keyInfo = await keys.get(options.site);
+    if (!keyInfo) {
+      let keyPair = await generateKeyPair("ES256");
+      keyInfo = { domain: options.site, keyPair };
+      await keys.set(keyInfo);
+    }
+    const url3 = url(req.url);
+    if (req.url.startsWith(options.authorization_endpoint)) {
+      let params = req.body;
+      if (params instanceof URLSearchParams || params instanceof FormData) {
+        params.set("dpop_jkt", keyInfo.keyPair.publicKey);
+      } else {
+        params.dpop_jkt = keyInfo.keyPair.publicKey;
+      }
+    } else if (req.url.startsWith(options.token_endpoint)) {
+      const dpopHeader = await generateProof(keyInfo.keyPair, req.url, req.method);
+      req = req.with({
+        headers: {
+          "DPoP": dpopHeader
+        }
+      });
+    } else if (req.headers.has("Authorization")) {
+      const nonce = localStorage.getItem(url3.host + ":nonce") || void 0;
+      const accessToken = req.headers.get("Authorization").split(" ")[1];
+      const dpopHeader = await generateProof(keyInfo.keyPair, req.url, req.method, nonce, accessToken);
+      req = req.with({
+        headers: {
+          "Authorization": "DPoP " + accessToken,
+          "DPoP": dpopHeader
+        }
+      });
+    }
+    let response3 = await next(req);
+    if (response3.headers.get("DPoP-Nonce")) {
+      localStorage.setItem(url3.host + ":nonce", response3.headers.get("DPoP-Nonce"));
+    }
+    return response3;
+  };
+}
+
+// ../solid-tools/node_modules/@muze-nl/metro-oauth2/src/index.mjs
+var oauth2 = Object.assign({}, oauth2_exports, {
+  oauth2mw,
+  discover: oauth2_discovery_exports,
+  tokenstore: tokenStore,
+  dpopmw,
+  keysstore: keysStore,
+  authorizePopup,
+  popupHandleRedirect: handleRedirect
+});
+
+// ../solid-tools/node_modules/@muze-nl/metro-oidc/node_modules/@muze-nl/assert/src/assert.mjs
+globalThis.assertEnabled = false;
+function enable3() {
+  globalThis.assertEnabled = true;
+}
+function disable3() {
+  globalThis.assertEnabled = false;
+}
+function assert3(source2, test) {
+  if (globalThis.assertEnabled) {
+    let problems = fails3(source2, test);
+    if (problems) {
+      console.error("\u{1F170}\uFE0F  Assertions failed because of:", problems, "in this source:", source2);
+      throw new Error("Assertions failed", {
+        cause: { problems, source: source2 }
+      });
+    }
+  }
+}
+function Optional3(pattern) {
+  return function _Optional(data, root, path2) {
+    if (typeof data != "undefined" && data != null && typeof pattern != "undefined") {
+      return fails3(data, pattern, root, path2);
+    }
+  };
+}
+function Required3(pattern) {
+  return function _Required(data, root, path2) {
+    if (data == null || typeof data == "undefined") {
+      return error3("data is required", data, pattern || "any value", path2);
+    } else if (typeof pattern != "undefined") {
+      return fails3(data, pattern, root, path2);
+    } else {
+      return false;
+    }
+  };
+}
+function Recommended3(pattern) {
+  return function _Recommended(data, root, path2) {
+    if (data == null || typeof data == "undefined") {
+      warn3("data does not contain recommended value", data, pattern, path2);
+      return false;
+    } else {
+      return fails3(data, pattern, root, path2);
+    }
+  };
+}
+function oneOf3(...patterns) {
+  return function _oneOf(data, root, path2) {
+    for (let pattern of patterns) {
+      if (!fails3(data, pattern, root, path2)) {
+        return false;
+      }
+    }
+    return error3("data does not match oneOf patterns", data, patterns, path2);
+  };
+}
+function anyOf5(...patterns) {
+  return function _anyOf(data, root, path2) {
+    if (!Array.isArray(data)) {
+      return error3("data is not an array", data, "anyOf", path2);
+    }
+    for (let value of data) {
+      if (oneOf3(...patterns)(value)) {
+        return error3("data does not match anyOf patterns", value, patterns, path2);
+      }
+    }
+    return false;
+  };
+}
+function allOf3(...patterns) {
+  return function _allOf(data, root, path2) {
+    let problems = [];
+    for (let pattern of patterns) {
+      problems = problems.concat(fails3(data, pattern, root, path2));
+    }
+    problems = problems.filter(Boolean);
+    if (problems.length) {
+      return error3("data does not match all given patterns", data, patterns, path2, problems);
+    }
+  };
+}
+function validURL3(data, root, path2) {
+  try {
+    if (data instanceof URL) {
+      data = data.href;
+    }
+    let url3 = new URL(data);
+    if (url3.href != data) {
+      if (!(url3.href + "/" == data || url3.href == data + "/")) {
+        return error3("data is not a valid url", data, "validURL", path2);
+      }
+    }
+  } catch (e) {
+    return error3("data is not a valid url", data, "validURL", path2);
+  }
+}
+function validEmail3(data, root, path2) {
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data)) {
+    return error3("data is not a valid email", data, "validEmail", path2);
+  }
+}
+function instanceOf3(constructor) {
+  return function _instanceOf(data, root, path2) {
+    if (!(data instanceof constructor)) {
+      return error3("data is not an instanceof pattern", data, constructor, path2);
+    }
+  };
+}
+function not3(pattern) {
+  return function _not(data, root, path2) {
+    if (!fails3(data, pattern, root, path2)) {
+      return error3("data matches pattern, when required not to", data, pattern, path2);
+    }
+  };
+}
+function fails3(data, pattern, root, path2 = "") {
+  if (!root) {
+    root = data;
+  }
+  let problems = [];
+  if (pattern === Boolean) {
+    if (typeof data != "boolean" && !(data instanceof Boolean)) {
+      problems.push(error3("data is not a boolean", data, pattern, path2));
+    }
+  } else if (pattern === Number) {
+    if (typeof data != "number" && !(data instanceof Number)) {
+      problems.push(error3("data is not a number", data, pattern, path2));
+    }
+  } else if (pattern === String) {
+    if (typeof data != "string" && !(data instanceof String)) {
+      problems.push(error3("data is not a string", data, pattern, path2));
+    }
+    if (data == "") {
+      problems.push(error3("data is an empty string, which is not allowed", data, pattern, path2));
+    }
+  } else if (pattern instanceof RegExp) {
+    if (Array.isArray(data)) {
+      let index = data.findIndex((element2, index2) => fails3(element2, pattern, root, path2 + "[" + index2 + "]"));
+      if (index > -1) {
+        problems.push(error3("data[" + index + "] does not match pattern", data[index], pattern, path2 + "[" + index + "]"));
+      }
+    } else if (typeof data == "undefined") {
+      problems.push(error3("data is undefined, should match pattern", data, pattern, path2));
+    } else if (!pattern.test(data)) {
+      problems.push(error3("data does not match pattern", data, pattern, path2));
+    }
+  } else if (pattern instanceof Function) {
+    let problem = pattern(data, root, path2);
+    if (problem) {
+      if (Array.isArray(problem)) {
+        problems = problems.concat(problem);
+      } else {
+        problems.push(problem);
+      }
+    }
+  } else if (Array.isArray(pattern)) {
+    if (!Array.isArray(data)) {
+      problems.push(error3("data is not an array", data, [], path2));
+    }
+    for (let p of pattern) {
+      for (let index of data.keys()) {
+        let problem = fails3(data[index], p, root, path2 + "[" + index + "]");
+        if (Array.isArray(problem)) {
+          problems = problems.concat(problem);
+        } else if (problem) {
+          problems.push(problem);
+        }
+      }
+    }
+  } else if (pattern && typeof pattern == "object") {
+    if (Array.isArray(data)) {
+      let index = data.findIndex((element2, index2) => fails3(element2, pattern, root, path2 + "[" + index2 + "]"));
+      if (index > -1) {
+        problems.push(error3("data[" + index + "] does not match pattern", data[index], pattern, path2 + "[" + index + "]"));
+      }
+    } else if (!data || typeof data != "object") {
+      problems.push(error3("data is not an object, pattern is", data, pattern, path2));
+    } else {
+      if (data instanceof URLSearchParams) {
+        data = Object.fromEntries(data);
+      }
+      if (pattern instanceof Function) {
+        let result = fails3(data, pattern, root, path2);
+        if (result) {
+          problems = problems.concat(result);
+        }
+      } else {
+        for (const [patternKey, subpattern] of Object.entries(pattern)) {
+          let result = fails3(data[patternKey], subpattern, root, path2 + "." + patternKey);
+          if (result) {
+            problems = problems.concat(result);
+          }
+        }
+      }
+    }
+  } else {
+    if (pattern != data) {
+      problems.push(error3("data and pattern are not equal", data, pattern, path2));
+    }
+  }
+  if (problems.length) {
+    return problems;
+  }
+  return false;
+}
+function error3(message, found, expected, path2, problems) {
+  let result = {
+    path: path2,
+    message,
+    found,
+    expected
+  };
+  if (problems) {
+    result.problems = problems;
+  }
+  return result;
+}
+function warn3(message, data, pattern, path2) {
+  console.warn("\u{1F170}\uFE0F  Assert: " + path2, message, pattern, data);
+}
+globalThis.assert = {
+  warn: warn3,
+  error: error3,
+  assert: assert3,
+  enable: enable3,
+  disable: disable3,
+  Required: Required3,
+  Recommended: Recommended3,
+  Optional: Optional3,
+  oneOf: oneOf3,
+  anyOf: anyOf5,
+  allOf: allOf3,
+  validURL: validURL3,
+  validEmail: validEmail3,
+  instanceOf: instanceOf3,
+  not: not3,
+  fails: fails3
+};
+
+// ../solid-tools/node_modules/@muze-nl/metro-oidc/src/oidc.util.mjs
+var MustHave = (...options) => (value, root) => {
+  if (options.filter((o) => root.hasOwnKey(o)).length > 0) {
+    return false;
+  }
+  return error3("root data must have all of", root, options);
+};
+var MustInclude = (...options) => (value) => {
+  if (Array.isArray(value) && options.filter((o) => !value.includes(o)).length == 0) {
+    return false;
+  } else {
+    return error3("data must be an array which includes", value, options);
+  }
+};
+var validJWA = [
+  "HS256",
+  "HS384",
+  "HS512",
+  "RS256",
+  "RS384",
+  "RS512",
+  "ES256",
+  "ES384",
+  "ES512"
+];
+var validAuthMethods2 = [
+  "client_secret_post",
+  "client_secret_basic",
+  "client_secret_jwt",
+  "private_key_jwt"
+];
+
+// ../solid-tools/node_modules/@muze-nl/metro-oidc/src/oidc.discovery.mjs
+async function oidcDiscovery(options = {}) {
+  assert3(options, {
+    client: Optional3(instanceOf3(everything_default.client().constructor)),
+    issuer: Required3(validURL3)
+  });
+  const defaultOptions = {
+    client: everything_default.client().with(throwermw2()).with(jsonmw2()),
+    requireDynamicRegistration: false
+  };
+  options = Object.assign({}, defaultOptions, options);
+  const TestSucceeded = false;
+  function MustUseHTTPS(url3) {
+    return TestSucceeded;
+  }
+  const openid_provider_metadata = {
+    issuer: Required3(allOf3(options.issuer, MustUseHTTPS)),
+    authorization_endpoint: Required3(validURL3),
+    token_endpoint: Required3(validURL3),
+    userinfo_endpoint: Recommended3(validURL3),
+    // todo: test for https protocol
+    jwks_uri: Required3(validURL3),
+    registration_endpoint: options.requireDynamicRegistration ? Required3(validURL3) : Recommended3(validURL3),
+    scopes_supported: Recommended3(MustInclude("openid")),
+    response_types_supported: options.requireDynamicRegistration ? Required3(MustInclude("code", "id_token", "id_token token")) : Required3([]),
+    response_modes_supported: Optional3([]),
+    grant_types_supported: options.requireDynamicRegistration ? Optional3(MustInclude("authorization_code")) : Optional3([]),
+    acr_values_supported: Optional3([]),
+    subject_types_supported: Required3([]),
+    id_token_signing_alg_values_supported: Required3(MustInclude("RS256")),
+    id_token_encryption_alg_values_supported: Optional3([]),
+    id_token_encryption_enc_values_supported: Optional3([]),
+    userinfo_signing_alg_values_supported: Optional3([]),
+    userinfo_encryption_alg_values_supported: Optional3([]),
+    userinfo_encryption_enc_values_supported: Optional3([]),
+    request_object_signing_alg_values_supported: Optional3(MustInclude("RS256")),
+    // not testing for 'none'
+    request_object_encryption_alg_values_supported: Optional3([]),
+    request_object_encryption_enc_values_supported: Optional3([]),
+    token_endpoint_auth_methods_supported: Optional3(anyOf5(...validAuthMethods2)),
+    token_endpoint_auth_signing_alg_values_supported: Optional3(MustInclude("RS256"), not3(MustInclude("none"))),
+    display_values_supported: Optional3(anyOf5("page", "popup", "touch", "wap")),
+    claim_types_supported: Optional3(anyOf5("normal", "aggregated", "distributed")),
+    claims_supported: Recommended3([]),
+    service_documentation: Optional3(validURL3),
+    claims_locales_supported: Optional3([]),
+    ui_locales_supported: Optional3([]),
+    claims_parameter_supported: Optional3(Boolean),
+    request_parameter_supported: Optional3(Boolean),
+    request_uri_parameter_supported: Optional3(Boolean),
+    op_policy_uri: Optional3(validURL3),
+    op_tos_uri: Optional3(validURL3)
+  };
+  const configURL = everything_default.url(options.issuer, ".well-known/openid-configuration");
+  const response3 = await options.client.get(
+    // https://openid.net/specs/openid-connect-discovery-1_0.html#ProviderConfigurationRequest
+    // note: this allows path components in the options.issuer url
+    configURL
+  );
+  const openid_config = response3.data;
+  assert3(openid_config, openid_provider_metadata);
+  assert3(openid_config.issuer, options.issuer);
+  return openid_config;
+}
+
+// ../solid-tools/node_modules/@muze-nl/metro-oidc/src/oidc.register.mjs
+async function register(options) {
+  const openid_client_metadata = {
+    redirect_uris: Required3([validURL3]),
+    response_types: Optional3([]),
+    grant_types: Optional3(anyOf5("authorization_code", "refresh_token")),
+    //TODO: match response_types with grant_types
+    application_type: Optional3(oneOf3("native", "web")),
+    contacts: Optional3([validEmail3]),
+    client_name: Optional3(String),
+    logo_uri: Optional3(validURL3),
+    client_uri: Optional3(validURL3),
+    policy_uri: Optional3(validURL3),
+    tos_uri: Optional3(validURL3),
+    jwks_uri: Optional3(validURL3, not3(MustHave("jwks"))),
+    jwks: Optional3(validURL3, not3(MustHave("jwks_uri"))),
+    sector_identifier_uri: Optional3(validURL3),
+    subject_type: Optional3(String),
+    id_token_signed_response_alg: Optional3(oneOf3(...validJWA)),
+    id_token_encrypted_response_alg: Optional3(oneOf3(...validJWA)),
+    id_token_encrypted_response_enc: Optional3(oneOf3(...validJWA), MustHave("id_token_encrypted_response_alg")),
+    userinfo_signed_response_alg: Optional3(oneOf3(...validJWA)),
+    userinfo_encrypted_response_alg: Optional3(oneOf3(...validJWA)),
+    userinfo_encrypted_response_enc: Optional3(oneOf3(...validJWA), MustHave("userinfo_encrypted_response_alg")),
+    request_object_signing_alg: Optional3(oneOf3(...validJWA)),
+    request_object_encryption_alg: Optional3(oneOf3(...validJWA)),
+    request_object_encryption_enc: Optional3(oneOf3(...validJWA)),
+    token_endpoint_auth_method: Optional3(oneOf3(...validAuthMethods2)),
+    token_endpoint_auth_signing_alg: Optional3(oneOf3(...validJWA)),
+    default_max_age: Optional3(Number),
+    require_auth_time: Optional3(Boolean),
+    default_acr_values: Optional3([String]),
+    initiate_login_uri: Optional3([validURL3]),
+    request_uris: Optional3([validURL3])
+  };
+  assert3(options, {
+    client: Optional3(instanceOf3(everything_default.client().constructor)),
+    registration_endpoint: validURL3,
+    client_info: openid_client_metadata
+  });
+  const defaultOptions = {
+    client: everything_default.client().with(throwermw2()).with(jsonmw2()),
+    client_info: {
+      redirect_uris: [globalThis.document?.location.href]
+    }
+  };
+  options = Object.assign({}, defaultOptions, options);
+  if (!options.client_info) {
+    options.client_info = {};
+  }
+  if (!options.client_info.redirect_uris) {
+    options.client_info.redirect_uris = [globalThis.document?.location.href];
+  }
+  let response3 = await options.client.post(options.registration_endpoint, {
+    body: options.client_info
+  });
+  let info = response3.data;
+  if (!info.client_id || !info.client_secret) {
+    throw everything_default.metroError("metro.oidc: Error: dynamic registration of client failed, no client_id or client_secret returned", response3);
+  }
+  options.client_info = Object.assign(options.client_info, info);
+  return options.client_info;
+}
+
+// ../solid-tools/node_modules/@muze-nl/metro-oidc/src/oidc.store.mjs
+function oidcStore(site) {
+  let store;
+  if (typeof localStorage !== "undefined") {
+    store = {
+      get: (name) => JSON.parse(localStorage.getItem("metro/oidc:" + site + ":" + name)),
+      set: (name, value) => localStorage.setItem("metro/oidc:" + site + ":" + name, JSON.stringify(value)),
+      has: (name) => localStorage.getItem("metro/oidc:" + site + ":" + name) !== null
+    };
+  } else {
+    let storeMap = /* @__PURE__ */ new Map();
+    store = {
+      get: (name) => JSON.parse(storeMap.get("metro/oidc:" + site + ":" + name) || null),
+      set: (name, value) => storeMap.set("metro/oidc:" + site + ":" + name, JSON.stringify(value)),
+      has: (name) => storeMap.has("metro/oidc:" + site + ":" + name)
+    };
+  }
+  return store;
+}
+
+// ../solid-tools/node_modules/@muze-nl/metro-oidc/src/oidcmw.mjs
+function oidcmw(options = {}) {
+  const defaultOptions = {
+    client: client2(),
+    force_authorization: false,
+    use_dpop: true,
+    authorize_callback: async (url3) => {
+      if (window.location.href != url3.href) {
+        window.location.replace(url3.href);
+      }
+      return false;
+    }
+  };
+  options = Object.assign({}, defaultOptions, options);
+  const requestedClientInfo = options.client_info;
+  assert3(options, {
+    client: Required3(instanceOf3(client2().constructor)),
+    // required because it is set in defaultOptions
+    client_info: Required3(),
+    issuer: Required3(validURL3),
+    oauth2: Optional3({}),
+    openid_configuration: Optional3()
+  });
+  if (!options.store) {
+    options.store = oidcStore(options.issuer);
+  }
+  if (!options.openid_configuration && options.store.has("openid_configuration")) {
+    options.openid_configuration = options.store.get("openid_configuration");
+  }
+  if (!options.client_info?.client_id && options.store.has("client_info")) {
+    const storedClientInfo = options.store.get("client_info");
+    if (clientInfoMatchesRequest(storedClientInfo, requestedClientInfo)) {
+      options.client_info = storedClientInfo;
+    }
+  }
+  return async (req, next) => {
+    let res;
+    if (!options.force_authorization) {
+      try {
+        res = await next(req);
+      } catch (err) {
+        if (res.status != 401 && res.status != 403) {
+          throw err;
+        }
+      }
+      if (res.ok || res.status != 401 && res.status != 403) {
+        return res;
+      }
+    }
+    if (!options.openid_configuration) {
+      options.openid_configuration = await oidcDiscovery({
+        issuer: options.issuer
+      });
+      options.store.set("openid_configuration", options.openid_configuration);
+    }
+    if (!options.client_info?.client_id) {
+      if (!options.openid_configuration.registration_endpoint) {
+        throw metroError2("metro.oidcmw: Error: issuer " + options.issuer + " does not support dynamic client registration, but you haven't specified a client_id");
+      }
+      options.client_info = await register({
+        registration_endpoint: options.openid_configuration.registration_endpoint,
+        client_info: options.client_info
+      });
+      options.store.set("client_info", options.client_info);
+    }
+    const scope = options.scope || "openid";
+    const oauth2Options = Object.assign(
+      {
+        site: options.issuer,
+        client: options.client,
+        force_authorization: true,
+        authorize_callback: options.authorize_callback,
+        oauth2_configuration: {
+          client_id: options.client_info?.client_id,
+          client_secret: options.client_info?.client_secret,
+          grant_type: "authorization_code",
+          response_type: "code",
+          response_mode: "query",
+          authorization_endpoint: options.openid_configuration.authorization_endpoint,
+          token_endpoint: options.openid_configuration.token_endpoint,
+          scope,
+          //FIXME: should only use scopes supported by server
+          redirect_uri: options.client_info.redirect_uris[0]
+        }
+      }
+      //...
+    );
+    const storeIdToken = async (req2, next2) => {
+      const res2 = await next2(req2);
+      const contentType = res2.headers.get("content-type");
+      if (contentType?.startsWith("application/json")) {
+        let id_token = res2.data?.id_token;
+        if (!id_token) {
+          const res22 = res2.clone();
+          try {
+            let data = await res22.json();
+            if (data && data.id_token) {
+              id_token = data.id_token;
+            }
+          } catch (e) {
+          }
+        }
+        if (id_token) {
+          options.store.set("id_token", id_token);
+        }
+      }
+      return res2;
+    };
+    let oauth2client = options.client.with(options.issuer).with(storeIdToken);
+    if (options.use_dpop) {
+      const dpopOptions = {
+        site: options.issuer,
+        authorization_endpoint: options.openid_configuration.authorization_endpoint,
+        token_endpoint: options.openid_configuration.token_endpoint,
+        dpop_signing_alg_values_supported: options.openid_configuration.dpop_signing_alg_values_supported
+      };
+      oauth2client = oauth2client.with(dpopmw(dpopOptions));
+      oauth2Options.client = oauth2client;
+    }
+    oauth2client = oauth2client.with(oauth2mw(oauth2Options));
+    res = await oauth2client.fetch(req);
+    return res;
+  };
+}
+function clientInfoMatchesRequest(storedClientInfo, requestedClientInfo) {
+  if (!storedClientInfo?.client_id) {
+    return false;
+  }
+  if (!Array.isArray(requestedClientInfo?.redirect_uris)) {
+    return true;
+  }
+  const storedRedirectUris = new Set(storedClientInfo.redirect_uris || []);
+  return requestedClientInfo.redirect_uris.every((uri) => storedRedirectUris.has(uri));
+}
+function isRedirected2() {
+  return isRedirected();
+}
+function idToken(options) {
+  if (!options.store) {
+    if (!options.issuer) {
+      throw metroError2("Must supply options.issuer or options.store to get the id_token");
+    }
+    options.store = oidcStore(options.issuer);
+  }
+  return options.store.get("id_token");
+}
+
+// ../solid-tools/node_modules/@muze-nl/metro-oidc/src/browser.mjs
+var oidc = {
+  oidcmw,
+  discover: oidcDiscovery,
+  register,
+  isRedirected: isRedirected2,
+  idToken
+};
+if (!globalThis.metro.oidc) {
+  globalThis.metro.oidc = oidc;
+}
+var browser_default = oidc;
+
+// ../solid-tools/packages/jsfs-solid/src/metro.mjs
+function createSolidMetroClient(input2, options = {}) {
+  const providedClient = options.metroClient ?? options.metro ?? options.client;
+  let metroClient = providedClient ?? input2;
+  if (!(metroClient instanceof src_default5.Client)) {
+    metroClient = src_default5.client(metroClient);
+  }
+  if (providedClient && options.configureMetro !== true) {
+    return metroClient;
+  }
+  if (options.oidc !== false && browser_default?.oidcmw && typeof metroClient?.with === "function") {
+    metroClient = metroClient.with(browser_default.oidcmw(options));
+  }
+  if (options.oldm !== false && typeof src_default6 === "function" && typeof metroClient?.with === "function") {
+    metroClient = metroClient.with(src_default6(options));
+  }
+  return metroClient;
 }
 
 // src/storage/solid-notes-location.js
@@ -23105,52 +25750,45 @@ async function createSolidNotesConnection(options = {}) {
   const pageUrl = currentPageUrl(options.pageUrl);
   const discoverySolid = options.discoverySolid || options.solid || createDiscoverySolid({ webId, options });
   const profile = await discoverySolid.discoverWebId(webId);
-  const storageUrl = firstValue(profile?.storage);
-  if (!storageUrl) {
+  const storageUrl2 = src_default7.one(profile?.storage, "first");
+  if (!storageUrl2) {
     throw new Error(`No Solid storage root found in WebID profile: ${webId}`);
   }
   const issuer = profile?.issuer || firstId(profile?.profile?.solid$oidcIssuer);
   const preferences = preferencesUrlForProfile({
     profile: profile?.profile,
-    storageUrl,
+    storageUrl: storageUrl2,
     options
   });
-  const solid = options.solid || createStorageSolid({
+  const solid2 = options.solid || createStorageSolid({
     issuer,
-    rootUrl: storageUrl,
+    rootUrl: storageUrl2,
     options: storageOptions({ options, pageUrl })
   });
   const rootFolderUrl = await marginNotesRootFolder({
-    solid,
+    solid: solid2,
     preferencesUrl: preferences.url,
-    storageUrl,
+    storageUrl: storageUrl2,
     rootFolderName: options.rootFolderName || DEFAULT_ROOT_FOLDER_NAME
   });
   const notesResourceUrl = await notesResourceUrlForPage({
     rootFolderUrl,
     pageUrl
   });
-  const store = createSolidResourceStore({
-    ...storageOptions({ options, pageUrl }),
-    resourceUrl: notesResourceUrl,
-    rootUrl: storageUrl,
-    issuer,
-    solid: options.solidForStore || options.solid || void 0
-  });
   return {
     webId,
     profile,
     issuer,
-    storageUrl,
+    storageUrl: storageUrl2,
     preferencesUrl: preferences.url,
     preferencesUrlSource: preferences.source,
     rootFolderUrl,
     pageUrl,
     resourceUrl: notesResourceUrl,
-    store
+    solid: solid2
   };
 }
-function preferencesUrlForProfile({ profile, storageUrl, options }) {
+function preferencesUrlForProfile({ profile, storageUrl: storageUrl2, options }) {
   if (options.preferencesUrl) {
     return {
       url: normalizeUrl(options.preferencesUrl, "preferencesUrl"),
@@ -23165,79 +25803,91 @@ function preferencesUrlForProfile({ profile, storageUrl, options }) {
     };
   }
   return {
-    url: new URL(options.preferencesFilename || DEFAULT_PREFERENCES_FILENAME, ensureSlash2(storageUrl)).href,
+    url: new URL(options.preferencesFilename || DEFAULT_PREFERENCES_FILENAME, ensureSlash4(storageUrl2)).href,
     source: "default"
   };
 }
 async function notesResourceUrlForPage({ rootFolderUrl, pageUrl } = {}) {
-  const root = ensureSlash2(normalizeUrl(rootFolderUrl, "rootFolderUrl"));
+  const root = ensureSlash4(normalizeUrl(rootFolderUrl, "rootFolderUrl"));
   const page = currentPageUrl(pageUrl);
   return new URL(`page-${await sha256Hex(page)}.ttl`, root).href;
 }
-async function marginNotesRootFolder({ solid, preferencesUrl, storageUrl, rootFolderName }) {
-  const existing = await loadMarginNotesRootFolder({ solid, preferencesUrl });
-  if (existing) return ensureSlash2(existing);
-  const rootFolderUrl = new URL(`${encodePathSegment(rootFolderName)}/`, ensureSlash2(storageUrl)).href;
-  await saveDefaultMarginNotesRootFolder({ solid, preferencesUrl, rootFolderUrl });
-  await ensureRootFolder({ solid, rootFolderUrl });
+async function marginNotesRootFolder({ solid: solid2, preferencesUrl, storageUrl: storageUrl2, rootFolderName }) {
+  const existing = await loadMarginNotesRootFolder({ solid: solid2, preferencesUrl });
+  if (existing) return ensureSlash4(existing);
+  const rootFolderUrl = new URL(`${encodePathSegment(rootFolderName)}/`, ensureSlash4(storageUrl2)).href;
+  await saveDefaultMarginNotesRootFolder({ solid: solid2, preferencesUrl, rootFolderUrl });
+  await ensureRootFolder({ solid: solid2, rootFolderUrl });
   return rootFolderUrl;
 }
-async function loadMarginNotesRootFolder({ solid, preferencesUrl }) {
-  const response3 = await solid.resource(preferencesUrl).get({ accept: LINKED_DATA_ACCEPT2 });
+async function loadMarginNotesRootFolder({ solid: solid2, preferencesUrl }) {
+  const response3 = await solid2.get(preferencesUrl, {
+    headers: solidRequestHeaders({ accept: LINKED_DATA_ACCEPT2 })
+  });
   if (response3?.status === 404) return "";
-  await ensureOk2({ response: response3, operation: "read preferences" });
+  await ensureOk({ response: response3, operation: "read preferences" });
   const graph2 = await graphFromResponse({ response: response3, resourceUrl: preferencesUrl });
-  const subject = graphSubjects2(graph2).find((subject2) => firstId(subject2.mn$rootFolder));
+  const subject = from2(graphSubjects(graph2)).where((subject2) => firstId(subject2.mn$rootFolder))[0];
   return firstId(subject?.mn$rootFolder);
 }
-async function saveDefaultMarginNotesRootFolder({ solid, preferencesUrl, rootFolderUrl }) {
-  const exists = await resourceExists({ solid, resourceUrl: preferencesUrl });
+async function saveDefaultMarginNotesRootFolder({ solid: solid2, preferencesUrl, rootFolderUrl }) {
+  const exists = await resourceExists({ solid: solid2, resourceUrl: preferencesUrl });
   if (!exists) {
-    const response4 = await solid.resource(preferencesUrl).put(preferencesTurtle({ preferencesUrl, rootFolderUrl }), {
-      contentType: TURTLE
+    const response4 = await solid2.put(preferencesUrl, {
+      body: preferencesTurtle({ preferencesUrl, rootFolderUrl }),
+      headers: solidRequestHeaders({ contentType: TURTLE })
     });
-    await ensureOk2({ response: response4, operation: "create preferences" });
+    await ensureOk({ response: response4, operation: "create preferences" });
     return;
   }
-  const response3 = await solid.resource(preferencesUrl).patch(preferencesPatch({ preferencesUrl, rootFolderUrl }), {
-    contentType: SPARQL_UPDATE
+  const response3 = await solid2.patch(preferencesUrl, {
+    body: preferencesPatch({ preferencesUrl, rootFolderUrl }),
+    headers: solidRequestHeaders({ contentType: SPARQL_UPDATE })
   });
-  await ensureOk2({ response: response3, operation: "update preferences" });
+  await ensureOk({ response: response3, operation: "update preferences" });
 }
-async function ensureRootFolder({ solid, rootFolderUrl }) {
-  if (typeof solid.container !== "function") return;
-  const response3 = await solid.container(rootFolderUrl).create();
+async function ensureRootFolder({ solid: solid2, rootFolderUrl }) {
+  if (typeof solid2.createContainer !== "function") return;
+  const response3 = await solid2.createContainer(rootFolderUrl);
   if (response3?.ok || [200, 201, 204, 205, 409, 412].includes(response3?.status)) return;
-  await ensureOk2({ response: response3, operation: "create margin-notes folder" });
+  await ensureOk({ response: response3, operation: "create margin-notes folder" });
 }
-async function resourceExists({ solid, resourceUrl }) {
-  const response3 = typeof solid.resource(resourceUrl).head === "function" ? await solid.resource(resourceUrl).head() : await solid.resource(resourceUrl).get({ accept: LINKED_DATA_ACCEPT2 });
+async function resourceExists({ solid: solid2, resourceUrl }) {
+  let response3;
+  if (typeof solid2.head === "function") {
+    response3 = await solid2.head(resourceUrl);
+  } else {
+    response3 = await solid2.get(resourceUrl, {
+      headers: solidRequestHeaders({ accept: LINKED_DATA_ACCEPT2 })
+    });
+  }
   if (response3?.status === 404) return false;
-  await ensureOk2({ response: response3, operation: "check preferences" });
+  await ensureOk({ response: response3, operation: "check preferences" });
   return true;
 }
 async function graphFromResponse({ response: response3, resourceUrl }) {
-  if (response3?.data?.subjects || response3?.data?.primary) {
-    return response3.data;
+  const data = response3?.data ?? response3;
+  if (data?.subjects || data?.primary) {
+    return data;
   }
   return src_default7.context({
     defaultGraph: resourceUrl,
     prefixes: prefixes3
-  }).parse(await responseText2(response3), resourceUrl, responseContentType2(response3) || TURTLE);
+  }).parse(await responseText(response3), resourceUrl, responseContentType(response3) || TURTLE);
 }
-function graphSubjects2(graph2) {
+function graphSubjects(graph2) {
   if (Array.isArray(graph2?.data)) return graph2.data;
   if (Array.isArray(graph2?.subjects)) return graph2.subjects;
   if (graph2?.subjects && typeof graph2.subjects === "object") return Object.values(graph2.subjects);
   if (graph2?.primary) return [graph2.primary];
   return [];
 }
-async function responseText2(response3) {
+async function responseText(response3) {
   if (typeof response3?.text === "function") return response3.text();
   if (typeof response3?.data === "string") return response3.data;
   return "";
 }
-function responseContentType2(response3) {
+function responseContentType(response3) {
   return response3?.headers?.get?.("Content-Type") || response3?.headers?.get?.("content-type") || "";
 }
 function preferencesTurtle({ preferencesUrl, rootFolderUrl }) {
@@ -23260,7 +25910,7 @@ function createDiscoverySolid({ webId, options }) {
     oidc: false,
     configureMetro: true
   });
-  return lading(metroClient, { thrower: false });
+  return solidApi(metroClient);
 }
 function createStorageSolid({ issuer, rootUrl, options }) {
   const metroClient = createSolidMetroClient(rootUrl, {
@@ -23269,7 +25919,7 @@ function createStorageSolid({ issuer, rootUrl, options }) {
     oidc: Boolean(issuer),
     configureMetro: true
   });
-  return lading(metroClient, { thrower: false });
+  return solidApi(metroClient);
 }
 function storageOptions({ options, pageUrl }) {
   const redirectUri = options.callbackUrl || pageUrl;
@@ -23303,7 +25953,7 @@ function assertConnectionOptions(options) {
     rootFolderName: Optional(String),
     clientName: Optional(String),
     usePopupAuth: Optional(Boolean),
-    authorize_callback: Optional(callable2),
+    authorize_callback: Optional(callable),
     force_authorization: Optional(Boolean),
     forceAuthorizationForWrites: Optional(Boolean),
     client_info: Optional(Object),
@@ -23313,7 +25963,7 @@ function assertConnectionOptions(options) {
     throw new TypeError(`Invalid Solid notes connection options: ${optionIssues[0].pathString} ${optionIssues[0].message}`);
   }
 }
-function callable2(value, _root, path2) {
+function callable(value, _root, path2) {
   if (typeof value !== "function") {
     return error("data is not a function", value, "function", path2);
   }
@@ -23332,14 +25982,11 @@ function currentPageUrl(value) {
   url3.hash = "";
   return url3.href;
 }
-function ensureSlash2(url3) {
+function ensureSlash4(url3) {
   return String(url3).endsWith("/") ? String(url3) : `${url3}/`;
 }
-function firstValue(value) {
-  return Array.isArray(value) ? value[0] : value;
-}
 function firstId(value) {
-  const item = firstValue(value);
+  const item = src_default7.one(value, "first");
   return typeof item === "string" ? item : item?.id || "";
 }
 function encodePathSegment(value) {
@@ -23361,9 +26008,9 @@ function fallbackHash(value) {
   }
   return (hash >>> 0).toString(16).padStart(8, "0");
 }
-async function ensureOk2({ response: response3, operation }) {
+async function ensureOk({ response: response3, operation }) {
   if (response3?.ok) return;
-  const detail = (await responseText2(response3)).trim();
+  const detail = (await responseText(response3)).trim();
   const suffix = detail ? `: ${detail}` : "";
   throw new Error(`Solid ${operation} failed (${response3?.status || "unknown"} ${response3?.statusText || ""})${suffix}`);
 }
@@ -23386,6 +26033,10 @@ var paragraphNoteStacks = {
     async setupParagraphNoteStacks({ anchors, storeKey }) {
       const notesApi = this.api.notes;
       this.data.marginNotes.storeKey = storeKey;
+      await notesApi.setupNotesStorage({
+        app: this,
+        storeKey
+      });
       await this.actions.setTheme({
         theme: this.data.marginNotes.theme
       });
@@ -23492,11 +26143,18 @@ var paragraphNoteStacks = {
       const fragment = await modal.show();
       if (!fragment) return;
       const annotation = notesApi.createAnnotationNote({ anchorId, fragment });
-      this.data.marginNotes.graph.push(annotation);
-      anchor2.notes.push(notesApi.toRenderableNote({ annotation }));
+      const storedAnnotation = await notesApi.createStoredAnnotation({
+        app: this,
+        annotation
+      });
+      const noteAnnotation = storedAnnotation || annotation;
+      this.data.marginNotes.graph.push(noteAnnotation);
+      anchor2.notes.push(notesApi.toRenderableNote({ annotation: noteAnnotation }));
       await this.actions.updateAnchorNoteState({ anchor: anchor2 });
       await this.actions.renderAnchorNotes({ anchor: anchor2 });
-      await this.actions.saveNotes({});
+      if (!this.marginNotesRuntime.notesService) {
+        await this.actions.saveNotes({});
+      }
     },
     async updateNote({ noteId }) {
       const notesApi = this.api.notes;
@@ -23513,13 +26171,23 @@ var paragraphNoteStacks = {
         fragment
       });
       notesApi.syncRenderableNote({ note: match.note });
+      await notesApi.saveStoredAnnotation({
+        app: this,
+        annotation: match.note.annotation
+      });
       await this.actions.renderAnchorNotes({ anchor: match.anchor });
-      await this.actions.saveNotes({});
+      if (!this.marginNotesRuntime.notesService) {
+        await this.actions.saveNotes({});
+      }
     },
     async deleteNote({ noteId }) {
       const notesApi = this.api.notes;
       const match = notesApi.findNote({ app: this, noteId });
       if (!match) return;
+      await notesApi.deleteStoredAnnotation({
+        app: this,
+        annotation: match.note.annotation
+      });
       match.anchor.notes.splice(match.index, 1);
       notesApi.removeAnnotationFromGraph({
         app: this,
@@ -23527,7 +26195,9 @@ var paragraphNoteStacks = {
       });
       await this.actions.updateAnchorNoteState({ anchor: match.anchor });
       await this.actions.renderAnchorNotes({ anchor: match.anchor });
-      await this.actions.saveNotes({});
+      if (!this.marginNotesRuntime.notesService) {
+        await this.actions.saveNotes({});
+      }
     },
     async saveNotes() {
       const notesApi = this.api.notes;
@@ -23540,7 +26210,6 @@ var paragraphNoteStacks = {
     async connectSolidStorage({ webId }) {
       const notesApi = this.api.notes;
       const config = this.marginNotesRuntime.solidConnectionConfig || {};
-      const localGraph = this.data.marginNotes.graph || [];
       try {
         notesApi.setSolidConnectionStatus({
           app: this,
@@ -23563,25 +26232,27 @@ var paragraphNoteStacks = {
           message: "Syncing local notes..."
         });
         notesApi.renderSolidConnectionStatus({ app: this });
-        const solidGraph = await notesApi.loadGraphFromStore({
-          store: connection.store,
-          key: connection.resourceUrl,
-          throwOnError: true
+        const notesService = await notesApi.ensureNotesService({
+          app: this,
+          storeKey: this.data.marginNotes.storeKey
         });
-        const merged = notesApi.mergeAnnotationGraphs({
-          storedNotes: solidGraph,
-          incomingNotes: localGraph
-        });
-        if (merged.changed) {
-          await notesApi.saveGraphToStore({
-            store: connection.store,
-            key: connection.resourceUrl,
-            subjects: merged.graph,
-            throwOnError: true
-          });
+        const solidClient = connection.solid || config.solid || config.solidForStore;
+        if (!solidClient) {
+          throw new Error("Solid connection did not provide a Solid API client for note sync");
         }
-        this.marginNotesRuntime.store = connection.store;
-        this.data.marginNotes.storeKey = connection.resourceUrl;
+        await notesService.connect({
+          solid: solidClient,
+          resources: {
+            notes: {
+              url: connection.resourceUrl
+            }
+          }
+        });
+        const syncStatus = await notesService.sync("notes");
+        if (syncStatus?.ok === false) {
+          throw syncStatus.error || new Error(`Solid notes sync failed: ${syncStatus.status}`);
+        }
+        notesService.data.notes.refresh();
         this.marginNotesRuntime.solidConnection = connection;
         notesApi.setSolidConnectionStatus({
           app: this,
@@ -23592,7 +26263,9 @@ var paragraphNoteStacks = {
           message: `Connected to ${connection.storageUrl}`
         });
         notesApi.renderSolidConnectionStatus({ app: this });
-        await this.actions.replaceNotesGraph({ graph: merged.graph });
+        await this.actions.replaceNotesGraph({
+          graph: notesService.data.notes.list()
+        });
         notesApi.rememberSolidConnection({
           app: this,
           connection
@@ -23817,8 +26490,8 @@ var paragraphNoteStacks = {
       await this.actions.collapseExpandedInlineNotes({ list: notesApi.noteListElement({ affordance }) });
       await this.actions.layoutAnchorNotes({ anchorId });
     },
-    async expandInlineNote({ source }) {
-      const item = source?.closest?.(".margin-notes-target-note");
+    async expandInlineNote({ source: source2 }) {
+      const item = source2?.closest?.(".margin-notes-target-note");
       if (!item) return;
       const list2 = item.closest(".margin-notes-target-note-list");
       const toggle = item.querySelector(".margin-notes-target-note-toggle");
@@ -23842,8 +26515,8 @@ var paragraphNoteStacks = {
         await this.actions.collapseInlineNote({ item: note });
       }
     },
-    async closeInlineNote({ source }) {
-      const item = source?.closest?.(".margin-notes-target-note");
+    async closeInlineNote({ source: source2 }) {
+      const item = source2?.closest?.(".margin-notes-target-note");
       if (!item) return;
       await this.actions.collapseInlineNote({ item });
       item.querySelector(".margin-notes-target-note-toggle")?.focus();
@@ -23988,13 +26661,13 @@ var paragraphNoteStacks = {
           popup ? { popup } : {}
         );
       },
-      setSolidConnectionStatus({ app: app2, status: status2, message, webId, storageUrl, resourceUrl }) {
+      setSolidConnectionStatus({ app: app2, status: status2, message, webId, storageUrl: storageUrl2, resourceUrl }) {
         app2.data.marginNotes.solidConnection = {
           ...app2.data.marginNotes.solidConnection,
           status: status2,
           message,
           webId: webId ?? app2.data.marginNotes.solidConnection.webId,
-          storageUrl: storageUrl ?? app2.data.marginNotes.solidConnection.storageUrl,
+          storageUrl: storageUrl2 ?? app2.data.marginNotes.solidConnection.storageUrl,
           resourceUrl: resourceUrl ?? app2.data.marginNotes.solidConnection.resourceUrl
         };
       },
@@ -24052,7 +26725,56 @@ var paragraphNoteStacks = {
           document.getElementById(id2)?.remove();
         }
       },
+      async setupNotesStorage({ app: app2, storeKey }) {
+        if (app2.marginNotesRuntime.customStore) {
+          return null;
+        }
+        return this.ensureNotesService({
+          app: app2,
+          storeKey
+        });
+      },
+      async ensureNotesService({ app: app2, storeKey = app2.data.marginNotes.storeKey }) {
+        if (app2.marginNotesRuntime.notesService) {
+          return app2.marginNotesRuntime.notesService;
+        }
+        if (app2.marginNotesRuntime.customStore) {
+          return null;
+        }
+        const legacyGraph = await this.loadGraphFromStore({
+          store: app2.marginNotesRuntime.store,
+          key: storeKey
+        });
+        const service = app2.marginNotesRuntime.simplySolid({
+          localFirst: true,
+          app: {
+            slug: "margin-notes"
+          },
+          data: {
+            notes: {
+              kind: "resource",
+              local: {
+                database: "margin-notes-workspace",
+                store: "resources",
+                key: storeKey,
+                prefixes: this.vocabulary.prefixes,
+                document: this.toStorageDocument({ subjects: legacyGraph })
+              }
+            }
+          }
+        });
+        await service.open();
+        app2.marginNotesRuntime.notesService = service;
+        return service;
+      },
       async loadGraph({ app: app2, key, throwOnError = false }) {
+        const notesService = await this.ensureNotesService({
+          app: app2,
+          storeKey: key
+        });
+        if (notesService) {
+          return notesService.data.notes.list();
+        }
         return this.loadGraphFromStore({
           store: app2.marginNotesRuntime.store,
           key,
@@ -24073,6 +26795,15 @@ var paragraphNoteStacks = {
         }
       },
       async saveGraph({ app: app2, key, subjects }) {
+        const notesService = await this.ensureNotesService({
+          app: app2,
+          storeKey: key
+        });
+        if (notesService) {
+          await notesService.data.notes.saveAll();
+          await this.syncNotesResource({ app: app2 });
+          return true;
+        }
         return this.saveGraphToStore({
           store: app2.marginNotesRuntime.store,
           key,
@@ -24094,33 +26825,52 @@ var paragraphNoteStacks = {
           return false;
         }
       },
-      mergeAnnotationGraphs({ storedNotes = [], incomingNotes = [] }) {
-        const graphById = /* @__PURE__ */ new Map();
-        let changed = false;
-        for (const note of storedNotes) {
-          graphById.set(note.id, note);
+      async createStoredAnnotation({ app: app2, annotation }) {
+        const notesService = await this.ensureNotesService({ app: app2 });
+        if (!notesService) {
+          return annotation;
         }
-        for (const note of incomingNotes) {
-          const storedNote = graphById.get(note.id);
-          if (!storedNote) {
-            graphById.set(note.id, note);
-            changed = true;
-            continue;
-          }
-          if (this.annotationModifiedAt({ annotation: note }) > this.annotationModifiedAt({ annotation: storedNote })) {
-            graphById.set(note.id, note);
-            changed = true;
-          }
-        }
-        return {
-          graph: Array.from(graphById.values()),
-          changed
-        };
+        const stored = await notesService.data.notes.create(annotation);
+        await this.syncNotesResource({ app: app2 });
+        return stored;
       },
-      annotationModifiedAt({ annotation }) {
-        const modified = annotation?.dcterms$modified || annotation?.modified || annotation?.updatedAt || "";
-        const timestamp = Date.parse(Array.isArray(modified) ? modified[0] : modified);
-        return Number.isFinite(timestamp) ? timestamp : 0;
+      async saveStoredAnnotation({ app: app2, annotation }) {
+        const notesService = await this.ensureNotesService({ app: app2 });
+        if (!notesService) {
+          return null;
+        }
+        const saved = await notesService.data.notes.update(
+          annotation.id,
+          this.toStoredAnnotation({ annotation })
+        );
+        await this.syncNotesResource({ app: app2 });
+        return saved;
+      },
+      async deleteStoredAnnotation({ app: app2, annotation }) {
+        const notesService = await this.ensureNotesService({ app: app2 });
+        if (!notesService) {
+          return null;
+        }
+        const deleted = await notesService.data.notes.delete(annotation.id);
+        await this.syncNotesResource({ app: app2 });
+        return deleted;
+      },
+      async syncNotesResource({ app: app2 }) {
+        const notesService = app2.marginNotesRuntime.notesService;
+        const resource2 = notesService?.workspace?.resourceById?.get?.("notes");
+        if (!resource2?.remote) {
+          return null;
+        }
+        const status2 = await notesService.sync("notes");
+        if (status2?.ok === false) {
+          this.setSolidConnectionStatus({
+            app: app2,
+            status: "error",
+            message: status2.error?.message || `Solid sync failed: ${status2.status}`
+          });
+          this.renderSolidConnectionStatus({ app: app2 });
+        }
+        return status2;
       },
       groupNotesByAnchor({ notes }) {
         return notes.reduce((grouped, note) => {
@@ -24171,8 +26921,8 @@ var paragraphNoteStacks = {
       noteListElement({ affordance }) {
         return affordance?.widget.querySelector(".margin-notes-target-note-list");
       },
-      noteFromElement({ app: app2, source }) {
-        const element2 = source?.closest?.("[data-simply-value-path]");
+      noteFromElement({ app: app2, source: source2 }) {
+        const element2 = source2?.closest?.("[data-simply-value-path]");
         const valuePath = element2?.dataset?.simplyValuePath;
         if (!valuePath || !app2) return;
         return this.path.get(app2.data, valuePath);
@@ -24286,7 +27036,7 @@ var DEFAULT_NAME = "margin-notes";
 var DEFAULT_COLLECTION = "values";
 function createLocalStore(options = {}) {
   const name = options.name || DEFAULT_NAME;
-  const collection = options.collection || DEFAULT_COLLECTION;
+  const collection2 = options.collection || DEFAULT_COLLECTION;
   const indexedDB = options.indexedDB ?? globalThis.indexedDB;
   let database;
   return {
@@ -24308,12 +27058,12 @@ function createLocalStore(options = {}) {
     }
   };
   async function objectStore({ mode }) {
-    database ||= openDatabase({ indexedDB, name, collection });
+    database ||= openDatabase({ indexedDB, name, collection: collection2 });
     const db = await database;
-    return db.transaction(collection, mode).objectStore(collection);
+    return db.transaction(collection2, mode).objectStore(collection2);
   }
 }
-function openDatabase({ indexedDB, name, collection }) {
+function openDatabase({ indexedDB, name, collection: collection2 }) {
   if (!indexedDB) {
     return Promise.reject(new Error("Browser local storage is not available"));
   }
@@ -24321,8 +27071,8 @@ function openDatabase({ indexedDB, name, collection }) {
     const request3 = indexedDB.open(name, 1);
     request3.onupgradeneeded = (event) => {
       const db = event.target.result;
-      if (!db.objectStoreNames.contains(collection)) {
-        db.createObjectStore(collection, { keyPath: "key" });
+      if (!db.objectStoreNames.contains(collection2)) {
+        db.createObjectStore(collection2, { keyPath: "key" });
       }
     };
     request3.onsuccess = (event) => resolve(event.target.result);
@@ -24377,6 +27127,9 @@ function mount(config) {
       solidConnectionConfig: config.solidConnection || null,
       solidConnectionElement: null,
       solidConnectionCleanup: null,
+      notesService: config.notesService || null,
+      customStore: Boolean(config.store),
+      simplySolid,
       themeRoot,
       hadThemeAttribute: themeRoot.hasAttribute("data-margin-notes-theme"),
       previousThemeAttribute: themeRoot.getAttribute("data-margin-notes-theme")
@@ -24457,6 +27210,384 @@ var MarginNotes = class {
     return this.app?.getSolidConnection() || null;
   }
 };
+
+// src/storage/solid-resource-store.js
+var DEFAULT_ACCEPT = "text/turtle, application/ld+json;q=0.9, application/json;q=0.2";
+var DEFAULT_CONTENT_TYPE = "text/turtle";
+var DEFAULT_FORMAT = "margin-notes-oldmed-graph";
+var DEFAULT_VERSION = 1;
+var NODE_PREDICATES = /* @__PURE__ */ new Set([
+  "oa$hasBody",
+  "oa$hasTarget",
+  "oa$hasSource",
+  "oa$hasSelector",
+  "schema$about"
+]);
+var INLINE_PREDICATES = /* @__PURE__ */ new Set([
+  "oa$hasBody",
+  "oa$hasTarget",
+  "oa$hasSelector"
+]);
+function createSolidResourceStore(options = {}) {
+  assertOptions(options);
+  const defaultResourceUrl = options.resourceUrl || "";
+  const accept = options.accept || DEFAULT_ACCEPT;
+  const contentType = options.contentType || DEFAULT_CONTENT_TYPE;
+  const providedSolid = options.solid || options.solidApi || null;
+  const generatedClient = {
+    clients: /* @__PURE__ */ new Map()
+  };
+  function solidFor(resourceUrl, requestOptions2 = {}) {
+    return solidClientFor({ options, providedSolid, resourceUrl, generatedClient, requestOptions: requestOptions2 });
+  }
+  return {
+    name: "solidResourceStore",
+    async load({ key } = {}) {
+      const resourceUrl = resourceUrlFrom({ key, defaultResourceUrl });
+      const solid2 = solidFor(resourceUrl);
+      const response3 = await callResource(() => solid2.get(resourceUrl, {
+        headers: solidRequestHeaders({ accept })
+      }));
+      if (isMissing(response3)) return null;
+      await ensureOk2({ response: response3, operation: "load" });
+      const data = response3?.data ?? response3;
+      if (isOldmGraph(data)) {
+        return storageDocumentFromGraph({ graph: data, resourceUrl });
+      }
+      if (isStorageDocument(data)) {
+        return data;
+      }
+      const text = await responseText2(response3);
+      if (!text.trim()) return null;
+      if (isLinkedDataResponse(response3)) {
+        return storageDocumentFromGraph({
+          graph: oldmContext({ resourceUrl }).parse(text, resourceUrl, responseContentType2(response3) || DEFAULT_CONTENT_TYPE),
+          resourceUrl
+        });
+      }
+      let parsed;
+      try {
+        parsed = JSON.parse(text);
+      } catch (error4) {
+        throw new Error(`Solid resource load returned invalid linked data or JSON from ${resourceUrl}: ${error4.message}`);
+      }
+      if (!isStorageDocument(parsed) && !Array.isArray(parsed)) {
+        throw new Error(`Solid resource load returned JSON that is not a notes document from ${resourceUrl}`);
+      }
+      return parsed;
+    },
+    async save({ key, value } = {}) {
+      const resourceUrl = resourceUrlFrom({ key, defaultResourceUrl });
+      const solid2 = solidFor(resourceUrl, { writesBody: true });
+      const graph2 = graphFromStorageDocument({ document: value, resourceUrl });
+      const response3 = await callResource(() => solid2.put(resourceUrl, {
+        body: graph2,
+        headers: solidRequestHeaders({ contentType })
+      }));
+      await ensureOk2({ response: response3, operation: "save" });
+      return {
+        key: resourceUrl,
+        resourceUrl,
+        status: response3.status
+      };
+    },
+    async remove({ key } = {}) {
+      const resourceUrl = resourceUrlFrom({ key, defaultResourceUrl });
+      const solid2 = solidFor(resourceUrl, { needsAuthorization: true });
+      const response3 = await callResource(() => solid2.delete(resourceUrl));
+      if (isMissing(response3) || response3.status === 410) {
+        return {
+          key: resourceUrl,
+          resourceUrl,
+          status: response3.status
+        };
+      }
+      await ensureOk2({ response: response3, operation: "remove" });
+      return {
+        key: resourceUrl,
+        resourceUrl,
+        status: response3.status
+      };
+    }
+  };
+}
+function assertOptions(options) {
+  const optionIssues = issues(options, {
+    resourceUrl: Optional(String),
+    rootUrl: Optional(String),
+    storageUrl: Optional(String),
+    accept: Optional(String),
+    contentType: Optional(String),
+    force_authorization: Optional(Boolean),
+    forceAuthorizationForWrites: Optional(Boolean)
+  });
+  if (optionIssues) {
+    throw new TypeError(`Invalid Solid resource store options: ${optionIssues[0].pathString} ${optionIssues[0].message}`);
+  }
+}
+function oldmContext({ resourceUrl, prefixes: prefixes4 = {} }) {
+  return src_default7.context({
+    defaultGraph: resourceUrl,
+    prefixes: annotationPrefixes(prefixes4)
+  });
+}
+function annotationPrefixes(prefixes4 = {}) {
+  return {
+    rdf: "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+    rdfs: "http://www.w3.org/2000/01/rdf-schema#",
+    dcterms: "http://purl.org/dc/terms/",
+    oa: "http://www.w3.org/ns/oa#",
+    schema: "https://schema.org/",
+    cobalt: "https://vocab.muze.nl/cobalt#",
+    ...prefixes4
+  };
+}
+function graphFromStorageDocument({ document: document2, resourceUrl }) {
+  let storageDocument = { subjects: [] };
+  if (isStorageDocument(document2)) {
+    storageDocument = document2;
+  }
+  const context = oldmContext({
+    resourceUrl,
+    prefixes: storageDocument.prefixes
+  });
+  const graph2 = context.parse("", resourceUrl, DEFAULT_CONTENT_TYPE);
+  for (const subject of storageDocument.subjects) {
+    writeSubjectToGraph2({ graph: graph2, subject });
+  }
+  return graph2;
+}
+function writeSubjectToGraph2({ graph: graph2, subject }) {
+  if (!subject?.id) return null;
+  for (const [predicate, value] of Object.entries(subject)) {
+    if (predicate === "id") continue;
+    if (predicate === "rdf$type") {
+      graph2.set(subject.id, "rdf$type", value);
+      continue;
+    }
+    graph2.set(subject.id, predicate, graphValueFromStorageValue({ graph: graph2, predicate, value }));
+  }
+  return subject.id;
+}
+function graphValueFromStorageValue({ graph: graph2, predicate, value }) {
+  if (Array.isArray(value)) {
+    return value.map((item) => graphValueFromStorageValue({ graph: graph2, predicate, value: item }));
+  }
+  if (value && typeof value === "object") {
+    if (predicate === "cobalt$fragment") {
+      return JSON.stringify(value);
+    }
+    if (value.id) {
+      writeSubjectToGraph2({ graph: graph2, subject: value });
+      return value.id;
+    }
+    return JSON.stringify(value);
+  }
+  if (typeof value === "string" && !NODE_PREDICATES.has(predicate)) {
+    return new String(value);
+  }
+  return value;
+}
+function storageDocumentFromGraph({ graph: graph2, resourceUrl }) {
+  const subjects = Array.from(from2(graphSubjects2(graph2)).where((subject) => src_default7.many(subject.a).includes("oa$Annotation") || src_default7.many(subject.rdf$type).includes("oa$Annotation")).select((subject) => repairConventionalAnnotationParts({
+    graph: graph2,
+    annotation: storageSubjectFromOldmSubject({ graph: graph2, subject })
+  })));
+  return {
+    format: DEFAULT_FORMAT,
+    version: DEFAULT_VERSION,
+    prefixes: annotationPrefixes(graph2?.prefixes ?? graph2?.context?.prefixes),
+    resourceUrl,
+    subjects
+  };
+}
+function repairConventionalAnnotationParts({ graph: graph2, annotation }) {
+  if (!annotation?.id) return annotation;
+  const body = annotation.oa$hasBody || conventionalSubject({
+    graph: graph2,
+    subjectId: annotation.id,
+    suffixes: ["#body", "-body"],
+    types: ["oa$TextualBody", "cobalt$Fragment"]
+  });
+  if (body) {
+    annotation.oa$hasBody = body;
+  }
+  const target = annotation.oa$hasTarget || conventionalSubject({
+    graph: graph2,
+    subjectId: annotation.id,
+    suffixes: ["#target", "-target"],
+    types: ["oa$SpecificResource"]
+  });
+  if (target) {
+    target.oa$hasSelector = target.oa$hasSelector || conventionalSubject({
+      graph: graph2,
+      subjectId: annotation.id,
+      suffixes: ["#selector-fragment", "-selector", "#selector"],
+      types: ["oa$FragmentSelector"]
+    });
+    annotation.oa$hasTarget = target;
+  }
+  return annotation;
+}
+function conventionalSubject({ graph: graph2, subjectId, suffixes, types }) {
+  const subject = from2(suffixes).select((suffix) => graph2?.subjects?.[`${subjectId}${suffix}`]).where((candidate) => candidate && src_default7.many(candidate.a).some((type) => types.includes(type)))[0];
+  if (!subject) return null;
+  return storageSubjectFromOldmSubject({ graph: graph2, subject });
+}
+function storageSubjectFromOldmSubject({ graph: graph2, subject, seen = /* @__PURE__ */ new Set() }) {
+  if (!subject || seen.has(subject.id)) {
+    return subject?.id;
+  }
+  seen.add(subject.id);
+  const result = {};
+  for (const [predicate, value] of Object.entries(subject)) {
+    if (predicate === "graph") continue;
+    if (predicate === "a") {
+      result.rdf$type = storageValueFromOldmValue({ graph: graph2, predicate, value, seen });
+      continue;
+    }
+    result[predicate] = storageValueFromOldmValue({ graph: graph2, predicate, value, seen });
+  }
+  return result;
+}
+function storageValueFromOldmValue({ graph: graph2, predicate, value, seen }) {
+  if (Array.isArray(value)) {
+    return value.map((item) => storageValueFromOldmValue({ graph: graph2, predicate, value: item, seen }));
+  }
+  if (isOldmNamedNode(value)) {
+    const linkedSubject = graph2?.subjects?.[value.id];
+    if (linkedSubject && INLINE_PREDICATES.has(predicate)) {
+      return storageSubjectFromOldmSubject({ graph: graph2, subject: linkedSubject, seen });
+    }
+    return value.id;
+  }
+  if (value instanceof String) {
+    return storageLiteralValue({ predicate, value: value.toString() });
+  }
+  if (value && typeof value === "object") {
+    return storageSubjectFromOldmSubject({ graph: graph2, subject: value, seen });
+  }
+  return storageLiteralValue({ predicate, value });
+}
+function storageLiteralValue({ predicate, value }) {
+  if (predicate === "cobalt$fragment" && typeof value === "string") {
+    try {
+      return JSON.parse(value);
+    } catch {
+      return { text: value, annotations: [] };
+    }
+  }
+  return value;
+}
+function graphSubjects2(graph2) {
+  if (Array.isArray(graph2?.data)) {
+    return graph2.data;
+  }
+  if (Array.isArray(graph2?.subjects)) {
+    return graph2.subjects;
+  }
+  if (graph2?.subjects && typeof graph2.subjects === "object") {
+    return Object.values(graph2.subjects);
+  }
+  return [];
+}
+function resourceUrlFrom({ key, defaultResourceUrl }) {
+  const resourceUrl = defaultResourceUrl || key;
+  if (issues(resourceUrl, String)) {
+    throw new Error("Solid resource store requires a resourceUrl option or key");
+  }
+  return resourceUrl;
+}
+function solidClientFor({ options, providedSolid, resourceUrl, generatedClient, requestOptions: requestOptions2 = {} }) {
+  if (providedSolid) {
+    assertSolidClient2(providedSolid);
+    return providedSolid;
+  }
+  const rootUrl = options.rootUrl || options.storageUrl || resourceUrl;
+  const forceAuthorization = forceAuthorizationForRequest({ options, requestOptions: requestOptions2 });
+  const cacheKey = `${rootUrl}
+force:${forceAuthorization}`;
+  if (generatedClient.clients.has(cacheKey)) {
+    return generatedClient.clients.get(cacheKey);
+  }
+  const metroClient = createSolidMetroClient(rootUrl, {
+    ...options,
+    oidc: options.oidc ?? Boolean(options.issuer),
+    force_authorization: forceAuthorization,
+    configureMetro: options.configureMetro ?? true
+  });
+  const solid2 = solidApi(metroClient);
+  generatedClient.clients.set(cacheKey, solid2);
+  return solid2;
+}
+function forceAuthorizationForRequest({ options, requestOptions: requestOptions2 }) {
+  if (options.force_authorization !== void 0) {
+    return options.force_authorization;
+  }
+  if (requestOptions2.writesBody || requestOptions2.needsAuthorization) {
+    return Boolean(options.forceAuthorizationForWrites);
+  }
+  return false;
+}
+function assertSolidClient2(solid2) {
+  const clientIssues = issues(solid2, {
+    get: callable2,
+    put: callable2,
+    delete: callable2
+  });
+  if (clientIssues) {
+    throw new TypeError("Solid resource store requires a Solid API client with get/put/delete");
+  }
+}
+function callable2(value, _root, path2) {
+  if (typeof value !== "function") {
+    return error("data is not a function", value, "function", path2);
+  }
+  return false;
+}
+async function callResource(operation) {
+  try {
+    return await operation();
+  } catch (error4) {
+    if (isMissing(error4?.cause)) {
+      return error4.cause;
+    }
+    throw error4;
+  }
+}
+function isMissing(response3) {
+  return response3?.status === 404;
+}
+function isStorageDocument(value) {
+  return Boolean(value && typeof value === "object" && Array.isArray(value.subjects));
+}
+function isOldmGraph(value) {
+  return Boolean(value && typeof value === "object" && typeof value.write === "function" && value.subjects);
+}
+function isOldmNamedNode(value) {
+  return Boolean(value && typeof value === "object" && typeof value.id === "string" && value.graph);
+}
+function isLinkedDataResponse(response3) {
+  return /^text\/turtle\b|^application\/ld\+json\b|^application\/n-quads\b|^application\/trig\b/.test(responseContentType2(response3));
+}
+function responseContentType2(response3) {
+  return response3?.headers?.get?.("Content-Type") || response3?.headers?.get?.("content-type") || "";
+}
+async function ensureOk2({ response: response3, operation }) {
+  if (response3.ok) return;
+  const body = await responseText2(response3).catch(() => "");
+  const detail = body.trim() ? `: ${body.trim()}` : "";
+  throw new Error(`Solid resource ${operation} failed (${response3.status} ${response3.statusText})${detail}`);
+}
+async function responseText2(response3) {
+  if (typeof response3?.text === "function") {
+    return response3.text();
+  }
+  if (typeof response3?.data === "string") {
+    return response3.data;
+  }
+  return "";
+}
 
 // src/index.js
 var MarginNotesAPI = {
