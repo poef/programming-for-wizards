@@ -4,23 +4,17 @@ tags: programming for wizards
 
 # Every program grows a language
 
-<!-- paragraph-id: p-09-a-program-is-not-only-written-in-a -->
-A program is not only written in a language. A program also creates a language.
-
-<!-- paragraph-id: p-09-every-time-you-name-a-variable-function-class -->
-Every time you name a variable, function, class or method, you add a word to your program. Add enough words and you've created a language all your own.
+<!-- paragraph-id: p-09-so-far-ive-described-programming-language-design-as -->
+So far, I've described programming language design as a conscious choice, a thing someone set out to build. But if you've ever written a piece of software, you too have been building a programming language. Every time you name a variable, function, class or method, you add a word to your program. Add enough words and you've created a language all your own.
 
 <!-- paragraph-id: p-09-when-you-write-the-code-that-language-is -->
-When you write the code, that language is obvious because you've invented it. Anyone else must learn it before they can safely change your program.
-
-<!-- paragraph-id: p-09-this-is-why-reading-code-is-harder-than -->
-This is why reading code is harder than writing it.
+When you write the code, that language is obvious because you've invented it. Anyone else must learn it before they can safely change your program. This is why reading code is harder than writing it.
 
 <!-- paragraph-id: p-09-most-of-the-time-programs-grow-their-local -->
 Most of the time, programs grow their local language by accident. You do not choose to create it--it just happens. Always. You only get to choose whether you notice it before it grows teeth.
 
 <!-- paragraph-id: p-09-that-is-not-automatically-bad-it-is-how -->
-That is not automatically bad. It is how useful code grows.
+That's not automatically bad, it is how useful code grows.
 
 <!-- paragraph-id: p-09-but-sometimes-the-local-language-wants-to-stop -->
 But sometimes the local language wants to stop being accidental. Sometimes the problem has a vocabulary of its own, and forcing that vocabulary through the general-purpose language starts to feel like translating a poem through a tax form.

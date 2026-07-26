@@ -25,10 +25,7 @@ That's not a system built to grow, or to allow change at scale.
 ## The bazaar needs streets
 
 <!-- paragraph-id: p-14-eric-s-raymond-wrote-the-cathedral-and-the -->
-Eric S. Raymond wrote [*The Cathedral and the Bazaar*](http://www.catb.org/~esr/writings/cathedral-bazaar/cathedral-bazaar/), contrasting carefully planned cathedral-style development with the messy, adaptive energy of open source.
-
-<!-- paragraph-id: p-14-the-useful-part-of-the-bazaar-is-not -->
-A bazaar can be messy, but that's not the point. The point is anyone can build a stall there.
+Eric S. Raymond wrote [*The Cathedral and the Bazaar*](http://www.catb.org/~esr/writings/cathedral-bazaar/cathedral-bazaar/), contrasting carefully planned cathedral-style development with the messy, adaptive energy of open source. The point of the bazaar is not the mess, the point is anyone can build a stall there.
 
 <!-- paragraph-id: p-14-a-bazaar-still-needs-streets-a-stall-needs -->
 A bazaar still needs streets. A stall needs somewhere to stand. People need to know where the entrance is. Someone has to stop a new stall from blocking it.
@@ -46,8 +43,6 @@ Innovation can come from elsewhere only when the structure gives it a place to a
 
 <!-- paragraph-id: p-14-a-closed-system-can-coordinate-through-ownership-one -->
 A closed system can coordinate through ownership. One organization controls the pieces and can make them fit.
-
-<!-- paragraph-id: p-14-a-commons-cannot-rely-on-that-independent-tools -->
 A commons cannot rely on that. Independent tools, people and organizations need agreements.
 
 <!-- paragraph-id: p-14-a-standard-is-a-boundary-that-does-not -->
@@ -83,10 +78,7 @@ A stable system does not keep change out everywhere. It gives each kind of chang
 ## The Web was built this way
 
 <!-- paragraph-id: p-14-the-web-did-not-require-one-owner-to -->
-The Web did not require one owner to finish the whole idea.
-
-<!-- paragraph-id: p-14-a-url-let-one-document-point-to-another -->
-Its infrastructure did not contain a search engine, a shop or a social network. It gave browsers, servers and documents enough shared ground for other people to build them.
+The Web did not require one owner to finish the whole idea. Its infrastructure did not contain a search engine, a shop or a social network. Instead it gave browsers, servers and documents enough shared ground for other people to build them.
 
 <!-- paragraph-id: p-14-a-new-server-could-appear-without-asking-every -->
 A new server could appear without asking every browser for permission. A new browser could read existing pages. A new page could link to an old one. A new site did not need permission from the old sites before it could exist.
@@ -112,10 +104,7 @@ But the open ground still matters. Without it, the castles would be the whole wo
 ## The outside needs a way in
 
 <!-- paragraph-id: p-14-this-is-how-small-reusable-software-becomes-possible -->
-The open ground does more than preserve what already exists. It gives new ideas somewhere to begin.
-
-<!-- paragraph-id: p-14-if-a-program-has-to-do-everything-itself -->
-A new idea can first live in an application. It can be tried, changed, abandoned or rebuilt without touching every browser and server.
+The open ground does more than preserve what already exists. It gives new ideas somewhere to begin. A new idea can first live in an application. It can be tried, changed, abandoned or rebuilt without touching every browser and server.
 
 <!-- paragraph-id: p-14-if-it-has-to-own-the-data-identity -->
 If many applications need it, a platform may learn to provide it. But only the smallest and most durable agreements should move into infrastructure, because everything above may have to carry them for decades.

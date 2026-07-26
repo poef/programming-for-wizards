@@ -44,10 +44,7 @@ attendee-4 | addressLocality | Manchester
 ```
 
 <!-- paragraph-id: p-15-both-records-have-the-same-rough-shape-something -->
-Both records have the same rough shape. Something has a property with a value.
-
-<!-- paragraph-id: p-15-but-the-names-are-private -->
-But the names are private.
+Both records have the same rough shape. Something has a property with a value, but the names are private.
 
 <!-- paragraph-id: p-15-person-17-only-means-something-inside-the-contacts -->
 `person-17` only means something inside the contacts app. `attendee-4` only means something inside the calendar app. They may both refer to Hilda, but nothing in either identifier says so.
@@ -56,10 +53,7 @@ But the names are private.
 The properties have the same problem. One application says `city`. Another says `town`. Another says `addressLocality`. Another says `municipality`, because someone had a meeting.
 
 <!-- paragraph-id: p-15-inside-one-application-private-names-are-fine-you -->
-Inside one application, private names are fine. You control the dictionary.
-
-<!-- paragraph-id: p-15-across-a-boundary-each-private-name-needs-a -->
-Across a boundary, each private name needs a translator. Every import script has to learn both sides. When either side changes, the bridge changes too.
+Inside one application, private names are fine. You control the dictionary. But when you cross a border, a boundary, each private name needs a translator. Every import script has to learn both sides. When either side changes, the bridge changes too.
 
 <!-- paragraph-id: p-15-instead-imagine-if-names-inside-the-data-could -->
 What if names inside the data could cross the same boundaries as documents?

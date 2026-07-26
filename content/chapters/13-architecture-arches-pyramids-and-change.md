@@ -136,10 +136,7 @@ Any useful program will eventually meet new machines, new uses, new libraries, n
 This is one of the problems with comparing software to buildings. The ground usually does not rewrite the laws of stone halfway through construction. Software has no such manners.
 
 <!-- paragraph-id: p-13-architecture-cannot-mean-certainty -->
-Architecture cannot mean certainty.
-
-<!-- paragraph-id: p-13-certainty-is-too-expensive-and-usually-fake -->
-Certainty is too expensive, and usually fake.
+Architecture in software is not something you do at the start and then enshrine in a set of design documents. Architecture instead is how you deal with all the stuff that comes along, that you didn't think of beforehand.
 
 <!-- paragraph-id: p-13-architecture-is-how-you-survive-being-wrong -->
 Architecture is how you survive being wrong.
@@ -148,10 +145,7 @@ Architecture is how you survive being wrong.
 You will choose the wrong database sometimes. You will give a private thing a public name, or a public thing no name at all. You will build a pile where an arch might have worked, and sometimes you will build an arch nobody needs.
 
 <!-- paragraph-id: p-13-that-is-not-a-moral-failure-it-is -->
-That is not a moral failure. It is what happens when you have to work before the future has finished introducing itself.
-
-<!-- paragraph-id: p-13-the-question-is-whether-being-wrong-breaks-everything -->
-The question is whether being wrong breaks everything.
+That is not a moral failure. It is what happens when you have to work before the future has finished introducing itself. The question is whether being wrong breaks everything.
 
 <!-- paragraph-id: p-13-if-one-piece-is-wrong-can-it-be -->
 If one piece is wrong, can it be replaced without dragging half the system behind it? If the data has to move, did you leave it a door? If the language you invented is missing a word, can it grow without making all the old sentences meaningless?

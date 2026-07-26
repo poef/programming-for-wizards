@@ -14,13 +14,13 @@ The famous wizard [Alan Kay](https://en.wikipedia.org/wiki/Alan_Kay) once said:
 > "Whatever we [in computing] do is more like what the Egyptians did. Building pyramids, piling things on top of each other." [(video)](https://www.tele-task.de/lecture/video/2772/)
 
 <!-- paragraph-id: p-11-i-think-the-situation-is-more-dire-than -->
-I think the situation is more dire than that. We're not stacking bricks. We're knitting castles.
+I think the situation is more dire than that. We're not stacking bricks, instead we're knitting castles.
 
 <!-- aside-id: aside-11-aside-ive-stolen-the-knitted-castle-example-from-rich -->
 > *Aside:* I've stolen the knitted castle example from Rich Hickey. He uses the image in [Simple Made Easy](https://youtu.be/SxdOUGdseq4?t=1287), a talk every wizard should probably watch at least once. His point is that simplicity is not about looking small or familiar. It is about whether the parts are braided together.
 
 <!-- paragraph-id: p-11-lets-take-a-step-back-first-go-back -->
-Let's take a step back first. Go back to when you first discovered programming. I hope it isn't too hard to remember the heady first days, the unimaginable power you had to make a computer do your bidding, to create something entirely new.
+Let's take a step back first, back to when you first discovered programming. I hope it isn't too hard to remember the heady first days, the unimaginable power you had to make a computer do your bidding, to create something entirely new.
 
 <!-- paragraph-id: p-11-then-if-you-are-like-me-you-got -->
 Then, if you are like me, you got serious about writing software, your darling program grew up and grew big. And adding new features, or debugging existing ones, grew more and more difficult. Your guesstimates grew more and more wildly off. Each new feature fighting with all the ones before it.
@@ -38,13 +38,10 @@ Most software projects at some point end up looking like this:
 A pyramid is at least made of separate stones. They may be heavy, badly placed, and difficult to move, but you can still point at one and say: there, that is a stone.
 
 <!-- paragraph-id: p-11-a-knitted-castle-is-different-every-part-is -->
-A knitted castle is different. Every part is made out of the same thread as every other part. The wall continues into the tower. The tower continues into the flag. The flag continues into the dragon. Pull one loop too hard and the whole thing starts to change shape.
+A knitted castle is different. Every part is made out of the same thread as every other part. The wall continues into the tower, the tower continues into the flag and the flag continues into the dragon. Pull one loop too hard and the whole thing starts to change shape.
 
 <!-- paragraph-id: p-11-this-is-funny-when-it-is-yarn -->
-This is funny when it is yarn.
-
-<!-- paragraph-id: p-11-it-is-less-funny-when-it-is-your -->
-It is less funny when it is your application.
+This is funny when it is yarn, it is less funny when it is your application.
 
 ## The dream of Lego
 
@@ -52,7 +49,7 @@ It is less funny when it is your application.
 The dream is obvious. We want software pieces that behave like Lego bricks.
 
 <!-- paragraph-id: p-11-a-lego-brick-does-not-care-whether-it -->
-A Lego brick does not care whether it is used in a castle, a spaceship, a bridge, or a thing a small child insists is definitely a horse. It has a few simple connection points. The measurements are strict. The studs are boring. The brick does not bring a castle architecture with it.
+A Lego brick does not care whether it is used in a castle, a spaceship, a bridge, or a thing a small child insists is definitely a horse. It has a few simple connection points or studs. A few strict measurements used throughout. The studs are boring. The brick does not bring a castle architecture with it.
 
 <!-- paragraph-id: p-11-that-boringness-is-part-of-the-magic -->
 That boringness is part of the magic.
@@ -64,7 +61,7 @@ A Lego brick is reusable because it makes very few assumptions about the thing y
 Most software components are more like a beautifully carved castle tower with a bit of wall still attached, some electrical wiring dangling from the bottom, and a note saying it works best when placed on the east side of a hill during a full moon.
 
 <!-- paragraph-id: p-11-you-can-reuse-it-but-now-your-project -->
-You can reuse it. But now your project must have the right hill.
+You can reuse it, but now your project must have the right hill.
 
 ## Every useful thing grows threads
 
@@ -72,10 +69,7 @@ You can reuse it. But now your project must have the right hill.
 You don't end up with a mess of yarn because you set out to do so. You end up there because you just want to add a little feature here. Then another little fix there. A new component so your users can use dollars instead of euros. Your success means adding new language support. Oops, language and culture are not synonymous, so you add a patch.
 
 <!-- paragraph-id: p-11-none-of-these-changes-are-absurd-that-is -->
-None of these changes are absurd. That is the annoying part.
-
-<!-- paragraph-id: p-11-a-knitted-castle-is-usually-not-built-by -->
-A knitted castle is usually not built by foolish decisions. It is built by reasonable decisions made locally. Each decision adds another thread, ultimately binding everything into a single Gordian knot.
+The annoying part is, none of these changes are absurd. A knitted castle is usually not built by foolish decisions. It is built by reasonable decisions made locally. Each decision adds another thread, ultimately binding everything into a single Gordian knot.
 
 <!-- rule-id: rule-11-wizards-ninth-rule -->
 > **Wizard's ninth rule**
@@ -85,7 +79,7 @@ A knitted castle is usually not built by foolish decisions. It is built by reaso
 ## Packages are not the same as parts
 
 <!-- paragraph-id: p-11-you-install-one-small-package-it-needs-a -->
-You install one small package. It needs a framework plugin, a state library, a build step and three neighbouring packages. Nothing has gone wrong. This is simply what software reuse often looks like.
+You install one small package. It needs a framework plugin, a state library, a build step and three neighbouring packages. Nothing has gone wrong, this is simply what software reuse often looks like.
 
 <!-- paragraph-id: p-11-javascript-has-one-of-the-largest-ecosystems-of -->
 JavaScript has one of the largest ecosystems of reusable packages ever created. npm is both a miracle and a warning label.

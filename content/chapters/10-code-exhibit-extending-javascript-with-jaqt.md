@@ -2,13 +2,13 @@
 tags: programming for wizards
 ---
 
-# Code exhibit: extending JavaScript with JAQT
+# Code exhibit: growing queries inside javascript
 
 <!-- paragraph-id: p-10-the-previous-chapter-introduced-the-concept-of-a -->
 The previous chapter introduced the concept of a domain-specific language as a way to focus on a specific problem, without worrying about the outside world. But it left out a little trick. 
 
 <!-- paragraph-id: p-10-you-can-create-a-dsl-with-its-own -->
-You can create a DSL with its own parser or compiler. But you don't always have to.
+You can create a DSL with its own parser or compiler, as I've written about in the previous chapter, but you don't always have to.
 
 <!-- paragraph-id: p-10-sometimes-the-language-you-need-is-already-hiding -->
 Sometimes the language you need is already hiding inside the language you're using. You add a few conventions, a few helper functions, and suddenly ordinary JavaScript starts to read like a little query language.
@@ -17,7 +17,7 @@ Sometimes the language you need is already hiding inside the language you're usi
 That distinction matters. A separate parser creates a hard border. On one side is PHP, JavaScript, Python, or whatever language your program is written in. On the other side is your new little language. Once you cross that boundary, you no longer have access to all the useful things from the host language. Functions, imports, editor help, error messages, test tools, and familiar habits.
 
 <!-- paragraph-id: p-10-sometimes-that-border-is-worth-it-sql-is -->
-Sometimes that border is worth it. SQL is not JavaScript, and that is part of its power. Regular expressions are their own dense, cursed little world, and we keep using them because the curse is useful.
+Occasionally that border is worth it. SQL is not JavaScript, and that is part of its power. Regular expressions are their own dense, cursed little world, and we keep using them because the curse is useful.
 
 <!-- paragraph-id: p-10-but-borders-are-expensive-so-before-we-build -->
 But borders are expensive. So before we build one, it is worth asking a wizard's question:
@@ -254,7 +254,7 @@ const _ = Symbol("copy this property")
 ```
 
 <!-- paragraph-id: p-10-in-the-real-jaqt-which-this-is-inspired -->
-In the real [JAQT](https://github.com/muze-nl/jaqt/), which this is inspired by, `_` does more. In this exhibit version, it only means: copy the property with this name.
+The `_` is just a placeholder, so we can use the existing javascript object notation, it only means: copy the property with this name.
 
 <!-- paragraph-id: p-10-now-we-can-describe-the-result -->
 Now we can describe the result:
@@ -393,7 +393,7 @@ The result is:
 ```
 
 <!-- paragraph-id: p-10-this-is-not-real-jaqt-it-is-a -->
-This is not real JAQT. It is a small wooden model of the bridge. Real JAQT has a more capable `_`, more operations, and a lot more practical edge-case handling. Libraries are where edge cases go to start families.
+The code you've seen so far is a small sample of a larger library, called [JAQT](https://github.com/muze-nl/jaqt). This is not JAQT. It is a small wooden model of the bridge. JAQT itself has a more capable `_`, more operations, and a lot more practical edge-case handling. Libraries are where edge cases go to start families.
 
 <!-- paragraph-id: p-10-the-point-of-the-model-is-the-shape -->
 The point of the model is the shape.
