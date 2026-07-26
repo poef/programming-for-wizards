@@ -1,7 +1,7 @@
 {
   "id": "programming-for-wizards",
   "title": "Programming for Wizards",
-  "generatedAt": "2026-07-25T10:35:37.369Z",
+  "generatedAt": "2026-07-26T07:00:22.364Z",
   "phase": "01-enhanced-static-manuscript",
   "features": {
     "notes": "planned",
@@ -28,7 +28,7 @@
       "url": "chapters/01-this-is-not-a-programming-book.html",
       "previous": null,
       "next": "interlude-01-useful-tricks",
-      "wordCount": 563,
+      "wordCount": 558,
       "rule": null
     },
     {
@@ -40,7 +40,7 @@
       "url": "chapters/02-numbers-hiding-calculations-in-symbols.html",
       "previous": "interlude-01-useful-tricks",
       "next": "03-logic-turning-truth-into-machinery",
-      "wordCount": 1761,
+      "wordCount": 1779,
       "rule": "Wizard's first rule"
     },
     {
@@ -124,19 +124,19 @@
       "url": "chapters/09-every-program-contains-a-language.html",
       "previous": "08-programming-languages-are-for-humans",
       "next": "10-code-exhibit-extending-javascript-with-jaqt",
-      "wordCount": 485,
+      "wordCount": 504,
       "rule": "Wizard's eighth rule"
     },
     {
       "id": "10-code-exhibit-extending-javascript-with-jaqt",
       "number": "10",
-      "title": "Code exhibit: extending JavaScript with JAQT",
+      "title": "Code exhibit: growing queries inside javascript",
       "part": "Part III: Inventing languages",
       "partId": "inventing-languages",
       "url": "chapters/10-code-exhibit-extending-javascript-with-jaqt.html",
       "previous": "09-every-program-contains-a-language",
       "next": "interlude-04-worse-spell",
-      "wordCount": 2022,
+      "wordCount": 2044,
       "rule": null
     },
     {
@@ -148,7 +148,7 @@
       "url": "chapters/11-the-knitted-castle.html",
       "previous": "interlude-04-worse-spell",
       "next": "12-objects-binding-data-behavior-and-time",
-      "wordCount": 1587,
+      "wordCount": 1591,
       "rule": "Wizard's ninth rule"
     },
     {
@@ -172,7 +172,7 @@
       "url": "chapters/13-architecture-arches-pyramids-and-change.html",
       "previous": "12-objects-binding-data-behavior-and-time",
       "next": "interlude-05-knitted-castle",
-      "wordCount": 1346,
+      "wordCount": 1374,
       "rule": "Wizard's eleventh rule"
     },
     {
@@ -196,7 +196,7 @@
       "url": "chapters/15-the-web-as-data.html",
       "previous": "14-the-web-as-commons",
       "next": "16-the-web-as-home",
-      "wordCount": 1332,
+      "wordCount": 1337,
       "rule": null
     },
     {
@@ -255,7 +255,7 @@
       "part": "Prologue",
       "partId": "prologue",
       "url": "chapters/01-this-is-not-a-programming-book.html",
-      "wordCount": 563
+      "wordCount": 558
     },
     {
       "id": "interlude-01-useful-tricks",
@@ -275,7 +275,7 @@
       "part": "Part I: Representations are spells",
       "partId": "representations-are-spells",
       "url": "chapters/02-numbers-hiding-calculations-in-symbols.html",
-      "wordCount": 1761
+      "wordCount": 1779
     },
     {
       "id": "03-logic-turning-truth-into-machinery",
@@ -365,17 +365,17 @@
       "part": "Part III: Inventing languages",
       "partId": "inventing-languages",
       "url": "chapters/09-every-program-contains-a-language.html",
-      "wordCount": 485
+      "wordCount": 504
     },
     {
       "id": "10-code-exhibit-extending-javascript-with-jaqt",
       "kind": "chapter",
       "label": "10",
-      "title": "Code exhibit: extending JavaScript with JAQT",
+      "title": "Code exhibit: growing queries inside javascript",
       "part": "Part III: Inventing languages",
       "partId": "inventing-languages",
       "url": "chapters/10-code-exhibit-extending-javascript-with-jaqt.html",
-      "wordCount": 2022
+      "wordCount": 2044
     },
     {
       "id": "interlude-04-worse-spell",
@@ -395,7 +395,7 @@
       "part": "Part IV: Boundaries",
       "partId": "boundaries",
       "url": "chapters/11-the-knitted-castle.html",
-      "wordCount": 1587
+      "wordCount": 1591
     },
     {
       "id": "12-objects-binding-data-behavior-and-time",
@@ -415,7 +415,7 @@
       "part": "Part IV: Boundaries",
       "partId": "boundaries",
       "url": "chapters/13-architecture-arches-pyramids-and-change.html",
-      "wordCount": 1346
+      "wordCount": 1374
     },
     {
       "id": "interlude-05-knitted-castle",
@@ -445,7 +445,7 @@
       "part": "Part V: The Next Web",
       "partId": "the-next-web",
       "url": "chapters/15-the-web-as-data.html",
-      "wordCount": 1332
+      "wordCount": 1337
     },
     {
       "id": "16-the-web-as-home",
@@ -615,7 +615,7 @@
     {
       "id": "p-01-this-book-does-not-teach-you-how-to",
       "type": "paragraph",
-      "label": "This book does not teach you how to write software. It doesn't even tell you what kind of software to write. Instead, I ",
+      "label": "This book doesn't teach you how to write software. It doesn't even tell you what kind of software to write. Instead, I h",
       "chapter": "01-this-is-not-a-programming-book",
       "url": "chapters/01-this-is-not-a-programming-book.html#p-01-this-book-does-not-teach-you-how-to"
     },
@@ -643,14 +643,14 @@
     {
       "id": "p-01-that-is-the-point-of-this-book",
       "type": "paragraph",
-      "label": "That is the point of this book.",
+      "label": "That's the point of this book.",
       "chapter": "01-this-is-not-a-programming-book",
       "url": "chapters/01-this-is-not-a-programming-book.html#p-01-that-is-the-point-of-this-book"
     },
     {
       "id": "p-01-you-may-already-have-good-tools-a-productive",
       "type": "paragraph",
-      "label": "You may already have good tools, a productive framework and years of experience using them. This book is not an argument",
+      "label": "You may already have good tools, a productive framework and years of experience using them. This book isn't an argument ",
       "chapter": "01-this-is-not-a-programming-book",
       "url": "chapters/01-this-is-not-a-programming-book.html#p-01-you-may-already-have-good-tools-a-productive"
     },
@@ -692,7 +692,7 @@
     {
       "id": "p-01-that-is-how-magic-usually-works",
       "type": "paragraph",
-      "label": "That is how magic usually works.",
+      "label": "That's how magic usually works.",
       "chapter": "01-this-is-not-a-programming-book",
       "url": "chapters/01-this-is-not-a-programming-book.html#p-01-that-is-how-magic-usually-works"
     },
@@ -930,7 +930,7 @@
     {
       "id": "p-02-i-should-mention-the-antikythera-device-this-is",
       "type": "paragraph",
-      "label": "I should mention the Antikythera device. This is a device from the classical Greek era, which is thought to have been ab",
+      "label": "I should mention the Antikythera mechanism. This is a device from the classical Greek era, which is thought to have been",
       "chapter": "02-numbers-hiding-calculations-in-symbols",
       "url": "chapters/02-numbers-hiding-calculations-in-symbols.html#p-02-i-should-mention-the-antikythera-device-this-is"
     },
@@ -2727,18 +2727,11 @@
       "url": "chapters/09-every-program-contains-a-language.html#h-09-every-program-grows-a-language"
     },
     {
-      "id": "p-09-a-program-is-not-only-written-in-a",
+      "id": "p-09-so-far-ive-described-programming-language-design-as",
       "type": "paragraph",
-      "label": "A program is not only written in a language. A program also creates a language.",
+      "label": "So far, I've described programming language design as a conscious choice, a thing someone set out to build. But if you'v",
       "chapter": "09-every-program-contains-a-language",
-      "url": "chapters/09-every-program-contains-a-language.html#p-09-a-program-is-not-only-written-in-a"
-    },
-    {
-      "id": "p-09-every-time-you-name-a-variable-function-class",
-      "type": "paragraph",
-      "label": "Every time you name a variable, function, class or method, you add a word to your program. Add enough words and you've c",
-      "chapter": "09-every-program-contains-a-language",
-      "url": "chapters/09-every-program-contains-a-language.html#p-09-every-time-you-name-a-variable-function-class"
+      "url": "chapters/09-every-program-contains-a-language.html#p-09-so-far-ive-described-programming-language-design-as"
     },
     {
       "id": "p-09-when-you-write-the-code-that-language-is",
@@ -2746,13 +2739,6 @@
       "label": "When you write the code, that language is obvious because you've invented it. Anyone else must learn it before they can ",
       "chapter": "09-every-program-contains-a-language",
       "url": "chapters/09-every-program-contains-a-language.html#p-09-when-you-write-the-code-that-language-is"
-    },
-    {
-      "id": "p-09-this-is-why-reading-code-is-harder-than",
-      "type": "paragraph",
-      "label": "This is why reading code is harder than writing it.",
-      "chapter": "09-every-program-contains-a-language",
-      "url": "chapters/09-every-program-contains-a-language.html#p-09-this-is-why-reading-code-is-harder-than"
     },
     {
       "id": "p-09-most-of-the-time-programs-grow-their-local",
@@ -2764,7 +2750,7 @@
     {
       "id": "p-09-that-is-not-automatically-bad-it-is-how",
       "type": "paragraph",
-      "label": "That is not automatically bad. It is how useful code grows.",
+      "label": "That's not automatically bad, it is how useful code grows.",
       "chapter": "09-every-program-contains-a-language",
       "url": "chapters/09-every-program-contains-a-language.html#p-09-that-is-not-automatically-bad-it-is-how"
     },
@@ -2874,11 +2860,11 @@
       "url": "chapters/09-every-program-contains-a-language.html#p-09-designed-for-humans-not-computers"
     },
     {
-      "id": "h-10-code-exhibit-extending-javascript-with-jaqt",
+      "id": "h-10-code-exhibit-growing-queries-inside-javascript",
       "type": "heading",
-      "label": "Code exhibit: extending JavaScript with JAQT",
+      "label": "Code exhibit: growing queries inside javascript",
       "chapter": "10-code-exhibit-extending-javascript-with-jaqt",
-      "url": "chapters/10-code-exhibit-extending-javascript-with-jaqt.html#h-10-code-exhibit-extending-javascript-with-jaqt"
+      "url": "chapters/10-code-exhibit-extending-javascript-with-jaqt.html#h-10-code-exhibit-growing-queries-inside-javascript"
     },
     {
       "id": "p-10-the-previous-chapter-introduced-the-concept-of-a",
@@ -2890,7 +2876,7 @@
     {
       "id": "p-10-you-can-create-a-dsl-with-its-own",
       "type": "paragraph",
-      "label": "You can create a DSL with its own parser or compiler. But you don't always have to.",
+      "label": "You can create a DSL with its own parser or compiler, as I've written about in the previous chapter, but you don't alway",
       "chapter": "10-code-exhibit-extending-javascript-with-jaqt",
       "url": "chapters/10-code-exhibit-extending-javascript-with-jaqt.html#p-10-you-can-create-a-dsl-with-its-own"
     },
@@ -2911,7 +2897,7 @@
     {
       "id": "p-10-sometimes-that-border-is-worth-it-sql-is",
       "type": "paragraph",
-      "label": "Sometimes that border is worth it. SQL is not JavaScript, and that is part of its power. Regular expressions are their o",
+      "label": "Occasionally that border is worth it. SQL is not JavaScript, and that is part of its power. Regular expressions are thei",
       "chapter": "10-code-exhibit-extending-javascript-with-jaqt",
       "url": "chapters/10-code-exhibit-extending-javascript-with-jaqt.html#p-10-sometimes-that-border-is-worth-it-sql-is"
     },
@@ -3254,7 +3240,7 @@
     {
       "id": "p-10-in-the-real-jaqt-which-this-is-inspired",
       "type": "paragraph",
-      "label": "In the real JAQT, which this is inspired by, does more. In this exhibit version, it only means: copy the property with t",
+      "label": "The is just a placeholder, so we can use the existing javascript object notation, it only means: copy the property with ",
       "chapter": "10-code-exhibit-extending-javascript-with-jaqt",
       "url": "chapters/10-code-exhibit-extending-javascript-with-jaqt.html#p-10-in-the-real-jaqt-which-this-is-inspired"
     },
@@ -3387,7 +3373,7 @@
     {
       "id": "p-10-this-is-not-real-jaqt-it-is-a",
       "type": "paragraph",
-      "label": "This is not real JAQT. It is a small wooden model of the bridge. Real JAQT has a more capable , more operations, and a l",
+      "label": "The code you've seen so far is a small sample of a larger library, called JAQT. This is not JAQT. It is a small wooden m",
       "chapter": "10-code-exhibit-extending-javascript-with-jaqt",
       "url": "chapters/10-code-exhibit-extending-javascript-with-jaqt.html#p-10-this-is-not-real-jaqt-it-is-a"
     },
@@ -3569,7 +3555,7 @@
     {
       "id": "p-11-i-think-the-situation-is-more-dire-than",
       "type": "paragraph",
-      "label": "I think the situation is more dire than that. We're not stacking bricks. We're knitting castles.",
+      "label": "I think the situation is more dire than that. We're not stacking bricks, instead we're knitting castles.",
       "chapter": "11-the-knitted-castle",
       "url": "chapters/11-the-knitted-castle.html#p-11-i-think-the-situation-is-more-dire-than"
     },
@@ -3583,7 +3569,7 @@
     {
       "id": "p-11-lets-take-a-step-back-first-go-back",
       "type": "paragraph",
-      "label": "Let's take a step back first. Go back to when you first discovered programming. I hope it isn't too hard to remember the",
+      "label": "Let's take a step back first, back to when you first discovered programming. I hope it isn't too hard to remember the he",
       "chapter": "11-the-knitted-castle",
       "url": "chapters/11-the-knitted-castle.html#p-11-lets-take-a-step-back-first-go-back"
     },
@@ -3632,16 +3618,9 @@
     {
       "id": "p-11-this-is-funny-when-it-is-yarn",
       "type": "paragraph",
-      "label": "This is funny when it is yarn.",
+      "label": "This is funny when it is yarn, it is less funny when it is your application.",
       "chapter": "11-the-knitted-castle",
       "url": "chapters/11-the-knitted-castle.html#p-11-this-is-funny-when-it-is-yarn"
-    },
-    {
-      "id": "p-11-it-is-less-funny-when-it-is-your",
-      "type": "paragraph",
-      "label": "It is less funny when it is your application.",
-      "chapter": "11-the-knitted-castle",
-      "url": "chapters/11-the-knitted-castle.html#p-11-it-is-less-funny-when-it-is-your"
     },
     {
       "id": "h-11-the-dream-of-lego",
@@ -3688,7 +3667,7 @@
     {
       "id": "p-11-you-can-reuse-it-but-now-your-project",
       "type": "paragraph",
-      "label": "You can reuse it. But now your project must have the right hill.",
+      "label": "You can reuse it, but now your project must have the right hill.",
       "chapter": "11-the-knitted-castle",
       "url": "chapters/11-the-knitted-castle.html#p-11-you-can-reuse-it-but-now-your-project"
     },
@@ -3709,16 +3688,9 @@
     {
       "id": "p-11-none-of-these-changes-are-absurd-that-is",
       "type": "paragraph",
-      "label": "None of these changes are absurd. That is the annoying part.",
+      "label": "The annoying part is, none of these changes are absurd. A knitted castle is usually not built by foolish decisions. It i",
       "chapter": "11-the-knitted-castle",
       "url": "chapters/11-the-knitted-castle.html#p-11-none-of-these-changes-are-absurd-that-is"
-    },
-    {
-      "id": "p-11-a-knitted-castle-is-usually-not-built-by",
-      "type": "paragraph",
-      "label": "A knitted castle is usually not built by foolish decisions. It is built by reasonable decisions made locally. Each decis",
-      "chapter": "11-the-knitted-castle",
-      "url": "chapters/11-the-knitted-castle.html#p-11-a-knitted-castle-is-usually-not-built-by"
     },
     {
       "id": "rule-11-wizards-ninth-rule",
@@ -4717,16 +4689,9 @@
     {
       "id": "p-13-architecture-cannot-mean-certainty",
       "type": "paragraph",
-      "label": "Architecture cannot mean certainty.",
+      "label": "Architecture in software is not something you do at the start and then enshrine in a set of design documents. Architectu",
       "chapter": "13-architecture-arches-pyramids-and-change",
       "url": "chapters/13-architecture-arches-pyramids-and-change.html#p-13-architecture-cannot-mean-certainty"
-    },
-    {
-      "id": "p-13-certainty-is-too-expensive-and-usually-fake",
-      "type": "paragraph",
-      "label": "Certainty is too expensive, and usually fake.",
-      "chapter": "13-architecture-arches-pyramids-and-change",
-      "url": "chapters/13-architecture-arches-pyramids-and-change.html#p-13-certainty-is-too-expensive-and-usually-fake"
     },
     {
       "id": "p-13-architecture-is-how-you-survive-being-wrong",
@@ -4748,13 +4713,6 @@
       "label": "That is not a moral failure. It is what happens when you have to work before the future has finished introducing itself.",
       "chapter": "13-architecture-arches-pyramids-and-change",
       "url": "chapters/13-architecture-arches-pyramids-and-change.html#p-13-that-is-not-a-moral-failure-it-is"
-    },
-    {
-      "id": "p-13-the-question-is-whether-being-wrong-breaks-everything",
-      "type": "paragraph",
-      "label": "The question is whether being wrong breaks everything.",
-      "chapter": "13-architecture-arches-pyramids-and-change",
-      "url": "chapters/13-architecture-arches-pyramids-and-change.html#p-13-the-question-is-whether-being-wrong-breaks-everything"
     },
     {
       "id": "p-13-if-one-piece-is-wrong-can-it-be",
@@ -4848,13 +4806,6 @@
       "url": "chapters/14-the-web-as-commons.html#p-14-eric-s-raymond-wrote-the-cathedral-and-the"
     },
     {
-      "id": "p-14-the-useful-part-of-the-bazaar-is-not",
-      "type": "paragraph",
-      "label": "A bazaar can be messy, but that's not the point. The point is anyone can build a stall there.",
-      "chapter": "14-the-web-as-commons",
-      "url": "chapters/14-the-web-as-commons.html#p-14-the-useful-part-of-the-bazaar-is-not"
-    },
-    {
       "id": "p-14-a-bazaar-still-needs-streets-a-stall-needs",
       "type": "paragraph",
       "label": "A bazaar still needs streets. A stall needs somewhere to stand. People need to know where the entrance is. Someone has t",
@@ -4892,16 +4843,9 @@
     {
       "id": "p-14-a-closed-system-can-coordinate-through-ownership-one",
       "type": "paragraph",
-      "label": "A closed system can coordinate through ownership. One organization controls the pieces and can make them fit.",
+      "label": "A closed system can coordinate through ownership. One organization controls the pieces and can make them fit. A commons ",
       "chapter": "14-the-web-as-commons",
       "url": "chapters/14-the-web-as-commons.html#p-14-a-closed-system-can-coordinate-through-ownership-one"
-    },
-    {
-      "id": "p-14-a-commons-cannot-rely-on-that-independent-tools",
-      "type": "paragraph",
-      "label": "A commons cannot rely on that. Independent tools, people and organizations need agreements.",
-      "chapter": "14-the-web-as-commons",
-      "url": "chapters/14-the-web-as-commons.html#p-14-a-commons-cannot-rely-on-that-independent-tools"
     },
     {
       "id": "p-14-a-standard-is-a-boundary-that-does-not",
@@ -4983,16 +4927,9 @@
     {
       "id": "p-14-the-web-did-not-require-one-owner-to",
       "type": "paragraph",
-      "label": "The Web did not require one owner to finish the whole idea.",
+      "label": "The Web did not require one owner to finish the whole idea. Its infrastructure did not contain a search engine, a shop o",
       "chapter": "14-the-web-as-commons",
       "url": "chapters/14-the-web-as-commons.html#p-14-the-web-did-not-require-one-owner-to"
-    },
-    {
-      "id": "p-14-a-url-let-one-document-point-to-another",
-      "type": "paragraph",
-      "label": "Its infrastructure did not contain a search engine, a shop or a social network. It gave browsers, servers and documents ",
-      "chapter": "14-the-web-as-commons",
-      "url": "chapters/14-the-web-as-commons.html#p-14-a-url-let-one-document-point-to-another"
     },
     {
       "id": "p-14-a-new-server-could-appear-without-asking-every",
@@ -5053,16 +4990,9 @@
     {
       "id": "p-14-this-is-how-small-reusable-software-becomes-possible",
       "type": "paragraph",
-      "label": "The open ground does more than preserve what already exists. It gives new ideas somewhere to begin.",
+      "label": "The open ground does more than preserve what already exists. It gives new ideas somewhere to begin. A new idea can first",
       "chapter": "14-the-web-as-commons",
       "url": "chapters/14-the-web-as-commons.html#p-14-this-is-how-small-reusable-software-becomes-possible"
-    },
-    {
-      "id": "p-14-if-a-program-has-to-do-everything-itself",
-      "type": "paragraph",
-      "label": "A new idea can first live in an application. It can be tried, changed, abandoned or rebuilt without touching every brows",
-      "chapter": "14-the-web-as-commons",
-      "url": "chapters/14-the-web-as-commons.html#p-14-if-a-program-has-to-do-everything-itself"
     },
     {
       "id": "p-14-if-it-has-to-own-the-data-identity",
@@ -5200,16 +5130,9 @@
     {
       "id": "p-15-both-records-have-the-same-rough-shape-something",
       "type": "paragraph",
-      "label": "Both records have the same rough shape. Something has a property with a value.",
+      "label": "Both records have the same rough shape. Something has a property with a value, but the names are private.",
       "chapter": "15-the-web-as-data",
       "url": "chapters/15-the-web-as-data.html#p-15-both-records-have-the-same-rough-shape-something"
-    },
-    {
-      "id": "p-15-but-the-names-are-private",
-      "type": "paragraph",
-      "label": "But the names are private.",
-      "chapter": "15-the-web-as-data",
-      "url": "chapters/15-the-web-as-data.html#p-15-but-the-names-are-private"
     },
     {
       "id": "p-15-person-17-only-means-something-inside-the-contacts",
@@ -5228,16 +5151,9 @@
     {
       "id": "p-15-inside-one-application-private-names-are-fine-you",
       "type": "paragraph",
-      "label": "Inside one application, private names are fine. You control the dictionary.",
+      "label": "Inside one application, private names are fine. You control the dictionary. But when you cross a border, a boundary, eac",
       "chapter": "15-the-web-as-data",
       "url": "chapters/15-the-web-as-data.html#p-15-inside-one-application-private-names-are-fine-you"
-    },
-    {
-      "id": "p-15-across-a-boundary-each-private-name-needs-a",
-      "type": "paragraph",
-      "label": "Across a boundary, each private name needs a translator. Every import script has to learn both sides. When either side c",
-      "chapter": "15-the-web-as-data",
-      "url": "chapters/15-the-web-as-data.html#p-15-across-a-boundary-each-private-name-needs-a"
     },
     {
       "id": "p-15-instead-imagine-if-names-inside-the-data-could",

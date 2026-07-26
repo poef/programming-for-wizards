@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="color-scheme" content="light dark">
   <meta name="theme-color" content="#7d2636">
-  <title>Code exhibit: extending JavaScript with JAQT - Programming for Wizards</title>
+  <title>Code exhibit: growing queries inside javascript - Programming for Wizards</title>
   <script>
     (() => {
       const root = document.documentElement
@@ -46,7 +46,7 @@
   <script defer src="../assets/exhibits/exhibit-kit.js"></script>
   <script defer src="https://cdn.jsdelivr.net/gh/muze-labs/simplyflow@main/packages/simplyflow/dist/simply.flow.js"></script>
   <script type="module" src="../assets/exhibits/exhibits.js"></script>
-  <script type="module" src="../assets/margin-notes-demo.js?v=749b9c26e9"></script>
+  <script type="module" src="../assets/margin-notes-demo.js?v=1901ef11f5"></script>
 </head>
 <body>
   <a class="skip-link" href="#main">Skip to manuscript</a>
@@ -80,7 +80,7 @@
 <section class="map-section">
   <h2>Part III: Inventing languages</h2>
   <ol>
-    <li><a href="../chapters/08-programming-languages-are-for-humans.html#book-start" data-chapter-start><span>08</span>Teaching machines our words</a></li><li><a href="../chapters/09-every-program-contains-a-language.html#book-start" data-chapter-start><span>09</span>Every program grows a language</a></li><li><a aria-current="page" href="../chapters/10-code-exhibit-extending-javascript-with-jaqt.html#book-start" data-chapter-start><span>10</span>Code exhibit: extending JavaScript with JAQT</a></li>
+    <li><a href="../chapters/08-programming-languages-are-for-humans.html#book-start" data-chapter-start><span>08</span>Teaching machines our words</a></li><li><a href="../chapters/09-every-program-contains-a-language.html#book-start" data-chapter-start><span>09</span>Every program grows a language</a></li><li><a aria-current="page" href="../chapters/10-code-exhibit-extending-javascript-with-jaqt.html#book-start" data-chapter-start><span>10</span>Code exhibit: growing queries inside javascript</a></li>
   </ol>
 </section>
 <section class="map-section">
@@ -113,13 +113,13 @@
   <div class="book-progress" role="progressbar" aria-label="Book progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" data-book-progress>
     <span data-book-progress-bar></span>
   </div>
-  <div id="book-start" class="manuscript-pages" data-page-scroller data-book-chapter-id="10-code-exhibit-extending-javascript-with-jaqt" data-book-chapter-index="12" data-book-page-weights="563,27,1761,763,630,26,1305,1676,1260,20,1090,485,2022,29,1587,1216,1346,30,1186,1332,1036,37,728,74,133">
+  <div id="book-start" class="manuscript-pages" data-page-scroller data-book-chapter-id="10-code-exhibit-extending-javascript-with-jaqt" data-book-chapter-index="12" data-book-page-weights="558,27,1779,763,630,26,1305,1676,1260,20,1090,504,2044,29,1591,1216,1374,30,1186,1337,1036,37,728,74,133">
   <header class="chapter-header ">
     <p class="chapter-kicker">Part III: Inventing languages</p>
     <p class="chapter-number">Chapter 10</p>
     <svg class="chapter-glyph" viewBox="0 0 96 96" focusable="false" aria-hidden="true"><path d="M24 25h48L55 48v21l-14 7V48z"/><path d="M33 35h30"/><path d="M40 45h16"/></svg>
   </header>
-  <h1 id="h-10-code-exhibit-extending-javascript-with-jaqt"><a class="anchor-link" href="#h-10-code-exhibit-extending-javascript-with-jaqt" aria-label="Link to Code exhibit: extending JavaScript with JAQT">#</a>Code exhibit: extending JavaScript with JAQT</h1>
+  <h1 id="h-10-code-exhibit-growing-queries-inside-javascript"><a class="anchor-link" href="#h-10-code-exhibit-growing-queries-inside-javascript" aria-label="Link to Code exhibit: growing queries inside javascript">#</a>Code exhibit: growing queries inside javascript</h1>
 <p id="p-10-the-previous-chapter-introduced-the-concept-of-a" data-note-target><span class="passage-margin" data-passage-margin aria-label="Margin for this passage">
 <span class="passage-margin-notes" data-passage-margin-notes></span>
 
@@ -127,7 +127,7 @@
 <p id="p-10-you-can-create-a-dsl-with-its-own" data-note-target><span class="passage-margin" data-passage-margin aria-label="Margin for this passage">
 <span class="passage-margin-notes" data-passage-margin-notes></span>
 
-</span>You can create a DSL with its own parser or compiler. But you don't always have to.</p>
+</span>You can create a DSL with its own parser or compiler, as I've written about in the previous chapter, but you don't always have to.</p>
 <p id="p-10-sometimes-the-language-you-need-is-already-hiding" data-note-target><span class="passage-margin" data-passage-margin aria-label="Margin for this passage">
 <span class="passage-margin-notes" data-passage-margin-notes></span>
 
@@ -139,7 +139,7 @@
 <p id="p-10-sometimes-that-border-is-worth-it-sql-is" data-note-target><span class="passage-margin" data-passage-margin aria-label="Margin for this passage">
 <span class="passage-margin-notes" data-passage-margin-notes></span>
 
-</span>Sometimes that border is worth it. SQL is not JavaScript, and that is part of its power. Regular expressions are their own dense, cursed little world, and we keep using them because the curse is useful.</p>
+</span>Occasionally that border is worth it. SQL is not JavaScript, and that is part of its power. Regular expressions are their own dense, cursed little world, and we keep using them because the curse is useful.</p>
 <p id="p-10-but-borders-are-expensive-so-before-we-build" data-note-target><span class="passage-margin" data-passage-margin aria-label="Margin for this passage">
 <span class="passage-margin-notes" data-passage-margin-notes></span>
 
@@ -390,12 +390,8 @@ function matches(pattern, item) {
 </figure>
 <p id="p-10-in-the-real-jaqt-which-this-is-inspired" data-note-target><span class="passage-margin" data-passage-margin aria-label="Margin for this passage">
 <span class="passage-margin-notes" data-passage-margin-notes></span>
-<span class="side-links side-links-margin" aria-label="Related links for this paragraph">
-<a href="https://github.com/muze-nl/jaqt/" title="https://github.com/muze-nl/jaqt/" tabindex="-1">https://github.com/muze-nl/jaqt/</a>
-</span>
-</span>In the real JAQT, which this is inspired by, <code>_</code> does more. In this exhibit version, it only means: copy the property with this name.<span class="side-links side-links-inline" aria-label="Related links for this paragraph">
-<a href="https://github.com/muze-nl/jaqt/" title="https://github.com/muze-nl/jaqt/">https://github.com/muze-nl/jaqt/</a>
-</span></p>
+
+</span>The <code>_</code> is just a placeholder, so we can use the existing javascript object notation, it only means: copy the property with this name.</p>
 <p id="p-10-now-we-can-describe-the-result" data-note-target><span class="passage-margin" data-passage-margin aria-label="Margin for this passage">
 <span class="passage-margin-notes" data-passage-margin-notes></span>
 
@@ -538,8 +534,12 @@ function matches(pattern, item) {
 </figure>
 <p id="p-10-this-is-not-real-jaqt-it-is-a" data-note-target><span class="passage-margin" data-passage-margin aria-label="Margin for this passage">
 <span class="passage-margin-notes" data-passage-margin-notes></span>
-
-</span>This is not real JAQT. It is a small wooden model of the bridge. Real JAQT has a more capable <code>_</code>, more operations, and a lot more practical edge-case handling. Libraries are where edge cases go to start families.</p>
+<span class="side-links side-links-margin" aria-label="Related links for this paragraph">
+<a href="https://github.com/muze-nl/jaqt" title="https://github.com/muze-nl/jaqt" tabindex="-1">https://github.com/muze-nl/jaqt</a>
+</span>
+</span>The code you've seen so far is a small sample of a larger library, called JAQT. This is not JAQT. It is a small wooden model of the bridge. JAQT itself has a more capable <code>_</code>, more operations, and a lot more practical edge-case handling. Libraries are where edge cases go to start families.<span class="side-links side-links-inline" aria-label="Related links for this paragraph">
+<a href="https://github.com/muze-nl/jaqt" title="https://github.com/muze-nl/jaqt">https://github.com/muze-nl/jaqt</a>
+</span></p>
 <p id="p-10-the-point-of-the-model-is-the-shape" data-note-target><span class="passage-margin" data-passage-margin aria-label="Margin for this passage">
 <span class="passage-margin-notes" data-passage-margin-notes></span>
 

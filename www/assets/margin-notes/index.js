@@ -28,9 +28,9 @@ var __toESM = (mod, isNodeMode, target) => (target = mod != null ? __create(__ge
   mod
 ));
 
-// ../solid-tools/node_modules/base64-js/index.js
+// ../../muze-nl/oldm/node_modules/base64-js/index.js
 var require_base64_js = __commonJS({
-  "../solid-tools/node_modules/base64-js/index.js"(exports) {
+  "../../muze-nl/oldm/node_modules/base64-js/index.js"(exports) {
     "use strict";
     exports.byteLength = byteLength;
     exports.toByteArray = toByteArray;
@@ -129,9 +129,9 @@ var require_base64_js = __commonJS({
   }
 });
 
-// ../solid-tools/node_modules/ieee754/index.js
+// ../../muze-nl/oldm/node_modules/ieee754/index.js
 var require_ieee754 = __commonJS({
-  "../solid-tools/node_modules/ieee754/index.js"(exports) {
+  "../../muze-nl/oldm/node_modules/ieee754/index.js"(exports) {
     exports.read = function(buffer, offset, isLE, mLen, nBytes) {
       var e, m;
       var eLen = nBytes * 8 - mLen - 1;
@@ -212,20 +212,20 @@ var require_ieee754 = __commonJS({
   }
 });
 
-// ../solid-tools/node_modules/buffer/index.js
+// ../../muze-nl/oldm/node_modules/buffer/index.js
 var require_buffer = __commonJS({
-  "../solid-tools/node_modules/buffer/index.js"(exports) {
+  "../../muze-nl/oldm/node_modules/buffer/index.js"(exports) {
     "use strict";
     var base64 = require_base64_js();
     var ieee754 = require_ieee754();
     var customInspectSymbol = typeof Symbol === "function" && typeof Symbol["for"] === "function" ? Symbol["for"]("nodejs.util.inspect.custom") : null;
-    exports.Buffer = Buffer4;
+    exports.Buffer = Buffer3;
     exports.SlowBuffer = SlowBuffer;
     exports.INSPECT_MAX_BYTES = 50;
     var K_MAX_LENGTH = 2147483647;
     exports.kMaxLength = K_MAX_LENGTH;
-    Buffer4.TYPED_ARRAY_SUPPORT = typedArraySupport();
-    if (!Buffer4.TYPED_ARRAY_SUPPORT && typeof console !== "undefined" && typeof console.error === "function") {
+    Buffer3.TYPED_ARRAY_SUPPORT = typedArraySupport();
+    if (!Buffer3.TYPED_ARRAY_SUPPORT && typeof console !== "undefined" && typeof console.error === "function") {
       console.error(
         "This browser lacks typed array (Uint8Array) support which is required by `buffer` v5.x. Use `buffer` v4.x if you require old browser support."
       );
@@ -243,17 +243,17 @@ var require_buffer = __commonJS({
         return false;
       }
     }
-    Object.defineProperty(Buffer4.prototype, "parent", {
+    Object.defineProperty(Buffer3.prototype, "parent", {
       enumerable: true,
       get: function() {
-        if (!Buffer4.isBuffer(this)) return void 0;
+        if (!Buffer3.isBuffer(this)) return void 0;
         return this.buffer;
       }
     });
-    Object.defineProperty(Buffer4.prototype, "offset", {
+    Object.defineProperty(Buffer3.prototype, "offset", {
       enumerable: true,
       get: function() {
-        if (!Buffer4.isBuffer(this)) return void 0;
+        if (!Buffer3.isBuffer(this)) return void 0;
         return this.byteOffset;
       }
     });
@@ -262,10 +262,10 @@ var require_buffer = __commonJS({
         throw new RangeError('The value "' + length + '" is invalid for option "size"');
       }
       const buf2 = new Uint8Array(length);
-      Object.setPrototypeOf(buf2, Buffer4.prototype);
+      Object.setPrototypeOf(buf2, Buffer3.prototype);
       return buf2;
     }
-    function Buffer4(arg, encodingOrOffset, length) {
+    function Buffer3(arg, encodingOrOffset, length) {
       if (typeof arg === "number") {
         if (typeof encodingOrOffset === "string") {
           throw new TypeError(
@@ -276,7 +276,7 @@ var require_buffer = __commonJS({
       }
       return from3(arg, encodingOrOffset, length);
     }
-    Buffer4.poolSize = 8192;
+    Buffer3.poolSize = 8192;
     function from3(value, encodingOrOffset, length) {
       if (typeof value === "string") {
         return fromString(value, encodingOrOffset);
@@ -302,22 +302,22 @@ var require_buffer = __commonJS({
       }
       const valueOf = value.valueOf && value.valueOf();
       if (valueOf != null && valueOf !== value) {
-        return Buffer4.from(valueOf, encodingOrOffset, length);
+        return Buffer3.from(valueOf, encodingOrOffset, length);
       }
       const b = fromObject(value);
       if (b) return b;
       if (typeof Symbol !== "undefined" && Symbol.toPrimitive != null && typeof value[Symbol.toPrimitive] === "function") {
-        return Buffer4.from(value[Symbol.toPrimitive]("string"), encodingOrOffset, length);
+        return Buffer3.from(value[Symbol.toPrimitive]("string"), encodingOrOffset, length);
       }
       throw new TypeError(
         "The first argument must be one of type string, Buffer, ArrayBuffer, Array, or Array-like Object. Received type " + typeof value
       );
     }
-    Buffer4.from = function(value, encodingOrOffset, length) {
+    Buffer3.from = function(value, encodingOrOffset, length) {
       return from3(value, encodingOrOffset, length);
     };
-    Object.setPrototypeOf(Buffer4.prototype, Uint8Array.prototype);
-    Object.setPrototypeOf(Buffer4, Uint8Array);
+    Object.setPrototypeOf(Buffer3.prototype, Uint8Array.prototype);
+    Object.setPrototypeOf(Buffer3, Uint8Array);
     function assertSize(size) {
       if (typeof size !== "number") {
         throw new TypeError('"size" argument must be of type number');
@@ -335,24 +335,24 @@ var require_buffer = __commonJS({
       }
       return createBuffer(size);
     }
-    Buffer4.alloc = function(size, fill, encoding) {
+    Buffer3.alloc = function(size, fill, encoding) {
       return alloc(size, fill, encoding);
     };
     function allocUnsafe(size) {
       assertSize(size);
       return createBuffer(size < 0 ? 0 : checked(size) | 0);
     }
-    Buffer4.allocUnsafe = function(size) {
+    Buffer3.allocUnsafe = function(size) {
       return allocUnsafe(size);
     };
-    Buffer4.allocUnsafeSlow = function(size) {
+    Buffer3.allocUnsafeSlow = function(size) {
       return allocUnsafe(size);
     };
     function fromString(string, encoding) {
       if (typeof encoding !== "string" || encoding === "") {
         encoding = "utf8";
       }
-      if (!Buffer4.isEncoding(encoding)) {
+      if (!Buffer3.isEncoding(encoding)) {
         throw new TypeError("Unknown encoding: " + encoding);
       }
       const length = byteLength(string, encoding) | 0;
@@ -393,11 +393,11 @@ var require_buffer = __commonJS({
       } else {
         buf2 = new Uint8Array(array, byteOffset, length);
       }
-      Object.setPrototypeOf(buf2, Buffer4.prototype);
+      Object.setPrototypeOf(buf2, Buffer3.prototype);
       return buf2;
     }
     function fromObject(obj) {
-      if (Buffer4.isBuffer(obj)) {
+      if (Buffer3.isBuffer(obj)) {
         const len = checked(obj.length) | 0;
         const buf2 = createBuffer(len);
         if (buf2.length === 0) {
@@ -426,15 +426,15 @@ var require_buffer = __commonJS({
       if (+length != length) {
         length = 0;
       }
-      return Buffer4.alloc(+length);
+      return Buffer3.alloc(+length);
     }
-    Buffer4.isBuffer = function isBuffer(b) {
-      return b != null && b._isBuffer === true && b !== Buffer4.prototype;
+    Buffer3.isBuffer = function isBuffer(b) {
+      return b != null && b._isBuffer === true && b !== Buffer3.prototype;
     };
-    Buffer4.compare = function compare(a, b) {
-      if (isInstance(a, Uint8Array)) a = Buffer4.from(a, a.offset, a.byteLength);
-      if (isInstance(b, Uint8Array)) b = Buffer4.from(b, b.offset, b.byteLength);
-      if (!Buffer4.isBuffer(a) || !Buffer4.isBuffer(b)) {
+    Buffer3.compare = function compare(a, b) {
+      if (isInstance(a, Uint8Array)) a = Buffer3.from(a, a.offset, a.byteLength);
+      if (isInstance(b, Uint8Array)) b = Buffer3.from(b, b.offset, b.byteLength);
+      if (!Buffer3.isBuffer(a) || !Buffer3.isBuffer(b)) {
         throw new TypeError(
           'The "buf1", "buf2" arguments must be one of type Buffer or Uint8Array'
         );
@@ -453,7 +453,7 @@ var require_buffer = __commonJS({
       if (y < x) return 1;
       return 0;
     };
-    Buffer4.isEncoding = function isEncoding(encoding) {
+    Buffer3.isEncoding = function isEncoding(encoding) {
       switch (String(encoding).toLowerCase()) {
         case "hex":
         case "utf8":
@@ -471,12 +471,12 @@ var require_buffer = __commonJS({
           return false;
       }
     };
-    Buffer4.concat = function concat(list2, length) {
+    Buffer3.concat = function concat(list2, length) {
       if (!Array.isArray(list2)) {
         throw new TypeError('"list" argument must be an Array of Buffers');
       }
       if (list2.length === 0) {
-        return Buffer4.alloc(0);
+        return Buffer3.alloc(0);
       }
       let i;
       if (length === void 0) {
@@ -485,13 +485,13 @@ var require_buffer = __commonJS({
           length += list2[i].length;
         }
       }
-      const buffer = Buffer4.allocUnsafe(length);
+      const buffer = Buffer3.allocUnsafe(length);
       let pos = 0;
       for (i = 0; i < list2.length; ++i) {
         let buf2 = list2[i];
         if (isInstance(buf2, Uint8Array)) {
           if (pos + buf2.length > buffer.length) {
-            if (!Buffer4.isBuffer(buf2)) buf2 = Buffer4.from(buf2);
+            if (!Buffer3.isBuffer(buf2)) buf2 = Buffer3.from(buf2);
             buf2.copy(buffer, pos);
           } else {
             Uint8Array.prototype.set.call(
@@ -500,7 +500,7 @@ var require_buffer = __commonJS({
               pos
             );
           }
-        } else if (!Buffer4.isBuffer(buf2)) {
+        } else if (!Buffer3.isBuffer(buf2)) {
           throw new TypeError('"list" argument must be an Array of Buffers');
         } else {
           buf2.copy(buffer, pos);
@@ -510,7 +510,7 @@ var require_buffer = __commonJS({
       return buffer;
     };
     function byteLength(string, encoding) {
-      if (Buffer4.isBuffer(string)) {
+      if (Buffer3.isBuffer(string)) {
         return string.length;
       }
       if (ArrayBuffer.isView(string) || isInstance(string, ArrayBuffer)) {
@@ -552,7 +552,7 @@ var require_buffer = __commonJS({
         }
       }
     }
-    Buffer4.byteLength = byteLength;
+    Buffer3.byteLength = byteLength;
     function slowToString(encoding, start, end) {
       let loweredCase = false;
       if (start === void 0 || start < 0) {
@@ -599,13 +599,13 @@ var require_buffer = __commonJS({
         }
       }
     }
-    Buffer4.prototype._isBuffer = true;
+    Buffer3.prototype._isBuffer = true;
     function swap(b, n, m) {
       const i = b[n];
       b[n] = b[m];
       b[m] = i;
     }
-    Buffer4.prototype.swap16 = function swap16() {
+    Buffer3.prototype.swap16 = function swap16() {
       const len = this.length;
       if (len % 2 !== 0) {
         throw new RangeError("Buffer size must be a multiple of 16-bits");
@@ -615,7 +615,7 @@ var require_buffer = __commonJS({
       }
       return this;
     };
-    Buffer4.prototype.swap32 = function swap32() {
+    Buffer3.prototype.swap32 = function swap32() {
       const len = this.length;
       if (len % 4 !== 0) {
         throw new RangeError("Buffer size must be a multiple of 32-bits");
@@ -626,7 +626,7 @@ var require_buffer = __commonJS({
       }
       return this;
     };
-    Buffer4.prototype.swap64 = function swap64() {
+    Buffer3.prototype.swap64 = function swap64() {
       const len = this.length;
       if (len % 8 !== 0) {
         throw new RangeError("Buffer size must be a multiple of 64-bits");
@@ -639,19 +639,19 @@ var require_buffer = __commonJS({
       }
       return this;
     };
-    Buffer4.prototype.toString = function toString() {
+    Buffer3.prototype.toString = function toString() {
       const length = this.length;
       if (length === 0) return "";
       if (arguments.length === 0) return utf8Slice(this, 0, length);
       return slowToString.apply(this, arguments);
     };
-    Buffer4.prototype.toLocaleString = Buffer4.prototype.toString;
-    Buffer4.prototype.equals = function equals(b) {
-      if (!Buffer4.isBuffer(b)) throw new TypeError("Argument must be a Buffer");
+    Buffer3.prototype.toLocaleString = Buffer3.prototype.toString;
+    Buffer3.prototype.equals = function equals(b) {
+      if (!Buffer3.isBuffer(b)) throw new TypeError("Argument must be a Buffer");
       if (this === b) return true;
-      return Buffer4.compare(this, b) === 0;
+      return Buffer3.compare(this, b) === 0;
     };
-    Buffer4.prototype.inspect = function inspect() {
+    Buffer3.prototype.inspect = function inspect() {
       let str = "";
       const max = exports.INSPECT_MAX_BYTES;
       str = this.toString("hex", 0, max).replace(/(.{2})/g, "$1 ").trim();
@@ -659,13 +659,13 @@ var require_buffer = __commonJS({
       return "<Buffer " + str + ">";
     };
     if (customInspectSymbol) {
-      Buffer4.prototype[customInspectSymbol] = Buffer4.prototype.inspect;
+      Buffer3.prototype[customInspectSymbol] = Buffer3.prototype.inspect;
     }
-    Buffer4.prototype.compare = function compare(target, start, end, thisStart, thisEnd) {
+    Buffer3.prototype.compare = function compare(target, start, end, thisStart, thisEnd) {
       if (isInstance(target, Uint8Array)) {
-        target = Buffer4.from(target, target.offset, target.byteLength);
+        target = Buffer3.from(target, target.offset, target.byteLength);
       }
-      if (!Buffer4.isBuffer(target)) {
+      if (!Buffer3.isBuffer(target)) {
         throw new TypeError(
           'The "target" argument must be one of type Buffer or Uint8Array. Received type ' + typeof target
         );
@@ -738,9 +738,9 @@ var require_buffer = __commonJS({
         else return -1;
       }
       if (typeof val === "string") {
-        val = Buffer4.from(val, encoding);
+        val = Buffer3.from(val, encoding);
       }
-      if (Buffer4.isBuffer(val)) {
+      if (Buffer3.isBuffer(val)) {
         if (val.length === 0) {
           return -1;
         }
@@ -808,13 +808,13 @@ var require_buffer = __commonJS({
       }
       return -1;
     }
-    Buffer4.prototype.includes = function includes2(val, byteOffset, encoding) {
+    Buffer3.prototype.includes = function includes2(val, byteOffset, encoding) {
       return this.indexOf(val, byteOffset, encoding) !== -1;
     };
-    Buffer4.prototype.indexOf = function indexOf(val, byteOffset, encoding) {
+    Buffer3.prototype.indexOf = function indexOf(val, byteOffset, encoding) {
       return bidirectionalIndexOf(this, val, byteOffset, encoding, true);
     };
-    Buffer4.prototype.lastIndexOf = function lastIndexOf(val, byteOffset, encoding) {
+    Buffer3.prototype.lastIndexOf = function lastIndexOf(val, byteOffset, encoding) {
       return bidirectionalIndexOf(this, val, byteOffset, encoding, false);
     };
     function hexWrite(buf2, string, offset, length) {
@@ -852,7 +852,7 @@ var require_buffer = __commonJS({
     function ucs2Write(buf2, string, offset, length) {
       return blitBuffer(utf16leToBytes(string, buf2.length - offset), buf2, offset, length);
     }
-    Buffer4.prototype.write = function write(string, offset, length, encoding) {
+    Buffer3.prototype.write = function write(string, offset, length, encoding) {
       if (offset === void 0) {
         encoding = "utf8";
         length = this.length;
@@ -907,7 +907,7 @@ var require_buffer = __commonJS({
         }
       }
     };
-    Buffer4.prototype.toJSON = function toJSON() {
+    Buffer3.prototype.toJSON = function toJSON() {
       return {
         type: "Buffer",
         data: Array.prototype.slice.call(this._arr || this, 0)
@@ -1030,7 +1030,7 @@ var require_buffer = __commonJS({
       }
       return res;
     }
-    Buffer4.prototype.slice = function slice(start, end) {
+    Buffer3.prototype.slice = function slice(start, end) {
       const len = this.length;
       start = ~~start;
       end = end === void 0 ? len : ~~end;
@@ -1048,14 +1048,14 @@ var require_buffer = __commonJS({
       }
       if (end < start) end = start;
       const newBuf = this.subarray(start, end);
-      Object.setPrototypeOf(newBuf, Buffer4.prototype);
+      Object.setPrototypeOf(newBuf, Buffer3.prototype);
       return newBuf;
     };
     function checkOffset(offset, ext, length) {
       if (offset % 1 !== 0 || offset < 0) throw new RangeError("offset is not uint");
       if (offset + ext > length) throw new RangeError("Trying to access beyond buffer length");
     }
-    Buffer4.prototype.readUintLE = Buffer4.prototype.readUIntLE = function readUIntLE(offset, byteLength2, noAssert) {
+    Buffer3.prototype.readUintLE = Buffer3.prototype.readUIntLE = function readUIntLE(offset, byteLength2, noAssert) {
       offset = offset >>> 0;
       byteLength2 = byteLength2 >>> 0;
       if (!noAssert) checkOffset(offset, byteLength2, this.length);
@@ -1067,7 +1067,7 @@ var require_buffer = __commonJS({
       }
       return val;
     };
-    Buffer4.prototype.readUintBE = Buffer4.prototype.readUIntBE = function readUIntBE(offset, byteLength2, noAssert) {
+    Buffer3.prototype.readUintBE = Buffer3.prototype.readUIntBE = function readUIntBE(offset, byteLength2, noAssert) {
       offset = offset >>> 0;
       byteLength2 = byteLength2 >>> 0;
       if (!noAssert) {
@@ -1080,56 +1080,56 @@ var require_buffer = __commonJS({
       }
       return val;
     };
-    Buffer4.prototype.readUint8 = Buffer4.prototype.readUInt8 = function readUInt8(offset, noAssert) {
+    Buffer3.prototype.readUint8 = Buffer3.prototype.readUInt8 = function readUInt8(offset, noAssert) {
       offset = offset >>> 0;
       if (!noAssert) checkOffset(offset, 1, this.length);
       return this[offset];
     };
-    Buffer4.prototype.readUint16LE = Buffer4.prototype.readUInt16LE = function readUInt16LE(offset, noAssert) {
+    Buffer3.prototype.readUint16LE = Buffer3.prototype.readUInt16LE = function readUInt16LE(offset, noAssert) {
       offset = offset >>> 0;
       if (!noAssert) checkOffset(offset, 2, this.length);
       return this[offset] | this[offset + 1] << 8;
     };
-    Buffer4.prototype.readUint16BE = Buffer4.prototype.readUInt16BE = function readUInt16BE(offset, noAssert) {
+    Buffer3.prototype.readUint16BE = Buffer3.prototype.readUInt16BE = function readUInt16BE(offset, noAssert) {
       offset = offset >>> 0;
       if (!noAssert) checkOffset(offset, 2, this.length);
       return this[offset] << 8 | this[offset + 1];
     };
-    Buffer4.prototype.readUint32LE = Buffer4.prototype.readUInt32LE = function readUInt32LE(offset, noAssert) {
+    Buffer3.prototype.readUint32LE = Buffer3.prototype.readUInt32LE = function readUInt32LE(offset, noAssert) {
       offset = offset >>> 0;
       if (!noAssert) checkOffset(offset, 4, this.length);
       return (this[offset] | this[offset + 1] << 8 | this[offset + 2] << 16) + this[offset + 3] * 16777216;
     };
-    Buffer4.prototype.readUint32BE = Buffer4.prototype.readUInt32BE = function readUInt32BE(offset, noAssert) {
+    Buffer3.prototype.readUint32BE = Buffer3.prototype.readUInt32BE = function readUInt32BE(offset, noAssert) {
       offset = offset >>> 0;
       if (!noAssert) checkOffset(offset, 4, this.length);
       return this[offset] * 16777216 + (this[offset + 1] << 16 | this[offset + 2] << 8 | this[offset + 3]);
     };
-    Buffer4.prototype.readBigUInt64LE = defineBigIntMethod(function readBigUInt64LE(offset) {
+    Buffer3.prototype.readBigUInt64LE = defineBigIntMethod(function readBigUInt64LE(offset) {
       offset = offset >>> 0;
       validateNumber(offset, "offset");
-      const first3 = this[offset];
+      const first2 = this[offset];
       const last = this[offset + 7];
-      if (first3 === void 0 || last === void 0) {
+      if (first2 === void 0 || last === void 0) {
         boundsError(offset, this.length - 8);
       }
-      const lo = first3 + this[++offset] * 2 ** 8 + this[++offset] * 2 ** 16 + this[++offset] * 2 ** 24;
+      const lo = first2 + this[++offset] * 2 ** 8 + this[++offset] * 2 ** 16 + this[++offset] * 2 ** 24;
       const hi = this[++offset] + this[++offset] * 2 ** 8 + this[++offset] * 2 ** 16 + last * 2 ** 24;
       return BigInt(lo) + (BigInt(hi) << BigInt(32));
     });
-    Buffer4.prototype.readBigUInt64BE = defineBigIntMethod(function readBigUInt64BE(offset) {
+    Buffer3.prototype.readBigUInt64BE = defineBigIntMethod(function readBigUInt64BE(offset) {
       offset = offset >>> 0;
       validateNumber(offset, "offset");
-      const first3 = this[offset];
+      const first2 = this[offset];
       const last = this[offset + 7];
-      if (first3 === void 0 || last === void 0) {
+      if (first2 === void 0 || last === void 0) {
         boundsError(offset, this.length - 8);
       }
-      const hi = first3 * 2 ** 24 + this[++offset] * 2 ** 16 + this[++offset] * 2 ** 8 + this[++offset];
+      const hi = first2 * 2 ** 24 + this[++offset] * 2 ** 16 + this[++offset] * 2 ** 8 + this[++offset];
       const lo = this[++offset] * 2 ** 24 + this[++offset] * 2 ** 16 + this[++offset] * 2 ** 8 + last;
       return (BigInt(hi) << BigInt(32)) + BigInt(lo);
     });
-    Buffer4.prototype.readIntLE = function readIntLE(offset, byteLength2, noAssert) {
+    Buffer3.prototype.readIntLE = function readIntLE(offset, byteLength2, noAssert) {
       offset = offset >>> 0;
       byteLength2 = byteLength2 >>> 0;
       if (!noAssert) checkOffset(offset, byteLength2, this.length);
@@ -1143,7 +1143,7 @@ var require_buffer = __commonJS({
       if (val >= mul) val -= Math.pow(2, 8 * byteLength2);
       return val;
     };
-    Buffer4.prototype.readIntBE = function readIntBE(offset, byteLength2, noAssert) {
+    Buffer3.prototype.readIntBE = function readIntBE(offset, byteLength2, noAssert) {
       offset = offset >>> 0;
       byteLength2 = byteLength2 >>> 0;
       if (!noAssert) checkOffset(offset, byteLength2, this.length);
@@ -1157,83 +1157,83 @@ var require_buffer = __commonJS({
       if (val >= mul) val -= Math.pow(2, 8 * byteLength2);
       return val;
     };
-    Buffer4.prototype.readInt8 = function readInt8(offset, noAssert) {
+    Buffer3.prototype.readInt8 = function readInt8(offset, noAssert) {
       offset = offset >>> 0;
       if (!noAssert) checkOffset(offset, 1, this.length);
       if (!(this[offset] & 128)) return this[offset];
       return (255 - this[offset] + 1) * -1;
     };
-    Buffer4.prototype.readInt16LE = function readInt16LE(offset, noAssert) {
+    Buffer3.prototype.readInt16LE = function readInt16LE(offset, noAssert) {
       offset = offset >>> 0;
       if (!noAssert) checkOffset(offset, 2, this.length);
       const val = this[offset] | this[offset + 1] << 8;
       return val & 32768 ? val | 4294901760 : val;
     };
-    Buffer4.prototype.readInt16BE = function readInt16BE(offset, noAssert) {
+    Buffer3.prototype.readInt16BE = function readInt16BE(offset, noAssert) {
       offset = offset >>> 0;
       if (!noAssert) checkOffset(offset, 2, this.length);
       const val = this[offset + 1] | this[offset] << 8;
       return val & 32768 ? val | 4294901760 : val;
     };
-    Buffer4.prototype.readInt32LE = function readInt32LE(offset, noAssert) {
+    Buffer3.prototype.readInt32LE = function readInt32LE(offset, noAssert) {
       offset = offset >>> 0;
       if (!noAssert) checkOffset(offset, 4, this.length);
       return this[offset] | this[offset + 1] << 8 | this[offset + 2] << 16 | this[offset + 3] << 24;
     };
-    Buffer4.prototype.readInt32BE = function readInt32BE(offset, noAssert) {
+    Buffer3.prototype.readInt32BE = function readInt32BE(offset, noAssert) {
       offset = offset >>> 0;
       if (!noAssert) checkOffset(offset, 4, this.length);
       return this[offset] << 24 | this[offset + 1] << 16 | this[offset + 2] << 8 | this[offset + 3];
     };
-    Buffer4.prototype.readBigInt64LE = defineBigIntMethod(function readBigInt64LE(offset) {
+    Buffer3.prototype.readBigInt64LE = defineBigIntMethod(function readBigInt64LE(offset) {
       offset = offset >>> 0;
       validateNumber(offset, "offset");
-      const first3 = this[offset];
+      const first2 = this[offset];
       const last = this[offset + 7];
-      if (first3 === void 0 || last === void 0) {
+      if (first2 === void 0 || last === void 0) {
         boundsError(offset, this.length - 8);
       }
       const val = this[offset + 4] + this[offset + 5] * 2 ** 8 + this[offset + 6] * 2 ** 16 + (last << 24);
-      return (BigInt(val) << BigInt(32)) + BigInt(first3 + this[++offset] * 2 ** 8 + this[++offset] * 2 ** 16 + this[++offset] * 2 ** 24);
+      return (BigInt(val) << BigInt(32)) + BigInt(first2 + this[++offset] * 2 ** 8 + this[++offset] * 2 ** 16 + this[++offset] * 2 ** 24);
     });
-    Buffer4.prototype.readBigInt64BE = defineBigIntMethod(function readBigInt64BE(offset) {
+    Buffer3.prototype.readBigInt64BE = defineBigIntMethod(function readBigInt64BE(offset) {
       offset = offset >>> 0;
       validateNumber(offset, "offset");
-      const first3 = this[offset];
+      const first2 = this[offset];
       const last = this[offset + 7];
-      if (first3 === void 0 || last === void 0) {
+      if (first2 === void 0 || last === void 0) {
         boundsError(offset, this.length - 8);
       }
-      const val = (first3 << 24) + // Overflow
+      const val = (first2 << 24) + // Overflow
       this[++offset] * 2 ** 16 + this[++offset] * 2 ** 8 + this[++offset];
       return (BigInt(val) << BigInt(32)) + BigInt(this[++offset] * 2 ** 24 + this[++offset] * 2 ** 16 + this[++offset] * 2 ** 8 + last);
     });
-    Buffer4.prototype.readFloatLE = function readFloatLE(offset, noAssert) {
+    Buffer3.prototype.readFloatLE = function readFloatLE(offset, noAssert) {
       offset = offset >>> 0;
       if (!noAssert) checkOffset(offset, 4, this.length);
       return ieee754.read(this, offset, true, 23, 4);
     };
-    Buffer4.prototype.readFloatBE = function readFloatBE(offset, noAssert) {
+    Buffer3.prototype.readFloatBE = function readFloatBE(offset, noAssert) {
       offset = offset >>> 0;
       if (!noAssert) checkOffset(offset, 4, this.length);
       return ieee754.read(this, offset, false, 23, 4);
     };
-    Buffer4.prototype.readDoubleLE = function readDoubleLE(offset, noAssert) {
+    Buffer3.prototype.readDoubleLE = function readDoubleLE(offset, noAssert) {
       offset = offset >>> 0;
       if (!noAssert) checkOffset(offset, 8, this.length);
       return ieee754.read(this, offset, true, 52, 8);
     };
-    Buffer4.prototype.readDoubleBE = function readDoubleBE(offset, noAssert) {
+    Buffer3.prototype.readDoubleBE = function readDoubleBE(offset, noAssert) {
       offset = offset >>> 0;
       if (!noAssert) checkOffset(offset, 8, this.length);
       return ieee754.read(this, offset, false, 52, 8);
     };
     function checkInt(buf2, value, offset, ext, max, min) {
-      if (!Buffer4.isBuffer(buf2)) throw new TypeError('"buffer" argument must be a Buffer instance');
+      if (!Buffer3.isBuffer(buf2)) throw new TypeError('"buffer" argument must be a Buffer instance');
       if (value > max || value < min) throw new RangeError('"value" argument is out of bounds');
       if (offset + ext > buf2.length) throw new RangeError("Index out of range");
     }
-    Buffer4.prototype.writeUintLE = Buffer4.prototype.writeUIntLE = function writeUIntLE(value, offset, byteLength2, noAssert) {
+    Buffer3.prototype.writeUintLE = Buffer3.prototype.writeUIntLE = function writeUIntLE(value, offset, byteLength2, noAssert) {
       value = +value;
       offset = offset >>> 0;
       byteLength2 = byteLength2 >>> 0;
@@ -1249,7 +1249,7 @@ var require_buffer = __commonJS({
       }
       return offset + byteLength2;
     };
-    Buffer4.prototype.writeUintBE = Buffer4.prototype.writeUIntBE = function writeUIntBE(value, offset, byteLength2, noAssert) {
+    Buffer3.prototype.writeUintBE = Buffer3.prototype.writeUIntBE = function writeUIntBE(value, offset, byteLength2, noAssert) {
       value = +value;
       offset = offset >>> 0;
       byteLength2 = byteLength2 >>> 0;
@@ -1265,14 +1265,14 @@ var require_buffer = __commonJS({
       }
       return offset + byteLength2;
     };
-    Buffer4.prototype.writeUint8 = Buffer4.prototype.writeUInt8 = function writeUInt8(value, offset, noAssert) {
+    Buffer3.prototype.writeUint8 = Buffer3.prototype.writeUInt8 = function writeUInt8(value, offset, noAssert) {
       value = +value;
       offset = offset >>> 0;
       if (!noAssert) checkInt(this, value, offset, 1, 255, 0);
       this[offset] = value & 255;
       return offset + 1;
     };
-    Buffer4.prototype.writeUint16LE = Buffer4.prototype.writeUInt16LE = function writeUInt16LE(value, offset, noAssert) {
+    Buffer3.prototype.writeUint16LE = Buffer3.prototype.writeUInt16LE = function writeUInt16LE(value, offset, noAssert) {
       value = +value;
       offset = offset >>> 0;
       if (!noAssert) checkInt(this, value, offset, 2, 65535, 0);
@@ -1280,7 +1280,7 @@ var require_buffer = __commonJS({
       this[offset + 1] = value >>> 8;
       return offset + 2;
     };
-    Buffer4.prototype.writeUint16BE = Buffer4.prototype.writeUInt16BE = function writeUInt16BE(value, offset, noAssert) {
+    Buffer3.prototype.writeUint16BE = Buffer3.prototype.writeUInt16BE = function writeUInt16BE(value, offset, noAssert) {
       value = +value;
       offset = offset >>> 0;
       if (!noAssert) checkInt(this, value, offset, 2, 65535, 0);
@@ -1288,7 +1288,7 @@ var require_buffer = __commonJS({
       this[offset + 1] = value & 255;
       return offset + 2;
     };
-    Buffer4.prototype.writeUint32LE = Buffer4.prototype.writeUInt32LE = function writeUInt32LE(value, offset, noAssert) {
+    Buffer3.prototype.writeUint32LE = Buffer3.prototype.writeUInt32LE = function writeUInt32LE(value, offset, noAssert) {
       value = +value;
       offset = offset >>> 0;
       if (!noAssert) checkInt(this, value, offset, 4, 4294967295, 0);
@@ -1298,7 +1298,7 @@ var require_buffer = __commonJS({
       this[offset] = value & 255;
       return offset + 4;
     };
-    Buffer4.prototype.writeUint32BE = Buffer4.prototype.writeUInt32BE = function writeUInt32BE(value, offset, noAssert) {
+    Buffer3.prototype.writeUint32BE = Buffer3.prototype.writeUInt32BE = function writeUInt32BE(value, offset, noAssert) {
       value = +value;
       offset = offset >>> 0;
       if (!noAssert) checkInt(this, value, offset, 4, 4294967295, 0);
@@ -1348,13 +1348,13 @@ var require_buffer = __commonJS({
       buf2[offset] = hi;
       return offset + 8;
     }
-    Buffer4.prototype.writeBigUInt64LE = defineBigIntMethod(function writeBigUInt64LE(value, offset = 0) {
+    Buffer3.prototype.writeBigUInt64LE = defineBigIntMethod(function writeBigUInt64LE(value, offset = 0) {
       return wrtBigUInt64LE(this, value, offset, BigInt(0), BigInt("0xffffffffffffffff"));
     });
-    Buffer4.prototype.writeBigUInt64BE = defineBigIntMethod(function writeBigUInt64BE(value, offset = 0) {
+    Buffer3.prototype.writeBigUInt64BE = defineBigIntMethod(function writeBigUInt64BE(value, offset = 0) {
       return wrtBigUInt64BE(this, value, offset, BigInt(0), BigInt("0xffffffffffffffff"));
     });
-    Buffer4.prototype.writeIntLE = function writeIntLE(value, offset, byteLength2, noAssert) {
+    Buffer3.prototype.writeIntLE = function writeIntLE(value, offset, byteLength2, noAssert) {
       value = +value;
       offset = offset >>> 0;
       if (!noAssert) {
@@ -1373,7 +1373,7 @@ var require_buffer = __commonJS({
       }
       return offset + byteLength2;
     };
-    Buffer4.prototype.writeIntBE = function writeIntBE(value, offset, byteLength2, noAssert) {
+    Buffer3.prototype.writeIntBE = function writeIntBE(value, offset, byteLength2, noAssert) {
       value = +value;
       offset = offset >>> 0;
       if (!noAssert) {
@@ -1392,7 +1392,7 @@ var require_buffer = __commonJS({
       }
       return offset + byteLength2;
     };
-    Buffer4.prototype.writeInt8 = function writeInt8(value, offset, noAssert) {
+    Buffer3.prototype.writeInt8 = function writeInt8(value, offset, noAssert) {
       value = +value;
       offset = offset >>> 0;
       if (!noAssert) checkInt(this, value, offset, 1, 127, -128);
@@ -1400,7 +1400,7 @@ var require_buffer = __commonJS({
       this[offset] = value & 255;
       return offset + 1;
     };
-    Buffer4.prototype.writeInt16LE = function writeInt16LE(value, offset, noAssert) {
+    Buffer3.prototype.writeInt16LE = function writeInt16LE(value, offset, noAssert) {
       value = +value;
       offset = offset >>> 0;
       if (!noAssert) checkInt(this, value, offset, 2, 32767, -32768);
@@ -1408,7 +1408,7 @@ var require_buffer = __commonJS({
       this[offset + 1] = value >>> 8;
       return offset + 2;
     };
-    Buffer4.prototype.writeInt16BE = function writeInt16BE(value, offset, noAssert) {
+    Buffer3.prototype.writeInt16BE = function writeInt16BE(value, offset, noAssert) {
       value = +value;
       offset = offset >>> 0;
       if (!noAssert) checkInt(this, value, offset, 2, 32767, -32768);
@@ -1416,7 +1416,7 @@ var require_buffer = __commonJS({
       this[offset + 1] = value & 255;
       return offset + 2;
     };
-    Buffer4.prototype.writeInt32LE = function writeInt32LE(value, offset, noAssert) {
+    Buffer3.prototype.writeInt32LE = function writeInt32LE(value, offset, noAssert) {
       value = +value;
       offset = offset >>> 0;
       if (!noAssert) checkInt(this, value, offset, 4, 2147483647, -2147483648);
@@ -1426,7 +1426,7 @@ var require_buffer = __commonJS({
       this[offset + 3] = value >>> 24;
       return offset + 4;
     };
-    Buffer4.prototype.writeInt32BE = function writeInt32BE(value, offset, noAssert) {
+    Buffer3.prototype.writeInt32BE = function writeInt32BE(value, offset, noAssert) {
       value = +value;
       offset = offset >>> 0;
       if (!noAssert) checkInt(this, value, offset, 4, 2147483647, -2147483648);
@@ -1437,10 +1437,10 @@ var require_buffer = __commonJS({
       this[offset + 3] = value & 255;
       return offset + 4;
     };
-    Buffer4.prototype.writeBigInt64LE = defineBigIntMethod(function writeBigInt64LE(value, offset = 0) {
+    Buffer3.prototype.writeBigInt64LE = defineBigIntMethod(function writeBigInt64LE(value, offset = 0) {
       return wrtBigUInt64LE(this, value, offset, -BigInt("0x8000000000000000"), BigInt("0x7fffffffffffffff"));
     });
-    Buffer4.prototype.writeBigInt64BE = defineBigIntMethod(function writeBigInt64BE(value, offset = 0) {
+    Buffer3.prototype.writeBigInt64BE = defineBigIntMethod(function writeBigInt64BE(value, offset = 0) {
       return wrtBigUInt64BE(this, value, offset, -BigInt("0x8000000000000000"), BigInt("0x7fffffffffffffff"));
     });
     function checkIEEE754(buf2, value, offset, ext, max, min) {
@@ -1456,10 +1456,10 @@ var require_buffer = __commonJS({
       ieee754.write(buf2, value, offset, littleEndian, 23, 4);
       return offset + 4;
     }
-    Buffer4.prototype.writeFloatLE = function writeFloatLE(value, offset, noAssert) {
+    Buffer3.prototype.writeFloatLE = function writeFloatLE(value, offset, noAssert) {
       return writeFloat(this, value, offset, true, noAssert);
     };
-    Buffer4.prototype.writeFloatBE = function writeFloatBE(value, offset, noAssert) {
+    Buffer3.prototype.writeFloatBE = function writeFloatBE(value, offset, noAssert) {
       return writeFloat(this, value, offset, false, noAssert);
     };
     function writeDouble(buf2, value, offset, littleEndian, noAssert) {
@@ -1471,14 +1471,14 @@ var require_buffer = __commonJS({
       ieee754.write(buf2, value, offset, littleEndian, 52, 8);
       return offset + 8;
     }
-    Buffer4.prototype.writeDoubleLE = function writeDoubleLE(value, offset, noAssert) {
+    Buffer3.prototype.writeDoubleLE = function writeDoubleLE(value, offset, noAssert) {
       return writeDouble(this, value, offset, true, noAssert);
     };
-    Buffer4.prototype.writeDoubleBE = function writeDoubleBE(value, offset, noAssert) {
+    Buffer3.prototype.writeDoubleBE = function writeDoubleBE(value, offset, noAssert) {
       return writeDouble(this, value, offset, false, noAssert);
     };
-    Buffer4.prototype.copy = function copy(target, targetStart, start, end) {
-      if (!Buffer4.isBuffer(target)) throw new TypeError("argument should be a Buffer");
+    Buffer3.prototype.copy = function copy(target, targetStart, start, end) {
+      if (!Buffer3.isBuffer(target)) throw new TypeError("argument should be a Buffer");
       if (!start) start = 0;
       if (!end && end !== 0) end = this.length;
       if (targetStart >= target.length) targetStart = target.length;
@@ -1507,7 +1507,7 @@ var require_buffer = __commonJS({
       }
       return len;
     };
-    Buffer4.prototype.fill = function fill(val, start, end, encoding) {
+    Buffer3.prototype.fill = function fill(val, start, end, encoding) {
       if (typeof val === "string") {
         if (typeof start === "string") {
           encoding = start;
@@ -1520,7 +1520,7 @@ var require_buffer = __commonJS({
         if (encoding !== void 0 && typeof encoding !== "string") {
           throw new TypeError("encoding must be a string");
         }
-        if (typeof encoding === "string" && !Buffer4.isEncoding(encoding)) {
+        if (typeof encoding === "string" && !Buffer3.isEncoding(encoding)) {
           throw new TypeError("Unknown encoding: " + encoding);
         }
         if (val.length === 1) {
@@ -1549,1783 +1549,7 @@ var require_buffer = __commonJS({
           this[i] = val;
         }
       } else {
-        const bytes = Buffer4.isBuffer(val) ? val : Buffer4.from(val, encoding);
-        const len = bytes.length;
-        if (len === 0) {
-          throw new TypeError('The value "' + val + '" is invalid for argument "value"');
-        }
-        for (i = 0; i < end - start; ++i) {
-          this[i + start] = bytes[i % len];
-        }
-      }
-      return this;
-    };
-    var errors = {};
-    function E(sym, getMessage, Base) {
-      errors[sym] = class NodeError extends Base {
-        constructor() {
-          super();
-          Object.defineProperty(this, "message", {
-            value: getMessage.apply(this, arguments),
-            writable: true,
-            configurable: true
-          });
-          this.name = `${this.name} [${sym}]`;
-          this.stack;
-          delete this.name;
-        }
-        get code() {
-          return sym;
-        }
-        set code(value) {
-          Object.defineProperty(this, "code", {
-            configurable: true,
-            enumerable: true,
-            value,
-            writable: true
-          });
-        }
-        toString() {
-          return `${this.name} [${sym}]: ${this.message}`;
-        }
-      };
-    }
-    E(
-      "ERR_BUFFER_OUT_OF_BOUNDS",
-      function(name) {
-        if (name) {
-          return `${name} is outside of buffer bounds`;
-        }
-        return "Attempt to access memory outside buffer bounds";
-      },
-      RangeError
-    );
-    E(
-      "ERR_INVALID_ARG_TYPE",
-      function(name, actual) {
-        return `The "${name}" argument must be of type number. Received type ${typeof actual}`;
-      },
-      TypeError
-    );
-    E(
-      "ERR_OUT_OF_RANGE",
-      function(str, range, input2) {
-        let msg = `The value of "${str}" is out of range.`;
-        let received = input2;
-        if (Number.isInteger(input2) && Math.abs(input2) > 2 ** 32) {
-          received = addNumericalSeparator(String(input2));
-        } else if (typeof input2 === "bigint") {
-          received = String(input2);
-          if (input2 > BigInt(2) ** BigInt(32) || input2 < -(BigInt(2) ** BigInt(32))) {
-            received = addNumericalSeparator(received);
-          }
-          received += "n";
-        }
-        msg += ` It must be ${range}. Received ${received}`;
-        return msg;
-      },
-      RangeError
-    );
-    function addNumericalSeparator(val) {
-      let res = "";
-      let i = val.length;
-      const start = val[0] === "-" ? 1 : 0;
-      for (; i >= start + 4; i -= 3) {
-        res = `_${val.slice(i - 3, i)}${res}`;
-      }
-      return `${val.slice(0, i)}${res}`;
-    }
-    function checkBounds(buf2, offset, byteLength2) {
-      validateNumber(offset, "offset");
-      if (buf2[offset] === void 0 || buf2[offset + byteLength2] === void 0) {
-        boundsError(offset, buf2.length - (byteLength2 + 1));
-      }
-    }
-    function checkIntBI(value, min, max, buf2, offset, byteLength2) {
-      if (value > max || value < min) {
-        const n = typeof min === "bigint" ? "n" : "";
-        let range;
-        if (byteLength2 > 3) {
-          if (min === 0 || min === BigInt(0)) {
-            range = `>= 0${n} and < 2${n} ** ${(byteLength2 + 1) * 8}${n}`;
-          } else {
-            range = `>= -(2${n} ** ${(byteLength2 + 1) * 8 - 1}${n}) and < 2 ** ${(byteLength2 + 1) * 8 - 1}${n}`;
-          }
-        } else {
-          range = `>= ${min}${n} and <= ${max}${n}`;
-        }
-        throw new errors.ERR_OUT_OF_RANGE("value", range, value);
-      }
-      checkBounds(buf2, offset, byteLength2);
-    }
-    function validateNumber(value, name) {
-      if (typeof value !== "number") {
-        throw new errors.ERR_INVALID_ARG_TYPE(name, "number", value);
-      }
-    }
-    function boundsError(value, length, type) {
-      if (Math.floor(value) !== value) {
-        validateNumber(value, type);
-        throw new errors.ERR_OUT_OF_RANGE(type || "offset", "an integer", value);
-      }
-      if (length < 0) {
-        throw new errors.ERR_BUFFER_OUT_OF_BOUNDS();
-      }
-      throw new errors.ERR_OUT_OF_RANGE(
-        type || "offset",
-        `>= ${type ? 1 : 0} and <= ${length}`,
-        value
-      );
-    }
-    var INVALID_BASE64_RE = /[^+/0-9A-Za-z-_]/g;
-    function base64clean(str) {
-      str = str.split("=")[0];
-      str = str.trim().replace(INVALID_BASE64_RE, "");
-      if (str.length < 2) return "";
-      while (str.length % 4 !== 0) {
-        str = str + "=";
-      }
-      return str;
-    }
-    function utf8ToBytes(string, units) {
-      units = units || Infinity;
-      let codePoint;
-      const length = string.length;
-      let leadSurrogate = null;
-      const bytes = [];
-      for (let i = 0; i < length; ++i) {
-        codePoint = string.charCodeAt(i);
-        if (codePoint > 55295 && codePoint < 57344) {
-          if (!leadSurrogate) {
-            if (codePoint > 56319) {
-              if ((units -= 3) > -1) bytes.push(239, 191, 189);
-              continue;
-            } else if (i + 1 === length) {
-              if ((units -= 3) > -1) bytes.push(239, 191, 189);
-              continue;
-            }
-            leadSurrogate = codePoint;
-            continue;
-          }
-          if (codePoint < 56320) {
-            if ((units -= 3) > -1) bytes.push(239, 191, 189);
-            leadSurrogate = codePoint;
-            continue;
-          }
-          codePoint = (leadSurrogate - 55296 << 10 | codePoint - 56320) + 65536;
-        } else if (leadSurrogate) {
-          if ((units -= 3) > -1) bytes.push(239, 191, 189);
-        }
-        leadSurrogate = null;
-        if (codePoint < 128) {
-          if ((units -= 1) < 0) break;
-          bytes.push(codePoint);
-        } else if (codePoint < 2048) {
-          if ((units -= 2) < 0) break;
-          bytes.push(
-            codePoint >> 6 | 192,
-            codePoint & 63 | 128
-          );
-        } else if (codePoint < 65536) {
-          if ((units -= 3) < 0) break;
-          bytes.push(
-            codePoint >> 12 | 224,
-            codePoint >> 6 & 63 | 128,
-            codePoint & 63 | 128
-          );
-        } else if (codePoint < 1114112) {
-          if ((units -= 4) < 0) break;
-          bytes.push(
-            codePoint >> 18 | 240,
-            codePoint >> 12 & 63 | 128,
-            codePoint >> 6 & 63 | 128,
-            codePoint & 63 | 128
-          );
-        } else {
-          throw new Error("Invalid code point");
-        }
-      }
-      return bytes;
-    }
-    function asciiToBytes(str) {
-      const byteArray = [];
-      for (let i = 0; i < str.length; ++i) {
-        byteArray.push(str.charCodeAt(i) & 255);
-      }
-      return byteArray;
-    }
-    function utf16leToBytes(str, units) {
-      let c, hi, lo;
-      const byteArray = [];
-      for (let i = 0; i < str.length; ++i) {
-        if ((units -= 2) < 0) break;
-        c = str.charCodeAt(i);
-        hi = c >> 8;
-        lo = c % 256;
-        byteArray.push(lo);
-        byteArray.push(hi);
-      }
-      return byteArray;
-    }
-    function base64ToBytes(str) {
-      return base64.toByteArray(base64clean(str));
-    }
-    function blitBuffer(src, dst, offset, length) {
-      let i;
-      for (i = 0; i < length; ++i) {
-        if (i + offset >= dst.length || i >= src.length) break;
-        dst[i + offset] = src[i];
-      }
-      return i;
-    }
-    function isInstance(obj, type) {
-      return obj instanceof type || obj != null && obj.constructor != null && obj.constructor.name != null && obj.constructor.name === type.name;
-    }
-    function numberIsNaN(obj) {
-      return obj !== obj;
-    }
-    var hexSliceLookupTable = (function() {
-      const alphabet = "0123456789abcdef";
-      const table = new Array(256);
-      for (let i = 0; i < 16; ++i) {
-        const i16 = i * 16;
-        for (let j = 0; j < 16; ++j) {
-          table[i16 + j] = alphabet[i] + alphabet[j];
-        }
-      }
-      return table;
-    })();
-    function defineBigIntMethod(fn) {
-      return typeof BigInt === "undefined" ? BufferBigIntNotDefined : fn;
-    }
-    function BufferBigIntNotDefined() {
-      throw new Error("BigInt not supported");
-    }
-  }
-});
-
-// node_modules/base64-js/index.js
-var require_base64_js2 = __commonJS({
-  "node_modules/base64-js/index.js"(exports) {
-    "use strict";
-    exports.byteLength = byteLength;
-    exports.toByteArray = toByteArray;
-    exports.fromByteArray = fromByteArray;
-    var lookup = [];
-    var revLookup = [];
-    var Arr = typeof Uint8Array !== "undefined" ? Uint8Array : Array;
-    var code = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
-    for (i = 0, len = code.length; i < len; ++i) {
-      lookup[i] = code[i];
-      revLookup[code.charCodeAt(i)] = i;
-    }
-    var i;
-    var len;
-    revLookup["-".charCodeAt(0)] = 62;
-    revLookup["_".charCodeAt(0)] = 63;
-    function getLens(b64) {
-      var len2 = b64.length;
-      if (len2 % 4 > 0) {
-        throw new Error("Invalid string. Length must be a multiple of 4");
-      }
-      var validLen = b64.indexOf("=");
-      if (validLen === -1) validLen = len2;
-      var placeHoldersLen = validLen === len2 ? 0 : 4 - validLen % 4;
-      return [validLen, placeHoldersLen];
-    }
-    function byteLength(b64) {
-      var lens = getLens(b64);
-      var validLen = lens[0];
-      var placeHoldersLen = lens[1];
-      return (validLen + placeHoldersLen) * 3 / 4 - placeHoldersLen;
-    }
-    function _byteLength(b64, validLen, placeHoldersLen) {
-      return (validLen + placeHoldersLen) * 3 / 4 - placeHoldersLen;
-    }
-    function toByteArray(b64) {
-      var tmp;
-      var lens = getLens(b64);
-      var validLen = lens[0];
-      var placeHoldersLen = lens[1];
-      var arr = new Arr(_byteLength(b64, validLen, placeHoldersLen));
-      var curByte = 0;
-      var len2 = placeHoldersLen > 0 ? validLen - 4 : validLen;
-      var i2;
-      for (i2 = 0; i2 < len2; i2 += 4) {
-        tmp = revLookup[b64.charCodeAt(i2)] << 18 | revLookup[b64.charCodeAt(i2 + 1)] << 12 | revLookup[b64.charCodeAt(i2 + 2)] << 6 | revLookup[b64.charCodeAt(i2 + 3)];
-        arr[curByte++] = tmp >> 16 & 255;
-        arr[curByte++] = tmp >> 8 & 255;
-        arr[curByte++] = tmp & 255;
-      }
-      if (placeHoldersLen === 2) {
-        tmp = revLookup[b64.charCodeAt(i2)] << 2 | revLookup[b64.charCodeAt(i2 + 1)] >> 4;
-        arr[curByte++] = tmp & 255;
-      }
-      if (placeHoldersLen === 1) {
-        tmp = revLookup[b64.charCodeAt(i2)] << 10 | revLookup[b64.charCodeAt(i2 + 1)] << 4 | revLookup[b64.charCodeAt(i2 + 2)] >> 2;
-        arr[curByte++] = tmp >> 8 & 255;
-        arr[curByte++] = tmp & 255;
-      }
-      return arr;
-    }
-    function tripletToBase64(num) {
-      return lookup[num >> 18 & 63] + lookup[num >> 12 & 63] + lookup[num >> 6 & 63] + lookup[num & 63];
-    }
-    function encodeChunk(uint8, start, end) {
-      var tmp;
-      var output = [];
-      for (var i2 = start; i2 < end; i2 += 3) {
-        tmp = (uint8[i2] << 16 & 16711680) + (uint8[i2 + 1] << 8 & 65280) + (uint8[i2 + 2] & 255);
-        output.push(tripletToBase64(tmp));
-      }
-      return output.join("");
-    }
-    function fromByteArray(uint8) {
-      var tmp;
-      var len2 = uint8.length;
-      var extraBytes = len2 % 3;
-      var parts = [];
-      var maxChunkLength = 16383;
-      for (var i2 = 0, len22 = len2 - extraBytes; i2 < len22; i2 += maxChunkLength) {
-        parts.push(encodeChunk(uint8, i2, i2 + maxChunkLength > len22 ? len22 : i2 + maxChunkLength));
-      }
-      if (extraBytes === 1) {
-        tmp = uint8[len2 - 1];
-        parts.push(
-          lookup[tmp >> 2] + lookup[tmp << 4 & 63] + "=="
-        );
-      } else if (extraBytes === 2) {
-        tmp = (uint8[len2 - 2] << 8) + uint8[len2 - 1];
-        parts.push(
-          lookup[tmp >> 10] + lookup[tmp >> 4 & 63] + lookup[tmp << 2 & 63] + "="
-        );
-      }
-      return parts.join("");
-    }
-  }
-});
-
-// node_modules/ieee754/index.js
-var require_ieee7542 = __commonJS({
-  "node_modules/ieee754/index.js"(exports) {
-    exports.read = function(buffer, offset, isLE, mLen, nBytes) {
-      var e, m;
-      var eLen = nBytes * 8 - mLen - 1;
-      var eMax = (1 << eLen) - 1;
-      var eBias = eMax >> 1;
-      var nBits = -7;
-      var i = isLE ? nBytes - 1 : 0;
-      var d = isLE ? -1 : 1;
-      var s = buffer[offset + i];
-      i += d;
-      e = s & (1 << -nBits) - 1;
-      s >>= -nBits;
-      nBits += eLen;
-      for (; nBits > 0; e = e * 256 + buffer[offset + i], i += d, nBits -= 8) {
-      }
-      m = e & (1 << -nBits) - 1;
-      e >>= -nBits;
-      nBits += mLen;
-      for (; nBits > 0; m = m * 256 + buffer[offset + i], i += d, nBits -= 8) {
-      }
-      if (e === 0) {
-        e = 1 - eBias;
-      } else if (e === eMax) {
-        return m ? NaN : (s ? -1 : 1) * Infinity;
-      } else {
-        m = m + Math.pow(2, mLen);
-        e = e - eBias;
-      }
-      return (s ? -1 : 1) * m * Math.pow(2, e - mLen);
-    };
-    exports.write = function(buffer, value, offset, isLE, mLen, nBytes) {
-      var e, m, c;
-      var eLen = nBytes * 8 - mLen - 1;
-      var eMax = (1 << eLen) - 1;
-      var eBias = eMax >> 1;
-      var rt = mLen === 23 ? Math.pow(2, -24) - Math.pow(2, -77) : 0;
-      var i = isLE ? 0 : nBytes - 1;
-      var d = isLE ? 1 : -1;
-      var s = value < 0 || value === 0 && 1 / value < 0 ? 1 : 0;
-      value = Math.abs(value);
-      if (isNaN(value) || value === Infinity) {
-        m = isNaN(value) ? 1 : 0;
-        e = eMax;
-      } else {
-        e = Math.floor(Math.log(value) / Math.LN2);
-        if (value * (c = Math.pow(2, -e)) < 1) {
-          e--;
-          c *= 2;
-        }
-        if (e + eBias >= 1) {
-          value += rt / c;
-        } else {
-          value += rt * Math.pow(2, 1 - eBias);
-        }
-        if (value * c >= 2) {
-          e++;
-          c /= 2;
-        }
-        if (e + eBias >= eMax) {
-          m = 0;
-          e = eMax;
-        } else if (e + eBias >= 1) {
-          m = (value * c - 1) * Math.pow(2, mLen);
-          e = e + eBias;
-        } else {
-          m = value * Math.pow(2, eBias - 1) * Math.pow(2, mLen);
-          e = 0;
-        }
-      }
-      for (; mLen >= 8; buffer[offset + i] = m & 255, i += d, m /= 256, mLen -= 8) {
-      }
-      e = e << mLen | m;
-      eLen += mLen;
-      for (; eLen > 0; buffer[offset + i] = e & 255, i += d, e /= 256, eLen -= 8) {
-      }
-      buffer[offset + i - d] |= s * 128;
-    };
-  }
-});
-
-// node_modules/buffer/index.js
-var require_buffer2 = __commonJS({
-  "node_modules/buffer/index.js"(exports) {
-    "use strict";
-    var base64 = require_base64_js2();
-    var ieee754 = require_ieee7542();
-    var customInspectSymbol = typeof Symbol === "function" && typeof Symbol["for"] === "function" ? Symbol["for"]("nodejs.util.inspect.custom") : null;
-    exports.Buffer = Buffer4;
-    exports.SlowBuffer = SlowBuffer;
-    exports.INSPECT_MAX_BYTES = 50;
-    var K_MAX_LENGTH = 2147483647;
-    exports.kMaxLength = K_MAX_LENGTH;
-    Buffer4.TYPED_ARRAY_SUPPORT = typedArraySupport();
-    if (!Buffer4.TYPED_ARRAY_SUPPORT && typeof console !== "undefined" && typeof console.error === "function") {
-      console.error(
-        "This browser lacks typed array (Uint8Array) support which is required by `buffer` v5.x. Use `buffer` v4.x if you require old browser support."
-      );
-    }
-    function typedArraySupport() {
-      try {
-        const arr = new Uint8Array(1);
-        const proto = { foo: function() {
-          return 42;
-        } };
-        Object.setPrototypeOf(proto, Uint8Array.prototype);
-        Object.setPrototypeOf(arr, proto);
-        return arr.foo() === 42;
-      } catch (e) {
-        return false;
-      }
-    }
-    Object.defineProperty(Buffer4.prototype, "parent", {
-      enumerable: true,
-      get: function() {
-        if (!Buffer4.isBuffer(this)) return void 0;
-        return this.buffer;
-      }
-    });
-    Object.defineProperty(Buffer4.prototype, "offset", {
-      enumerable: true,
-      get: function() {
-        if (!Buffer4.isBuffer(this)) return void 0;
-        return this.byteOffset;
-      }
-    });
-    function createBuffer(length) {
-      if (length > K_MAX_LENGTH) {
-        throw new RangeError('The value "' + length + '" is invalid for option "size"');
-      }
-      const buf2 = new Uint8Array(length);
-      Object.setPrototypeOf(buf2, Buffer4.prototype);
-      return buf2;
-    }
-    function Buffer4(arg, encodingOrOffset, length) {
-      if (typeof arg === "number") {
-        if (typeof encodingOrOffset === "string") {
-          throw new TypeError(
-            'The "string" argument must be of type string. Received type number'
-          );
-        }
-        return allocUnsafe(arg);
-      }
-      return from3(arg, encodingOrOffset, length);
-    }
-    Buffer4.poolSize = 8192;
-    function from3(value, encodingOrOffset, length) {
-      if (typeof value === "string") {
-        return fromString(value, encodingOrOffset);
-      }
-      if (ArrayBuffer.isView(value)) {
-        return fromArrayView(value);
-      }
-      if (value == null) {
-        throw new TypeError(
-          "The first argument must be one of type string, Buffer, ArrayBuffer, Array, or Array-like Object. Received type " + typeof value
-        );
-      }
-      if (isInstance(value, ArrayBuffer) || value && isInstance(value.buffer, ArrayBuffer)) {
-        return fromArrayBuffer(value, encodingOrOffset, length);
-      }
-      if (typeof SharedArrayBuffer !== "undefined" && (isInstance(value, SharedArrayBuffer) || value && isInstance(value.buffer, SharedArrayBuffer))) {
-        return fromArrayBuffer(value, encodingOrOffset, length);
-      }
-      if (typeof value === "number") {
-        throw new TypeError(
-          'The "value" argument must not be of type number. Received type number'
-        );
-      }
-      const valueOf = value.valueOf && value.valueOf();
-      if (valueOf != null && valueOf !== value) {
-        return Buffer4.from(valueOf, encodingOrOffset, length);
-      }
-      const b = fromObject(value);
-      if (b) return b;
-      if (typeof Symbol !== "undefined" && Symbol.toPrimitive != null && typeof value[Symbol.toPrimitive] === "function") {
-        return Buffer4.from(value[Symbol.toPrimitive]("string"), encodingOrOffset, length);
-      }
-      throw new TypeError(
-        "The first argument must be one of type string, Buffer, ArrayBuffer, Array, or Array-like Object. Received type " + typeof value
-      );
-    }
-    Buffer4.from = function(value, encodingOrOffset, length) {
-      return from3(value, encodingOrOffset, length);
-    };
-    Object.setPrototypeOf(Buffer4.prototype, Uint8Array.prototype);
-    Object.setPrototypeOf(Buffer4, Uint8Array);
-    function assertSize(size) {
-      if (typeof size !== "number") {
-        throw new TypeError('"size" argument must be of type number');
-      } else if (size < 0) {
-        throw new RangeError('The value "' + size + '" is invalid for option "size"');
-      }
-    }
-    function alloc(size, fill, encoding) {
-      assertSize(size);
-      if (size <= 0) {
-        return createBuffer(size);
-      }
-      if (fill !== void 0) {
-        return typeof encoding === "string" ? createBuffer(size).fill(fill, encoding) : createBuffer(size).fill(fill);
-      }
-      return createBuffer(size);
-    }
-    Buffer4.alloc = function(size, fill, encoding) {
-      return alloc(size, fill, encoding);
-    };
-    function allocUnsafe(size) {
-      assertSize(size);
-      return createBuffer(size < 0 ? 0 : checked(size) | 0);
-    }
-    Buffer4.allocUnsafe = function(size) {
-      return allocUnsafe(size);
-    };
-    Buffer4.allocUnsafeSlow = function(size) {
-      return allocUnsafe(size);
-    };
-    function fromString(string, encoding) {
-      if (typeof encoding !== "string" || encoding === "") {
-        encoding = "utf8";
-      }
-      if (!Buffer4.isEncoding(encoding)) {
-        throw new TypeError("Unknown encoding: " + encoding);
-      }
-      const length = byteLength(string, encoding) | 0;
-      let buf2 = createBuffer(length);
-      const actual = buf2.write(string, encoding);
-      if (actual !== length) {
-        buf2 = buf2.slice(0, actual);
-      }
-      return buf2;
-    }
-    function fromArrayLike(array) {
-      const length = array.length < 0 ? 0 : checked(array.length) | 0;
-      const buf2 = createBuffer(length);
-      for (let i = 0; i < length; i += 1) {
-        buf2[i] = array[i] & 255;
-      }
-      return buf2;
-    }
-    function fromArrayView(arrayView) {
-      if (isInstance(arrayView, Uint8Array)) {
-        const copy = new Uint8Array(arrayView);
-        return fromArrayBuffer(copy.buffer, copy.byteOffset, copy.byteLength);
-      }
-      return fromArrayLike(arrayView);
-    }
-    function fromArrayBuffer(array, byteOffset, length) {
-      if (byteOffset < 0 || array.byteLength < byteOffset) {
-        throw new RangeError('"offset" is outside of buffer bounds');
-      }
-      if (array.byteLength < byteOffset + (length || 0)) {
-        throw new RangeError('"length" is outside of buffer bounds');
-      }
-      let buf2;
-      if (byteOffset === void 0 && length === void 0) {
-        buf2 = new Uint8Array(array);
-      } else if (length === void 0) {
-        buf2 = new Uint8Array(array, byteOffset);
-      } else {
-        buf2 = new Uint8Array(array, byteOffset, length);
-      }
-      Object.setPrototypeOf(buf2, Buffer4.prototype);
-      return buf2;
-    }
-    function fromObject(obj) {
-      if (Buffer4.isBuffer(obj)) {
-        const len = checked(obj.length) | 0;
-        const buf2 = createBuffer(len);
-        if (buf2.length === 0) {
-          return buf2;
-        }
-        obj.copy(buf2, 0, 0, len);
-        return buf2;
-      }
-      if (obj.length !== void 0) {
-        if (typeof obj.length !== "number" || numberIsNaN(obj.length)) {
-          return createBuffer(0);
-        }
-        return fromArrayLike(obj);
-      }
-      if (obj.type === "Buffer" && Array.isArray(obj.data)) {
-        return fromArrayLike(obj.data);
-      }
-    }
-    function checked(length) {
-      if (length >= K_MAX_LENGTH) {
-        throw new RangeError("Attempt to allocate Buffer larger than maximum size: 0x" + K_MAX_LENGTH.toString(16) + " bytes");
-      }
-      return length | 0;
-    }
-    function SlowBuffer(length) {
-      if (+length != length) {
-        length = 0;
-      }
-      return Buffer4.alloc(+length);
-    }
-    Buffer4.isBuffer = function isBuffer(b) {
-      return b != null && b._isBuffer === true && b !== Buffer4.prototype;
-    };
-    Buffer4.compare = function compare(a, b) {
-      if (isInstance(a, Uint8Array)) a = Buffer4.from(a, a.offset, a.byteLength);
-      if (isInstance(b, Uint8Array)) b = Buffer4.from(b, b.offset, b.byteLength);
-      if (!Buffer4.isBuffer(a) || !Buffer4.isBuffer(b)) {
-        throw new TypeError(
-          'The "buf1", "buf2" arguments must be one of type Buffer or Uint8Array'
-        );
-      }
-      if (a === b) return 0;
-      let x = a.length;
-      let y = b.length;
-      for (let i = 0, len = Math.min(x, y); i < len; ++i) {
-        if (a[i] !== b[i]) {
-          x = a[i];
-          y = b[i];
-          break;
-        }
-      }
-      if (x < y) return -1;
-      if (y < x) return 1;
-      return 0;
-    };
-    Buffer4.isEncoding = function isEncoding(encoding) {
-      switch (String(encoding).toLowerCase()) {
-        case "hex":
-        case "utf8":
-        case "utf-8":
-        case "ascii":
-        case "latin1":
-        case "binary":
-        case "base64":
-        case "ucs2":
-        case "ucs-2":
-        case "utf16le":
-        case "utf-16le":
-          return true;
-        default:
-          return false;
-      }
-    };
-    Buffer4.concat = function concat(list2, length) {
-      if (!Array.isArray(list2)) {
-        throw new TypeError('"list" argument must be an Array of Buffers');
-      }
-      if (list2.length === 0) {
-        return Buffer4.alloc(0);
-      }
-      let i;
-      if (length === void 0) {
-        length = 0;
-        for (i = 0; i < list2.length; ++i) {
-          length += list2[i].length;
-        }
-      }
-      const buffer = Buffer4.allocUnsafe(length);
-      let pos = 0;
-      for (i = 0; i < list2.length; ++i) {
-        let buf2 = list2[i];
-        if (isInstance(buf2, Uint8Array)) {
-          if (pos + buf2.length > buffer.length) {
-            if (!Buffer4.isBuffer(buf2)) buf2 = Buffer4.from(buf2);
-            buf2.copy(buffer, pos);
-          } else {
-            Uint8Array.prototype.set.call(
-              buffer,
-              buf2,
-              pos
-            );
-          }
-        } else if (!Buffer4.isBuffer(buf2)) {
-          throw new TypeError('"list" argument must be an Array of Buffers');
-        } else {
-          buf2.copy(buffer, pos);
-        }
-        pos += buf2.length;
-      }
-      return buffer;
-    };
-    function byteLength(string, encoding) {
-      if (Buffer4.isBuffer(string)) {
-        return string.length;
-      }
-      if (ArrayBuffer.isView(string) || isInstance(string, ArrayBuffer)) {
-        return string.byteLength;
-      }
-      if (typeof string !== "string") {
-        throw new TypeError(
-          'The "string" argument must be one of type string, Buffer, or ArrayBuffer. Received type ' + typeof string
-        );
-      }
-      const len = string.length;
-      const mustMatch = arguments.length > 2 && arguments[2] === true;
-      if (!mustMatch && len === 0) return 0;
-      let loweredCase = false;
-      for (; ; ) {
-        switch (encoding) {
-          case "ascii":
-          case "latin1":
-          case "binary":
-            return len;
-          case "utf8":
-          case "utf-8":
-            return utf8ToBytes(string).length;
-          case "ucs2":
-          case "ucs-2":
-          case "utf16le":
-          case "utf-16le":
-            return len * 2;
-          case "hex":
-            return len >>> 1;
-          case "base64":
-            return base64ToBytes(string).length;
-          default:
-            if (loweredCase) {
-              return mustMatch ? -1 : utf8ToBytes(string).length;
-            }
-            encoding = ("" + encoding).toLowerCase();
-            loweredCase = true;
-        }
-      }
-    }
-    Buffer4.byteLength = byteLength;
-    function slowToString(encoding, start, end) {
-      let loweredCase = false;
-      if (start === void 0 || start < 0) {
-        start = 0;
-      }
-      if (start > this.length) {
-        return "";
-      }
-      if (end === void 0 || end > this.length) {
-        end = this.length;
-      }
-      if (end <= 0) {
-        return "";
-      }
-      end >>>= 0;
-      start >>>= 0;
-      if (end <= start) {
-        return "";
-      }
-      if (!encoding) encoding = "utf8";
-      while (true) {
-        switch (encoding) {
-          case "hex":
-            return hexSlice(this, start, end);
-          case "utf8":
-          case "utf-8":
-            return utf8Slice(this, start, end);
-          case "ascii":
-            return asciiSlice(this, start, end);
-          case "latin1":
-          case "binary":
-            return latin1Slice(this, start, end);
-          case "base64":
-            return base64Slice(this, start, end);
-          case "ucs2":
-          case "ucs-2":
-          case "utf16le":
-          case "utf-16le":
-            return utf16leSlice(this, start, end);
-          default:
-            if (loweredCase) throw new TypeError("Unknown encoding: " + encoding);
-            encoding = (encoding + "").toLowerCase();
-            loweredCase = true;
-        }
-      }
-    }
-    Buffer4.prototype._isBuffer = true;
-    function swap(b, n, m) {
-      const i = b[n];
-      b[n] = b[m];
-      b[m] = i;
-    }
-    Buffer4.prototype.swap16 = function swap16() {
-      const len = this.length;
-      if (len % 2 !== 0) {
-        throw new RangeError("Buffer size must be a multiple of 16-bits");
-      }
-      for (let i = 0; i < len; i += 2) {
-        swap(this, i, i + 1);
-      }
-      return this;
-    };
-    Buffer4.prototype.swap32 = function swap32() {
-      const len = this.length;
-      if (len % 4 !== 0) {
-        throw new RangeError("Buffer size must be a multiple of 32-bits");
-      }
-      for (let i = 0; i < len; i += 4) {
-        swap(this, i, i + 3);
-        swap(this, i + 1, i + 2);
-      }
-      return this;
-    };
-    Buffer4.prototype.swap64 = function swap64() {
-      const len = this.length;
-      if (len % 8 !== 0) {
-        throw new RangeError("Buffer size must be a multiple of 64-bits");
-      }
-      for (let i = 0; i < len; i += 8) {
-        swap(this, i, i + 7);
-        swap(this, i + 1, i + 6);
-        swap(this, i + 2, i + 5);
-        swap(this, i + 3, i + 4);
-      }
-      return this;
-    };
-    Buffer4.prototype.toString = function toString() {
-      const length = this.length;
-      if (length === 0) return "";
-      if (arguments.length === 0) return utf8Slice(this, 0, length);
-      return slowToString.apply(this, arguments);
-    };
-    Buffer4.prototype.toLocaleString = Buffer4.prototype.toString;
-    Buffer4.prototype.equals = function equals(b) {
-      if (!Buffer4.isBuffer(b)) throw new TypeError("Argument must be a Buffer");
-      if (this === b) return true;
-      return Buffer4.compare(this, b) === 0;
-    };
-    Buffer4.prototype.inspect = function inspect() {
-      let str = "";
-      const max = exports.INSPECT_MAX_BYTES;
-      str = this.toString("hex", 0, max).replace(/(.{2})/g, "$1 ").trim();
-      if (this.length > max) str += " ... ";
-      return "<Buffer " + str + ">";
-    };
-    if (customInspectSymbol) {
-      Buffer4.prototype[customInspectSymbol] = Buffer4.prototype.inspect;
-    }
-    Buffer4.prototype.compare = function compare(target, start, end, thisStart, thisEnd) {
-      if (isInstance(target, Uint8Array)) {
-        target = Buffer4.from(target, target.offset, target.byteLength);
-      }
-      if (!Buffer4.isBuffer(target)) {
-        throw new TypeError(
-          'The "target" argument must be one of type Buffer or Uint8Array. Received type ' + typeof target
-        );
-      }
-      if (start === void 0) {
-        start = 0;
-      }
-      if (end === void 0) {
-        end = target ? target.length : 0;
-      }
-      if (thisStart === void 0) {
-        thisStart = 0;
-      }
-      if (thisEnd === void 0) {
-        thisEnd = this.length;
-      }
-      if (start < 0 || end > target.length || thisStart < 0 || thisEnd > this.length) {
-        throw new RangeError("out of range index");
-      }
-      if (thisStart >= thisEnd && start >= end) {
-        return 0;
-      }
-      if (thisStart >= thisEnd) {
-        return -1;
-      }
-      if (start >= end) {
-        return 1;
-      }
-      start >>>= 0;
-      end >>>= 0;
-      thisStart >>>= 0;
-      thisEnd >>>= 0;
-      if (this === target) return 0;
-      let x = thisEnd - thisStart;
-      let y = end - start;
-      const len = Math.min(x, y);
-      const thisCopy = this.slice(thisStart, thisEnd);
-      const targetCopy = target.slice(start, end);
-      for (let i = 0; i < len; ++i) {
-        if (thisCopy[i] !== targetCopy[i]) {
-          x = thisCopy[i];
-          y = targetCopy[i];
-          break;
-        }
-      }
-      if (x < y) return -1;
-      if (y < x) return 1;
-      return 0;
-    };
-    function bidirectionalIndexOf(buffer, val, byteOffset, encoding, dir) {
-      if (buffer.length === 0) return -1;
-      if (typeof byteOffset === "string") {
-        encoding = byteOffset;
-        byteOffset = 0;
-      } else if (byteOffset > 2147483647) {
-        byteOffset = 2147483647;
-      } else if (byteOffset < -2147483648) {
-        byteOffset = -2147483648;
-      }
-      byteOffset = +byteOffset;
-      if (numberIsNaN(byteOffset)) {
-        byteOffset = dir ? 0 : buffer.length - 1;
-      }
-      if (byteOffset < 0) byteOffset = buffer.length + byteOffset;
-      if (byteOffset >= buffer.length) {
-        if (dir) return -1;
-        else byteOffset = buffer.length - 1;
-      } else if (byteOffset < 0) {
-        if (dir) byteOffset = 0;
-        else return -1;
-      }
-      if (typeof val === "string") {
-        val = Buffer4.from(val, encoding);
-      }
-      if (Buffer4.isBuffer(val)) {
-        if (val.length === 0) {
-          return -1;
-        }
-        return arrayIndexOf(buffer, val, byteOffset, encoding, dir);
-      } else if (typeof val === "number") {
-        val = val & 255;
-        if (typeof Uint8Array.prototype.indexOf === "function") {
-          if (dir) {
-            return Uint8Array.prototype.indexOf.call(buffer, val, byteOffset);
-          } else {
-            return Uint8Array.prototype.lastIndexOf.call(buffer, val, byteOffset);
-          }
-        }
-        return arrayIndexOf(buffer, [val], byteOffset, encoding, dir);
-      }
-      throw new TypeError("val must be string, number or Buffer");
-    }
-    function arrayIndexOf(arr, val, byteOffset, encoding, dir) {
-      let indexSize = 1;
-      let arrLength = arr.length;
-      let valLength = val.length;
-      if (encoding !== void 0) {
-        encoding = String(encoding).toLowerCase();
-        if (encoding === "ucs2" || encoding === "ucs-2" || encoding === "utf16le" || encoding === "utf-16le") {
-          if (arr.length < 2 || val.length < 2) {
-            return -1;
-          }
-          indexSize = 2;
-          arrLength /= 2;
-          valLength /= 2;
-          byteOffset /= 2;
-        }
-      }
-      function read(buf2, i2) {
-        if (indexSize === 1) {
-          return buf2[i2];
-        } else {
-          return buf2.readUInt16BE(i2 * indexSize);
-        }
-      }
-      let i;
-      if (dir) {
-        let foundIndex = -1;
-        for (i = byteOffset; i < arrLength; i++) {
-          if (read(arr, i) === read(val, foundIndex === -1 ? 0 : i - foundIndex)) {
-            if (foundIndex === -1) foundIndex = i;
-            if (i - foundIndex + 1 === valLength) return foundIndex * indexSize;
-          } else {
-            if (foundIndex !== -1) i -= i - foundIndex;
-            foundIndex = -1;
-          }
-        }
-      } else {
-        if (byteOffset + valLength > arrLength) byteOffset = arrLength - valLength;
-        for (i = byteOffset; i >= 0; i--) {
-          let found = true;
-          for (let j = 0; j < valLength; j++) {
-            if (read(arr, i + j) !== read(val, j)) {
-              found = false;
-              break;
-            }
-          }
-          if (found) return i;
-        }
-      }
-      return -1;
-    }
-    Buffer4.prototype.includes = function includes2(val, byteOffset, encoding) {
-      return this.indexOf(val, byteOffset, encoding) !== -1;
-    };
-    Buffer4.prototype.indexOf = function indexOf(val, byteOffset, encoding) {
-      return bidirectionalIndexOf(this, val, byteOffset, encoding, true);
-    };
-    Buffer4.prototype.lastIndexOf = function lastIndexOf(val, byteOffset, encoding) {
-      return bidirectionalIndexOf(this, val, byteOffset, encoding, false);
-    };
-    function hexWrite(buf2, string, offset, length) {
-      offset = Number(offset) || 0;
-      const remaining = buf2.length - offset;
-      if (!length) {
-        length = remaining;
-      } else {
-        length = Number(length);
-        if (length > remaining) {
-          length = remaining;
-        }
-      }
-      const strLen = string.length;
-      if (length > strLen / 2) {
-        length = strLen / 2;
-      }
-      let i;
-      for (i = 0; i < length; ++i) {
-        const parsed = parseInt(string.substr(i * 2, 2), 16);
-        if (numberIsNaN(parsed)) return i;
-        buf2[offset + i] = parsed;
-      }
-      return i;
-    }
-    function utf8Write(buf2, string, offset, length) {
-      return blitBuffer(utf8ToBytes(string, buf2.length - offset), buf2, offset, length);
-    }
-    function asciiWrite(buf2, string, offset, length) {
-      return blitBuffer(asciiToBytes(string), buf2, offset, length);
-    }
-    function base64Write(buf2, string, offset, length) {
-      return blitBuffer(base64ToBytes(string), buf2, offset, length);
-    }
-    function ucs2Write(buf2, string, offset, length) {
-      return blitBuffer(utf16leToBytes(string, buf2.length - offset), buf2, offset, length);
-    }
-    Buffer4.prototype.write = function write(string, offset, length, encoding) {
-      if (offset === void 0) {
-        encoding = "utf8";
-        length = this.length;
-        offset = 0;
-      } else if (length === void 0 && typeof offset === "string") {
-        encoding = offset;
-        length = this.length;
-        offset = 0;
-      } else if (isFinite(offset)) {
-        offset = offset >>> 0;
-        if (isFinite(length)) {
-          length = length >>> 0;
-          if (encoding === void 0) encoding = "utf8";
-        } else {
-          encoding = length;
-          length = void 0;
-        }
-      } else {
-        throw new Error(
-          "Buffer.write(string, encoding, offset[, length]) is no longer supported"
-        );
-      }
-      const remaining = this.length - offset;
-      if (length === void 0 || length > remaining) length = remaining;
-      if (string.length > 0 && (length < 0 || offset < 0) || offset > this.length) {
-        throw new RangeError("Attempt to write outside buffer bounds");
-      }
-      if (!encoding) encoding = "utf8";
-      let loweredCase = false;
-      for (; ; ) {
-        switch (encoding) {
-          case "hex":
-            return hexWrite(this, string, offset, length);
-          case "utf8":
-          case "utf-8":
-            return utf8Write(this, string, offset, length);
-          case "ascii":
-          case "latin1":
-          case "binary":
-            return asciiWrite(this, string, offset, length);
-          case "base64":
-            return base64Write(this, string, offset, length);
-          case "ucs2":
-          case "ucs-2":
-          case "utf16le":
-          case "utf-16le":
-            return ucs2Write(this, string, offset, length);
-          default:
-            if (loweredCase) throw new TypeError("Unknown encoding: " + encoding);
-            encoding = ("" + encoding).toLowerCase();
-            loweredCase = true;
-        }
-      }
-    };
-    Buffer4.prototype.toJSON = function toJSON() {
-      return {
-        type: "Buffer",
-        data: Array.prototype.slice.call(this._arr || this, 0)
-      };
-    };
-    function base64Slice(buf2, start, end) {
-      if (start === 0 && end === buf2.length) {
-        return base64.fromByteArray(buf2);
-      } else {
-        return base64.fromByteArray(buf2.slice(start, end));
-      }
-    }
-    function utf8Slice(buf2, start, end) {
-      end = Math.min(buf2.length, end);
-      const res = [];
-      let i = start;
-      while (i < end) {
-        const firstByte = buf2[i];
-        let codePoint = null;
-        let bytesPerSequence = firstByte > 239 ? 4 : firstByte > 223 ? 3 : firstByte > 191 ? 2 : 1;
-        if (i + bytesPerSequence <= end) {
-          let secondByte, thirdByte, fourthByte, tempCodePoint;
-          switch (bytesPerSequence) {
-            case 1:
-              if (firstByte < 128) {
-                codePoint = firstByte;
-              }
-              break;
-            case 2:
-              secondByte = buf2[i + 1];
-              if ((secondByte & 192) === 128) {
-                tempCodePoint = (firstByte & 31) << 6 | secondByte & 63;
-                if (tempCodePoint > 127) {
-                  codePoint = tempCodePoint;
-                }
-              }
-              break;
-            case 3:
-              secondByte = buf2[i + 1];
-              thirdByte = buf2[i + 2];
-              if ((secondByte & 192) === 128 && (thirdByte & 192) === 128) {
-                tempCodePoint = (firstByte & 15) << 12 | (secondByte & 63) << 6 | thirdByte & 63;
-                if (tempCodePoint > 2047 && (tempCodePoint < 55296 || tempCodePoint > 57343)) {
-                  codePoint = tempCodePoint;
-                }
-              }
-              break;
-            case 4:
-              secondByte = buf2[i + 1];
-              thirdByte = buf2[i + 2];
-              fourthByte = buf2[i + 3];
-              if ((secondByte & 192) === 128 && (thirdByte & 192) === 128 && (fourthByte & 192) === 128) {
-                tempCodePoint = (firstByte & 15) << 18 | (secondByte & 63) << 12 | (thirdByte & 63) << 6 | fourthByte & 63;
-                if (tempCodePoint > 65535 && tempCodePoint < 1114112) {
-                  codePoint = tempCodePoint;
-                }
-              }
-          }
-        }
-        if (codePoint === null) {
-          codePoint = 65533;
-          bytesPerSequence = 1;
-        } else if (codePoint > 65535) {
-          codePoint -= 65536;
-          res.push(codePoint >>> 10 & 1023 | 55296);
-          codePoint = 56320 | codePoint & 1023;
-        }
-        res.push(codePoint);
-        i += bytesPerSequence;
-      }
-      return decodeCodePointsArray(res);
-    }
-    var MAX_ARGUMENTS_LENGTH = 4096;
-    function decodeCodePointsArray(codePoints) {
-      const len = codePoints.length;
-      if (len <= MAX_ARGUMENTS_LENGTH) {
-        return String.fromCharCode.apply(String, codePoints);
-      }
-      let res = "";
-      let i = 0;
-      while (i < len) {
-        res += String.fromCharCode.apply(
-          String,
-          codePoints.slice(i, i += MAX_ARGUMENTS_LENGTH)
-        );
-      }
-      return res;
-    }
-    function asciiSlice(buf2, start, end) {
-      let ret = "";
-      end = Math.min(buf2.length, end);
-      for (let i = start; i < end; ++i) {
-        ret += String.fromCharCode(buf2[i] & 127);
-      }
-      return ret;
-    }
-    function latin1Slice(buf2, start, end) {
-      let ret = "";
-      end = Math.min(buf2.length, end);
-      for (let i = start; i < end; ++i) {
-        ret += String.fromCharCode(buf2[i]);
-      }
-      return ret;
-    }
-    function hexSlice(buf2, start, end) {
-      const len = buf2.length;
-      if (!start || start < 0) start = 0;
-      if (!end || end < 0 || end > len) end = len;
-      let out = "";
-      for (let i = start; i < end; ++i) {
-        out += hexSliceLookupTable[buf2[i]];
-      }
-      return out;
-    }
-    function utf16leSlice(buf2, start, end) {
-      const bytes = buf2.slice(start, end);
-      let res = "";
-      for (let i = 0; i < bytes.length - 1; i += 2) {
-        res += String.fromCharCode(bytes[i] + bytes[i + 1] * 256);
-      }
-      return res;
-    }
-    Buffer4.prototype.slice = function slice(start, end) {
-      const len = this.length;
-      start = ~~start;
-      end = end === void 0 ? len : ~~end;
-      if (start < 0) {
-        start += len;
-        if (start < 0) start = 0;
-      } else if (start > len) {
-        start = len;
-      }
-      if (end < 0) {
-        end += len;
-        if (end < 0) end = 0;
-      } else if (end > len) {
-        end = len;
-      }
-      if (end < start) end = start;
-      const newBuf = this.subarray(start, end);
-      Object.setPrototypeOf(newBuf, Buffer4.prototype);
-      return newBuf;
-    };
-    function checkOffset(offset, ext, length) {
-      if (offset % 1 !== 0 || offset < 0) throw new RangeError("offset is not uint");
-      if (offset + ext > length) throw new RangeError("Trying to access beyond buffer length");
-    }
-    Buffer4.prototype.readUintLE = Buffer4.prototype.readUIntLE = function readUIntLE(offset, byteLength2, noAssert) {
-      offset = offset >>> 0;
-      byteLength2 = byteLength2 >>> 0;
-      if (!noAssert) checkOffset(offset, byteLength2, this.length);
-      let val = this[offset];
-      let mul = 1;
-      let i = 0;
-      while (++i < byteLength2 && (mul *= 256)) {
-        val += this[offset + i] * mul;
-      }
-      return val;
-    };
-    Buffer4.prototype.readUintBE = Buffer4.prototype.readUIntBE = function readUIntBE(offset, byteLength2, noAssert) {
-      offset = offset >>> 0;
-      byteLength2 = byteLength2 >>> 0;
-      if (!noAssert) {
-        checkOffset(offset, byteLength2, this.length);
-      }
-      let val = this[offset + --byteLength2];
-      let mul = 1;
-      while (byteLength2 > 0 && (mul *= 256)) {
-        val += this[offset + --byteLength2] * mul;
-      }
-      return val;
-    };
-    Buffer4.prototype.readUint8 = Buffer4.prototype.readUInt8 = function readUInt8(offset, noAssert) {
-      offset = offset >>> 0;
-      if (!noAssert) checkOffset(offset, 1, this.length);
-      return this[offset];
-    };
-    Buffer4.prototype.readUint16LE = Buffer4.prototype.readUInt16LE = function readUInt16LE(offset, noAssert) {
-      offset = offset >>> 0;
-      if (!noAssert) checkOffset(offset, 2, this.length);
-      return this[offset] | this[offset + 1] << 8;
-    };
-    Buffer4.prototype.readUint16BE = Buffer4.prototype.readUInt16BE = function readUInt16BE(offset, noAssert) {
-      offset = offset >>> 0;
-      if (!noAssert) checkOffset(offset, 2, this.length);
-      return this[offset] << 8 | this[offset + 1];
-    };
-    Buffer4.prototype.readUint32LE = Buffer4.prototype.readUInt32LE = function readUInt32LE(offset, noAssert) {
-      offset = offset >>> 0;
-      if (!noAssert) checkOffset(offset, 4, this.length);
-      return (this[offset] | this[offset + 1] << 8 | this[offset + 2] << 16) + this[offset + 3] * 16777216;
-    };
-    Buffer4.prototype.readUint32BE = Buffer4.prototype.readUInt32BE = function readUInt32BE(offset, noAssert) {
-      offset = offset >>> 0;
-      if (!noAssert) checkOffset(offset, 4, this.length);
-      return this[offset] * 16777216 + (this[offset + 1] << 16 | this[offset + 2] << 8 | this[offset + 3]);
-    };
-    Buffer4.prototype.readBigUInt64LE = defineBigIntMethod(function readBigUInt64LE(offset) {
-      offset = offset >>> 0;
-      validateNumber(offset, "offset");
-      const first3 = this[offset];
-      const last = this[offset + 7];
-      if (first3 === void 0 || last === void 0) {
-        boundsError(offset, this.length - 8);
-      }
-      const lo = first3 + this[++offset] * 2 ** 8 + this[++offset] * 2 ** 16 + this[++offset] * 2 ** 24;
-      const hi = this[++offset] + this[++offset] * 2 ** 8 + this[++offset] * 2 ** 16 + last * 2 ** 24;
-      return BigInt(lo) + (BigInt(hi) << BigInt(32));
-    });
-    Buffer4.prototype.readBigUInt64BE = defineBigIntMethod(function readBigUInt64BE(offset) {
-      offset = offset >>> 0;
-      validateNumber(offset, "offset");
-      const first3 = this[offset];
-      const last = this[offset + 7];
-      if (first3 === void 0 || last === void 0) {
-        boundsError(offset, this.length - 8);
-      }
-      const hi = first3 * 2 ** 24 + this[++offset] * 2 ** 16 + this[++offset] * 2 ** 8 + this[++offset];
-      const lo = this[++offset] * 2 ** 24 + this[++offset] * 2 ** 16 + this[++offset] * 2 ** 8 + last;
-      return (BigInt(hi) << BigInt(32)) + BigInt(lo);
-    });
-    Buffer4.prototype.readIntLE = function readIntLE(offset, byteLength2, noAssert) {
-      offset = offset >>> 0;
-      byteLength2 = byteLength2 >>> 0;
-      if (!noAssert) checkOffset(offset, byteLength2, this.length);
-      let val = this[offset];
-      let mul = 1;
-      let i = 0;
-      while (++i < byteLength2 && (mul *= 256)) {
-        val += this[offset + i] * mul;
-      }
-      mul *= 128;
-      if (val >= mul) val -= Math.pow(2, 8 * byteLength2);
-      return val;
-    };
-    Buffer4.prototype.readIntBE = function readIntBE(offset, byteLength2, noAssert) {
-      offset = offset >>> 0;
-      byteLength2 = byteLength2 >>> 0;
-      if (!noAssert) checkOffset(offset, byteLength2, this.length);
-      let i = byteLength2;
-      let mul = 1;
-      let val = this[offset + --i];
-      while (i > 0 && (mul *= 256)) {
-        val += this[offset + --i] * mul;
-      }
-      mul *= 128;
-      if (val >= mul) val -= Math.pow(2, 8 * byteLength2);
-      return val;
-    };
-    Buffer4.prototype.readInt8 = function readInt8(offset, noAssert) {
-      offset = offset >>> 0;
-      if (!noAssert) checkOffset(offset, 1, this.length);
-      if (!(this[offset] & 128)) return this[offset];
-      return (255 - this[offset] + 1) * -1;
-    };
-    Buffer4.prototype.readInt16LE = function readInt16LE(offset, noAssert) {
-      offset = offset >>> 0;
-      if (!noAssert) checkOffset(offset, 2, this.length);
-      const val = this[offset] | this[offset + 1] << 8;
-      return val & 32768 ? val | 4294901760 : val;
-    };
-    Buffer4.prototype.readInt16BE = function readInt16BE(offset, noAssert) {
-      offset = offset >>> 0;
-      if (!noAssert) checkOffset(offset, 2, this.length);
-      const val = this[offset + 1] | this[offset] << 8;
-      return val & 32768 ? val | 4294901760 : val;
-    };
-    Buffer4.prototype.readInt32LE = function readInt32LE(offset, noAssert) {
-      offset = offset >>> 0;
-      if (!noAssert) checkOffset(offset, 4, this.length);
-      return this[offset] | this[offset + 1] << 8 | this[offset + 2] << 16 | this[offset + 3] << 24;
-    };
-    Buffer4.prototype.readInt32BE = function readInt32BE(offset, noAssert) {
-      offset = offset >>> 0;
-      if (!noAssert) checkOffset(offset, 4, this.length);
-      return this[offset] << 24 | this[offset + 1] << 16 | this[offset + 2] << 8 | this[offset + 3];
-    };
-    Buffer4.prototype.readBigInt64LE = defineBigIntMethod(function readBigInt64LE(offset) {
-      offset = offset >>> 0;
-      validateNumber(offset, "offset");
-      const first3 = this[offset];
-      const last = this[offset + 7];
-      if (first3 === void 0 || last === void 0) {
-        boundsError(offset, this.length - 8);
-      }
-      const val = this[offset + 4] + this[offset + 5] * 2 ** 8 + this[offset + 6] * 2 ** 16 + (last << 24);
-      return (BigInt(val) << BigInt(32)) + BigInt(first3 + this[++offset] * 2 ** 8 + this[++offset] * 2 ** 16 + this[++offset] * 2 ** 24);
-    });
-    Buffer4.prototype.readBigInt64BE = defineBigIntMethod(function readBigInt64BE(offset) {
-      offset = offset >>> 0;
-      validateNumber(offset, "offset");
-      const first3 = this[offset];
-      const last = this[offset + 7];
-      if (first3 === void 0 || last === void 0) {
-        boundsError(offset, this.length - 8);
-      }
-      const val = (first3 << 24) + // Overflow
-      this[++offset] * 2 ** 16 + this[++offset] * 2 ** 8 + this[++offset];
-      return (BigInt(val) << BigInt(32)) + BigInt(this[++offset] * 2 ** 24 + this[++offset] * 2 ** 16 + this[++offset] * 2 ** 8 + last);
-    });
-    Buffer4.prototype.readFloatLE = function readFloatLE(offset, noAssert) {
-      offset = offset >>> 0;
-      if (!noAssert) checkOffset(offset, 4, this.length);
-      return ieee754.read(this, offset, true, 23, 4);
-    };
-    Buffer4.prototype.readFloatBE = function readFloatBE(offset, noAssert) {
-      offset = offset >>> 0;
-      if (!noAssert) checkOffset(offset, 4, this.length);
-      return ieee754.read(this, offset, false, 23, 4);
-    };
-    Buffer4.prototype.readDoubleLE = function readDoubleLE(offset, noAssert) {
-      offset = offset >>> 0;
-      if (!noAssert) checkOffset(offset, 8, this.length);
-      return ieee754.read(this, offset, true, 52, 8);
-    };
-    Buffer4.prototype.readDoubleBE = function readDoubleBE(offset, noAssert) {
-      offset = offset >>> 0;
-      if (!noAssert) checkOffset(offset, 8, this.length);
-      return ieee754.read(this, offset, false, 52, 8);
-    };
-    function checkInt(buf2, value, offset, ext, max, min) {
-      if (!Buffer4.isBuffer(buf2)) throw new TypeError('"buffer" argument must be a Buffer instance');
-      if (value > max || value < min) throw new RangeError('"value" argument is out of bounds');
-      if (offset + ext > buf2.length) throw new RangeError("Index out of range");
-    }
-    Buffer4.prototype.writeUintLE = Buffer4.prototype.writeUIntLE = function writeUIntLE(value, offset, byteLength2, noAssert) {
-      value = +value;
-      offset = offset >>> 0;
-      byteLength2 = byteLength2 >>> 0;
-      if (!noAssert) {
-        const maxBytes = Math.pow(2, 8 * byteLength2) - 1;
-        checkInt(this, value, offset, byteLength2, maxBytes, 0);
-      }
-      let mul = 1;
-      let i = 0;
-      this[offset] = value & 255;
-      while (++i < byteLength2 && (mul *= 256)) {
-        this[offset + i] = value / mul & 255;
-      }
-      return offset + byteLength2;
-    };
-    Buffer4.prototype.writeUintBE = Buffer4.prototype.writeUIntBE = function writeUIntBE(value, offset, byteLength2, noAssert) {
-      value = +value;
-      offset = offset >>> 0;
-      byteLength2 = byteLength2 >>> 0;
-      if (!noAssert) {
-        const maxBytes = Math.pow(2, 8 * byteLength2) - 1;
-        checkInt(this, value, offset, byteLength2, maxBytes, 0);
-      }
-      let i = byteLength2 - 1;
-      let mul = 1;
-      this[offset + i] = value & 255;
-      while (--i >= 0 && (mul *= 256)) {
-        this[offset + i] = value / mul & 255;
-      }
-      return offset + byteLength2;
-    };
-    Buffer4.prototype.writeUint8 = Buffer4.prototype.writeUInt8 = function writeUInt8(value, offset, noAssert) {
-      value = +value;
-      offset = offset >>> 0;
-      if (!noAssert) checkInt(this, value, offset, 1, 255, 0);
-      this[offset] = value & 255;
-      return offset + 1;
-    };
-    Buffer4.prototype.writeUint16LE = Buffer4.prototype.writeUInt16LE = function writeUInt16LE(value, offset, noAssert) {
-      value = +value;
-      offset = offset >>> 0;
-      if (!noAssert) checkInt(this, value, offset, 2, 65535, 0);
-      this[offset] = value & 255;
-      this[offset + 1] = value >>> 8;
-      return offset + 2;
-    };
-    Buffer4.prototype.writeUint16BE = Buffer4.prototype.writeUInt16BE = function writeUInt16BE(value, offset, noAssert) {
-      value = +value;
-      offset = offset >>> 0;
-      if (!noAssert) checkInt(this, value, offset, 2, 65535, 0);
-      this[offset] = value >>> 8;
-      this[offset + 1] = value & 255;
-      return offset + 2;
-    };
-    Buffer4.prototype.writeUint32LE = Buffer4.prototype.writeUInt32LE = function writeUInt32LE(value, offset, noAssert) {
-      value = +value;
-      offset = offset >>> 0;
-      if (!noAssert) checkInt(this, value, offset, 4, 4294967295, 0);
-      this[offset + 3] = value >>> 24;
-      this[offset + 2] = value >>> 16;
-      this[offset + 1] = value >>> 8;
-      this[offset] = value & 255;
-      return offset + 4;
-    };
-    Buffer4.prototype.writeUint32BE = Buffer4.prototype.writeUInt32BE = function writeUInt32BE(value, offset, noAssert) {
-      value = +value;
-      offset = offset >>> 0;
-      if (!noAssert) checkInt(this, value, offset, 4, 4294967295, 0);
-      this[offset] = value >>> 24;
-      this[offset + 1] = value >>> 16;
-      this[offset + 2] = value >>> 8;
-      this[offset + 3] = value & 255;
-      return offset + 4;
-    };
-    function wrtBigUInt64LE(buf2, value, offset, min, max) {
-      checkIntBI(value, min, max, buf2, offset, 7);
-      let lo = Number(value & BigInt(4294967295));
-      buf2[offset++] = lo;
-      lo = lo >> 8;
-      buf2[offset++] = lo;
-      lo = lo >> 8;
-      buf2[offset++] = lo;
-      lo = lo >> 8;
-      buf2[offset++] = lo;
-      let hi = Number(value >> BigInt(32) & BigInt(4294967295));
-      buf2[offset++] = hi;
-      hi = hi >> 8;
-      buf2[offset++] = hi;
-      hi = hi >> 8;
-      buf2[offset++] = hi;
-      hi = hi >> 8;
-      buf2[offset++] = hi;
-      return offset;
-    }
-    function wrtBigUInt64BE(buf2, value, offset, min, max) {
-      checkIntBI(value, min, max, buf2, offset, 7);
-      let lo = Number(value & BigInt(4294967295));
-      buf2[offset + 7] = lo;
-      lo = lo >> 8;
-      buf2[offset + 6] = lo;
-      lo = lo >> 8;
-      buf2[offset + 5] = lo;
-      lo = lo >> 8;
-      buf2[offset + 4] = lo;
-      let hi = Number(value >> BigInt(32) & BigInt(4294967295));
-      buf2[offset + 3] = hi;
-      hi = hi >> 8;
-      buf2[offset + 2] = hi;
-      hi = hi >> 8;
-      buf2[offset + 1] = hi;
-      hi = hi >> 8;
-      buf2[offset] = hi;
-      return offset + 8;
-    }
-    Buffer4.prototype.writeBigUInt64LE = defineBigIntMethod(function writeBigUInt64LE(value, offset = 0) {
-      return wrtBigUInt64LE(this, value, offset, BigInt(0), BigInt("0xffffffffffffffff"));
-    });
-    Buffer4.prototype.writeBigUInt64BE = defineBigIntMethod(function writeBigUInt64BE(value, offset = 0) {
-      return wrtBigUInt64BE(this, value, offset, BigInt(0), BigInt("0xffffffffffffffff"));
-    });
-    Buffer4.prototype.writeIntLE = function writeIntLE(value, offset, byteLength2, noAssert) {
-      value = +value;
-      offset = offset >>> 0;
-      if (!noAssert) {
-        const limit = Math.pow(2, 8 * byteLength2 - 1);
-        checkInt(this, value, offset, byteLength2, limit - 1, -limit);
-      }
-      let i = 0;
-      let mul = 1;
-      let sub = 0;
-      this[offset] = value & 255;
-      while (++i < byteLength2 && (mul *= 256)) {
-        if (value < 0 && sub === 0 && this[offset + i - 1] !== 0) {
-          sub = 1;
-        }
-        this[offset + i] = (value / mul >> 0) - sub & 255;
-      }
-      return offset + byteLength2;
-    };
-    Buffer4.prototype.writeIntBE = function writeIntBE(value, offset, byteLength2, noAssert) {
-      value = +value;
-      offset = offset >>> 0;
-      if (!noAssert) {
-        const limit = Math.pow(2, 8 * byteLength2 - 1);
-        checkInt(this, value, offset, byteLength2, limit - 1, -limit);
-      }
-      let i = byteLength2 - 1;
-      let mul = 1;
-      let sub = 0;
-      this[offset + i] = value & 255;
-      while (--i >= 0 && (mul *= 256)) {
-        if (value < 0 && sub === 0 && this[offset + i + 1] !== 0) {
-          sub = 1;
-        }
-        this[offset + i] = (value / mul >> 0) - sub & 255;
-      }
-      return offset + byteLength2;
-    };
-    Buffer4.prototype.writeInt8 = function writeInt8(value, offset, noAssert) {
-      value = +value;
-      offset = offset >>> 0;
-      if (!noAssert) checkInt(this, value, offset, 1, 127, -128);
-      if (value < 0) value = 255 + value + 1;
-      this[offset] = value & 255;
-      return offset + 1;
-    };
-    Buffer4.prototype.writeInt16LE = function writeInt16LE(value, offset, noAssert) {
-      value = +value;
-      offset = offset >>> 0;
-      if (!noAssert) checkInt(this, value, offset, 2, 32767, -32768);
-      this[offset] = value & 255;
-      this[offset + 1] = value >>> 8;
-      return offset + 2;
-    };
-    Buffer4.prototype.writeInt16BE = function writeInt16BE(value, offset, noAssert) {
-      value = +value;
-      offset = offset >>> 0;
-      if (!noAssert) checkInt(this, value, offset, 2, 32767, -32768);
-      this[offset] = value >>> 8;
-      this[offset + 1] = value & 255;
-      return offset + 2;
-    };
-    Buffer4.prototype.writeInt32LE = function writeInt32LE(value, offset, noAssert) {
-      value = +value;
-      offset = offset >>> 0;
-      if (!noAssert) checkInt(this, value, offset, 4, 2147483647, -2147483648);
-      this[offset] = value & 255;
-      this[offset + 1] = value >>> 8;
-      this[offset + 2] = value >>> 16;
-      this[offset + 3] = value >>> 24;
-      return offset + 4;
-    };
-    Buffer4.prototype.writeInt32BE = function writeInt32BE(value, offset, noAssert) {
-      value = +value;
-      offset = offset >>> 0;
-      if (!noAssert) checkInt(this, value, offset, 4, 2147483647, -2147483648);
-      if (value < 0) value = 4294967295 + value + 1;
-      this[offset] = value >>> 24;
-      this[offset + 1] = value >>> 16;
-      this[offset + 2] = value >>> 8;
-      this[offset + 3] = value & 255;
-      return offset + 4;
-    };
-    Buffer4.prototype.writeBigInt64LE = defineBigIntMethod(function writeBigInt64LE(value, offset = 0) {
-      return wrtBigUInt64LE(this, value, offset, -BigInt("0x8000000000000000"), BigInt("0x7fffffffffffffff"));
-    });
-    Buffer4.prototype.writeBigInt64BE = defineBigIntMethod(function writeBigInt64BE(value, offset = 0) {
-      return wrtBigUInt64BE(this, value, offset, -BigInt("0x8000000000000000"), BigInt("0x7fffffffffffffff"));
-    });
-    function checkIEEE754(buf2, value, offset, ext, max, min) {
-      if (offset + ext > buf2.length) throw new RangeError("Index out of range");
-      if (offset < 0) throw new RangeError("Index out of range");
-    }
-    function writeFloat(buf2, value, offset, littleEndian, noAssert) {
-      value = +value;
-      offset = offset >>> 0;
-      if (!noAssert) {
-        checkIEEE754(buf2, value, offset, 4, 34028234663852886e22, -34028234663852886e22);
-      }
-      ieee754.write(buf2, value, offset, littleEndian, 23, 4);
-      return offset + 4;
-    }
-    Buffer4.prototype.writeFloatLE = function writeFloatLE(value, offset, noAssert) {
-      return writeFloat(this, value, offset, true, noAssert);
-    };
-    Buffer4.prototype.writeFloatBE = function writeFloatBE(value, offset, noAssert) {
-      return writeFloat(this, value, offset, false, noAssert);
-    };
-    function writeDouble(buf2, value, offset, littleEndian, noAssert) {
-      value = +value;
-      offset = offset >>> 0;
-      if (!noAssert) {
-        checkIEEE754(buf2, value, offset, 8, 17976931348623157e292, -17976931348623157e292);
-      }
-      ieee754.write(buf2, value, offset, littleEndian, 52, 8);
-      return offset + 8;
-    }
-    Buffer4.prototype.writeDoubleLE = function writeDoubleLE(value, offset, noAssert) {
-      return writeDouble(this, value, offset, true, noAssert);
-    };
-    Buffer4.prototype.writeDoubleBE = function writeDoubleBE(value, offset, noAssert) {
-      return writeDouble(this, value, offset, false, noAssert);
-    };
-    Buffer4.prototype.copy = function copy(target, targetStart, start, end) {
-      if (!Buffer4.isBuffer(target)) throw new TypeError("argument should be a Buffer");
-      if (!start) start = 0;
-      if (!end && end !== 0) end = this.length;
-      if (targetStart >= target.length) targetStart = target.length;
-      if (!targetStart) targetStart = 0;
-      if (end > 0 && end < start) end = start;
-      if (end === start) return 0;
-      if (target.length === 0 || this.length === 0) return 0;
-      if (targetStart < 0) {
-        throw new RangeError("targetStart out of bounds");
-      }
-      if (start < 0 || start >= this.length) throw new RangeError("Index out of range");
-      if (end < 0) throw new RangeError("sourceEnd out of bounds");
-      if (end > this.length) end = this.length;
-      if (target.length - targetStart < end - start) {
-        end = target.length - targetStart + start;
-      }
-      const len = end - start;
-      if (this === target && typeof Uint8Array.prototype.copyWithin === "function") {
-        this.copyWithin(targetStart, start, end);
-      } else {
-        Uint8Array.prototype.set.call(
-          target,
-          this.subarray(start, end),
-          targetStart
-        );
-      }
-      return len;
-    };
-    Buffer4.prototype.fill = function fill(val, start, end, encoding) {
-      if (typeof val === "string") {
-        if (typeof start === "string") {
-          encoding = start;
-          start = 0;
-          end = this.length;
-        } else if (typeof end === "string") {
-          encoding = end;
-          end = this.length;
-        }
-        if (encoding !== void 0 && typeof encoding !== "string") {
-          throw new TypeError("encoding must be a string");
-        }
-        if (typeof encoding === "string" && !Buffer4.isEncoding(encoding)) {
-          throw new TypeError("Unknown encoding: " + encoding);
-        }
-        if (val.length === 1) {
-          const code = val.charCodeAt(0);
-          if (encoding === "utf8" && code < 128 || encoding === "latin1") {
-            val = code;
-          }
-        }
-      } else if (typeof val === "number") {
-        val = val & 255;
-      } else if (typeof val === "boolean") {
-        val = Number(val);
-      }
-      if (start < 0 || this.length < start || this.length < end) {
-        throw new RangeError("Out of range index");
-      }
-      if (end <= start) {
-        return this;
-      }
-      start = start >>> 0;
-      end = end === void 0 ? this.length : end >>> 0;
-      if (!val) val = 0;
-      let i;
-      if (typeof val === "number") {
-        for (i = start; i < end; ++i) {
-          this[i] = val;
-        }
-      } else {
-        const bytes = Buffer4.isBuffer(val) ? val : Buffer4.from(val, encoding);
+        const bytes = Buffer3.isBuffer(val) ? val : Buffer3.from(val, encoding);
         const len = bytes.length;
         if (len === 0) {
           throw new TypeError('The value "' + val + '" is invalid for argument "value"');
@@ -3653,16 +1877,16 @@ function bindMethod(target, receiver, value) {
   return value.bind(receiver);
 }
 function collectRemovedArrayValues(target, nextLength) {
-  const values3 = /* @__PURE__ */ new Map();
+  const values2 = /* @__PURE__ */ new Map();
   if (!Array.isArray(target) || nextLength >= target.length) {
-    return values3;
+    return values2;
   }
   for (let index = nextLength; index < target.length; index++) {
     if (Object.hasOwn(target, index)) {
-      values3.set(index, target[index]);
+      values2.set(index, target[index]);
     }
   }
-  return values3;
+  return values2;
 }
 function addArrayLengthChanges(context, target, oldLength, removedValues = /* @__PURE__ */ new Map()) {
   if (!Array.isArray(target) || oldLength === target.length) {
@@ -4882,11 +3106,11 @@ function checkboxIsChecked(el, value) {
 function checkboxEditValue(el, currentValue) {
   if (Array.isArray(currentValue)) {
     const value = el.value;
-    const values3 = currentValue.filter((item) => !matchValue(item, value));
+    const values2 = currentValue.filter((item) => !matchValue(item, value));
     if (el.checked) {
-      values3.push(value);
+      values2.push(value);
     }
-    return values3;
+    return values2;
   }
   if (typeof currentValue === "boolean") {
     return el.checked;
@@ -6641,13 +4865,13 @@ var defaultHandlers = [
         return configuredValue.value;
       }
       if (el.tagName === "SELECT" && el.multiple) {
-        let values3 = [];
+        let values2 = [];
         for (let option of el.options) {
           if (option.selected) {
-            values3.push(option.value);
+            values2.push(option.value);
           }
         }
-        return values3;
+        return values2;
       }
       return el.value;
     },
@@ -7451,14 +5675,14 @@ function mergeComponents(options, components) {
 }
 
 // ../simplyflow/packages/app/src/highlight.mjs
-function html(strings, ...values3) {
-  const outputArray = values3.map(
+function html(strings, ...values2) {
+  const outputArray = values2.map(
     (value, index) => `${strings[index]}${value}`
   );
   return outputArray.join("") + strings[strings.length - 1];
 }
-function css(strings, ...values3) {
-  return html(strings, ...values3);
+function css(strings, ...values2) {
+  return html(strings, ...values2);
 }
 
 // ../simplyflow/packages/simplyflow/src/index.mjs
@@ -7504,7 +5728,7 @@ Object.assign(globalThis.simply, {
 delete globalThis.simply.advanced;
 var src_default = globalThis.simply;
 
-// ../solid-tools/node_modules/@muze-nl/oldm-core/src/oldm.mjs
+// ../../muze-nl/oldm/packages/oldm-core/src/oldm.mjs
 var oldm_exports = {};
 __export(oldm_exports, {
   BlankNode: () => BlankNode,
@@ -7517,7 +5741,8 @@ __export(oldm_exports, {
   many: () => many,
   one: () => one,
   prefixes: () => prefixes,
-  rdfType: () => rdfType
+  rdfType: () => rdfType,
+  subjects: () => subjects
 });
 function oldm(options) {
   return new Context(options);
@@ -7543,32 +5768,62 @@ var prefixes = {
   vcard: "http://www.w3.org/2006/vcard/ns#",
   xsd: "http://www.w3.org/2001/XMLSchema#"
 };
-function one(values3, whichOne = "last") {
-  let result = values3;
-  if (Array.isArray(values3)) {
+function one(values2, whichOne = "last") {
+  let result = values2;
+  if (Array.isArray(values2)) {
     if (whichOne == "last") {
-      result = values3[values3.length - 1];
+      result = values2[values2.length - 1];
     } else if (whichOne == "first") {
-      result = values3[0];
+      result = values2[0];
     } else if (typeof whichOne == "function") {
-      result = whichOne(values3);
+      result = whichOne(values2);
     } else {
       throw new Error("Unknown value for whichOne parameter");
     }
   }
   return result;
 }
-function many(values3) {
-  if (Array.isArray(values3)) {
-    return values3;
+function many(values2) {
+  if (Array.isArray(values2)) {
+    return values2;
   }
-  if (values3 == null) {
+  if (values2 == null) {
     return [];
   }
-  return [values3];
+  return [values2];
 }
-function first(...values3) {
-  for (const value of values3) {
+function subjects(value) {
+  if (!value) {
+    return [];
+  }
+  if (Array.isArray(value)) {
+    return value.filter(isSubject);
+  }
+  if (typeof value.id == "string") {
+    return [value];
+  }
+  if (Array.isArray(value.data)) {
+    return value.data.filter(isSubject);
+  }
+  if (Array.isArray(value.subjects)) {
+    return value.subjects.filter(isSubject);
+  }
+  if (value.subjects && typeof value.subjects == "object") {
+    return Object.values(value.subjects).filter(isSubject);
+  }
+  if (isSubject(value.primary)) {
+    return [value.primary];
+  }
+  if (isSubject(value)) {
+    return [value];
+  }
+  return [];
+}
+function isSubject(value) {
+  return Boolean(value && typeof value == "object" && !Array.isArray(value));
+}
+function first(...values2) {
+  for (const value of values2) {
     if (value !== null && value !== void 0) {
       return value;
     }
@@ -7645,19 +5900,19 @@ function sameSourceValue(left, right) {
   }
   return false;
 }
-function resolveValue(value, subjects, context) {
+function resolveValue(value, subjects2, context) {
   if (value instanceof Collection) {
     const collection2 = new Collection(context);
     for (const item of value) {
-      collection2.push(resolveValue(item, subjects, context));
+      collection2.push(resolveValue(item, subjects2, context));
     }
     return collection2;
   }
   if (Array.isArray(value)) {
-    return value.map((item) => resolveValue(item, subjects, context));
+    return value.map((item) => resolveValue(item, subjects2, context));
   }
-  if (value instanceof NamedNode && subjects[value.id]) {
-    return subjects[value.id];
+  if (value instanceof NamedNode && subjects2[value.id]) {
+    return subjects2[value.id];
   }
   return value;
 }
@@ -7696,16 +5951,16 @@ var Context = class {
     });
   }
   parse(input2, url3, type) {
-    const { quads, prefixes: prefixes4 } = this.parser(input2, url3, type);
-    if (prefixes4) {
-      for (let prefix in prefixes4) {
-        let prefixURL = prefixes4[prefix];
+    const { quads, prefixes: prefixes3 } = this.parser(input2, url3, type);
+    if (prefixes3) {
+      for (let prefix in prefixes3) {
+        let prefixURL = prefixes3[prefix];
         if (prefixURL.match(/^http(s?):\/\/$/i)) {
           prefixURL += url3.substring(prefixURL.length);
         } else try {
-          prefixURL = new URL(prefixes4[prefix], url3).href;
+          prefixURL = new URL(prefixes3[prefix], url3).href;
         } catch (err) {
-          console.error("Could not parse prefix", prefixes4[prefix], err.message);
+          console.error("Could not parse prefix", prefixes3[prefix], err.message);
         }
         if (!this.prefixes[prefix]) {
           this.prefixes[prefix] = prefixURL;
@@ -7713,7 +5968,7 @@ var Context = class {
         }
       }
     }
-    return this.addGraph(new Graph(quads, url3, type, prefixes4, this, input2));
+    return this.addGraph(new Graph(quads, url3, type, prefixes3, this, input2));
   }
   addGraph(graph2) {
     if (!graph2?.url) {
@@ -7863,27 +6118,27 @@ var Context = class {
     return this.subjects[this.fullURI(shortID)];
   }
   getSubjects() {
-    const subjects = /* @__PURE__ */ Object.create(null);
+    const subjects2 = /* @__PURE__ */ Object.create(null);
     this.#buildingSubjects = true;
     try {
       for (const graph2 of this.graphs) {
         for (const id2 of Object.keys(graph2.subjects)) {
-          if (!subjects[id2]) {
-            subjects[id2] = this.contextSubject(new NamedNode(id2, this));
+          if (!subjects2[id2]) {
+            subjects2[id2] = this.contextSubject(new NamedNode(id2, this));
           }
         }
       }
       for (const graph2 of this.graphs) {
         for (const [id2, subject] of Object.entries(graph2.subjects)) {
-          this.mergeSubject(subjects[id2], subject, subjects);
+          this.mergeSubject(subjects2[id2], subject, subjects2);
         }
       }
     } finally {
       this.#buildingSubjects = false;
     }
-    return subjects;
+    return subjects2;
   }
-  mergeSubject(target, source2, subjects) {
+  mergeSubject(target, source2, subjects2) {
     for (const [predicate, value] of Object.entries(source2)) {
       if (predicate == "id") {
         continue;
@@ -7891,7 +6146,7 @@ var Context = class {
       const contextPredicate = predicate == "a" ? "a" : this.propertyName(source2.graph.fullURI(predicate, null, "source"));
       target[contextPredicate] = mergeValue(
         target[contextPredicate],
-        resolveValue(value, subjects, this)
+        resolveValue(value, subjects2, this)
       );
     }
   }
@@ -7945,64 +6200,64 @@ var Context = class {
     }
     return fullURI;
   }
-  setType(literal3, shortType) {
+  setType(literal2, shortType) {
     if (!shortType) {
-      return literal3;
+      return literal2;
     }
-    if (typeof literal3 == "string") {
-      literal3 = new String(literal3);
-    } else if (typeof literal3 == "number") {
-      literal3 = new Number(literal3);
+    if (typeof literal2 == "string") {
+      literal2 = new String(literal2);
+    } else if (typeof literal2 == "number") {
+      literal2 = new Number(literal2);
     }
-    if (typeof literal3 !== "object") {
-      throw new Error("cannot set type on ", literal3, shortType);
+    if (typeof literal2 !== "object") {
+      throw new Error("cannot set type on ", literal2, shortType);
     }
-    literal3.type = shortType;
-    return literal3;
+    literal2.type = shortType;
+    return literal2;
   }
-  getType(literal3) {
-    if (literal3 && typeof literal3 == "object") {
-      return literal3.type;
+  getType(literal2) {
+    if (literal2 && typeof literal2 == "object") {
+      return literal2.type;
     }
     return null;
   }
 };
 var Graph = class {
   #blankNodes = /* @__PURE__ */ Object.create(null);
-  constructor(quads, url3, mimetype, prefixes4, context, originalSource = null) {
+  constructor(quads, url3, mimetype, prefixes3, context, originalSource = null) {
     this.mimetype = mimetype;
     this.url = url3;
-    this.prefixes = prefixes4;
+    this.prefixes = prefixes3;
     this.context = context;
     this.originalSource = originalSource;
     this.subjects = /* @__PURE__ */ Object.create(null);
-    for (let quad3 of quads) {
+    for (let quad2 of quads) {
       let subject;
-      if (quad3.subject.termType == "BlankNode") {
-        let shortPred = this.shortURI(quad3.predicate.id, ":");
+      if (quad2.subject.termType == "BlankNode") {
+        let shortPred = this.shortURI(quad2.predicate.id, ":");
         let shortObj;
         switch (shortPred) {
           case "rdf:first":
-            subject = this.addCollection(quad3.subject.id);
-            shortObj = quad3.object.id ? this.shortURI(quad3.object.id, ":") : null;
+            subject = this.addCollection(quad2.subject.id);
+            shortObj = quad2.object.id ? this.shortURI(quad2.object.id, ":") : null;
             if (shortObj != "rdf:nil") {
-              const value = this.getValue(quad3.object);
+              const value = this.getValue(quad2.object);
               if (value) {
                 subject.push(value);
               }
             }
             continue;
           case "rdf:rest":
-            this.#blankNodes[quad3.object.id] = this.#blankNodes[quad3.subject.id];
+            this.#blankNodes[quad2.object.id] = this.#blankNodes[quad2.subject.id];
             continue;
           default:
-            subject = this.addBlankNode(quad3.subject.id);
+            subject = this.addBlankNode(quad2.subject.id);
             break;
         }
       } else {
-        subject = this.addNamedNode(quad3.subject.id);
+        subject = this.addNamedNode(quad2.subject.id);
       }
-      subject.addPredicate(quad3.predicate.id, quad3.object);
+      subject.addPredicate(quad2.predicate.id, quad2.object);
     }
     if (this.subjects[url3]) {
       this.primary = this.subjects[url3];
@@ -8054,20 +6309,20 @@ var Graph = class {
     const entries = [];
     const seen = /* @__PURE__ */ new Set();
     const seenIRIs = /* @__PURE__ */ new Set();
-    const add2 = (prefixes4, order, skipKnownIRIs = false) => {
+    const add2 = (prefixes3, order, skipKnownIRIs = false) => {
       for (const prefix of order) {
-        if (!Object.prototype.hasOwnProperty.call(prefixes4, prefix)) {
+        if (!Object.prototype.hasOwnProperty.call(prefixes3, prefix)) {
           continue;
         }
-        const iri = prefixes4[prefix];
+        const iri = prefixes3[prefix];
         if (!seen.has(prefix) && (!skipKnownIRIs || !seenIRIs.has(iri))) {
           entries.push([prefix, iri]);
           seen.add(prefix);
           seenIRIs.add(iri);
         }
       }
-      for (const prefix of Object.keys(prefixes4)) {
-        const iri = prefixes4[prefix];
+      for (const prefix of Object.keys(prefixes3)) {
+        const iri = prefixes3[prefix];
         if (!seen.has(prefix) && (!skipKnownIRIs || !seenIRIs.has(iri))) {
           entries.push([prefix, iri]);
           seen.add(prefix);
@@ -8254,27 +6509,27 @@ var Graph = class {
   /**
    * This sets the type of a literal, usually one of the xsd types
    */
-  setType(literal3, type) {
+  setType(literal2, type) {
     const shortType = this.shortURI(type);
-    return this.context.setType(literal3, shortType);
+    return this.context.setType(literal2, shortType);
   }
   /**
    * This returns the type of a literal, or null
    */
-  getType(literal3) {
-    return this.context.getType(literal3);
+  getType(literal2) {
+    return this.context.getType(literal2);
   }
-  setLanguage(literal3, language) {
-    if (typeof literal3 == "string") {
-      literal3 = new String(literal3);
-    } else if (typeof literal3 == "number") {
-      literal3 = new Number(literal3);
+  setLanguage(literal2, language) {
+    if (typeof literal2 == "string") {
+      literal2 = new String(literal2);
+    } else if (typeof literal2 == "number") {
+      literal2 = new Number(literal2);
     }
-    if (typeof literal3 !== "object") {
-      throw new Error("cannot set language on ", literal3);
+    if (typeof literal2 !== "object") {
+      throw new Error("cannot set language on ", literal2);
     }
-    literal3.language = language;
-    return literal3;
+    literal2.language = language;
+    return literal2;
   }
   getValue(object) {
     let result;
@@ -8360,7 +6615,7 @@ var Collection = class extends Array {
   }
 };
 
-// ../solid-tools/node_modules/@muze-nl/oldm-n3/src/oldm-n3.mjs
+// ../../muze-nl/oldm/packages/oldm-n3/src/oldm-n3.mjs
 var oldm_n3_exports = {};
 __export(oldm_n3_exports, {
   n3Parser: () => n3Parser,
@@ -8368,10 +6623,10 @@ __export(oldm_n3_exports, {
   n3Writer: () => n3Writer
 });
 
-// ../solid-tools/node_modules/n3/src/N3Lexer.js
+// ../../muze-nl/oldm/node_modules/n3/src/N3Lexer.js
 var import_buffer = __toESM(require_buffer());
 
-// ../solid-tools/node_modules/n3/src/IRIs.js
+// ../../muze-nl/oldm/node_modules/n3/src/IRIs.js
 var RDF = "http://www.w3.org/1999/02/22-rdf-syntax-ns#";
 var XSD = "http://www.w3.org/2001/XMLSchema#";
 var SWAP = "http://www.w3.org/2000/10/swap/";
@@ -8405,7 +6660,7 @@ var IRIs_default = {
   }
 };
 
-// ../solid-tools/node_modules/n3/src/N3Lexer.js
+// ../../muze-nl/oldm/node_modules/n3/src/N3Lexer.js
 var { xsd } = IRIs_default;
 var escapeSequence = /\\u([a-fA-F0-9]{4})|\\U([a-fA-F0-9]{8})|\\([^])/g;
 var escapeReplacements = {
@@ -8855,7 +7110,7 @@ var N3Lexer = class {
   }
 };
 
-// ../solid-tools/node_modules/n3/src/N3DataFactory.js
+// ../../muze-nl/oldm/node_modules/n3/src/N3DataFactory.js
 var { rdf, xsd: xsd2 } = IRIs_default;
 var DEFAULTGRAPH;
 var _blankNodeCounter = 0;
@@ -9101,7 +7356,7 @@ function fromQuad(inQuad) {
   return quad(fromTerm(inQuad.subject), fromTerm(inQuad.predicate), fromTerm(inQuad.object), fromTerm(inQuad.graph));
 }
 
-// ../solid-tools/node_modules/n3/src/N3Parser.js
+// ../../muze-nl/oldm/node_modules/n3/src/N3Parser.js
 var blankNodePrefix = 0;
 var N3Parser = class _N3Parser {
   constructor(options) {
@@ -9585,7 +7840,7 @@ var N3Parser = class _N3Parser {
   }
   // ### `_completeLiteral` completes a literal with an optional datatype or language
   _completeLiteral(token, component) {
-    let literal3 = this._factory.literal(this._literalValue);
+    let literal2 = this._factory.literal(this._literalValue);
     let readCb;
     switch (token.type) {
       // Create a datatyped literal
@@ -9596,20 +7851,20 @@ var N3Parser = class _N3Parser {
         if (datatype.value === IRIs_default.rdf.langString || datatype.value === IRIs_default.rdf.dirLangString) {
           return this._error("Detected illegal (directional) languaged-tagged string with explicit datatype", token);
         }
-        literal3 = this._factory.literal(this._literalValue, datatype);
+        literal2 = this._factory.literal(this._literalValue, datatype);
         token = null;
         break;
       // Create a language-tagged string
       case "langcode":
         if (token.value.split("-").some((t) => t.length > 8))
           return this._error("Detected language tag with subtag longer than 8 characters", token);
-        literal3 = this._factory.literal(this._literalValue, token.value);
+        literal2 = this._factory.literal(this._literalValue, token.value);
         this._literalLanguage = token.value;
         token = null;
         readCb = this._readDirCode.bind(this, component);
         break;
     }
-    return { token, literal: literal3, readCb };
+    return { token, literal: literal2, readCb };
   }
   _readDirCode(component, listItem, token) {
     if (token.type === "dircode") {
@@ -9923,7 +8178,7 @@ var N3Parser = class _N3Parser {
   _readTripleTermTail(token) {
     if (token.type !== ")>>")
       return this._error(`Expected )>> but got ${token.type}`, token);
-    const quad3 = this._factory.quad(
+    const quad2 = this._factory.quad(
       this._subject,
       this._predicate,
       this._object,
@@ -9931,10 +8186,10 @@ var N3Parser = class _N3Parser {
     );
     this._restoreContext("<<(", token);
     if (this._subject === null) {
-      this._subject = quad3;
+      this._subject = quad2;
       return this._readPredicate;
     } else {
-      this._object = quad3;
+      this._object = quad2;
       return this._getContextEndReader();
     }
   }
@@ -10189,17 +8444,17 @@ N3Parser.SUPPORTED_VERSIONS = [
 ];
 initDataFactory(N3Parser.prototype, N3DataFactory_default);
 
-// ../solid-tools/node_modules/n3/src/N3Util.js
+// ../../muze-nl/oldm/node_modules/n3/src/N3Util.js
 function isDefaultGraph(term) {
   return !!term && term.termType === "DefaultGraph";
 }
 
-// ../solid-tools/node_modules/n3/src/Util.js
+// ../../muze-nl/oldm/node_modules/n3/src/Util.js
 function escapeRegex(regex) {
   return regex.replace(/[\]\/\(\)\*\+\?\.\\\$]/g, "\\$&");
 }
 
-// ../solid-tools/node_modules/n3/src/BaseIRI.js
+// ../../muze-nl/oldm/node_modules/n3/src/BaseIRI.js
 var BASE_UNSUPPORTED = /^:?[^:?#]*(?:[?#]|$)|^file:|^[^:]*:\/*[^?#]+?\/(?:\.\.?(?:\/|$)|\/)/i;
 var SUFFIX_SUPPORTED = /^(?:(?:[^/?#]{3,}|\.?[^/?#.]\.?)(?:\/[^/?#]{3,}|\.?[^/?#.]\.?)*\/?)?(?:[?#]|$)/;
 var CURRENT = "./";
@@ -10271,7 +8526,7 @@ var BaseIRI = class _BaseIRI {
   }
 };
 
-// ../solid-tools/node_modules/n3/src/N3Writer.js
+// ../../muze-nl/oldm/node_modules/n3/src/N3Writer.js
 var DEFAULTGRAPH2 = N3DataFactory_default.defaultGraph();
 var { rdf: rdf2, xsd: xsd3 } = IRIs_default;
 var escape = /["\\\t\n\r\b\f\u0000-\u0019\ud800-\udbff]/;
@@ -10341,7 +8596,7 @@ var N3Writer = class {
   // ### `_writeQuad` writes the quad to the output stream
   _writeQuad(subject, predicate, object, graph2, done) {
     try {
-      if (!graph2.equals(this._graph) || graph2.termType !== this._graph.termType) {
+      if (!graph2.equals(this._graph)) {
         this._write((this._subject === null ? "" : this._inDefaultGraph ? ".\n" : "\n}\n") + (DEFAULTGRAPH2.equals(graph2) ? "" : `${this._encodeIriOrBlank(graph2)} {
 `));
         this._graph = graph2;
@@ -10366,14 +8621,14 @@ var N3Writer = class {
   }
   // ### `quadToString` serializes a quad as a string
   quadToString(subject, predicate, object, graph2) {
-    return `${this._encodeSubject(subject)} ${this._encodeIriOrBlank(predicate)} ${this._encodeObject(object)}${graph2 && !isDefaultGraph(graph2) ? ` ${this._encodeIriOrBlank(graph2)} .
+    return `${this._encodeSubject(subject)} ${this._encodeIriOrBlank(predicate)} ${this._encodeObject(object)}${graph2 && graph2.value ? ` ${this._encodeIriOrBlank(graph2)} .
 ` : " .\n"}`;
   }
   // ### `quadsToString` serializes an array of quads as a string
   quadsToString(quads) {
     let quadsString = "";
-    for (const quad3 of quads)
-      quadsString += this.quadToString(quad3.subject, quad3.predicate, quad3.object, quad3.graph);
+    for (const quad2 of quads)
+      quadsString += this.quadToString(quad2.subject, quad2.predicate, quad2.object, quad2.graph);
     return quadsString;
   }
   // ### `_encodeSubject` represents a subject
@@ -10397,18 +8652,18 @@ var N3Writer = class {
     return !prefixMatch ? `<${iri}>` : !prefixMatch[1] ? iri : this._prefixIRIs[prefixMatch[1]] + prefixMatch[2];
   }
   // ### `_encodeLiteral` represents a literal
-  _encodeLiteral(literal3) {
-    let value = literal3.value;
+  _encodeLiteral(literal2) {
+    let value = literal2.value;
     if (escape.test(value))
       value = value.replace(escapeAll, characterReplacer);
-    const direction = literal3.direction ? `--${literal3.direction}` : "";
-    if (literal3.language)
-      return `"${value}"@${literal3.language}${direction}`;
+    const direction = literal2.direction ? `--${literal2.direction}` : "";
+    if (literal2.language)
+      return `"${value}"@${literal2.language}${direction}`;
     if (this._lineMode) {
-      if (literal3.datatype.value === xsd3.string)
+      if (literal2.datatype.value === xsd3.string)
         return `"${value}"`;
     } else {
-      switch (literal3.datatype.value) {
+      switch (literal2.datatype.value) {
         case xsd3.string:
           return `"${value}"`;
         case xsd3.boolean:
@@ -10429,7 +8684,7 @@ var N3Writer = class {
           break;
       }
     }
-    return `"${value}"^^${this._encodeIriOrBlank(literal3.datatype)}`;
+    return `"${value}"^^${this._encodeIriOrBlank(literal2.datatype)}`;
   }
   // ### `_encodePredicate` represents a predicate
   _encodePredicate(predicate) {
@@ -10470,17 +8725,17 @@ var N3Writer = class {
   }
   // ### `addPrefix` adds the prefix to the output stream
   addPrefix(prefix, iri, done) {
-    const prefixes4 = {};
-    prefixes4[prefix] = iri;
-    this.addPrefixes(prefixes4, done);
+    const prefixes3 = {};
+    prefixes3[prefix] = iri;
+    this.addPrefixes(prefixes3, done);
   }
   // ### `addPrefixes` adds the prefixes to the output stream
-  addPrefixes(prefixes4, done) {
+  addPrefixes(prefixes3, done) {
     if (!this._prefixIRIs)
       return done && done();
     let hasPrefixes = false;
-    for (let prefix in prefixes4) {
-      let iri = prefixes4[prefix];
+    for (let prefix in prefixes3) {
+      let iri = prefixes3[prefix];
       if (typeof iri !== "string")
         iri = iri.value;
       hasPrefixes = true;
@@ -10577,7 +8832,7 @@ function characterReplacer(character) {
   return result;
 }
 
-// ../solid-tools/node_modules/@muze-nl/oldm-n3/src/oldm-n3.mjs
+// ../../muze-nl/oldm/packages/oldm-n3/src/oldm-n3.mjs
 var solidNamespace = "http://www.w3.org/ns/solid/terms#";
 var rdfNamespace = "http://www.w3.org/1999/02/22-rdf-syntax-ns#";
 var n3Parser = (input2, uri, type) => {
@@ -10586,11 +8841,11 @@ var n3Parser = (input2, uri, type) => {
     blankNodePrefix: "",
     format: type
   });
-  let prefixes4 = /* @__PURE__ */ Object.create(null);
+  let prefixes3 = /* @__PURE__ */ Object.create(null);
   const quads = parser.parse(input2, null, (prefix, url3) => {
-    prefixes4[prefix] = url3.id;
+    prefixes3[prefix] = url3.id;
   });
-  return { quads, prefixes: prefixes4 };
+  return { quads, prefixes: prefixes3 };
 };
 var n3Writer = (source2) => {
   return new Promise((resolve, reject) => {
@@ -10598,8 +8853,8 @@ var n3Writer = (source2) => {
       format: source2.mimetype,
       prefixes: source2.prefixDeclarations("source")
     });
-    const xsd7 = source2.prefixes.xsd;
-    const { quad: quad3, namedNode: namedNode3, literal: literal3, blankNode: blankNode3 } = N3DataFactory_default;
+    const xsd4 = source2.prefixes.xsd;
+    const { quad: quad2, namedNode: namedNode2, literal: literal2, blankNode: blankNode2 } = N3DataFactory_default;
     const writeClassNames = (id2, subject) => {
       let classNames = subject.a;
       if (!classNames) {
@@ -10611,10 +8866,10 @@ var n3Writer = (source2) => {
       if (classNames?.length) {
         for (let name of classNames) {
           name = source2.fullURI(name);
-          writer.addQuad(quad3(
-            namedNode3(id2),
-            namedNode3(rdfType),
-            namedNode3(name)
+          writer.addQuad(quad2(
+            namedNode2(id2),
+            namedNode2(rdfType),
+            namedNode2(name)
           ));
         }
       }
@@ -10632,8 +8887,8 @@ var n3Writer = (source2) => {
           pred.object = [pred.object];
         }
         for (let o of pred.object) {
-          writer.addQuad(quad3(
-            namedNode3(id2),
+          writer.addQuad(quad2(
+            namedNode2(id2),
             pred.predicate,
             o
           ));
@@ -10647,17 +8902,17 @@ var n3Writer = (source2) => {
         let object2 = entry[1];
         const fullPred = source2.fullURI(predicate);
         let pred = {
-          predicate: namedNode3(fullPred)
+          predicate: namedNode2(fullPred)
         };
         if (object2 instanceof Collection) {
           pred.object = getCollection(object2);
         } else if (Array.isArray(object2)) {
           pred.object = getArray(object2);
         } else if (object2 instanceof NamedNode) {
-          pred.object = namedNode3(object2.id);
+          pred.object = namedNode2(object2.id);
         } else if (object2 instanceof BlankNode) {
           pred.object = getBlankNode(object2);
-        } else if (isLiteral3(object2)) {
+        } else if (isLiteral2(object2)) {
           pred.object = getLiteral(object2);
         } else {
           console.log("oldm-ns: encountered unknown object", object2, predicate);
@@ -10669,12 +8924,12 @@ var n3Writer = (source2) => {
     const getLiteral = (object) => {
       let type = source2.getType(object) || void 0;
       if (type) {
-        if (type == xsd7 + source2.context.separator + "string" || type == xsd7 + source2.context.separator + "number") {
+        if (type == xsd4 + source2.context.separator + "string" || type == xsd4 + source2.context.separator + "number") {
           type = void 0;
         } else {
           type = source2.fullURI(type);
         }
-        type = namedNode3(type);
+        type = namedNode2(type);
       } else {
         let language = object?.language;
         if (language) {
@@ -10686,18 +8941,18 @@ var n3Writer = (source2) => {
       } else if (object instanceof Number) {
         object = +object;
       }
-      return literal3(object, type);
+      return literal2(object, type);
     };
-    const isLiteral3 = (value) => {
+    const isLiteral2 = (value) => {
       return value instanceof String || value instanceof Number || typeof value == "boolean" || typeof value == "string" || typeof value == "number";
     };
     const getCollection = (object) => {
       let list2 = [];
       for (let value of object) {
-        if (isLiteral3(value)) {
+        if (isLiteral2(value)) {
           list2.push(getLiteral(value));
         } else if (value.id) {
-          list2.push(namedNode3(value.id));
+          list2.push(namedNode2(value.id));
         } else {
           list2.push(getBlankNode(value));
         }
@@ -10710,10 +8965,10 @@ var n3Writer = (source2) => {
     const getArray = (object) => {
       let list2 = [];
       for (const o of object) {
-        if (isLiteral3(o)) {
+        if (isLiteral2(o)) {
           list2.push(getLiteral(o));
         } else if (o instanceof NamedNode) {
-          list2.push(namedNode3(o.id));
+          list2.push(namedNode2(o.id));
         } else if (o instanceof BlankNode) {
           list2.push(getBlankNode(o));
         } else if (o instanceof Collection) {
@@ -10751,28 +9006,28 @@ var n3PatchWriter = async (source2) => {
   return serializePatch(source2, patch.inserts, patch.deletes, patch.where);
 };
 function diffQuads(original, current) {
-  const originalByKey = new Map(original.map((quad3) => [quadKey(quad3), quad3]));
-  const currentByKey = new Map(current.map((quad3) => [quadKey(quad3), quad3]));
+  const originalByKey = new Map(original.map((quad2) => [quadKey(quad2), quad2]));
+  const currentByKey = new Map(current.map((quad2) => [quadKey(quad2), quad2]));
   const deletes = [];
   const inserts = [];
-  for (const [key, quad3] of originalByKey) {
+  for (const [key, quad2] of originalByKey) {
     if (!currentByKey.has(key)) {
-      deletes.push(quad3);
+      deletes.push(quad2);
     }
   }
-  for (const [key, quad3] of currentByKey) {
+  for (const [key, quad2] of currentByKey) {
     if (!originalByKey.has(key)) {
-      inserts.push(quad3);
+      inserts.push(quad2);
     }
   }
   return { inserts, deletes };
 }
-function quadKey(quad3) {
+function quadKey(quad2) {
   return [
-    termKey(quad3.subject),
-    termKey(quad3.predicate),
-    termKey(quad3.object),
-    termKey(quad3.graph)
+    termKey(quad2.subject),
+    termKey(quad2.predicate),
+    termKey(quad2.object),
+    termKey(quad2.graph)
   ].join(" ");
 }
 function termKey(term) {
@@ -10806,8 +9061,8 @@ function solidPatchChanges(original, current, factory) {
     assertOwnedAnonymousUnit(unit, "insert");
     anonymousInserts.push(...mapBlankNodes(unit.quads, (name) => factory.blankNode(name), factory.quad, "insert"));
   }
-  const plainOriginal = original.filter((quad3) => !originalAnonymous.quadKeys.has(quadKey(quad3)));
-  const plainCurrent = current.filter((quad3) => !currentAnonymous.quadKeys.has(quadKey(quad3)));
+  const plainOriginal = original.filter((quad2) => !originalAnonymous.quadKeys.has(quadKey(quad2)));
+  const plainCurrent = current.filter((quad2) => !currentAnonymous.quadKeys.has(quadKey(quad2)));
   const plainDiff = diffQuads(plainOriginal, plainCurrent);
   assertPatchable(plainDiff.inserts, "insert changes outside an owned anonymous value");
   assertPatchable(plainDiff.deletes, "delete changes outside an owned anonymous value");
@@ -10829,8 +9084,8 @@ function anonymousUnits(quads) {
     const closure = blankNodeClosure(edge.object, outgoing);
     const canonical = canonicalBlankNode(edge.object, outgoing);
     const unitQuads = [edge, ...closure.quads];
-    for (const quad3 of unitQuads) {
-      quadKeys.add(quadKey(quad3));
+    for (const quad2 of unitQuads) {
+      quadKeys.add(quadKey(quad2));
     }
     units.push({
       edge,
@@ -10845,29 +9100,29 @@ function anonymousUnits(quads) {
 }
 function blankSubjectIndex(quads) {
   const index = /* @__PURE__ */ new Map();
-  for (const quad3 of quads) {
-    if (!isBlankNode(quad3.subject)) {
+  for (const quad2 of quads) {
+    if (!isBlankNode(quad2.subject)) {
       continue;
     }
-    const id2 = termValue(quad3.subject);
+    const id2 = termValue(quad2.subject);
     if (!index.has(id2)) {
       index.set(id2, []);
     }
-    index.get(id2).push(quad3);
+    index.get(id2).push(quad2);
   }
   return index;
 }
 function blankObjectIndex(quads) {
   const index = /* @__PURE__ */ new Map();
-  for (const quad3 of quads) {
-    if (!isBlankNode(quad3.object)) {
+  for (const quad2 of quads) {
+    if (!isBlankNode(quad2.object)) {
       continue;
     }
-    const id2 = termValue(quad3.object);
+    const id2 = termValue(quad2.object);
     if (!index.has(id2)) {
       index.set(id2, []);
     }
-    index.get(id2).push(quad3);
+    index.get(id2).push(quad2);
   }
   return index;
 }
@@ -10884,10 +9139,10 @@ function blankNodeClosure(root, outgoing) {
       continue;
     }
     blankNodeIds.add(id2);
-    for (const quad3 of outgoing.get(id2) ?? []) {
-      quads.push(quad3);
-      if (isBlankNode(quad3.object)) {
-        stack.push(quad3.object);
+    for (const quad2 of outgoing.get(id2) ?? []) {
+      quads.push(quad2);
+      if (isBlankNode(quad2.object)) {
+        stack.push(quad2.object);
       }
     }
   }
@@ -10903,10 +9158,10 @@ function canonicalBlankNode(term, outgoing, memo = /* @__PURE__ */ new Map(), pa
   }
   path2.add(id2);
   let cyclic = false;
-  const properties = (outgoing.get(id2) ?? []).map((quad3) => {
-    const object = canonicalTerm(quad3.object, outgoing, memo, path2);
+  const properties = (outgoing.get(id2) ?? []).map((quad2) => {
+    const object = canonicalTerm(quad2.object, outgoing, memo, path2);
     cyclic ||= object.cyclic;
-    return `${termKey(quad3.predicate)} ${object.key}`;
+    return `${termKey(quad2.predicate)} ${object.key}`;
   }).sort();
   path2.delete(id2);
   const result = {
@@ -10970,11 +9225,11 @@ function mapBlankNodes(quads, createTerm, createQuad, prefix) {
     }
     return terms.get(id2);
   };
-  return quads.map((quad3) => createQuad(mapTerm(quad3.subject), quad3.predicate, mapTerm(quad3.object), quad3.graph));
+  return quads.map((quad2) => createQuad(mapTerm(quad2.subject), quad2.predicate, mapTerm(quad2.object), quad2.graph));
 }
 function assertPatchable(quads, operation) {
   const hasBlankNode = quads.some(
-    (quad3) => isBlankNode(quad3.subject) || isBlankNode(quad3.predicate) || isBlankNode(quad3.object)
+    (quad2) => isBlankNode(quad2.subject) || isBlankNode(quad2.predicate) || isBlankNode(quad2.object)
   );
   if (hasBlankNode) {
     throw new Error(`Cannot generate a Solid PATCH with blank nodes in ${operation}; use graph.write() and PUT instead`);
@@ -10987,19 +9242,19 @@ function termValue(term) {
   return term?.value ?? term?.id ?? "";
 }
 function serializePatch(source2, inserts, deletes, where = []) {
-  const prefixes4 = {
+  const prefixes3 = {
     ...source2.prefixDeclarations("source")
   };
   if (quadsUseNamespace([...where, ...deletes, ...inserts], rdfNamespace)) {
-    prefixes4.rdf ??= rdfNamespace;
+    prefixes3.rdf ??= rdfNamespace;
   }
-  prefixes4.solid = solidNamespace;
+  prefixes3.solid = solidNamespace;
   const writer = new N3Writer({
     format: "text/turtle",
-    prefixes: prefixes4
+    prefixes: prefixes3
   });
   const lines = [];
-  for (const [prefix, iri] of Object.entries(prefixes4)) {
+  for (const [prefix, iri] of Object.entries(prefixes3)) {
     lines.push(`@prefix ${prefix}: <${iri}> .`);
   }
   if (lines.length) {
@@ -11024,7 +9279,7 @@ function serializePatch(source2, inserts, deletes, where = []) {
 }
 function quadsUseNamespace(quads, namespace) {
   return quads.some(
-    (quad3) => termUsesNamespace(quad3.subject, namespace) || termUsesNamespace(quad3.predicate, namespace) || termUsesNamespace(quad3.object, namespace)
+    (quad2) => termUsesNamespace(quad2.subject, namespace) || termUsesNamespace(quad2.predicate, namespace) || termUsesNamespace(quad2.object, namespace)
   );
 }
 function termUsesNamespace(term, namespace) {
@@ -11034,13 +9289,13 @@ function formula(writer, quads) {
   if (!quads.length) {
     return "{}";
   }
-  const lines = quads.map((quad3) => `
-		${writer.quadToString(quad3.subject, quad3.predicate, quad3.object).trim()}`);
+  const lines = quads.map((quad2) => `
+		${writer.quadToString(quad2.subject, quad2.predicate, quad2.object).trim()}`);
   return `{${lines.join("")}
 	}`;
 }
 
-// ../solid-tools/node_modules/@muze-nl/oldm/src/index.mjs
+// ../../muze-nl/oldm/packages/oldm/src/index.mjs
 var { default: _coreDefault, ...core } = oldm_exports;
 var oldm2 = {
   context(options = {}) {
@@ -11063,7 +9318,7 @@ var oldm2 = {
 globalThis.oldm = oldm2;
 var src_default2 = oldm2;
 
-// ../solid-tools/node_modules/@muze-nl/jaqt/src/jaqt.mjs
+// ../../muze-nl/jaqt/src/jaqt.mjs
 function isPrimitiveWrapper(data) {
   return [String, Boolean, Number, BigInt].includes(data?.constructor);
 }
@@ -11298,6 +9553,14 @@ var DataProxyHandler = {
     if (typeof property === "symbol") {
       result = target[property];
     }
+    if (property === "toArray") {
+      result = function() {
+        if (Array.isArray(target)) {
+          return Array.from(target);
+        }
+        return [target];
+      };
+    }
     if (Array.isArray(target)) {
       switch (property) {
         case "where":
@@ -11422,6 +9685,11 @@ var EmptyHandler = {
   get(target, property) {
     let result = null;
     switch (property) {
+      case "toArray":
+        result = function() {
+          return [];
+        };
+        break;
       case "where":
         result = function() {
           return new Proxy(new Null(), EmptyHandler);
@@ -11511,6 +9779,4905 @@ var pointerHandler = (path2) => {
   };
 };
 var _ = new Proxy(getPointerFn(), pointerHandler());
+
+// ../solid-tools/packages/solid-workspace/src/index.mjs
+function workspace(options = {}) {
+  return new SolidWorkspace(options);
+}
+function collection(options = {}) {
+  return {
+    kind: "collection",
+    ...options
+  };
+}
+function resource(idOrOptions, options = {}) {
+  let config = { ...idOrOptions };
+  if (typeof idOrOptions === "string") {
+    config = { ...options, id: idOrOptions };
+  }
+  if (!config.id) {
+    throw new TypeError("solid-workspace: resource id is required");
+  }
+  if (!config.local && !config.remote) {
+    throw new TypeError("solid-workspace: resource() needs a local or remote replica");
+  }
+  if (config.local) {
+    assertWorkspaceSource(config.local, "local");
+  }
+  if (config.remote) {
+    assertWorkspaceSource(config.remote, "remote");
+  }
+  return Object.freeze({
+    ...config,
+    workspacePart: "resource",
+    type: config.type ?? "replicated-resource",
+    id: String(config.id)
+  });
+}
+function mergeGraphDocuments(documents = [], options = {}) {
+  if (!Array.isArray(documents)) {
+    throw new TypeError("solid-workspace: graph documents must be an array");
+  }
+  const base = graphDocumentFrom(documents[0]);
+  const merged = {
+    format: options.format ?? base.format,
+    version: options.version ?? base.version,
+    prefixes: {},
+    subjects: []
+  };
+  const subjectsById = /* @__PURE__ */ new Map();
+  for (const document2 of documents.map(graphDocumentFrom)) {
+    Object.assign(merged.prefixes, document2.prefixes);
+    for (const subject of document2.subjects) {
+      if (!subject?.id) continue;
+      const current = subjectsById.get(subject.id);
+      if (!current) {
+        const clone2 = cloneValue(subject);
+        subjectsById.set(subject.id, clone2);
+        merged.subjects.push(clone2);
+        continue;
+      }
+      mergeSubject(current, subject);
+    }
+  }
+  const target = {
+    ...merged,
+    changed: !graphDocumentsEqual(base, merged)
+  };
+  if (Object.keys(target.prefixes).length === 0) {
+    delete target.prefixes;
+  }
+  if (target.format == null) delete target.format;
+  if (target.version == null) delete target.version;
+  return target;
+}
+var solid = {
+  resource(url3, options = {}) {
+    return source("resource", url3, {
+      type: "solid-resource",
+      ...options
+    });
+  },
+  turtleResource(url3, options = {}) {
+    return source("resource", url3, {
+      type: "solid-turtle-resource",
+      ...options
+    });
+  },
+  container(url3, options = {}) {
+    return source("container", ensureSlash(url3), {
+      type: "solid-container",
+      ...options
+    });
+  },
+  client(client3, options = {}) {
+    if (!client3) {
+      throw new TypeError("solid-workspace: solid client is required");
+    }
+    return Object.freeze({
+      ...options,
+      workspacePart: "client",
+      type: options.type ?? "solid-api-client",
+      client: client3
+    });
+  }
+};
+var local = {
+  memory(idOrOptions, options = {}) {
+    let config = { ...idOrOptions };
+    if (typeof idOrOptions === "string") {
+      config = { ...options, id: idOrOptions };
+    }
+    const id2 = config.id ?? config.key ?? "local-memory";
+    const url3 = config.url ?? `memory://${encodeURIComponent(id2)}`;
+    let initialDocument = config.document;
+    if (initialDocument == null) {
+      initialDocument = {
+        format: config.format ?? "oldmed-graph",
+        version: config.version ?? 1,
+        prefixes: config.prefixes ?? {},
+        subjects: []
+      };
+    }
+    let document2 = graphDocumentFrom(initialDocument);
+    return graphResource({
+      ...config,
+      id: id2,
+      url: url3,
+      local: true,
+      type: "local-memory",
+      async load() {
+        return cloneGraphDocument(document2);
+      },
+      async save(value) {
+        document2 = graphDocumentFrom(value);
+        return {
+          ok: true,
+          status: "saved",
+          sourceUrl: url3,
+          document: cloneGraphDocument(document2)
+        };
+      },
+      async turtle() {
+        return graphDocumentToTurtle(document2, {
+          url: url3,
+          prefixes: config.prefixes
+        });
+      }
+    });
+  },
+  indexedDB(nameOrOptions, options = {}) {
+    let config = { ...nameOrOptions };
+    if (typeof nameOrOptions === "string") {
+      config = { ...options, name: nameOrOptions };
+    }
+    const databaseName = config.name ?? config.databaseName ?? config.database;
+    if (!databaseName) {
+      throw new TypeError("solid-workspace: IndexedDB database name is required");
+    }
+    const storeName = config.store ?? config.storeName ?? "resources";
+    const key = config.key ?? config.id ?? "default";
+    const id2 = config.id ?? `${databaseName}:${key}`;
+    const url3 = config.url ?? `indexeddb://${encodeURIComponent(databaseName)}/${encodeURIComponent(storeName)}/${encodeURIComponent(key)}`;
+    const databaseVersion = config.databaseVersion ?? 1;
+    const initialDocument = config.document === void 0 ? null : graphDocumentFrom(config.document);
+    const indexedDBFactory = config.indexedDB;
+    const sourceConfig = { ...config };
+    delete sourceConfig.indexedDB;
+    delete sourceConfig.document;
+    delete sourceConfig.databaseVersion;
+    async function loadDocument() {
+      const database = await openIndexedDatabase({
+        indexedDB: indexedDBFactory,
+        name: databaseName,
+        version: databaseVersion,
+        storeName
+      });
+      try {
+        const entry = await indexedDBGet(database, storeName, key);
+        if (entry?.document) {
+          return graphDocumentFrom(entry.document);
+        }
+        return graphDocumentFrom(initialDocument);
+      } finally {
+        database.close?.();
+      }
+    }
+    return graphResource({
+      ...sourceConfig,
+      id: id2,
+      url: url3,
+      local: true,
+      type: "local-indexeddb",
+      async load() {
+        return cloneGraphDocument(await loadDocument());
+      },
+      async save(value) {
+        const document2 = graphDocumentFrom(value);
+        const database = await openIndexedDatabase({
+          indexedDB: indexedDBFactory,
+          name: databaseName,
+          version: databaseVersion,
+          storeName
+        });
+        try {
+          await indexedDBPut(database, storeName, {
+            key,
+            document: cloneGraphDocument(document2),
+            updatedAt: (/* @__PURE__ */ new Date()).toISOString()
+          });
+        } finally {
+          database.close?.();
+        }
+        return {
+          ok: true,
+          status: "saved",
+          sourceUrl: url3,
+          document: cloneGraphDocument(document2)
+        };
+      },
+      async turtle() {
+        return graphDocumentToTurtle(await loadDocument(), {
+          url: url3,
+          prefixes: config.prefixes
+        });
+      }
+    });
+  }
+};
+var SolidWorkspace = class {
+  constructor(options = {}) {
+    if (!options || typeof options !== "object") {
+      throw new TypeError("solid-workspace: workspace options must be an object");
+    }
+    const client3 = options.solid ?? options.solidApi ?? options.client;
+    this.solid = client3;
+    this.sources = [];
+    this.sourceById = /* @__PURE__ */ new Map();
+    this.resources = [];
+    this.resourceById = /* @__PURE__ */ new Map();
+    this.status = {
+      state: "idle",
+      error: null,
+      sources: {},
+      resources: {}
+    };
+    this.records = [];
+    this.objects = /* @__PURE__ */ new WeakMap();
+    if (options.sources) {
+      this.addSource(options.sources);
+    }
+    if (options.resources) {
+      this.add(options.resources);
+    }
+    this.collections = Object.fromEntries(
+      Object.entries(options.collections ?? {}).map(([name, descriptor]) => [
+        name,
+        new WorkspaceCollection(this, name, descriptor)
+      ])
+    );
+  }
+  add(part) {
+    if (Array.isArray(part)) {
+      for (const item of part) {
+        this.add(item);
+      }
+      return this;
+    }
+    if (part?.workspacePart === "source") {
+      this.addSource(part);
+      return this;
+    }
+    if (part?.workspacePart === "resource") {
+      this.addResource(part);
+      return this;
+    }
+    if (part?.workspacePart === "client") {
+      this.setClient(part.client);
+      return this;
+    }
+    throw new TypeError("solid-workspace: add() expects a workspace part from a factory");
+  }
+  addSource(sourceOrSources) {
+    const sources = normalizeSources(Array.isArray(sourceOrSources) ? sourceOrSources : [sourceOrSources]);
+    for (const descriptor of sources) {
+      const existing = this.sources.findIndex((source2) => source2.id === descriptor.id);
+      if (existing >= 0) {
+        this.sources[existing] = descriptor;
+      } else {
+        this.sources.push(descriptor);
+      }
+      this.sourceById.set(descriptor.id, descriptor);
+      this.setSourceStatus(descriptor, this.status.sources[descriptor.id] ?? { state: "idle" });
+      for (const record of this.records) {
+        const source2 = record.source?.parent ?? record.source;
+        if (source2?.id === descriptor.id) {
+          record.source = descriptor;
+        }
+      }
+    }
+    return sources.length === 1 ? sources[0] : sources;
+  }
+  addResource(part) {
+    if (part?.workspacePart !== "resource") {
+      throw new TypeError("solid-workspace: addResource() expects a resource() workspace part");
+    }
+    const existing = this.resourceById.get(part.id);
+    let current = {
+      id: part.id,
+      type: part.type ?? "replicated-resource",
+      local: null,
+      remote: null
+    };
+    if (existing) {
+      current = { ...existing };
+    }
+    let remoteSource = current.remote;
+    if (part.remote) {
+      remoteSource = resourceReplicaSource(part.remote, {
+        resource: current,
+        replica: "remote"
+      });
+    }
+    let localSource = current.local;
+    if (part.local) {
+      localSource = resourceReplicaSource(part.local, {
+        resource: current,
+        replica: "local",
+        syncTo: remoteSource?.id
+      });
+    } else if (current.local && remoteSource) {
+      localSource = resourceReplicaSource(current.local, {
+        resource: current,
+        replica: "local",
+        syncTo: remoteSource.id
+      });
+    }
+    if (localSource) {
+      current.local = this.addSource(localSource);
+    }
+    if (remoteSource) {
+      current.remote = this.addSource(remoteSource);
+    }
+    const index = this.resources.findIndex((item) => item.id === current.id);
+    if (index >= 0) {
+      this.resources[index] = current;
+    } else {
+      this.resources.push(current);
+    }
+    this.resourceById.set(current.id, current);
+    this.setResourceStatus(current);
+    return current;
+  }
+  setClient(client3) {
+    this.solid = client3;
+    return this;
+  }
+  async open(options = {}) {
+    if (isResourceReference(this, options)) {
+      return this.openResource(options);
+    }
+    if (isOpenAllOptions(options) && this.resources.length > 0) {
+      const resourceSourceIds = new Set(this.resources.flatMap((item) => resourceSources(item).map((source2) => source2.id)));
+      for (const item of this.resources) {
+        await this.openResource(item, options);
+      }
+      const directSources = this.sources.filter((source2) => !resourceSourceIds.has(source2.id));
+      if (directSources.length > 0) {
+        await this.load({
+          ...options,
+          sources: directSources,
+          throwOnError: options.throwOnError ?? false
+        });
+      }
+      return this;
+    }
+    if (Array.isArray(options) && options.some((item) => isResourceReference(this, item))) {
+      for (const item of options) {
+        if (isResourceReference(this, item)) {
+          await this.openResource(item);
+        } else {
+          await this.load({ sources: item, throwOnError: false });
+        }
+      }
+      return this;
+    }
+    if (options?.resources) {
+      const resources = Array.isArray(options.resources) ? options.resources : [options.resources];
+      for (const item of resources) {
+        await this.openResource(item, options);
+      }
+      return this;
+    }
+    if (typeof options === "string" || Array.isArray(options) || options?.workspacePart === "source") {
+      return this.load({ sources: options, throwOnError: false });
+    }
+    return this.load({
+      throwOnError: false,
+      ...options
+    });
+  }
+  async openResource(resourceOrId, options = {}) {
+    const logicalResource = resolveResource(this, resourceOrId);
+    const sources = resourceSources(logicalResource);
+    const failures = [];
+    const loaded = [];
+    const throwOnError = options.throwOnError ?? false;
+    this.status.state = "opening";
+    this.status.error = null;
+    this.setResourceStatus(logicalResource, { state: "opening", error: null });
+    for (const source2 of sources) {
+      try {
+        loaded.push({
+          source: source2,
+          objects: await this.loadSource(source2)
+        });
+      } catch (error4) {
+        failures.push({ source: source2, error: error4 });
+        if (throwOnError) {
+          this.status.state = "error";
+          this.status.error = error4;
+          this.setResourceStatus(logicalResource, { state: "error", error: error4 });
+          throw error4;
+        }
+      }
+    }
+    if (logicalResource.local && logicalResource.remote && this.status.sources[logicalResource.remote.id]?.state === "ready") {
+      try {
+        const document2 = mergeGraphDocuments([
+          this.dataset({ sources: [logicalResource.local.id] }),
+          this.dataset({ sources: [logicalResource.remote.id] })
+        ], options);
+        if (document2.changed || options.force === true) {
+          await saveGraphDocument(this, logicalResource.local, document2, options.writeOptions);
+          this.replaceSourceRecords(logicalResource.local, cloneValue(document2.subjects), {
+            source: logicalResource.local,
+            sourceUrl: logicalResource.local.url,
+            status: "loaded"
+          });
+          this.setSourceStatus(logicalResource.local, { state: "ready", error: null });
+        }
+      } catch (error4) {
+        failures.push({ source: logicalResource.local, error: error4 });
+        this.setSourceStatus(logicalResource.local, {
+          state: sourceFailureState(error4),
+          error: error4
+        });
+        if (throwOnError) {
+          this.status.state = "error";
+          this.status.error = error4;
+          this.setResourceStatus(logicalResource, { state: "error", error: error4 });
+          throw error4;
+        }
+      }
+    }
+    this.status.lastOpen = { resource: logicalResource, sources, loaded, failures };
+    this.status.state = workspaceState(this);
+    this.status.error = failures[0]?.error ?? null;
+    this.setResourceStatus(logicalResource, {
+      state: resourceState(this, logicalResource),
+      error: failures[0]?.error ?? null
+    });
+    return this;
+  }
+  async load(options = {}) {
+    const sources = normalizeLoadSources(this, options.sources ?? this.sources);
+    const failures = [];
+    const loaded = [];
+    const throwOnError = options.throwOnError ?? true;
+    this.status.state = "opening";
+    this.status.error = null;
+    for (const source2 of sources) {
+      try {
+        loaded.push(await this.loadSource(source2));
+      } catch (error4) {
+        failures.push({ source: source2, error: error4 });
+        if (throwOnError) {
+          this.status.state = "error";
+          this.status.error = error4;
+          throw error4;
+        }
+      }
+    }
+    this.status.lastOpen = { sources, loaded, failures };
+    this.status.state = workspaceState(this);
+    this.status.error = failures[0]?.error ?? null;
+    return this;
+  }
+  async loadSource(sourceOrId) {
+    const descriptor = resolveSource(this, sourceOrId);
+    this.setSourceStatus(descriptor, { state: "opening", error: null });
+    try {
+      if (descriptor.kind === "container") {
+        assertSolidClient(this);
+        const entries = await this.solid.contains(descriptor.url, descriptor.options);
+        this.replaceSourceRecords(descriptor, [], {
+          source: descriptor,
+          sourceUrl: descriptor.url,
+          status: "loaded"
+        });
+        for (const entry of entries) {
+          await this.loadSource({
+            ...descriptor,
+            append: true,
+            kind: "resource",
+            url: entry.url,
+            parent: descriptor
+          });
+        }
+        this.setSourceStatus(descriptor, { state: "ready", error: null });
+        return entries;
+      }
+      if (typeof descriptor.load === "function") {
+        const document2 = graphDocumentFrom(await descriptor.load({
+          source: descriptor,
+          workspace: this
+        }));
+        const objects = document2.subjects;
+        if (descriptor.append) {
+          this.trackObjects(objects, {
+            source: descriptor,
+            sourceUrl: descriptor.url,
+            status: "loaded"
+          });
+        } else {
+          this.replaceSourceRecords(descriptor, objects, {
+            source: descriptor,
+            sourceUrl: descriptor.url,
+            status: "loaded"
+          });
+        }
+        this.setSourceStatus(descriptor, { state: "ready", error: null });
+        return objects;
+      }
+      assertSolidClient(this);
+      try {
+        const response3 = await this.solid.get(descriptor.url, requestOptions(descriptor.options));
+        const objects = subjectsFromResponse(response3);
+        if (descriptor.append) {
+          this.trackObjects(objects, {
+            response: response3,
+            source: descriptor,
+            sourceUrl: descriptor.url,
+            status: "loaded"
+          });
+        } else {
+          this.replaceSourceRecords(descriptor, objects, {
+            response: response3,
+            source: descriptor,
+            sourceUrl: descriptor.url,
+            status: "loaded"
+          });
+        }
+        this.setSourceStatus(descriptor, { state: "ready", error: null });
+        return objects;
+      } catch (error4) {
+        if ([404, 410].includes(statusFromError(error4))) {
+          if (!descriptor.append) {
+            this.replaceSourceRecords(descriptor, [], {
+              source: descriptor,
+              sourceUrl: descriptor.url,
+              status: "loaded"
+            });
+          }
+          this.setSourceStatus(descriptor, { state: "ready", error: null });
+          return [];
+        }
+        throw error4;
+      }
+    } catch (error4) {
+      this.setSourceStatus(descriptor, {
+        state: sourceFailureState(error4),
+        error: error4
+      });
+      throw error4;
+    }
+  }
+  trackObjects(objects, options = {}) {
+    for (const object of objects) {
+      this.track(object, options);
+    }
+    return objects;
+  }
+  replaceSourceRecords(source2, objects, options = {}) {
+    this.records = this.records.filter((record) => record.status === "new" || !recordBelongsToSources(record, [source2]));
+    this.objects = /* @__PURE__ */ new WeakMap();
+    for (const record of this.records) {
+      this.objects.set(record.object, record);
+    }
+    return this.trackObjects(objects, options);
+  }
+  dataset(options = {}) {
+    const config = normalizeDatasetOptions(this, options);
+    const records = recordsForSources(this, config.sources ?? this.sources);
+    return mergeGraphDocuments([
+      {
+        format: config.format,
+        version: config.version,
+        prefixes: config.prefixes,
+        subjects: records.map((record) => record.object)
+      }
+    ], config);
+  }
+  async sync(options = {}) {
+    if (isResourceReference(this, options)) {
+      return this.syncResource(options);
+    }
+    const target = resolveSource(this, options.into);
+    if (target.kind !== "resource") {
+      throw new Error("solid-workspace: sync target must be a resource source");
+    }
+    if (target.readOnly) {
+      throw new Error(`solid-workspace: source ${target.id} is read-only`);
+    }
+    let sourceDocument = options.document;
+    if (sourceDocument == null) {
+      sourceDocument = this.dataset({
+        sources: options.from ?? this.sources,
+        format: options.format,
+        version: options.version,
+        prefixes: options.prefixes
+      });
+    }
+    let targetDocument;
+    if (options.loadTarget === false) {
+      targetDocument = graphDocumentFrom(options.targetDocument);
+    } else {
+      targetDocument = await this.loadGraphDocument(target, options);
+    }
+    const document2 = mergeGraphDocuments([
+      targetDocument,
+      sourceDocument
+    ], options);
+    if (!document2.changed && options.force !== true) {
+      this.clearSyncPending(target);
+      return {
+        ok: true,
+        status: "unchanged",
+        source: target,
+        sourceUrl: target.url,
+        document: document2
+      };
+    }
+    try {
+      this.setSourceStatus(target, { state: "syncing", error: null });
+      const response3 = await saveGraphDocument(this, target, document2, options.writeOptions);
+      this.clearSyncPending(target);
+      this.setSourceStatus(target, { state: "ready", error: null });
+      return {
+        ok: true,
+        status: "synced",
+        source: target,
+        sourceUrl: target.url,
+        document: document2,
+        response: response3
+      };
+    } catch (error4) {
+      this.setSourceStatus(target, {
+        state: sourceFailureState(error4),
+        error: error4
+      });
+      throw error4;
+    }
+  }
+  async syncResource(resourceOrId, options = {}) {
+    const logicalResource = resolveResource(this, resourceOrId);
+    const localSource = logicalResource.local;
+    const remoteSource = logicalResource.remote;
+    if (!localSource) {
+      throw new Error(`solid-workspace: resource ${logicalResource.id} needs a local replica to sync`);
+    }
+    if (!remoteSource) {
+      throw new Error(`solid-workspace: resource ${logicalResource.id} needs a remote replica to sync`);
+    }
+    if (remoteSource.readOnly) {
+      throw new Error(`solid-workspace: source ${remoteSource.id} is read-only`);
+    }
+    this.setResourceStatus(logicalResource, { state: "syncing", error: null });
+    this.setSourceStatus(remoteSource, { state: "syncing", error: null });
+    let remoteDocument;
+    try {
+      if (options.loadRemote === false) {
+        remoteDocument = graphDocumentFrom(options.remoteDocument);
+      } else {
+        remoteDocument = await this.loadGraphDocument(remoteSource, options);
+      }
+    } catch (error4) {
+      this.setSourceStatus(remoteSource, {
+        state: sourceFailureState(error4),
+        error: error4
+      });
+      this.markSyncPending({
+        from: localSource.id,
+        into: remoteSource.id
+      });
+      this.setResourceStatus(logicalResource, {
+        state: "sync-pending",
+        error: error4
+      });
+      return {
+        ok: false,
+        status: this.status.sources[remoteSource.id].state,
+        resource: logicalResource,
+        source: remoteSource,
+        sourceUrl: remoteSource.url,
+        error: error4
+      };
+    }
+    const localDocument = this.dataset({
+      sources: [localSource.id],
+      format: options.format,
+      version: options.version,
+      prefixes: options.prefixes
+    });
+    const document2 = mergeGraphDocuments([
+      remoteDocument,
+      localDocument
+    ], options);
+    if (!document2.changed && options.force !== true) {
+      this.clearSyncPending(remoteSource);
+      this.setResourceStatus(logicalResource, { state: "ready", error: null });
+      return {
+        ok: true,
+        status: "unchanged",
+        resource: logicalResource,
+        source: remoteSource,
+        sourceUrl: remoteSource.url,
+        document: document2
+      };
+    }
+    let response3;
+    try {
+      response3 = await saveGraphDocument(this, remoteSource, document2, options.writeOptions);
+    } catch (error4) {
+      this.setSourceStatus(remoteSource, {
+        state: sourceFailureState(error4),
+        error: error4
+      });
+      this.markSyncPending({
+        from: localSource.id,
+        into: remoteSource.id
+      });
+      this.setResourceStatus(logicalResource, {
+        state: "sync-pending",
+        error: error4
+      });
+      return {
+        ok: false,
+        status: this.status.sources[remoteSource.id].state,
+        resource: logicalResource,
+        source: remoteSource,
+        sourceUrl: remoteSource.url,
+        error: error4
+      };
+    }
+    try {
+      await saveGraphDocument(this, localSource, document2, options.localWriteOptions ?? options.writeOptions);
+      this.replaceSourceRecords(remoteSource, cloneValue(document2.subjects), {
+        source: remoteSource,
+        sourceUrl: remoteSource.url,
+        status: "loaded"
+      });
+      this.replaceSourceRecords(localSource, cloneValue(document2.subjects), {
+        source: localSource,
+        sourceUrl: localSource.url,
+        status: "loaded"
+      });
+      this.clearSyncPending(remoteSource);
+      this.setSourceStatus(remoteSource, { state: "ready", error: null });
+      this.setSourceStatus(localSource, { state: "ready", error: null });
+      this.setResourceStatus(logicalResource, { state: "ready", error: null });
+      return {
+        ok: true,
+        status: "synced",
+        resource: logicalResource,
+        source: remoteSource,
+        sourceUrl: remoteSource.url,
+        document: document2,
+        response: response3
+      };
+    } catch (error4) {
+      this.setSourceStatus(localSource, {
+        state: sourceFailureState(error4),
+        error: error4
+      });
+      this.setResourceStatus(logicalResource, {
+        state: "error",
+        error: error4
+      });
+      return {
+        ok: false,
+        status: this.status.sources[localSource.id].state,
+        resource: logicalResource,
+        source: localSource,
+        sourceUrl: localSource.url,
+        error: error4
+      };
+    }
+  }
+  async loadGraphDocument(sourceOrId, options = {}) {
+    const descriptor = resolveSource(this, sourceOrId);
+    if (descriptor.kind !== "resource") {
+      throw new Error("solid-workspace: graph documents can only be loaded from resource sources");
+    }
+    if (typeof descriptor.load === "function") {
+      return graphDocumentFrom(await descriptor.load({
+        source: descriptor,
+        workspace: this,
+        ...options.readOptions
+      }));
+    }
+    assertSolidClient(this);
+    try {
+      const response3 = await this.solid.get(descriptor.url, requestOptions({
+        ...descriptor.options,
+        ...options.readOptions
+      }));
+      return graphDocumentFrom(response3);
+    } catch (error4) {
+      const status2 = statusFromError(error4);
+      if (status2 === 404 || status2 === 410) {
+        return graphDocumentFrom(null);
+      }
+      throw error4;
+    }
+  }
+  track(object, options = {}) {
+    if (!isObject(object)) {
+      throw new TypeError("solid-workspace: can only track object values");
+    }
+    const record = {
+      object,
+      source: options.source ?? null,
+      sourceUrl: options.sourceUrl ?? options.source?.url ?? object.id ?? null,
+      response: options.response ?? null,
+      status: options.status ?? "loaded",
+      readOnly: Boolean(options.readOnly ?? options.source?.readOnly),
+      created: Boolean(options.created),
+      deleted: Boolean(options.deleted),
+      error: null
+    };
+    this.records.push(record);
+    this.objects.set(object, record);
+    return record;
+  }
+  sourceOf(object, predicate, value) {
+    return src_default2.one(this.sourcesOf(object, predicate, value), "first") ?? null;
+  }
+  sourcesOf(object, predicate, value) {
+    const record = this.objects.get(object);
+    if (!record) {
+      return [];
+    }
+    const oldmSources = oldmSourcesOf(record, object, predicate, value);
+    if (oldmSources.length > 0) {
+      return oldmSources.map((sourceUrl) => ({
+        sourceUrl,
+        source: this.sourceById.get(sourceUrl) ?? record.source,
+        record
+      }));
+    }
+    return [{
+      sourceUrl: record.sourceUrl,
+      source: record.source,
+      record
+    }];
+  }
+  async createIn(sourceOrId, object, options = {}) {
+    const descriptor = resolveCreateSource(this, sourceOrId);
+    if (descriptor.readOnly) {
+      throw new Error(`solid-workspace: source ${descriptor.id} is read-only`);
+    }
+    this.track(object, {
+      source: descriptor,
+      sourceUrl: null,
+      status: "new",
+      created: true
+    });
+    if (options.save === false) {
+      return object;
+    }
+    await this.save(object, options);
+    return object;
+  }
+  async save(object, options = {}) {
+    const record = this.objects.get(object);
+    if (!record) {
+      throw new Error("solid-workspace: cannot save an object that is not tracked by this workspace");
+    }
+    const validation = validateRecord(record);
+    if (!validation.ok) {
+      return updateRecordStatus(record, {
+        ok: false,
+        status: "validation_failed",
+        issues: validation.issues
+      });
+    }
+    if (record.readOnly) {
+      return updateRecordStatus(record, {
+        ok: false,
+        status: "read_only",
+        error: new Error(`solid-workspace: source ${record.source?.id ?? record.sourceUrl} is read-only`)
+      });
+    }
+    try {
+      if (typeof record.source?.save === "function") {
+        const document2 = this.dataset({
+          sources: [record.source.id]
+        });
+        const response4 = await saveGraphDocument(this, record.source, document2, options);
+        record.sourceUrl = record.source.url;
+        record.created = false;
+        this.setSourceStatus(record.source, { state: "ready", error: null });
+        const syncTo = options.syncTo ?? record.source.syncTo;
+        if (syncTo) {
+          this.markSyncPending({
+            from: record.source.id,
+            into: syncTo
+          });
+        }
+        return updateRecordStatus(record, {
+          ok: true,
+          status: record.deleted ? "deleted" : "saved",
+          response: response4
+        });
+      }
+      assertSolidClient(this);
+      if (record.deleted) {
+        const response4 = await this.solid.delete(record.sourceUrl, requestOptions(options));
+        this.setSourceStatus(record.source, { state: "ready", error: null });
+        return updateRecordStatus(record, { ok: true, status: "deleted", response: response4 });
+      }
+      if (record.created || !record.sourceUrl) {
+        const source2 = record.source;
+        let response4;
+        if (source2.kind === "container") {
+          response4 = await this.solid.postToContainer(source2.url, record.object, writeOptions(source2, options));
+        } else {
+          response4 = await this.solid.create(source2.url, record.object, writeOptions(source2, options));
+        }
+        record.sourceUrl = response4.location ?? source2.url;
+        record.created = false;
+        this.setSourceStatus(record.source, { state: "ready", error: null });
+        return updateRecordStatus(record, { ok: true, status: "created", response: response4 });
+      }
+      const response3 = await this.solid.put(record.sourceUrl, bodyOptions(record.object, writeOptions(record.source, options)));
+      this.setSourceStatus(record.source, { state: "ready", error: null });
+      return updateRecordStatus(record, { ok: true, status: "saved", response: response3 });
+    } catch (error4) {
+      this.setSourceStatus(record.source, {
+        state: sourceFailureState(error4),
+        error: error4
+      });
+      return updateRecordStatus(record, { ok: false, status: "error", error: error4 });
+    }
+  }
+  async delete(object, options = {}) {
+    const record = this.objects.get(object);
+    if (!record) {
+      throw new Error("solid-workspace: cannot delete an object that is not tracked by this workspace");
+    }
+    record.deleted = true;
+    if (options.save === false) {
+      record.status = "deleted_pending";
+      return statusFor(record, { ok: true, status: record.status });
+    }
+    return this.save(object, options);
+  }
+  async saveAll(records = this.records) {
+    const statuses = [];
+    for (const recordOrObject of records) {
+      const object = recordOrObject?.object ?? recordOrObject;
+      statuses.push(await this.save(object));
+    }
+    const failures = statuses.filter((status2) => !status2.ok);
+    if (failures.length > 0) {
+      const error4 = new Error("solid-workspace: saveAll failed");
+      error4.statuses = statuses;
+      error4.failures = failures;
+      throw error4;
+    }
+    return statuses;
+  }
+  markSyncPending({ from: from3, into }) {
+    const targets = Array.isArray(into) ? into : [into];
+    for (const target of targets) {
+      const source2 = resolveSource(this, target);
+      const current = this.status.sources[source2.id] ?? sourceStatus(source2, { state: "idle" });
+      let state = "sync-pending";
+      if (current.state === "opening" || current.state === "syncing") {
+        state = current.state;
+      }
+      this.setSourceStatus(source2, {
+        ...current,
+        state,
+        syncPending: true,
+        pendingFrom: unique([
+          ...src_default2.many(current.pendingFrom),
+          ...src_default2.many(from3)
+        ])
+      });
+    }
+    return this;
+  }
+  clearSyncPending(sourceOrId) {
+    const source2 = resolveSource(this, sourceOrId);
+    const current = this.status.sources[source2.id] ?? sourceStatus(source2, { state: "idle" });
+    let state = current.state;
+    if (current.state === "sync-pending") {
+      state = "ready";
+    }
+    this.setSourceStatus(source2, {
+      ...current,
+      state,
+      syncPending: false,
+      pendingFrom: []
+    });
+    return this;
+  }
+  setSourceStatus(sourceOrId, status2 = {}) {
+    let source2 = sourceOrId?.parent ?? sourceOrId;
+    if (typeof sourceOrId === "string") {
+      source2 = this.sourceById.get(sourceOrId) ?? { id: sourceOrId };
+    }
+    if (!source2?.id) {
+      return null;
+    }
+    const current = this.status?.sources?.[source2.id] ?? {};
+    const next = sourceStatus(source2, {
+      ...current,
+      ...status2
+    });
+    this.status.sources[source2.id] = next;
+    return next;
+  }
+  setResourceStatus(resourceOrId, status2 = {}) {
+    let logicalResource = resourceOrId;
+    if (typeof resourceOrId === "string") {
+      logicalResource = this.resourceById.get(resourceOrId) ?? { id: resourceOrId };
+    }
+    if (!logicalResource?.id) {
+      return null;
+    }
+    const current = this.status?.resources?.[logicalResource.id] ?? {};
+    const next = {
+      id: logicalResource.id,
+      type: logicalResource.type ?? "replicated-resource",
+      local: logicalResource.local?.id ?? null,
+      remote: logicalResource.remote?.id ?? null,
+      state: status2.state ?? current.state ?? "idle",
+      error: status2.error ?? current.error ?? null
+    };
+    this.status.resources[logicalResource.id] = next;
+    return next;
+  }
+};
+var WorkspaceCollection = class {
+  constructor(workspace2, name, descriptor = {}) {
+    this.workspace = workspace2;
+    this.name = name;
+    this.descriptor = normalizeCollection(descriptor);
+  }
+  list() {
+    return Array.from(from(this.workspace.records).where((record) => !record.deleted).where((record) => collectionIncludesRecord(this.workspace, this.descriptor, record)).select((record) => record.object));
+  }
+  get(id2) {
+    return this.list().find((object) => object.id === id2 || object["@id"] === id2) ?? null;
+  }
+  async create(object = {}, options = {}) {
+    let data = { ...object };
+    if (this.descriptor.shape?.applyDefaults) {
+      data = this.descriptor.shape.applyDefaults(object);
+    }
+    const validation = this.descriptor.shape?.validate?.(data);
+    if (validation && !validation.ok) {
+      const error4 = new Error(`solid-workspace: ${this.name} object does not match its shape`);
+      error4.validation = validation;
+      throw error4;
+    }
+    return this.workspace.createIn(options.createIn ?? this.descriptor.createIn, data, {
+      ...options,
+      save: options.save ?? false
+    });
+  }
+  update(object, changes = {}) {
+    Object.assign(object, changes);
+    return object;
+  }
+  delete(object, options = {}) {
+    return this.workspace.delete(object, options);
+  }
+  save(object, options = {}) {
+    return this.workspace.save(object, options);
+  }
+  saveAll() {
+    return this.workspace.saveAll(Array.from(from(this.workspace.records).where((record) => collectionIncludesRecord(this.workspace, this.descriptor, record))));
+  }
+};
+function source(kind, url3, options) {
+  if (!url3) {
+    throw new TypeError("solid-workspace: source url is required");
+  }
+  return Object.freeze({
+    ...options,
+    workspacePart: "source",
+    kind,
+    type: options.type ?? kind,
+    id: options.id ?? String(url3),
+    url: String(url3),
+    readOnly: Boolean(options.readOnly),
+    shape: options.shape ?? null,
+    options: options.options ?? {}
+  });
+}
+function graphResource(options = {}) {
+  if (!options || typeof options !== "object") {
+    throw new TypeError("solid-workspace: graph resource options must be an object");
+  }
+  if (!options.id) {
+    throw new TypeError("solid-workspace: graph resource id is required");
+  }
+  if (!options.url) {
+    throw new TypeError("solid-workspace: graph resource url is required");
+  }
+  if (typeof options.load !== "function") {
+    throw new TypeError("solid-workspace: graph resource load() is required");
+  }
+  return Object.freeze({
+    ...options,
+    workspacePart: "source",
+    kind: "resource",
+    type: options.type ?? "graph-resource",
+    readOnly: Boolean(options.readOnly),
+    shape: options.shape ?? null,
+    options: options.options ?? {},
+    writeOptions: options.writeOptions,
+    id: options.id,
+    url: String(options.url)
+  });
+}
+function assertWorkspaceSource(descriptor, role = "source") {
+  if (descriptor?.workspacePart !== "source") {
+    throw new TypeError(`solid-workspace: resource ${role} replica must be a source from a factory`);
+  }
+}
+function resourceReplicaSource(descriptor, { resource: resource2, replica, syncTo } = {}) {
+  assertWorkspaceSource(descriptor, replica);
+  return Object.freeze({
+    ...descriptor,
+    logicalResource: resource2.id,
+    replica,
+    syncTo: syncTo ?? descriptor.syncTo
+  });
+}
+function normalizeSources(sources) {
+  if (!Array.isArray(sources)) {
+    throw new TypeError("solid-workspace: sources must be an array");
+  }
+  return sources.map((descriptor) => {
+    if (!descriptor || descriptor.kind !== "resource" && descriptor.kind !== "container") {
+      throw new TypeError("solid-workspace: sources must be solid.resource() or solid.container() descriptors");
+    }
+    return descriptor;
+  });
+}
+function normalizeCollection(descriptor) {
+  if (!descriptor || typeof descriptor !== "object") {
+    throw new TypeError("solid-workspace: collection descriptor must be an object");
+  }
+  const sources = descriptor.sources ?? [];
+  if (!Array.isArray(sources)) {
+    throw new TypeError("solid-workspace: collection sources must be an array");
+  }
+  return {
+    ...descriptor,
+    sources,
+    createIn: descriptor.createIn ?? sources[0]
+  };
+}
+function normalizeDatasetOptions(currentWorkspace, options = {}) {
+  if (isResourceReference(currentWorkspace, options)) {
+    return {
+      resources: [options],
+      sources: datasetSourcesForResources(currentWorkspace, [options])
+    };
+  }
+  if (options?.resources) {
+    const resources = Array.isArray(options.resources) ? options.resources : [options.resources];
+    return {
+      ...options,
+      sources: datasetSourcesForResources(currentWorkspace, resources)
+    };
+  }
+  return options;
+}
+function normalizeLoadSources(currentWorkspace, sources) {
+  if (!Array.isArray(sources)) {
+    sources = [sources];
+  }
+  return sources.map((sourceOrId) => resolveSource(currentWorkspace, sourceOrId));
+}
+function isResourceReference(currentWorkspace, value) {
+  return Boolean(
+    value?.workspacePart === "resource" || typeof value === "string" && currentWorkspace.resourceById.has(value)
+  );
+}
+function isOpenAllOptions(options) {
+  return Boolean(
+    isObject(options) && !Array.isArray(options) && !options.sources && !options.resources && !options.workspacePart
+  );
+}
+function resolveResource(currentWorkspace, resourceOrId) {
+  if (!resourceOrId) {
+    throw new TypeError("solid-workspace: resource is required");
+  }
+  if (typeof resourceOrId === "string") {
+    const logicalResource = currentWorkspace.resourceById.get(resourceOrId);
+    if (!logicalResource) {
+      throw new Error(`solid-workspace: unknown resource ${resourceOrId}`);
+    }
+    return logicalResource;
+  }
+  if (resourceOrId.workspacePart === "resource") {
+    return currentWorkspace.resourceById.get(resourceOrId.id) ?? resourceOrId;
+  }
+  return resourceOrId;
+}
+function resourceSources(logicalResource) {
+  return [logicalResource.local, logicalResource.remote].filter(Boolean);
+}
+function datasetSourcesForResources(currentWorkspace, resources) {
+  return resources.flatMap((resourceOrId) => {
+    const logicalResource = resolveResource(currentWorkspace, resourceOrId);
+    return [logicalResource.local ?? logicalResource.remote].filter(Boolean);
+  });
+}
+function resolveSource(currentWorkspace, sourceOrId) {
+  if (!sourceOrId) {
+    throw new TypeError("solid-workspace: source is required");
+  }
+  if (typeof sourceOrId === "string") {
+    const descriptor = currentWorkspace.sourceById.get(sourceOrId);
+    if (!descriptor) {
+      throw new Error(`solid-workspace: unknown source ${sourceOrId}`);
+    }
+    return descriptor;
+  }
+  return sourceOrId;
+}
+function resolveCreateSource(currentWorkspace, sourceOrResourceOrId) {
+  if (isResourceReference(currentWorkspace, sourceOrResourceOrId)) {
+    const logicalResource = resolveResource(currentWorkspace, sourceOrResourceOrId);
+    if (!logicalResource.local) {
+      throw new Error(`solid-workspace: resource ${logicalResource.id} needs a local replica for local-first writes`);
+    }
+    return logicalResource.local;
+  }
+  return resolveSource(currentWorkspace, sourceOrResourceOrId);
+}
+function recordsForSources(currentWorkspace, sources) {
+  const descriptors = new Set(normalizeLoadSources(currentWorkspace, sources));
+  const ids2 = new Set([...descriptors].map((source2) => source2.id));
+  return Array.from(from(currentWorkspace.records).where((record) => !record.deleted).where((record) => {
+    const source2 = record.source?.parent ?? record.source;
+    return source2 && (descriptors.has(source2) || ids2.has(source2.id));
+  }));
+}
+function recordBelongsToSources(record, sources) {
+  const source2 = record.source?.parent ?? record.source;
+  return Boolean(source2 && sources.some((candidate) => candidate === source2 || candidate.id === source2.id));
+}
+function collectionIncludesRecord(currentWorkspace, descriptor, record) {
+  if (descriptor.sources.length > 0) {
+    const sourceId = record.source?.parent?.id ?? record.source?.id;
+    const matches = descriptor.sources.some((collectionSource) => {
+      const logicalResource = currentWorkspace.resourceById.get(collectionSource);
+      if (logicalResource) {
+        const preferredSource = logicalResource.local ?? logicalResource.remote;
+        return preferredSource?.id === sourceId;
+      }
+      return collectionSource === sourceId;
+    });
+    if (!matches) {
+      return false;
+    }
+  }
+  if (descriptor.shape?.class) {
+    const classes = src_default2.many(record.object.rdf$type);
+    if (!classes.includes(descriptor.shape.class)) {
+      return false;
+    }
+  }
+  return true;
+}
+function subjectsFromResponse(response3) {
+  return src_default2.subjects(response3);
+}
+function graphDocumentFrom(value) {
+  if (!value) {
+    return {
+      format: null,
+      version: null,
+      prefixes: {},
+      subjects: []
+    };
+  }
+  const subjects2 = src_default2.subjects(value);
+  if (Array.isArray(value)) {
+    return {
+      format: null,
+      version: null,
+      prefixes: {},
+      subjects: subjects2
+    };
+  }
+  if (Object.hasOwn(value, "format") || Object.hasOwn(value, "version") || Object.hasOwn(value, "prefixes") || Object.hasOwn(value, "subjects") || Object.hasOwn(value, "data") || Object.hasOwn(value, "primary")) {
+    return {
+      format: value.format ?? null,
+      version: value.version ?? null,
+      prefixes: value.prefixes ?? {},
+      subjects: subjects2
+    };
+  }
+  return {
+    format: null,
+    version: null,
+    prefixes: {},
+    subjects: subjects2
+  };
+}
+function mergeSubject(target, incoming) {
+  for (const [predicate, value] of Object.entries(incoming)) {
+    if (predicate === "id") continue;
+    if (!Object.hasOwn(target, predicate)) {
+      target[predicate] = cloneValue(value);
+      continue;
+    }
+    target[predicate] = mergeValues(target[predicate], value);
+  }
+  return target;
+}
+function mergeValues(left, right) {
+  if (valueEquals(left, right)) {
+    return left;
+  }
+  if (isObject(left) && isObject(right) && left.id && left.id === right.id) {
+    return mergeSubject(left, right);
+  }
+  const values2 = [];
+  for (const item of [...arrayValues(left), ...arrayValues(right)]) {
+    if (!values2.some((existing) => valueEquals(existing, item))) {
+      values2.push(cloneValue(item));
+    }
+  }
+  return values2.length === 1 ? values2[0] : values2;
+}
+function arrayValues(value) {
+  return Array.isArray(value) ? value : [value];
+}
+function valueEquals(left, right) {
+  return valueKey(left) === valueKey(right);
+}
+function valueKey(value) {
+  if (isObject(value)) {
+    return value.id ? `id:${value.id}` : `json:${JSON.stringify(sortObject(value))}`;
+  }
+  return `${typeof value}:${String(value)}`;
+}
+function sortObject(value) {
+  if (Array.isArray(value)) {
+    return value.map(sortObject);
+  }
+  if (!isObject(value)) {
+    return value;
+  }
+  return Object.fromEntries(
+    Object.entries(value).sort(([left], [right]) => left.localeCompare(right)).map(([key, item]) => [key, sortObject(item)])
+  );
+}
+function graphDocumentsEqual(left, right) {
+  return JSON.stringify(sortObject(graphDocumentComparable(left))) === JSON.stringify(sortObject(graphDocumentComparable(right)));
+}
+function graphDocumentComparable(document2) {
+  return {
+    format: document2.format ?? null,
+    version: document2.version ?? null,
+    prefixes: document2.prefixes ?? {},
+    subjects: document2.subjects ?? []
+  };
+}
+function cloneGraphDocument(document2) {
+  const graphDocument = graphDocumentFrom(document2);
+  return {
+    ...graphDocument,
+    prefixes: cloneValue(graphDocument.prefixes),
+    subjects: cloneValue(graphDocument.subjects)
+  };
+}
+function graphDocumentToTurtle(document2, options = {}) {
+  const graphDocument = graphDocumentFrom(document2);
+  const context = src_default2.context({
+    defaultGraph: options.url,
+    prefixes: {
+      ...graphDocument.prefixes,
+      ...options.prefixes
+    }
+  });
+  const graph2 = context.parse("", options.url, "text/turtle");
+  for (const subject of graphDocument.subjects) {
+    writeSubjectToGraph({ graph: graph2, subject });
+  }
+  return graph2.write();
+}
+function writeSubjectToGraph({ graph: graph2, subject }) {
+  if (!subject?.id) return null;
+  for (const [predicate, value] of Object.entries(subject)) {
+    if (predicate === "id") continue;
+    graph2.set(subject.id, predicate, graphValueFromObjectValue({ graph: graph2, value }));
+  }
+  return subject.id;
+}
+function graphValueFromObjectValue({ graph: graph2, value }) {
+  if (Array.isArray(value)) {
+    return value.map((item) => graphValueFromObjectValue({ graph: graph2, value: item }));
+  }
+  if (isObject(value)) {
+    if (value.id) {
+      writeSubjectToGraph({ graph: graph2, subject: value });
+      return value.id;
+    }
+    return JSON.stringify(value);
+  }
+  return value;
+}
+async function saveGraphDocument(workspace2, source2, document2, options = {}) {
+  if (typeof source2.save === "function") {
+    return source2.save(document2, {
+      source: source2,
+      workspace: workspace2,
+      ...options
+    });
+  }
+  assertSolidClient(workspace2);
+  return workspace2.solid.put(source2.url, bodyOptions(document2, writeOptions(source2, options)));
+}
+function openIndexedDatabase({ indexedDB, name, version, storeName }) {
+  const factory = indexedDB ?? globalThis.indexedDB;
+  if (!factory) {
+    throw new TypeError("solid-workspace: IndexedDB is not available");
+  }
+  return new Promise((resolve, reject) => {
+    const request3 = factory.open(name, version);
+    request3.onerror = () => reject(request3.error ?? new Error(`solid-workspace: could not open IndexedDB database ${name}`));
+    request3.onblocked = () => reject(new Error(`solid-workspace: IndexedDB database ${name} is blocked`));
+    request3.onupgradeneeded = () => {
+      const database = request3.result;
+      if (!objectStoreExists(database.objectStoreNames, storeName)) {
+        database.createObjectStore(storeName, { keyPath: "key" });
+      }
+    };
+    request3.onsuccess = () => resolve(request3.result);
+  });
+}
+function indexedDBGet(database, storeName, key) {
+  return indexedDBRequest(
+    database.transaction(storeName, "readonly").objectStore(storeName).get(key)
+  );
+}
+function indexedDBPut(database, storeName, value) {
+  return indexedDBRequest(
+    database.transaction(storeName, "readwrite").objectStore(storeName).put(value)
+  );
+}
+function indexedDBRequest(request3) {
+  return new Promise((resolve, reject) => {
+    request3.onerror = () => reject(request3.error ?? new Error("solid-workspace: IndexedDB request failed"));
+    request3.onsuccess = () => resolve(request3.result);
+  });
+}
+function objectStoreExists(objectStoreNames, storeName) {
+  if (typeof objectStoreNames?.contains === "function") {
+    return objectStoreNames.contains(storeName);
+  }
+  return src_default2.many(objectStoreNames).includes(storeName);
+}
+function assertSolidClient(workspace2) {
+  if (!workspace2.solid) {
+    throw new TypeError("solid-workspace: a Solid API client is required for Solid sources");
+  }
+}
+function cloneValue(value) {
+  if (Array.isArray(value)) {
+    return value.map(cloneValue);
+  }
+  if (isObject(value)) {
+    return Object.fromEntries(
+      Object.entries(value).map(([key, item]) => [key, cloneValue(item)])
+    );
+  }
+  return value;
+}
+function oldmSourcesOf(record, object, predicate, value) {
+  const data = record.response;
+  const context = data?.context ?? data?.primary?.context;
+  if (!context || typeof context.sources !== "function") {
+    return [];
+  }
+  return context.sources(object, predicate, value).map((source2) => typeof source2 === "string" ? source2 : source2?.url ?? source2?.id).filter(Boolean);
+}
+function statusFromError(error4) {
+  return error4?.cause?.status;
+}
+function validateRecord(record) {
+  const validation = record.source?.shape?.validate?.(record.object);
+  return validation ?? { ok: true, issues: [] };
+}
+function writeOptions(source2, options) {
+  const headers = new Headers(source2?.writeOptions?.headers);
+  for (const [key, value] of new Headers(options?.headers)) {
+    headers.set(key, value);
+  }
+  if (!headers.has("Content-Type")) {
+    headers.set("Content-Type", "text/turtle");
+  }
+  return {
+    ...source2?.writeOptions,
+    ...options,
+    headers
+  };
+}
+function requestOptions(options = {}) {
+  return {
+    ...options,
+    headers: new Headers(options.headers)
+  };
+}
+function bodyOptions(body, options = {}) {
+  return {
+    ...options,
+    body,
+    headers: new Headers(options.headers)
+  };
+}
+function updateRecordStatus(record, status2) {
+  record.status = status2.status;
+  record.error = status2.error ?? null;
+  record.response = status2.response ?? record.response;
+  return statusFor(record, status2);
+}
+function statusFor(record, status2 = {}) {
+  return {
+    object: record.object,
+    sourceUrl: record.sourceUrl,
+    source: record.source,
+    ...status2
+  };
+}
+function sourceStatus(source2, status2 = {}) {
+  return {
+    id: source2.id,
+    type: source2.type ?? source2.kind ?? "source",
+    url: source2.url ?? null,
+    local: Boolean(source2.local),
+    logicalResource: source2.logicalResource ?? null,
+    replica: source2.replica ?? null,
+    state: status2.state ?? "idle",
+    error: status2.error ?? null,
+    syncPending: Boolean(status2.syncPending),
+    pendingFrom: src_default2.many(status2.pendingFrom)
+  };
+}
+function workspaceState(currentWorkspace) {
+  const states = Object.values(currentWorkspace.status.sources).map((status2) => status2.state);
+  if (states.length === 0) {
+    return "idle";
+  }
+  if (states.some((state) => state === "ready" || state === "sync-pending")) {
+    return "ready";
+  }
+  if (states.some((state) => state === "opening" || state === "syncing")) {
+    return "opening";
+  }
+  return "error";
+}
+function resourceState(currentWorkspace, logicalResource) {
+  const states = resourceSources(logicalResource).map((source2) => currentWorkspace.status.sources[source2.id]?.state).filter(Boolean);
+  if (states.length === 0) {
+    return "idle";
+  }
+  if (states.some((state) => state === "sync-pending")) {
+    return "sync-pending";
+  }
+  if (states.some((state) => state === "ready")) {
+    return "ready";
+  }
+  if (states.some((state) => state === "opening" || state === "syncing")) {
+    return "opening";
+  }
+  return states[0] ?? "idle";
+}
+function sourceFailureState(error4) {
+  const status2 = errorStatus(error4);
+  if (status2 === 401 || status2 === 403) {
+    return "auth-needed";
+  }
+  if (!status2 || error4?.name === "TypeError") {
+    return "offline";
+  }
+  return "error";
+}
+function errorStatus(error4) {
+  return error4?.cause?.status;
+}
+function ensureSlash(url3) {
+  return String(url3).endsWith("/") ? String(url3) : `${url3}/`;
+}
+function unique(items) {
+  return [...new Set(items)];
+}
+function isObject(value) {
+  return Boolean(value && typeof value === "object" && !Array.isArray(value));
+}
+
+// ../solid-tools/packages/simplysolid/src/index.mjs
+function simplySolid(config = {}) {
+  return new SimplySolid(config);
+}
+var SimplySolid = class {
+  constructor(config = {}) {
+    if (!config || typeof config !== "object") {
+      throw new TypeError("simplysolid: config must be an object");
+    }
+    const normalized = normalizeConfig(config);
+    this.solid = normalized.client ?? config.workspace?.solid ?? null;
+    this.conventions = normalized.conventions;
+    this.settings = normalized.settings;
+    this.registrations = normalized.registrations;
+    this.status = {
+      state: "idle",
+      error: null,
+      profile: config.profile ?? null,
+      storage: normalizeStorage(config.storage),
+      setup: setupStatus("unknown", normalized.conventions, normalized.registrations),
+      collections: {},
+      resources: {}
+    };
+    this.workspace = config.workspace ?? workspace({
+      solid: normalized.client,
+      sources: normalized.sources,
+      resources: normalized.resources,
+      collections: normalized.collections
+    });
+    this.status.resources = this.workspace.status.resources;
+    this.data = Object.fromEntries(
+      Object.entries(this.workspace.collections).map(([name, collection2]) => [
+        name,
+        new SimplySolidCollection(this, name, collection2)
+      ])
+    );
+    for (const name of Object.keys(this.data)) {
+      this.status.collections[name] = this.data[name].status;
+    }
+  }
+  install(app2) {
+    app2.solid = this;
+    if (app2.data && typeof app2.data === "object") {
+      app2.data.solid = this.status;
+    }
+    return this;
+  }
+  async open(options = {}) {
+    this.status.state = "opening";
+    this.status.error = null;
+    try {
+      await this.workspace.open(options);
+      for (const handle of Object.values(this.data)) {
+        handle.refresh();
+      }
+      this.status.state = "ready";
+      this.status.lastOpen = /* @__PURE__ */ new Date();
+      return this.data;
+    } catch (error4) {
+      this.status.state = "error";
+      this.status.error = error4;
+      throw error4;
+    }
+  }
+  async sync(options = {}) {
+    if (isResourceSyncRequest(this.workspace, options)) {
+      return this.syncResources(options);
+    }
+    this.status.state = "syncing";
+    this.status.error = null;
+    try {
+      await this.workspace.open(options);
+      for (const handle of Object.values(this.data)) {
+        handle.refresh();
+      }
+      this.status.state = "ready";
+      this.status.lastSync = /* @__PURE__ */ new Date();
+      return this.data;
+    } catch (error4) {
+      this.status.state = "error";
+      this.status.error = error4;
+      throw error4;
+    }
+  }
+  dataset(options = {}) {
+    return this.workspace.dataset(options);
+  }
+  async connect(options = {}) {
+    this.status.state = "connecting";
+    this.status.error = null;
+    try {
+      const client3 = options.solid ?? options.solidApi ?? options.client;
+      if (client3) {
+        this.solid = client3;
+        this.workspace.setClient(client3);
+      }
+      const resources = connectionResources(options);
+      const opened = [];
+      for (const [name, descriptor] of Object.entries(resources)) {
+        const part = remoteResourcePart(name, descriptor, this);
+        this.workspace.add(part);
+        opened.push(name);
+      }
+      if (options.open !== false && opened.length > 0) {
+        await this.workspace.open({ resources: opened });
+      }
+      for (const handle of Object.values(this.data)) {
+        handle.refresh();
+      }
+      this.status.state = "ready";
+      this.status.lastConnect = /* @__PURE__ */ new Date();
+      return this;
+    } catch (error4) {
+      this.status.state = "error";
+      this.status.error = error4;
+      throw error4;
+    }
+  }
+  async syncResources(options = {}) {
+    this.status.state = "syncing";
+    this.status.error = null;
+    try {
+      const status2 = await this.workspace.sync(options);
+      for (const handle of Object.values(this.data)) {
+        handle.refresh();
+      }
+      this.status.state = "ready";
+      this.status.lastSync = /* @__PURE__ */ new Date();
+      return status2;
+    } catch (error4) {
+      this.status.state = "error";
+      this.status.error = error4;
+      throw error4;
+    }
+  }
+  async checkSetup() {
+    if (!this.solid) {
+      this.status.setup = setupStatus("unknown", this.conventions, this.registrations, {
+        error: new Error("simplysolid: setup checks require a Solid API client")
+      });
+      return this.status.setup;
+    }
+    const checks = [];
+    for (const url3 of this.conventions.requiredContainers) {
+      checks.push(await checkContainer(this.solid, url3));
+    }
+    const missing = checks.filter((check) => check.status === "missing");
+    const repair = checks.filter((check) => check.status === "error");
+    const state = repair.length > 0 ? "repair-needed" : missing.length > 0 ? "setup-needed" : "ready";
+    this.status.setup = setupStatus(state, this.conventions, this.registrations, {
+      checks,
+      needed: missing,
+      repair
+    });
+    return this.status.setup;
+  }
+  async setup() {
+    const setup = await this.checkSetup();
+    if (setup.state === "ready") {
+      return setup;
+    }
+    if (setup.state === "repair-needed") {
+      return setup;
+    }
+    this.status.setup = {
+      ...setup,
+      state: "creating"
+    };
+    const created = [];
+    const repair = [];
+    for (const item of setup.needed) {
+      try {
+        const response3 = await this.solid.createContainer(item.url);
+        created.push({ ...item, response: response3 });
+      } catch (error4) {
+        repair.push({ ...item, status: "error", error: error4 });
+      }
+    }
+    if (repair.length > 0) {
+      this.status.setup = setupStatus("repair-needed", this.conventions, this.registrations, {
+        created,
+        repair
+      });
+      return this.status.setup;
+    }
+    return this.checkSetup();
+  }
+};
+var SimplySolidCollection = class {
+  constructor(service, name, collection2) {
+    this.solid = service;
+    this.name = name;
+    this.collection = collection2;
+    this.items = [];
+    this.status = {
+      state: "idle",
+      error: null,
+      lastSync: null,
+      lastSave: null
+    };
+  }
+  refresh() {
+    this.items = this.collection.list();
+    this.status.state = "ready";
+    this.status.lastSync = /* @__PURE__ */ new Date();
+    return this.items;
+  }
+  async sync() {
+    this.status.state = "syncing";
+    this.status.error = null;
+    try {
+      await this.solid.workspace.open(this.collection.descriptor.sources);
+      return this.refresh();
+    } catch (error4) {
+      this.status.state = "error";
+      this.status.error = error4;
+      throw error4;
+    }
+  }
+  list() {
+    return this.refresh();
+  }
+  get(id2) {
+    return this.collection.get(id2);
+  }
+  async create(data = {}, options = {}) {
+    return this.write("creating", async () => {
+      const object = await this.collection.create(data, {
+        ...options,
+        save: false
+      });
+      if (options.save === false) {
+        this.refresh();
+        return object;
+      }
+      const status2 = await this.collection.save(object, options);
+      this.status.lastSave = status2;
+      this.refresh();
+      return object;
+    });
+  }
+  async update(idOrObject, changes = {}, options = {}) {
+    return this.write("saving", async () => {
+      const object = this.resolve(idOrObject);
+      this.collection.update(object, changes);
+      if (options.save === false) {
+        this.refresh();
+        return object;
+      }
+      const status2 = await this.collection.save(object, options);
+      this.status.lastSave = status2;
+      this.refresh();
+      return object;
+    });
+  }
+  async delete(idOrObject, options = {}) {
+    return this.write("deleting", async () => {
+      const object = this.resolve(idOrObject);
+      const status2 = await this.collection.delete(object, {
+        ...options,
+        save: options.save ?? true
+      });
+      this.status.lastSave = status2;
+      this.refresh();
+      return status2;
+    });
+  }
+  async saveAll() {
+    return this.write("saving", async () => {
+      const statuses = await this.collection.saveAll();
+      this.status.lastSave = statuses;
+      this.refresh();
+      return statuses;
+    });
+  }
+  async write(state, fn) {
+    this.status.state = state;
+    this.status.error = null;
+    try {
+      const result = await fn();
+      this.status.state = "ready";
+      return result;
+    } catch (error4) {
+      this.status.state = "error";
+      this.status.error = error4;
+      throw error4;
+    }
+  }
+  resolve(idOrObject) {
+    if (typeof idOrObject === "string") {
+      const object = this.get(idOrObject);
+      if (!object) {
+        throw new Error(`simplysolid: ${this.name} item ${idOrObject} was not found`);
+      }
+      return object;
+    }
+    if (!idOrObject || typeof idOrObject !== "object") {
+      throw new TypeError(`simplysolid: ${this.name} item must be an object or id`);
+    }
+    return idOrObject;
+  }
+};
+function normalizeConfig(config) {
+  if (config.workspace) {
+    const conventions2 = setupConventions(config, {
+      sources: config.workspace.sources ?? [],
+      resources: config.workspace.resources ?? [],
+      collections: config.workspace.collections ?? {}
+    });
+    return {
+      client: null,
+      sources: [],
+      resources: [],
+      collections: {},
+      conventions: conventions2,
+      settings: settingsFor(config, conventions2),
+      registrations: registrationsFor(config, conventions2)
+    };
+  }
+  const client3 = config.solid ?? config.solidApi ?? config.client;
+  const explicitSources = config.sources ?? [];
+  const explicitResources = config.resources ?? [];
+  const data = config.data ?? config.collections ?? {};
+  const generatedSources = [];
+  const generatedResources = [];
+  const collections = {};
+  const hasLocalFirstData = Object.values(data).some((descriptor) => isLocalFirstDescriptor(null, descriptor, config));
+  if (!client3 && explicitSources.length === 0 && explicitResources.length === 0 && !hasLocalFirstData) {
+    throw new TypeError("simplysolid: a Solid API client, workspace, source, resource, or local-first data config is required");
+  }
+  for (const [name, descriptor] of Object.entries(data)) {
+    const normalized = normalizeCollection2(name, descriptor, config);
+    collections[name] = normalized.collection;
+    if (normalized.source) {
+      generatedSources.push(normalized.source);
+    }
+    if (normalized.resource) {
+      generatedResources.push(normalized.resource);
+    }
+  }
+  const sources = [...explicitSources, ...generatedSources];
+  const resources = [...explicitResources, ...generatedResources];
+  const conventions = setupConventions(config, { sources, resources, collections });
+  return {
+    client: client3,
+    sources,
+    resources,
+    collections,
+    conventions,
+    settings: settingsFor(config, conventions),
+    registrations: registrationsFor(config, conventions)
+  };
+}
+function normalizeCollection2(name, descriptor = {}, config = {}) {
+  if (!descriptor || typeof descriptor !== "object") {
+    throw new TypeError(`simplysolid: collection ${name} must be an object`);
+  }
+  if (descriptor.kind === "collection" && !descriptor.path) {
+    return {
+      collection: descriptor,
+      source: null,
+      resource: null
+    };
+  }
+  if (isLocalFirstDescriptor(name, descriptor, config)) {
+    const resourceId = descriptor.resourceId ?? descriptor.resource ?? descriptor.source ?? name;
+    const resource2 = resource(resourceId, {
+      local: localSourceForResource(name, descriptor, config),
+      remote: remoteSourceForResource(name, descriptor, config, resourceId)
+    });
+    return {
+      source: null,
+      resource: resource2,
+      collection: collection({
+        ...descriptor,
+        sources: descriptor.sources ?? [resourceId],
+        createIn: descriptor.createIn ?? resourceId
+      })
+    };
+  }
+  const source2 = descriptor.path ? sourceFromPath(name, descriptor, config) : null;
+  const sourceId = descriptor.source ?? source2?.id;
+  const sources = descriptor.sources ?? (sourceId ? [sourceId] : []);
+  const createIn = descriptor.createIn ?? sourceId ?? sources[0];
+  return {
+    source: source2,
+    resource: null,
+    collection: collection({
+      ...descriptor,
+      sources,
+      createIn
+    })
+  };
+}
+function isLocalFirstDescriptor(_name, descriptor = {}, config = {}) {
+  if (!descriptor || typeof descriptor !== "object") {
+    return false;
+  }
+  return Boolean(
+    descriptor.local || descriptor.localFirst || config.localFirst && (descriptor.kind === "resource" || descriptor.resource === true || descriptor.path && !String(descriptor.path).endsWith("/"))
+  );
+}
+function localSourceForResource(name, descriptor = {}, config = {}) {
+  const localConfig = descriptor.local === true ? {} : descriptor.local ?? {};
+  if (localConfig?.workspacePart === "source") {
+    return localConfig;
+  }
+  const indexedDBName = typeof localConfig.indexedDB === "string" ? localConfig.indexedDB : null;
+  const indexedDBFactory = localConfig.indexedDB && typeof localConfig.indexedDB !== "string" ? localConfig.indexedDB : localConfig.indexedDBFactory;
+  const databaseName = indexedDBName ?? localConfig.name ?? localConfig.databaseName ?? localConfig.database ?? config.local?.indexedDB ?? config.local?.name ?? slugFrom(config.app?.slug ?? config.slug ?? config.app?.id ?? config.id ?? defaultAppId());
+  return local.indexedDB(databaseName, {
+    ...localConfig,
+    id: localConfig.id ?? `${descriptor.resourceId ?? descriptor.resource ?? descriptor.source ?? name}:local`,
+    key: localConfig.key ?? name,
+    prefixes: localConfig.prefixes ?? descriptor.prefixes,
+    document: localConfig.document ?? descriptor.document,
+    indexedDB: indexedDBFactory
+  });
+}
+function remoteSourceForResource(name, descriptor = {}, config = {}, resourceId = name) {
+  if (descriptor.remote === false) {
+    return null;
+  }
+  const remoteConfig = descriptor.remote === true ? {} : descriptor.remote ?? {};
+  if (remoteConfig?.workspacePart === "source") {
+    return remoteConfig;
+  }
+  const url3 = remoteConfig.url ?? remoteConfig.resourceUrl ?? (descriptor.path && firstStorage(config.storage) ? new URL(descriptor.path, firstStorage(config.storage)).href : null);
+  if (!url3) {
+    return null;
+  }
+  return solid.turtleResource(url3, {
+    id: remoteConfig.id ?? descriptor.remoteSource ?? `${resourceId}:solid`,
+    readOnly: Boolean(remoteConfig.readOnly ?? descriptor.readOnly),
+    shape: remoteConfig.shape ?? descriptor.shape ?? null,
+    options: remoteConfig.options ?? descriptor.options ?? {},
+    writeOptions: remoteConfig.writeOptions ?? descriptor.writeOptions
+  });
+}
+function connectionResources(options = {}) {
+  if (options.resourceUrl) {
+    return {
+      [options.resource ?? options.name ?? "default"]: {
+        ...options,
+        url: options.resourceUrl
+      }
+    };
+  }
+  return options.resources ?? options.data ?? {};
+}
+function remoteResourcePart(name, descriptor = {}, service) {
+  const config = typeof descriptor === "string" ? { url: descriptor } : descriptor;
+  const resourceId = config.resourceId ?? config.resource ?? name;
+  const url3 = config.url ?? config.resourceUrl ?? (config.path && firstStorage(service.status.storage) ? new URL(config.path, firstStorage(service.status.storage)).href : null);
+  if (!url3) {
+    throw new TypeError(`simplysolid: connected resource ${name} needs a url, resourceUrl, or path`);
+  }
+  return resource(resourceId, {
+    remote: solid.turtleResource(url3, {
+      id: config.id ?? config.source ?? `${resourceId}:solid`,
+      readOnly: Boolean(config.readOnly),
+      shape: config.shape ?? null,
+      options: config.options ?? {},
+      writeOptions: config.writeOptions
+    })
+  });
+}
+function isResourceSyncRequest(currentWorkspace, options) {
+  return Boolean(
+    options?.workspacePart === "resource" || typeof options === "string" && currentWorkspace.resourceById.has(options)
+  );
+}
+function sourceFromPath(name, descriptor, config) {
+  const storage = firstStorage(config.storage);
+  if (!storage) {
+    throw new TypeError(`simplysolid: collection ${name} uses path but no storage root was configured`);
+  }
+  const url3 = new URL(descriptor.path, storage).href;
+  const options = {
+    id: descriptor.source ?? name,
+    readOnly: Boolean(descriptor.readOnly),
+    shape: descriptor.shape ?? null,
+    options: descriptor.options ?? {},
+    writeOptions: descriptor.writeOptions
+  };
+  return descriptor.kind === "resource" || descriptor.resource === true || !url3.endsWith("/") ? solid.resource(url3, options) : solid.container(url3, options);
+}
+function normalizeStorage(storage) {
+  if (!storage) {
+    return [];
+  }
+  if (Array.isArray(storage)) {
+    return storage.map(storageUrl);
+  }
+  return [storageUrl(storage)];
+}
+function firstStorage(storage) {
+  return normalizeStorage(storage)[0] ?? null;
+}
+function storageUrl(storage) {
+  const url3 = typeof storage === "string" ? storage : storage?.url ?? storage?.id;
+  return url3 && !String(url3).endsWith("/") ? `${url3}/` : url3;
+}
+function setupConventions(config, normalized) {
+  const storage = firstStorage(config.storage);
+  const appId = config.app?.id ?? config.id ?? defaultAppId();
+  const appSlug = config.app?.slug ?? config.slug ?? slugFrom(appId);
+  const appStorage = ensureSlash2(config.appStorage ?? config.setup?.appStorage ?? (storage ? new URL(`apps/${appSlug}/`, storage).href : null));
+  const settingsUrl = config.settings?.url ?? config.setup?.settingsUrl ?? (appStorage ? new URL("settings.ttl", appStorage).href : null);
+  const sourceContainers = (normalized.sources ?? []).filter((source2) => source2.kind === "container").map((source2) => source2.url);
+  const requiredContainers = unique2([
+    appStorage,
+    ...sourceContainers,
+    ...config.setup?.containers ?? []
+  ].filter(Boolean).map(ensureSlash2));
+  return {
+    appId,
+    appSlug,
+    appStorage,
+    settingsUrl,
+    requiredContainers
+  };
+}
+function settingsFor(config, conventions) {
+  return {
+    url: conventions.settingsUrl,
+    data: config.settings?.data ?? {},
+    shape: config.settings?.shape ?? null
+  };
+}
+function registrationsFor(config, conventions) {
+  if (config.registrations) {
+    return config.registrations;
+  }
+  const data = config.data ?? config.collections ?? {};
+  return Object.entries(data).map(([name, descriptor]) => {
+    if (!descriptor?.shape?.class) {
+      return null;
+    }
+    const sourceUrl = descriptor.path && conventions.appStorage ? new URL(descriptor.path, firstStorage(config.storage)).href : descriptor.url ?? null;
+    return {
+      collection: name,
+      forClass: descriptor.shape.class,
+      instanceContainer: sourceUrl?.endsWith("/") ? sourceUrl : null,
+      instance: sourceUrl && !sourceUrl.endsWith("/") ? sourceUrl : null,
+      private: descriptor.private ?? true,
+      registered: false
+    };
+  }).filter(Boolean);
+}
+function setupStatus(state, conventions, registrations, options = {}) {
+  return {
+    state,
+    needed: options.needed ?? [],
+    repair: options.repair ?? [],
+    checks: options.checks ?? [],
+    created: options.created ?? [],
+    error: options.error ?? null,
+    appStorage: conventions.appStorage,
+    settingsUrl: conventions.settingsUrl,
+    registrations
+  };
+}
+async function checkContainer(client3, url3) {
+  try {
+    const response3 = await client3.head(url3);
+    const status2 = response3?.status ?? 200;
+    if (status2 === 404) {
+      return { url: url3, status: "missing", response: response3 };
+    }
+    if (status2 >= 400) {
+      return { url: url3, status: "error", response: response3 };
+    }
+    return { url: url3, status: "ready", response: response3 };
+  } catch (error4) {
+    const status2 = error4.cause?.status ?? error4.response?.status;
+    if (status2 === 404) {
+      return { url: url3, status: "missing", error: error4 };
+    }
+    return { url: url3, status: "error", error: error4 };
+  }
+}
+function defaultAppId() {
+  const location = globalThis.location?.href;
+  if (!location) {
+    return "app";
+  }
+  const url3 = new URL(location);
+  url3.hash = "";
+  return url3.href;
+}
+function slugFrom(value) {
+  const input2 = String(value);
+  let source2 = input2;
+  try {
+    const url3 = new URL(input2);
+    source2 = url3.pathname.split("/").filter(Boolean).at(-1) ?? url3.hostname;
+  } catch {
+    source2 = input2;
+  }
+  return source2.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "") || "app";
+}
+function ensureSlash2(url3) {
+  return url3 && !String(url3).endsWith("/") ? `${url3}/` : url3;
+}
+function unique2(values2) {
+  return [...new Set(values2)];
+}
+
+// ../../poef/cobalt-note/packages/rich-text-note/dist/fragment.js
+function getJoinOffsetAfterSeparator(first2, second, separator) {
+  if (separator.length > 0) {
+    return first2.text.length + separator.length;
+  }
+  if (first2.text.endsWith("\n")) {
+    return first2.text.length;
+  }
+  if (second.text.startsWith("\n")) {
+    return first2.text.length + 1;
+  }
+  return first2.text.length;
+}
+function getNextOrder(fragment) {
+  if (fragment.annotations.length === 0) {
+    return 1;
+  }
+  return Math.max(...fragment.annotations.map((annotation) => annotation.order)) + 1;
+}
+function addAnnotation(fragment, range, tag) {
+  const [start, end] = range;
+  if (end <= start) {
+    return null;
+  }
+  const annotation = {
+    range: [start, end],
+    tag,
+    order: getNextOrder(fragment)
+  };
+  fragment.annotations.push(annotation);
+  return annotation;
+}
+function insertText(fragment, offset, text, options = {}) {
+  if (text.length === 0) {
+    return;
+  }
+  const normalizedOffset = clamp(offset, 0, fragment.text.length);
+  const growAtEnd = options.growAtEnd ?? true;
+  const delta = text.length;
+  fragment.text = fragment.text.slice(0, normalizedOffset) + text + fragment.text.slice(normalizedOffset);
+  for (const annotation of fragment.annotations) {
+    let [start, end] = annotation.range;
+    if (normalizedOffset <= start) {
+      start += delta;
+      end += delta;
+    } else if (normalizedOffset < end || growAtEnd && normalizedOffset === end) {
+      end += delta;
+    }
+    annotation.range = [start, end];
+  }
+}
+function deleteRange(fragment, startOffset, endOffset) {
+  const start = clamp(startOffset, 0, fragment.text.length);
+  const end = clamp(endOffset, 0, fragment.text.length);
+  if (end <= start) {
+    return;
+  }
+  fragment.text = fragment.text.slice(0, start) + fragment.text.slice(end);
+  fragment.annotations = mergeAdjacentMatchingAnnotations(fragment.annotations.map((annotation) => {
+    const [annotationStart, annotationEnd] = annotation.range;
+    return {
+      ...annotation,
+      range: [
+        transformDeletedOffset(annotationStart, start, end),
+        transformDeletedOffset(annotationEnd, start, end)
+      ]
+    };
+  }).filter((annotation) => annotation.range[1] > annotation.range[0]));
+}
+function sliceFragment(fragment, startOffset, endOffset) {
+  const start = clamp(startOffset, 0, fragment.text.length);
+  const end = clamp(endOffset, 0, fragment.text.length);
+  if (end <= start) {
+    return {
+      text: "",
+      annotations: []
+    };
+  }
+  return {
+    text: fragment.text.slice(start, end),
+    annotations: fragment.annotations.map((annotation) => {
+      const annotationStart = Math.max(annotation.range[0], start);
+      const annotationEnd = Math.min(annotation.range[1], end);
+      if (annotationEnd <= annotationStart) {
+        return null;
+      }
+      return {
+        ...annotation,
+        range: [
+          annotationStart - start,
+          annotationEnd - start
+        ]
+      };
+    }).filter((annotation) => annotation !== null)
+  };
+}
+function insertFragment(fragment, offset, inserted, options = {}) {
+  const normalizedOffset = clamp(offset, 0, fragment.text.length);
+  if (inserted.text.length === 0) {
+    return;
+  }
+  const maxOrder = getNextOrder(fragment) - 1;
+  insertText(fragment, normalizedOffset, inserted.text, options);
+  const sortedAnnotations = [...inserted.annotations].sort((a, b) => {
+    if (a.order !== b.order) {
+      return a.order - b.order;
+    }
+    if (a.range[0] !== b.range[0]) {
+      return a.range[0] - b.range[0];
+    }
+    return a.range[1] - b.range[1];
+  });
+  for (let i = 0; i < sortedAnnotations.length; i++) {
+    const annotation = sortedAnnotations[i];
+    fragment.annotations.push({
+      ...annotation,
+      range: [
+        annotation.range[0] + normalizedOffset,
+        annotation.range[1] + normalizedOffset
+      ],
+      order: maxOrder + i + 1
+    });
+  }
+  fragment.annotations = mergeAdjacentMatchingAnnotations(fragment.annotations);
+}
+function splitFragment(fragment, offset) {
+  const splitOffset = clamp(offset, 0, fragment.text.length);
+  const before = {
+    text: fragment.text.slice(0, splitOffset),
+    annotations: []
+  };
+  const after = {
+    text: fragment.text.slice(splitOffset),
+    annotations: []
+  };
+  for (const annotation of fragment.annotations) {
+    const [start, end] = annotation.range;
+    const beforeStart = start;
+    const beforeEnd = Math.min(end, splitOffset);
+    if (beforeEnd > beforeStart) {
+      before.annotations.push({
+        ...annotation,
+        range: [beforeStart, beforeEnd]
+      });
+    }
+    const afterStart = Math.max(start, splitOffset) - splitOffset;
+    const afterEnd = end - splitOffset;
+    if (afterEnd > afterStart) {
+      after.annotations.push({
+        ...annotation,
+        range: [afterStart, afterEnd]
+      });
+    }
+  }
+  return { before, after };
+}
+function concatFragments(first2, second, separator = "") {
+  const joinOffset = getJoinOffsetAfterSeparator(first2, second, separator);
+  const secondOffset = first2.text.length + separator.length;
+  return {
+    fragment: {
+      text: first2.text + separator + second.text,
+      annotations: mergeAdjacentMatchingAnnotations([
+        ...first2.annotations.map((annotation) => ({
+          ...annotation,
+          range: [...annotation.range]
+        })),
+        ...second.annotations.map((annotation) => ({
+          ...annotation,
+          range: [
+            annotation.range[0] + secondOffset,
+            annotation.range[1] + secondOffset
+          ]
+        }))
+      ])
+    },
+    joinOffset
+  };
+}
+function joinFragments(first2, second) {
+  return concatFragments(first2, second, needsJoinSeparator(first2, second) ? "\n" : "");
+}
+function mergeAdjacentMatchingAnnotations(annotations) {
+  const sorted = [...annotations].sort((a, b) => {
+    if (a.order !== b.order) {
+      return a.order - b.order;
+    }
+    if (a.tag !== b.tag) {
+      return a.tag.localeCompare(b.tag);
+    }
+    if (a.range[0] !== b.range[0]) {
+      return a.range[0] - b.range[0];
+    }
+    return a.range[1] - b.range[1];
+  });
+  const merged = [];
+  for (const annotation of sorted) {
+    const previous = merged[merged.length - 1];
+    if (previous && previous.order === annotation.order && previous.tag === annotation.tag && previous.range[1] === annotation.range[0]) {
+      previous.range = [
+        previous.range[0],
+        annotation.range[1]
+      ];
+    } else {
+      merged.push({
+        ...annotation,
+        range: [...annotation.range]
+      });
+    }
+  }
+  return merged;
+}
+function needsJoinSeparator(first2, second) {
+  if (first2.text.length === 0 || second.text.length === 0) {
+    return false;
+  }
+  return !first2.text.endsWith("\n") && !second.text.startsWith("\n");
+}
+function transformDeletedOffset(offset, deleteStart, deleteEnd) {
+  if (offset <= deleteStart) {
+    return offset;
+  }
+  if (offset >= deleteEnd) {
+    return offset - (deleteEnd - deleteStart);
+  }
+  return deleteStart;
+}
+function clamp(value, min, max) {
+  return Math.max(min, Math.min(max, value));
+}
+
+// ../../poef/cobalt-note/packages/rich-text-note/dist/commands.js
+var InsertTextCommand = class {
+  offset;
+  text;
+  options;
+  constructor(offset, text, options = {}) {
+    this.offset = offset;
+    this.text = text;
+    this.options = options;
+  }
+  apply(fragment) {
+    insertText(fragment, this.offset, this.text, this.options);
+  }
+};
+var InsertFragmentCommand = class {
+  offset;
+  fragmentToInsert;
+  options;
+  constructor(offset, fragmentToInsert, options = {}) {
+    this.offset = offset;
+    this.fragmentToInsert = fragmentToInsert;
+    this.options = options;
+  }
+  apply(fragment) {
+    insertFragment(fragment, this.offset, this.fragmentToInsert, this.options);
+  }
+};
+var DeleteRangeCommand = class {
+  startOffset;
+  endOffset;
+  constructor(startOffset, endOffset) {
+    this.startOffset = startOffset;
+    this.endOffset = endOffset;
+  }
+  apply(fragment) {
+    deleteRange(fragment, this.startOffset, this.endOffset);
+  }
+};
+var AddAnnotationCommand = class {
+  range;
+  tag;
+  constructor(range, tag) {
+    this.range = range;
+    this.tag = tag;
+  }
+  apply(fragment) {
+    addAnnotation(fragment, this.range, this.tag);
+  }
+};
+function applyCommands(fragment, commands2) {
+  for (const command of commands2) {
+    command.apply(fragment);
+  }
+}
+
+// ../../poef/cobalt-note/packages/rich-text-note/dist/registry.js
+var AnnotationRegistry = class {
+  definitions = /* @__PURE__ */ new Map();
+  register(definition) {
+    this.definitions.set(definition.name, definition);
+  }
+  get(name) {
+    return this.definitions.get(name);
+  }
+  getAll() {
+    return Array.from(this.definitions.values());
+  }
+  findByShortcut(event) {
+    const key = shortcutFromKeyboardEvent(event);
+    return this.getAll().find((definition) => definition.shortcut?.toLowerCase() === key);
+  }
+  findByTag(tag) {
+    const trimmed = tag.trim();
+    for (const definition of this.definitions.values()) {
+      if (trimmed === definition.tag) {
+        return {
+          name: definition.name,
+          enabled: true,
+          tag: definition.tag,
+          closeTag: createHtmlCloseTag(definition.tag),
+          priority: definition.priority ?? 100
+        };
+      }
+      if (trimmed === createInverseAnnotationTag(definition.tag)) {
+        return {
+          name: definition.name,
+          enabled: false,
+          priority: definition.priority ?? 100
+        };
+      }
+    }
+    return null;
+  }
+};
+var defaultRegistry = new AnnotationRegistry();
+defaultRegistry.register({
+  name: "__selection",
+  tag: '<span data-cobalt-selection="true">',
+  priority: -100,
+  supportsPending: false
+});
+defaultRegistry.register({
+  name: "link",
+  tag: "<a>",
+  priority: 0,
+  shortcut: "Ctrl+K",
+  supportsPending: false
+});
+defaultRegistry.register({
+  name: "underline",
+  tag: "<u>",
+  priority: 10,
+  shortcut: "Ctrl+U",
+  supportsPending: true
+});
+defaultRegistry.register({
+  name: "em",
+  tag: "<em>",
+  priority: 20,
+  shortcut: "Ctrl+I",
+  supportsPending: true
+});
+defaultRegistry.register({
+  name: "strong",
+  tag: "<strong>",
+  priority: 30,
+  shortcut: "Ctrl+B",
+  supportsPending: true
+});
+function parseAnnotationTag(tag, registry = defaultRegistry) {
+  const trimmed = tag.trim();
+  const registryMatch = registry.findByTag(trimmed);
+  if (registryMatch) {
+    return registryMatch;
+  }
+  if (isOpeningTag(trimmed, "a")) {
+    return {
+      name: "link",
+      enabled: true,
+      tag: trimmed,
+      closeTag: createHtmlCloseTag(trimmed),
+      priority: registry.get("link")?.priority ?? 0
+    };
+  }
+  if (isClosingTag(trimmed, "a")) {
+    return {
+      name: "link",
+      enabled: false,
+      priority: registry.get("link")?.priority ?? 0
+    };
+  }
+  if (isCobaltSelectionOpeningTag(trimmed)) {
+    return {
+      name: "__selection",
+      enabled: true,
+      tag: trimmed,
+      closeTag: createHtmlCloseTag(trimmed),
+      priority: registry.get("__selection")?.priority ?? -100
+    };
+  }
+  return null;
+}
+function createAnnotationTag(name, enabled, registry = defaultRegistry) {
+  const definition = registry.get(name);
+  if (!definition) {
+    throw new Error(`Unknown annotation type: ${name}`);
+  }
+  return enabled ? definition.tag : createInverseAnnotationTag(definition.tag);
+}
+function createLinkAnnotationTag(href) {
+  return `<a href="${escapeAttribute(href)}">`;
+}
+function createInverseAnnotationTag(openingTag) {
+  const trimmed = openingTag.trim();
+  if (!trimmed.startsWith("<") || trimmed.startsWith("</")) {
+    throw new Error(`Expected opening annotation tag: ${openingTag}`);
+  }
+  return `</${trimmed.slice(1)}`;
+}
+function createHtmlCloseTag(tag) {
+  const tagName = getTagName(tag);
+  if (!tagName) {
+    throw new Error(`Could not determine tag name: ${tag}`);
+  }
+  return `</${tagName}>`;
+}
+function getTagName(tag) {
+  const match = tag.trim().match(/^<\/?\s*([^\s>/]+)/);
+  return match?.[1] ?? null;
+}
+function isOpeningTag(tag, tagName) {
+  return new RegExp(`^<${tagName}(?:\\s[^>]*)?>$`, "i").test(tag);
+}
+function isClosingTag(tag, tagName) {
+  return new RegExp(`^</${tagName}(?:\\s[^>]*)?>$`, "i").test(tag);
+}
+function isCobaltSelectionOpeningTag(tag) {
+  return /^<span\s[^>]*data-cobalt-selection=["']true["'][^>]*>$/i.test(tag);
+}
+function shortcutFromKeyboardEvent(event) {
+  const parts = [];
+  if (event.ctrlKey) {
+    parts.push("ctrl");
+  }
+  if (event.metaKey) {
+    parts.push("meta");
+  }
+  if (event.altKey) {
+    parts.push("alt");
+  }
+  if (event.shiftKey) {
+    parts.push("shift");
+  }
+  parts.push(event.key.toLowerCase());
+  return parts.join("+");
+}
+function escapeAttribute(value) {
+  return value.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+}
+
+// ../../poef/cobalt-note/packages/rich-text-note/dist/editor-state.js
+function createEditorState() {
+  return {
+    pending: {}
+  };
+}
+function buildPendingAnnotations(state, start, end, registry = defaultRegistry) {
+  const result = [];
+  for (const name of Object.keys(state.pending)) {
+    const enabled = state.pending[name];
+    if (enabled === void 0) {
+      continue;
+    }
+    result.push({
+      start,
+      end,
+      tag: createAnnotationTag(name, enabled, registry)
+    });
+  }
+  return result;
+}
+function clearPendingAnnotations(state) {
+  for (const name of Object.keys(state.pending)) {
+    delete state.pending[name];
+  }
+}
+
+// ../../poef/cobalt-note/packages/rich-text-note/dist/clipboard.js
+var COBALT_CLIPBOARD_MIME = "application/x-cobalt-fragment+json";
+function writeFragmentToClipboard(clipboardData, fragment) {
+  clipboardData.setData("text/plain", fragment.text);
+  clipboardData.setData(COBALT_CLIPBOARD_MIME, JSON.stringify(fragment));
+}
+function readFragmentFromClipboard(clipboardData) {
+  const serialized = clipboardData.getData(COBALT_CLIPBOARD_MIME);
+  if (serialized) {
+    const parsed = JSON.parse(serialized);
+    return normalizeClipboardFragment(parsed);
+  }
+  return {
+    text: clipboardData.getData("text/plain"),
+    annotations: []
+  };
+}
+function getClipboardFragment(fragment, start, end) {
+  return sliceFragment(fragment, start, end);
+}
+function normalizeClipboardFragment(fragment) {
+  const text = typeof fragment.text === "string" ? fragment.text : "";
+  const annotations = Array.isArray(fragment.annotations) ? fragment.annotations.filter((annotation) => Array.isArray(annotation.range) && annotation.range.length === 2 && typeof annotation.range[0] === "number" && typeof annotation.range[1] === "number" && typeof annotation.tag === "string" && typeof annotation.order === "number").map((annotation) => ({
+    range: [
+      Math.max(0, Math.min(text.length, annotation.range[0])),
+      Math.max(0, Math.min(text.length, annotation.range[1]))
+    ],
+    tag: annotation.tag,
+    order: annotation.order
+  })).filter((annotation) => annotation.range[1] > annotation.range[0]) : [];
+  return {
+    text,
+    annotations
+  };
+}
+
+// ../../poef/cobalt-note/packages/rich-text-note/dist/runs.js
+function createEmptyState() {
+  return {};
+}
+function getEffectiveState(annotations, offset) {
+  const state = createEmptyState();
+  const activeAnnotations = annotations.filter((annotation) => offset >= annotation.range[0] && offset < annotation.range[1]).sort((a, b) => a.order - b.order);
+  for (const annotation of activeAnnotations) {
+    applyAnnotationToState(state, annotation.tag);
+  }
+  return state;
+}
+function getTypingEffectiveState(annotations, offset) {
+  const state = createEmptyState();
+  const activeAnnotations = annotations.filter((annotation) => {
+    const [start, end] = annotation.range;
+    return start < offset && offset <= end;
+  }).sort((a, b) => a.order - b.order);
+  for (const annotation of activeAnnotations) {
+    applyAnnotationToState(state, annotation.tag);
+  }
+  return state;
+}
+function generateRuns(fragment) {
+  const boundaries = /* @__PURE__ */ new Set();
+  boundaries.add(0);
+  boundaries.add(fragment.text.length);
+  for (const annotation of fragment.annotations) {
+    boundaries.add(annotation.range[0]);
+    boundaries.add(annotation.range[1]);
+  }
+  const sortedBoundaries = Array.from(boundaries).filter((boundary) => boundary >= 0 && boundary <= fragment.text.length).sort((a, b) => a - b);
+  const runs = [];
+  for (let i = 0; i < sortedBoundaries.length - 1; i++) {
+    const start = sortedBoundaries[i];
+    const end = sortedBoundaries[i + 1];
+    if (start === end) {
+      continue;
+    }
+    runs.push({
+      start,
+      end,
+      state: getEffectiveState(fragment.annotations, start)
+    });
+  }
+  return mergeAdjacentRuns(runs);
+}
+function stateEquals(a, b) {
+  const aKeys = Object.keys(a).sort();
+  const bKeys = Object.keys(b).sort();
+  if (aKeys.length !== bKeys.length) {
+    return false;
+  }
+  for (let i = 0; i < aKeys.length; i++) {
+    const key = aKeys[i];
+    if (key !== bKeys[i]) {
+      return false;
+    }
+    if (a[key].tag !== b[key].tag || a[key].priority !== b[key].priority) {
+      return false;
+    }
+  }
+  return true;
+}
+function mergeAdjacentRuns(runs) {
+  if (runs.length === 0) {
+    return [];
+  }
+  const merged = [
+    {
+      start: runs[0].start,
+      end: runs[0].end,
+      state: copyState(runs[0].state)
+    }
+  ];
+  for (let i = 1; i < runs.length; i++) {
+    const current = runs[i];
+    const previous = merged[merged.length - 1];
+    if (previous.end === current.start && stateEquals(previous.state, current.state)) {
+      previous.end = current.end;
+    } else {
+      merged.push({
+        start: current.start,
+        end: current.end,
+        state: copyState(current.state)
+      });
+    }
+  }
+  return merged;
+}
+function copyState(state) {
+  return Object.fromEntries(Object.entries(state).map(([key, value]) => [
+    key,
+    { ...value }
+  ]));
+}
+function applyAnnotationToState(state, tag) {
+  const parsed = parseAnnotationTag(tag);
+  if (!parsed) {
+    return;
+  }
+  if (!parsed.enabled) {
+    delete state[parsed.name];
+    return;
+  }
+  if (!parsed.tag) {
+    return;
+  }
+  state[parsed.name] = {
+    name: parsed.name,
+    tag: parsed.tag,
+    priority: parsed.priority
+  };
+}
+
+// ../../poef/cobalt-note/packages/rich-text-note/dist/render.js
+function render(fragment) {
+  const runs = generateRuns(fragment);
+  let html2 = "";
+  let openTags = [];
+  for (const run of runs) {
+    const nextTags = getRenderTags(run.state);
+    const sharedPrefixLength = getSharedPrefixLength(openTags, nextTags);
+    for (let i = openTags.length - 1; i >= sharedPrefixLength; i--) {
+      html2 += openTags[i].close;
+    }
+    for (let i = sharedPrefixLength; i < nextTags.length; i++) {
+      html2 += nextTags[i].open;
+    }
+    html2 += escapeHtml(fragment.text.slice(run.start, run.end));
+    openTags = nextTags;
+  }
+  for (let i = openTags.length - 1; i >= 0; i--) {
+    html2 += openTags[i].close;
+  }
+  return appendTrailingNewlineSentinel(fragment, html2);
+}
+function appendTrailingNewlineSentinel(fragment, html2) {
+  if (!fragment.text.endsWith("\n")) {
+    return html2;
+  }
+  return `${html2}<span data-cobalt-sentinel="true">\u200B</span>`;
+}
+function getRenderTags(state) {
+  return Object.values(state).sort(compareActiveAnnotations).map((annotation) => ({
+    key: `${annotation.name}:${annotation.tag}`,
+    open: annotation.tag,
+    close: createHtmlCloseTag(annotation.tag)
+  }));
+}
+function compareActiveAnnotations(a, b) {
+  if (a.priority !== b.priority) {
+    return a.priority - b.priority;
+  }
+  return a.name.localeCompare(b.name);
+}
+function getSharedPrefixLength(current, next) {
+  const length = Math.min(current.length, next.length);
+  for (let i = 0; i < length; i++) {
+    if (current[i].key !== next[i].key) {
+      return i;
+    }
+  }
+  return length;
+}
+function escapeHtml(text) {
+  return text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+}
+
+// ../../poef/cobalt-note/packages/note-core/dist/selection.js
+function getTextNodes(root) {
+  const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT);
+  const nodes = [];
+  let current = walker.nextNode();
+  while (current) {
+    const text = current;
+    if (!isSentinelTextNode(text)) {
+      nodes.push(text);
+    }
+    current = walker.nextNode();
+  }
+  return nodes;
+}
+function getOffset(root, targetNode, targetOffset) {
+  const result = getOffsetFromPosition(root, targetNode, targetOffset);
+  return result ?? getTextLength(root);
+}
+function getDomPosition(root, offset) {
+  const textNodes = getTextNodes(root);
+  if (textNodes.length === 0) {
+    return {
+      node: root,
+      offset: 0
+    };
+  }
+  let currentOffset = 0;
+  for (const node of textNodes) {
+    const length = node.textContent?.length ?? 0;
+    if (offset <= currentOffset + length) {
+      return {
+        node,
+        offset: offset - currentOffset
+      };
+    }
+    currentOffset += length;
+  }
+  const lastNode = textNodes[textNodes.length - 1];
+  return {
+    node: lastNode,
+    offset: lastNode.textContent?.length ?? 0
+  };
+}
+function getSelectionRange(root) {
+  const selection = window.getSelection();
+  if (!selection || selection.rangeCount === 0) {
+    return null;
+  }
+  const range = selection.getRangeAt(0);
+  if (!root.contains(range.startContainer) || !root.contains(range.endContainer)) {
+    return null;
+  }
+  const start = getOffset(root, range.startContainer, range.startOffset);
+  const end = getOffset(root, range.endContainer, range.endOffset);
+  return {
+    start: Math.min(start, end),
+    end: Math.max(start, end)
+  };
+}
+function setSelectionRange(root, start, end) {
+  const startPosition = getDomPosition(root, start);
+  const endPosition = getDomPosition(root, end);
+  const range = document.createRange();
+  range.setStart(startPosition.node, startPosition.offset);
+  range.setEnd(endPosition.node, endPosition.offset);
+  const selection = window.getSelection();
+  if (!selection) {
+    return false;
+  }
+  selection.removeAllRanges();
+  selection.addRange(range);
+  return true;
+}
+function getCaretClientRect(root, offset) {
+  const textLength = getTextLength(root);
+  if (offset === textLength) {
+    const sentinel = getSentinelTextNode(root);
+    if (sentinel) {
+      const sentinelRect = getTextNodeCaretRect(sentinel, 0);
+      if (sentinelRect) {
+        return sentinelRect;
+      }
+    }
+  }
+  const position = getDomPosition(root, offset);
+  const range = document.createRange();
+  range.setStart(position.node, position.offset);
+  range.collapse(true);
+  const rect = firstRect(range);
+  if (rect) {
+    return rect;
+  }
+  return getMarkerRect(root, range);
+}
+function isOffsetOnFirstVisualLine(root, offset, tolerance = 3) {
+  const current = getCaretClientRect(root, offset);
+  const first2 = getCaretClientRect(root, 0);
+  if (!current || !first2) {
+    return false;
+  }
+  return current.top <= first2.top + tolerance;
+}
+function isOffsetOnLastVisualLine(root, offset, textLength, tolerance = 3) {
+  const current = getCaretClientRect(root, offset);
+  const last = getCaretClientRect(root, textLength);
+  if (!current || !last) {
+    return false;
+  }
+  return current.bottom >= last.bottom - tolerance;
+}
+function getOffsetAtPoint(root, x, y) {
+  const nearestOffset = getNearestCaretOffset(root, x, y);
+  if (nearestOffset !== null) {
+    return nearestOffset;
+  }
+  const position = getDomPositionFromPoint(x, y);
+  if (!position || !root.contains(position.node)) {
+    return getNearestBoundaryOffset(root, y);
+  }
+  return getOffset(root, position.node, position.offset);
+}
+function getWordRangeAtPoint(root, x, y) {
+  const offset = getOffsetAtPoint(root, x, y);
+  const text = getRootText(root);
+  return getWordRange(text, offset);
+}
+function getParagraphRangeAtPoint(root, x, y) {
+  const offset = getOffsetAtPoint(root, x, y);
+  const text = getRootText(root);
+  return getParagraphRange(text, offset);
+}
+function getWordRange(text, offset) {
+  if (text.length === 0) {
+    return { start: 0, end: 0 };
+  }
+  const clampedOffset = Math.max(0, Math.min(offset, text.length));
+  let index = clampedOffset;
+  if (index === text.length || !isWordCharacter(text[index])) {
+    index = Math.max(0, index - 1);
+  }
+  if (!isWordCharacter(text[index])) {
+    return {
+      start: clampedOffset,
+      end: clampedOffset
+    };
+  }
+  let start = index;
+  let end = index + 1;
+  while (start > 0 && isWordCharacter(text[start - 1])) {
+    start--;
+  }
+  while (end < text.length && isWordCharacter(text[end])) {
+    end++;
+  }
+  return { start, end };
+}
+function getParagraphRange(text, offset) {
+  const clampedOffset = Math.max(0, Math.min(offset, text.length));
+  let start = clampedOffset;
+  let end = clampedOffset;
+  while (start > 0 && text[start - 1] !== "\n") {
+    start--;
+  }
+  while (end < text.length && text[end] !== "\n") {
+    end++;
+  }
+  return { start, end };
+}
+function isWordCharacter(character) {
+  return character !== void 0 && /[\p{L}\p{N}_]/u.test(character);
+}
+function getRootText(root) {
+  return getTextNodes(root).map((node) => node.textContent ?? "").join("");
+}
+function getNearestCaretOffset(root, x, y) {
+  const textLength = getTextLength(root);
+  let best = null;
+  for (let offset = 0; offset <= textLength; offset++) {
+    const rect = getCaretClientRect(root, offset);
+    if (!rect) {
+      continue;
+    }
+    const verticalDistance = getVerticalDistanceToRect(y, rect);
+    const horizontalDistance = Math.abs(x - rect.left);
+    if (!best || verticalDistance < best.verticalDistance || verticalDistance === best.verticalDistance && horizontalDistance < best.horizontalDistance) {
+      best = {
+        offset,
+        verticalDistance,
+        horizontalDistance
+      };
+    }
+  }
+  return best?.offset ?? null;
+}
+function getVerticalDistanceToRect(y, rect) {
+  if (y >= rect.top && y <= rect.bottom) {
+    return 0;
+  }
+  return Math.min(Math.abs(y - rect.top), Math.abs(y - rect.bottom));
+}
+function getDomPositionFromPoint(x, y) {
+  const doc = document;
+  if (doc.caretPositionFromPoint) {
+    const position = doc.caretPositionFromPoint(x, y);
+    if (position) {
+      return {
+        node: position.offsetNode,
+        offset: position.offset
+      };
+    }
+  }
+  if (doc.caretRangeFromPoint) {
+    const range = doc.caretRangeFromPoint(x, y);
+    if (range) {
+      return {
+        node: range.startContainer,
+        offset: range.startOffset
+      };
+    }
+  }
+  return null;
+}
+function getNearestBoundaryOffset(root, y) {
+  const rect = root.getBoundingClientRect();
+  if (y <= rect.top) {
+    return 0;
+  }
+  return getTextLength(root);
+}
+function getTextNodeCaretRect(node, offset) {
+  const range = document.createRange();
+  range.setStart(node, offset);
+  range.collapse(true);
+  const rect = firstRect(range);
+  if (rect) {
+    return rect;
+  }
+  return node.parentElement?.getBoundingClientRect() ?? null;
+}
+function getSentinelTextNode(root) {
+  const sentinel = root.querySelector('[data-cobalt-sentinel="true"]');
+  const node = sentinel?.firstChild;
+  return node?.nodeType === Node.TEXT_NODE ? node : null;
+}
+function firstRect(range) {
+  const rects = Array.from(range.getClientRects());
+  return rects.length > 0 ? rects[0] : null;
+}
+function getMarkerRect(root, range) {
+  const marker = document.createElement("span");
+  marker.setAttribute("data-cobalt-caret-marker", "true");
+  marker.textContent = "\u200B";
+  range.insertNode(marker);
+  const rect = marker.getBoundingClientRect();
+  marker.remove();
+  root.normalize();
+  return rect.width === 0 && rect.height === 0 ? null : rect;
+}
+function getOffsetFromPosition(root, targetNode, targetOffset) {
+  let offset = 0;
+  let found = false;
+  function walk(node) {
+    if (found) {
+      return;
+    }
+    if (node === targetNode) {
+      if (node.nodeType === Node.TEXT_NODE) {
+        const text = node;
+        if (!isSentinelTextNode(text)) {
+          offset += Math.min(targetOffset, text.textContent?.length ?? 0);
+        }
+      } else {
+        for (let i = 0; i < targetOffset; i++) {
+          offset += getTextLength(node.childNodes[i]);
+        }
+      }
+      found = true;
+      return;
+    }
+    if (node.nodeType === Node.TEXT_NODE) {
+      offset += getTextLength(node);
+      return;
+    }
+    for (const child of Array.from(node.childNodes)) {
+      walk(child);
+    }
+  }
+  walk(root);
+  return found ? offset : null;
+}
+function getTextLength(node) {
+  if (!node) {
+    return 0;
+  }
+  if (node.nodeType === Node.TEXT_NODE) {
+    const text = node;
+    return isSentinelTextNode(text) ? 0 : text.textContent?.length ?? 0;
+  }
+  let length = 0;
+  for (const child of Array.from(node.childNodes)) {
+    length += getTextLength(child);
+  }
+  return length;
+}
+function isSentinelTextNode(node) {
+  return node.parentElement?.hasAttribute("data-cobalt-sentinel") ?? false;
+}
+
+// ../../poef/cobalt-note/packages/rich-text-note/dist/editor.js
+var RICH_TEXT_NOTE_FRAGMENT_TYPE = "cobalt.rich-text";
+function cloneFragment(fragment) {
+  return {
+    text: fragment.text,
+    annotations: fragment.annotations.map((annotation) => ({
+      ...annotation,
+      range: [...annotation.range]
+    }))
+  };
+}
+function replaceFragment(target, source2) {
+  target.text = source2.text;
+  target.annotations = source2.annotations.map((annotation) => ({
+    ...annotation,
+    range: [...annotation.range]
+  }));
+}
+function wrapRichTextFragment(fragment) {
+  return {
+    type: RICH_TEXT_NOTE_FRAGMENT_TYPE,
+    data: cloneFragment(fragment)
+  };
+}
+function isFragment(value) {
+  if (!value || typeof value !== "object") {
+    return false;
+  }
+  const fragment = value;
+  return typeof fragment.text === "string" && Array.isArray(fragment.annotations);
+}
+function isRichTextNotebookFragment(fragment) {
+  return fragment.type === RICH_TEXT_NOTE_FRAGMENT_TYPE && isFragment(fragment.data);
+}
+function renderDecoratedFragment(fragment, ranges, active = true) {
+  if (ranges.length === 0) {
+    return render(fragment);
+  }
+  const maxOrder = fragment.annotations.reduce((max, annotation) => Math.max(max, annotation.order), 0);
+  const annotations = [
+    ...fragment.annotations,
+    ...ranges.filter((range) => range !== null && range.end > range.start).map((range, index) => ({
+      range: [range.start, range.end],
+      tag: active ? '<span data-cobalt-selection="true" data-cobalt-selection-active="true">' : '<span data-cobalt-selection="true" data-cobalt-selection-active="false">',
+      order: maxOrder + index + 1
+    }))
+  ];
+  return render({
+    text: fragment.text,
+    annotations
+  });
+}
+function edit(element2, fragment) {
+  const state = createEditorState();
+  let selectionDecorationRanges = [];
+  let selectionDecorationActive = true;
+  function rerender(start, end) {
+    element2.innerHTML = renderDecoratedFragment(fragment, selectionDecorationRanges, selectionDecorationActive);
+    if (start !== void 0 && end !== void 0) {
+      setSelectionRange(element2, start, end);
+    }
+  }
+  const editor = {
+    element: element2,
+    fragment,
+    state,
+    getType() {
+      return RICH_TEXT_NOTE_FRAGMENT_TYPE;
+    },
+    getValue() {
+      return cloneFragment(fragment);
+    },
+    setValue(value) {
+      if (!isFragment(value)) {
+        throw new Error("Expected a rich-text fragment value.");
+      }
+      replaceFragment(fragment, value);
+      const selection = getSelectionRange(element2);
+      rerender(selection?.start, selection?.end);
+    },
+    getLength() {
+      return fragment.text.length;
+    },
+    getText(start = 0, end = fragment.text.length) {
+      return fragment.text.slice(Math.max(0, Math.min(fragment.text.length, start)), Math.max(0, Math.min(fragment.text.length, end)));
+    },
+    focus(start = 0, end = start) {
+      element2.focus();
+      setSelectionRange(element2, start, end);
+    },
+    getSelection() {
+      return getSelectionRange(element2);
+    },
+    getCaretClientRect(offset) {
+      if (offset !== void 0) {
+        return getCaretClientRect(element2, offset);
+      }
+      const selection = getSelectionRange(element2);
+      if (!selection || selection.start !== selection.end) {
+        return null;
+      }
+      return getCaretClientRect(element2, selection.start);
+    },
+    isCaretOnFirstVisualLine() {
+      const selection = getSelectionRange(element2);
+      if (!selection || selection.start !== selection.end) {
+        return false;
+      }
+      return isOffsetOnFirstVisualLine(element2, selection.start);
+    },
+    isCaretOnLastVisualLine() {
+      const selection = getSelectionRange(element2);
+      if (!selection || selection.start !== selection.end) {
+        return false;
+      }
+      return isOffsetOnLastVisualLine(element2, selection.start, fragment.text.length);
+    },
+    focusNearestPoint(x, y) {
+      const offset = getOffsetAtPoint(element2, x, y);
+      this.focus(offset, offset);
+    },
+    getOffsetAtPoint(x, y) {
+      return getOffsetAtPoint(element2, x, y);
+    },
+    getWordRangeAtPoint(x, y) {
+      return getWordRangeAtPoint(element2, x, y);
+    },
+    getParagraphRangeAtPoint(x, y) {
+      return getParagraphRangeAtPoint(element2, x, y);
+    },
+    getClientRect() {
+      return element2.getBoundingClientRect();
+    },
+    showSelectionRanges(ranges, active = true) {
+      selectionDecorationActive = active;
+      selectionDecorationRanges = ranges.filter((range) => range !== null && range.end > range.start);
+      const selection = getSelectionRange(element2);
+      rerender(selection?.start, selection?.end);
+    },
+    clearSelectionRanges() {
+      if (selectionDecorationRanges.length === 0) {
+        return;
+      }
+      selectionDecorationRanges = [];
+      const selection = getSelectionRange(element2);
+      rerender(selection?.start, selection?.end);
+    },
+    deleteRange(start, end) {
+      deleteRange(fragment, start, end);
+      rerender(start, start);
+    },
+    insertText(offset, text) {
+      insertText(fragment, offset, text);
+      const caret = Math.min(fragment.text.length, Math.max(0, offset) + text.length);
+      rerender(caret, caret);
+    },
+    sliceFragment(start, end) {
+      return wrapRichTextFragment(sliceFragment(fragment, start, end));
+    },
+    canInsertFragment(notebookFragment) {
+      return isRichTextNotebookFragment(notebookFragment);
+    },
+    insertFragment(offset, notebookFragment) {
+      if (!isRichTextNotebookFragment(notebookFragment)) {
+        return offset;
+      }
+      const inserted = notebookFragment.data;
+      insertFragment(fragment, offset, inserted);
+      const caret = Math.min(fragment.text.length, Math.max(0, offset) + inserted.text.length);
+      rerender(caret, caret);
+      return caret;
+    },
+    splitFragment(offset) {
+      const result = splitFragment(fragment, offset);
+      return {
+        before: wrapRichTextFragment(result.before),
+        after: wrapRichTextFragment(result.after)
+      };
+    },
+    canMergeFragment(notebookFragment, _direction) {
+      return isRichTextNotebookFragment(notebookFragment);
+    },
+    mergeFragment(notebookFragment, direction) {
+      if (!isRichTextNotebookFragment(notebookFragment)) {
+        return null;
+      }
+      const result = direction === "after" ? joinFragments(fragment, notebookFragment.data) : joinFragments(notebookFragment.data, fragment);
+      return {
+        fragment: wrapRichTextFragment(result.fragment),
+        joinOffset: result.joinOffset
+      };
+    },
+    canApplyCommand(command, range, value) {
+      if (range.end <= range.start || command === "__selection") {
+        return false;
+      }
+      if (command === "link") {
+        return typeof value === "string" && value.length > 0;
+      }
+      return defaultRegistry.get(command) !== void 0;
+    },
+    getCommandState(command, offset) {
+      return getEffectiveState(fragment.annotations, offset)[command];
+    },
+    applyCommand(command, range, value) {
+      if (!this.canApplyCommand(command, range, value)) {
+        return false;
+      }
+      const tag = command === "link" && typeof value === "string" ? createLinkAnnotationTag(value) : createAnnotationTag(command, value !== false);
+      addAnnotation(fragment, [range.start, range.end], tag);
+      rerender(range.start, range.end);
+      return true;
+    },
+    destroy() {
+      element2.removeEventListener("keydown", handleKeyDown);
+      element2.removeEventListener("beforeinput", handleBeforeInput);
+      element2.removeEventListener("copy", handleCopy);
+      element2.removeEventListener("cut", handleCut);
+      element2.removeEventListener("paste", handlePaste);
+      element2.removeAttribute("contenteditable");
+    }
+  };
+  function handleKeyDown(event) {
+    if (event.key === "Enter") {
+      if (event.ctrlKey || event.metaKey || event.altKey) {
+        return;
+      }
+      event.preventDefault();
+      insertNewline();
+      return;
+    }
+    if (!event.ctrlKey) {
+      return;
+    }
+    const definition = defaultRegistry.findByShortcut(event);
+    if (!definition) {
+      return;
+    }
+    event.preventDefault();
+    if (definition.name === "link") {
+      addLink();
+      return;
+    }
+    toggleAnnotation(definition);
+  }
+  function handleBeforeInput(event) {
+    const inputEvent = event;
+    const selection = getSelectionRange(element2);
+    if (!selection) {
+      return;
+    }
+    const commands2 = buildInputCommands(inputEvent, selection.start, selection.end);
+    if (commands2.length === 0) {
+      return;
+    }
+    event.preventDefault();
+    applyCommands(fragment, commands2);
+    const caret = getNextCaretPosition(inputEvent, selection.start, selection.end);
+    rerender(caret, caret);
+  }
+  function handleCopy(event) {
+    const selection = getSelectionRange(element2);
+    if (!selection || selection.start === selection.end || !event.clipboardData) {
+      return;
+    }
+    event.preventDefault();
+    writeFragmentToClipboard(event.clipboardData, getClipboardFragment(fragment, selection.start, selection.end));
+  }
+  function handleCut(event) {
+    const selection = getSelectionRange(element2);
+    if (!selection || selection.start === selection.end || !event.clipboardData) {
+      return;
+    }
+    event.preventDefault();
+    writeFragmentToClipboard(event.clipboardData, getClipboardFragment(fragment, selection.start, selection.end));
+    applyCommands(fragment, [
+      new DeleteRangeCommand(selection.start, selection.end)
+    ]);
+    rerender(selection.start, selection.start);
+  }
+  function handlePaste(event) {
+    const selection = getSelectionRange(element2);
+    if (!selection || !event.clipboardData) {
+      return;
+    }
+    event.preventDefault();
+    const pastedFragment = readFragmentFromClipboard(event.clipboardData);
+    const commands2 = [];
+    if (selection.start !== selection.end) {
+      commands2.push(new DeleteRangeCommand(selection.start, selection.end));
+    }
+    commands2.push(new InsertFragmentCommand(selection.start, pastedFragment));
+    applyCommands(fragment, commands2);
+    const caret = selection.start + pastedFragment.text.length;
+    rerender(caret, caret);
+  }
+  function toggleAnnotation(definition) {
+    const selection = getSelectionRange(element2);
+    if (!selection) {
+      return;
+    }
+    if (selection.start === selection.end) {
+      const inheritedState = getTypingEffectiveState(fragment.annotations, selection.start);
+      if (!definition.supportsPending) {
+        return;
+      }
+      const inheritedEnabled = inheritedState[definition.name] !== void 0;
+      const currentTypingEnabled = state.pending[definition.name] ?? inheritedEnabled;
+      const nextTypingEnabled = !currentTypingEnabled;
+      if (nextTypingEnabled === inheritedEnabled) {
+        delete state.pending[definition.name];
+      } else {
+        state.pending[definition.name] = nextTypingEnabled;
+      }
+      rerender(selection.start, selection.end);
+      return;
+    }
+    const currentState = getEffectiveState(fragment.annotations, selection.start);
+    const tag = createAnnotationTag(definition.name, currentState[definition.name] === void 0);
+    applyCommands(fragment, [
+      new AddAnnotationCommand([selection.start, selection.end], tag)
+    ]);
+    rerender(selection.start, selection.end);
+  }
+  function insertNewline() {
+    const selection = getSelectionRange(element2);
+    if (!selection) {
+      return;
+    }
+    const commands2 = [];
+    if (selection.start !== selection.end) {
+      commands2.push(new DeleteRangeCommand(selection.start, selection.end));
+    }
+    commands2.push(new InsertTextCommand(selection.start, "\n", { growAtEnd: false }));
+    applyCommands(fragment, commands2);
+    const caret = selection.start + 1;
+    rerender(caret, caret);
+  }
+  function addLink() {
+    const selection = getSelectionRange(element2);
+    if (!selection || selection.start === selection.end) {
+      return;
+    }
+    const href = promptForHref();
+    if (!href) {
+      return;
+    }
+    applyCommands(fragment, [
+      new AddAnnotationCommand([selection.start, selection.end], createLinkAnnotationTag(href))
+    ]);
+    rerender(selection.start, selection.end);
+  }
+  function promptForHref() {
+    const href = window.prompt("Enter URL");
+    if (href === null) {
+      return null;
+    }
+    const trimmed = href.trim();
+    return trimmed.length > 0 ? trimmed : null;
+  }
+  function buildInputCommands(event, selectionStart, selectionEnd) {
+    switch (event.inputType) {
+      case "insertText":
+      case "insertFromPaste":
+        return buildInsertCommands(selectionStart, selectionEnd, event.data ?? "");
+      case "deleteContentBackward":
+        return buildDeleteBackwardCommands(selectionStart, selectionEnd);
+      case "deleteContentForward":
+        return buildDeleteForwardCommands(selectionStart, selectionEnd);
+      case "insertParagraph":
+      case "insertLineBreak": {
+        const commands2 = [];
+        if (selectionStart !== selectionEnd) {
+          commands2.push(new DeleteRangeCommand(selectionStart, selectionEnd));
+        }
+        commands2.push(new InsertTextCommand(selectionStart, "\n", { growAtEnd: false }));
+        return commands2;
+      }
+      default:
+        return [];
+    }
+  }
+  function buildInsertCommands(selectionStart, selectionEnd, text) {
+    const commands2 = [];
+    if (selectionStart !== selectionEnd) {
+      commands2.push(new DeleteRangeCommand(selectionStart, selectionEnd));
+    }
+    if (text.length === 0) {
+      return commands2;
+    }
+    commands2.push(new InsertTextCommand(selectionStart, text));
+    const pendingAnnotations = buildPendingAnnotations(state, selectionStart, selectionStart + text.length);
+    for (const pending of pendingAnnotations) {
+      commands2.push(new AddAnnotationCommand([pending.start, pending.end], pending.tag));
+    }
+    if (pendingAnnotations.length > 0) {
+      clearPendingAnnotations(state);
+    }
+    return commands2;
+  }
+  function buildDeleteBackwardCommands(selectionStart, selectionEnd) {
+    if (selectionStart !== selectionEnd) {
+      return [
+        new DeleteRangeCommand(selectionStart, selectionEnd)
+      ];
+    }
+    if (selectionStart === 0) {
+      return [];
+    }
+    return [
+      new DeleteRangeCommand(selectionStart - 1, selectionStart)
+    ];
+  }
+  function buildDeleteForwardCommands(selectionStart, selectionEnd) {
+    if (selectionStart !== selectionEnd) {
+      return [
+        new DeleteRangeCommand(selectionStart, selectionEnd)
+      ];
+    }
+    if (selectionStart >= fragment.text.length) {
+      return [];
+    }
+    return [
+      new DeleteRangeCommand(selectionStart, selectionStart + 1)
+    ];
+  }
+  function getNextCaretPosition(event, selectionStart, selectionEnd) {
+    switch (event.inputType) {
+      case "insertText":
+      case "insertFromPaste":
+        return selectionStart + (event.data?.length ?? 0);
+      case "deleteContentBackward":
+        return selectionStart === selectionEnd ? Math.max(0, selectionStart - 1) : selectionStart;
+      case "deleteContentForward":
+        return selectionStart;
+      case "insertParagraph":
+      case "insertLineBreak":
+        return selectionStart + 1;
+      default:
+        return selectionStart;
+    }
+  }
+  element2.contentEditable = "true";
+  rerender();
+  element2.addEventListener("keydown", handleKeyDown);
+  element2.addEventListener("beforeinput", handleBeforeInput);
+  element2.addEventListener("copy", handleCopy);
+  element2.addEventListener("cut", handleCut);
+  element2.addEventListener("paste", handlePaste);
+  return editor;
+}
+
+// src/cobalt-editor-modal.html
+var cobalt_editor_modal_default = '<div class="margin-notes-editor-modal-dialog ds-dialog">\n  <div class="margin-notes-editor-modal-header">\n    <h2 data-title></h2>\n    <button type="button" data-action="cancel" class="margin-notes-editor-close ds-button ds-button-naked" aria-label="Close">x</button>\n  </div>\n  <div class="margin-notes-editor-modal-content">\n    <div class="margin-notes-cobalt-editor" data-editor-container></div>\n  </div>\n  <div class="margin-notes-editor-modal-footer">\n    <button type="button" data-action="cancel" class="margin-notes-editor-btn-cancel ds-button ds-button-default">Cancel</button>\n    <button type="button" data-action="save" class="margin-notes-editor-btn-save ds-button ds-button-primary">Save</button>\n  </div>\n</div>\n';
+
+// src/cobalt-editor-modal.css
+var cobalt_editor_modal_default2 = '.margin-notes-editor-modal {\n  background: transparent;\n  border: 0;\n  color: inherit;\n  color-scheme: var(--ds-color-scheme, light);\n  font-family: var(--ds-font-body, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif);\n  margin: auto;\n  max-height: min(80vh, 100%);\n  max-width: min(90vw, 600px);\n  overflow: visible;\n  padding: 0;\n  width: min(90vw, 600px);\n}\n\n.margin-notes-editor-modal:not(:popover-open) {\n  display: none;\n}\n\n.margin-notes-editor-modal:popover-open {\n  display: flex;\n}\n\n.margin-notes-editor-modal::backdrop {\n  background: rgba(0, 0, 0, 0.5);\n}\n\n.margin-notes-editor-modal-dialog {\n  display: flex;\n  flex-direction: column;\n  max-height: 80vh;\n  max-width: 600px;\n  position: relative;\n  width: 100%;\n}\n\n.margin-notes-editor-modal-header {\n  justify-content: space-between;\n  align-items: center;\n  border-bottom: 1px solid var(--ds-grey-low, #e5e7eb);\n  display: flex;\n  padding: var(--ds-space, 1.5rem);\n}\n\n.margin-notes-editor-modal-header h2 {\n  font-family: var(--ds-font-heading, inherit);\n  margin: 0;\n  font-size: 1.25rem;\n  font-weight: var(--ds-heading-weight, 600);\n}\n\n.margin-notes-editor-close {\n  align-items: center;\n  color: var(--ds-grey-medium, #6b7280);\n  display: flex;\n  font-size: 2rem;\n  height: 32px;\n  justify-content: center;\n  line-height: 1;\n  margin: 0;\n  padding: 0;\n  width: 32px;\n}\n\n.margin-notes-editor-close:hover {\n  background: var(--ds-grey-low, #f3f4f6);\n  color: var(--ds-grey-high, #1f2937);\n}\n\n.margin-notes-editor-modal-content {\n  flex: 1;\n  overflow-y: auto;\n  padding: var(--ds-space, 1.5rem);\n}\n\n.margin-notes-cobalt-editor {\n  background: var(--ds-color-background, #fff);\n  border: 1px solid var(--ds-input-border, #d1d5db);\n  border-radius: var(--ds-box-radius, 4px);\n  color: var(--ds-color-contrast, #111);\n  font-family: inherit;\n  font-size: 1rem;\n  line-height: 1.5;\n  max-height: 400px;\n  min-height: 150px;\n  overflow-y: auto;\n  padding: var(--ds-space-d2, 0.75rem);\n}\n\n.margin-notes-cobalt-editor[contenteditable="true"],\n.margin-notes-cobalt-editor textarea,\n.margin-notes-cobalt-editor input {\n  background: var(--ds-color-background, #fff);\n  color: var(--ds-color-contrast, #111);\n  caret-color: var(--ds-color-contrast, #111);\n}\n\n.margin-notes-cobalt-editor:focus-within {\n  background: var(--ds-color-background, white);\n  border-color: var(--ds-primary-high, #3b82f6);\n  outline: none;\n}\n\n.margin-notes-editor-modal-footer {\n  display: flex;\n  gap: var(--ds-space-d2, 0.75rem);\n  justify-content: flex-end;\n  border-top: 1px solid var(--ds-grey-low, #e5e7eb);\n  padding: var(--ds-space, 1.5rem);\n}\n\n.margin-notes-editor-btn-cancel,\n.margin-notes-editor-btn-save {\n  font-weight: 500;\n  margin: 0;\n}\n\n.margin-notes-editor-btn-cancel {\n  color: var(--ds-grey-high, #374151);\n}\n\n.margin-notes-editor-btn-cancel:hover {\n  background: var(--ds-grey-low, #f3f4f6);\n}\n';
+
+// src/cobalt-editor-modal.js
+var modalId = 0;
+var CobaltEditorModal = class {
+  constructor(options = {}) {
+    this.options = options;
+    this.modal = null;
+    this.editor = null;
+    this.fragment = options.initialFragment || { text: "", annotations: [] };
+  }
+  /**
+   * Show the modal and return a promise that resolves with the edited fragment.
+   * 
+   * @returns {Promise<Object>} The edited fragment, or null if cancelled
+   */
+  async show() {
+    return new Promise((resolve) => {
+      this.createModal();
+      const modal = this.modal;
+      let settled = false;
+      const finish = (value) => {
+        if (settled) return;
+        settled = true;
+        if (modal.matches(":popover-open")) {
+          modal.hidePopover();
+        }
+        this.destroy();
+        resolve(value);
+      };
+      const onSave = async () => {
+        const edited = this.editor.getValue();
+        finish(edited);
+      };
+      const onCancel = () => {
+        finish(null);
+      };
+      const onModalKeydown = (e) => {
+        if ((e.ctrlKey || e.metaKey) && e.key === "s") {
+          e.preventDefault();
+          e.stopPropagation();
+          onSave();
+          return;
+        }
+        e.stopPropagation();
+      };
+      const onToggle = (e) => {
+        if (e.newState === "closed") {
+          onCancel();
+        }
+      };
+      modal.querySelector('[data-action="save"]').addEventListener("click", onSave);
+      modal.addEventListener("keydown", onModalKeydown);
+      modal.addEventListener("toggle", onToggle);
+      modal.showPopover();
+      setTimeout(() => {
+        this.editor.focus();
+      }, 0);
+    });
+  }
+  /**
+   * Create the modal DOM structure.
+   * 
+   * @private
+   */
+  createModal() {
+    this.modal = document.createElement("div");
+    this.modal.className = "margin-notes-editor-modal";
+    modalId += 1;
+    this.modal.id = `margin-notes-editor-modal-${modalId}`;
+    this.modal.dataset.readerKeyScope = "margin-notes-editor";
+    this.modal.setAttribute("popover", "auto");
+    this.modal.innerHTML = cobalt_editor_modal_default;
+    this.modal.querySelector("[data-title]").textContent = this.options.title || "Edit note";
+    this.modal.querySelectorAll('[data-action="cancel"]').forEach((cancelBtn) => {
+      cancelBtn.setAttribute("popovertarget", this.modal.id);
+      cancelBtn.setAttribute("popovertargetaction", "hide");
+    });
+    document.body.appendChild(this.modal);
+    const editorContainer = this.modal.querySelector("[data-editor-container]");
+    this.editor = edit(editorContainer, this.fragment);
+  }
+  /**
+   * Destroy the modal and clean up.
+   * 
+   * @private
+   */
+  destroy() {
+    if (this.editor) {
+      this.editor.destroy();
+      this.editor = null;
+    }
+    if (this.modal) {
+      this.modal.remove();
+      this.modal = null;
+    }
+  }
+};
+
+// node_modules/@muze-nl/jaqt/src/jaqt.mjs
+function isPrimitiveWrapper2(data) {
+  return [String, Boolean, Number, BigInt].includes(data?.constructor);
+}
+function getSelectFn2(filter2) {
+  let fns = [];
+  if (filter2 instanceof Function) {
+    fns.push(filter2);
+  } else for (const [filterKey, filterValue] of Object.entries(filter2)) {
+    if (filterValue instanceof Function) {
+      fns.push((data) => {
+        if (filterKey == "_") {
+          return filterValue(data, filterKey, "select");
+        } else {
+          return {
+            [filterKey]: filterValue(data, filterKey, "select")
+          };
+        }
+      });
+    } else if (!isPrimitiveWrapper2(filterValue)) {
+      fns.push((data) => {
+        if (filterKey == "_") {
+          return from2(data[filterKey]).select(filterValue);
+        } else {
+          return {
+            [filterKey]: from2(data[filterKey]).select(filterValue)
+          };
+        }
+      });
+    } else {
+      fns.push(() => {
+        if (filterKey == "_") {
+          return filterValue;
+        } else {
+          return {
+            [filterKey]: filterValue
+          };
+        }
+      });
+    }
+  }
+  if (fns.length == 1) {
+    return fns[0];
+  }
+  return (data) => {
+    let result = {};
+    for (let fn of fns) {
+      Object.assign(result, fn(data));
+    }
+    return result;
+  };
+}
+function getMatchFn2(pattern) {
+  let fns = [];
+  if (Array.isArray(pattern)) {
+    fns.push(anyOf2(...pattern));
+  } else if (pattern instanceof RegExp) {
+    fns.push((data) => pattern.test(data));
+  } else if (pattern instanceof Function) {
+    fns.push((data) => pattern(data));
+  } else if (!isPrimitiveWrapper2(pattern)) {
+    let patternMatches = {};
+    for (const [wKey, wVal] of Object.entries(pattern)) {
+      patternMatches[wKey] = getMatchFn2(wVal);
+    }
+    let matchFn = (data) => {
+      if (Array.isArray(data)) {
+        return data.filter((element2) => matchFn(element2)).length > 0;
+      }
+      if (isPrimitiveWrapper2(data)) {
+        return false;
+      }
+      for (let wKey in patternMatches) {
+        let patternMatchFn = patternMatches[wKey];
+        if (!patternMatchFn(data?.[wKey])) {
+          return false;
+        }
+      }
+      return true;
+    };
+    fns.push(matchFn);
+  } else {
+    fns.push((data) => {
+      if (Array.isArray(data)) {
+        return data.filter((element2) => pattern == element2).length > 0;
+      } else {
+        return pattern == data;
+      }
+    });
+  }
+  if (fns.length == 1) {
+    return fns[0];
+  }
+  return (data) => {
+    for (let fn of fns) {
+      if (!fn(data)) {
+        return false;
+      }
+    }
+    return true;
+  };
+}
+var asc2 = Symbol("asc");
+var desc2 = Symbol("desc");
+function getSortFn2(pattern) {
+  let comparisons = Object.entries(pattern);
+  let fns = [];
+  for (let [key, compare] of comparisons) {
+    if (compare instanceof Function) {
+      fns.push(compare);
+    } else if (compare === asc2) {
+      fns.push((a, b) => a[key] > b[key] ? 1 : a[key] < b[key] ? -1 : 0);
+    } else if (compare === desc2) {
+      fns.push((a, b) => a[key] < b[key] ? 1 : a[key] > b[key] ? -1 : 0);
+    } else if (!isPrimitiveWrapper2(compare)) {
+      let subFn = getSortFn2(compare);
+      fns.push((a, b) => subFn(a[key], b[key]));
+    } else {
+      throw new Error("Unknown sort order", compare);
+    }
+  }
+  if (fns.length == 1) {
+    return fns[0];
+  }
+  return (a, b) => {
+    for (let fn of fns) {
+      let result = fn(a, b);
+      if (result !== 0) {
+        return result;
+      }
+    }
+    return 0;
+  };
+}
+function getAggregateFn2(filter2) {
+  let fns = [];
+  if (filter2 instanceof Function) {
+    fns.push(filter2);
+  } else for (const [filterKey, filterValue] of Object.entries(filter2)) {
+    if (filterValue instanceof Function) {
+      fns.push((a, o, i, l) => {
+        if (isPrimitiveWrapper2(a)) {
+          a = {};
+        }
+        if (o.reduce) {
+          a[filterKey] = o.reduce(filterValue, a[filterKey] || []);
+        } else {
+          a[filterKey] = filterValue(a[filterKey] || [], o, i, l);
+        }
+        return a;
+      });
+    } else if (!isPrimitiveWrapper2(filterValue)) {
+      fns.push((a, o) => {
+        if (isPrimitiveWrapper2(a)) {
+          a = {};
+        }
+        a[filterKey] = from2(o[filterKey]).reduce(filterValue, []);
+        return a;
+      });
+    } else {
+      fns.push((a) => {
+        if (isPrimitiveWrapper2(a)) {
+          a = {};
+        }
+        a[filterKey] = filterValue;
+        return a;
+      });
+    }
+  }
+  if (fns.length == 1) {
+    return fns[0];
+  }
+  return (a, o, i, l) => {
+    let result = {};
+    for (let fn of fns) {
+      Object.assign(result, fn(a, o, i, l));
+    }
+    return result;
+  };
+}
+function getMatchingGroups2(data, pointerFn) {
+  let result = {};
+  for (let entity of data) {
+    let groups = pointerFn(entity);
+    if (!Array.isArray(groups)) {
+      groups = [groups];
+    }
+    for (let group2 of groups) {
+      if (typeof group2 != "string" && !(group2 instanceof String)) {
+        console.warn("JAQT: groupBy(selector) can only handle string values, got:", group2);
+        continue;
+      }
+      if (!result[group2]) {
+        result[group2] = [];
+      }
+      result[group2].push(entity);
+    }
+  }
+  return result;
+}
+function groupBy2(data, pointerFunctions) {
+  let pointerFn = pointerFunctions.shift();
+  if (typeof pointerFn == "string") {
+    pointerFn = _2[pointerFn];
+  }
+  if (typeof pointerFn != "function") {
+    throw new Error("groupBy parameters must be either a property name or a pointer function (e.g.: _.name)");
+  }
+  let groups = getMatchingGroups2(data, pointerFn);
+  if (pointerFunctions.length) {
+    for (let group2 in groups) {
+      groups[group2] = groupBy2(groups[group2], pointerFunctions);
+    }
+  }
+  return groups;
+}
+function anyOf2(...patterns) {
+  let matchFns = patterns.map((pattern) => getMatchFn2(pattern));
+  return (data) => matchFns.some((fn) => fn(data));
+}
+var FunctionProxyHandler2 = {
+  apply(target, thisArg, argumentsList) {
+    let result = target.apply(thisArg, argumentsList);
+    if (typeof result === "object") {
+      return new Proxy(result, DataProxyHandler2);
+    }
+    return result;
+  }
+};
+var DataProxyHandler2 = {
+  get(target, property) {
+    let result = null;
+    if (typeof property === "symbol") {
+      result = target[property];
+    }
+    if (Array.isArray(target)) {
+      switch (property) {
+        case "where":
+          result = function(shape) {
+            let matchFn = getMatchFn2(shape);
+            return new Proxy(
+              target.filter((element2) => matchFn(element2)),
+              DataProxyHandler2
+            );
+          };
+          break;
+        case "select":
+          result = function(filter2) {
+            let selectFn = getSelectFn2(filter2);
+            return new Proxy(
+              target.map(selectFn),
+              DataProxyHandler2
+            );
+          };
+          break;
+        case "reduce":
+          result = function(pattern, initial = []) {
+            let aggregateFn = getAggregateFn2(pattern);
+            let temp = target.reduce(aggregateFn, initial);
+            if (Array.isArray(temp)) {
+              return new Proxy(temp, DataProxyHandler2);
+            } else if (!isPrimitiveWrapper2(temp)) {
+              return new Proxy(temp, GroupByProxyHandler2);
+            } else {
+              return temp;
+            }
+          };
+          break;
+        case "orderBy":
+          result = function(pattern) {
+            let sortFn = getSortFn2(pattern);
+            return new Proxy(
+              target.toSorted(sortFn),
+              DataProxyHandler2
+            );
+          };
+          break;
+        case "groupBy":
+          result = function(...groups) {
+            let temp = groupBy2(target, groups);
+            return new Proxy(
+              temp,
+              GroupByProxyHandler2
+            );
+          };
+          break;
+      }
+    }
+    if (!result && target && typeof target === "object") {
+      if (property === "select") {
+        result = function(filter2) {
+          let selector = getSelectFn2(filter2);
+          return new Proxy(selector(target), DataProxyHandler2);
+        };
+      }
+    }
+    if (!result && target && typeof target[property] === "function") {
+      result = new Proxy(target[property], FunctionProxyHandler2);
+    }
+    if (!result) {
+      result = target[property];
+    }
+    return result;
+  }
+};
+var GroupByProxyHandler2 = {
+  get(target, property) {
+    let result = null;
+    switch (property) {
+      case "select":
+        result = function(filter2) {
+          let selectFn = getSelectFn2(filter2);
+          let result2 = {};
+          for (let group2 in target) {
+            if (Array.isArray(target[group2])) {
+              result2[group2] = new Proxy(target[group2].map(selectFn), DataProxyHandler2);
+            } else {
+              result2[group2] = new Proxy(target[group2], GroupByProxyHandler2);
+            }
+          }
+          return result2;
+        };
+        break;
+      case "reduce":
+        result = function(pattern, initial = []) {
+          let aggregateFn = getAggregateFn2(pattern);
+          let result2 = {};
+          for (let group2 in target) {
+            if (Array.isArray(target[group2])) {
+              let temp = target[group2].reduce(aggregateFn, initial);
+              if (Array.isArray(temp)) {
+                result2[group2] = new Proxy(temp, DataProxyHandler2);
+              } else if (!isPrimitiveWrapper2(temp)) {
+                result2[group2] = new Proxy(temp, GroupByProxyHandler2);
+              } else {
+                result2[group2] = temp;
+              }
+            } else {
+              result2[group2] = new Proxy(target[group2], GroupByProxyHandler2);
+            }
+          }
+          return result2;
+        };
+        break;
+      default:
+        if (Array.isArray(target[property])) {
+          result = from2(target[property]);
+        } else {
+          result = target[property];
+        }
+        break;
+    }
+    return result;
+  }
+};
+var EmptyHandler2 = {
+  get(target, property) {
+    let result = null;
+    switch (property) {
+      case "where":
+        result = function() {
+          return new Proxy(new Null2(), EmptyHandler2);
+        };
+        break;
+      case "reduce":
+      case "select":
+        result = function() {
+          return null;
+        };
+        break;
+      case "orderBy":
+        result = function() {
+          return new Proxy(new Null2(), EmptyHandler2);
+        };
+        break;
+      case "groupBy":
+        result = function() {
+          return new Proxy(new Null2(), EmptyHandler2);
+        };
+        break;
+    }
+    if (!result && typeof target?.[property] == "function") {
+      result = target[property];
+    }
+    return result;
+  }
+};
+var Null2 = class {
+  toJSON() {
+    return null;
+  }
+};
+function from2(data) {
+  if (!data || typeof data !== "object") {
+    return new Proxy(new Null2(), EmptyHandler2);
+  }
+  return new Proxy(data, DataProxyHandler2);
+}
+function getPointerFn2(path2) {
+  return (data, key) => {
+    if (path2?.length > 0) {
+      let localPath = path2.slice();
+      let prop = localPath.shift();
+      while (prop) {
+        if (Array.isArray(data) && parseInt(prop) != prop) {
+          localPath.unshift(prop);
+          return data.map(getPointerFn2(localPath));
+        } else if (typeof data?.[prop] != "undefined") {
+          data = data[prop];
+        } else {
+          data = null;
+        }
+        prop = localPath.shift();
+      }
+      return data;
+    } else if (key && key !== "_") {
+      if (typeof data?.[key] != "undefined") {
+        return data[key];
+      } else {
+        return null;
+      }
+    } else {
+      return data;
+    }
+  };
+}
+var pointerHandler2 = (path2) => {
+  if (!path2) {
+    path2 = [];
+  }
+  return {
+    get(target, property) {
+      if (property == "constructor" || typeof property == "symbol") {
+        return target[property];
+      }
+      let newpath = path2.concat([property]);
+      return new Proxy(getPointerFn2(newpath), pointerHandler2(newpath));
+    },
+    apply(target, thisArg, argumentsList) {
+      let result = target(...argumentsList);
+      if (Array.isArray(result)) {
+        result = result.flat(Infinity);
+      }
+      return result;
+    }
+  };
+};
+var _2 = new Proxy(getPointerFn2(), pointerHandler2());
+
+// src/features/paragraph-note-stacks/annotation-model.js
+var annotationModel = {
+  vocabulary: {
+    prefixes: {
+      rdf: "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+      rdfs: "http://www.w3.org/2000/01/rdf-schema#",
+      dcterms: "http://purl.org/dc/terms/",
+      oa: "http://www.w3.org/ns/oa#",
+      schema: "https://schema.org/",
+      cobalt: "https://vocab.muze.nl/cobalt#"
+    },
+    classes: {
+      annotation: "oa$Annotation",
+      textualBody: "oa$TextualBody",
+      specificResource: "oa$SpecificResource",
+      fragmentSelector: "oa$FragmentSelector",
+      cobaltFragment: "cobalt$Fragment"
+    },
+    predicates: {
+      type: "rdf$type",
+      label: "rdfs$label",
+      created: "dcterms$created",
+      modified: "dcterms$modified",
+      format: "dcterms$format",
+      value: "rdf$value",
+      hasBody: "oa$hasBody",
+      hasTarget: "oa$hasTarget",
+      hasSource: "oa$hasSource",
+      hasSelector: "oa$hasSelector",
+      text: "schema$text",
+      cobaltFragment: "cobalt$fragment"
+    },
+    mediaTypes: {
+      cobaltFragment: "application/vnd.cobalt.fragment+json"
+    }
+  },
+  createAnnotationNote({ anchorId, fragment, now: now2 = (/* @__PURE__ */ new Date()).toISOString() }) {
+    const annotationId = this.createLocalSubjectId({});
+    const body = {
+      id: `${annotationId}#body`,
+      rdf$type: [
+        this.vocabulary.classes.textualBody,
+        this.vocabulary.classes.cobaltFragment
+      ],
+      dcterms$format: this.vocabulary.mediaTypes.cobaltFragment,
+      rdf$value: this.noteText({ fragment }),
+      schema$text: this.noteText({ fragment }),
+      cobalt$fragment: fragment
+    };
+    const target = {
+      id: `${annotationId}#target`,
+      rdf$type: this.vocabulary.classes.specificResource,
+      oa$hasSource: this.currentDocumentIri({}),
+      oa$hasSelector: {
+        id: `${annotationId}#selector-fragment`,
+        rdf$type: this.vocabulary.classes.fragmentSelector,
+        rdf$value: anchorId
+      }
+    };
+    return {
+      id: annotationId,
+      rdf$type: this.vocabulary.classes.annotation,
+      dcterms$created: now2,
+      dcterms$modified: now2,
+      oa$hasBody: body,
+      oa$hasTarget: target
+    };
+  },
+  createLocalSubjectId() {
+    if (globalThis.crypto?.randomUUID) {
+      return `urn:uuid:${globalThis.crypto.randomUUID()}`;
+    }
+    return `urn:muze:margin-notes:${Date.now()}-${Math.random().toString(16).slice(2)}`;
+  },
+  currentDocumentIri() {
+    const href = globalThis.location?.href;
+    if (!href) {
+      return "urn:muze:margin-notes:local-document";
+    }
+    return href.replace(/#.*/, "");
+  },
+  annotationAnchorId({ annotation }) {
+    const target = src_default2.one(annotation?.oa$hasTarget, "first");
+    const fragment = from2(src_default2.many(target?.oa$hasSelector)).where((selector) => src_default2.many(selector?.rdf$type).includes(this.vocabulary.classes.fragmentSelector))[0];
+    return fragment?.rdf$value;
+  },
+  annotationBody({ annotation }) {
+    return src_default2.one(annotation?.oa$hasBody, "first");
+  },
+  annotationBodyFragment({ annotation }) {
+    return this.annotationBody({ annotation })?.cobalt$fragment || { text: "", annotations: [] };
+  },
+  updateAnnotationBody({ annotation, fragment, now: now2 = (/* @__PURE__ */ new Date()).toISOString() }) {
+    const body = this.annotationBody({ annotation });
+    if (!body) return;
+    body.rdf$value = this.noteText({ fragment });
+    body.schema$text = this.noteText({ fragment });
+    body.cobalt$fragment = fragment;
+    annotation.dcterms$modified = now2;
+  },
+  removeAnnotationFromGraph({ app: app2, annotationId }) {
+    const index = app2.data.marginNotes.graph.findIndex((annotation) => annotation.id === annotationId);
+    if (index >= 0) {
+      app2.data.marginNotes.graph.splice(index, 1);
+    }
+  },
+  toRenderableNote({ annotation }) {
+    const note = {
+      id: annotation.id,
+      annotation,
+      anchorId: this.annotationAnchorId({ annotation }),
+      body: this.annotationBodyFragment({ annotation }),
+      created: annotation.dcterms$created,
+      modified: annotation.dcterms$modified
+    };
+    return this.syncRenderableNote({ note });
+  },
+  syncRenderableNote({ note }) {
+    const annotation = note.annotation;
+    const fragment = this.annotationBodyFragment({ annotation });
+    note.anchorId = this.annotationAnchorId({ annotation });
+    note.body = fragment;
+    note.bodyText = this.noteText({ fragment });
+    note.created = annotation.dcterms$created;
+    note.modified = annotation.dcterms$modified;
+    note.createdLabel = `Created: ${(note.created || "").substring(0, 10)}`;
+    return note;
+  },
+  toStoredAnnotation({ annotation }) {
+    return this.cloneValue({ value: annotation });
+  },
+  toStorageDocument({ subjects: subjects2 }) {
+    return {
+      format: "margin-notes-oldmed-graph",
+      version: 1,
+      prefixes: this.vocabulary.prefixes,
+      subjects: Array.from(from2(subjects2).where((annotation) => this.isMarginNoteAnnotation({ value: annotation })).select((annotation) => this.toStoredAnnotation({ annotation })))
+    };
+  },
+  toStoredGraph({ value }) {
+    if (Array.isArray(value)) {
+      return Array.from(from2(value).select((note) => {
+        if (this.isMarginNoteAnnotation({ value: note })) {
+          return note;
+        }
+        return this.annotationFromLegacyNote({ note });
+      }).where((annotation) => this.isMarginNoteAnnotation({ value: annotation })));
+    }
+    if (Array.isArray(value?.subjects)) {
+      return Array.from(from2(value.subjects).where((subject) => this.isMarginNoteAnnotation({ value: subject })));
+    }
+    return [];
+  },
+  isOldmedAnnotation({ value }) {
+    return src_default2.many(value?.rdf$type).includes(this.vocabulary.classes.annotation);
+  },
+  isMarginNoteAnnotation({ value }) {
+    return Boolean(
+      this.isOldmedAnnotation({ value }) && this.annotationBody({ annotation: value }) && this.annotationAnchorId({ annotation: value })
+    );
+  },
+  annotationFromLegacyNote({ note }) {
+    const annotation = this.createAnnotationNote({
+      anchorId: note.anchorId,
+      fragment: note.body || { text: "", annotations: [] },
+      now: note.created || (/* @__PURE__ */ new Date()).toISOString()
+    });
+    annotation.id = this.legacyLocalSubjectId({ id: note.id });
+    annotation.dcterms$created = note.created || annotation.dcterms$created;
+    annotation.dcterms$modified = note.modified || annotation.dcterms$modified;
+    annotation.oa$hasBody.id = `${annotation.id}#body`;
+    annotation.oa$hasTarget.id = `${annotation.id}#target`;
+    annotation.oa$hasTarget.oa$hasSelector.id = `${annotation.id}#selector-fragment`;
+    return annotation;
+  },
+  legacyLocalSubjectId({ id: id2 }) {
+    if (typeof id2 === "string" && /^(?:[a-z][a-z0-9+.-]*:)/i.test(id2)) {
+      return id2;
+    }
+    return `urn:muze:margin-notes:${encodeURIComponent(id2 || this.createLocalSubjectId({}))}`;
+  },
+  cloneValue({ value }) {
+    return JSON.parse(JSON.stringify(value));
+  },
+  noteText({ fragment }) {
+    return fragment?.text || "(empty note)";
+  }
+};
+
+// src/features/paragraph-note-stacks/root.html
+var root_default = '<div class="margin-notes-root" hidden></div>\n';
+
+// src/features/paragraph-note-stacks/anchor-widget.html
+var anchor_widget_default = '<span class="margin-notes-anchor-widget">\n  <button\n    type="button"\n    class="margin-notes-target-add-btn"\n    title="Add note"\n    aria-label="Add note"\n    data-simply-command="createNote"\n    data-simply-value=":value"\n  >+</button>\n  <span class="margin-notes-target-note-list" data-simply-shortcuts="marginNotesNote">\n    <span class="margin-notes-target-note-items" data-simply-list="visibleNotes">\n      <template rel="margin-notes-inline-note"></template>\n    </span>\n    <button\n      type="button"\n      class="margin-notes-target-note-count"\n      aria-expanded="false"\n      data-margin-notes-empty="true"\n      data-simply-command="toggleAnchorNoteList"\n      data-simply-value=":value"\n    ><span data-simply-field="overflowLabel"></span></button>\n  </span>\n</span>\n';
+
+// src/features/paragraph-note-stacks/inline-note.html
+var inline_note_default = '<article class="margin-notes-target-note">\n  <button\n    type="button"\n    class="margin-notes-target-note-toggle"\n    aria-expanded="false"\n    data-simply-shortcuts="marginNotesNote"\n    data-simply-command="expandInlineNote"\n    data-simply-value=":value"\n  ><span class="margin-notes-target-note-text" data-simply-field="bodyText"></span></button>\n  <button\n    type="button"\n    class="margin-notes-target-note-close"\n    aria-label="Close note"\n    data-simply-command="collapseInlineNote"\n    data-simply-value=":value"\n  >x</button>\n  <span class="margin-notes-target-note-actions">\n    <button\n      type="button"\n      class="margin-notes-target-note-action"\n      data-simply-command="updateNote"\n      data-simply-value=":value"\n    >Edit</button>\n    <button\n      type="button"\n      class="margin-notes-target-note-action"\n      data-simply-command="deleteNote"\n      data-simply-value=":value"\n    >Delete</button>\n  </span>\n</article>\n';
+
+// src/features/solid-connection/control.html
+var control_default = '<form class="margin-notes-solid-connection" data-margin-notes-solid-connection>\n  <label class="margin-notes-solid-connection-webid">\n    <span>WebID</span>\n    <input\n      type="url"\n      inputmode="url"\n      autocomplete="url"\n      placeholder="https://example.solidcommunity.net/profile/card#me"\n      data-margin-notes-solid-webid\n    >\n  </label>\n  <button type="submit" class="ds-button ds-button-primary">Connect</button>\n  <p class="margin-notes-solid-connection-status" data-margin-notes-solid-status>Not connected</p>\n</form>\n';
+
+// src/design-system.css
+var design_system_default = '/*\n * Curated the-ds subset for margin-notes.\n *\n * This intentionally does not import the-ds wholesale. Margin notes is embedded\n * into host documents, so this file only defines design tokens and the small\n * button/dialog primitives used by the component.\n */\n\n@layer reset, setup, theme, base, component, page, utility;\n\n@layer setup {\n  :root,\n  :host {\n    --ds-black: #000;\n    --ds-white: #fff;\n    --ds-primary: oklch(0.7388 0.1792 126.69);\n    --ds-support: oklch(0.7388 0.1792 216.69);\n\n    --ds-grey-0: #eef1f8;\n    --ds-grey-5: #e9edf6;\n    --ds-grey-10: #e4eaf4;\n    --ds-grey-20: #dae2ed;\n    --ds-grey-30: #cdd7e3;\n    --ds-grey-40: #bdc8d4;\n    --ds-grey-50: #a8b4c0;\n    --ds-grey-60: #8f9ba6;\n    --ds-grey-70: #707c84;\n    --ds-grey-80: #4d565c;\n    --ds-grey-90: #262c2f;\n    --ds-grey-100: #000;\n\n    --ds-color-error: rgb(253, 143, 143);\n    --ds-color-warning: #ffffcc;\n    --ds-color-info: rgb(140, 180, 250);\n  }\n}\n\n@layer theme {\n  :root,\n  :host {\n    --ds-color-scheme: light;\n    --ds-font-heading: var(--margin-notes-font-family, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif);\n    --ds-font-body: var(--margin-notes-font-family, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif);\n    --ds-font-weight: 400;\n    --ds-font-size: 1rem;\n    --ds-line-height: 1.5rem;\n\n    --ds-heading-weight: 600;\n    --ds-space: var(--ds-line-height);\n    --ds-space-d4: calc(var(--ds-space) / 4);\n    --ds-space-d3: calc(var(--ds-space) / 3);\n    --ds-space-d2: calc(var(--ds-space) / 2);\n    --ds-space-x2: calc(2 * var(--ds-space));\n    --ds-space-x3: calc(3 * var(--ds-space));\n    --ds-space-x4: calc(4 * var(--ds-space));\n\n    --ds-primary-10: oklch(from var(--ds-primary) calc(l + 0.3) c h);\n    --ds-primary-90: oklch(from var(--ds-primary) calc(l - 0.3) c h);\n    --ds-primary-high: var(--ds-primary-90);\n    --ds-primary-low: var(--ds-primary-10);\n    --ds-primary-contrast: var(--ds-white);\n\n    --ds-support-10: oklch(from var(--ds-support) calc(l + 0.3) c h);\n    --ds-support-90: oklch(from var(--ds-support) calc(l - 0.3) c h);\n    --ds-support-high: var(--ds-support-90);\n    --ds-support-low: var(--ds-support-10);\n    --ds-support-contrast: var(--ds-white);\n\n    --ds-grey-high: var(--ds-grey-90);\n    --ds-grey-medium: var(--ds-grey-60);\n    --ds-grey-low: var(--ds-grey-10);\n    --ds-color: var(--ds-black);\n    --ds-color-background: var(--ds-white);\n    --ds-color-contrast: var(--ds-color);\n\n    --ds-shadow-light: rgba(0, 0, 0, 0.07);\n    --ds-shadow-middle: rgba(0, 0, 0, 0.09);\n    --ds-shadow-dark: rgba(0, 0, 0, 0.11);\n    --ds-shadow-tiny: 0 1px 1px var(--ds-shadow-dark);\n    --ds-shadow-small:\n      0 1px 1px var(--ds-shadow-dark),\n      0 2px 2px var(--ds-shadow-middle),\n      0 4px 4px var(--ds-shadow-light);\n    --ds-shadow-medium:\n      0 1px 1px var(--ds-shadow-middle),\n      0 2px 2px var(--ds-shadow-middle),\n      0 4px 4px var(--ds-shadow-middle),\n      0 6px 8px var(--ds-shadow-middle),\n      0 8px 16px var(--ds-shadow-middle);\n    --ds-shadow-large:\n      0 -2px 2px var(--ds-shadow-light),\n      0 4px 2px var(--ds-shadow-light),\n      0 8px 4px var(--ds-shadow-light),\n      0 16px 8px var(--ds-shadow-light),\n      0 32px 16px var(--ds-shadow-light);\n\n    --ds-box-radius: 4px;\n\n    --ds-input-border: var(--ds-grey-medium);\n    --ds-input-space: var(--ds-space);\n    --ds-input-font: var(--ds-font-body);\n    --ds-input-height: calc(var(--ds-line-height) * 1.5);\n    --ds-input-margin: calc(var(--ds-line-height) * 0.5);\n\n    --ds-button-space: calc(0.5 * var(--ds-input-space));\n    --ds-button-bg-color: var(--ds-grey-low);\n    --ds-button-default-bg-color: var(--ds-white);\n    --ds-button-border: 1px solid var(--ds-grey-low);\n    --ds-button-disabled-color: var(--ds-grey-medium);\n    --ds-button-disabled-bg-color: var(--ds-white);\n    --ds-button-primary-bg-color: var(--ds-primary);\n    --ds-button-primary-color: var(--ds-primary-contrast);\n    --ds-button-primary-border-color: transparent;\n    --ds-button-support-bg-color: var(--ds-support);\n    --ds-button-support-color: var(--ds-support-contrast);\n    --ds-button-support-border-color: transparent;\n    --ds-button-line-height: calc(var(--ds-line-height) * 1.5);\n    --ds-button-shadow: 0;\n    --ds-button-shadow-hover: var(--ds-shadow-small);\n    --ds-button-radius: var(--ds-box-radius);\n    --ds-button-padding: calc(0.5 * var(--ds-line-height));\n    --ds-button-font-size: calc(0.875 * var(--ds-font-size));\n\n    --ds-dialog-background: var(--ds-color-background);\n    --ds-dialog-color: var(--ds-color-contrast);\n    --ds-dialog-shadow: var(--ds-shadow-large);\n    --ds-dialog-radius: calc(2 * var(--ds-box-radius));\n    --ds-dialog-size: calc(50% - (1 / 2 * var(--ds-space)));\n    --ds-dialog-min-width: 25em;\n  }\n\n  :root[data-margin-notes-theme="dark"],\n  :host([data-margin-notes-theme="dark"]) {\n    --ds-color-scheme: dark;\n    --ds-primary: oklch(0.78 0.14 142);\n    --ds-support: oklch(0.78 0.13 225);\n    --ds-primary-high: oklch(0.84 0.11 142);\n    --ds-primary-low: oklch(0.3 0.08 142);\n    --ds-support-high: oklch(0.82 0.1 225);\n    --ds-support-low: oklch(0.3 0.08 225);\n    --ds-grey-high: #f3f3ed;\n    --ds-grey-medium: #b8bbad;\n    --ds-grey-low: #343831;\n    --ds-color: #f3f3ed;\n    --ds-color-background: #1b1d19;\n    --ds-color-contrast: #f3f3ed;\n    --ds-shadow-light: rgba(0, 0, 0, 0.18);\n    --ds-shadow-middle: rgba(0, 0, 0, 0.24);\n    --ds-shadow-dark: rgba(0, 0, 0, 0.32);\n    --ds-input-border: #5b6054;\n    --ds-button-bg-color: #343831;\n    --ds-button-default-bg-color: #242720;\n    --ds-button-border: 1px solid #4a5045;\n    --ds-button-disabled-color: #8e9285;\n    --ds-button-disabled-bg-color: #242720;\n    --ds-dialog-background: #1f211d;\n  }\n\n  @media (prefers-color-scheme: dark) {\n    :root[data-margin-notes-theme="system"],\n    :host([data-margin-notes-theme="system"]) {\n      --ds-color-scheme: dark;\n      --ds-primary: oklch(0.78 0.14 142);\n      --ds-support: oklch(0.78 0.13 225);\n      --ds-primary-high: oklch(0.84 0.11 142);\n      --ds-primary-low: oklch(0.3 0.08 142);\n      --ds-support-high: oklch(0.82 0.1 225);\n      --ds-support-low: oklch(0.3 0.08 225);\n      --ds-grey-high: #f3f3ed;\n      --ds-grey-medium: #b8bbad;\n      --ds-grey-low: #343831;\n      --ds-color: #f3f3ed;\n      --ds-color-background: #1b1d19;\n      --ds-color-contrast: #f3f3ed;\n      --ds-shadow-light: rgba(0, 0, 0, 0.18);\n      --ds-shadow-middle: rgba(0, 0, 0, 0.24);\n      --ds-shadow-dark: rgba(0, 0, 0, 0.32);\n      --ds-input-border: #5b6054;\n      --ds-button-bg-color: #343831;\n      --ds-button-default-bg-color: #242720;\n      --ds-button-border: 1px solid #4a5045;\n      --ds-button-disabled-color: #8e9285;\n      --ds-button-disabled-bg-color: #242720;\n      --ds-dialog-background: #1f211d;\n    }\n  }\n}\n\n@layer component {\n  .ds-button {\n    background-color: var(--ds-button-bg-color);\n    border: 0;\n    border-radius: var(--ds-button-radius);\n    box-shadow: var(--ds-button-shadow);\n    box-sizing: border-box;\n    color: inherit;\n    cursor: pointer;\n    display: inline-block;\n    font: inherit;\n    font-size: var(--ds-button-font-size);\n    line-height: var(--ds-button-line-height);\n    margin: 0 var(--ds-button-space) var(--ds-button-space) 0;\n    min-height: var(--ds-button-line-height);\n    outline: var(--ds-button-border);\n    overflow: visible;\n    padding: 0 var(--ds-button-padding);\n    text-align: center;\n    text-decoration: none;\n    white-space: nowrap;\n  }\n\n  .ds-button:hover,\n  .ds-button:focus {\n    box-shadow: var(--ds-button-shadow-hover);\n    text-decoration: none;\n  }\n\n  .ds-button-default {\n    background-color: var(--ds-button-default-bg-color);\n  }\n\n  .ds-button-primary,\n  .ds-button-primary:hover {\n    background-color: var(--ds-button-primary-bg-color);\n    color: var(--ds-button-primary-color);\n    outline: 1px solid var(--ds-button-primary-border-color);\n  }\n\n  .ds-button-support,\n  .ds-button-support:hover {\n    background-color: var(--ds-button-support-bg-color);\n    color: var(--ds-button-support-color);\n    outline: 1px solid var(--ds-button-support-border-color);\n  }\n\n  .ds-button-naked {\n    background: none;\n    box-shadow: none;\n    outline: none;\n  }\n\n  .ds-dialog {\n    background: var(--ds-dialog-background);\n    border: 0;\n    border-radius: var(--ds-dialog-radius);\n    box-shadow: var(--ds-dialog-shadow);\n    color: var(--ds-dialog-color);\n    max-width: 100%;\n    min-width: min(100%, var(--ds-dialog-min-width));\n    padding: 0;\n    width: var(--ds-dialog-size);\n  }\n}\n';
+
+// src/features/paragraph-note-stacks/ui.css
+var ui_default = '[data-margin-notes-target],\n.margin-notes-anchor-widget {\n  --margin-notes-paper-background: var(--ds-color-background, #fff);\n  --margin-notes-open-background: var(--ds-color-background, #fffefb);\n  --margin-notes-note-color: var(--ds-grey-high, #302a1d);\n  --margin-notes-muted-color: var(--ds-grey-medium, #5d5a51);\n  --margin-notes-rule-color: var(--ds-grey-low, #ebe4d1);\n  --margin-notes-marker-color: var(--ds-support, #c9a84f);\n  --margin-notes-action-color: var(--ds-primary-high, #4d5f8f);\n  --margin-notes-focus-color: var(--ds-primary-high, #3162d4);\n  --margin-notes-radius: var(--ds-box-radius, 4px);\n  --margin-notes-shadow: var(--ds-shadow-small, 0 4px 14px rgba(20, 31, 56, 0.16));\n  --margin-notes-font: var(--ds-font-body, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif);\n  color-scheme: var(--ds-color-scheme, light);\n}\n\n[data-margin-notes-target] {\n  position: relative;\n  outline: none;\n}\n\n.margin-notes-anchor-widget,\n.margin-notes-anchor-widget-host {\n  display: contents;\n}\n\n[data-margin-notes-target]::before {\n  bottom: 0;\n  content: "";\n  left: -3rem;\n  position: absolute;\n  top: 0;\n  width: 3rem;\n}\n\n[data-margin-notes-target].margin-notes-target-tabstop:focus-visible {\n  outline: 2px solid var(--margin-notes-focus-color);\n  outline-offset: 4px;\n}\n\n.margin-notes-target-add-btn {\n  align-items: center;\n  background: var(--margin-notes-paper-background);\n  border: 1px solid var(--ds-grey-30, #cfd6e6);\n  border-radius: 999px;\n  box-shadow: var(--margin-notes-shadow);\n  color: var(--margin-notes-action-color);\n  cursor: pointer;\n  display: inline-flex;\n  font: 600 1rem/1 var(--margin-notes-font);\n  height: 2rem;\n  justify-content: center;\n  left: -2.75rem;\n  opacity: 0;\n  pointer-events: none;\n  position: absolute;\n  top: 0.35rem;\n  transform: translateX(0.25rem);\n  transition: opacity 120ms ease, transform 120ms ease, border-color 120ms ease;\n  width: 2rem;\n  z-index: 2;\n}\n\n[data-margin-notes-target]:hover .margin-notes-target-add-btn,\n[data-margin-notes-target]:focus .margin-notes-target-add-btn,\n[data-margin-notes-target]:focus-within .margin-notes-target-add-btn,\n.margin-notes-target-add-btn:focus-visible {\n  opacity: 1;\n  pointer-events: auto;\n  transform: translateX(0);\n}\n\n.margin-notes-target-add-btn:hover,\n.margin-notes-target-add-btn:focus-visible {\n  border-color: var(--margin-notes-focus-color);\n}\n\n.margin-notes-target-note-list {\n  display: flex;\n  flex-direction: column;\n  gap: 0;\n  left: calc(100% + 1.25rem);\n  position: absolute;\n  top: 0;\n  width: min(17rem, 34vw);\n  z-index: 3;\n}\n\n.margin-notes-target-note-list.is-expanded {\n  background: var(--margin-notes-open-background);\n  border-radius: var(--margin-notes-radius);\n  box-shadow: 0 0 0 0.35rem var(--margin-notes-open-background);\n  z-index: 30;\n}\n\n.margin-notes-target-note-count {\n  align-items: center;\n  align-self: flex-start;\n  background: transparent;\n  border: 0;\n  color: var(--margin-notes-muted-color);\n  cursor: pointer;\n  display: inline-flex;\n  font: 600 0.78rem/1 var(--margin-notes-font);\n  gap: 0.25rem;\n  padding: 0.05rem 0.2rem;\n}\n\n.margin-notes-target-note-count::before,\n.margin-notes-target-note-toggle::before {\n  background: var(--margin-notes-marker-color);\n  border-radius: 1px;\n  content: "";\n  display: inline-block;\n  flex: 0 0 auto;\n  height: 0.72rem;\n  opacity: 0.72;\n  transform: rotate(-2deg);\n  width: 0.58rem;\n}\n\n.margin-notes-target-note-count[hidden],\n.margin-notes-target-note-count[data-margin-notes-empty="true"],\n.margin-notes-target-note[hidden] {\n  display: none;\n}\n\n.margin-notes-target-note-items {\n  display: flex;\n  flex-direction: column;\n  gap: 0;\n}\n\n.margin-notes-target-note {\n  background: transparent;\n  border-radius: var(--margin-notes-radius);\n  color: var(--margin-notes-note-color);\n  min-height: 2rem;\n  position: relative;\n}\n\n.margin-notes-target-note.is-expanded {\n  background: var(--margin-notes-open-background);\n  left: 0;\n  position: absolute;\n  right: auto;\n  top: var(--margin-notes-expanded-top, 0);\n  width: min(24rem, 54vw);\n  z-index: 20;\n}\n\n.margin-notes-target-note-toggle {\n  align-items: baseline;\n  background: transparent;\n  border: 0;\n  color: inherit;\n  cursor: pointer;\n  display: flex;\n  gap: 0.38rem;\n  font: 0.875rem/1.35 var(--margin-notes-font);\n  overflow: hidden;\n  padding: 0.16rem 0;\n  text-align: left;\n  width: 100%;\n}\n\n.margin-notes-target-note-text {\n  min-width: 0;\n  overflow: hidden;\n  text-overflow: ellipsis;\n  white-space: nowrap;\n}\n\n.margin-notes-target-note.is-expanded .margin-notes-target-note-toggle {\n  cursor: text;\n  overflow: visible;\n  padding: 0.35rem 2rem 0.55rem 0;\n}\n\n.margin-notes-target-note.is-expanded .margin-notes-target-note-text {\n  overflow: visible;\n  text-overflow: clip;\n  white-space: normal;\n}\n\n.margin-notes-target-note-actions {\n  border-top: 1px solid var(--margin-notes-rule-color);\n  display: none;\n  gap: 0.35rem;\n  justify-content: flex-end;\n  padding: 0 0.45rem 0.45rem;\n}\n\n.margin-notes-target-note.is-expanded .margin-notes-target-note-actions {\n  display: flex;\n}\n\n.margin-notes-target-note-action {\n  background: transparent;\n  border: 0;\n  color: var(--margin-notes-action-color);\n  cursor: pointer;\n  font: 600 0.78rem/1 var(--margin-notes-font);\n  padding: 0.35rem;\n}\n\n.margin-notes-target-note-close {\n  align-items: center;\n  background: transparent;\n  border: 0;\n  color: var(--margin-notes-muted-color);\n  cursor: pointer;\n  display: none;\n  font: 1.1rem/1 var(--margin-notes-font);\n  height: 1.65rem;\n  justify-content: center;\n  padding: 0;\n  position: absolute;\n  right: 0.25rem;\n  top: 0.25rem;\n  width: 1.65rem;\n}\n\n.margin-notes-target-note.is-expanded .margin-notes-target-note-close {\n  display: inline-flex;\n}\n\n@media (max-width: 760px) {\n  [data-margin-notes-target]::before {\n    display: none;\n  }\n\n  .margin-notes-target-add-btn {\n    left: auto;\n    right: 0;\n    top: -0.85rem;\n  }\n\n  .margin-notes-target-note-list {\n    left: 0;\n    position: relative;\n    top: auto;\n    width: 100%;\n  }\n\n  .margin-notes-target-note.is-expanded {\n    width: min(100%, 24rem);\n  }\n}\n';
+
+// src/features/solid-connection/ui.css
+var ui_default2 = '.margin-notes-solid-connection {\n  color: var(--ds-color-contrast);\n  display: grid;\n  font-family: var(--ds-font-body);\n  font-size: 0.875rem;\n  gap: calc(var(--ds-space) / 3);\n  line-height: 1.35;\n}\n\n.margin-notes-solid-connection-webid {\n  display: grid;\n  gap: calc(var(--ds-space) / 4);\n}\n\n.margin-notes-solid-connection-webid span {\n  color: var(--ds-grey-medium);\n  font-size: 0.75rem;\n  font-weight: 600;\n}\n\n.margin-notes-solid-connection-webid input {\n  background: var(--ds-color-background);\n  border: 1px solid var(--ds-input-border);\n  border-radius: var(--ds-box-radius);\n  box-sizing: border-box;\n  color: var(--ds-color-contrast);\n  font: inherit;\n  inline-size: 100%;\n  min-block-size: var(--ds-input-height);\n  padding: 0 calc(var(--ds-space) / 3);\n}\n\n.margin-notes-solid-connection-status {\n  color: var(--ds-grey-medium);\n  margin: 0;\n}\n\n.margin-notes-solid-connection-status[data-status="connected"] {\n  color: var(--ds-primary-high);\n}\n\n.margin-notes-solid-connection-status[data-status="error"] {\n  color: var(--ds-color-error);\n}\n';
+
+// node_modules/@muze-nl/assert/src/assert-core.mjs
+var assert_core_exports = {};
+__export(assert_core_exports, {
+  Optional: () => Optional,
+  Recommended: () => Recommended,
+  Required: () => Required,
+  allOf: () => allOf,
+  anyOf: () => anyOf3,
+  assert: () => assert,
+  disable: () => disable,
+  enable: () => enable,
+  error: () => error,
+  fails: () => fails,
+  formatIssue: () => formatIssue,
+  formatIssues: () => formatIssues,
+  instanceOf: () => instanceOf,
+  issues: () => issues,
+  not: () => not,
+  oneOf: () => oneOf,
+  validEmail: () => validEmail,
+  validURL: () => validURL,
+  warn: () => warn
+});
+var assertEnabled = false;
+function enable() {
+  assertEnabled = true;
+}
+function disable() {
+  assertEnabled = false;
+}
+function appendPath(path2 = "", key) {
+  if (typeof path2 == "undefined" || path2 == null) {
+    path2 = "";
+  }
+  if (typeof key == "number") {
+    return `${path2}[${key}]`;
+  }
+  return `${path2}.${key}`;
+}
+function pathToArray(path2 = "") {
+  if (Array.isArray(path2)) {
+    return path2;
+  }
+  if (!path2) {
+    return [];
+  }
+  let result = [];
+  let matcher = /(?:^|\.)([^.\[\]]+)|\[(\d+)\]/g;
+  let match;
+  while (match = matcher.exec(path2)) {
+    if (typeof match[1] != "undefined") {
+      result.push(match[1]);
+    } else if (typeof match[2] != "undefined") {
+      result.push(Number(match[2]));
+    }
+  }
+  return result;
+}
+function pathToString(path2 = []) {
+  if (typeof path2 == "string") {
+    return path2.startsWith(".") ? path2.slice(1) : path2;
+  }
+  return path2.map((part, index) => {
+    if (typeof part == "number") {
+      return `[${part}]`;
+    }
+    return `${index ? "." : ""}${part}`;
+  }).join("");
+}
+function describeFunction(value) {
+  if (value === String) {
+    return "string";
+  }
+  if (value === Number) {
+    return "number";
+  }
+  if (value === Boolean) {
+    return "boolean";
+  }
+  return value.name || "function";
+}
+function clip(text, maxLength = 60) {
+  if (text.length <= maxLength) {
+    return text;
+  }
+  return text.slice(0, maxLength - 1) + "\u2026";
+}
+function quoteString(value) {
+  return `'${clip(String(value).replace(/\\/g, "\\\\").replace(/'/g, "\\'").replace(/\n/g, "\\n"))}'`;
+}
+function jsonSummary(value) {
+  try {
+    let json = JSON.stringify(value);
+    if (typeof json == "string") {
+      return clip(json);
+    }
+  } catch (e) {
+  }
+  let name = value?.constructor?.name;
+  if (name && name != "Object") {
+    return name;
+  }
+  return Object.prototype.toString.call(value);
+}
+function formatValue(value) {
+  if (typeof value == "string") {
+    return quoteString(value);
+  }
+  if (typeof value == "undefined") {
+    return "undefined";
+  }
+  if (value === null) {
+    return "null";
+  }
+  if (typeof value == "function") {
+    return describeFunction(value);
+  }
+  if (value instanceof RegExp) {
+    return value.toString();
+  }
+  if (typeof value == "number" || typeof value == "boolean" || typeof value == "bigint") {
+    return String(value);
+  }
+  if (typeof value == "symbol") {
+    return value.toString();
+  }
+  return jsonSummary(value);
+}
+function describeExpected(value) {
+  if (value === String || value === Number || value === Boolean) {
+    return describeFunction(value);
+  }
+  if (typeof value == "function") {
+    return describeFunction(value);
+  }
+  if (value instanceof RegExp) {
+    return value.toString();
+  }
+  if (Array.isArray(value)) {
+    return "[" + value.map(describeExpected).join(", ") + "]";
+  }
+  return formatValue(value);
+}
+function describeOneOf(patterns) {
+  return patterns.map(describeExpected).join(", ");
+}
+function conciseMessage(message, actual, expected) {
+  if (message == "data and pattern are not equal") {
+    return `expected ${formatValue(expected)}, found ${formatValue(actual)}`;
+  }
+  if (message == "data does not match pattern" || /^data\[\d+\] does not match pattern$/.test(message)) {
+    return `expected ${describeExpected(expected)}, found ${formatValue(actual)}`;
+  }
+  if (message == "data is undefined, should match pattern") {
+    return `missing; expected ${describeExpected(expected)}`;
+  }
+  if (message == "data is required") {
+    return "required";
+  }
+  if (message == "data is an empty string, which is not allowed") {
+    return "empty string is not allowed";
+  }
+  if (message == "data is not an object, pattern is") {
+    return "data is not an object";
+  }
+  if (message == "data is not an instanceof pattern") {
+    return `expected instance of ${describeExpected(expected)}, found ${formatValue(actual)}`;
+  }
+  if (message == "data does not match oneOf patterns" || message == "data does not match anyOf patterns") {
+    return `expected one of ${describeOneOf(expected)}, found ${formatValue(actual)}`;
+  }
+  if (message == "data matches pattern, when required not to") {
+    return `must not match ${describeExpected(expected)}`;
+  }
+  return message;
+}
+function formatIssue(issue, options = {}) {
+  if (!issue || typeof issue != "object") {
+    return String(issue);
+  }
+  let path2 = issue.pathString || pathToString(issue.path || []) || "value";
+  let indent = options.indent ?? "";
+  return `${indent}${path2}: ${issue.message}`;
+}
+function formatIssues(issues3, options = {}) {
+  if (!issues3) {
+    return false;
+  }
+  let indent = options.indent ?? "  - ";
+  return (Array.isArray(issues3) ? issues3 : [issues3]).map((issue) => formatIssue(issue, { ...options, indent }));
+}
+function issueFromProblem(problem) {
+  if (!problem || typeof problem != "object") {
+    return {
+      path: [],
+      pathString: "",
+      message: String(problem),
+      expected: void 0,
+      actual: void 0
+    };
+  }
+  let path2 = pathToArray(problem.path);
+  let pathString = pathToString(path2);
+  let actual = problem.actual ?? problem.found;
+  let expected = describeExpected(problem.expected);
+  let message = conciseMessage(problem.message, actual, problem.expected);
+  return {
+    path: path2,
+    pathString,
+    message,
+    expected,
+    actual
+  };
+}
+function problemsToIssues(problems) {
+  if (!problems) {
+    return [];
+  }
+  let result = [];
+  for (let problem of Array.isArray(problems) ? problems : [problems]) {
+    if (!problem) {
+      continue;
+    }
+    if (problem && typeof problem == "object" && problem.problems) {
+      let nested = problemsToIssues(problem.problems);
+      if (nested.length) {
+        result = result.concat(nested);
+        continue;
+      }
+    }
+    result.push(issueFromProblem(problem));
+  }
+  return result;
+}
+function assert(source2, test) {
+  if (assertEnabled) {
+    let problems = fails(source2, test);
+    if (problems) {
+      let assertionIssues = problemsToIssues(problems);
+      let formattedIssues = formatIssues(assertionIssues);
+      let message = "Assertions failed:\n" + formattedIssues.join("\n");
+      console.error("\u{1F170}\uFE0F  " + message);
+      throw new Error(message, {
+        cause: { problems, issues: assertionIssues, source: source2 }
+      });
+    }
+  }
+}
+function Optional(pattern) {
+  return function _Optional(data, root, path2) {
+    if (typeof data != "undefined" && data != null && typeof pattern != "undefined") {
+      return fails(data, pattern, root, path2);
+    }
+  };
+}
+function Required(pattern) {
+  return function _Required(data, root, path2) {
+    if (data == null || typeof data == "undefined") {
+      return error("data is required", data, pattern || "any value", path2);
+    } else if (typeof pattern != "undefined") {
+      return fails(data, pattern, root, path2);
+    } else {
+      return false;
+    }
+  };
+}
+function Recommended(pattern) {
+  return function _Recommended(data, root, path2) {
+    if (data == null || typeof data == "undefined") {
+      warn("data does not contain recommended value", data, pattern, path2);
+      return false;
+    } else {
+      return fails(data, pattern, root, path2);
+    }
+  };
+}
+function oneOf(...patterns) {
+  return function _oneOf(data, root, path2) {
+    for (let pattern of patterns) {
+      if (!fails(data, pattern, root, path2)) {
+        return false;
+      }
+    }
+    return error("data does not match oneOf patterns", data, patterns, path2);
+  };
+}
+function anyOf3(...patterns) {
+  return function _anyOf(data, root, path2) {
+    if (!Array.isArray(data)) {
+      return error("data is not an array", data, "anyOf", path2);
+    }
+    for (let [index, value] of data.entries()) {
+      let itemPath = appendPath(path2, index);
+      if (oneOf(...patterns)(value, root, itemPath)) {
+        return error("data does not match anyOf patterns", value, patterns, itemPath);
+      }
+    }
+    return false;
+  };
+}
+function allOf(...patterns) {
+  return function _allOf(data, root, path2) {
+    let problems = [];
+    for (let pattern of patterns) {
+      problems = problems.concat(fails(data, pattern, root, path2));
+    }
+    problems = problems.filter(Boolean);
+    if (problems.length) {
+      return error("data does not match all given patterns", data, patterns, path2, problems);
+    }
+  };
+}
+function validURL(data, root, path2) {
+  try {
+    if (data instanceof URL) {
+      data = data.href;
+    }
+    let url3 = new URL(data);
+    if (url3.href != data) {
+      if (!(url3.href + "/" == data || url3.href == data + "/")) {
+        return error("data is not a valid url", data, "validURL", path2);
+      }
+    }
+  } catch (e) {
+    return error("data is not a valid url", data, "validURL", path2);
+  }
+}
+function validEmail(data, root, path2) {
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data)) {
+    return error("data is not a valid email", data, "validEmail", path2);
+  }
+}
+function instanceOf(constructor) {
+  return function _instanceOf(data, root, path2) {
+    if (!(data instanceof constructor)) {
+      return error("data is not an instanceof pattern", data, constructor, path2);
+    }
+  };
+}
+function not(pattern) {
+  return function _not(data, root, path2) {
+    if (!fails(data, pattern, root, path2)) {
+      return error("data matches pattern, when required not to", data, pattern, path2);
+    }
+  };
+}
+function issues(data, pattern, root) {
+  let problems = fails(data, pattern, root);
+  if (!problems) {
+    return false;
+  }
+  return problemsToIssues(problems);
+}
+function fails(data, pattern, root, path2 = "") {
+  if (typeof root == "undefined") {
+    root = data;
+  }
+  let problems = [];
+  if (pattern === Boolean) {
+    if (typeof data != "boolean" && !(data instanceof Boolean)) {
+      problems.push(error("data is not a boolean", data, pattern, path2));
+    }
+  } else if (pattern === Number) {
+    if (typeof data != "number" && !(data instanceof Number)) {
+      problems.push(error("data is not a number", data, pattern, path2));
+    }
+  } else if (pattern === String) {
+    if (typeof data != "string" && !(data instanceof String)) {
+      problems.push(error("data is not a string", data, pattern, path2));
+    }
+    if (data == "") {
+      problems.push(error("data is an empty string, which is not allowed", data, pattern, path2));
+    }
+  } else if (pattern instanceof RegExp) {
+    if (Array.isArray(data)) {
+      let index = data.findIndex((element2, index2) => fails(element2, pattern, root, appendPath(path2, index2)));
+      if (index > -1) {
+        problems.push(error("data[" + index + "] does not match pattern", data[index], pattern, appendPath(path2, index)));
+      }
+    } else if (typeof data == "undefined") {
+      problems.push(error("data is undefined, should match pattern", data, pattern, path2));
+    } else if (!pattern.test(data)) {
+      problems.push(error("data does not match pattern", data, pattern, path2));
+    }
+  } else if (pattern instanceof Function) {
+    let problem = pattern(data, root, path2);
+    if (problem) {
+      if (Array.isArray(problem)) {
+        problems = problems.concat(problem);
+      } else {
+        problems.push(problem);
+      }
+    }
+  } else if (Array.isArray(pattern)) {
+    if (!Array.isArray(data)) {
+      problems.push(error("data is not an array", data, [], path2));
+    } else {
+      for (let p of pattern) {
+        for (let index of data.keys()) {
+          let problem = fails(data[index], p, root, appendPath(path2, index));
+          if (Array.isArray(problem)) {
+            problems = problems.concat(problem);
+          } else if (problem) {
+            problems.push(problem);
+          }
+        }
+      }
+    }
+  } else if (pattern && typeof pattern == "object") {
+    if (Array.isArray(data)) {
+      let index = data.findIndex((element2, index2) => fails(element2, pattern, root, appendPath(path2, index2)));
+      if (index > -1) {
+        problems.push(error("data[" + index + "] does not match pattern", data[index], pattern, appendPath(path2, index)));
+      }
+    } else if (!data || typeof data != "object") {
+      problems.push(error("data is not an object, pattern is", data, pattern, path2));
+    } else {
+      if (data instanceof URLSearchParams) {
+        data = Object.fromEntries(data);
+      }
+      if (pattern instanceof Function) {
+        let result = fails(data, pattern, root, path2);
+        if (result) {
+          problems = problems.concat(result);
+        }
+      } else {
+        for (const [patternKey, subpattern] of Object.entries(pattern)) {
+          let result = fails(data[patternKey], subpattern, root, appendPath(path2, patternKey));
+          if (result) {
+            problems = problems.concat(result);
+          }
+        }
+      }
+    }
+  } else {
+    if (pattern != data) {
+      problems.push(error("data and pattern are not equal", data, pattern, path2));
+    }
+  }
+  if (problems.length) {
+    return problems;
+  }
+  return false;
+}
+function error(message, found, expected, path2 = "", problems) {
+  let pathParts = pathToArray(path2);
+  let result = {
+    path: path2,
+    pathString: pathToString(pathParts),
+    pathParts,
+    message,
+    found,
+    expected
+  };
+  if (problems) {
+    result.problems = problems;
+  }
+  return result;
+}
+function warn(message, data, pattern, path2) {
+  console.warn("\u{1F170}\uFE0F  Assert: " + path2, message, pattern, data);
+}
+
+// node_modules/@muze-nl/assert/src/assert.mjs
+globalThis.assert = { ...assert_core_exports };
 
 // ../solid-tools/node_modules/@muze-nl/metro-core/src/index.mjs
 var src_exports3 = {};
@@ -12412,19 +15579,19 @@ function parseCombinedRateLimit(value) {
   return result;
 }
 function memoryBackoffStore() {
-  const values3 = /* @__PURE__ */ new Map();
+  const values2 = /* @__PURE__ */ new Map();
   return {
     get(key) {
-      return values3.get(key) || 0;
+      return values2.get(key) || 0;
     },
     set(key, until) {
-      values3.set(key, until);
+      values2.set(key, until);
     },
     clear(key = null) {
       if (key == null) {
-        values3.clear();
+        values2.clear();
       } else {
-        values3.delete(key);
+        values2.delete(key);
       }
     }
   };
@@ -14161,97 +17328,482 @@ function isPlainText2(contentType) {
 // ../solid-tools/node_modules/@muze-nl/metro-oldm/src/index.mjs
 var src_default6 = oldmmw;
 
-// ../solid-tools/packages/metro-solid/src/headers.mjs
-var BASIC_CONTAINER = "http://www.w3.org/ns/ldp#BasicContainer";
-function headersObject(headers = {}) {
-  if (!headers) {
-    return {};
-  }
-  if (headers instanceof Headers) {
-    return Object.fromEntries(headers.entries());
-  }
-  if (typeof headers.entries === "function" && typeof headers.get === "function") {
-    return Object.fromEntries(headers.entries());
-  }
-  return { ...headers };
+// ../solid-tools/node_modules/@muze-nl/assert/src/assert-core.mjs
+var assert_core_exports2 = {};
+__export(assert_core_exports2, {
+  Optional: () => Optional2,
+  Recommended: () => Recommended2,
+  Required: () => Required2,
+  allOf: () => allOf2,
+  anyOf: () => anyOf4,
+  assert: () => assert2,
+  disable: () => disable2,
+  enable: () => enable2,
+  error: () => error2,
+  fails: () => fails2,
+  formatIssue: () => formatIssue2,
+  formatIssues: () => formatIssues2,
+  instanceOf: () => instanceOf2,
+  issues: () => issues2,
+  not: () => not2,
+  oneOf: () => oneOf2,
+  validEmail: () => validEmail2,
+  validURL: () => validURL2,
+  warn: () => warn2
+});
+var assertEnabled2 = false;
+function enable2() {
+  assertEnabled2 = true;
 }
-function getHeader(headers, name) {
-  if (!headers) {
-    return null;
-  }
-  if (typeof headers.get === "function") {
-    return headers.get(name);
-  }
-  const wanted = name.toLowerCase();
-  const entry = Object.entries(headers).find(([key]) => key.toLowerCase() === wanted);
-  return entry ? entry[1] : null;
+function disable2() {
+  assertEnabled2 = false;
 }
-function mergeHeaders(...parts) {
-  return parts.reduce((merged, part) => ({ ...merged, ...headersObject(part) }), {});
+function appendPath2(path2 = "", key) {
+  if (typeof path2 == "undefined" || path2 == null) {
+    path2 = "";
+  }
+  if (typeof key == "number") {
+    return `${path2}[${key}]`;
+  }
+  return `${path2}.${key}`;
 }
-function solidRequestHeaders(options = {}) {
-  const headers = headersObject(options.headers);
-  if (options.accept) {
-    headers.Accept = options.accept;
+function pathToArray2(path2 = "") {
+  if (Array.isArray(path2)) {
+    return path2;
   }
-  if (options.contentType || options.type) {
-    headers["Content-Type"] = options.contentType ?? options.type;
+  if (!path2) {
+    return [];
   }
-  if (options.slug) {
-    headers.Slug = options.slug;
+  let result = [];
+  let matcher = /(?:^|\.)([^.\[\]]+)|\[(\d+)\]/g;
+  let match;
+  while (match = matcher.exec(path2)) {
+    if (typeof match[1] != "undefined") {
+      result.push(match[1]);
+    } else if (typeof match[2] != "undefined") {
+      result.push(Number(match[2]));
+    }
   }
-  if (options.ifMatch) {
-    headers["If-Match"] = options.ifMatch;
-  }
-  if (options.ifNoneMatch) {
-    headers["If-None-Match"] = options.ifNoneMatch;
-  }
-  if (options.etag && !headers["If-Match"]) {
-    headers["If-Match"] = options.etag;
-  }
-  return headers;
+  return result;
 }
-function containerLinkHeader(type = BASIC_CONTAINER) {
-  return `<${type}>; rel="type"`;
+function pathToString2(path2 = []) {
+  if (typeof path2 == "string") {
+    return path2.startsWith(".") ? path2.slice(1) : path2;
+  }
+  return path2.map((part, index) => {
+    if (typeof part == "number") {
+      return `[${part}]`;
+    }
+    return `${index ? "." : ""}${part}`;
+  }).join("");
 }
-function containerHeaders(options = {}) {
-  return solidRequestHeaders({
-    ...options,
-    headers: mergeHeaders({ Link: containerLinkHeader(options.containerType) }, options.headers)
-  });
+function describeFunction2(value) {
+  if (value === String) {
+    return "string";
+  }
+  if (value === Number) {
+    return "number";
+  }
+  if (value === Boolean) {
+    return "boolean";
+  }
+  return value.name || "function";
 }
-function getLocation(response3) {
-  return getHeader(response3?.headers, "Location");
+function clip2(text, maxLength = 60) {
+  if (text.length <= maxLength) {
+    return text;
+  }
+  return text.slice(0, maxLength - 1) + "\u2026";
 }
-function getETag(response3) {
-  return getHeader(response3?.headers, "ETag");
+function quoteString2(value) {
+  return `'${clip2(String(value).replace(/\\/g, "\\\\").replace(/'/g, "\\'").replace(/\n/g, "\\n"))}'`;
+}
+function jsonSummary2(value) {
+  try {
+    let json = JSON.stringify(value);
+    if (typeof json == "string") {
+      return clip2(json);
+    }
+  } catch (e) {
+  }
+  let name = value?.constructor?.name;
+  if (name && name != "Object") {
+    return name;
+  }
+  return Object.prototype.toString.call(value);
+}
+function formatValue2(value) {
+  if (typeof value == "string") {
+    return quoteString2(value);
+  }
+  if (typeof value == "undefined") {
+    return "undefined";
+  }
+  if (value === null) {
+    return "null";
+  }
+  if (typeof value == "function") {
+    return describeFunction2(value);
+  }
+  if (value instanceof RegExp) {
+    return value.toString();
+  }
+  if (typeof value == "number" || typeof value == "boolean" || typeof value == "bigint") {
+    return String(value);
+  }
+  if (typeof value == "symbol") {
+    return value.toString();
+  }
+  return jsonSummary2(value);
+}
+function describeExpected2(value) {
+  if (value === String || value === Number || value === Boolean) {
+    return describeFunction2(value);
+  }
+  if (typeof value == "function") {
+    return describeFunction2(value);
+  }
+  if (value instanceof RegExp) {
+    return value.toString();
+  }
+  if (Array.isArray(value)) {
+    return "[" + value.map(describeExpected2).join(", ") + "]";
+  }
+  return formatValue2(value);
+}
+function describeOneOf2(patterns) {
+  return patterns.map(describeExpected2).join(", ");
+}
+function conciseMessage2(message, actual, expected) {
+  if (message == "data and pattern are not equal") {
+    return `expected ${formatValue2(expected)}, found ${formatValue2(actual)}`;
+  }
+  if (message == "data does not match pattern" || /^data\[\d+\] does not match pattern$/.test(message)) {
+    return `expected ${describeExpected2(expected)}, found ${formatValue2(actual)}`;
+  }
+  if (message == "data is undefined, should match pattern") {
+    return `missing; expected ${describeExpected2(expected)}`;
+  }
+  if (message == "data is required") {
+    return "required";
+  }
+  if (message == "data is an empty string, which is not allowed") {
+    return "empty string is not allowed";
+  }
+  if (message == "data is not an object, pattern is") {
+    return "data is not an object";
+  }
+  if (message == "data is not an instanceof pattern") {
+    return `expected instance of ${describeExpected2(expected)}, found ${formatValue2(actual)}`;
+  }
+  if (message == "data does not match oneOf patterns" || message == "data does not match anyOf patterns") {
+    return `expected one of ${describeOneOf2(expected)}, found ${formatValue2(actual)}`;
+  }
+  if (message == "data matches pattern, when required not to") {
+    return `must not match ${describeExpected2(expected)}`;
+  }
+  return message;
+}
+function formatIssue2(issue, options = {}) {
+  if (!issue || typeof issue != "object") {
+    return String(issue);
+  }
+  let path2 = issue.pathString || pathToString2(issue.path || []) || "value";
+  let indent = options.indent ?? "";
+  return `${indent}${path2}: ${issue.message}`;
+}
+function formatIssues2(issues3, options = {}) {
+  if (!issues3) {
+    return false;
+  }
+  let indent = options.indent ?? "  - ";
+  return (Array.isArray(issues3) ? issues3 : [issues3]).map((issue) => formatIssue2(issue, { ...options, indent }));
+}
+function issueFromProblem2(problem) {
+  if (!problem || typeof problem != "object") {
+    return {
+      path: [],
+      pathString: "",
+      message: String(problem),
+      expected: void 0,
+      actual: void 0
+    };
+  }
+  let path2 = pathToArray2(problem.path);
+  let pathString = pathToString2(path2);
+  let actual = problem.actual ?? problem.found;
+  let expected = describeExpected2(problem.expected);
+  let message = conciseMessage2(problem.message, actual, problem.expected);
+  return {
+    path: path2,
+    pathString,
+    message,
+    expected,
+    actual
+  };
+}
+function problemsToIssues2(problems) {
+  if (!problems) {
+    return [];
+  }
+  let result = [];
+  for (let problem of Array.isArray(problems) ? problems : [problems]) {
+    if (!problem) {
+      continue;
+    }
+    if (problem && typeof problem == "object" && problem.problems) {
+      let nested = problemsToIssues2(problem.problems);
+      if (nested.length) {
+        result = result.concat(nested);
+        continue;
+      }
+    }
+    result.push(issueFromProblem2(problem));
+  }
+  return result;
+}
+function assert2(source2, test) {
+  if (assertEnabled2) {
+    let problems = fails2(source2, test);
+    if (problems) {
+      let assertionIssues = problemsToIssues2(problems);
+      let formattedIssues = formatIssues2(assertionIssues);
+      let message = "Assertions failed:\n" + formattedIssues.join("\n");
+      console.error("\u{1F170}\uFE0F  " + message);
+      throw new Error(message, {
+        cause: { problems, issues: assertionIssues, source: source2 }
+      });
+    }
+  }
+}
+function Optional2(pattern) {
+  return function _Optional(data, root, path2) {
+    if (typeof data != "undefined" && data != null && typeof pattern != "undefined") {
+      return fails2(data, pattern, root, path2);
+    }
+  };
+}
+function Required2(pattern) {
+  return function _Required(data, root, path2) {
+    if (data == null || typeof data == "undefined") {
+      return error2("data is required", data, pattern || "any value", path2);
+    } else if (typeof pattern != "undefined") {
+      return fails2(data, pattern, root, path2);
+    } else {
+      return false;
+    }
+  };
+}
+function Recommended2(pattern) {
+  return function _Recommended(data, root, path2) {
+    if (data == null || typeof data == "undefined") {
+      warn2("data does not contain recommended value", data, pattern, path2);
+      return false;
+    } else {
+      return fails2(data, pattern, root, path2);
+    }
+  };
+}
+function oneOf2(...patterns) {
+  return function _oneOf(data, root, path2) {
+    for (let pattern of patterns) {
+      if (!fails2(data, pattern, root, path2)) {
+        return false;
+      }
+    }
+    return error2("data does not match oneOf patterns", data, patterns, path2);
+  };
+}
+function anyOf4(...patterns) {
+  return function _anyOf(data, root, path2) {
+    if (!Array.isArray(data)) {
+      return error2("data is not an array", data, "anyOf", path2);
+    }
+    for (let [index, value] of data.entries()) {
+      let itemPath = appendPath2(path2, index);
+      if (oneOf2(...patterns)(value, root, itemPath)) {
+        return error2("data does not match anyOf patterns", value, patterns, itemPath);
+      }
+    }
+    return false;
+  };
+}
+function allOf2(...patterns) {
+  return function _allOf(data, root, path2) {
+    let problems = [];
+    for (let pattern of patterns) {
+      problems = problems.concat(fails2(data, pattern, root, path2));
+    }
+    problems = problems.filter(Boolean);
+    if (problems.length) {
+      return error2("data does not match all given patterns", data, patterns, path2, problems);
+    }
+  };
+}
+function validURL2(data, root, path2) {
+  try {
+    if (data instanceof URL) {
+      data = data.href;
+    }
+    let url3 = new URL(data);
+    if (url3.href != data) {
+      if (!(url3.href + "/" == data || url3.href == data + "/")) {
+        return error2("data is not a valid url", data, "validURL", path2);
+      }
+    }
+  } catch (e) {
+    return error2("data is not a valid url", data, "validURL", path2);
+  }
+}
+function validEmail2(data, root, path2) {
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data)) {
+    return error2("data is not a valid email", data, "validEmail", path2);
+  }
+}
+function instanceOf2(constructor) {
+  return function _instanceOf(data, root, path2) {
+    if (!(data instanceof constructor)) {
+      return error2("data is not an instanceof pattern", data, constructor, path2);
+    }
+  };
+}
+function not2(pattern) {
+  return function _not(data, root, path2) {
+    if (!fails2(data, pattern, root, path2)) {
+      return error2("data matches pattern, when required not to", data, pattern, path2);
+    }
+  };
+}
+function issues2(data, pattern, root) {
+  let problems = fails2(data, pattern, root);
+  if (!problems) {
+    return false;
+  }
+  return problemsToIssues2(problems);
+}
+function fails2(data, pattern, root, path2 = "") {
+  if (typeof root == "undefined") {
+    root = data;
+  }
+  let problems = [];
+  if (pattern === Boolean) {
+    if (typeof data != "boolean" && !(data instanceof Boolean)) {
+      problems.push(error2("data is not a boolean", data, pattern, path2));
+    }
+  } else if (pattern === Number) {
+    if (typeof data != "number" && !(data instanceof Number)) {
+      problems.push(error2("data is not a number", data, pattern, path2));
+    }
+  } else if (pattern === String) {
+    if (typeof data != "string" && !(data instanceof String)) {
+      problems.push(error2("data is not a string", data, pattern, path2));
+    }
+    if (data == "") {
+      problems.push(error2("data is an empty string, which is not allowed", data, pattern, path2));
+    }
+  } else if (pattern instanceof RegExp) {
+    if (Array.isArray(data)) {
+      let index = data.findIndex((element2, index2) => fails2(element2, pattern, root, appendPath2(path2, index2)));
+      if (index > -1) {
+        problems.push(error2("data[" + index + "] does not match pattern", data[index], pattern, appendPath2(path2, index)));
+      }
+    } else if (typeof data == "undefined") {
+      problems.push(error2("data is undefined, should match pattern", data, pattern, path2));
+    } else if (!pattern.test(data)) {
+      problems.push(error2("data does not match pattern", data, pattern, path2));
+    }
+  } else if (pattern instanceof Function) {
+    let problem = pattern(data, root, path2);
+    if (problem) {
+      if (Array.isArray(problem)) {
+        problems = problems.concat(problem);
+      } else {
+        problems.push(problem);
+      }
+    }
+  } else if (Array.isArray(pattern)) {
+    if (!Array.isArray(data)) {
+      problems.push(error2("data is not an array", data, [], path2));
+    } else {
+      for (let p of pattern) {
+        for (let index of data.keys()) {
+          let problem = fails2(data[index], p, root, appendPath2(path2, index));
+          if (Array.isArray(problem)) {
+            problems = problems.concat(problem);
+          } else if (problem) {
+            problems.push(problem);
+          }
+        }
+      }
+    }
+  } else if (pattern && typeof pattern == "object") {
+    if (Array.isArray(data)) {
+      let index = data.findIndex((element2, index2) => fails2(element2, pattern, root, appendPath2(path2, index2)));
+      if (index > -1) {
+        problems.push(error2("data[" + index + "] does not match pattern", data[index], pattern, appendPath2(path2, index)));
+      }
+    } else if (!data || typeof data != "object") {
+      problems.push(error2("data is not an object, pattern is", data, pattern, path2));
+    } else {
+      if (data instanceof URLSearchParams) {
+        data = Object.fromEntries(data);
+      }
+      if (pattern instanceof Function) {
+        let result = fails2(data, pattern, root, path2);
+        if (result) {
+          problems = problems.concat(result);
+        }
+      } else {
+        for (const [patternKey, subpattern] of Object.entries(pattern)) {
+          let result = fails2(data[patternKey], subpattern, root, appendPath2(path2, patternKey));
+          if (result) {
+            problems = problems.concat(result);
+          }
+        }
+      }
+    }
+  } else {
+    if (pattern != data) {
+      problems.push(error2("data and pattern are not equal", data, pattern, path2));
+    }
+  }
+  if (problems.length) {
+    return problems;
+  }
+  return false;
+}
+function error2(message, found, expected, path2 = "", problems) {
+  let pathParts = pathToArray2(path2);
+  let result = {
+    path: path2,
+    pathString: pathToString2(pathParts),
+    pathParts,
+    message,
+    found,
+    expected
+  };
+  if (problems) {
+    result.problems = problems;
+  }
+  return result;
+}
+function warn2(message, data, pattern, path2) {
+  console.warn("\u{1F170}\uFE0F  Assert: " + path2, message, pattern, data);
 }
 
+// ../solid-tools/node_modules/@muze-nl/assert/src/assert.mjs
+globalThis.assert = { ...assert_core_exports2 };
+
 // ../solid-tools/packages/metro-solid/src/client.mjs
-var LINKED_DATA_ACCEPT = "text/turtle, application/ld+json;q=0.9, */*;q=0.1";
-var CONTAINER_ACCEPT = "text/turtle, application/ld+json;q=0.9, */*;q=0.1";
+var BASIC_CONTAINER = "http://www.w3.org/ns/ldp#BasicContainer";
 var SOLID_OLDM_MIDDLEWARE = Symbol.for("muze.metro-solid.oldmMiddleware");
 var SOLID_METADATA_MIDDLEWARE = Symbol.for("muze.metro-solid.metadataMiddleware");
 var SOLID_RESPONSE = Symbol.for("muze.metro-solid.response");
-function ensureSlash(url3) {
+function ensureSlash3(url3) {
   return String(url3).endsWith("/") ? String(url3) : `${url3}/`;
 }
 function ids(value) {
-  return Array.from(from(src_default2.many(value)).select((item) => typeof item === "string" ? item : item?.id).where(Boolean));
-}
-function storageUrlsFromProfile(profile) {
-  if (!profile) {
-    return [];
-  }
-  return [...new Set(ids(profile.pims$storage).map(ensureSlash))];
-}
-function storageFromProfile(profile, options = {}) {
-  return storageUrlsFromProfile(profile).map((url3) => ({
-    profile,
-    response: options.response ?? null,
-    id: url3,
-    url: url3
-  }));
+  return from(src_default2.many(value)).select((item) => typeof item === "string" ? item : item?.id).where(Boolean).toArray();
 }
 function solidResponseMetadataMiddleware() {
   async function solidResponseMetadata(req, next) {
@@ -14298,112 +17850,99 @@ var SolidAPI = class extends src_default5.API {
     }
     super(client3, {
       create(url3, body, options = {}) {
-        let createOptions = options;
-        if (!Object.hasOwn(options, "ifNoneMatch")) {
-          createOptions = { ...options, ifNoneMatch: "*" };
+        const headers = new Headers(options.headers);
+        if (!headers.has("If-None-Match")) {
+          headers.set("If-None-Match", "*");
         }
         return this.put(String(url3), {
-          ...createOptions,
+          ...options,
           body,
-          headers: solidRequestHeaders(createOptions)
+          headers
         });
       },
       createContainer(url3, options = {}) {
-        let createOptions = options;
-        if (!Object.hasOwn(options, "ifNoneMatch")) {
-          createOptions = { ...options, ifNoneMatch: "*" };
+        const headers = new Headers(options.headers);
+        if (!headers.has("If-None-Match")) {
+          headers.set("If-None-Match", "*");
         }
-        return this.put(ensureSlash(url3), {
-          ...createOptions,
-          body: createOptions.body ?? "",
-          headers: containerHeaders(createOptions)
+        if (!headers.has("Link")) {
+          headers.set("Link", `<${options.containerType ?? BASIC_CONTAINER}>; rel="type"`);
+        }
+        return this.put(ensureSlash3(url3), {
+          ...options,
+          body: options.body ?? "",
+          headers
         });
       },
       async postToContainer(url3, body, options = {}) {
-        const result = await this.post(ensureSlash(url3), {
+        const result = await this.post(ensureSlash3(url3), {
           ...options,
           body,
-          headers: solidRequestHeaders(options)
+          headers: new Headers(options.headers)
         });
-        let response3 = result;
-        if (result?.data === void 0) {
-          response3 = result?.[SOLID_RESPONSE] ?? result;
-        }
+        const response3 = result?.[SOLID_RESPONSE] ?? result;
+        const location = response3.headers.get("Location");
+        const etag = response3.headers.get("ETag");
         return {
           response: response3,
-          location: getLocation(response3),
-          etag: getETag(response3)
+          location,
+          etag
         };
       },
       async contains(url3, options = {}) {
-        const request3 = { accept: CONTAINER_ACCEPT, ...options };
-        const result = await this.get(ensureSlash(url3), {
-          ...request3,
-          headers: solidRequestHeaders(request3)
-        });
-        const data = result?.data ?? result;
-        let response3 = result;
-        if (result?.data === void 0) {
-          response3 = result?.[SOLID_RESPONSE] ?? null;
+        const headers = new Headers(options.headers);
+        if (!headers.has("Accept")) {
+          headers.set("Accept", "text/turtle");
         }
-        return Array.from(from(src_default2.many(data?.primary?.ldp$contains)).select((resource2) => {
+        const result = await this.get(ensureSlash3(url3), {
+          ...options,
+          headers
+        });
+        const response3 = result?.[SOLID_RESPONSE] ?? null;
+        return from(src_default2.many(result?.primary?.ldp$contains)).select((resource2) => {
           const id2 = typeof resource2 === "string" ? resource2 : resource2?.id;
           return { id: id2, url: id2, resource: resource2, response: response3 };
-        }).where((entry) => entry.id));
+        }).where((entry) => entry.id).toArray();
       },
       async discoverProfile(webId, options = {}) {
-        const request3 = { accept: LINKED_DATA_ACCEPT, ...options };
-        const result = await this.get(webId, {
-          ...request3,
-          headers: solidRequestHeaders(request3)
+        const headers = new Headers(options.headers);
+        if (!headers.has("Accept")) {
+          headers.set("Accept", "text/turtle");
+        }
+        const webIdIssues = issues2(webId, allOf2(String, validURL2));
+        if (webIdIssues) {
+          throw new TypeError(`metro-solid: webId must be a fully qualified URL: ${webIdIssues[0].message}`);
+        }
+        const subjectId = webId;
+        const result = await this.get(subjectId, {
+          ...options,
+          headers
         });
-        const data = result?.data ?? result;
-        const subjectId = new URL(webId, this.location).href;
-        let subjects = [];
-        if (data?.primary) {
-          subjects = [data.primary];
-        } else if (Array.isArray(data)) {
-          subjects = data;
-        } else if (Array.isArray(data?.subjects)) {
-          subjects = data.subjects;
-        } else if (data?.subjects && typeof data.subjects === "object") {
-          subjects = Object.values(data.subjects);
-        } else if (data?.id) {
-          subjects = src_default2.many(data);
+        const profile = result?.primary;
+        if (!profile?.id) {
+          throw new Error(`metro-solid: WebID did not resolve to a profile subject: ${subjectId}`);
         }
-        let profile = from(subjects).where({ id: subjectId })[0];
-        if (!profile) {
-          profile = from(subjects).where({ pims$storage: (value) => src_default2.many(value).length > 0 })[0] ?? null;
-        }
-        let response3 = result;
-        if (result?.data === void 0) {
-          response3 = result?.[SOLID_RESPONSE] ?? null;
-        }
-        return {
-          response: response3,
-          profile
-        };
+        return profile;
       },
       async discoverStorage(webId, options = {}) {
-        const { profile, response: response3 } = await this.discoverProfile(webId, options);
-        return storageFromProfile(profile, { response: response3 });
+        const profile = await this.discoverProfile(webId, options);
+        const storageUrls = [...new Set(from(ids(profile.pims$storage)).select(ensureSlash3).toArray())];
+        return from(storageUrls).select((url3) => ({
+          profile,
+          id: url3,
+          url: url3
+        })).toArray();
       },
       async discoverWebId(webId, options = {}) {
-        const { profile, response: response3 } = await this.discoverProfile(webId, options);
-        if (!profile) {
-          return { webId, profile: null, storage: [], issuer: null, inbox: null, response: response3 };
-        }
+        const profile = await this.discoverProfile(webId, options);
+        const storage = [...new Set(from(ids(profile.pims$storage)).select(ensureSlash3).toArray())];
         return {
           webId,
           profile,
-          storage: storageUrlsFromProfile(profile),
+          storage,
           issuer: ids(profile.solid$oidcIssuer)[0] ?? null,
-          inbox: ids(profile.ldp$inbox)[0] ?? null,
-          response: response3
+          inbox: ids(profile.ldp$inbox)[0] ?? null
         };
-      },
-      storageFromProfile(profile, options = {}) {
-        return storageFromProfile(profile, options);
       },
       ...methods
     }, bind2);
@@ -14412,8533 +17951,6 @@ var SolidAPI = class extends src_default5.API {
 function solidApi(...options) {
   return new SolidAPI(...src_default5.deepClone(options));
 }
-
-// ../solid-tools/packages/solid-workspace/src/index.mjs
-function workspace(options = {}) {
-  return new SolidWorkspace(options);
-}
-function collection(options = {}) {
-  return {
-    kind: "collection",
-    ...options
-  };
-}
-function resource(idOrOptions, options = {}) {
-  let config = { ...idOrOptions };
-  if (typeof idOrOptions === "string") {
-    config = { ...options, id: idOrOptions };
-  }
-  if (!config.id) {
-    throw new TypeError("solid-workspace: resource id is required");
-  }
-  if (!config.local && !config.remote) {
-    throw new TypeError("solid-workspace: resource() needs a local or remote replica");
-  }
-  if (config.local) {
-    assertWorkspaceSource(config.local, "local");
-  }
-  if (config.remote) {
-    assertWorkspaceSource(config.remote, "remote");
-  }
-  return Object.freeze({
-    ...config,
-    workspacePart: "resource",
-    type: config.type ?? "replicated-resource",
-    id: String(config.id)
-  });
-}
-function mergeGraphDocuments(documents = [], options = {}) {
-  if (!Array.isArray(documents)) {
-    throw new TypeError("solid-workspace: graph documents must be an array");
-  }
-  const base = graphDocumentFrom(documents[0]);
-  const merged = {
-    format: options.format ?? base.format,
-    version: options.version ?? base.version,
-    prefixes: {},
-    subjects: []
-  };
-  const subjectsById = /* @__PURE__ */ new Map();
-  for (const document2 of documents.map(graphDocumentFrom)) {
-    Object.assign(merged.prefixes, document2.prefixes);
-    for (const subject of document2.subjects) {
-      if (!subject?.id) continue;
-      const current = subjectsById.get(subject.id);
-      if (!current) {
-        const clone2 = cloneValue(subject);
-        subjectsById.set(subject.id, clone2);
-        merged.subjects.push(clone2);
-        continue;
-      }
-      mergeSubject(current, subject);
-    }
-  }
-  const target = {
-    ...merged,
-    changed: !graphDocumentsEqual(base, merged)
-  };
-  if (Object.keys(target.prefixes).length === 0) {
-    delete target.prefixes;
-  }
-  if (target.format == null) delete target.format;
-  if (target.version == null) delete target.version;
-  return target;
-}
-var solid = {
-  resource(url3, options = {}) {
-    return source("resource", url3, {
-      type: "solid-resource",
-      ...options
-    });
-  },
-  turtleResource(url3, options = {}) {
-    return source("resource", url3, {
-      type: "solid-turtle-resource",
-      ...options
-    });
-  },
-  container(url3, options = {}) {
-    return source("container", ensureSlash2(url3), {
-      type: "solid-container",
-      ...options
-    });
-  },
-  client(client3, options = {}) {
-    if (!client3) {
-      throw new TypeError("solid-workspace: solid client is required");
-    }
-    return Object.freeze({
-      ...options,
-      workspacePart: "client",
-      type: options.type ?? "solid-api-client",
-      client: client3
-    });
-  }
-};
-var local = {
-  memory(idOrOptions, options = {}) {
-    let config = { ...idOrOptions };
-    if (typeof idOrOptions === "string") {
-      config = { ...options, id: idOrOptions };
-    }
-    const id2 = config.id ?? config.key ?? "local-memory";
-    const url3 = config.url ?? `memory://${encodeURIComponent(id2)}`;
-    let initialDocument = config.document;
-    if (initialDocument == null) {
-      initialDocument = {
-        format: config.format ?? "oldmed-graph",
-        version: config.version ?? 1,
-        prefixes: config.prefixes ?? {},
-        subjects: []
-      };
-    }
-    let document2 = graphDocumentFrom(initialDocument);
-    return graphResource({
-      ...config,
-      id: id2,
-      url: url3,
-      local: true,
-      type: "local-memory",
-      async load() {
-        return cloneGraphDocument(document2);
-      },
-      async save(value) {
-        document2 = graphDocumentFrom(value);
-        return {
-          ok: true,
-          status: "saved",
-          sourceUrl: url3,
-          document: cloneGraphDocument(document2)
-        };
-      },
-      async turtle() {
-        return graphDocumentToTurtle(document2, {
-          url: url3,
-          prefixes: config.prefixes
-        });
-      }
-    });
-  },
-  indexedDB(nameOrOptions, options = {}) {
-    let config = { ...nameOrOptions };
-    if (typeof nameOrOptions === "string") {
-      config = { ...options, name: nameOrOptions };
-    }
-    const databaseName = config.name ?? config.databaseName ?? config.database;
-    if (!databaseName) {
-      throw new TypeError("solid-workspace: IndexedDB database name is required");
-    }
-    const storeName = config.store ?? config.storeName ?? "resources";
-    const key = config.key ?? config.id ?? "default";
-    const id2 = config.id ?? `${databaseName}:${key}`;
-    const url3 = config.url ?? `indexeddb://${encodeURIComponent(databaseName)}/${encodeURIComponent(storeName)}/${encodeURIComponent(key)}`;
-    const databaseVersion = config.databaseVersion ?? 1;
-    const initialDocument = config.document === void 0 ? null : graphDocumentFrom(config.document);
-    const indexedDBFactory = config.indexedDB;
-    const sourceConfig = { ...config };
-    delete sourceConfig.indexedDB;
-    delete sourceConfig.document;
-    delete sourceConfig.databaseVersion;
-    async function loadDocument() {
-      const database = await openIndexedDatabase({
-        indexedDB: indexedDBFactory,
-        name: databaseName,
-        version: databaseVersion,
-        storeName
-      });
-      try {
-        const entry = await indexedDBGet(database, storeName, key);
-        if (entry?.document) {
-          return graphDocumentFrom(entry.document);
-        }
-        return graphDocumentFrom(initialDocument);
-      } finally {
-        database.close?.();
-      }
-    }
-    return graphResource({
-      ...sourceConfig,
-      id: id2,
-      url: url3,
-      local: true,
-      type: "local-indexeddb",
-      async load() {
-        return cloneGraphDocument(await loadDocument());
-      },
-      async save(value) {
-        const document2 = graphDocumentFrom(value);
-        const database = await openIndexedDatabase({
-          indexedDB: indexedDBFactory,
-          name: databaseName,
-          version: databaseVersion,
-          storeName
-        });
-        try {
-          await indexedDBPut(database, storeName, {
-            key,
-            document: cloneGraphDocument(document2),
-            updatedAt: (/* @__PURE__ */ new Date()).toISOString()
-          });
-        } finally {
-          database.close?.();
-        }
-        return {
-          ok: true,
-          status: "saved",
-          sourceUrl: url3,
-          document: cloneGraphDocument(document2)
-        };
-      },
-      async turtle() {
-        return graphDocumentToTurtle(await loadDocument(), {
-          url: url3,
-          prefixes: config.prefixes
-        });
-      }
-    });
-  }
-};
-var SolidWorkspace = class {
-  constructor(options = {}) {
-    if (!options || typeof options !== "object") {
-      throw new TypeError("solid-workspace: workspace options must be an object");
-    }
-    const client3 = options.solid ?? options.solidApi ?? options.client;
-    this.solid = client3;
-    this.sources = [];
-    this.sourceById = /* @__PURE__ */ new Map();
-    this.resources = [];
-    this.resourceById = /* @__PURE__ */ new Map();
-    this.status = {
-      state: "idle",
-      error: null,
-      sources: {},
-      resources: {}
-    };
-    this.records = [];
-    this.objects = /* @__PURE__ */ new WeakMap();
-    if (options.sources) {
-      this.addSource(options.sources);
-    }
-    if (options.resources) {
-      this.add(options.resources);
-    }
-    this.collections = Object.fromEntries(
-      Object.entries(options.collections ?? {}).map(([name, descriptor]) => [
-        name,
-        new WorkspaceCollection(this, name, descriptor)
-      ])
-    );
-  }
-  add(part) {
-    if (Array.isArray(part)) {
-      for (const item of part) {
-        this.add(item);
-      }
-      return this;
-    }
-    if (part?.workspacePart === "source") {
-      this.addSource(part);
-      return this;
-    }
-    if (part?.workspacePart === "resource") {
-      this.addResource(part);
-      return this;
-    }
-    if (part?.workspacePart === "client") {
-      this.setClient(part.client);
-      return this;
-    }
-    throw new TypeError("solid-workspace: add() expects a workspace part from a factory");
-  }
-  addSource(sourceOrSources) {
-    const sources = normalizeSources(Array.isArray(sourceOrSources) ? sourceOrSources : [sourceOrSources]);
-    for (const descriptor of sources) {
-      const existing = this.sources.findIndex((source2) => source2.id === descriptor.id);
-      if (existing >= 0) {
-        this.sources[existing] = descriptor;
-      } else {
-        this.sources.push(descriptor);
-      }
-      this.sourceById.set(descriptor.id, descriptor);
-      this.setSourceStatus(descriptor, this.status.sources[descriptor.id] ?? { state: "idle" });
-      for (const record of this.records) {
-        const source2 = record.source?.parent ?? record.source;
-        if (source2?.id === descriptor.id) {
-          record.source = descriptor;
-        }
-      }
-    }
-    return sources.length === 1 ? sources[0] : sources;
-  }
-  addResource(part) {
-    if (part?.workspacePart !== "resource") {
-      throw new TypeError("solid-workspace: addResource() expects a resource() workspace part");
-    }
-    const existing = this.resourceById.get(part.id);
-    let current = {
-      id: part.id,
-      type: part.type ?? "replicated-resource",
-      local: null,
-      remote: null
-    };
-    if (existing) {
-      current = { ...existing };
-    }
-    let remoteSource = current.remote;
-    if (part.remote) {
-      remoteSource = resourceReplicaSource(part.remote, {
-        resource: current,
-        replica: "remote"
-      });
-    }
-    let localSource = current.local;
-    if (part.local) {
-      localSource = resourceReplicaSource(part.local, {
-        resource: current,
-        replica: "local",
-        syncTo: remoteSource?.id
-      });
-    } else if (current.local && remoteSource) {
-      localSource = resourceReplicaSource(current.local, {
-        resource: current,
-        replica: "local",
-        syncTo: remoteSource.id
-      });
-    }
-    if (localSource) {
-      current.local = this.addSource(localSource);
-    }
-    if (remoteSource) {
-      current.remote = this.addSource(remoteSource);
-    }
-    const index = this.resources.findIndex((item) => item.id === current.id);
-    if (index >= 0) {
-      this.resources[index] = current;
-    } else {
-      this.resources.push(current);
-    }
-    this.resourceById.set(current.id, current);
-    this.setResourceStatus(current);
-    return current;
-  }
-  setClient(client3) {
-    this.solid = client3;
-    return this;
-  }
-  async open(options = {}) {
-    if (isResourceReference(this, options)) {
-      return this.openResource(options);
-    }
-    if (isOpenAllOptions(options) && this.resources.length > 0) {
-      const resourceSourceIds = new Set(this.resources.flatMap((item) => resourceSources(item).map((source2) => source2.id)));
-      for (const item of this.resources) {
-        await this.openResource(item, options);
-      }
-      const directSources = this.sources.filter((source2) => !resourceSourceIds.has(source2.id));
-      if (directSources.length > 0) {
-        await this.load({
-          ...options,
-          sources: directSources,
-          throwOnError: options.throwOnError ?? false
-        });
-      }
-      return this;
-    }
-    if (Array.isArray(options) && options.some((item) => isResourceReference(this, item))) {
-      for (const item of options) {
-        if (isResourceReference(this, item)) {
-          await this.openResource(item);
-        } else {
-          await this.load({ sources: item, throwOnError: false });
-        }
-      }
-      return this;
-    }
-    if (options?.resources) {
-      const resources = Array.isArray(options.resources) ? options.resources : [options.resources];
-      for (const item of resources) {
-        await this.openResource(item, options);
-      }
-      return this;
-    }
-    if (typeof options === "string" || Array.isArray(options) || options?.workspacePart === "source") {
-      return this.load({ sources: options, throwOnError: false });
-    }
-    return this.load({
-      throwOnError: false,
-      ...options
-    });
-  }
-  async openResource(resourceOrId, options = {}) {
-    const logicalResource = resolveResource(this, resourceOrId);
-    const sources = resourceSources(logicalResource);
-    const failures = [];
-    const loaded = [];
-    const throwOnError = options.throwOnError ?? false;
-    this.status.state = "opening";
-    this.status.error = null;
-    this.setResourceStatus(logicalResource, { state: "opening", error: null });
-    for (const source2 of sources) {
-      try {
-        loaded.push({
-          source: source2,
-          objects: await this.loadSource(source2)
-        });
-      } catch (error4) {
-        failures.push({ source: source2, error: error4 });
-        if (throwOnError) {
-          this.status.state = "error";
-          this.status.error = error4;
-          this.setResourceStatus(logicalResource, { state: "error", error: error4 });
-          throw error4;
-        }
-      }
-    }
-    if (logicalResource.local && logicalResource.remote && this.status.sources[logicalResource.remote.id]?.state === "ready") {
-      try {
-        const document2 = mergeGraphDocuments([
-          this.dataset({ sources: [logicalResource.local.id] }),
-          this.dataset({ sources: [logicalResource.remote.id] })
-        ], options);
-        if (document2.changed || options.force === true) {
-          await saveGraphDocument(this, logicalResource.local, document2, options.writeOptions);
-          this.replaceSourceRecords(logicalResource.local, cloneValue(document2.subjects), {
-            source: logicalResource.local,
-            sourceUrl: logicalResource.local.url,
-            status: "loaded"
-          });
-          this.setSourceStatus(logicalResource.local, { state: "ready", error: null });
-        }
-      } catch (error4) {
-        failures.push({ source: logicalResource.local, error: error4 });
-        this.setSourceStatus(logicalResource.local, {
-          state: sourceFailureState(error4),
-          error: error4
-        });
-        if (throwOnError) {
-          this.status.state = "error";
-          this.status.error = error4;
-          this.setResourceStatus(logicalResource, { state: "error", error: error4 });
-          throw error4;
-        }
-      }
-    }
-    this.status.lastOpen = { resource: logicalResource, sources, loaded, failures };
-    this.status.state = workspaceState(this);
-    this.status.error = failures[0]?.error ?? null;
-    this.setResourceStatus(logicalResource, {
-      state: resourceState(this, logicalResource),
-      error: failures[0]?.error ?? null
-    });
-    return this;
-  }
-  async load(options = {}) {
-    const sources = normalizeLoadSources(this, options.sources ?? this.sources);
-    const failures = [];
-    const loaded = [];
-    const throwOnError = options.throwOnError ?? true;
-    this.status.state = "opening";
-    this.status.error = null;
-    for (const source2 of sources) {
-      try {
-        loaded.push(await this.loadSource(source2));
-      } catch (error4) {
-        failures.push({ source: source2, error: error4 });
-        if (throwOnError) {
-          this.status.state = "error";
-          this.status.error = error4;
-          throw error4;
-        }
-      }
-    }
-    this.status.lastOpen = { sources, loaded, failures };
-    this.status.state = workspaceState(this);
-    this.status.error = failures[0]?.error ?? null;
-    return this;
-  }
-  async loadSource(sourceOrId) {
-    const descriptor = resolveSource(this, sourceOrId);
-    this.setSourceStatus(descriptor, { state: "opening", error: null });
-    try {
-      if (descriptor.kind === "container") {
-        assertSolidClient(this);
-        const entries = await this.solid.contains(descriptor.url, descriptor.options);
-        this.replaceSourceRecords(descriptor, [], {
-          source: descriptor,
-          sourceUrl: descriptor.url,
-          status: "loaded"
-        });
-        for (const entry of entries) {
-          await this.loadSource({
-            ...descriptor,
-            append: true,
-            kind: "resource",
-            url: entry.url,
-            parent: descriptor
-          });
-        }
-        this.setSourceStatus(descriptor, { state: "ready", error: null });
-        return entries;
-      }
-      if (typeof descriptor.load === "function") {
-        const document2 = graphDocumentFrom(await descriptor.load({
-          source: descriptor,
-          workspace: this
-        }));
-        const objects2 = document2.subjects;
-        if (descriptor.append) {
-          this.trackObjects(objects2, {
-            source: descriptor,
-            sourceUrl: descriptor.url,
-            status: "loaded"
-          });
-        } else {
-          this.replaceSourceRecords(descriptor, objects2, {
-            source: descriptor,
-            sourceUrl: descriptor.url,
-            status: "loaded"
-          });
-        }
-        this.setSourceStatus(descriptor, { state: "ready", error: null });
-        return objects2;
-      }
-      assertSolidClient(this);
-      let response3;
-      try {
-        response3 = await this.solid.get(descriptor.url, requestOptions(descriptor.options));
-      } catch (error4) {
-        if ([404, 410].includes(statusFromError(error4))) {
-          if (!descriptor.append) {
-            this.replaceSourceRecords(descriptor, [], {
-              source: descriptor,
-              sourceUrl: descriptor.url,
-              status: "loaded"
-            });
-          }
-          this.setSourceStatus(descriptor, { state: "ready", error: null });
-          return [];
-        }
-        throw error4;
-      }
-      const responseStatus = response3?.status ?? 200;
-      if (responseStatus === 404 || responseStatus === 410) {
-        if (!descriptor.append) {
-          this.replaceSourceRecords(descriptor, [], {
-            source: descriptor,
-            sourceUrl: descriptor.url,
-            status: "loaded"
-          });
-        }
-        this.setSourceStatus(descriptor, { state: "ready", error: null });
-        return [];
-      }
-      if (responseStatus >= 400) {
-        throw responseError({ source: descriptor, response: response3 });
-      }
-      const objects = subjectsFromResponse(response3);
-      if (descriptor.append) {
-        this.trackObjects(objects, {
-          response: response3,
-          source: descriptor,
-          sourceUrl: descriptor.url,
-          status: "loaded"
-        });
-      } else {
-        this.replaceSourceRecords(descriptor, objects, {
-          response: response3,
-          source: descriptor,
-          sourceUrl: descriptor.url,
-          status: "loaded"
-        });
-      }
-      this.setSourceStatus(descriptor, { state: "ready", error: null });
-      return objects;
-    } catch (error4) {
-      this.setSourceStatus(descriptor, {
-        state: sourceFailureState(error4),
-        error: error4
-      });
-      throw error4;
-    }
-  }
-  trackObjects(objects, options = {}) {
-    for (const object of objects) {
-      this.track(object, options);
-    }
-    return objects;
-  }
-  replaceSourceRecords(source2, objects, options = {}) {
-    this.records = this.records.filter((record) => record.status === "new" || !recordBelongsToSources(record, [source2]));
-    this.objects = /* @__PURE__ */ new WeakMap();
-    for (const record of this.records) {
-      this.objects.set(record.object, record);
-    }
-    return this.trackObjects(objects, options);
-  }
-  dataset(options = {}) {
-    const config = normalizeDatasetOptions(this, options);
-    const records = recordsForSources(this, config.sources ?? this.sources);
-    return mergeGraphDocuments([
-      {
-        format: config.format,
-        version: config.version,
-        prefixes: config.prefixes,
-        subjects: records.map((record) => record.object)
-      }
-    ], config);
-  }
-  async sync(options = {}) {
-    if (isResourceReference(this, options)) {
-      return this.syncResource(options);
-    }
-    const target = resolveSource(this, options.into);
-    if (target.kind !== "resource") {
-      throw new Error("solid-workspace: sync target must be a resource source");
-    }
-    if (target.readOnly) {
-      throw new Error(`solid-workspace: source ${target.id} is read-only`);
-    }
-    let sourceDocument = options.document;
-    if (sourceDocument == null) {
-      sourceDocument = this.dataset({
-        sources: options.from ?? this.sources,
-        format: options.format,
-        version: options.version,
-        prefixes: options.prefixes
-      });
-    }
-    let targetDocument;
-    if (options.loadTarget === false) {
-      targetDocument = graphDocumentFrom(options.targetDocument);
-    } else {
-      targetDocument = await this.loadGraphDocument(target, options);
-    }
-    const document2 = mergeGraphDocuments([
-      targetDocument,
-      sourceDocument
-    ], options);
-    if (!document2.changed && options.force !== true) {
-      this.clearSyncPending(target);
-      return {
-        ok: true,
-        status: "unchanged",
-        source: target,
-        sourceUrl: target.url,
-        document: document2
-      };
-    }
-    try {
-      this.setSourceStatus(target, { state: "syncing", error: null });
-      const response3 = await saveGraphDocument(this, target, document2, options.writeOptions);
-      this.clearSyncPending(target);
-      this.setSourceStatus(target, { state: "ready", error: null });
-      return {
-        ok: true,
-        status: "synced",
-        source: target,
-        sourceUrl: target.url,
-        document: document2,
-        response: response3
-      };
-    } catch (error4) {
-      this.setSourceStatus(target, {
-        state: sourceFailureState(error4),
-        error: error4
-      });
-      throw error4;
-    }
-  }
-  async syncResource(resourceOrId, options = {}) {
-    const logicalResource = resolveResource(this, resourceOrId);
-    const localSource = logicalResource.local;
-    const remoteSource = logicalResource.remote;
-    if (!localSource) {
-      throw new Error(`solid-workspace: resource ${logicalResource.id} needs a local replica to sync`);
-    }
-    if (!remoteSource) {
-      throw new Error(`solid-workspace: resource ${logicalResource.id} needs a remote replica to sync`);
-    }
-    if (remoteSource.readOnly) {
-      throw new Error(`solid-workspace: source ${remoteSource.id} is read-only`);
-    }
-    this.setResourceStatus(logicalResource, { state: "syncing", error: null });
-    this.setSourceStatus(remoteSource, { state: "syncing", error: null });
-    let remoteDocument;
-    try {
-      if (options.loadRemote === false) {
-        remoteDocument = graphDocumentFrom(options.remoteDocument);
-      } else {
-        remoteDocument = await this.loadGraphDocument(remoteSource, options);
-      }
-    } catch (error4) {
-      this.setSourceStatus(remoteSource, {
-        state: sourceFailureState(error4),
-        error: error4
-      });
-      this.markSyncPending({
-        from: localSource.id,
-        into: remoteSource.id
-      });
-      this.setResourceStatus(logicalResource, {
-        state: "sync-pending",
-        error: error4
-      });
-      return {
-        ok: false,
-        status: this.status.sources[remoteSource.id].state,
-        resource: logicalResource,
-        source: remoteSource,
-        sourceUrl: remoteSource.url,
-        error: error4
-      };
-    }
-    const localDocument = this.dataset({
-      sources: [localSource.id],
-      format: options.format,
-      version: options.version,
-      prefixes: options.prefixes
-    });
-    const document2 = mergeGraphDocuments([
-      remoteDocument,
-      localDocument
-    ], options);
-    if (!document2.changed && options.force !== true) {
-      this.clearSyncPending(remoteSource);
-      this.setResourceStatus(logicalResource, { state: "ready", error: null });
-      return {
-        ok: true,
-        status: "unchanged",
-        resource: logicalResource,
-        source: remoteSource,
-        sourceUrl: remoteSource.url,
-        document: document2
-      };
-    }
-    let response3;
-    try {
-      response3 = await saveGraphDocument(this, remoteSource, document2, options.writeOptions);
-    } catch (error4) {
-      this.setSourceStatus(remoteSource, {
-        state: sourceFailureState(error4),
-        error: error4
-      });
-      this.markSyncPending({
-        from: localSource.id,
-        into: remoteSource.id
-      });
-      this.setResourceStatus(logicalResource, {
-        state: "sync-pending",
-        error: error4
-      });
-      return {
-        ok: false,
-        status: this.status.sources[remoteSource.id].state,
-        resource: logicalResource,
-        source: remoteSource,
-        sourceUrl: remoteSource.url,
-        error: error4
-      };
-    }
-    try {
-      await saveGraphDocument(this, localSource, document2, options.localWriteOptions ?? options.writeOptions);
-      this.replaceSourceRecords(remoteSource, cloneValue(document2.subjects), {
-        source: remoteSource,
-        sourceUrl: remoteSource.url,
-        status: "loaded"
-      });
-      this.replaceSourceRecords(localSource, cloneValue(document2.subjects), {
-        source: localSource,
-        sourceUrl: localSource.url,
-        status: "loaded"
-      });
-      this.clearSyncPending(remoteSource);
-      this.setSourceStatus(remoteSource, { state: "ready", error: null });
-      this.setSourceStatus(localSource, { state: "ready", error: null });
-      this.setResourceStatus(logicalResource, { state: "ready", error: null });
-      return {
-        ok: true,
-        status: "synced",
-        resource: logicalResource,
-        source: remoteSource,
-        sourceUrl: remoteSource.url,
-        document: document2,
-        response: response3
-      };
-    } catch (error4) {
-      this.setSourceStatus(localSource, {
-        state: sourceFailureState(error4),
-        error: error4
-      });
-      this.setResourceStatus(logicalResource, {
-        state: "error",
-        error: error4
-      });
-      return {
-        ok: false,
-        status: this.status.sources[localSource.id].state,
-        resource: logicalResource,
-        source: localSource,
-        sourceUrl: localSource.url,
-        error: error4
-      };
-    }
-  }
-  async loadGraphDocument(sourceOrId, options = {}) {
-    const descriptor = resolveSource(this, sourceOrId);
-    if (descriptor.kind !== "resource") {
-      throw new Error("solid-workspace: graph documents can only be loaded from resource sources");
-    }
-    if (typeof descriptor.load === "function") {
-      return graphDocumentFrom(await descriptor.load({
-        source: descriptor,
-        workspace: this,
-        ...options.readOptions
-      }));
-    }
-    assertSolidClient(this);
-    try {
-      const response3 = await this.solid.get(descriptor.url, requestOptions({
-        ...descriptor.options,
-        ...options.readOptions
-      }));
-      if (response3?.status === 404 || response3?.status === 410) {
-        return graphDocumentFrom(null);
-      }
-      if ((response3?.status ?? 200) >= 400) {
-        throw responseError({ source: descriptor, response: response3 });
-      }
-      return graphDocumentFrom(dataFromResult(response3));
-    } catch (error4) {
-      const status2 = statusFromError(error4);
-      if (status2 === 404 || status2 === 410) {
-        return graphDocumentFrom(null);
-      }
-      throw error4;
-    }
-  }
-  track(object, options = {}) {
-    if (!isObject(object)) {
-      throw new TypeError("solid-workspace: can only track object values");
-    }
-    const record = {
-      object,
-      source: options.source ?? null,
-      sourceUrl: options.sourceUrl ?? options.source?.url ?? object.id ?? null,
-      response: options.response ?? null,
-      status: options.status ?? "loaded",
-      readOnly: Boolean(options.readOnly ?? options.source?.readOnly),
-      created: Boolean(options.created),
-      deleted: Boolean(options.deleted),
-      error: null
-    };
-    this.records.push(record);
-    this.objects.set(object, record);
-    return record;
-  }
-  sourceOf(object, predicate, value) {
-    return src_default2.one(this.sourcesOf(object, predicate, value), "first") ?? null;
-  }
-  sourcesOf(object, predicate, value) {
-    const record = this.objects.get(object);
-    if (!record) {
-      return [];
-    }
-    const oldmSources = oldmSourcesOf(record, object, predicate, value);
-    if (oldmSources.length > 0) {
-      return oldmSources.map((sourceUrl) => ({
-        sourceUrl,
-        source: this.sourceById.get(sourceUrl) ?? record.source,
-        record
-      }));
-    }
-    return [{
-      sourceUrl: record.sourceUrl,
-      source: record.source,
-      record
-    }];
-  }
-  async createIn(sourceOrId, object, options = {}) {
-    const descriptor = resolveCreateSource(this, sourceOrId);
-    if (descriptor.readOnly) {
-      throw new Error(`solid-workspace: source ${descriptor.id} is read-only`);
-    }
-    this.track(object, {
-      source: descriptor,
-      sourceUrl: null,
-      status: "new",
-      created: true
-    });
-    if (options.save === false) {
-      return object;
-    }
-    await this.save(object, options);
-    return object;
-  }
-  async save(object, options = {}) {
-    const record = this.objects.get(object);
-    if (!record) {
-      throw new Error("solid-workspace: cannot save an object that is not tracked by this workspace");
-    }
-    const validation = validateRecord(record);
-    if (!validation.ok) {
-      return updateRecordStatus(record, {
-        ok: false,
-        status: "validation_failed",
-        issues: validation.issues
-      });
-    }
-    if (record.readOnly) {
-      return updateRecordStatus(record, {
-        ok: false,
-        status: "read_only",
-        error: new Error(`solid-workspace: source ${record.source?.id ?? record.sourceUrl} is read-only`)
-      });
-    }
-    try {
-      if (typeof record.source?.save === "function") {
-        const document2 = this.dataset({
-          sources: [record.source.id]
-        });
-        const response4 = await saveGraphDocument(this, record.source, document2, options);
-        record.sourceUrl = record.source.url;
-        record.created = false;
-        this.setSourceStatus(record.source, { state: "ready", error: null });
-        const syncTo = options.syncTo ?? record.source.syncTo;
-        if (syncTo) {
-          this.markSyncPending({
-            from: record.source.id,
-            into: syncTo
-          });
-        }
-        return updateRecordStatus(record, {
-          ok: true,
-          status: record.deleted ? "deleted" : "saved",
-          response: response4
-        });
-      }
-      assertSolidClient(this);
-      if (record.deleted) {
-        const response4 = await this.solid.delete(record.sourceUrl, requestOptions(options));
-        this.setSourceStatus(record.source, { state: "ready", error: null });
-        return updateRecordStatus(record, { ok: true, status: "deleted", response: response4 });
-      }
-      if (record.created || !record.sourceUrl) {
-        const source2 = record.source;
-        let response4;
-        if (source2.kind === "container") {
-          response4 = await this.solid.postToContainer(source2.url, record.object, writeOptions(source2, options));
-        } else {
-          response4 = await this.solid.create(source2.url, record.object, writeOptions(source2, options));
-        }
-        record.sourceUrl = response4.location ?? source2.url;
-        record.created = false;
-        this.setSourceStatus(record.source, { state: "ready", error: null });
-        return updateRecordStatus(record, { ok: true, status: "created", response: response4 });
-      }
-      const response3 = await this.solid.put(record.sourceUrl, bodyOptions(record.object, writeOptions(record.source, options)));
-      this.setSourceStatus(record.source, { state: "ready", error: null });
-      return updateRecordStatus(record, { ok: true, status: "saved", response: response3 });
-    } catch (error4) {
-      this.setSourceStatus(record.source, {
-        state: sourceFailureState(error4),
-        error: error4
-      });
-      return updateRecordStatus(record, { ok: false, status: "error", error: error4 });
-    }
-  }
-  async delete(object, options = {}) {
-    const record = this.objects.get(object);
-    if (!record) {
-      throw new Error("solid-workspace: cannot delete an object that is not tracked by this workspace");
-    }
-    record.deleted = true;
-    if (options.save === false) {
-      record.status = "deleted_pending";
-      return statusFor(record, { ok: true, status: record.status });
-    }
-    return this.save(object, options);
-  }
-  async saveAll(records = this.records) {
-    const statuses = [];
-    for (const recordOrObject of records) {
-      const object = recordOrObject?.object ?? recordOrObject;
-      statuses.push(await this.save(object));
-    }
-    const failures = statuses.filter((status2) => !status2.ok);
-    if (failures.length > 0) {
-      const error4 = new Error("solid-workspace: saveAll failed");
-      error4.statuses = statuses;
-      error4.failures = failures;
-      throw error4;
-    }
-    return statuses;
-  }
-  markSyncPending({ from: from3, into }) {
-    const targets = Array.isArray(into) ? into : [into];
-    for (const target of targets) {
-      const source2 = resolveSource(this, target);
-      const current = this.status.sources[source2.id] ?? sourceStatus(source2, { state: "idle" });
-      let state = "sync-pending";
-      if (current.state === "opening" || current.state === "syncing") {
-        state = current.state;
-      }
-      this.setSourceStatus(source2, {
-        ...current,
-        state,
-        syncPending: true,
-        pendingFrom: unique([
-          ...src_default2.many(current.pendingFrom),
-          ...src_default2.many(from3)
-        ])
-      });
-    }
-    return this;
-  }
-  clearSyncPending(sourceOrId) {
-    const source2 = resolveSource(this, sourceOrId);
-    const current = this.status.sources[source2.id] ?? sourceStatus(source2, { state: "idle" });
-    let state = current.state;
-    if (current.state === "sync-pending") {
-      state = "ready";
-    }
-    this.setSourceStatus(source2, {
-      ...current,
-      state,
-      syncPending: false,
-      pendingFrom: []
-    });
-    return this;
-  }
-  setSourceStatus(sourceOrId, status2 = {}) {
-    let source2 = sourceOrId?.parent ?? sourceOrId;
-    if (typeof sourceOrId === "string") {
-      source2 = this.sourceById.get(sourceOrId) ?? { id: sourceOrId };
-    }
-    if (!source2?.id) {
-      return null;
-    }
-    const current = this.status?.sources?.[source2.id] ?? {};
-    const next = sourceStatus(source2, {
-      ...current,
-      ...status2
-    });
-    this.status.sources[source2.id] = next;
-    return next;
-  }
-  setResourceStatus(resourceOrId, status2 = {}) {
-    let logicalResource = resourceOrId;
-    if (typeof resourceOrId === "string") {
-      logicalResource = this.resourceById.get(resourceOrId) ?? { id: resourceOrId };
-    }
-    if (!logicalResource?.id) {
-      return null;
-    }
-    const current = this.status?.resources?.[logicalResource.id] ?? {};
-    const next = {
-      id: logicalResource.id,
-      type: logicalResource.type ?? "replicated-resource",
-      local: logicalResource.local?.id ?? null,
-      remote: logicalResource.remote?.id ?? null,
-      state: status2.state ?? current.state ?? "idle",
-      error: status2.error ?? current.error ?? null
-    };
-    this.status.resources[logicalResource.id] = next;
-    return next;
-  }
-};
-var WorkspaceCollection = class {
-  constructor(workspace2, name, descriptor = {}) {
-    this.workspace = workspace2;
-    this.name = name;
-    this.descriptor = normalizeCollection(descriptor);
-  }
-  list() {
-    return Array.from(from(this.workspace.records).where((record) => !record.deleted).where((record) => collectionIncludesRecord(this.workspace, this.descriptor, record)).select((record) => record.object));
-  }
-  get(id2) {
-    return this.list().find((object) => object.id === id2 || object["@id"] === id2) ?? null;
-  }
-  async create(object = {}, options = {}) {
-    let data = { ...object };
-    if (this.descriptor.shape?.applyDefaults) {
-      data = this.descriptor.shape.applyDefaults(object);
-    }
-    const validation = this.descriptor.shape?.validate?.(data);
-    if (validation && !validation.ok) {
-      const error4 = new Error(`solid-workspace: ${this.name} object does not match its shape`);
-      error4.validation = validation;
-      throw error4;
-    }
-    return this.workspace.createIn(options.createIn ?? this.descriptor.createIn, data, {
-      ...options,
-      save: options.save ?? false
-    });
-  }
-  update(object, changes = {}) {
-    Object.assign(object, changes);
-    return object;
-  }
-  delete(object, options = {}) {
-    return this.workspace.delete(object, options);
-  }
-  save(object, options = {}) {
-    return this.workspace.save(object, options);
-  }
-  saveAll() {
-    return this.workspace.saveAll(Array.from(from(this.workspace.records).where((record) => collectionIncludesRecord(this.workspace, this.descriptor, record))));
-  }
-};
-function source(kind, url3, options) {
-  if (!url3) {
-    throw new TypeError("solid-workspace: source url is required");
-  }
-  return Object.freeze({
-    ...options,
-    workspacePart: "source",
-    kind,
-    type: options.type ?? kind,
-    id: options.id ?? String(url3),
-    url: String(url3),
-    readOnly: Boolean(options.readOnly),
-    shape: options.shape ?? null,
-    options: options.options ?? {}
-  });
-}
-function graphResource(options = {}) {
-  if (!options || typeof options !== "object") {
-    throw new TypeError("solid-workspace: graph resource options must be an object");
-  }
-  if (!options.id) {
-    throw new TypeError("solid-workspace: graph resource id is required");
-  }
-  if (!options.url) {
-    throw new TypeError("solid-workspace: graph resource url is required");
-  }
-  if (typeof options.load !== "function") {
-    throw new TypeError("solid-workspace: graph resource load() is required");
-  }
-  return Object.freeze({
-    ...options,
-    workspacePart: "source",
-    kind: "resource",
-    type: options.type ?? "graph-resource",
-    readOnly: Boolean(options.readOnly),
-    shape: options.shape ?? null,
-    options: options.options ?? {},
-    writeOptions: options.writeOptions,
-    id: options.id,
-    url: String(options.url)
-  });
-}
-function assertWorkspaceSource(descriptor, role = "source") {
-  if (descriptor?.workspacePart !== "source") {
-    throw new TypeError(`solid-workspace: resource ${role} replica must be a source from a factory`);
-  }
-}
-function resourceReplicaSource(descriptor, { resource: resource2, replica, syncTo } = {}) {
-  assertWorkspaceSource(descriptor, replica);
-  return Object.freeze({
-    ...descriptor,
-    logicalResource: resource2.id,
-    replica,
-    syncTo: syncTo ?? descriptor.syncTo
-  });
-}
-function normalizeSources(sources) {
-  if (!Array.isArray(sources)) {
-    throw new TypeError("solid-workspace: sources must be an array");
-  }
-  return sources.map((descriptor) => {
-    if (!descriptor || descriptor.kind !== "resource" && descriptor.kind !== "container") {
-      throw new TypeError("solid-workspace: sources must be solid.resource() or solid.container() descriptors");
-    }
-    return descriptor;
-  });
-}
-function normalizeCollection(descriptor) {
-  if (!descriptor || typeof descriptor !== "object") {
-    throw new TypeError("solid-workspace: collection descriptor must be an object");
-  }
-  const sources = descriptor.sources ?? [];
-  if (!Array.isArray(sources)) {
-    throw new TypeError("solid-workspace: collection sources must be an array");
-  }
-  return {
-    ...descriptor,
-    sources,
-    createIn: descriptor.createIn ?? sources[0]
-  };
-}
-function normalizeDatasetOptions(currentWorkspace, options = {}) {
-  if (isResourceReference(currentWorkspace, options)) {
-    return {
-      resources: [options],
-      sources: datasetSourcesForResources(currentWorkspace, [options])
-    };
-  }
-  if (options?.resources) {
-    const resources = Array.isArray(options.resources) ? options.resources : [options.resources];
-    return {
-      ...options,
-      sources: datasetSourcesForResources(currentWorkspace, resources)
-    };
-  }
-  return options;
-}
-function normalizeLoadSources(currentWorkspace, sources) {
-  if (!Array.isArray(sources)) {
-    sources = [sources];
-  }
-  return sources.map((sourceOrId) => resolveSource(currentWorkspace, sourceOrId));
-}
-function isResourceReference(currentWorkspace, value) {
-  return Boolean(
-    value?.workspacePart === "resource" || typeof value === "string" && currentWorkspace.resourceById.has(value)
-  );
-}
-function isOpenAllOptions(options) {
-  return Boolean(
-    isObject(options) && !Array.isArray(options) && !options.sources && !options.resources && !options.workspacePart
-  );
-}
-function resolveResource(currentWorkspace, resourceOrId) {
-  if (!resourceOrId) {
-    throw new TypeError("solid-workspace: resource is required");
-  }
-  if (typeof resourceOrId === "string") {
-    const logicalResource = currentWorkspace.resourceById.get(resourceOrId);
-    if (!logicalResource) {
-      throw new Error(`solid-workspace: unknown resource ${resourceOrId}`);
-    }
-    return logicalResource;
-  }
-  if (resourceOrId.workspacePart === "resource") {
-    return currentWorkspace.resourceById.get(resourceOrId.id) ?? resourceOrId;
-  }
-  return resourceOrId;
-}
-function resourceSources(logicalResource) {
-  return [logicalResource.local, logicalResource.remote].filter(Boolean);
-}
-function datasetSourcesForResources(currentWorkspace, resources) {
-  return resources.flatMap((resourceOrId) => {
-    const logicalResource = resolveResource(currentWorkspace, resourceOrId);
-    return [logicalResource.local ?? logicalResource.remote].filter(Boolean);
-  });
-}
-function resolveSource(currentWorkspace, sourceOrId) {
-  if (!sourceOrId) {
-    throw new TypeError("solid-workspace: source is required");
-  }
-  if (typeof sourceOrId === "string") {
-    const descriptor = currentWorkspace.sourceById.get(sourceOrId);
-    if (!descriptor) {
-      throw new Error(`solid-workspace: unknown source ${sourceOrId}`);
-    }
-    return descriptor;
-  }
-  return sourceOrId;
-}
-function resolveCreateSource(currentWorkspace, sourceOrResourceOrId) {
-  if (isResourceReference(currentWorkspace, sourceOrResourceOrId)) {
-    const logicalResource = resolveResource(currentWorkspace, sourceOrResourceOrId);
-    if (!logicalResource.local) {
-      throw new Error(`solid-workspace: resource ${logicalResource.id} needs a local replica for local-first writes`);
-    }
-    return logicalResource.local;
-  }
-  return resolveSource(currentWorkspace, sourceOrResourceOrId);
-}
-function recordsForSources(currentWorkspace, sources) {
-  const descriptors = new Set(normalizeLoadSources(currentWorkspace, sources));
-  const ids2 = new Set([...descriptors].map((source2) => source2.id));
-  return Array.from(from(currentWorkspace.records).where((record) => !record.deleted).where((record) => {
-    const source2 = record.source?.parent ?? record.source;
-    return source2 && (descriptors.has(source2) || ids2.has(source2.id));
-  }));
-}
-function recordBelongsToSources(record, sources) {
-  const source2 = record.source?.parent ?? record.source;
-  return Boolean(source2 && sources.some((candidate) => candidate === source2 || candidate.id === source2.id));
-}
-function collectionIncludesRecord(currentWorkspace, descriptor, record) {
-  if (descriptor.sources.length > 0) {
-    const sourceId = record.source?.parent?.id ?? record.source?.id;
-    const matches = descriptor.sources.some((collectionSource) => {
-      const logicalResource = currentWorkspace.resourceById.get(collectionSource);
-      if (logicalResource) {
-        const preferredSource = logicalResource.local ?? logicalResource.remote;
-        return preferredSource?.id === sourceId;
-      }
-      return collectionSource === sourceId;
-    });
-    if (!matches) {
-      return false;
-    }
-  }
-  if (descriptor.shape?.class) {
-    const classes = src_default2.many(record.object.rdf$type);
-    if (!classes.includes(descriptor.shape.class)) {
-      return false;
-    }
-  }
-  return true;
-}
-function subjectsFromResponse(response3) {
-  const data = dataFromResult(response3);
-  if (!data) {
-    return [];
-  }
-  if (Array.isArray(data)) {
-    return Array.from(from(data).where(isObject));
-  }
-  if (Array.isArray(data.data)) {
-    return Array.from(from(data.data).where(isObject));
-  }
-  if (data.subjects && typeof data.subjects === "object") {
-    return Array.from(from(Object.values(data.subjects)).where(isObject));
-  }
-  if (isObject(data.primary)) {
-    return [data.primary];
-  }
-  return isObject(data) ? [data] : [];
-}
-function dataFromResult(result) {
-  return result?.data ?? result;
-}
-function graphDocumentFrom(value) {
-  if (!value) {
-    return {
-      format: null,
-      version: null,
-      prefixes: {},
-      subjects: []
-    };
-  }
-  if (Array.isArray(value)) {
-    return {
-      format: null,
-      version: null,
-      prefixes: {},
-      subjects: Array.from(from(value).where(isObject))
-    };
-  }
-  if (Array.isArray(value.subjects)) {
-    return {
-      format: value.format ?? null,
-      version: value.version ?? null,
-      prefixes: value.prefixes ?? {},
-      subjects: Array.from(from(value.subjects).where(isObject))
-    };
-  }
-  if (value.subjects && typeof value.subjects === "object") {
-    return {
-      format: value.format ?? null,
-      version: value.version ?? null,
-      prefixes: value.prefixes ?? {},
-      subjects: Array.from(from(Object.values(value.subjects)).where(isObject))
-    };
-  }
-  if (Array.isArray(value.data)) {
-    return {
-      format: value.format ?? null,
-      version: value.version ?? null,
-      prefixes: value.prefixes ?? {},
-      subjects: Array.from(from(value.data).where(isObject))
-    };
-  }
-  if (isObject(value.primary)) {
-    return {
-      format: value.format ?? null,
-      version: value.version ?? null,
-      prefixes: value.prefixes ?? {},
-      subjects: [value.primary]
-    };
-  }
-  return {
-    format: null,
-    version: null,
-    prefixes: {},
-    subjects: isObject(value) ? [value] : []
-  };
-}
-function mergeSubject(target, incoming) {
-  for (const [predicate, value] of Object.entries(incoming)) {
-    if (predicate === "id") continue;
-    if (!Object.hasOwn(target, predicate)) {
-      target[predicate] = cloneValue(value);
-      continue;
-    }
-    target[predicate] = mergeValues(target[predicate], value);
-  }
-  return target;
-}
-function mergeValues(left, right) {
-  if (valueEquals(left, right)) {
-    return left;
-  }
-  if (isObject(left) && isObject(right) && left.id && left.id === right.id) {
-    return mergeSubject(left, right);
-  }
-  const values3 = [];
-  for (const item of [...arrayValues(left), ...arrayValues(right)]) {
-    if (!values3.some((existing) => valueEquals(existing, item))) {
-      values3.push(cloneValue(item));
-    }
-  }
-  return values3.length === 1 ? values3[0] : values3;
-}
-function arrayValues(value) {
-  return Array.isArray(value) ? value : [value];
-}
-function valueEquals(left, right) {
-  return valueKey(left) === valueKey(right);
-}
-function valueKey(value) {
-  if (isObject(value)) {
-    return value.id ? `id:${value.id}` : `json:${JSON.stringify(sortObject(value))}`;
-  }
-  return `${typeof value}:${String(value)}`;
-}
-function sortObject(value) {
-  if (Array.isArray(value)) {
-    return value.map(sortObject);
-  }
-  if (!isObject(value)) {
-    return value;
-  }
-  return Object.fromEntries(
-    Object.entries(value).sort(([left], [right]) => left.localeCompare(right)).map(([key, item]) => [key, sortObject(item)])
-  );
-}
-function graphDocumentsEqual(left, right) {
-  return JSON.stringify(sortObject(graphDocumentComparable(left))) === JSON.stringify(sortObject(graphDocumentComparable(right)));
-}
-function graphDocumentComparable(document2) {
-  return {
-    format: document2.format ?? null,
-    version: document2.version ?? null,
-    prefixes: document2.prefixes ?? {},
-    subjects: document2.subjects ?? []
-  };
-}
-function cloneGraphDocument(document2) {
-  const graphDocument = graphDocumentFrom(document2);
-  return {
-    ...graphDocument,
-    prefixes: cloneValue(graphDocument.prefixes),
-    subjects: cloneValue(graphDocument.subjects)
-  };
-}
-function graphDocumentToTurtle(document2, options = {}) {
-  const graphDocument = graphDocumentFrom(document2);
-  const context = src_default2.context({
-    defaultGraph: options.url,
-    prefixes: {
-      ...graphDocument.prefixes,
-      ...options.prefixes
-    }
-  });
-  const graph2 = context.parse("", options.url, "text/turtle");
-  for (const subject of graphDocument.subjects) {
-    writeSubjectToGraph({ graph: graph2, subject });
-  }
-  return graph2.write();
-}
-function writeSubjectToGraph({ graph: graph2, subject }) {
-  if (!subject?.id) return null;
-  for (const [predicate, value] of Object.entries(subject)) {
-    if (predicate === "id") continue;
-    graph2.set(subject.id, predicate, graphValueFromObjectValue({ graph: graph2, value }));
-  }
-  return subject.id;
-}
-function graphValueFromObjectValue({ graph: graph2, value }) {
-  if (Array.isArray(value)) {
-    return value.map((item) => graphValueFromObjectValue({ graph: graph2, value: item }));
-  }
-  if (isObject(value)) {
-    if (value.id) {
-      writeSubjectToGraph({ graph: graph2, subject: value });
-      return value.id;
-    }
-    return JSON.stringify(value);
-  }
-  return value;
-}
-async function saveGraphDocument(workspace2, source2, document2, options = {}) {
-  if (typeof source2.save === "function") {
-    return source2.save(document2, {
-      source: source2,
-      workspace: workspace2,
-      ...options
-    });
-  }
-  assertSolidClient(workspace2);
-  return workspace2.solid.put(source2.url, bodyOptions(document2, writeOptions(source2, options)));
-}
-function openIndexedDatabase({ indexedDB, name, version, storeName }) {
-  const factory = indexedDB ?? globalThis.indexedDB;
-  if (!factory) {
-    throw new TypeError("solid-workspace: IndexedDB is not available");
-  }
-  return new Promise((resolve, reject) => {
-    const request3 = factory.open(name, version);
-    request3.onerror = () => reject(request3.error ?? new Error(`solid-workspace: could not open IndexedDB database ${name}`));
-    request3.onblocked = () => reject(new Error(`solid-workspace: IndexedDB database ${name} is blocked`));
-    request3.onupgradeneeded = () => {
-      const database = request3.result;
-      if (!objectStoreExists(database.objectStoreNames, storeName)) {
-        database.createObjectStore(storeName, { keyPath: "key" });
-      }
-    };
-    request3.onsuccess = () => resolve(request3.result);
-  });
-}
-function indexedDBGet(database, storeName, key) {
-  return indexedDBRequest(
-    database.transaction(storeName, "readonly").objectStore(storeName).get(key)
-  );
-}
-function indexedDBPut(database, storeName, value) {
-  return indexedDBRequest(
-    database.transaction(storeName, "readwrite").objectStore(storeName).put(value)
-  );
-}
-function indexedDBRequest(request3) {
-  return new Promise((resolve, reject) => {
-    request3.onerror = () => reject(request3.error ?? new Error("solid-workspace: IndexedDB request failed"));
-    request3.onsuccess = () => resolve(request3.result);
-  });
-}
-function objectStoreExists(objectStoreNames, storeName) {
-  if (typeof objectStoreNames?.contains === "function") {
-    return objectStoreNames.contains(storeName);
-  }
-  return src_default2.many(objectStoreNames).includes(storeName);
-}
-function assertSolidClient(workspace2) {
-  if (!workspace2.solid) {
-    throw new TypeError("solid-workspace: a Solid API client is required for Solid sources");
-  }
-}
-function cloneValue(value) {
-  if (Array.isArray(value)) {
-    return value.map(cloneValue);
-  }
-  if (isObject(value)) {
-    return Object.fromEntries(
-      Object.entries(value).map(([key, item]) => [key, cloneValue(item)])
-    );
-  }
-  return value;
-}
-function oldmSourcesOf(record, object, predicate, value) {
-  const data = dataFromResult(record.response);
-  const context = data?.context ?? data?.primary?.context;
-  if (!context || typeof context.sources !== "function") {
-    return [];
-  }
-  return context.sources(object, predicate, value).map((source2) => typeof source2 === "string" ? source2 : source2?.url ?? source2?.id).filter(Boolean);
-}
-function statusFromError(error4) {
-  return error4?.cause?.status ?? error4?.response?.status ?? error4?.status;
-}
-function validateRecord(record) {
-  const validation = record.source?.shape?.validate?.(record.object);
-  return validation ?? { ok: true, issues: [] };
-}
-function writeOptions(source2, options) {
-  return {
-    contentType: "text/turtle",
-    ...source2?.writeOptions,
-    ...options
-  };
-}
-function requestOptions(options = {}) {
-  return {
-    ...options,
-    headers: solidRequestHeaders(options)
-  };
-}
-function bodyOptions(body, options = {}) {
-  return {
-    ...options,
-    body,
-    headers: solidRequestHeaders(options)
-  };
-}
-function updateRecordStatus(record, status2) {
-  record.status = status2.status;
-  record.error = status2.error ?? null;
-  record.response = status2.response?.response ?? status2.response ?? record.response;
-  return statusFor(record, status2);
-}
-function statusFor(record, status2 = {}) {
-  return {
-    object: record.object,
-    sourceUrl: record.sourceUrl,
-    source: record.source,
-    ...status2
-  };
-}
-function sourceStatus(source2, status2 = {}) {
-  return {
-    id: source2.id,
-    type: source2.type ?? source2.kind ?? "source",
-    url: source2.url ?? null,
-    local: Boolean(source2.local),
-    logicalResource: source2.logicalResource ?? null,
-    replica: source2.replica ?? null,
-    state: status2.state ?? "idle",
-    error: status2.error ?? null,
-    syncPending: Boolean(status2.syncPending),
-    pendingFrom: src_default2.many(status2.pendingFrom)
-  };
-}
-function workspaceState(currentWorkspace) {
-  const states = Object.values(currentWorkspace.status.sources).map((status2) => status2.state);
-  if (states.length === 0) {
-    return "idle";
-  }
-  if (states.some((state) => state === "ready" || state === "sync-pending")) {
-    return "ready";
-  }
-  if (states.some((state) => state === "opening" || state === "syncing")) {
-    return "opening";
-  }
-  return "error";
-}
-function resourceState(currentWorkspace, logicalResource) {
-  const states = resourceSources(logicalResource).map((source2) => currentWorkspace.status.sources[source2.id]?.state).filter(Boolean);
-  if (states.length === 0) {
-    return "idle";
-  }
-  if (states.some((state) => state === "sync-pending")) {
-    return "sync-pending";
-  }
-  if (states.some((state) => state === "ready")) {
-    return "ready";
-  }
-  if (states.some((state) => state === "opening" || state === "syncing")) {
-    return "opening";
-  }
-  return states[0] ?? "idle";
-}
-function sourceFailureState(error4) {
-  const status2 = errorStatus(error4);
-  if (status2 === 401 || status2 === 403) {
-    return "auth-needed";
-  }
-  if (!status2 || error4?.name === "TypeError") {
-    return "offline";
-  }
-  return "error";
-}
-function responseError({ source: source2, response: response3 }) {
-  const error4 = new Error(`solid-workspace: source ${source2.id} returned HTTP ${response3?.status}`);
-  error4.response = response3;
-  error4.source = source2;
-  return error4;
-}
-function errorStatus(error4) {
-  if (error4?.response?.status !== void 0) {
-    return error4.response.status;
-  }
-  if (error4?.cause?.status !== void 0) {
-    return error4.cause.status;
-  }
-  return error4?.status;
-}
-function ensureSlash2(url3) {
-  return String(url3).endsWith("/") ? String(url3) : `${url3}/`;
-}
-function unique(items) {
-  return [...new Set(items)];
-}
-function isObject(value) {
-  return Boolean(value && typeof value === "object" && !Array.isArray(value));
-}
-
-// ../solid-tools/packages/simplysolid/src/index.mjs
-function simplySolid(config = {}) {
-  return new SimplySolid(config);
-}
-var SimplySolid = class {
-  constructor(config = {}) {
-    if (!config || typeof config !== "object") {
-      throw new TypeError("simplysolid: config must be an object");
-    }
-    const normalized = normalizeConfig(config);
-    this.solid = normalized.client ?? config.workspace?.solid ?? null;
-    this.conventions = normalized.conventions;
-    this.settings = normalized.settings;
-    this.registrations = normalized.registrations;
-    this.status = {
-      state: "idle",
-      error: null,
-      profile: config.profile ?? null,
-      storage: normalizeStorage(config.storage),
-      setup: setupStatus("unknown", normalized.conventions, normalized.registrations),
-      collections: {},
-      resources: {}
-    };
-    this.workspace = config.workspace ?? workspace({
-      solid: normalized.client,
-      sources: normalized.sources,
-      resources: normalized.resources,
-      collections: normalized.collections
-    });
-    this.status.resources = this.workspace.status.resources;
-    this.data = Object.fromEntries(
-      Object.entries(this.workspace.collections).map(([name, collection2]) => [
-        name,
-        new SimplySolidCollection(this, name, collection2)
-      ])
-    );
-    for (const name of Object.keys(this.data)) {
-      this.status.collections[name] = this.data[name].status;
-    }
-  }
-  install(app2) {
-    app2.solid = this;
-    if (app2.data && typeof app2.data === "object") {
-      app2.data.solid = this.status;
-    }
-    return this;
-  }
-  async open(options = {}) {
-    this.status.state = "opening";
-    this.status.error = null;
-    try {
-      await this.workspace.open(options);
-      for (const handle of Object.values(this.data)) {
-        handle.refresh();
-      }
-      this.status.state = "ready";
-      this.status.lastOpen = /* @__PURE__ */ new Date();
-      return this.data;
-    } catch (error4) {
-      this.status.state = "error";
-      this.status.error = error4;
-      throw error4;
-    }
-  }
-  async sync(options = {}) {
-    if (isResourceSyncRequest(this.workspace, options)) {
-      return this.syncResources(options);
-    }
-    this.status.state = "syncing";
-    this.status.error = null;
-    try {
-      await this.workspace.open(options);
-      for (const handle of Object.values(this.data)) {
-        handle.refresh();
-      }
-      this.status.state = "ready";
-      this.status.lastSync = /* @__PURE__ */ new Date();
-      return this.data;
-    } catch (error4) {
-      this.status.state = "error";
-      this.status.error = error4;
-      throw error4;
-    }
-  }
-  dataset(options = {}) {
-    return this.workspace.dataset(options);
-  }
-  async connect(options = {}) {
-    this.status.state = "connecting";
-    this.status.error = null;
-    try {
-      const client3 = options.solid ?? options.solidApi ?? options.client;
-      if (client3) {
-        this.solid = client3;
-        this.workspace.setClient(client3);
-      }
-      const resources = connectionResources(options);
-      const opened = [];
-      for (const [name, descriptor] of Object.entries(resources)) {
-        const part = remoteResourcePart(name, descriptor, this);
-        this.workspace.add(part);
-        opened.push(name);
-      }
-      if (options.open !== false && opened.length > 0) {
-        await this.workspace.open({ resources: opened });
-      }
-      for (const handle of Object.values(this.data)) {
-        handle.refresh();
-      }
-      this.status.state = "ready";
-      this.status.lastConnect = /* @__PURE__ */ new Date();
-      return this;
-    } catch (error4) {
-      this.status.state = "error";
-      this.status.error = error4;
-      throw error4;
-    }
-  }
-  async syncResources(options = {}) {
-    this.status.state = "syncing";
-    this.status.error = null;
-    try {
-      const status2 = await this.workspace.sync(options);
-      for (const handle of Object.values(this.data)) {
-        handle.refresh();
-      }
-      this.status.state = "ready";
-      this.status.lastSync = /* @__PURE__ */ new Date();
-      return status2;
-    } catch (error4) {
-      this.status.state = "error";
-      this.status.error = error4;
-      throw error4;
-    }
-  }
-  async checkSetup() {
-    if (!this.solid) {
-      this.status.setup = setupStatus("unknown", this.conventions, this.registrations, {
-        error: new Error("simplysolid: setup checks require a Solid API client")
-      });
-      return this.status.setup;
-    }
-    const checks = [];
-    for (const url3 of this.conventions.requiredContainers) {
-      checks.push(await checkContainer(this.solid, url3));
-    }
-    const missing = checks.filter((check) => check.status === "missing");
-    const repair = checks.filter((check) => check.status === "error");
-    const state = repair.length > 0 ? "repair-needed" : missing.length > 0 ? "setup-needed" : "ready";
-    this.status.setup = setupStatus(state, this.conventions, this.registrations, {
-      checks,
-      needed: missing,
-      repair
-    });
-    return this.status.setup;
-  }
-  async setup() {
-    const setup = await this.checkSetup();
-    if (setup.state === "ready") {
-      return setup;
-    }
-    if (setup.state === "repair-needed") {
-      return setup;
-    }
-    this.status.setup = {
-      ...setup,
-      state: "creating"
-    };
-    const created = [];
-    const repair = [];
-    for (const item of setup.needed) {
-      try {
-        const response3 = await this.solid.createContainer(item.url);
-        created.push({ ...item, response: response3 });
-      } catch (error4) {
-        repair.push({ ...item, status: "error", error: error4 });
-      }
-    }
-    if (repair.length > 0) {
-      this.status.setup = setupStatus("repair-needed", this.conventions, this.registrations, {
-        created,
-        repair
-      });
-      return this.status.setup;
-    }
-    return this.checkSetup();
-  }
-};
-var SimplySolidCollection = class {
-  constructor(service, name, collection2) {
-    this.solid = service;
-    this.name = name;
-    this.collection = collection2;
-    this.items = [];
-    this.status = {
-      state: "idle",
-      error: null,
-      lastSync: null,
-      lastSave: null
-    };
-  }
-  refresh() {
-    this.items = this.collection.list();
-    this.status.state = "ready";
-    this.status.lastSync = /* @__PURE__ */ new Date();
-    return this.items;
-  }
-  async sync() {
-    this.status.state = "syncing";
-    this.status.error = null;
-    try {
-      await this.solid.workspace.open(this.collection.descriptor.sources);
-      return this.refresh();
-    } catch (error4) {
-      this.status.state = "error";
-      this.status.error = error4;
-      throw error4;
-    }
-  }
-  list() {
-    return this.refresh();
-  }
-  get(id2) {
-    return this.collection.get(id2);
-  }
-  async create(data = {}, options = {}) {
-    return this.write("creating", async () => {
-      const object = await this.collection.create(data, {
-        ...options,
-        save: false
-      });
-      if (options.save === false) {
-        this.refresh();
-        return object;
-      }
-      const status2 = await this.collection.save(object, options);
-      this.status.lastSave = status2;
-      this.refresh();
-      return object;
-    });
-  }
-  async update(idOrObject, changes = {}, options = {}) {
-    return this.write("saving", async () => {
-      const object = this.resolve(idOrObject);
-      this.collection.update(object, changes);
-      if (options.save === false) {
-        this.refresh();
-        return object;
-      }
-      const status2 = await this.collection.save(object, options);
-      this.status.lastSave = status2;
-      this.refresh();
-      return object;
-    });
-  }
-  async delete(idOrObject, options = {}) {
-    return this.write("deleting", async () => {
-      const object = this.resolve(idOrObject);
-      const status2 = await this.collection.delete(object, {
-        ...options,
-        save: options.save ?? true
-      });
-      this.status.lastSave = status2;
-      this.refresh();
-      return status2;
-    });
-  }
-  async saveAll() {
-    return this.write("saving", async () => {
-      const statuses = await this.collection.saveAll();
-      this.status.lastSave = statuses;
-      this.refresh();
-      return statuses;
-    });
-  }
-  async write(state, fn) {
-    this.status.state = state;
-    this.status.error = null;
-    try {
-      const result = await fn();
-      this.status.state = "ready";
-      return result;
-    } catch (error4) {
-      this.status.state = "error";
-      this.status.error = error4;
-      throw error4;
-    }
-  }
-  resolve(idOrObject) {
-    if (typeof idOrObject === "string") {
-      const object = this.get(idOrObject);
-      if (!object) {
-        throw new Error(`simplysolid: ${this.name} item ${idOrObject} was not found`);
-      }
-      return object;
-    }
-    if (!idOrObject || typeof idOrObject !== "object") {
-      throw new TypeError(`simplysolid: ${this.name} item must be an object or id`);
-    }
-    return idOrObject;
-  }
-};
-function normalizeConfig(config) {
-  if (config.workspace) {
-    const conventions2 = setupConventions(config, {
-      sources: config.workspace.sources ?? [],
-      resources: config.workspace.resources ?? [],
-      collections: config.workspace.collections ?? {}
-    });
-    return {
-      client: null,
-      sources: [],
-      resources: [],
-      collections: {},
-      conventions: conventions2,
-      settings: settingsFor(config, conventions2),
-      registrations: registrationsFor(config, conventions2)
-    };
-  }
-  const client3 = config.solid ?? config.solidApi ?? config.client;
-  const explicitSources = config.sources ?? [];
-  const explicitResources = config.resources ?? [];
-  const data = config.data ?? config.collections ?? {};
-  const generatedSources = [];
-  const generatedResources = [];
-  const collections = {};
-  const hasLocalFirstData = Object.values(data).some((descriptor) => isLocalFirstDescriptor(null, descriptor, config));
-  if (!client3 && explicitSources.length === 0 && explicitResources.length === 0 && !hasLocalFirstData) {
-    throw new TypeError("simplysolid: a Solid API client, workspace, source, resource, or local-first data config is required");
-  }
-  for (const [name, descriptor] of Object.entries(data)) {
-    const normalized = normalizeCollection2(name, descriptor, config);
-    collections[name] = normalized.collection;
-    if (normalized.source) {
-      generatedSources.push(normalized.source);
-    }
-    if (normalized.resource) {
-      generatedResources.push(normalized.resource);
-    }
-  }
-  const sources = [...explicitSources, ...generatedSources];
-  const resources = [...explicitResources, ...generatedResources];
-  const conventions = setupConventions(config, { sources, resources, collections });
-  return {
-    client: client3,
-    sources,
-    resources,
-    collections,
-    conventions,
-    settings: settingsFor(config, conventions),
-    registrations: registrationsFor(config, conventions)
-  };
-}
-function normalizeCollection2(name, descriptor = {}, config = {}) {
-  if (!descriptor || typeof descriptor !== "object") {
-    throw new TypeError(`simplysolid: collection ${name} must be an object`);
-  }
-  if (descriptor.kind === "collection" && !descriptor.path) {
-    return {
-      collection: descriptor,
-      source: null,
-      resource: null
-    };
-  }
-  if (isLocalFirstDescriptor(name, descriptor, config)) {
-    const resourceId = descriptor.resourceId ?? descriptor.resource ?? descriptor.source ?? name;
-    const resource2 = resource(resourceId, {
-      local: localSourceForResource(name, descriptor, config),
-      remote: remoteSourceForResource(name, descriptor, config, resourceId)
-    });
-    return {
-      source: null,
-      resource: resource2,
-      collection: collection({
-        ...descriptor,
-        sources: descriptor.sources ?? [resourceId],
-        createIn: descriptor.createIn ?? resourceId
-      })
-    };
-  }
-  const source2 = descriptor.path ? sourceFromPath(name, descriptor, config) : null;
-  const sourceId = descriptor.source ?? source2?.id;
-  const sources = descriptor.sources ?? (sourceId ? [sourceId] : []);
-  const createIn = descriptor.createIn ?? sourceId ?? sources[0];
-  return {
-    source: source2,
-    resource: null,
-    collection: collection({
-      ...descriptor,
-      sources,
-      createIn
-    })
-  };
-}
-function isLocalFirstDescriptor(_name, descriptor = {}, config = {}) {
-  if (!descriptor || typeof descriptor !== "object") {
-    return false;
-  }
-  return Boolean(
-    descriptor.local || descriptor.localFirst || config.localFirst && (descriptor.kind === "resource" || descriptor.resource === true || descriptor.path && !String(descriptor.path).endsWith("/"))
-  );
-}
-function localSourceForResource(name, descriptor = {}, config = {}) {
-  const localConfig = descriptor.local === true ? {} : descriptor.local ?? {};
-  if (localConfig?.workspacePart === "source") {
-    return localConfig;
-  }
-  const indexedDBName = typeof localConfig.indexedDB === "string" ? localConfig.indexedDB : null;
-  const indexedDBFactory = localConfig.indexedDB && typeof localConfig.indexedDB !== "string" ? localConfig.indexedDB : localConfig.indexedDBFactory;
-  const databaseName = indexedDBName ?? localConfig.name ?? localConfig.databaseName ?? localConfig.database ?? config.local?.indexedDB ?? config.local?.name ?? slugFrom(config.app?.slug ?? config.slug ?? config.app?.id ?? config.id ?? defaultAppId());
-  return local.indexedDB(databaseName, {
-    ...localConfig,
-    id: localConfig.id ?? `${descriptor.resourceId ?? descriptor.resource ?? descriptor.source ?? name}:local`,
-    key: localConfig.key ?? name,
-    prefixes: localConfig.prefixes ?? descriptor.prefixes,
-    document: localConfig.document ?? descriptor.document,
-    indexedDB: indexedDBFactory
-  });
-}
-function remoteSourceForResource(name, descriptor = {}, config = {}, resourceId = name) {
-  if (descriptor.remote === false) {
-    return null;
-  }
-  const remoteConfig = descriptor.remote === true ? {} : descriptor.remote ?? {};
-  if (remoteConfig?.workspacePart === "source") {
-    return remoteConfig;
-  }
-  const url3 = remoteConfig.url ?? remoteConfig.resourceUrl ?? (descriptor.path && firstStorage(config.storage) ? new URL(descriptor.path, firstStorage(config.storage)).href : null);
-  if (!url3) {
-    return null;
-  }
-  return solid.turtleResource(url3, {
-    id: remoteConfig.id ?? descriptor.remoteSource ?? `${resourceId}:solid`,
-    readOnly: Boolean(remoteConfig.readOnly ?? descriptor.readOnly),
-    shape: remoteConfig.shape ?? descriptor.shape ?? null,
-    options: remoteConfig.options ?? descriptor.options ?? {},
-    writeOptions: remoteConfig.writeOptions ?? descriptor.writeOptions
-  });
-}
-function connectionResources(options = {}) {
-  if (options.resourceUrl) {
-    return {
-      [options.resource ?? options.name ?? "default"]: {
-        ...options,
-        url: options.resourceUrl
-      }
-    };
-  }
-  return options.resources ?? options.data ?? {};
-}
-function remoteResourcePart(name, descriptor = {}, service) {
-  const config = typeof descriptor === "string" ? { url: descriptor } : descriptor;
-  const resourceId = config.resourceId ?? config.resource ?? name;
-  const url3 = config.url ?? config.resourceUrl ?? (config.path && firstStorage(service.status.storage) ? new URL(config.path, firstStorage(service.status.storage)).href : null);
-  if (!url3) {
-    throw new TypeError(`simplysolid: connected resource ${name} needs a url, resourceUrl, or path`);
-  }
-  return resource(resourceId, {
-    remote: solid.turtleResource(url3, {
-      id: config.id ?? config.source ?? `${resourceId}:solid`,
-      readOnly: Boolean(config.readOnly),
-      shape: config.shape ?? null,
-      options: config.options ?? {},
-      writeOptions: config.writeOptions
-    })
-  });
-}
-function isResourceSyncRequest(currentWorkspace, options) {
-  return Boolean(
-    options?.workspacePart === "resource" || typeof options === "string" && currentWorkspace.resourceById.has(options)
-  );
-}
-function sourceFromPath(name, descriptor, config) {
-  const storage = firstStorage(config.storage);
-  if (!storage) {
-    throw new TypeError(`simplysolid: collection ${name} uses path but no storage root was configured`);
-  }
-  const url3 = new URL(descriptor.path, storage).href;
-  const options = {
-    id: descriptor.source ?? name,
-    readOnly: Boolean(descriptor.readOnly),
-    shape: descriptor.shape ?? null,
-    options: descriptor.options ?? {},
-    writeOptions: descriptor.writeOptions
-  };
-  return descriptor.kind === "resource" || descriptor.resource === true || !url3.endsWith("/") ? solid.resource(url3, options) : solid.container(url3, options);
-}
-function normalizeStorage(storage) {
-  if (!storage) {
-    return [];
-  }
-  if (Array.isArray(storage)) {
-    return storage.map(storageUrl);
-  }
-  return [storageUrl(storage)];
-}
-function firstStorage(storage) {
-  return normalizeStorage(storage)[0] ?? null;
-}
-function storageUrl(storage) {
-  const url3 = typeof storage === "string" ? storage : storage?.url ?? storage?.id;
-  return url3 && !String(url3).endsWith("/") ? `${url3}/` : url3;
-}
-function setupConventions(config, normalized) {
-  const storage = firstStorage(config.storage);
-  const appId = config.app?.id ?? config.id ?? defaultAppId();
-  const appSlug = config.app?.slug ?? config.slug ?? slugFrom(appId);
-  const appStorage = ensureSlash3(config.appStorage ?? config.setup?.appStorage ?? (storage ? new URL(`apps/${appSlug}/`, storage).href : null));
-  const settingsUrl = config.settings?.url ?? config.setup?.settingsUrl ?? (appStorage ? new URL("settings.ttl", appStorage).href : null);
-  const sourceContainers = (normalized.sources ?? []).filter((source2) => source2.kind === "container").map((source2) => source2.url);
-  const requiredContainers = unique2([
-    appStorage,
-    ...sourceContainers,
-    ...config.setup?.containers ?? []
-  ].filter(Boolean).map(ensureSlash3));
-  return {
-    appId,
-    appSlug,
-    appStorage,
-    settingsUrl,
-    requiredContainers
-  };
-}
-function settingsFor(config, conventions) {
-  return {
-    url: conventions.settingsUrl,
-    data: config.settings?.data ?? {},
-    shape: config.settings?.shape ?? null
-  };
-}
-function registrationsFor(config, conventions) {
-  if (config.registrations) {
-    return config.registrations;
-  }
-  const data = config.data ?? config.collections ?? {};
-  return Object.entries(data).map(([name, descriptor]) => {
-    if (!descriptor?.shape?.class) {
-      return null;
-    }
-    const sourceUrl = descriptor.path && conventions.appStorage ? new URL(descriptor.path, firstStorage(config.storage)).href : descriptor.url ?? null;
-    return {
-      collection: name,
-      forClass: descriptor.shape.class,
-      instanceContainer: sourceUrl?.endsWith("/") ? sourceUrl : null,
-      instance: sourceUrl && !sourceUrl.endsWith("/") ? sourceUrl : null,
-      private: descriptor.private ?? true,
-      registered: false
-    };
-  }).filter(Boolean);
-}
-function setupStatus(state, conventions, registrations, options = {}) {
-  return {
-    state,
-    needed: options.needed ?? [],
-    repair: options.repair ?? [],
-    checks: options.checks ?? [],
-    created: options.created ?? [],
-    error: options.error ?? null,
-    appStorage: conventions.appStorage,
-    settingsUrl: conventions.settingsUrl,
-    registrations
-  };
-}
-async function checkContainer(client3, url3) {
-  try {
-    const response3 = await client3.head(url3);
-    const status2 = response3?.status ?? 200;
-    if (status2 === 404) {
-      return { url: url3, status: "missing", response: response3 };
-    }
-    if (status2 >= 400) {
-      return { url: url3, status: "error", response: response3 };
-    }
-    return { url: url3, status: "ready", response: response3 };
-  } catch (error4) {
-    const status2 = error4.cause?.status ?? error4.response?.status;
-    if (status2 === 404) {
-      return { url: url3, status: "missing", error: error4 };
-    }
-    return { url: url3, status: "error", error: error4 };
-  }
-}
-function defaultAppId() {
-  const location = globalThis.location?.href;
-  if (!location) {
-    return "app";
-  }
-  const url3 = new URL(location);
-  url3.hash = "";
-  return url3.href;
-}
-function slugFrom(value) {
-  const input2 = String(value);
-  let source2 = input2;
-  try {
-    const url3 = new URL(input2);
-    source2 = url3.pathname.split("/").filter(Boolean).at(-1) ?? url3.hostname;
-  } catch {
-    source2 = input2;
-  }
-  return source2.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "") || "app";
-}
-function ensureSlash3(url3) {
-  return url3 && !String(url3).endsWith("/") ? `${url3}/` : url3;
-}
-function unique2(values3) {
-  return [...new Set(values3)];
-}
-
-// ../../poef/cobalt-note/packages/rich-text-note/dist/fragment.js
-function getJoinOffsetAfterSeparator(first3, second, separator) {
-  if (separator.length > 0) {
-    return first3.text.length + separator.length;
-  }
-  if (first3.text.endsWith("\n")) {
-    return first3.text.length;
-  }
-  if (second.text.startsWith("\n")) {
-    return first3.text.length + 1;
-  }
-  return first3.text.length;
-}
-function getNextOrder(fragment) {
-  if (fragment.annotations.length === 0) {
-    return 1;
-  }
-  return Math.max(...fragment.annotations.map((annotation) => annotation.order)) + 1;
-}
-function addAnnotation(fragment, range, tag) {
-  const [start, end] = range;
-  if (end <= start) {
-    return null;
-  }
-  const annotation = {
-    range: [start, end],
-    tag,
-    order: getNextOrder(fragment)
-  };
-  fragment.annotations.push(annotation);
-  return annotation;
-}
-function insertText(fragment, offset, text, options = {}) {
-  if (text.length === 0) {
-    return;
-  }
-  const normalizedOffset = clamp(offset, 0, fragment.text.length);
-  const growAtEnd = options.growAtEnd ?? true;
-  const delta = text.length;
-  fragment.text = fragment.text.slice(0, normalizedOffset) + text + fragment.text.slice(normalizedOffset);
-  for (const annotation of fragment.annotations) {
-    let [start, end] = annotation.range;
-    if (normalizedOffset <= start) {
-      start += delta;
-      end += delta;
-    } else if (normalizedOffset < end || growAtEnd && normalizedOffset === end) {
-      end += delta;
-    }
-    annotation.range = [start, end];
-  }
-}
-function deleteRange(fragment, startOffset, endOffset) {
-  const start = clamp(startOffset, 0, fragment.text.length);
-  const end = clamp(endOffset, 0, fragment.text.length);
-  if (end <= start) {
-    return;
-  }
-  fragment.text = fragment.text.slice(0, start) + fragment.text.slice(end);
-  fragment.annotations = mergeAdjacentMatchingAnnotations(fragment.annotations.map((annotation) => {
-    const [annotationStart, annotationEnd] = annotation.range;
-    return {
-      ...annotation,
-      range: [
-        transformDeletedOffset(annotationStart, start, end),
-        transformDeletedOffset(annotationEnd, start, end)
-      ]
-    };
-  }).filter((annotation) => annotation.range[1] > annotation.range[0]));
-}
-function sliceFragment(fragment, startOffset, endOffset) {
-  const start = clamp(startOffset, 0, fragment.text.length);
-  const end = clamp(endOffset, 0, fragment.text.length);
-  if (end <= start) {
-    return {
-      text: "",
-      annotations: []
-    };
-  }
-  return {
-    text: fragment.text.slice(start, end),
-    annotations: fragment.annotations.map((annotation) => {
-      const annotationStart = Math.max(annotation.range[0], start);
-      const annotationEnd = Math.min(annotation.range[1], end);
-      if (annotationEnd <= annotationStart) {
-        return null;
-      }
-      return {
-        ...annotation,
-        range: [
-          annotationStart - start,
-          annotationEnd - start
-        ]
-      };
-    }).filter((annotation) => annotation !== null)
-  };
-}
-function insertFragment(fragment, offset, inserted, options = {}) {
-  const normalizedOffset = clamp(offset, 0, fragment.text.length);
-  if (inserted.text.length === 0) {
-    return;
-  }
-  const maxOrder = getNextOrder(fragment) - 1;
-  insertText(fragment, normalizedOffset, inserted.text, options);
-  const sortedAnnotations = [...inserted.annotations].sort((a, b) => {
-    if (a.order !== b.order) {
-      return a.order - b.order;
-    }
-    if (a.range[0] !== b.range[0]) {
-      return a.range[0] - b.range[0];
-    }
-    return a.range[1] - b.range[1];
-  });
-  for (let i = 0; i < sortedAnnotations.length; i++) {
-    const annotation = sortedAnnotations[i];
-    fragment.annotations.push({
-      ...annotation,
-      range: [
-        annotation.range[0] + normalizedOffset,
-        annotation.range[1] + normalizedOffset
-      ],
-      order: maxOrder + i + 1
-    });
-  }
-  fragment.annotations = mergeAdjacentMatchingAnnotations(fragment.annotations);
-}
-function splitFragment(fragment, offset) {
-  const splitOffset = clamp(offset, 0, fragment.text.length);
-  const before = {
-    text: fragment.text.slice(0, splitOffset),
-    annotations: []
-  };
-  const after = {
-    text: fragment.text.slice(splitOffset),
-    annotations: []
-  };
-  for (const annotation of fragment.annotations) {
-    const [start, end] = annotation.range;
-    const beforeStart = start;
-    const beforeEnd = Math.min(end, splitOffset);
-    if (beforeEnd > beforeStart) {
-      before.annotations.push({
-        ...annotation,
-        range: [beforeStart, beforeEnd]
-      });
-    }
-    const afterStart = Math.max(start, splitOffset) - splitOffset;
-    const afterEnd = end - splitOffset;
-    if (afterEnd > afterStart) {
-      after.annotations.push({
-        ...annotation,
-        range: [afterStart, afterEnd]
-      });
-    }
-  }
-  return { before, after };
-}
-function concatFragments(first3, second, separator = "") {
-  const joinOffset = getJoinOffsetAfterSeparator(first3, second, separator);
-  const secondOffset = first3.text.length + separator.length;
-  return {
-    fragment: {
-      text: first3.text + separator + second.text,
-      annotations: mergeAdjacentMatchingAnnotations([
-        ...first3.annotations.map((annotation) => ({
-          ...annotation,
-          range: [...annotation.range]
-        })),
-        ...second.annotations.map((annotation) => ({
-          ...annotation,
-          range: [
-            annotation.range[0] + secondOffset,
-            annotation.range[1] + secondOffset
-          ]
-        }))
-      ])
-    },
-    joinOffset
-  };
-}
-function joinFragments(first3, second) {
-  return concatFragments(first3, second, needsJoinSeparator(first3, second) ? "\n" : "");
-}
-function mergeAdjacentMatchingAnnotations(annotations) {
-  const sorted = [...annotations].sort((a, b) => {
-    if (a.order !== b.order) {
-      return a.order - b.order;
-    }
-    if (a.tag !== b.tag) {
-      return a.tag.localeCompare(b.tag);
-    }
-    if (a.range[0] !== b.range[0]) {
-      return a.range[0] - b.range[0];
-    }
-    return a.range[1] - b.range[1];
-  });
-  const merged = [];
-  for (const annotation of sorted) {
-    const previous = merged[merged.length - 1];
-    if (previous && previous.order === annotation.order && previous.tag === annotation.tag && previous.range[1] === annotation.range[0]) {
-      previous.range = [
-        previous.range[0],
-        annotation.range[1]
-      ];
-    } else {
-      merged.push({
-        ...annotation,
-        range: [...annotation.range]
-      });
-    }
-  }
-  return merged;
-}
-function needsJoinSeparator(first3, second) {
-  if (first3.text.length === 0 || second.text.length === 0) {
-    return false;
-  }
-  return !first3.text.endsWith("\n") && !second.text.startsWith("\n");
-}
-function transformDeletedOffset(offset, deleteStart, deleteEnd) {
-  if (offset <= deleteStart) {
-    return offset;
-  }
-  if (offset >= deleteEnd) {
-    return offset - (deleteEnd - deleteStart);
-  }
-  return deleteStart;
-}
-function clamp(value, min, max) {
-  return Math.max(min, Math.min(max, value));
-}
-
-// ../../poef/cobalt-note/packages/rich-text-note/dist/commands.js
-var InsertTextCommand = class {
-  offset;
-  text;
-  options;
-  constructor(offset, text, options = {}) {
-    this.offset = offset;
-    this.text = text;
-    this.options = options;
-  }
-  apply(fragment) {
-    insertText(fragment, this.offset, this.text, this.options);
-  }
-};
-var InsertFragmentCommand = class {
-  offset;
-  fragmentToInsert;
-  options;
-  constructor(offset, fragmentToInsert, options = {}) {
-    this.offset = offset;
-    this.fragmentToInsert = fragmentToInsert;
-    this.options = options;
-  }
-  apply(fragment) {
-    insertFragment(fragment, this.offset, this.fragmentToInsert, this.options);
-  }
-};
-var DeleteRangeCommand = class {
-  startOffset;
-  endOffset;
-  constructor(startOffset, endOffset) {
-    this.startOffset = startOffset;
-    this.endOffset = endOffset;
-  }
-  apply(fragment) {
-    deleteRange(fragment, this.startOffset, this.endOffset);
-  }
-};
-var AddAnnotationCommand = class {
-  range;
-  tag;
-  constructor(range, tag) {
-    this.range = range;
-    this.tag = tag;
-  }
-  apply(fragment) {
-    addAnnotation(fragment, this.range, this.tag);
-  }
-};
-function applyCommands(fragment, commands2) {
-  for (const command of commands2) {
-    command.apply(fragment);
-  }
-}
-
-// ../../poef/cobalt-note/packages/rich-text-note/dist/registry.js
-var AnnotationRegistry = class {
-  definitions = /* @__PURE__ */ new Map();
-  register(definition) {
-    this.definitions.set(definition.name, definition);
-  }
-  get(name) {
-    return this.definitions.get(name);
-  }
-  getAll() {
-    return Array.from(this.definitions.values());
-  }
-  findByShortcut(event) {
-    const key = shortcutFromKeyboardEvent(event);
-    return this.getAll().find((definition) => definition.shortcut?.toLowerCase() === key);
-  }
-  findByTag(tag) {
-    const trimmed = tag.trim();
-    for (const definition of this.definitions.values()) {
-      if (trimmed === definition.tag) {
-        return {
-          name: definition.name,
-          enabled: true,
-          tag: definition.tag,
-          closeTag: createHtmlCloseTag(definition.tag),
-          priority: definition.priority ?? 100
-        };
-      }
-      if (trimmed === createInverseAnnotationTag(definition.tag)) {
-        return {
-          name: definition.name,
-          enabled: false,
-          priority: definition.priority ?? 100
-        };
-      }
-    }
-    return null;
-  }
-};
-var defaultRegistry = new AnnotationRegistry();
-defaultRegistry.register({
-  name: "__selection",
-  tag: '<span data-cobalt-selection="true">',
-  priority: -100,
-  supportsPending: false
-});
-defaultRegistry.register({
-  name: "link",
-  tag: "<a>",
-  priority: 0,
-  shortcut: "Ctrl+K",
-  supportsPending: false
-});
-defaultRegistry.register({
-  name: "underline",
-  tag: "<u>",
-  priority: 10,
-  shortcut: "Ctrl+U",
-  supportsPending: true
-});
-defaultRegistry.register({
-  name: "em",
-  tag: "<em>",
-  priority: 20,
-  shortcut: "Ctrl+I",
-  supportsPending: true
-});
-defaultRegistry.register({
-  name: "strong",
-  tag: "<strong>",
-  priority: 30,
-  shortcut: "Ctrl+B",
-  supportsPending: true
-});
-function parseAnnotationTag(tag, registry = defaultRegistry) {
-  const trimmed = tag.trim();
-  const registryMatch = registry.findByTag(trimmed);
-  if (registryMatch) {
-    return registryMatch;
-  }
-  if (isOpeningTag(trimmed, "a")) {
-    return {
-      name: "link",
-      enabled: true,
-      tag: trimmed,
-      closeTag: createHtmlCloseTag(trimmed),
-      priority: registry.get("link")?.priority ?? 0
-    };
-  }
-  if (isClosingTag(trimmed, "a")) {
-    return {
-      name: "link",
-      enabled: false,
-      priority: registry.get("link")?.priority ?? 0
-    };
-  }
-  if (isCobaltSelectionOpeningTag(trimmed)) {
-    return {
-      name: "__selection",
-      enabled: true,
-      tag: trimmed,
-      closeTag: createHtmlCloseTag(trimmed),
-      priority: registry.get("__selection")?.priority ?? -100
-    };
-  }
-  return null;
-}
-function createAnnotationTag(name, enabled, registry = defaultRegistry) {
-  const definition = registry.get(name);
-  if (!definition) {
-    throw new Error(`Unknown annotation type: ${name}`);
-  }
-  return enabled ? definition.tag : createInverseAnnotationTag(definition.tag);
-}
-function createLinkAnnotationTag(href) {
-  return `<a href="${escapeAttribute(href)}">`;
-}
-function createInverseAnnotationTag(openingTag) {
-  const trimmed = openingTag.trim();
-  if (!trimmed.startsWith("<") || trimmed.startsWith("</")) {
-    throw new Error(`Expected opening annotation tag: ${openingTag}`);
-  }
-  return `</${trimmed.slice(1)}`;
-}
-function createHtmlCloseTag(tag) {
-  const tagName = getTagName(tag);
-  if (!tagName) {
-    throw new Error(`Could not determine tag name: ${tag}`);
-  }
-  return `</${tagName}>`;
-}
-function getTagName(tag) {
-  const match = tag.trim().match(/^<\/?\s*([^\s>/]+)/);
-  return match?.[1] ?? null;
-}
-function isOpeningTag(tag, tagName) {
-  return new RegExp(`^<${tagName}(?:\\s[^>]*)?>$`, "i").test(tag);
-}
-function isClosingTag(tag, tagName) {
-  return new RegExp(`^</${tagName}(?:\\s[^>]*)?>$`, "i").test(tag);
-}
-function isCobaltSelectionOpeningTag(tag) {
-  return /^<span\s[^>]*data-cobalt-selection=["']true["'][^>]*>$/i.test(tag);
-}
-function shortcutFromKeyboardEvent(event) {
-  const parts = [];
-  if (event.ctrlKey) {
-    parts.push("ctrl");
-  }
-  if (event.metaKey) {
-    parts.push("meta");
-  }
-  if (event.altKey) {
-    parts.push("alt");
-  }
-  if (event.shiftKey) {
-    parts.push("shift");
-  }
-  parts.push(event.key.toLowerCase());
-  return parts.join("+");
-}
-function escapeAttribute(value) {
-  return value.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
-}
-
-// ../../poef/cobalt-note/packages/rich-text-note/dist/editor-state.js
-function createEditorState() {
-  return {
-    pending: {}
-  };
-}
-function buildPendingAnnotations(state, start, end, registry = defaultRegistry) {
-  const result = [];
-  for (const name of Object.keys(state.pending)) {
-    const enabled = state.pending[name];
-    if (enabled === void 0) {
-      continue;
-    }
-    result.push({
-      start,
-      end,
-      tag: createAnnotationTag(name, enabled, registry)
-    });
-  }
-  return result;
-}
-function clearPendingAnnotations(state) {
-  for (const name of Object.keys(state.pending)) {
-    delete state.pending[name];
-  }
-}
-
-// ../../poef/cobalt-note/packages/rich-text-note/dist/clipboard.js
-var COBALT_CLIPBOARD_MIME = "application/x-cobalt-fragment+json";
-function writeFragmentToClipboard(clipboardData, fragment) {
-  clipboardData.setData("text/plain", fragment.text);
-  clipboardData.setData(COBALT_CLIPBOARD_MIME, JSON.stringify(fragment));
-}
-function readFragmentFromClipboard(clipboardData) {
-  const serialized = clipboardData.getData(COBALT_CLIPBOARD_MIME);
-  if (serialized) {
-    const parsed = JSON.parse(serialized);
-    return normalizeClipboardFragment(parsed);
-  }
-  return {
-    text: clipboardData.getData("text/plain"),
-    annotations: []
-  };
-}
-function getClipboardFragment(fragment, start, end) {
-  return sliceFragment(fragment, start, end);
-}
-function normalizeClipboardFragment(fragment) {
-  const text = typeof fragment.text === "string" ? fragment.text : "";
-  const annotations = Array.isArray(fragment.annotations) ? fragment.annotations.filter((annotation) => Array.isArray(annotation.range) && annotation.range.length === 2 && typeof annotation.range[0] === "number" && typeof annotation.range[1] === "number" && typeof annotation.tag === "string" && typeof annotation.order === "number").map((annotation) => ({
-    range: [
-      Math.max(0, Math.min(text.length, annotation.range[0])),
-      Math.max(0, Math.min(text.length, annotation.range[1]))
-    ],
-    tag: annotation.tag,
-    order: annotation.order
-  })).filter((annotation) => annotation.range[1] > annotation.range[0]) : [];
-  return {
-    text,
-    annotations
-  };
-}
-
-// ../../poef/cobalt-note/packages/rich-text-note/dist/runs.js
-function createEmptyState() {
-  return {};
-}
-function getEffectiveState(annotations, offset) {
-  const state = createEmptyState();
-  const activeAnnotations = annotations.filter((annotation) => offset >= annotation.range[0] && offset < annotation.range[1]).sort((a, b) => a.order - b.order);
-  for (const annotation of activeAnnotations) {
-    applyAnnotationToState(state, annotation.tag);
-  }
-  return state;
-}
-function getTypingEffectiveState(annotations, offset) {
-  const state = createEmptyState();
-  const activeAnnotations = annotations.filter((annotation) => {
-    const [start, end] = annotation.range;
-    return start < offset && offset <= end;
-  }).sort((a, b) => a.order - b.order);
-  for (const annotation of activeAnnotations) {
-    applyAnnotationToState(state, annotation.tag);
-  }
-  return state;
-}
-function generateRuns(fragment) {
-  const boundaries = /* @__PURE__ */ new Set();
-  boundaries.add(0);
-  boundaries.add(fragment.text.length);
-  for (const annotation of fragment.annotations) {
-    boundaries.add(annotation.range[0]);
-    boundaries.add(annotation.range[1]);
-  }
-  const sortedBoundaries = Array.from(boundaries).filter((boundary) => boundary >= 0 && boundary <= fragment.text.length).sort((a, b) => a - b);
-  const runs = [];
-  for (let i = 0; i < sortedBoundaries.length - 1; i++) {
-    const start = sortedBoundaries[i];
-    const end = sortedBoundaries[i + 1];
-    if (start === end) {
-      continue;
-    }
-    runs.push({
-      start,
-      end,
-      state: getEffectiveState(fragment.annotations, start)
-    });
-  }
-  return mergeAdjacentRuns(runs);
-}
-function stateEquals(a, b) {
-  const aKeys = Object.keys(a).sort();
-  const bKeys = Object.keys(b).sort();
-  if (aKeys.length !== bKeys.length) {
-    return false;
-  }
-  for (let i = 0; i < aKeys.length; i++) {
-    const key = aKeys[i];
-    if (key !== bKeys[i]) {
-      return false;
-    }
-    if (a[key].tag !== b[key].tag || a[key].priority !== b[key].priority) {
-      return false;
-    }
-  }
-  return true;
-}
-function mergeAdjacentRuns(runs) {
-  if (runs.length === 0) {
-    return [];
-  }
-  const merged = [
-    {
-      start: runs[0].start,
-      end: runs[0].end,
-      state: copyState(runs[0].state)
-    }
-  ];
-  for (let i = 1; i < runs.length; i++) {
-    const current = runs[i];
-    const previous = merged[merged.length - 1];
-    if (previous.end === current.start && stateEquals(previous.state, current.state)) {
-      previous.end = current.end;
-    } else {
-      merged.push({
-        start: current.start,
-        end: current.end,
-        state: copyState(current.state)
-      });
-    }
-  }
-  return merged;
-}
-function copyState(state) {
-  return Object.fromEntries(Object.entries(state).map(([key, value]) => [
-    key,
-    { ...value }
-  ]));
-}
-function applyAnnotationToState(state, tag) {
-  const parsed = parseAnnotationTag(tag);
-  if (!parsed) {
-    return;
-  }
-  if (!parsed.enabled) {
-    delete state[parsed.name];
-    return;
-  }
-  if (!parsed.tag) {
-    return;
-  }
-  state[parsed.name] = {
-    name: parsed.name,
-    tag: parsed.tag,
-    priority: parsed.priority
-  };
-}
-
-// ../../poef/cobalt-note/packages/rich-text-note/dist/render.js
-function render(fragment) {
-  const runs = generateRuns(fragment);
-  let html2 = "";
-  let openTags = [];
-  for (const run of runs) {
-    const nextTags = getRenderTags(run.state);
-    const sharedPrefixLength = getSharedPrefixLength(openTags, nextTags);
-    for (let i = openTags.length - 1; i >= sharedPrefixLength; i--) {
-      html2 += openTags[i].close;
-    }
-    for (let i = sharedPrefixLength; i < nextTags.length; i++) {
-      html2 += nextTags[i].open;
-    }
-    html2 += escapeHtml(fragment.text.slice(run.start, run.end));
-    openTags = nextTags;
-  }
-  for (let i = openTags.length - 1; i >= 0; i--) {
-    html2 += openTags[i].close;
-  }
-  return appendTrailingNewlineSentinel(fragment, html2);
-}
-function appendTrailingNewlineSentinel(fragment, html2) {
-  if (!fragment.text.endsWith("\n")) {
-    return html2;
-  }
-  return `${html2}<span data-cobalt-sentinel="true">\u200B</span>`;
-}
-function getRenderTags(state) {
-  return Object.values(state).sort(compareActiveAnnotations).map((annotation) => ({
-    key: `${annotation.name}:${annotation.tag}`,
-    open: annotation.tag,
-    close: createHtmlCloseTag(annotation.tag)
-  }));
-}
-function compareActiveAnnotations(a, b) {
-  if (a.priority !== b.priority) {
-    return a.priority - b.priority;
-  }
-  return a.name.localeCompare(b.name);
-}
-function getSharedPrefixLength(current, next) {
-  const length = Math.min(current.length, next.length);
-  for (let i = 0; i < length; i++) {
-    if (current[i].key !== next[i].key) {
-      return i;
-    }
-  }
-  return length;
-}
-function escapeHtml(text) {
-  return text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
-}
-
-// ../../poef/cobalt-note/packages/note-core/dist/selection.js
-function getTextNodes(root) {
-  const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT);
-  const nodes = [];
-  let current = walker.nextNode();
-  while (current) {
-    const text = current;
-    if (!isSentinelTextNode(text)) {
-      nodes.push(text);
-    }
-    current = walker.nextNode();
-  }
-  return nodes;
-}
-function getOffset(root, targetNode, targetOffset) {
-  const result = getOffsetFromPosition(root, targetNode, targetOffset);
-  return result ?? getTextLength(root);
-}
-function getDomPosition(root, offset) {
-  const textNodes = getTextNodes(root);
-  if (textNodes.length === 0) {
-    return {
-      node: root,
-      offset: 0
-    };
-  }
-  let currentOffset = 0;
-  for (const node of textNodes) {
-    const length = node.textContent?.length ?? 0;
-    if (offset <= currentOffset + length) {
-      return {
-        node,
-        offset: offset - currentOffset
-      };
-    }
-    currentOffset += length;
-  }
-  const lastNode = textNodes[textNodes.length - 1];
-  return {
-    node: lastNode,
-    offset: lastNode.textContent?.length ?? 0
-  };
-}
-function getSelectionRange(root) {
-  const selection = window.getSelection();
-  if (!selection || selection.rangeCount === 0) {
-    return null;
-  }
-  const range = selection.getRangeAt(0);
-  if (!root.contains(range.startContainer) || !root.contains(range.endContainer)) {
-    return null;
-  }
-  const start = getOffset(root, range.startContainer, range.startOffset);
-  const end = getOffset(root, range.endContainer, range.endOffset);
-  return {
-    start: Math.min(start, end),
-    end: Math.max(start, end)
-  };
-}
-function setSelectionRange(root, start, end) {
-  const startPosition = getDomPosition(root, start);
-  const endPosition = getDomPosition(root, end);
-  const range = document.createRange();
-  range.setStart(startPosition.node, startPosition.offset);
-  range.setEnd(endPosition.node, endPosition.offset);
-  const selection = window.getSelection();
-  if (!selection) {
-    return false;
-  }
-  selection.removeAllRanges();
-  selection.addRange(range);
-  return true;
-}
-function getCaretClientRect(root, offset) {
-  const textLength = getTextLength(root);
-  if (offset === textLength) {
-    const sentinel = getSentinelTextNode(root);
-    if (sentinel) {
-      const sentinelRect = getTextNodeCaretRect(sentinel, 0);
-      if (sentinelRect) {
-        return sentinelRect;
-      }
-    }
-  }
-  const position = getDomPosition(root, offset);
-  const range = document.createRange();
-  range.setStart(position.node, position.offset);
-  range.collapse(true);
-  const rect = firstRect(range);
-  if (rect) {
-    return rect;
-  }
-  return getMarkerRect(root, range);
-}
-function isOffsetOnFirstVisualLine(root, offset, tolerance = 3) {
-  const current = getCaretClientRect(root, offset);
-  const first3 = getCaretClientRect(root, 0);
-  if (!current || !first3) {
-    return false;
-  }
-  return current.top <= first3.top + tolerance;
-}
-function isOffsetOnLastVisualLine(root, offset, textLength, tolerance = 3) {
-  const current = getCaretClientRect(root, offset);
-  const last = getCaretClientRect(root, textLength);
-  if (!current || !last) {
-    return false;
-  }
-  return current.bottom >= last.bottom - tolerance;
-}
-function getOffsetAtPoint(root, x, y) {
-  const nearestOffset = getNearestCaretOffset(root, x, y);
-  if (nearestOffset !== null) {
-    return nearestOffset;
-  }
-  const position = getDomPositionFromPoint(x, y);
-  if (!position || !root.contains(position.node)) {
-    return getNearestBoundaryOffset(root, y);
-  }
-  return getOffset(root, position.node, position.offset);
-}
-function getWordRangeAtPoint(root, x, y) {
-  const offset = getOffsetAtPoint(root, x, y);
-  const text = getRootText(root);
-  return getWordRange(text, offset);
-}
-function getParagraphRangeAtPoint(root, x, y) {
-  const offset = getOffsetAtPoint(root, x, y);
-  const text = getRootText(root);
-  return getParagraphRange(text, offset);
-}
-function getWordRange(text, offset) {
-  if (text.length === 0) {
-    return { start: 0, end: 0 };
-  }
-  const clampedOffset = Math.max(0, Math.min(offset, text.length));
-  let index = clampedOffset;
-  if (index === text.length || !isWordCharacter(text[index])) {
-    index = Math.max(0, index - 1);
-  }
-  if (!isWordCharacter(text[index])) {
-    return {
-      start: clampedOffset,
-      end: clampedOffset
-    };
-  }
-  let start = index;
-  let end = index + 1;
-  while (start > 0 && isWordCharacter(text[start - 1])) {
-    start--;
-  }
-  while (end < text.length && isWordCharacter(text[end])) {
-    end++;
-  }
-  return { start, end };
-}
-function getParagraphRange(text, offset) {
-  const clampedOffset = Math.max(0, Math.min(offset, text.length));
-  let start = clampedOffset;
-  let end = clampedOffset;
-  while (start > 0 && text[start - 1] !== "\n") {
-    start--;
-  }
-  while (end < text.length && text[end] !== "\n") {
-    end++;
-  }
-  return { start, end };
-}
-function isWordCharacter(character) {
-  return character !== void 0 && /[\p{L}\p{N}_]/u.test(character);
-}
-function getRootText(root) {
-  return getTextNodes(root).map((node) => node.textContent ?? "").join("");
-}
-function getNearestCaretOffset(root, x, y) {
-  const textLength = getTextLength(root);
-  let best = null;
-  for (let offset = 0; offset <= textLength; offset++) {
-    const rect = getCaretClientRect(root, offset);
-    if (!rect) {
-      continue;
-    }
-    const verticalDistance = getVerticalDistanceToRect(y, rect);
-    const horizontalDistance = Math.abs(x - rect.left);
-    if (!best || verticalDistance < best.verticalDistance || verticalDistance === best.verticalDistance && horizontalDistance < best.horizontalDistance) {
-      best = {
-        offset,
-        verticalDistance,
-        horizontalDistance
-      };
-    }
-  }
-  return best?.offset ?? null;
-}
-function getVerticalDistanceToRect(y, rect) {
-  if (y >= rect.top && y <= rect.bottom) {
-    return 0;
-  }
-  return Math.min(Math.abs(y - rect.top), Math.abs(y - rect.bottom));
-}
-function getDomPositionFromPoint(x, y) {
-  const doc = document;
-  if (doc.caretPositionFromPoint) {
-    const position = doc.caretPositionFromPoint(x, y);
-    if (position) {
-      return {
-        node: position.offsetNode,
-        offset: position.offset
-      };
-    }
-  }
-  if (doc.caretRangeFromPoint) {
-    const range = doc.caretRangeFromPoint(x, y);
-    if (range) {
-      return {
-        node: range.startContainer,
-        offset: range.startOffset
-      };
-    }
-  }
-  return null;
-}
-function getNearestBoundaryOffset(root, y) {
-  const rect = root.getBoundingClientRect();
-  if (y <= rect.top) {
-    return 0;
-  }
-  return getTextLength(root);
-}
-function getTextNodeCaretRect(node, offset) {
-  const range = document.createRange();
-  range.setStart(node, offset);
-  range.collapse(true);
-  const rect = firstRect(range);
-  if (rect) {
-    return rect;
-  }
-  return node.parentElement?.getBoundingClientRect() ?? null;
-}
-function getSentinelTextNode(root) {
-  const sentinel = root.querySelector('[data-cobalt-sentinel="true"]');
-  const node = sentinel?.firstChild;
-  return node?.nodeType === Node.TEXT_NODE ? node : null;
-}
-function firstRect(range) {
-  const rects = Array.from(range.getClientRects());
-  return rects.length > 0 ? rects[0] : null;
-}
-function getMarkerRect(root, range) {
-  const marker = document.createElement("span");
-  marker.setAttribute("data-cobalt-caret-marker", "true");
-  marker.textContent = "\u200B";
-  range.insertNode(marker);
-  const rect = marker.getBoundingClientRect();
-  marker.remove();
-  root.normalize();
-  return rect.width === 0 && rect.height === 0 ? null : rect;
-}
-function getOffsetFromPosition(root, targetNode, targetOffset) {
-  let offset = 0;
-  let found = false;
-  function walk(node) {
-    if (found) {
-      return;
-    }
-    if (node === targetNode) {
-      if (node.nodeType === Node.TEXT_NODE) {
-        const text = node;
-        if (!isSentinelTextNode(text)) {
-          offset += Math.min(targetOffset, text.textContent?.length ?? 0);
-        }
-      } else {
-        for (let i = 0; i < targetOffset; i++) {
-          offset += getTextLength(node.childNodes[i]);
-        }
-      }
-      found = true;
-      return;
-    }
-    if (node.nodeType === Node.TEXT_NODE) {
-      offset += getTextLength(node);
-      return;
-    }
-    for (const child of Array.from(node.childNodes)) {
-      walk(child);
-    }
-  }
-  walk(root);
-  return found ? offset : null;
-}
-function getTextLength(node) {
-  if (!node) {
-    return 0;
-  }
-  if (node.nodeType === Node.TEXT_NODE) {
-    const text = node;
-    return isSentinelTextNode(text) ? 0 : text.textContent?.length ?? 0;
-  }
-  let length = 0;
-  for (const child of Array.from(node.childNodes)) {
-    length += getTextLength(child);
-  }
-  return length;
-}
-function isSentinelTextNode(node) {
-  return node.parentElement?.hasAttribute("data-cobalt-sentinel") ?? false;
-}
-
-// ../../poef/cobalt-note/packages/rich-text-note/dist/editor.js
-var RICH_TEXT_NOTE_FRAGMENT_TYPE = "cobalt.rich-text";
-function cloneFragment(fragment) {
-  return {
-    text: fragment.text,
-    annotations: fragment.annotations.map((annotation) => ({
-      ...annotation,
-      range: [...annotation.range]
-    }))
-  };
-}
-function replaceFragment(target, source2) {
-  target.text = source2.text;
-  target.annotations = source2.annotations.map((annotation) => ({
-    ...annotation,
-    range: [...annotation.range]
-  }));
-}
-function wrapRichTextFragment(fragment) {
-  return {
-    type: RICH_TEXT_NOTE_FRAGMENT_TYPE,
-    data: cloneFragment(fragment)
-  };
-}
-function isFragment(value) {
-  if (!value || typeof value !== "object") {
-    return false;
-  }
-  const fragment = value;
-  return typeof fragment.text === "string" && Array.isArray(fragment.annotations);
-}
-function isRichTextNotebookFragment(fragment) {
-  return fragment.type === RICH_TEXT_NOTE_FRAGMENT_TYPE && isFragment(fragment.data);
-}
-function renderDecoratedFragment(fragment, ranges, active = true) {
-  if (ranges.length === 0) {
-    return render(fragment);
-  }
-  const maxOrder = fragment.annotations.reduce((max, annotation) => Math.max(max, annotation.order), 0);
-  const annotations = [
-    ...fragment.annotations,
-    ...ranges.filter((range) => range !== null && range.end > range.start).map((range, index) => ({
-      range: [range.start, range.end],
-      tag: active ? '<span data-cobalt-selection="true" data-cobalt-selection-active="true">' : '<span data-cobalt-selection="true" data-cobalt-selection-active="false">',
-      order: maxOrder + index + 1
-    }))
-  ];
-  return render({
-    text: fragment.text,
-    annotations
-  });
-}
-function edit(element2, fragment) {
-  const state = createEditorState();
-  let selectionDecorationRanges = [];
-  let selectionDecorationActive = true;
-  function rerender(start, end) {
-    element2.innerHTML = renderDecoratedFragment(fragment, selectionDecorationRanges, selectionDecorationActive);
-    if (start !== void 0 && end !== void 0) {
-      setSelectionRange(element2, start, end);
-    }
-  }
-  const editor = {
-    element: element2,
-    fragment,
-    state,
-    getType() {
-      return RICH_TEXT_NOTE_FRAGMENT_TYPE;
-    },
-    getValue() {
-      return cloneFragment(fragment);
-    },
-    setValue(value) {
-      if (!isFragment(value)) {
-        throw new Error("Expected a rich-text fragment value.");
-      }
-      replaceFragment(fragment, value);
-      const selection = getSelectionRange(element2);
-      rerender(selection?.start, selection?.end);
-    },
-    getLength() {
-      return fragment.text.length;
-    },
-    getText(start = 0, end = fragment.text.length) {
-      return fragment.text.slice(Math.max(0, Math.min(fragment.text.length, start)), Math.max(0, Math.min(fragment.text.length, end)));
-    },
-    focus(start = 0, end = start) {
-      element2.focus();
-      setSelectionRange(element2, start, end);
-    },
-    getSelection() {
-      return getSelectionRange(element2);
-    },
-    getCaretClientRect(offset) {
-      if (offset !== void 0) {
-        return getCaretClientRect(element2, offset);
-      }
-      const selection = getSelectionRange(element2);
-      if (!selection || selection.start !== selection.end) {
-        return null;
-      }
-      return getCaretClientRect(element2, selection.start);
-    },
-    isCaretOnFirstVisualLine() {
-      const selection = getSelectionRange(element2);
-      if (!selection || selection.start !== selection.end) {
-        return false;
-      }
-      return isOffsetOnFirstVisualLine(element2, selection.start);
-    },
-    isCaretOnLastVisualLine() {
-      const selection = getSelectionRange(element2);
-      if (!selection || selection.start !== selection.end) {
-        return false;
-      }
-      return isOffsetOnLastVisualLine(element2, selection.start, fragment.text.length);
-    },
-    focusNearestPoint(x, y) {
-      const offset = getOffsetAtPoint(element2, x, y);
-      this.focus(offset, offset);
-    },
-    getOffsetAtPoint(x, y) {
-      return getOffsetAtPoint(element2, x, y);
-    },
-    getWordRangeAtPoint(x, y) {
-      return getWordRangeAtPoint(element2, x, y);
-    },
-    getParagraphRangeAtPoint(x, y) {
-      return getParagraphRangeAtPoint(element2, x, y);
-    },
-    getClientRect() {
-      return element2.getBoundingClientRect();
-    },
-    showSelectionRanges(ranges, active = true) {
-      selectionDecorationActive = active;
-      selectionDecorationRanges = ranges.filter((range) => range !== null && range.end > range.start);
-      const selection = getSelectionRange(element2);
-      rerender(selection?.start, selection?.end);
-    },
-    clearSelectionRanges() {
-      if (selectionDecorationRanges.length === 0) {
-        return;
-      }
-      selectionDecorationRanges = [];
-      const selection = getSelectionRange(element2);
-      rerender(selection?.start, selection?.end);
-    },
-    deleteRange(start, end) {
-      deleteRange(fragment, start, end);
-      rerender(start, start);
-    },
-    insertText(offset, text) {
-      insertText(fragment, offset, text);
-      const caret = Math.min(fragment.text.length, Math.max(0, offset) + text.length);
-      rerender(caret, caret);
-    },
-    sliceFragment(start, end) {
-      return wrapRichTextFragment(sliceFragment(fragment, start, end));
-    },
-    canInsertFragment(notebookFragment) {
-      return isRichTextNotebookFragment(notebookFragment);
-    },
-    insertFragment(offset, notebookFragment) {
-      if (!isRichTextNotebookFragment(notebookFragment)) {
-        return offset;
-      }
-      const inserted = notebookFragment.data;
-      insertFragment(fragment, offset, inserted);
-      const caret = Math.min(fragment.text.length, Math.max(0, offset) + inserted.text.length);
-      rerender(caret, caret);
-      return caret;
-    },
-    splitFragment(offset) {
-      const result = splitFragment(fragment, offset);
-      return {
-        before: wrapRichTextFragment(result.before),
-        after: wrapRichTextFragment(result.after)
-      };
-    },
-    canMergeFragment(notebookFragment, _direction) {
-      return isRichTextNotebookFragment(notebookFragment);
-    },
-    mergeFragment(notebookFragment, direction) {
-      if (!isRichTextNotebookFragment(notebookFragment)) {
-        return null;
-      }
-      const result = direction === "after" ? joinFragments(fragment, notebookFragment.data) : joinFragments(notebookFragment.data, fragment);
-      return {
-        fragment: wrapRichTextFragment(result.fragment),
-        joinOffset: result.joinOffset
-      };
-    },
-    canApplyCommand(command, range, value) {
-      if (range.end <= range.start || command === "__selection") {
-        return false;
-      }
-      if (command === "link") {
-        return typeof value === "string" && value.length > 0;
-      }
-      return defaultRegistry.get(command) !== void 0;
-    },
-    getCommandState(command, offset) {
-      return getEffectiveState(fragment.annotations, offset)[command];
-    },
-    applyCommand(command, range, value) {
-      if (!this.canApplyCommand(command, range, value)) {
-        return false;
-      }
-      const tag = command === "link" && typeof value === "string" ? createLinkAnnotationTag(value) : createAnnotationTag(command, value !== false);
-      addAnnotation(fragment, [range.start, range.end], tag);
-      rerender(range.start, range.end);
-      return true;
-    },
-    destroy() {
-      element2.removeEventListener("keydown", handleKeyDown);
-      element2.removeEventListener("beforeinput", handleBeforeInput);
-      element2.removeEventListener("copy", handleCopy);
-      element2.removeEventListener("cut", handleCut);
-      element2.removeEventListener("paste", handlePaste);
-      element2.removeAttribute("contenteditable");
-    }
-  };
-  function handleKeyDown(event) {
-    if (event.key === "Enter") {
-      if (event.ctrlKey || event.metaKey || event.altKey) {
-        return;
-      }
-      event.preventDefault();
-      insertNewline();
-      return;
-    }
-    if (!event.ctrlKey) {
-      return;
-    }
-    const definition = defaultRegistry.findByShortcut(event);
-    if (!definition) {
-      return;
-    }
-    event.preventDefault();
-    if (definition.name === "link") {
-      addLink();
-      return;
-    }
-    toggleAnnotation(definition);
-  }
-  function handleBeforeInput(event) {
-    const inputEvent = event;
-    const selection = getSelectionRange(element2);
-    if (!selection) {
-      return;
-    }
-    const commands2 = buildInputCommands(inputEvent, selection.start, selection.end);
-    if (commands2.length === 0) {
-      return;
-    }
-    event.preventDefault();
-    applyCommands(fragment, commands2);
-    const caret = getNextCaretPosition(inputEvent, selection.start, selection.end);
-    rerender(caret, caret);
-  }
-  function handleCopy(event) {
-    const selection = getSelectionRange(element2);
-    if (!selection || selection.start === selection.end || !event.clipboardData) {
-      return;
-    }
-    event.preventDefault();
-    writeFragmentToClipboard(event.clipboardData, getClipboardFragment(fragment, selection.start, selection.end));
-  }
-  function handleCut(event) {
-    const selection = getSelectionRange(element2);
-    if (!selection || selection.start === selection.end || !event.clipboardData) {
-      return;
-    }
-    event.preventDefault();
-    writeFragmentToClipboard(event.clipboardData, getClipboardFragment(fragment, selection.start, selection.end));
-    applyCommands(fragment, [
-      new DeleteRangeCommand(selection.start, selection.end)
-    ]);
-    rerender(selection.start, selection.start);
-  }
-  function handlePaste(event) {
-    const selection = getSelectionRange(element2);
-    if (!selection || !event.clipboardData) {
-      return;
-    }
-    event.preventDefault();
-    const pastedFragment = readFragmentFromClipboard(event.clipboardData);
-    const commands2 = [];
-    if (selection.start !== selection.end) {
-      commands2.push(new DeleteRangeCommand(selection.start, selection.end));
-    }
-    commands2.push(new InsertFragmentCommand(selection.start, pastedFragment));
-    applyCommands(fragment, commands2);
-    const caret = selection.start + pastedFragment.text.length;
-    rerender(caret, caret);
-  }
-  function toggleAnnotation(definition) {
-    const selection = getSelectionRange(element2);
-    if (!selection) {
-      return;
-    }
-    if (selection.start === selection.end) {
-      const inheritedState = getTypingEffectiveState(fragment.annotations, selection.start);
-      if (!definition.supportsPending) {
-        return;
-      }
-      const inheritedEnabled = inheritedState[definition.name] !== void 0;
-      const currentTypingEnabled = state.pending[definition.name] ?? inheritedEnabled;
-      const nextTypingEnabled = !currentTypingEnabled;
-      if (nextTypingEnabled === inheritedEnabled) {
-        delete state.pending[definition.name];
-      } else {
-        state.pending[definition.name] = nextTypingEnabled;
-      }
-      rerender(selection.start, selection.end);
-      return;
-    }
-    const currentState = getEffectiveState(fragment.annotations, selection.start);
-    const tag = createAnnotationTag(definition.name, currentState[definition.name] === void 0);
-    applyCommands(fragment, [
-      new AddAnnotationCommand([selection.start, selection.end], tag)
-    ]);
-    rerender(selection.start, selection.end);
-  }
-  function insertNewline() {
-    const selection = getSelectionRange(element2);
-    if (!selection) {
-      return;
-    }
-    const commands2 = [];
-    if (selection.start !== selection.end) {
-      commands2.push(new DeleteRangeCommand(selection.start, selection.end));
-    }
-    commands2.push(new InsertTextCommand(selection.start, "\n", { growAtEnd: false }));
-    applyCommands(fragment, commands2);
-    const caret = selection.start + 1;
-    rerender(caret, caret);
-  }
-  function addLink() {
-    const selection = getSelectionRange(element2);
-    if (!selection || selection.start === selection.end) {
-      return;
-    }
-    const href = promptForHref();
-    if (!href) {
-      return;
-    }
-    applyCommands(fragment, [
-      new AddAnnotationCommand([selection.start, selection.end], createLinkAnnotationTag(href))
-    ]);
-    rerender(selection.start, selection.end);
-  }
-  function promptForHref() {
-    const href = window.prompt("Enter URL");
-    if (href === null) {
-      return null;
-    }
-    const trimmed = href.trim();
-    return trimmed.length > 0 ? trimmed : null;
-  }
-  function buildInputCommands(event, selectionStart, selectionEnd) {
-    switch (event.inputType) {
-      case "insertText":
-      case "insertFromPaste":
-        return buildInsertCommands(selectionStart, selectionEnd, event.data ?? "");
-      case "deleteContentBackward":
-        return buildDeleteBackwardCommands(selectionStart, selectionEnd);
-      case "deleteContentForward":
-        return buildDeleteForwardCommands(selectionStart, selectionEnd);
-      case "insertParagraph":
-      case "insertLineBreak": {
-        const commands2 = [];
-        if (selectionStart !== selectionEnd) {
-          commands2.push(new DeleteRangeCommand(selectionStart, selectionEnd));
-        }
-        commands2.push(new InsertTextCommand(selectionStart, "\n", { growAtEnd: false }));
-        return commands2;
-      }
-      default:
-        return [];
-    }
-  }
-  function buildInsertCommands(selectionStart, selectionEnd, text) {
-    const commands2 = [];
-    if (selectionStart !== selectionEnd) {
-      commands2.push(new DeleteRangeCommand(selectionStart, selectionEnd));
-    }
-    if (text.length === 0) {
-      return commands2;
-    }
-    commands2.push(new InsertTextCommand(selectionStart, text));
-    const pendingAnnotations = buildPendingAnnotations(state, selectionStart, selectionStart + text.length);
-    for (const pending of pendingAnnotations) {
-      commands2.push(new AddAnnotationCommand([pending.start, pending.end], pending.tag));
-    }
-    if (pendingAnnotations.length > 0) {
-      clearPendingAnnotations(state);
-    }
-    return commands2;
-  }
-  function buildDeleteBackwardCommands(selectionStart, selectionEnd) {
-    if (selectionStart !== selectionEnd) {
-      return [
-        new DeleteRangeCommand(selectionStart, selectionEnd)
-      ];
-    }
-    if (selectionStart === 0) {
-      return [];
-    }
-    return [
-      new DeleteRangeCommand(selectionStart - 1, selectionStart)
-    ];
-  }
-  function buildDeleteForwardCommands(selectionStart, selectionEnd) {
-    if (selectionStart !== selectionEnd) {
-      return [
-        new DeleteRangeCommand(selectionStart, selectionEnd)
-      ];
-    }
-    if (selectionStart >= fragment.text.length) {
-      return [];
-    }
-    return [
-      new DeleteRangeCommand(selectionStart, selectionStart + 1)
-    ];
-  }
-  function getNextCaretPosition(event, selectionStart, selectionEnd) {
-    switch (event.inputType) {
-      case "insertText":
-      case "insertFromPaste":
-        return selectionStart + (event.data?.length ?? 0);
-      case "deleteContentBackward":
-        return selectionStart === selectionEnd ? Math.max(0, selectionStart - 1) : selectionStart;
-      case "deleteContentForward":
-        return selectionStart;
-      case "insertParagraph":
-      case "insertLineBreak":
-        return selectionStart + 1;
-      default:
-        return selectionStart;
-    }
-  }
-  element2.contentEditable = "true";
-  rerender();
-  element2.addEventListener("keydown", handleKeyDown);
-  element2.addEventListener("beforeinput", handleBeforeInput);
-  element2.addEventListener("copy", handleCopy);
-  element2.addEventListener("cut", handleCut);
-  element2.addEventListener("paste", handlePaste);
-  return editor;
-}
-
-// src/cobalt-editor-modal.html
-var cobalt_editor_modal_default = '<div class="margin-notes-editor-modal-dialog ds-dialog">\n  <div class="margin-notes-editor-modal-header">\n    <h2 data-title></h2>\n    <button type="button" data-action="cancel" class="margin-notes-editor-close ds-button ds-button-naked" aria-label="Close">x</button>\n  </div>\n  <div class="margin-notes-editor-modal-content">\n    <div class="margin-notes-cobalt-editor" data-editor-container></div>\n  </div>\n  <div class="margin-notes-editor-modal-footer">\n    <button type="button" data-action="cancel" class="margin-notes-editor-btn-cancel ds-button ds-button-default">Cancel</button>\n    <button type="button" data-action="save" class="margin-notes-editor-btn-save ds-button ds-button-primary">Save</button>\n  </div>\n</div>\n';
-
-// src/cobalt-editor-modal.css
-var cobalt_editor_modal_default2 = '.margin-notes-editor-modal {\n  background: transparent;\n  border: 0;\n  color: inherit;\n  color-scheme: var(--ds-color-scheme, light);\n  font-family: var(--ds-font-body, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif);\n  margin: auto;\n  max-height: min(80vh, 100%);\n  max-width: min(90vw, 600px);\n  overflow: visible;\n  padding: 0;\n  width: min(90vw, 600px);\n}\n\n.margin-notes-editor-modal:not(:popover-open) {\n  display: none;\n}\n\n.margin-notes-editor-modal:popover-open {\n  display: flex;\n}\n\n.margin-notes-editor-modal::backdrop {\n  background: rgba(0, 0, 0, 0.5);\n}\n\n.margin-notes-editor-modal-dialog {\n  display: flex;\n  flex-direction: column;\n  max-height: 80vh;\n  max-width: 600px;\n  position: relative;\n  width: 100%;\n}\n\n.margin-notes-editor-modal-header {\n  justify-content: space-between;\n  align-items: center;\n  border-bottom: 1px solid var(--ds-grey-low, #e5e7eb);\n  display: flex;\n  padding: var(--ds-space, 1.5rem);\n}\n\n.margin-notes-editor-modal-header h2 {\n  font-family: var(--ds-font-heading, inherit);\n  margin: 0;\n  font-size: 1.25rem;\n  font-weight: var(--ds-heading-weight, 600);\n}\n\n.margin-notes-editor-close {\n  align-items: center;\n  color: var(--ds-grey-medium, #6b7280);\n  display: flex;\n  font-size: 2rem;\n  height: 32px;\n  justify-content: center;\n  line-height: 1;\n  margin: 0;\n  padding: 0;\n  width: 32px;\n}\n\n.margin-notes-editor-close:hover {\n  background: var(--ds-grey-low, #f3f4f6);\n  color: var(--ds-grey-high, #1f2937);\n}\n\n.margin-notes-editor-modal-content {\n  flex: 1;\n  overflow-y: auto;\n  padding: var(--ds-space, 1.5rem);\n}\n\n.margin-notes-cobalt-editor {\n  background: var(--ds-color-background, #fff);\n  border: 1px solid var(--ds-input-border, #d1d5db);\n  border-radius: var(--ds-box-radius, 4px);\n  color: var(--ds-color-contrast, #111);\n  font-family: inherit;\n  font-size: 1rem;\n  line-height: 1.5;\n  max-height: 400px;\n  min-height: 150px;\n  overflow-y: auto;\n  padding: var(--ds-space-d2, 0.75rem);\n}\n\n.margin-notes-cobalt-editor[contenteditable="true"],\n.margin-notes-cobalt-editor textarea,\n.margin-notes-cobalt-editor input {\n  background: var(--ds-color-background, #fff);\n  color: var(--ds-color-contrast, #111);\n  caret-color: var(--ds-color-contrast, #111);\n}\n\n.margin-notes-cobalt-editor:focus-within {\n  background: var(--ds-color-background, white);\n  border-color: var(--ds-primary-high, #3b82f6);\n  outline: none;\n}\n\n.margin-notes-editor-modal-footer {\n  display: flex;\n  gap: var(--ds-space-d2, 0.75rem);\n  justify-content: flex-end;\n  border-top: 1px solid var(--ds-grey-low, #e5e7eb);\n  padding: var(--ds-space, 1.5rem);\n}\n\n.margin-notes-editor-btn-cancel,\n.margin-notes-editor-btn-save {\n  font-weight: 500;\n  margin: 0;\n}\n\n.margin-notes-editor-btn-cancel {\n  color: var(--ds-grey-high, #374151);\n}\n\n.margin-notes-editor-btn-cancel:hover {\n  background: var(--ds-grey-low, #f3f4f6);\n}\n';
-
-// src/cobalt-editor-modal.js
-var modalId = 0;
-var CobaltEditorModal = class {
-  constructor(options = {}) {
-    this.options = options;
-    this.modal = null;
-    this.editor = null;
-    this.fragment = options.initialFragment || { text: "", annotations: [] };
-  }
-  /**
-   * Show the modal and return a promise that resolves with the edited fragment.
-   * 
-   * @returns {Promise<Object>} The edited fragment, or null if cancelled
-   */
-  async show() {
-    return new Promise((resolve) => {
-      this.createModal();
-      const modal = this.modal;
-      let settled = false;
-      const finish = (value) => {
-        if (settled) return;
-        settled = true;
-        if (modal.matches(":popover-open")) {
-          modal.hidePopover();
-        }
-        this.destroy();
-        resolve(value);
-      };
-      const onSave = async () => {
-        const edited = this.editor.getValue();
-        finish(edited);
-      };
-      const onCancel = () => {
-        finish(null);
-      };
-      const onModalKeydown = (e) => {
-        if ((e.ctrlKey || e.metaKey) && e.key === "s") {
-          e.preventDefault();
-          e.stopPropagation();
-          onSave();
-          return;
-        }
-        e.stopPropagation();
-      };
-      const onToggle = (e) => {
-        if (e.newState === "closed") {
-          onCancel();
-        }
-      };
-      modal.querySelector('[data-action="save"]').addEventListener("click", onSave);
-      modal.addEventListener("keydown", onModalKeydown);
-      modal.addEventListener("toggle", onToggle);
-      modal.showPopover();
-      setTimeout(() => {
-        this.editor.focus();
-      }, 0);
-    });
-  }
-  /**
-   * Create the modal DOM structure.
-   * 
-   * @private
-   */
-  createModal() {
-    this.modal = document.createElement("div");
-    this.modal.className = "margin-notes-editor-modal";
-    modalId += 1;
-    this.modal.id = `margin-notes-editor-modal-${modalId}`;
-    this.modal.dataset.readerKeyScope = "margin-notes-editor";
-    this.modal.setAttribute("popover", "auto");
-    this.modal.innerHTML = cobalt_editor_modal_default;
-    this.modal.querySelector("[data-title]").textContent = this.options.title || "Edit note";
-    this.modal.querySelectorAll('[data-action="cancel"]').forEach((cancelBtn) => {
-      cancelBtn.setAttribute("popovertarget", this.modal.id);
-      cancelBtn.setAttribute("popovertargetaction", "hide");
-    });
-    document.body.appendChild(this.modal);
-    const editorContainer = this.modal.querySelector("[data-editor-container]");
-    this.editor = edit(editorContainer, this.fragment);
-  }
-  /**
-   * Destroy the modal and clean up.
-   * 
-   * @private
-   */
-  destroy() {
-    if (this.editor) {
-      this.editor.destroy();
-      this.editor = null;
-    }
-    if (this.modal) {
-      this.modal.remove();
-      this.modal = null;
-    }
-  }
-};
-
-// node_modules/@muze-nl/oldm-core/src/oldm.mjs
-var oldm_exports2 = {};
-__export(oldm_exports2, {
-  BlankNode: () => BlankNode3,
-  Collection: () => Collection2,
-  Context: () => Context2,
-  Graph: () => Graph2,
-  NamedNode: () => NamedNode3,
-  default: () => oldm3,
-  first: () => first2,
-  many: () => many2,
-  one: () => one2,
-  prefixes: () => prefixes2,
-  rdfType: () => rdfType2
-});
-function oldm3(options) {
-  return new Context2(options);
-}
-var rdfType2 = "http://www.w3.org/1999/02/22-rdf-syntax-ns#type";
-var prefixes2 = {
-  acl: "http://www.w3.org/ns/auth/acl#",
-  acp: "http://www.w3.org/ns/solid/acp#",
-  dcterms: "http://purl.org/dc/terms/",
-  foaf: "http://xmlns.com/foaf/0.1/",
-  ldn: "https://www.w3.org/ns/ldn#",
-  ldp: "http://www.w3.org/ns/ldp#",
-  notify: "http://www.w3.org/ns/solid/notifications#",
-  oidc: "http://www.w3.org/ns/solid/oidc#",
-  owl: "http://www.w3.org/2002/07/owl#",
-  pim: "http://www.w3.org/ns/pim/space#",
-  rdf: "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
-  rdfs: "http://www.w3.org/2000/01/rdf-schema#",
-  schema: "http://schema.org/",
-  solid: "http://www.w3.org/ns/solid/terms#",
-  stat: "http://www.w3.org/ns/posix/stat#",
-  turtle: "http://www.w3.org/ns/iana/media-types/text/turtle#",
-  vcard: "http://www.w3.org/2006/vcard/ns#",
-  xsd: "http://www.w3.org/2001/XMLSchema#"
-};
-function one2(values3, whichOne = "last") {
-  let result = values3;
-  if (Array.isArray(values3)) {
-    if (whichOne == "last") {
-      result = values3[values3.length - 1];
-    } else if (whichOne == "first") {
-      result = values3[0];
-    } else if (typeof whichOne == "function") {
-      result = whichOne(values3);
-    } else {
-      throw new Error("Unknown value for whichOne parameter");
-    }
-  }
-  return result;
-}
-function many2(values3) {
-  if (Array.isArray(values3)) {
-    return values3;
-  }
-  if (values3 == null) {
-    return [];
-  }
-  return [values3];
-}
-function first2(...values3) {
-  for (const value of values3) {
-    if (value !== null && value !== void 0) {
-      return value;
-    }
-  }
-  return null;
-}
-function values2(value) {
-  if (Array.isArray(value) && !(value instanceof Collection2)) {
-    return value;
-  }
-  if (value === void 0) {
-    return [];
-  }
-  return [value];
-}
-function mergeValue2(existing, value) {
-  const result = values2(existing);
-  for (const item of values2(value)) {
-    if (!result.some((existingItem) => sameValue2(existingItem, item))) {
-      result.push(item);
-    }
-  }
-  if (result.length == 0) {
-    return void 0;
-  }
-  if (result.length == 1) {
-    return result[0];
-  }
-  return result;
-}
-function sameValue2(left, right) {
-  if (left === right) {
-    return true;
-  }
-  if (left instanceof NamedNode3 && right instanceof NamedNode3) {
-    return left.id == right.id;
-  }
-  if (left instanceof NamedNode3 && typeof right == "string") {
-    return left.id == right;
-  }
-  if (typeof left == "string" && right instanceof NamedNode3) {
-    return left == right.id;
-  }
-  if (left instanceof Collection2 && right instanceof Collection2) {
-    return left.length == right.length && left.every((item, index) => sameValue2(item, right[index]));
-  }
-  if (isLiteral2(left) && isLiteral2(right)) {
-    return String(left) == String(right) && left?.type == right?.type && left?.language == right?.language;
-  }
-  return false;
-}
-function sameSourceValue2(left, right) {
-  if (left === right) {
-    return true;
-  }
-  if (left instanceof NamedNode3 && right instanceof NamedNode3) {
-    return left.id == right.id;
-  }
-  if (left instanceof NamedNode3 && typeof right == "string") {
-    return left.id == right;
-  }
-  if (typeof left == "string" && right instanceof NamedNode3) {
-    return left == right.id;
-  }
-  if (left instanceof Collection2 && right instanceof Collection2) {
-    return left.length == right.length && left.every((item, index) => sameSourceValue2(item, right[index]));
-  }
-  if (isLiteral2(left) && isLiteral2(right)) {
-    const leftType = left?.type;
-    const rightType = right?.type;
-    const leftLanguage = left?.language;
-    const rightLanguage = right?.language;
-    return String(left) == String(right) && (!leftType || !rightType || leftType == rightType) && (!leftLanguage || !rightLanguage || leftLanguage == rightLanguage);
-  }
-  return false;
-}
-function resolveValue2(value, subjects, context) {
-  if (value instanceof Collection2) {
-    const collection2 = new Collection2(context);
-    for (const item of value) {
-      collection2.push(resolveValue2(item, subjects, context));
-    }
-    return collection2;
-  }
-  if (Array.isArray(value)) {
-    return value.map((item) => resolveValue2(item, subjects, context));
-  }
-  if (value instanceof NamedNode3 && subjects[value.id]) {
-    return subjects[value.id];
-  }
-  return value;
-}
-function isLiteral2(value) {
-  return value instanceof String || value instanceof Number || typeof value == "boolean" || typeof value == "string" || typeof value == "number";
-}
-var Context2 = class {
-  #buildingSubjects = false;
-  constructor(options) {
-    const clientPrefixes = options?.prefixes ?? {};
-    this.prefixes = { ...prefixes2, ...clientPrefixes };
-    this.prefixOrder = [
-      ...Object.keys(clientPrefixes),
-      ...Object.keys(prefixes2).filter((prefix) => !(prefix in clientPrefixes))
-    ];
-    if (!this.prefixes["xsd"]) {
-      this.prefixes["xsd"] = "http://www.w3.org/2001/XMLSchema#";
-      this.prefixOrder.push("xsd");
-    }
-    this.parser = options?.parser;
-    this.writer = options?.writer;
-    this.patchWriter = options?.patchWriter;
-    this.graphs = [];
-    this.graphsByUrl = /* @__PURE__ */ Object.create(null);
-    this.defaultGraph = options?.defaultGraph ?? null;
-    this.separator = options?.separator ?? "$";
-    Object.defineProperty(this, "subjects", {
-      get() {
-        return this.getSubjects();
-      }
-    });
-    Object.defineProperty(this, "data", {
-      get() {
-        return Object.values(this.subjects);
-      }
-    });
-  }
-  parse(input2, url3, type) {
-    const { quads, prefixes: prefixes4 } = this.parser(input2, url3, type);
-    if (prefixes4) {
-      for (let prefix in prefixes4) {
-        let prefixURL = prefixes4[prefix];
-        if (prefixURL.match(/^http(s?):\/\/$/i)) {
-          prefixURL += url3.substring(prefixURL.length);
-        } else try {
-          prefixURL = new URL(prefixes4[prefix], url3).href;
-        } catch (err) {
-          console.error("Could not parse prefix", prefixes4[prefix], err.message);
-        }
-        if (!this.prefixes[prefix]) {
-          this.prefixes[prefix] = prefixURL;
-          this.prefixOrder.push(prefix);
-        }
-      }
-    }
-    return this.addGraph(new Graph2(quads, url3, type, prefixes4, this, input2));
-  }
-  addGraph(graph2) {
-    if (!graph2?.url) {
-      throw new Error("Cannot add graph without a url");
-    }
-    const existing = this.graphsByUrl[graph2.url];
-    if (existing) {
-      const index = this.graphs.indexOf(existing);
-      if (index >= 0) {
-        this.graphs[index] = graph2;
-      }
-    } else {
-      this.graphs.push(graph2);
-    }
-    this.graphsByUrl[graph2.url] = graph2;
-    return graph2;
-  }
-  graph(url3) {
-    return this.graphsByUrl[this.fullURI(url3)];
-  }
-  set(subject, predicate, value, options = {}) {
-    return this.resolveGraph(subject, options).set(subject, predicate, value, { prefixPreference: "context" });
-  }
-  add(subject, predicate, value, options = {}) {
-    return this.resolveGraph(subject, options).add(subject, predicate, value, { prefixPreference: "context" });
-  }
-  delete(subject, predicate = null, value = void 0, options = {}) {
-    const graph2 = this.resolveGraph(subject, options);
-    if (arguments.length < 3) {
-      return graph2.delete(subject, predicate, void 0, { prefixPreference: "context", hasValue: false });
-    }
-    return graph2.delete(subject, predicate, value, { prefixPreference: "context", hasValue: true });
-  }
-  resolveGraph(subject, options = {}) {
-    if (options.graph) {
-      return this.getGraphOption(options.graph);
-    }
-    if (subject instanceof BlankNode3 && subject.graph instanceof Graph2) {
-      return subject.graph;
-    }
-    const id2 = this.subjectID(subject);
-    if (id2) {
-      const exactGraph = this.graphsByUrl[id2];
-      if (exactGraph) {
-        return exactGraph;
-      }
-      const documentGraph = this.graphsByUrl[this.documentURL(id2)];
-      if (documentGraph) {
-        return documentGraph;
-      }
-      const subjectSources = this.graphs.filter((graph2) => graph2.subjects[id2]);
-      if (subjectSources.length == 1) {
-        return subjectSources[0];
-      }
-      if (subjectSources.length > 1) {
-        throw new Error(`Cannot choose a source graph for ${id2}. Use context.set/add/delete(..., { graph }) or graph.set/add/delete(...) to choose one explicitly.`);
-      }
-    }
-    if (this.defaultGraph) {
-      return this.getGraphOption(this.defaultGraph);
-    }
-    if (this.graphs.length == 1) {
-      return this.graphs[0];
-    }
-    throw new Error("Cannot choose a source graph. Use context.set/add/delete(..., { graph }) or graph.set/add/delete(...) to choose one explicitly.");
-  }
-  getGraphOption(graph2) {
-    if (graph2 instanceof Graph2) {
-      if (!this.graphs.includes(graph2)) {
-        throw new Error("The selected graph is not part of this context");
-      }
-      return graph2;
-    }
-    const resolved = this.graph(graph2);
-    if (!resolved) {
-      throw new Error(`Unknown graph: ${graph2}`);
-    }
-    return resolved;
-  }
-  documentURL(id2) {
-    try {
-      const url3 = new URL(id2);
-      url3.hash = "";
-      return url3.href;
-    } catch (err) {
-      return id2;
-    }
-  }
-  sources(subject, predicate = null, value = void 0) {
-    if (!subject) {
-      return [...this.graphs];
-    }
-    if (subject instanceof BlankNode3 && !(subject instanceof NamedNode3)) {
-      return this.sourcesForBlankNode(subject, predicate, value, arguments.length >= 3);
-    }
-    const id2 = this.subjectID(subject);
-    if (!id2) {
-      return [];
-    }
-    return this.graphs.filter((graph2) => {
-      const graphSubject = graph2.subjects[id2];
-      return graphSubject && this.subjectHasSource(graphSubject, predicate, value, arguments.length >= 3);
-    });
-  }
-  sourcesForBlankNode(subject, predicate, value, hasValue) {
-    const graph2 = subject.graph;
-    if (!(graph2 instanceof Graph2)) {
-      return [];
-    }
-    if (this.subjectHasSource(subject, predicate, value, hasValue)) {
-      return [graph2];
-    }
-    return [];
-  }
-  subjectHasSource(subject, predicate, value, hasValue) {
-    if (!predicate) {
-      return true;
-    }
-    const property = subject.graph instanceof Graph2 ? subject.graph.propertyName(this.fullURI(predicate), "context") : this.propertyName(predicate);
-    if (!(property in subject)) {
-      return false;
-    }
-    if (!hasValue) {
-      return true;
-    }
-    return values2(subject[property]).some((item) => sameSourceValue2(item, value));
-  }
-  subjectID(subject) {
-    if (subject?.id) {
-      return this.fullURI(subject.id);
-    }
-    if (typeof subject == "string") {
-      return this.fullURI(subject);
-    }
-    return null;
-  }
-  propertyName(predicate) {
-    if (predicate?.id) {
-      predicate = predicate.id;
-    }
-    if (predicate == "a" || predicate == rdfType2 || this.fullURI(predicate) == rdfType2) {
-      return "a";
-    }
-    return this.shortURI(this.fullURI(predicate));
-  }
-  get(shortID) {
-    return this.subjects[this.fullURI(shortID)];
-  }
-  getSubjects() {
-    const subjects = /* @__PURE__ */ Object.create(null);
-    this.#buildingSubjects = true;
-    try {
-      for (const graph2 of this.graphs) {
-        for (const id2 of Object.keys(graph2.subjects)) {
-          if (!subjects[id2]) {
-            subjects[id2] = this.contextSubject(new NamedNode3(id2, this));
-          }
-        }
-      }
-      for (const graph2 of this.graphs) {
-        for (const [id2, subject] of Object.entries(graph2.subjects)) {
-          this.mergeSubject(subjects[id2], subject, subjects);
-        }
-      }
-    } finally {
-      this.#buildingSubjects = false;
-    }
-    return subjects;
-  }
-  mergeSubject(target, source2, subjects) {
-    for (const [predicate, value] of Object.entries(source2)) {
-      if (predicate == "id") {
-        continue;
-      }
-      const contextPredicate = predicate == "a" ? "a" : this.propertyName(source2.graph.fullURI(predicate, null, "source"));
-      target[contextPredicate] = mergeValue2(
-        target[contextPredicate],
-        resolveValue2(value, subjects, this)
-      );
-    }
-  }
-  contextSubject(subject) {
-    const context = this;
-    return new Proxy(subject, {
-      set(target, property, value, receiver) {
-        if (context.#buildingSubjects || typeof property == "symbol" || property == "id" || property == "graph") {
-          return Reflect.set(target, property, value, receiver);
-        }
-        context.set(target.id, property, value);
-        context.updateContextProperty(target, property);
-        return true;
-      },
-      deleteProperty(target, property) {
-        if (context.#buildingSubjects || typeof property == "symbol" || property == "id" || property == "graph") {
-          return Reflect.deleteProperty(target, property);
-        }
-        context.delete(target.id, property);
-        context.updateContextProperty(target, property);
-        return true;
-      }
-    });
-  }
-  updateContextProperty(target, property) {
-    const updated = this.get(target.id);
-    if (updated && property in updated) {
-      target[property] = updated[property];
-    } else {
-      delete target[property];
-    }
-  }
-  fullURI(shortURI, separator = null) {
-    if (!separator) {
-      separator = this.separator;
-    }
-    const [prefix, path2] = shortURI.split(separator);
-    if (path2 && this.prefixes[prefix]) {
-      return this.prefixes[prefix] + path2;
-    }
-    return shortURI;
-  }
-  shortURI(fullURI, separator = null) {
-    if (!separator) {
-      separator = this.separator;
-    }
-    for (const prefix of this.prefixOrder) {
-      if (fullURI.startsWith(this.prefixes[prefix])) {
-        return prefix + separator + fullURI.substring(this.prefixes[prefix].length);
-      }
-    }
-    return fullURI;
-  }
-  setType(literal3, shortType) {
-    if (!shortType) {
-      return literal3;
-    }
-    if (typeof literal3 == "string") {
-      literal3 = new String(literal3);
-    } else if (typeof literal3 == "number") {
-      literal3 = new Number(literal3);
-    }
-    if (typeof literal3 !== "object") {
-      throw new Error("cannot set type on ", literal3, shortType);
-    }
-    literal3.type = shortType;
-    return literal3;
-  }
-  getType(literal3) {
-    if (literal3 && typeof literal3 == "object") {
-      return literal3.type;
-    }
-    return null;
-  }
-};
-var Graph2 = class {
-  #blankNodes = /* @__PURE__ */ Object.create(null);
-  constructor(quads, url3, mimetype, prefixes4, context, originalSource = null) {
-    this.mimetype = mimetype;
-    this.url = url3;
-    this.prefixes = prefixes4;
-    this.context = context;
-    this.originalSource = originalSource;
-    this.subjects = /* @__PURE__ */ Object.create(null);
-    for (let quad3 of quads) {
-      let subject;
-      if (quad3.subject.termType == "BlankNode") {
-        let shortPred = this.shortURI(quad3.predicate.id, ":");
-        let shortObj;
-        switch (shortPred) {
-          case "rdf:first":
-            subject = this.addCollection(quad3.subject.id);
-            shortObj = quad3.object.id ? this.shortURI(quad3.object.id, ":") : null;
-            if (shortObj != "rdf:nil") {
-              const value = this.getValue(quad3.object);
-              if (value) {
-                subject.push(value);
-              }
-            }
-            continue;
-          case "rdf:rest":
-            this.#blankNodes[quad3.object.id] = this.#blankNodes[quad3.subject.id];
-            continue;
-          default:
-            subject = this.addBlankNode(quad3.subject.id);
-            break;
-        }
-      } else {
-        subject = this.addNamedNode(quad3.subject.id);
-      }
-      subject.addPredicate(quad3.predicate.id, quad3.object);
-    }
-    if (this.subjects[url3]) {
-      this.primary = this.subjects[url3];
-    } else {
-      this.primary = null;
-    }
-    Object.defineProperty(this, "data", {
-      get() {
-        return Object.values(this.subjects);
-      }
-    });
-  }
-  addNamedNode(uri) {
-    let absURI = new URL(uri, this.url).href;
-    if (!this.subjects[absURI]) {
-      this.subjects[absURI] = new NamedNode3(absURI, this);
-    }
-    return this.subjects[absURI];
-  }
-  addBlankNode(id2) {
-    if (!this.#blankNodes[id2]) {
-      this.#blankNodes[id2] = new BlankNode3(this);
-    }
-    return this.#blankNodes[id2];
-  }
-  addCollection(id2) {
-    if (!this.#blankNodes[id2]) {
-      this.#blankNodes[id2] = new Collection2(this);
-    }
-    return this.#blankNodes[id2];
-  }
-  write() {
-    return this.context.writer(this);
-  }
-  patch() {
-    if (!this.context.patchWriter) {
-      throw new Error("Cannot generate a patch without a configured patchWriter");
-    }
-    return this.context.patchWriter(this);
-  }
-  get(shortID) {
-    return this.subjects[this.fullURI(shortID)];
-  }
-  prefixEntries(preference = "source") {
-    const sourcePrefixes = this.prefixes ?? {};
-    const sourceOrder = Object.keys(sourcePrefixes);
-    const contextPrefixes = this.context.prefixes ?? {};
-    const contextOrder = this.context.prefixOrder ?? Object.keys(contextPrefixes);
-    const entries = [];
-    const seen = /* @__PURE__ */ new Set();
-    const seenIRIs = /* @__PURE__ */ new Set();
-    const add2 = (prefixes4, order, skipKnownIRIs = false) => {
-      for (const prefix of order) {
-        if (!Object.prototype.hasOwnProperty.call(prefixes4, prefix)) {
-          continue;
-        }
-        const iri = prefixes4[prefix];
-        if (!seen.has(prefix) && (!skipKnownIRIs || !seenIRIs.has(iri))) {
-          entries.push([prefix, iri]);
-          seen.add(prefix);
-          seenIRIs.add(iri);
-        }
-      }
-      for (const prefix of Object.keys(prefixes4)) {
-        const iri = prefixes4[prefix];
-        if (!seen.has(prefix) && (!skipKnownIRIs || !seenIRIs.has(iri))) {
-          entries.push([prefix, iri]);
-          seen.add(prefix);
-          seenIRIs.add(iri);
-        }
-      }
-    };
-    if (preference == "context") {
-      add2(contextPrefixes, contextOrder);
-      add2(sourcePrefixes, sourceOrder, true);
-    } else {
-      add2(sourcePrefixes, sourceOrder);
-      add2(contextPrefixes, contextOrder, true);
-    }
-    return entries;
-  }
-  prefixDeclarations(preference = "source") {
-    return Object.fromEntries(this.prefixEntries(preference));
-  }
-  propertyName(predicate, preference = "source") {
-    if (predicate?.id) {
-      predicate = predicate.id;
-    }
-    const fullPredicate = this.fullURI(predicate, null, preference);
-    if (predicate == "a" || fullPredicate == rdfType2) {
-      return "a";
-    }
-    return this.shortURI(fullPredicate, null, "source");
-  }
-  set(subject, predicate, value, options = {}) {
-    const preference = options.prefixPreference ?? "source";
-    const node = this.ensureSubject(subject, preference);
-    const property = this.propertyName(predicate, preference);
-    if (property == "a") {
-      node.a = this.normalizeTypeValues(value, preference);
-    } else {
-      node[property] = this.normalizeValues(value, preference);
-    }
-    return node;
-  }
-  add(subject, predicate, value, options = {}) {
-    const preference = options.prefixPreference ?? "source";
-    const node = this.ensureSubject(subject, preference);
-    const property = this.propertyName(predicate, preference);
-    const newValue = property == "a" ? this.normalizeTypeValues(value, preference) : this.normalizeValues(value, preference);
-    node[property] = mergeValue2(node[property], newValue);
-    return node;
-  }
-  delete(subject, predicate = null, value = void 0, options = {}) {
-    const preference = options.prefixPreference ?? "source";
-    const hasValue = options.hasValue ?? arguments.length >= 3;
-    const node = this.findSubject(subject, preference);
-    if (!node) {
-      return false;
-    }
-    if (!predicate) {
-      if (node.id) {
-        delete this.subjects[node.id];
-        if (this.primary === node) {
-          this.primary = null;
-        }
-      }
-      return true;
-    }
-    const property = this.propertyName(predicate, preference);
-    if (!(property in node)) {
-      return false;
-    }
-    if (!hasValue) {
-      delete node[property];
-      return true;
-    }
-    const deleteValues = property == "a" ? values2(this.normalizeTypeValues(value, preference)) : values2(this.normalizeValues(value, preference));
-    const remaining = values2(node[property]).filter((item) => !deleteValues.some((deleteValue) => sameValue2(item, deleteValue)));
-    if (remaining.length == values2(node[property]).length) {
-      return false;
-    }
-    if (remaining.length == 0) {
-      delete node[property];
-    } else if (remaining.length == 1) {
-      node[property] = remaining[0];
-    } else {
-      node[property] = remaining;
-    }
-    return true;
-  }
-  ensureSubject(subject, preference = "source") {
-    if (subject instanceof BlankNode3 && !(subject instanceof NamedNode3)) {
-      if (subject.graph !== this) {
-        throw new Error("Cannot write a blank node into a different graph");
-      }
-      return subject;
-    }
-    if (subject instanceof NamedNode3) {
-      return this.addNamedNode(subject.id);
-    }
-    return this.addNamedNode(this.fullURI(subject, null, preference));
-  }
-  findSubject(subject, preference = "source") {
-    if (subject instanceof BlankNode3 && !(subject instanceof NamedNode3)) {
-      return subject.graph === this ? subject : null;
-    }
-    const id2 = subject?.id ? subject.id : this.fullURI(subject, null, preference);
-    return this.subjects[id2];
-  }
-  normalizeValues(value, preference = "source") {
-    if (Array.isArray(value) && !(value instanceof Collection2)) {
-      return value.map((item) => this.normalizeValue(item, preference));
-    }
-    return this.normalizeValue(value, preference);
-  }
-  normalizeValue(value, preference = "source") {
-    if (value instanceof Collection2) {
-      const collection2 = new Collection2(this);
-      for (const item of value) {
-        collection2.push(this.normalizeValue(item, preference));
-      }
-      return collection2;
-    }
-    if (value instanceof NamedNode3) {
-      return this.addNamedNode(value.id);
-    }
-    if (value instanceof BlankNode3) {
-      if (value.graph !== this) {
-        throw new Error("Cannot write a blank node into a different graph");
-      }
-      return value;
-    }
-    if (this.looksLikeURI(value, preference)) {
-      return this.addNamedNode(this.fullURI(value, null, preference));
-    }
-    return value;
-  }
-  normalizeTypeValues(value, preference = "source") {
-    if (Array.isArray(value) && !(value instanceof Collection2)) {
-      return value.map((item) => this.normalizeTypeValue(item, preference));
-    }
-    return this.normalizeTypeValue(value, preference);
-  }
-  normalizeTypeValue(value, preference = "source") {
-    if (value instanceof NamedNode3) {
-      return this.shortURI(value.id, null, "source");
-    }
-    return this.shortURI(this.fullURI(value, null, preference), null, "source");
-  }
-  looksLikeURI(value, preference = "source") {
-    if (typeof value != "string") {
-      return false;
-    }
-    if (/^[a-z][a-z0-9+.-]*:/i.test(value)) {
-      return true;
-    }
-    const [prefix, path2] = value.split(this.context.separator);
-    return Boolean(path2 && this.prefixEntries(preference).some(([candidate]) => candidate == prefix));
-  }
-  fullURI(shortURI, separator = null, preference = "source") {
-    if (!separator) {
-      separator = this.context.separator;
-    }
-    const [prefix, path2] = String(shortURI).split(separator);
-    if (path2) {
-      for (const [candidate, iri] of this.prefixEntries(preference)) {
-        if (candidate == prefix) {
-          return iri + path2;
-        }
-      }
-    }
-    return shortURI;
-  }
-  shortURI(fullURI, separator = null, preference = "source") {
-    if (!separator) {
-      separator = this.context.separator;
-    }
-    for (const [prefix, iri] of this.prefixEntries(preference)) {
-      if (fullURI.startsWith(iri)) {
-        return prefix + separator + fullURI.substring(iri.length);
-      }
-    }
-    if (this.url && fullURI.startsWith(this.url)) {
-      return fullURI.substring(this.url.length);
-    }
-    return fullURI;
-  }
-  /**
-   * This sets the type of a literal, usually one of the xsd types
-   */
-  setType(literal3, type) {
-    const shortType = this.shortURI(type);
-    return this.context.setType(literal3, shortType);
-  }
-  /**
-   * This returns the type of a literal, or null
-   */
-  getType(literal3) {
-    return this.context.getType(literal3);
-  }
-  setLanguage(literal3, language) {
-    if (typeof literal3 == "string") {
-      literal3 = new String(literal3);
-    } else if (typeof literal3 == "number") {
-      literal3 = new Number(literal3);
-    }
-    if (typeof literal3 !== "object") {
-      throw new Error("cannot set language on ", literal3);
-    }
-    literal3.language = language;
-    return literal3;
-  }
-  getValue(object) {
-    let result;
-    if (object.termType == "Literal") {
-      result = object.value;
-      let datatype = object.datatype?.id;
-      if (datatype) {
-        result = this.setType(result, datatype);
-      }
-      let language = object.language;
-      if (language) {
-        result = this.setLanguage(result, language);
-      }
-    } else if (object.termType == "BlankNode") {
-      result = this.addBlankNode(object.id);
-    } else {
-      result = this.addNamedNode(object.id);
-    }
-    return result;
-  }
-};
-var BlankNode3 = class {
-  constructor(graph2) {
-    Object.defineProperty(this, "graph", {
-      value: graph2,
-      writable: false,
-      enumerable: false
-    });
-  }
-  addPredicate(predicate, object) {
-    if (predicate.id) {
-      predicate = predicate.id;
-    }
-    if (predicate == rdfType2) {
-      let type = this.graph.shortURI(object.id);
-      this.addType(type);
-    } else {
-      const value = this.graph.getValue(object);
-      predicate = this.graph.shortURI(predicate);
-      if (!this[predicate]) {
-        this[predicate] = value;
-      } else if (Array.isArray(this[predicate])) {
-        this[predicate].push(value);
-      } else {
-        this[predicate] = [this[predicate], value];
-      }
-    }
-  }
-  /**
-   * Adds a rdfType value, stored in this.a
-   * Subjects can have more than one type (or class), unlike literals
-   * The type value can be any URI, xsdTypes are unexpected here
-   */
-  addType(type) {
-    if (!this.a) {
-      this.a = type;
-    } else {
-      if (!Array.isArray(this.a)) {
-        this.a = [this.a];
-      }
-      this.a.push(type);
-    }
-  }
-};
-var NamedNode3 = class extends BlankNode3 {
-  constructor(id2, graph2) {
-    super(graph2);
-    Object.defineProperty(this, "id", {
-      value: id2,
-      writable: false,
-      enumerable: true
-    });
-  }
-};
-var Collection2 = class extends Array {
-  constructor(graph2) {
-    super();
-    Object.defineProperty(this, "graph", {
-      value: graph2,
-      writable: false,
-      enumerable: false
-    });
-  }
-};
-
-// node_modules/@muze-nl/oldm-n3/src/oldm-n3.mjs
-var oldm_n3_exports2 = {};
-__export(oldm_n3_exports2, {
-  n3Parser: () => n3Parser2,
-  n3PatchWriter: () => n3PatchWriter2,
-  n3Writer: () => n3Writer2
-});
-
-// node_modules/n3/src/N3Lexer.js
-var import_buffer2 = __toESM(require_buffer2());
-
-// node_modules/n3/src/IRIs.js
-var RDF2 = "http://www.w3.org/1999/02/22-rdf-syntax-ns#";
-var XSD2 = "http://www.w3.org/2001/XMLSchema#";
-var SWAP2 = "http://www.w3.org/2000/10/swap/";
-var IRIs_default2 = {
-  xsd: {
-    decimal: `${XSD2}decimal`,
-    boolean: `${XSD2}boolean`,
-    double: `${XSD2}double`,
-    integer: `${XSD2}integer`,
-    string: `${XSD2}string`
-  },
-  rdf: {
-    type: `${RDF2}type`,
-    nil: `${RDF2}nil`,
-    first: `${RDF2}first`,
-    rest: `${RDF2}rest`,
-    langString: `${RDF2}langString`,
-    dirLangString: `${RDF2}dirLangString`,
-    reifies: `${RDF2}reifies`
-  },
-  owl: {
-    sameAs: "http://www.w3.org/2002/07/owl#sameAs"
-  },
-  r: {
-    forSome: `${SWAP2}reify#forSome`,
-    forAll: `${SWAP2}reify#forAll`
-  },
-  log: {
-    implies: `${SWAP2}log#implies`,
-    isImpliedBy: `${SWAP2}log#isImpliedBy`
-  }
-};
-
-// node_modules/n3/src/N3Lexer.js
-var { xsd: xsd4 } = IRIs_default2;
-var escapeSequence2 = /\\u([a-fA-F0-9]{4})|\\U([a-fA-F0-9]{8})|\\([^])/g;
-var escapeReplacements2 = {
-  "\\": "\\",
-  "'": "'",
-  '"': '"',
-  "n": "\n",
-  "r": "\r",
-  "t": "	",
-  "f": "\f",
-  "b": "\b",
-  "_": "_",
-  "~": "~",
-  ".": ".",
-  "-": "-",
-  "!": "!",
-  "$": "$",
-  "&": "&",
-  "(": "(",
-  ")": ")",
-  "*": "*",
-  "+": "+",
-  ",": ",",
-  ";": ";",
-  "=": "=",
-  "/": "/",
-  "?": "?",
-  "#": "#",
-  "@": "@",
-  "%": "%"
-};
-var illegalIriChars2 = /[\x00-\x20<>\\"\{\}\|\^\`]/;
-function isSurrogateCodePoint2(charCode) {
-  return charCode >= 55296 && charCode <= 57343;
-}
-var lineModeRegExps2 = {
-  _iri: true,
-  _unescapedIri: true,
-  _simpleQuotedString: true,
-  _langcode: true,
-  _dircode: true,
-  _blank: true,
-  _newline: true,
-  _comment: true,
-  _whitespace: true,
-  _endOfFile: true
-};
-var invalidRegExp2 = /$0^/;
-var N3Lexer2 = class {
-  constructor(options) {
-    this._iri = /^<((?:[^ <>{}\\]|\\[uU])+)>[ \t]*/;
-    this._unescapedIri = /^<([^\x00-\x20<>\\"\{\}\|\^\`]*)>[ \t]*/;
-    this._simpleQuotedString = /^"([^"\\\r\n]*)"(?=[^"])/;
-    this._simpleApostropheString = /^'([^'\\\r\n]*)'(?=[^'])/;
-    this._langcode = /^@([a-z]+(?:-[a-z0-9]+)*)(?=[^a-z0-9])/i;
-    this._dircode = /^--(ltr)|(rtl)/;
-    this._prefix = /^((?:[A-Za-z\xc0-\xd6\xd8-\xf6\xf8-\u02ff\u0370-\u037d\u037f-\u1fff\u200c\u200d\u2070-\u218f\u2c00-\u2fef\u3001-\ud7ff\uf900-\ufdcf\ufdf0-\ufffd]|[\ud800-\udb7f][\udc00-\udfff])(?:\.?[\-0-9A-Z_a-z\xb7\xc0-\xd6\xd8-\xf6\xf8-\u037d\u037f-\u1fff\u200c\u200d\u203f\u2040\u2070-\u218f\u2c00-\u2fef\u3001-\ud7ff\uf900-\ufdcf\ufdf0-\ufffd]|[\ud800-\udb7f][\udc00-\udfff])*)?:(?=[#\s<])/;
-    this._prefixed = /^((?:[A-Za-z\xc0-\xd6\xd8-\xf6\xf8-\u02ff\u0370-\u037d\u037f-\u1fff\u200c\u200d\u2070-\u218f\u2c00-\u2fef\u3001-\ud7ff\uf900-\ufdcf\ufdf0-\ufffd]|[\ud800-\udb7f][\udc00-\udfff])(?:\.?[\-0-9A-Z_a-z\xb7\xc0-\xd6\xd8-\xf6\xf8-\u037d\u037f-\u1fff\u200c\u200d\u203f\u2040\u2070-\u218f\u2c00-\u2fef\u3001-\ud7ff\uf900-\ufdcf\ufdf0-\ufffd]|[\ud800-\udb7f][\udc00-\udfff])*)?:((?:(?:[0-:A-Z_a-z\xc0-\xd6\xd8-\xf6\xf8-\u02ff\u0370-\u037d\u037f-\u1fff\u200c\u200d\u2070-\u218f\u2c00-\u2fef\u3001-\ud7ff\uf900-\ufdcf\ufdf0-\ufffd]|[\ud800-\udb7f][\udc00-\udfff]|%[0-9a-fA-F]{2}|\\[!#-\/;=?\-@_~])(?:(?:[\.\-0-:A-Z_a-z\xb7\xc0-\xd6\xd8-\xf6\xf8-\u037d\u037f-\u1fff\u200c\u200d\u203f\u2040\u2070-\u218f\u2c00-\u2fef\u3001-\ud7ff\uf900-\ufdcf\ufdf0-\ufffd]|[\ud800-\udb7f][\udc00-\udfff]|%[0-9a-fA-F]{2}|\\[!#-\/;=?\-@_~])*(?:[\-0-:A-Z_a-z\xb7\xc0-\xd6\xd8-\xf6\xf8-\u037d\u037f-\u1fff\u200c\u200d\u203f\u2040\u2070-\u218f\u2c00-\u2fef\u3001-\ud7ff\uf900-\ufdcf\ufdf0-\ufffd]|[\ud800-\udb7f][\udc00-\udfff]|%[0-9a-fA-F]{2}|\\[!#-\/;=?\-@_~]))?)?)(?:[ \t]+|(?=\.?[,;!\^\s#()\[\]\{\}"'<>]))/;
-    this._variable = /^\?(?:(?:[A-Z_a-z\xc0-\xd6\xd8-\xf6\xf8-\u02ff\u0370-\u037d\u037f-\u1fff\u200c\u200d\u2070-\u218f\u2c00-\u2fef\u3001-\ud7ff\uf900-\ufdcf\ufdf0-\ufffd]|[\ud800-\udb7f][\udc00-\udfff])(?:[\-0-:A-Z_a-z\xb7\xc0-\xd6\xd8-\xf6\xf8-\u037d\u037f-\u1fff\u200c\u200d\u203f\u2040\u2070-\u218f\u2c00-\u2fef\u3001-\ud7ff\uf900-\ufdcf\ufdf0-\ufffd]|[\ud800-\udb7f][\udc00-\udfff])*)(?=[.,;!\^\s#()\[\]\{\}"'<>])/;
-    this._blank = /^_:((?:[0-9A-Z_a-z\xc0-\xd6\xd8-\xf6\xf8-\u02ff\u0370-\u037d\u037f-\u1fff\u200c\u200d\u2070-\u218f\u2c00-\u2fef\u3001-\ud7ff\uf900-\ufdcf\ufdf0-\ufffd]|[\ud800-\udb7f][\udc00-\udfff])(?:\.?[\-0-9A-Z_a-z\xb7\xc0-\xd6\xd8-\xf6\xf8-\u037d\u037f-\u1fff\u200c\u200d\u203f\u2040\u2070-\u218f\u2c00-\u2fef\u3001-\ud7ff\uf900-\ufdcf\ufdf0-\ufffd]|[\ud800-\udb7f][\udc00-\udfff])*)(?:[ \t]+|(?=\.?[,;:\s#()\[\]\{\}"'<>]))/;
-    this._number = /^[\-+]?(?:(\d+\.\d*|\.?\d+)[eE][\-+]?|\d*(\.)?)\d+(?=\.?[,;:\s#()\[\]\{\}"'<>])/;
-    this._boolean = /^(?:true|false)(?=[.,;\s#()\[\]\{\}"'<>])/;
-    this._atKeyword = /^@[a-z]+(?=[\s#<:])/i;
-    this._keyword = /^(?:PREFIX|BASE|VERSION|GRAPH)(?=[\s#<])/i;
-    this._shortPredicates = /^a(?=[\s#()\[\]\{\}"'<>])/;
-    this._newline = /^[ \t]*(?:#[^\n\r]*)?(?:\r\n|\n|\r)[ \t]*/;
-    this._comment = /#([^\n\r]*)/;
-    this._whitespace = /^[ \t]+/;
-    this._endOfFile = /^(?:#[^\n\r]*)?$/;
-    options = options || {};
-    this._isImpliedBy = options.isImpliedBy;
-    if (this._lineMode = !!options.lineMode) {
-      this._n3Mode = false;
-      for (const key in this) {
-        if (!(key in lineModeRegExps2) && this[key] instanceof RegExp)
-          this[key] = invalidRegExp2;
-      }
-    } else {
-      this._n3Mode = options.n3 !== false;
-    }
-    this.comments = !!options.comments;
-    this._literalClosingPos = 0;
-  }
-  // ## Private methods
-  // ### `_tokenizeToEnd` tokenizes as for as possible, emitting tokens through the callback
-  _tokenizeToEnd(callback, inputFinished) {
-    let input2 = this._input;
-    let currentLineLength = input2.length;
-    while (true) {
-      let whiteSpaceMatch, comment;
-      while (whiteSpaceMatch = this._newline.exec(input2)) {
-        if (this.comments && (comment = this._comment.exec(whiteSpaceMatch[0])))
-          emitToken("comment", comment[1], "", this._line, whiteSpaceMatch[0].length);
-        input2 = input2.substr(whiteSpaceMatch[0].length, input2.length);
-        currentLineLength = input2.length;
-        this._line++;
-      }
-      if (!whiteSpaceMatch && (whiteSpaceMatch = this._whitespace.exec(input2)))
-        input2 = input2.substr(whiteSpaceMatch[0].length, input2.length);
-      if (this._endOfFile.test(input2)) {
-        if (inputFinished) {
-          if (this.comments && (comment = this._comment.exec(input2)))
-            emitToken("comment", comment[1], "", this._line, input2.length);
-          input2 = null;
-          emitToken("eof", "", "", this._line, 0);
-        }
-        return this._input = input2;
-      }
-      const line = this._line, firstChar = input2[0];
-      let type = "", value = "", prefix = "", match = null, matchLength = 0, inconclusive = false;
-      switch (firstChar) {
-        case "^":
-          if (input2.length < 3)
-            break;
-          else if (input2[1] === "^") {
-            this._previousMarker = "^^";
-            input2 = input2.substr(2);
-            if (input2[0] !== "<") {
-              inconclusive = true;
-              break;
-            }
-          } else {
-            if (this._n3Mode) {
-              matchLength = 1;
-              type = "^";
-            }
-            break;
-          }
-        // Fall through in case the type is an IRI
-        case "<":
-          if (match = this._unescapedIri.exec(input2))
-            type = "IRI", value = match[1];
-          else if (match = this._iri.exec(input2)) {
-            value = this._unescape(match[1]);
-            if (value === null || illegalIriChars2.test(value))
-              return reportSyntaxError(this);
-            type = "IRI";
-          } else if (input2.length > 2 && input2[1] === "<" && input2[2] === "(")
-            type = "<<(", matchLength = 3;
-          else if (!this._lineMode && input2.length > (inputFinished ? 1 : 2) && input2[1] === "<")
-            type = "<<", matchLength = 2;
-          else if (this._n3Mode && input2.length > 1 && input2[1] === "=") {
-            matchLength = 2;
-            if (this._isImpliedBy) type = "abbreviation", value = "<";
-            else type = "inverse", value = ">";
-          }
-          break;
-        case ">":
-          if (input2.length > 1 && input2[1] === ">")
-            type = ">>", matchLength = 2;
-          break;
-        case "_":
-          if ((match = this._blank.exec(input2)) || inputFinished && (match = this._blank.exec(`${input2} `)))
-            type = "blank", prefix = "_", value = match[1];
-          break;
-        case '"':
-          if (match = this._simpleQuotedString.exec(input2))
-            value = match[1];
-          else {
-            ({ value, matchLength } = this._parseLiteral(input2));
-            if (value === null)
-              return reportSyntaxError(this);
-          }
-          if (match !== null || matchLength !== 0) {
-            type = "literal";
-            this._literalClosingPos = 0;
-          }
-          break;
-        case "'":
-          if (!this._lineMode) {
-            if (match = this._simpleApostropheString.exec(input2))
-              value = match[1];
-            else {
-              ({ value, matchLength } = this._parseLiteral(input2));
-              if (value === null)
-                return reportSyntaxError(this);
-            }
-            if (match !== null || matchLength !== 0) {
-              type = "literal";
-              this._literalClosingPos = 0;
-            }
-          }
-          break;
-        case "?":
-          if (this._n3Mode && (match = this._variable.exec(input2)))
-            type = "var", value = match[0];
-          break;
-        case "@":
-          if (this._previousMarker === "literal" && (match = this._langcode.exec(input2)) && match[1] !== "version")
-            type = "langcode", value = match[1];
-          else if (match = this._atKeyword.exec(input2))
-            type = match[0];
-          break;
-        case ".":
-          if (input2.length === 1 ? inputFinished : input2[1] < "0" || input2[1] > "9") {
-            type = ".";
-            matchLength = 1;
-            break;
-          }
-        // Fall through to numerical case (could be a decimal dot)
-        case "0":
-        case "1":
-        case "2":
-        case "3":
-        case "4":
-        case "5":
-        case "6":
-        case "7":
-        case "8":
-        case "9":
-        case "+":
-        case "-":
-          if (input2[1] === "-") {
-            if (this._previousMarker === "langcode" && (match = this._dircode.exec(input2)))
-              type = "dircode", matchLength = 2, value = match[1] || match[2], matchLength = value.length + 2;
-            break;
-          }
-          if (match = this._number.exec(input2) || inputFinished && (match = this._number.exec(`${input2} `))) {
-            type = "literal", value = match[0];
-            prefix = typeof match[1] === "string" ? xsd4.double : typeof match[2] === "string" ? xsd4.decimal : xsd4.integer;
-          }
-          break;
-        case "B":
-        case "b":
-        case "p":
-        case "P":
-        case "G":
-        case "g":
-        case "V":
-        case "v":
-          if (match = this._keyword.exec(input2))
-            type = match[0].toUpperCase();
-          else
-            inconclusive = true;
-          break;
-        case "f":
-        case "t":
-          if (match = this._boolean.exec(input2))
-            type = "literal", value = match[0], prefix = xsd4.boolean;
-          else
-            inconclusive = true;
-          break;
-        case "a":
-          if (match = this._shortPredicates.exec(input2))
-            type = "abbreviation", value = "a";
-          else
-            inconclusive = true;
-          break;
-        case "=":
-          if (this._n3Mode && input2.length > 1) {
-            type = "abbreviation";
-            if (input2[1] !== ">")
-              matchLength = 1, value = "=";
-            else
-              matchLength = 2, value = ">";
-          }
-          break;
-        case "!":
-          if (!this._n3Mode)
-            break;
-        case ")":
-          if (!inputFinished && (input2.length === 1 || input2.length === 2 && input2[1] === ">")) {
-            break;
-          }
-          if (input2.length > 2 && input2[1] === ">" && input2[2] === ">") {
-            type = ")>>", matchLength = 3;
-            break;
-          }
-        case ",":
-        case ";":
-        case "[":
-        case "]":
-        case "(":
-        case "}":
-        case "~":
-          if (!this._lineMode) {
-            matchLength = 1;
-            type = firstChar;
-          }
-          break;
-        case "{":
-          if (!this._lineMode && input2.length >= 2) {
-            if (input2[1] === "|")
-              type = "{|", matchLength = 2;
-            else
-              type = firstChar, matchLength = 1;
-          }
-          break;
-        case "|":
-          if (input2.length >= 2 && input2[1] === "}")
-            type = "|}", matchLength = 2;
-          break;
-        default:
-          inconclusive = true;
-      }
-      if (inconclusive) {
-        if ((this._previousMarker === "@prefix" || this._previousMarker === "PREFIX") && (match = this._prefix.exec(input2)))
-          type = "prefix", value = match[1] || "";
-        else if ((match = this._prefixed.exec(input2)) || inputFinished && (match = this._prefixed.exec(`${input2} `)))
-          type = "prefixed", prefix = match[1] || "", value = this._unescape(match[2]);
-      }
-      if (this._previousMarker === "^^") {
-        switch (type) {
-          case "prefixed":
-            type = "type";
-            break;
-          case "IRI":
-            type = "typeIRI";
-            break;
-          default:
-            type = "";
-        }
-      }
-      if (!type) {
-        if (inputFinished || !/^'''|^"""/.test(input2) && /\n|\r/.test(input2))
-          return reportSyntaxError(this);
-        else
-          return this._input = input2;
-      }
-      const length = matchLength || match[0].length;
-      const token = emitToken(type, value, prefix, line, length);
-      this.previousToken = token;
-      this._previousMarker = type;
-      input2 = input2.substr(length, input2.length);
-    }
-    function emitToken(type, value, prefix, line, length) {
-      const start = input2 ? currentLineLength - input2.length : currentLineLength;
-      const end = start + length;
-      const token = { type, value, prefix, line, start, end };
-      callback(null, token);
-      return token;
-    }
-    function reportSyntaxError(self) {
-      callback(self._syntaxError(/^\S*/.exec(input2)[0]));
-    }
-  }
-  // ### `_unescape` replaces N3 escape codes by their corresponding characters
-  _unescape(item) {
-    let invalid = false;
-    const replaced = item.replace(escapeSequence2, (sequence, unicode4, unicode8, escapedChar) => {
-      if (typeof unicode4 === "string") {
-        const charCode = Number.parseInt(unicode4, 16);
-        if (isSurrogateCodePoint2(charCode)) {
-          invalid = true;
-          return "";
-        }
-        return String.fromCharCode(charCode);
-      }
-      if (typeof unicode8 === "string") {
-        let charCode = Number.parseInt(unicode8, 16);
-        if (isSurrogateCodePoint2(charCode)) {
-          invalid = true;
-          return "";
-        }
-        return charCode <= 65535 ? String.fromCharCode(Number.parseInt(unicode8, 16)) : String.fromCharCode(55296 + ((charCode -= 65536) >> 10), 56320 + (charCode & 1023));
-      }
-      if (escapedChar in escapeReplacements2)
-        return escapeReplacements2[escapedChar];
-      invalid = true;
-      return "";
-    });
-    return invalid ? null : replaced;
-  }
-  // ### `_parseLiteral` parses a literal into an unescaped value
-  _parseLiteral(input2) {
-    if (input2.length >= 3) {
-      const opening = input2.match(/^(?:"""|"|'''|'|)/)[0];
-      const openingLength = opening.length;
-      let closingPos = Math.max(this._literalClosingPos, openingLength);
-      while ((closingPos = input2.indexOf(opening, closingPos)) > 0) {
-        let backslashCount = 0;
-        while (input2[closingPos - backslashCount - 1] === "\\")
-          backslashCount++;
-        if (backslashCount % 2 === 0) {
-          const raw2 = input2.substring(openingLength, closingPos);
-          const lines = raw2.split(/\r\n|\r|\n/).length - 1;
-          const matchLength = closingPos + openingLength;
-          if (openingLength === 1 && lines !== 0 || openingLength === 3 && this._lineMode)
-            break;
-          this._line += lines;
-          return { value: this._unescape(raw2), matchLength };
-        }
-        closingPos++;
-      }
-      this._literalClosingPos = input2.length - openingLength + 1;
-    }
-    return { value: "", matchLength: 0 };
-  }
-  // ### `_syntaxError` creates a syntax error for the given issue
-  _syntaxError(issue) {
-    this._input = null;
-    const err = new Error(`Unexpected "${issue}" on line ${this._line}.`);
-    err.context = {
-      token: void 0,
-      line: this._line,
-      previousToken: this.previousToken
-    };
-    return err;
-  }
-  // ### Strips off any starting UTF BOM mark.
-  _readStartingBom(input2) {
-    return input2.startsWith("\uFEFF") ? input2.substr(1) : input2;
-  }
-  // ## Public methods
-  // ### `tokenize` starts the transformation of an N3 document into an array of tokens.
-  // The input can be a string or a stream.
-  tokenize(input2, callback) {
-    this._line = 1;
-    if (typeof input2 === "string") {
-      this._input = this._readStartingBom(input2);
-      if (typeof callback === "function")
-        queueMicrotask(() => this._tokenizeToEnd(callback, true));
-      else {
-        const tokens = [];
-        let error4;
-        this._tokenizeToEnd((e, t) => e ? error4 = e : tokens.push(t), true);
-        if (error4) throw error4;
-        return tokens;
-      }
-    } else {
-      this._pendingBuffer = null;
-      if (typeof input2.setEncoding === "function")
-        input2.setEncoding("utf8");
-      input2.on("data", (data) => {
-        if (this._input !== null && data.length !== 0) {
-          if (this._pendingBuffer) {
-            data = import_buffer2.Buffer.concat([this._pendingBuffer, data]);
-            this._pendingBuffer = null;
-          }
-          if (data[data.length - 1] & 128) {
-            this._pendingBuffer = data;
-          } else {
-            if (typeof this._input === "undefined")
-              this._input = this._readStartingBom(typeof data === "string" ? data : data.toString());
-            else
-              this._input += data;
-            this._tokenizeToEnd(callback, false);
-          }
-        }
-      });
-      input2.on("end", () => {
-        if (typeof this._input === "string")
-          this._tokenizeToEnd(callback, true);
-      });
-      input2.on("error", callback);
-    }
-  }
-};
-
-// node_modules/n3/src/N3DataFactory.js
-var { rdf: rdf3, xsd: xsd5 } = IRIs_default2;
-var DEFAULTGRAPH3;
-var _blankNodeCounter2 = 0;
-var DataFactory2 = {
-  namedNode: namedNode2,
-  blankNode: blankNode2,
-  variable: variable2,
-  literal: literal2,
-  defaultGraph: defaultGraph2,
-  quad: quad2,
-  triple: quad2,
-  fromTerm: fromTerm2,
-  fromQuad: fromQuad2
-};
-var N3DataFactory_default2 = DataFactory2;
-var Term2 = class _Term {
-  constructor(id2) {
-    this.id = id2;
-  }
-  // ### The value of this term
-  get value() {
-    return this.id;
-  }
-  // ### Returns whether this object represents the same term as the other
-  equals(other) {
-    if (other instanceof _Term)
-      return this.id === other.id;
-    return !!other && this.termType === other.termType && this.value === other.value;
-  }
-  // ### Implement hashCode for Immutable.js, since we implement `equals`
-  // https://immutable-js.com/docs/v4.0.0/ValueObject/#hashCode()
-  hashCode() {
-    return 0;
-  }
-  // ### Returns a plain object representation of this term
-  toJSON() {
-    return {
-      termType: this.termType,
-      value: this.value
-    };
-  }
-};
-var NamedNode4 = class extends Term2 {
-  // ### The term type of this term
-  get termType() {
-    return "NamedNode";
-  }
-};
-var Literal2 = class _Literal extends Term2 {
-  // ### The term type of this term
-  get termType() {
-    return "Literal";
-  }
-  // ### The text value of this literal
-  get value() {
-    return this.id.substring(1, this.id.lastIndexOf('"'));
-  }
-  // ### The language of this literal
-  get language() {
-    const id2 = this.id;
-    let atPos = id2.lastIndexOf('"') + 1;
-    const dirPos = id2.lastIndexOf("--");
-    return atPos < id2.length && id2[atPos++] === "@" ? (dirPos > atPos ? id2.substr(0, dirPos) : id2).substr(atPos).toLowerCase() : "";
-  }
-  // ### The direction of this literal
-  get direction() {
-    const id2 = this.id;
-    const endPos = id2.lastIndexOf('"');
-    const dirPos = id2.lastIndexOf("--");
-    return dirPos > endPos && dirPos + 2 < id2.length ? id2.substr(dirPos + 2).toLowerCase() : "";
-  }
-  // ### The datatype IRI of this literal
-  get datatype() {
-    return new NamedNode4(this.datatypeString);
-  }
-  // ### The datatype string of this literal
-  get datatypeString() {
-    const id2 = this.id, dtPos = id2.lastIndexOf('"') + 1;
-    const char = dtPos < id2.length ? id2[dtPos] : "";
-    return char === "^" ? id2.substr(dtPos + 2) : (
-      // If "@" follows, return rdf:langString or rdf:dirLangString; xsd:string otherwise
-      char !== "@" ? xsd5.string : id2.indexOf("--", dtPos) > 0 ? rdf3.dirLangString : rdf3.langString
-    );
-  }
-  // ### Returns whether this object represents the same term as the other
-  equals(other) {
-    if (other instanceof _Literal)
-      return this.id === other.id;
-    return !!other && !!other.datatype && this.termType === other.termType && this.value === other.value && this.language === other.language && (this.direction === other.direction || this.direction === "" && !other.direction) && this.datatype.value === other.datatype.value;
-  }
-  toJSON() {
-    return {
-      termType: this.termType,
-      value: this.value,
-      language: this.language,
-      direction: this.direction,
-      datatype: { termType: "NamedNode", value: this.datatypeString }
-    };
-  }
-};
-var BlankNode4 = class extends Term2 {
-  constructor(name) {
-    super(`_:${name}`);
-  }
-  // ### The term type of this term
-  get termType() {
-    return "BlankNode";
-  }
-  // ### The name of this blank node
-  get value() {
-    return this.id.substr(2);
-  }
-};
-var Variable2 = class extends Term2 {
-  constructor(name) {
-    super(`?${name}`);
-  }
-  // ### The term type of this term
-  get termType() {
-    return "Variable";
-  }
-  // ### The name of this variable
-  get value() {
-    return this.id.substr(1);
-  }
-};
-var DefaultGraph2 = class extends Term2 {
-  constructor() {
-    super("");
-    return DEFAULTGRAPH3 || this;
-  }
-  // ### The term type of this term
-  get termType() {
-    return "DefaultGraph";
-  }
-  // ### Returns whether this object represents the same term as the other
-  equals(other) {
-    return this === other || !!other && this.termType === other.termType;
-  }
-};
-DEFAULTGRAPH3 = new DefaultGraph2();
-var Quad2 = class extends Term2 {
-  constructor(subject, predicate, object, graph2) {
-    super("");
-    this._subject = subject;
-    this._predicate = predicate;
-    this._object = object;
-    this._graph = graph2 || DEFAULTGRAPH3;
-  }
-  // ### The term type of this term
-  get termType() {
-    return "Quad";
-  }
-  get subject() {
-    return this._subject;
-  }
-  get predicate() {
-    return this._predicate;
-  }
-  get object() {
-    return this._object;
-  }
-  get graph() {
-    return this._graph;
-  }
-  // ### Returns a plain object representation of this quad
-  toJSON() {
-    return {
-      termType: this.termType,
-      subject: this._subject.toJSON(),
-      predicate: this._predicate.toJSON(),
-      object: this._object.toJSON(),
-      graph: this._graph.toJSON()
-    };
-  }
-  // ### Returns whether this object represents the same quad as the other
-  equals(other) {
-    return !!other && this._subject.equals(other.subject) && this._predicate.equals(other.predicate) && this._object.equals(other.object) && this._graph.equals(other.graph);
-  }
-};
-function namedNode2(iri) {
-  return new NamedNode4(iri);
-}
-function blankNode2(name) {
-  return new BlankNode4(name || `n3-${_blankNodeCounter2++}`);
-}
-function literal2(value, languageOrDataType) {
-  if (typeof languageOrDataType === "string")
-    return new Literal2(`"${value}"@${languageOrDataType.toLowerCase()}`);
-  if (languageOrDataType !== void 0 && !("termType" in languageOrDataType)) {
-    return new Literal2(`"${value}"@${languageOrDataType.language.toLowerCase()}${languageOrDataType.direction ? `--${languageOrDataType.direction.toLowerCase()}` : ""}`);
-  }
-  let datatype = languageOrDataType ? languageOrDataType.value : "";
-  if (datatype === "") {
-    if (typeof value === "boolean")
-      datatype = xsd5.boolean;
-    else if (typeof value === "number") {
-      if (Number.isFinite(value))
-        datatype = Number.isInteger(value) ? xsd5.integer : xsd5.double;
-      else {
-        datatype = xsd5.double;
-        if (!Number.isNaN(value))
-          value = value > 0 ? "INF" : "-INF";
-      }
-    }
-  }
-  return datatype === "" || datatype === xsd5.string ? new Literal2(`"${value}"`) : new Literal2(`"${value}"^^${datatype}`);
-}
-function variable2(name) {
-  return new Variable2(name);
-}
-function defaultGraph2() {
-  return DEFAULTGRAPH3;
-}
-function quad2(subject, predicate, object, graph2) {
-  return new Quad2(subject, predicate, object, graph2);
-}
-function fromTerm2(term) {
-  if (term instanceof Term2)
-    return term;
-  switch (term.termType) {
-    case "NamedNode":
-      return namedNode2(term.value);
-    case "BlankNode":
-      return blankNode2(term.value);
-    case "Variable":
-      return variable2(term.value);
-    case "DefaultGraph":
-      return DEFAULTGRAPH3;
-    case "Literal":
-      return literal2(term.value, term.language || term.datatype);
-    case "Quad":
-      return fromQuad2(term);
-    default:
-      throw new Error(`Unexpected termType: ${term.termType}`);
-  }
-}
-function fromQuad2(inQuad) {
-  if (inQuad instanceof Quad2)
-    return inQuad;
-  if (inQuad.termType !== "Quad")
-    throw new Error(`Unexpected termType: ${inQuad.termType}`);
-  return quad2(fromTerm2(inQuad.subject), fromTerm2(inQuad.predicate), fromTerm2(inQuad.object), fromTerm2(inQuad.graph));
-}
-
-// node_modules/n3/src/N3Parser.js
-var blankNodePrefix2 = 0;
-var N3Parser2 = class _N3Parser {
-  constructor(options) {
-    this._contextStack = [];
-    this._graph = null;
-    options = options || {};
-    this._setBase(options.baseIRI);
-    options.factory && initDataFactory2(this, options.factory);
-    const format = typeof options.format === "string" ? options.format.match(/\w*$/)[0].toLowerCase() : "", isTurtle = /turtle/.test(format), isTriG = /trig/.test(format), isNTriples = /triple/.test(format), isNQuads = /quad/.test(format), isN3 = this._n3Mode = /n3/.test(format), isLineMode = isNTriples || isNQuads;
-    if (!(this._supportsNamedGraphs = !(isTurtle || isN3)))
-      this._readPredicateOrNamedGraph = this._readPredicate;
-    this._supportsQuads = !(isTurtle || isTriG || isNTriples || isN3);
-    this._isImpliedBy = options.isImpliedBy;
-    if (isLineMode)
-      this._resolveRelativeIRI = (iri) => {
-        return null;
-      };
-    this._blankNodePrefix = typeof options.blankNodePrefix !== "string" ? "" : options.blankNodePrefix.replace(/^(?!_:)/, "_:");
-    this._lexer = options.lexer || new N3Lexer2({ lineMode: isLineMode, n3: isN3, isImpliedBy: this._isImpliedBy });
-    this._explicitQuantifiers = !!options.explicitQuantifiers;
-    this._parseUnsupportedVersions = !!options.parseUnsupportedVersions;
-    this._version = options.version;
-  }
-  // ## Static class methods
-  // ### `_resetBlankNodePrefix` restarts blank node prefix identification
-  static _resetBlankNodePrefix() {
-    blankNodePrefix2 = 0;
-  }
-  // ## Private methods
-  // ### `_setBase` sets the base IRI to resolve relative IRIs
-  _setBase(baseIRI) {
-    if (!baseIRI) {
-      this._base = "";
-      this._basePath = "";
-    } else {
-      const fragmentPos = baseIRI.indexOf("#");
-      if (fragmentPos >= 0)
-        baseIRI = baseIRI.substr(0, fragmentPos);
-      this._base = baseIRI;
-      this._basePath = baseIRI.indexOf("/") < 0 ? baseIRI : baseIRI.replace(/[^\/?]*(?:\?.*)?$/, "");
-      baseIRI = baseIRI.match(/^(?:([a-z][a-z0-9+.-]*:))?(?:\/\/[^\/]*)?/i);
-      this._baseRoot = baseIRI[0];
-      this._baseScheme = baseIRI[1];
-    }
-  }
-  // ### `_saveContext` stores the current parsing context
-  // when entering a new scope (list, blank node, formula)
-  _saveContext(type, graph2, subject, predicate, object) {
-    const n3Mode = this._n3Mode;
-    this._contextStack.push({
-      type,
-      subject,
-      predicate,
-      object,
-      graph: graph2,
-      inverse: n3Mode ? this._inversePredicate : false,
-      blankPrefix: n3Mode ? this._prefixes._ : "",
-      quantified: n3Mode ? this._quantified : null
-    });
-    if (n3Mode) {
-      this._inversePredicate = false;
-      this._prefixes._ = this._graph ? `${this._graph.value}.` : ".";
-      this._quantified = Object.create(this._quantified);
-    }
-  }
-  // ### `_restoreContext` restores the parent context
-  // when leaving a scope (list, blank node, formula)
-  _restoreContext(type, token) {
-    const context = this._contextStack.pop();
-    if (!context || context.type !== type)
-      return this._error(`Unexpected ${token.type}`, token);
-    this._subject = context.subject;
-    this._predicate = context.predicate;
-    this._object = context.object;
-    this._graph = context.graph;
-    if (this._n3Mode) {
-      this._inversePredicate = context.inverse;
-      this._prefixes._ = context.blankPrefix;
-      this._quantified = context.quantified;
-    }
-  }
-  // ### `_readBeforeTopContext` is called once only at the start of parsing.
-  _readBeforeTopContext(token) {
-    if (this._version && !this._isValidVersion(this._version))
-      return this._error(`Detected unsupported version as media type parameter: "${this._version}"`, token);
-    return this._readInTopContext(token);
-  }
-  // ### `_readInTopContext` reads a token when in the top context
-  _readInTopContext(token) {
-    switch (token.type) {
-      // If an EOF token arrives in the top context, signal that we're done
-      case "eof":
-        if (this._graph !== null)
-          return this._error("Unclosed graph", token);
-        delete this._prefixes._;
-        return this._callback(null, null, this._prefixes);
-      // It could be a prefix declaration
-      case "PREFIX":
-        this._sparqlStyle = true;
-      case "@prefix":
-        return this._readPrefix;
-      // It could be a base declaration
-      case "BASE":
-        this._sparqlStyle = true;
-      case "@base":
-        return this._readBaseIRI;
-      // It could be a version declaration
-      case "VERSION":
-        this._sparqlStyle = true;
-      case "@version":
-        return this._readVersion;
-      // It could be a graph
-      case "{":
-        if (this._supportsNamedGraphs) {
-          this._graph = "";
-          this._subject = null;
-          return this._readSubject;
-        }
-      case "GRAPH":
-        if (this._supportsNamedGraphs)
-          return this._readNamedGraphLabel;
-      // Otherwise, the next token must be a subject
-      default:
-        return this._readSubject(token);
-    }
-  }
-  // ### `_readEntity` reads an IRI, prefixed name, blank node, or variable
-  _readEntity(token, quantifier) {
-    let value;
-    switch (token.type) {
-      // Read a relative or absolute IRI
-      case "IRI":
-      case "typeIRI":
-        const iri = this._resolveIRI(token.value);
-        if (iri === null)
-          return this._error("Invalid IRI", token);
-        value = this._factory.namedNode(iri);
-        break;
-      // Read a prefixed name
-      case "type":
-      case "prefixed":
-        const prefix = this._prefixes[token.prefix];
-        if (prefix === void 0)
-          return this._error(`Undefined prefix "${token.prefix}:"`, token);
-        value = this._factory.namedNode(prefix + token.value);
-        break;
-      // Read a blank node
-      case "blank":
-        value = this._factory.blankNode(this._prefixes[token.prefix] + token.value);
-        break;
-      // Read a variable
-      case "var":
-        value = this._factory.variable(token.value.substr(1));
-        break;
-      // Everything else is not an entity
-      default:
-        return this._error(`Expected entity but got ${token.type}`, token);
-    }
-    if (!quantifier && this._n3Mode && value.id in this._quantified)
-      value = this._quantified[value.id];
-    return value;
-  }
-  // ### `_readSubject` reads a quad's subject
-  _readSubject(token) {
-    this._predicate = null;
-    switch (token.type) {
-      case "[":
-        this._saveContext(
-          "blank",
-          this._graph,
-          this._subject = this._factory.blankNode(),
-          null,
-          null
-        );
-        return this._readBlankNodeHead;
-      case "(":
-        const stack = this._contextStack, parent = stack.length && stack[stack.length - 1];
-        if (parent.type === "<<") {
-          return this._error("Unexpected list in reified triple", token);
-        }
-        this._saveContext("list", this._graph, this.RDF_NIL, null, null);
-        this._subject = null;
-        return this._readListItem;
-      case "{":
-        if (!this._n3Mode)
-          return this._error("Unexpected graph", token);
-        this._saveContext(
-          "formula",
-          this._graph,
-          this._graph = this._factory.blankNode(),
-          null,
-          null
-        );
-        return this._readSubject;
-      case "}":
-        return this._readPunctuation(token);
-      case "@forSome":
-        if (!this._n3Mode)
-          return this._error('Unexpected "@forSome"', token);
-        this._subject = null;
-        this._predicate = this.N3_FORSOME;
-        this._quantifier = "blankNode";
-        return this._readQuantifierList;
-      case "@forAll":
-        if (!this._n3Mode)
-          return this._error('Unexpected "@forAll"', token);
-        this._subject = null;
-        this._predicate = this.N3_FORALL;
-        this._quantifier = "variable";
-        return this._readQuantifierList;
-      case "literal":
-        if (!this._n3Mode)
-          return this._error("Unexpected literal", token);
-        if (token.prefix.length === 0) {
-          this._literalValue = token.value;
-          return this._completeSubjectLiteral;
-        } else
-          this._subject = this._factory.literal(token.value, this._factory.namedNode(token.prefix));
-        break;
-      case "<<(":
-        if (!this._n3Mode)
-          return this._error("Disallowed triple term as subject", token);
-        this._saveContext("<<(", this._graph, null, null, null);
-        this._graph = null;
-        return this._readSubject;
-      case "<<":
-        this._saveContext("<<", this._graph, null, null, null);
-        this._graph = null;
-        return this._readSubject;
-      default:
-        if ((this._subject = this._readEntity(token)) === void 0)
-          return;
-        if (this._n3Mode)
-          return this._getPathReader(this._readPredicateOrNamedGraph);
-    }
-    return this._readPredicateOrNamedGraph;
-  }
-  // ### `_readPredicate` reads a quad's predicate
-  _readPredicate(token) {
-    const type = token.type;
-    switch (type) {
-      case "inverse":
-        this._inversePredicate = true;
-      case "abbreviation":
-        this._predicate = this.ABBREVIATIONS[token.value];
-        break;
-      case ".":
-      case "]":
-      case "}":
-      case "|}":
-        if (this._predicate === null)
-          return this._error(`Unexpected ${type}`, token);
-        this._subject = null;
-        return type === "]" ? this._readBlankNodeTail(token) : this._readPunctuation(token);
-      case ";":
-        return this._predicate !== null ? this._readPredicate : this._error("Expected predicate but got ;", token);
-      case "[":
-        if (this._n3Mode) {
-          this._saveContext(
-            "blank",
-            this._graph,
-            this._subject,
-            this._subject = this._factory.blankNode(),
-            null
-          );
-          return this._readBlankNodeHead;
-        }
-      case "blank":
-        if (!this._n3Mode)
-          return this._error("Disallowed blank node as predicate", token);
-      default:
-        if ((this._predicate = this._readEntity(token)) === void 0)
-          return;
-    }
-    this._validAnnotation = true;
-    return this._readObject;
-  }
-  // ### `_readObject` reads a quad's object
-  _readObject(token) {
-    switch (token.type) {
-      case "literal":
-        if (token.prefix.length === 0) {
-          this._literalValue = token.value;
-          return this._readDataTypeOrLang;
-        } else
-          this._object = this._factory.literal(token.value, this._factory.namedNode(token.prefix));
-        break;
-      case "[":
-        this._saveContext(
-          "blank",
-          this._graph,
-          this._subject,
-          this._predicate,
-          this._subject = this._factory.blankNode()
-        );
-        return this._readBlankNodeHead;
-      case "(":
-        const stack = this._contextStack, parent = stack.length && stack[stack.length - 1];
-        if (parent.type === "<<") {
-          return this._error("Unexpected list in reified triple", token);
-        }
-        this._saveContext("list", this._graph, this._subject, this._predicate, this.RDF_NIL);
-        this._subject = null;
-        return this._readListItem;
-      case "{":
-        if (!this._n3Mode)
-          return this._error("Unexpected graph", token);
-        this._saveContext(
-          "formula",
-          this._graph,
-          this._subject,
-          this._predicate,
-          this._graph = this._factory.blankNode()
-        );
-        return this._readSubject;
-      case "<<(":
-        this._saveContext("<<(", this._graph, this._subject, this._predicate, null);
-        this._graph = null;
-        return this._readSubject;
-      case "<<":
-        this._saveContext("<<", this._graph, this._subject, this._predicate, null);
-        this._graph = null;
-        return this._readSubject;
-      default:
-        if ((this._object = this._readEntity(token)) === void 0)
-          return;
-        if (this._n3Mode)
-          return this._getPathReader(this._getContextEndReader());
-    }
-    return this._getContextEndReader();
-  }
-  // ### `_readPredicateOrNamedGraph` reads a quad's predicate, or a named graph
-  _readPredicateOrNamedGraph(token) {
-    return token.type === "{" ? this._readGraph(token) : this._readPredicate(token);
-  }
-  // ### `_readGraph` reads a graph
-  _readGraph(token) {
-    if (token.type !== "{")
-      return this._error(`Expected graph but got ${token.type}`, token);
-    this._graph = this._subject, this._subject = null;
-    return this._readSubject;
-  }
-  // ### `_readBlankNodeHead` reads the head of a blank node
-  _readBlankNodeHead(token) {
-    if (token.type === "]") {
-      this._subject = null;
-      return this._readBlankNodeTail(token);
-    } else {
-      const stack = this._contextStack, parentParent = stack.length > 1 && stack[stack.length - 2];
-      if (parentParent.type === "<<") {
-        return this._error("Unexpected compound blank node expression in reified triple", token);
-      }
-      this._predicate = null;
-      return this._readPredicate(token);
-    }
-  }
-  // ### `_readBlankNodeTail` reads the end of a blank node
-  _readBlankNodeTail(token) {
-    if (token.type !== "]")
-      return this._readBlankNodePunctuation(token);
-    if (this._subject !== null)
-      this._emit(this._subject, this._predicate, this._object, this._graph);
-    const empty = this._predicate === null;
-    this._restoreContext("blank", token);
-    if (this._object !== null)
-      return this._getContextEndReader();
-    else if (this._predicate !== null)
-      return this._readObject;
-    else
-      return empty ? this._readPredicateOrNamedGraph : this._readPredicateAfterBlank;
-  }
-  // ### `_readPredicateAfterBlank` reads a predicate after an anonymous blank node
-  _readPredicateAfterBlank(token) {
-    switch (token.type) {
-      case ".":
-      case "}":
-        this._subject = null;
-        return this._readPunctuation(token);
-      default:
-        return this._readPredicate(token);
-    }
-  }
-  // ### `_readListItem` reads items from a list
-  _readListItem(token) {
-    let item = null, list2 = null, next = this._readListItem;
-    const previousList = this._subject, stack = this._contextStack, parent = stack[stack.length - 1];
-    switch (token.type) {
-      case "[":
-        this._saveContext(
-          "blank",
-          this._graph,
-          list2 = this._factory.blankNode(),
-          this.RDF_FIRST,
-          this._subject = item = this._factory.blankNode()
-        );
-        next = this._readBlankNodeHead;
-        break;
-      case "(":
-        this._saveContext(
-          "list",
-          this._graph,
-          list2 = this._factory.blankNode(),
-          this.RDF_FIRST,
-          this.RDF_NIL
-        );
-        this._subject = null;
-        break;
-      case ")":
-        this._restoreContext("list", token);
-        if (stack.length !== 0 && stack[stack.length - 1].type === "list")
-          this._emit(this._subject, this._predicate, this._object, this._graph);
-        if (this._predicate === null) {
-          next = this._readPredicate;
-          if (this._subject === this.RDF_NIL)
-            return next;
-        } else {
-          next = this._getContextEndReader();
-          if (this._object === this.RDF_NIL)
-            return next;
-        }
-        list2 = this.RDF_NIL;
-        break;
-      case "literal":
-        if (token.prefix.length === 0) {
-          this._literalValue = token.value;
-          next = this._readListItemDataTypeOrLang;
-        } else {
-          item = this._factory.literal(token.value, this._factory.namedNode(token.prefix));
-          next = this._getContextEndReader();
-        }
-        break;
-      case "{":
-        if (!this._n3Mode)
-          return this._error("Unexpected graph", token);
-        this._saveContext(
-          "formula",
-          this._graph,
-          this._subject,
-          this._predicate,
-          this._graph = this._factory.blankNode()
-        );
-        return this._readSubject;
-      case "<<":
-        this._saveContext("<<", this._graph, null, null, null);
-        this._graph = null;
-        next = this._readSubject;
-        break;
-      default:
-        if ((item = this._readEntity(token)) === void 0)
-          return;
-    }
-    if (list2 === null)
-      this._subject = list2 = this._factory.blankNode();
-    if (token.type === "<<")
-      stack[stack.length - 1].subject = this._subject;
-    if (previousList === null) {
-      if (parent.predicate === null)
-        parent.subject = list2;
-      else
-        parent.object = list2;
-    } else {
-      this._emit(previousList, this.RDF_REST, list2, this._graph);
-    }
-    if (item !== null) {
-      if (this._n3Mode && (token.type === "IRI" || token.type === "prefixed")) {
-        this._saveContext("item", this._graph, list2, this.RDF_FIRST, item);
-        this._subject = item, this._predicate = null;
-        return this._getPathReader(this._readListItem);
-      }
-      this._emit(list2, this.RDF_FIRST, item, this._graph);
-    }
-    return next;
-  }
-  // ### `_readDataTypeOrLang` reads an _optional_ datatype or language
-  _readDataTypeOrLang(token) {
-    return this._completeObjectLiteral(token, false);
-  }
-  // ### `_readListItemDataTypeOrLang` reads an _optional_ datatype or language in a list
-  _readListItemDataTypeOrLang(token) {
-    return this._completeObjectLiteral(token, true);
-  }
-  // ### `_completeLiteral` completes a literal with an optional datatype or language
-  _completeLiteral(token, component) {
-    let literal3 = this._factory.literal(this._literalValue);
-    let readCb;
-    switch (token.type) {
-      // Create a datatyped literal
-      case "type":
-      case "typeIRI":
-        const datatype = this._readEntity(token);
-        if (datatype === void 0) return;
-        if (datatype.value === IRIs_default2.rdf.langString || datatype.value === IRIs_default2.rdf.dirLangString) {
-          return this._error("Detected illegal (directional) languaged-tagged string with explicit datatype", token);
-        }
-        literal3 = this._factory.literal(this._literalValue, datatype);
-        token = null;
-        break;
-      // Create a language-tagged string
-      case "langcode":
-        if (token.value.split("-").some((t) => t.length > 8))
-          return this._error("Detected language tag with subtag longer than 8 characters", token);
-        literal3 = this._factory.literal(this._literalValue, token.value);
-        this._literalLanguage = token.value;
-        token = null;
-        readCb = this._readDirCode.bind(this, component);
-        break;
-    }
-    return { token, literal: literal3, readCb };
-  }
-  _readDirCode(component, listItem, token) {
-    if (token.type === "dircode") {
-      const term = this._factory.literal(this._literalValue, { language: this._literalLanguage, direction: token.value });
-      if (component === "subject")
-        this._subject = term;
-      else
-        this._object = term;
-      this._literalLanguage = void 0;
-      token = null;
-    }
-    if (component === "subject")
-      return token === null ? this._readPredicateOrNamedGraph : this._readPredicateOrNamedGraph(token);
-    return this._completeObjectLiteralPost(token, listItem);
-  }
-  // Completes a literal in subject position
-  _completeSubjectLiteral(token) {
-    const completed = this._completeLiteral(token, "subject");
-    this._subject = completed.literal;
-    if (completed.readCb)
-      return completed.readCb.bind(this, false);
-    return this._readPredicateOrNamedGraph;
-  }
-  // Completes a literal in object position
-  _completeObjectLiteral(token, listItem) {
-    const completed = this._completeLiteral(token, "object");
-    if (!completed)
-      return;
-    this._object = completed.literal;
-    if (completed.readCb)
-      return completed.readCb.bind(this, listItem);
-    return this._completeObjectLiteralPost(completed.token, listItem);
-  }
-  _completeObjectLiteralPost(token, listItem) {
-    if (listItem)
-      this._emit(this._subject, this.RDF_FIRST, this._object, this._graph);
-    if (token === null)
-      return this._getContextEndReader();
-    else {
-      this._readCallback = this._getContextEndReader();
-      return this._readCallback(token);
-    }
-  }
-  // ### `_readFormulaTail` reads the end of a formula
-  _readFormulaTail(token) {
-    if (token.type !== "}")
-      return this._readPunctuation(token);
-    if (this._subject !== null)
-      this._emit(this._subject, this._predicate, this._object, this._graph);
-    this._restoreContext("formula", token);
-    return this._object === null ? this._readPredicate : this._getContextEndReader();
-  }
-  // ### `_readPunctuation` reads punctuation between quads or quad parts
-  _readPunctuation(token) {
-    let next, graph2 = this._graph, startingAnnotation = false;
-    const subject = this._subject, inversePredicate = this._inversePredicate;
-    switch (token.type) {
-      // A closing brace ends a graph
-      case "}":
-        if (this._graph === null)
-          return this._error("Unexpected graph closing", token);
-        if (this._n3Mode)
-          return this._readFormulaTail(token);
-        this._graph = null;
-      // A dot just ends the statement, without sharing anything with the next
-      case ".":
-        this._subject = null;
-        this._tripleTerm = null;
-        next = this._contextStack.length ? this._readSubject : this._readInTopContext;
-        if (inversePredicate) this._inversePredicate = false;
-        break;
-      // Semicolon means the subject is shared; predicate and object are different
-      case ";":
-        next = this._readPredicate;
-        break;
-      // Comma means both the subject and predicate are shared; the object is different
-      case ",":
-        next = this._readObject;
-        break;
-      // ~ is allowed in the annotation syntax
-      case "~":
-        next = this._readReifierInAnnotation;
-        startingAnnotation = true;
-        break;
-      // {| means that the current triple is annotated with predicate-object pairs.
-      case "{|":
-        this._subject = this._readTripleTerm();
-        this._validAnnotation = false;
-        startingAnnotation = true;
-        next = this._readPredicate;
-        break;
-      // |} means that the current reified triple in annotation syntax is finalized.
-      case "|}":
-        if (!this._annotation)
-          return this._error("Unexpected annotation syntax closing", token);
-        if (!this._validAnnotation)
-          return this._error("Annotation block can not be empty", token);
-        this._subject = null;
-        this._annotation = false;
-        next = this._readPunctuation;
-        break;
-      default:
-        if (this._supportsQuads && this._graph === null && (graph2 = this._readEntity(token)) !== void 0) {
-          next = this._readQuadPunctuation;
-          break;
-        }
-        return this._error(`Expected punctuation to follow "${this._object.id}"`, token);
-    }
-    if (subject !== null && (!startingAnnotation || startingAnnotation && !this._annotation)) {
-      const predicate = this._predicate, object = this._object;
-      if (!inversePredicate)
-        this._emit(subject, predicate, object, graph2);
-      else
-        this._emit(object, predicate, subject, graph2);
-    }
-    if (startingAnnotation) {
-      this._annotation = true;
-    }
-    return next;
-  }
-  // ### `_readBlankNodePunctuation` reads punctuation in a blank node
-  _readBlankNodePunctuation(token) {
-    let next;
-    switch (token.type) {
-      // Semicolon means the subject is shared; predicate and object are different
-      case ";":
-        next = this._readPredicate;
-        break;
-      // Comma means both the subject and predicate are shared; the object is different
-      case ",":
-        next = this._readObject;
-        break;
-      default:
-        return this._error(`Expected punctuation to follow "${this._object.id}"`, token);
-    }
-    this._emit(this._subject, this._predicate, this._object, this._graph);
-    return next;
-  }
-  // ### `_readQuadPunctuation` reads punctuation after a quad
-  _readQuadPunctuation(token) {
-    if (token.type !== ".")
-      return this._error("Expected dot to follow quad", token);
-    return this._readInTopContext;
-  }
-  // ### `_readPrefix` reads the prefix of a prefix declaration
-  _readPrefix(token) {
-    if (token.type !== "prefix")
-      return this._error("Expected prefix to follow @prefix", token);
-    this._prefix = token.value;
-    return this._readPrefixIRI;
-  }
-  // ### `_readPrefixIRI` reads the IRI of a prefix declaration
-  _readPrefixIRI(token) {
-    if (token.type !== "IRI")
-      return this._error(`Expected IRI to follow prefix "${this._prefix}:"`, token);
-    const prefixNode = this._readEntity(token);
-    this._prefixes[this._prefix] = prefixNode.value;
-    this._prefixCallback(this._prefix, prefixNode);
-    return this._readDeclarationPunctuation;
-  }
-  // ### `_readBaseIRI` reads the IRI of a base declaration
-  _readBaseIRI(token) {
-    const iri = token.type === "IRI" && this._resolveIRI(token.value);
-    if (!iri)
-      return this._error("Expected valid IRI to follow base declaration", token);
-    this._setBase(iri);
-    return this._readDeclarationPunctuation;
-  }
-  // ### `_isValidVersion` checks if the given version is valid for this parser to handle.
-  _isValidVersion(version) {
-    return this._parseUnsupportedVersions || _N3Parser.SUPPORTED_VERSIONS.includes(version);
-  }
-  // ### `_readVersion` reads version string declaration
-  _readVersion(token) {
-    if (token.type !== "literal")
-      return this._error("Expected literal to follow version declaration", token);
-    if (token.end - token.start !== token.value.length + 2)
-      return this._error("Version declarations must use single quotes", token);
-    this._versionCallback(token.value);
-    if (!this._isValidVersion(token.value))
-      return this._error(`Detected unsupported version: "${token.value}"`, token);
-    return this._readDeclarationPunctuation;
-  }
-  // ### `_readNamedGraphLabel` reads the label of a named graph
-  _readNamedGraphLabel(token) {
-    switch (token.type) {
-      case "IRI":
-      case "blank":
-      case "prefixed":
-        return this._readSubject(token), this._readGraph;
-      case "[":
-        return this._readNamedGraphBlankLabel;
-      default:
-        return this._error("Invalid graph label", token);
-    }
-  }
-  // ### `_readNamedGraphLabel` reads a blank node label of a named graph
-  _readNamedGraphBlankLabel(token) {
-    if (token.type !== "]")
-      return this._error("Invalid graph label", token);
-    this._subject = this._factory.blankNode();
-    return this._readGraph;
-  }
-  // ### `_readDeclarationPunctuation` reads the punctuation of a declaration
-  _readDeclarationPunctuation(token) {
-    if (this._sparqlStyle) {
-      this._sparqlStyle = false;
-      return this._readInTopContext(token);
-    }
-    if (token.type !== ".")
-      return this._error("Expected declaration to end with a dot", token);
-    return this._readInTopContext;
-  }
-  // Reads a list of quantified symbols from a @forSome or @forAll statement
-  _readQuantifierList(token) {
-    let entity;
-    switch (token.type) {
-      case "IRI":
-      case "prefixed":
-        if ((entity = this._readEntity(token, true)) !== void 0)
-          break;
-      default:
-        return this._error(`Unexpected ${token.type}`, token);
-    }
-    if (!this._explicitQuantifiers)
-      this._quantified[entity.id] = this._factory[this._quantifier](this._factory.blankNode().value);
-    else {
-      if (this._subject === null)
-        this._emit(
-          this._graph || this.DEFAULTGRAPH,
-          this._predicate,
-          this._subject = this._factory.blankNode(),
-          this.QUANTIFIERS_GRAPH
-        );
-      else
-        this._emit(
-          this._subject,
-          this.RDF_REST,
-          this._subject = this._factory.blankNode(),
-          this.QUANTIFIERS_GRAPH
-        );
-      this._emit(this._subject, this.RDF_FIRST, entity, this.QUANTIFIERS_GRAPH);
-    }
-    return this._readQuantifierPunctuation;
-  }
-  // Reads punctuation from a @forSome or @forAll statement
-  _readQuantifierPunctuation(token) {
-    if (token.type === ",")
-      return this._readQuantifierList;
-    else {
-      if (this._explicitQuantifiers) {
-        this._emit(this._subject, this.RDF_REST, this.RDF_NIL, this.QUANTIFIERS_GRAPH);
-        this._subject = null;
-      }
-      this._readCallback = this._getContextEndReader();
-      return this._readCallback(token);
-    }
-  }
-  // ### `_getPathReader` reads a potential path and then resumes with the given function
-  _getPathReader(afterPath) {
-    this._afterPath = afterPath;
-    return this._readPath;
-  }
-  // ### `_readPath` reads a potential path
-  _readPath(token) {
-    switch (token.type) {
-      // Forward path
-      case "!":
-        return this._readForwardPath;
-      // Backward path
-      case "^":
-        return this._readBackwardPath;
-      // Not a path; resume reading where we left off
-      default:
-        const stack = this._contextStack, parent = stack.length && stack[stack.length - 1];
-        if (parent && parent.type === "item") {
-          const item = this._subject;
-          this._restoreContext("item", token);
-          this._emit(this._subject, this.RDF_FIRST, item, this._graph);
-        }
-        return this._afterPath(token);
-    }
-  }
-  // ### `_readForwardPath` reads a '!' path
-  _readForwardPath(token) {
-    let subject, predicate;
-    const object = this._factory.blankNode();
-    if ((predicate = this._readEntity(token)) === void 0)
-      return;
-    if (this._predicate === null)
-      subject = this._subject, this._subject = object;
-    else
-      subject = this._object, this._object = object;
-    this._emit(subject, predicate, object, this._graph);
-    return this._readPath;
-  }
-  // ### `_readBackwardPath` reads a '^' path
-  _readBackwardPath(token) {
-    const subject = this._factory.blankNode();
-    let predicate, object;
-    if ((predicate = this._readEntity(token)) === void 0)
-      return;
-    if (this._predicate === null)
-      object = this._subject, this._subject = subject;
-    else
-      object = this._object, this._object = subject;
-    this._emit(subject, predicate, object, this._graph);
-    return this._readPath;
-  }
-  // ### `_readTripleTermTail` reads the end of a triple term
-  _readTripleTermTail(token) {
-    if (token.type !== ")>>")
-      return this._error(`Expected )>> but got ${token.type}`, token);
-    const quad3 = this._factory.quad(
-      this._subject,
-      this._predicate,
-      this._object,
-      this._graph || this.DEFAULTGRAPH
-    );
-    this._restoreContext("<<(", token);
-    if (this._subject === null) {
-      this._subject = quad3;
-      return this._readPredicate;
-    } else {
-      this._object = quad3;
-      return this._getContextEndReader();
-    }
-  }
-  // ### `_readReifiedTripleTailOrReifier` reads a reifier or the end of a nested reified triple
-  _readReifiedTripleTailOrReifier(token) {
-    if (token.type === "~") {
-      return this._readReifier;
-    }
-    return this._readReifiedTripleTail(token);
-  }
-  // ### `_readReifiedTripleTail` reads the end of a nested reified triple
-  _readReifiedTripleTail(token) {
-    if (token.type !== ">>")
-      return this._error(`Expected >> but got ${token.type}`, token);
-    this._tripleTerm = null;
-    const reifier = this._readTripleTerm();
-    this._restoreContext("<<", token);
-    const stack = this._contextStack, parent = stack.length && stack[stack.length - 1];
-    if (parent && parent.type === "list") {
-      this._emit(this._subject, this.RDF_FIRST, reifier, this._graph);
-      return this._getContextEndReader();
-    } else if (this._subject === null) {
-      this._subject = reifier;
-      return this._readPredicateOrReifierTripleEnd;
-    } else {
-      this._object = reifier;
-      return this._getContextEndReader();
-    }
-  }
-  _readPredicateOrReifierTripleEnd(token) {
-    if (token.type === ".") {
-      this._subject = null;
-      return this._readPunctuation(token);
-    }
-    return this._readPredicate(token);
-  }
-  // ### `_readReifier` reads the triple term identifier after a tilde when in a reifying triple.
-  _readReifier(token) {
-    this._reifier = this._readEntity(token);
-    return this._readReifiedTripleTail;
-  }
-  // ### `_readReifier` reads the optional triple term identifier after a tilde when in annotation syntax.
-  _readReifierInAnnotation(token) {
-    if (token.type === "IRI" || token.type === "typeIRI" || token.type === "type" || token.type === "prefixed" || token.type === "blank" || token.type === "var") {
-      this._reifier = this._readEntity(token);
-      return this._readPunctuation;
-    }
-    this._readTripleTerm();
-    this._subject = null;
-    return this._readPunctuation(token);
-  }
-  _readTripleTerm() {
-    const stack = this._contextStack, parent = stack.length && stack[stack.length - 1];
-    const parentGraph = parent ? parent.graph : void 0;
-    const reifier = this._reifier || this._factory.blankNode();
-    this._reifier = null;
-    this._tripleTerm = this._tripleTerm || this._factory.quad(this._subject, this._predicate, this._object);
-    this._emit(reifier, this.RDF_REIFIES, this._tripleTerm, parentGraph || this.DEFAULTGRAPH);
-    return reifier;
-  }
-  // ### `_getContextEndReader` gets the next reader function at the end of a context
-  _getContextEndReader() {
-    const contextStack = this._contextStack;
-    if (!contextStack.length)
-      return this._readPunctuation;
-    switch (contextStack[contextStack.length - 1].type) {
-      case "blank":
-        return this._readBlankNodeTail;
-      case "list":
-        return this._readListItem;
-      case "formula":
-        return this._readFormulaTail;
-      case "<<(":
-        return this._readTripleTermTail;
-      case "<<":
-        return this._readReifiedTripleTailOrReifier;
-    }
-  }
-  // ### `_emit` sends a quad through the callback
-  _emit(subject, predicate, object, graph2) {
-    this._callback(null, this._factory.quad(subject, predicate, object, graph2 || this.DEFAULTGRAPH));
-  }
-  // ### `_error` emits an error message through the callback
-  _error(message, token) {
-    const err = new Error(`${message} on line ${token.line}.`);
-    err.context = {
-      token,
-      line: token.line,
-      previousToken: this._lexer.previousToken
-    };
-    this._callback(err);
-    this._callback = noop2;
-  }
-  // ### `_resolveIRI` resolves an IRI against the base path
-  _resolveIRI(iri) {
-    return /^[a-z][a-z0-9+.-]*:/i.test(iri) ? iri : this._resolveRelativeIRI(iri);
-  }
-  // ### `_resolveRelativeIRI` resolves an IRI against the base path,
-  // assuming that a base path has been set and that the IRI is indeed relative
-  _resolveRelativeIRI(iri) {
-    if (!iri.length)
-      return this._base;
-    switch (iri[0]) {
-      // Resolve relative fragment IRIs against the base IRI
-      case "#":
-        return this._base + iri;
-      // Resolve relative query string IRIs by replacing the query string
-      case "?":
-        return this._base.replace(/(?:\?.*)?$/, iri);
-      // Resolve root-relative IRIs at the root of the base IRI
-      case "/":
-        return (iri[1] === "/" ? this._baseScheme : this._baseRoot) + this._removeDotSegments(iri);
-      // Resolve all other IRIs at the base IRI's path
-      default:
-        return /^[^/:]*:/.test(iri) ? null : this._removeDotSegments(this._basePath + iri);
-    }
-  }
-  // ### `_removeDotSegments` resolves './' and '../' path segments in an IRI as per RFC3986
-  _removeDotSegments(iri) {
-    if (!/(^|\/)\.\.?($|[/#?])/.test(iri))
-      return iri;
-    const length = iri.length;
-    let result = "", i = -1, pathStart = -1, segmentStart = 0, next = "/";
-    while (i < length) {
-      switch (next) {
-        // The path starts with the first slash after the authority
-        case ":":
-          if (pathStart < 0) {
-            if (iri[++i] === "/" && iri[++i] === "/")
-              while ((pathStart = i + 1) < length && iri[pathStart] !== "/")
-                i = pathStart;
-          }
-          break;
-        // Don't modify a query string or fragment
-        case "?":
-        case "#":
-          i = length;
-          break;
-        // Handle '/.' or '/..' path segments
-        case "/":
-          if (iri[i + 1] === ".") {
-            next = iri[++i + 1];
-            switch (next) {
-              // Remove a '/.' segment
-              case "/":
-                result += iri.substring(segmentStart, i - 1);
-                segmentStart = i + 1;
-                break;
-              // Remove a trailing '/.' segment
-              case void 0:
-              case "?":
-              case "#":
-                return result + iri.substring(segmentStart, i) + iri.substr(i + 1);
-              // Remove a '/..' segment
-              case ".":
-                next = iri[++i + 1];
-                if (next === void 0 || next === "/" || next === "?" || next === "#") {
-                  result += iri.substring(segmentStart, i - 2);
-                  if ((segmentStart = result.lastIndexOf("/")) >= pathStart)
-                    result = result.substr(0, segmentStart);
-                  if (next !== "/")
-                    return `${result}/${iri.substr(i + 1)}`;
-                  segmentStart = i + 1;
-                }
-            }
-          }
-      }
-      next = iri[++i];
-    }
-    return result + iri.substring(segmentStart);
-  }
-  // ## Public methods
-  // ### `parse` parses the N3 input and emits each parsed quad through the onQuad callback.
-  parse(input2, quadCallback, prefixCallback, versionCallback) {
-    let onQuad, onPrefix, onComment, onVersion;
-    if (quadCallback && (quadCallback.onQuad || quadCallback.onPrefix || quadCallback.onComment || quadCallback.onVersion)) {
-      onQuad = quadCallback.onQuad;
-      onPrefix = quadCallback.onPrefix;
-      onComment = quadCallback.onComment;
-      onVersion = quadCallback.onVersion;
-    } else {
-      onQuad = quadCallback;
-      onPrefix = prefixCallback;
-      onVersion = versionCallback;
-    }
-    this._readCallback = this._readBeforeTopContext;
-    this._sparqlStyle = false;
-    this._prefixes = /* @__PURE__ */ Object.create(null);
-    this._prefixes._ = this._blankNodePrefix ? this._blankNodePrefix.substr(2) : `b${blankNodePrefix2++}_`;
-    this._prefixCallback = onPrefix || noop2;
-    this._versionCallback = onVersion || noop2;
-    this._inversePredicate = false;
-    this._quantified = /* @__PURE__ */ Object.create(null);
-    if (!onQuad) {
-      const quads = [];
-      let error4;
-      this._callback = (e, t) => {
-        e ? error4 = e : t && quads.push(t);
-      };
-      this._lexer.tokenize(input2).every((token) => {
-        return this._readCallback = this._readCallback(token);
-      });
-      if (error4) throw error4;
-      return quads;
-    }
-    let processNextToken = (error4, token) => {
-      if (error4 !== null)
-        this._callback(error4), this._callback = noop2;
-      else if (this._readCallback)
-        this._readCallback = this._readCallback(token);
-    };
-    if (onComment) {
-      this._lexer.comments = true;
-      processNextToken = (error4, token) => {
-        if (error4 !== null)
-          this._callback(error4), this._callback = noop2;
-        else if (this._readCallback) {
-          if (token.type === "comment")
-            onComment(token.value);
-          else
-            this._readCallback = this._readCallback(token);
-        }
-      };
-    }
-    this._callback = onQuad;
-    this._lexer.tokenize(input2, processNextToken);
-  }
-};
-function noop2() {
-}
-function initDataFactory2(parser, factory) {
-  parser._factory = factory;
-  parser.DEFAULTGRAPH = factory.defaultGraph();
-  parser.RDF_FIRST = factory.namedNode(IRIs_default2.rdf.first);
-  parser.RDF_REST = factory.namedNode(IRIs_default2.rdf.rest);
-  parser.RDF_NIL = factory.namedNode(IRIs_default2.rdf.nil);
-  parser.RDF_REIFIES = factory.namedNode(IRIs_default2.rdf.reifies);
-  parser.N3_FORALL = factory.namedNode(IRIs_default2.r.forAll);
-  parser.N3_FORSOME = factory.namedNode(IRIs_default2.r.forSome);
-  parser.ABBREVIATIONS = {
-    "a": factory.namedNode(IRIs_default2.rdf.type),
-    "=": factory.namedNode(IRIs_default2.owl.sameAs),
-    ">": factory.namedNode(IRIs_default2.log.implies),
-    "<": factory.namedNode(IRIs_default2.log.isImpliedBy)
-  };
-  parser.QUANTIFIERS_GRAPH = factory.namedNode("urn:n3:quantifiers");
-}
-N3Parser2.SUPPORTED_VERSIONS = [
-  "1.2",
-  "1.2-basic",
-  "1.1"
-];
-initDataFactory2(N3Parser2.prototype, N3DataFactory_default2);
-
-// node_modules/n3/src/N3Util.js
-function isDefaultGraph2(term) {
-  return !!term && term.termType === "DefaultGraph";
-}
-
-// node_modules/n3/src/Util.js
-function escapeRegex2(regex) {
-  return regex.replace(/[\]\/\(\)\*\+\?\.\\\$]/g, "\\$&");
-}
-
-// node_modules/n3/src/BaseIRI.js
-var BASE_UNSUPPORTED2 = /^:?[^:?#]*(?:[?#]|$)|^file:|^[^:]*:\/*[^?#]+?\/(?:\.\.?(?:\/|$)|\/)/i;
-var SUFFIX_SUPPORTED2 = /^(?:(?:[^/?#]{3,}|\.?[^/?#.]\.?)(?:\/[^/?#]{3,}|\.?[^/?#.]\.?)*\/?)?(?:[?#]|$)/;
-var CURRENT2 = "./";
-var PARENT2 = "../";
-var QUERY2 = "?";
-var FRAGMENT2 = "#";
-var BaseIRI2 = class _BaseIRI {
-  constructor(base) {
-    this.base = base;
-    this._baseLength = 0;
-    this._baseMatcher = null;
-    this._pathReplacements = new Array(base.length + 1);
-  }
-  static supports(base) {
-    return !BASE_UNSUPPORTED2.test(base);
-  }
-  _getBaseMatcher() {
-    if (this._baseMatcher)
-      return this._baseMatcher;
-    if (!_BaseIRI.supports(this.base))
-      return this._baseMatcher = /.^/;
-    const scheme = /^[^:]*:\/*/.exec(this.base)[0];
-    const regexHead = ["^", escapeRegex2(scheme)];
-    const regexTail = [];
-    const segments = [], segmenter = /[^/?#]*([/?#])/y;
-    let segment, query = 0, fragment = 0, last = segmenter.lastIndex = scheme.length;
-    while (!query && !fragment && (segment = segmenter.exec(this.base))) {
-      if (segment[1] === FRAGMENT2)
-        fragment = segmenter.lastIndex - 1;
-      else {
-        regexHead.push(escapeRegex2(segment[0]), "(?:");
-        regexTail.push(")?");
-        if (segment[1] !== QUERY2)
-          segments.push(last = segmenter.lastIndex);
-        else {
-          query = last = segmenter.lastIndex;
-          fragment = this.base.indexOf(FRAGMENT2, query);
-          this._pathReplacements[query] = QUERY2;
-        }
-      }
-    }
-    for (let i = 0; i < segments.length; i++)
-      this._pathReplacements[segments[i]] = PARENT2.repeat(segments.length - i - 1);
-    this._pathReplacements[segments[segments.length - 1]] = CURRENT2;
-    this._baseLength = fragment > 0 ? fragment : this.base.length;
-    regexHead.push(
-      escapeRegex2(this.base.substring(last, this._baseLength)),
-      query ? "(?:#|$)" : "(?:[?#]|$)"
-    );
-    return this._baseMatcher = new RegExp([...regexHead, ...regexTail].join(""));
-  }
-  toRelative(iri) {
-    const match = this._getBaseMatcher().exec(iri);
-    if (!match)
-      return iri;
-    const length = match[0].length;
-    if (length === this._baseLength && length === iri.length)
-      return "";
-    const parentPath = this._pathReplacements[length];
-    if (parentPath) {
-      const suffix = iri.substring(length);
-      if (parentPath !== QUERY2 && !SUFFIX_SUPPORTED2.test(suffix))
-        return iri;
-      if (parentPath === CURRENT2 && /^[^?#]/.test(suffix))
-        return suffix;
-      return parentPath + suffix;
-    }
-    return iri.substring(length - 1);
-  }
-};
-
-// node_modules/n3/src/N3Writer.js
-var DEFAULTGRAPH4 = N3DataFactory_default2.defaultGraph();
-var { rdf: rdf4, xsd: xsd6 } = IRIs_default2;
-var escape2 = /["\\\t\n\r\b\f\u0000-\u0019\ud800-\udbff]/;
-var escapeAll2 = /["\\\t\n\r\b\f\u0000-\u0019]|[\ud800-\udbff][\udc00-\udfff]/g;
-var escapedCharacters2 = {
-  "\\": "\\\\",
-  '"': '\\"',
-  "	": "\\t",
-  "\n": "\\n",
-  "\r": "\\r",
-  "\b": "\\b",
-  "\f": "\\f"
-};
-var SerializedTerm2 = class extends Term2 {
-  // Pretty-printed nodes are not equal to any other node
-  // (e.g., [] does not equal [])
-  equals(other) {
-    return other === this;
-  }
-};
-var N3Writer2 = class {
-  constructor(outputStream, options) {
-    this._prefixRegex = /$0^/;
-    if (outputStream && typeof outputStream.write !== "function")
-      options = outputStream, outputStream = null;
-    options = options || {};
-    this._lists = options.lists;
-    if (!outputStream) {
-      let output = "";
-      this._outputStream = {
-        write(chunk, encoding, done) {
-          output += chunk;
-          done && done();
-        },
-        end: (done) => {
-          done && done(null, output);
-        }
-      };
-      this._endStream = true;
-    } else {
-      this._outputStream = outputStream;
-      this._endStream = options.end === void 0 ? true : !!options.end;
-    }
-    this._subject = null;
-    if (!/triple|quad/i.test(options.format)) {
-      this._lineMode = false;
-      this._graph = DEFAULTGRAPH4;
-      this._prefixIRIs = /* @__PURE__ */ Object.create(null);
-      options.prefixes && this.addPrefixes(options.prefixes);
-      if (options.baseIRI) {
-        this._baseIri = new BaseIRI2(options.baseIRI);
-      }
-    } else {
-      this._lineMode = true;
-      this._writeQuad = this._writeQuadLine;
-    }
-  }
-  // ## Private methods
-  // ### Whether the current graph is the default graph
-  get _inDefaultGraph() {
-    return DEFAULTGRAPH4.equals(this._graph);
-  }
-  // ### `_write` writes the argument to the output stream
-  _write(string, callback) {
-    this._outputStream.write(string, "utf8", callback);
-  }
-  // ### `_writeQuad` writes the quad to the output stream
-  _writeQuad(subject, predicate, object, graph2, done) {
-    try {
-      if (!graph2.equals(this._graph) || graph2.termType !== this._graph.termType) {
-        this._write((this._subject === null ? "" : this._inDefaultGraph ? ".\n" : "\n}\n") + (DEFAULTGRAPH4.equals(graph2) ? "" : `${this._encodeIriOrBlank(graph2)} {
-`));
-        this._graph = graph2;
-        this._subject = null;
-      }
-      if (subject.equals(this._subject)) {
-        if (predicate.equals(this._predicate))
-          this._write(`, ${this._encodeObject(object)}`, done);
-        else
-          this._write(`;
-    ${this._encodePredicate(this._predicate = predicate)} ${this._encodeObject(object)}`, done);
-      } else
-        this._write(`${(this._subject === null ? "" : ".\n") + this._encodeSubject(this._subject = subject)} ${this._encodePredicate(this._predicate = predicate)} ${this._encodeObject(object)}`, done);
-    } catch (error4) {
-      done && done(error4);
-    }
-  }
-  // ### `_writeQuadLine` writes the quad to the output stream as a single line
-  _writeQuadLine(subject, predicate, object, graph2, done) {
-    delete this._prefixMatch;
-    this._write(this.quadToString(subject, predicate, object, graph2), done);
-  }
-  // ### `quadToString` serializes a quad as a string
-  quadToString(subject, predicate, object, graph2) {
-    return `${this._encodeSubject(subject)} ${this._encodeIriOrBlank(predicate)} ${this._encodeObject(object)}${graph2 && !isDefaultGraph2(graph2) ? ` ${this._encodeIriOrBlank(graph2)} .
-` : " .\n"}`;
-  }
-  // ### `quadsToString` serializes an array of quads as a string
-  quadsToString(quads) {
-    let quadsString = "";
-    for (const quad3 of quads)
-      quadsString += this.quadToString(quad3.subject, quad3.predicate, quad3.object, quad3.graph);
-    return quadsString;
-  }
-  // ### `_encodeSubject` represents a subject
-  _encodeSubject(entity) {
-    return entity.termType === "Quad" ? this._encodeQuad(entity) : this._encodeIriOrBlank(entity);
-  }
-  // ### `_encodeIriOrBlank` represents an IRI or blank node
-  _encodeIriOrBlank(entity) {
-    if (entity.termType !== "NamedNode") {
-      if (this._lists && entity.value in this._lists)
-        entity = this.list(this._lists[entity.value]);
-      return "id" in entity ? entity.id : `_:${entity.value}`;
-    }
-    let iri = entity.value;
-    if (this._baseIri) {
-      iri = this._baseIri.toRelative(iri);
-    }
-    if (escape2.test(iri))
-      iri = iri.replace(escapeAll2, characterReplacer2);
-    const prefixMatch = this._prefixRegex.exec(iri);
-    return !prefixMatch ? `<${iri}>` : !prefixMatch[1] ? iri : this._prefixIRIs[prefixMatch[1]] + prefixMatch[2];
-  }
-  // ### `_encodeLiteral` represents a literal
-  _encodeLiteral(literal3) {
-    let value = literal3.value;
-    if (escape2.test(value))
-      value = value.replace(escapeAll2, characterReplacer2);
-    const direction = literal3.direction ? `--${literal3.direction}` : "";
-    if (literal3.language)
-      return `"${value}"@${literal3.language}${direction}`;
-    if (this._lineMode) {
-      if (literal3.datatype.value === xsd6.string)
-        return `"${value}"`;
-    } else {
-      switch (literal3.datatype.value) {
-        case xsd6.string:
-          return `"${value}"`;
-        case xsd6.boolean:
-          if (value === "true" || value === "false")
-            return value;
-          break;
-        case xsd6.integer:
-          if (/^[+-]?\d+$/.test(value))
-            return value;
-          break;
-        case xsd6.decimal:
-          if (/^[+-]?\d*\.\d+$/.test(value))
-            return value;
-          break;
-        case xsd6.double:
-          if (/^[+-]?(?:\d+\.\d*|\.?\d+)[eE][+-]?\d+$/.test(value))
-            return value;
-          break;
-      }
-    }
-    return `"${value}"^^${this._encodeIriOrBlank(literal3.datatype)}`;
-  }
-  // ### `_encodePredicate` represents a predicate
-  _encodePredicate(predicate) {
-    return predicate.value === rdf4.type ? "a" : this._encodeIriOrBlank(predicate);
-  }
-  // ### `_encodeObject` represents an object
-  _encodeObject(object) {
-    switch (object.termType) {
-      case "Quad":
-        return this._encodeQuad(object);
-      case "Literal":
-        return this._encodeLiteral(object);
-      default:
-        return this._encodeIriOrBlank(object);
-    }
-  }
-  // ### `_encodeQuad` encodes an RDF-star quad
-  _encodeQuad({ subject, predicate, object, graph: graph2 }) {
-    return `<<(${this._encodeSubject(subject)} ${this._encodePredicate(predicate)} ${this._encodeObject(object)}${isDefaultGraph2(graph2) ? "" : ` ${this._encodeIriOrBlank(graph2)}`})>>`;
-  }
-  // ### `_blockedWrite` replaces `_write` after the writer has been closed
-  _blockedWrite() {
-    throw new Error("Cannot write because the writer has been closed.");
-  }
-  // ### `addQuad` adds the quad to the output stream
-  addQuad(subject, predicate, object, graph2, done) {
-    if (object === void 0)
-      this._writeQuad(subject.subject, subject.predicate, subject.object, subject.graph, predicate);
-    else if (typeof graph2 === "function")
-      this._writeQuad(subject, predicate, object, DEFAULTGRAPH4, graph2);
-    else
-      this._writeQuad(subject, predicate, object, graph2 || DEFAULTGRAPH4, done);
-  }
-  // ### `addQuads` adds the quads to the output stream
-  addQuads(quads) {
-    for (let i = 0; i < quads.length; i++)
-      this.addQuad(quads[i]);
-  }
-  // ### `addPrefix` adds the prefix to the output stream
-  addPrefix(prefix, iri, done) {
-    const prefixes4 = {};
-    prefixes4[prefix] = iri;
-    this.addPrefixes(prefixes4, done);
-  }
-  // ### `addPrefixes` adds the prefixes to the output stream
-  addPrefixes(prefixes4, done) {
-    if (!this._prefixIRIs)
-      return done && done();
-    let hasPrefixes = false;
-    for (let prefix in prefixes4) {
-      let iri = prefixes4[prefix];
-      if (typeof iri !== "string")
-        iri = iri.value;
-      hasPrefixes = true;
-      if (this._subject !== null) {
-        this._write(this._inDefaultGraph ? ".\n" : "\n}\n");
-        this._subject = null, this._graph = "";
-      }
-      this._prefixIRIs[iri] = prefix += ":";
-      this._write(`@prefix ${prefix} <${iri}>.
-`);
-    }
-    if (hasPrefixes) {
-      let IRIlist = "", prefixList = "";
-      for (const prefixIRI in this._prefixIRIs) {
-        IRIlist += IRIlist ? `|${prefixIRI}` : prefixIRI;
-        prefixList += (prefixList ? "|" : "") + this._prefixIRIs[prefixIRI];
-      }
-      IRIlist = escapeRegex2(IRIlist, /[\]\/\(\)\*\+\?\.\\\$]/g, "\\$&");
-      this._prefixRegex = new RegExp(`^(?:${prefixList})[^/]*$|^(${IRIlist})([_a-zA-Z0-9][\\-_a-zA-Z0-9]*)$`);
-    }
-    this._write(hasPrefixes ? "\n" : "", done);
-  }
-  // ### `blank` creates a blank node with the given content
-  blank(predicate, object) {
-    let children = predicate, child, length;
-    if (predicate === void 0)
-      children = [];
-    else if (predicate.termType)
-      children = [{ predicate, object }];
-    else if (!("length" in predicate))
-      children = [predicate];
-    switch (length = children.length) {
-      // Generate an empty blank node
-      case 0:
-        return new SerializedTerm2("[]");
-      // Generate a non-nested one-triple blank node
-      case 1:
-        child = children[0];
-        if (!(child.object instanceof SerializedTerm2))
-          return new SerializedTerm2(`[ ${this._encodePredicate(child.predicate)} ${this._encodeObject(child.object)} ]`);
-      // Generate a multi-triple or nested blank node
-      default:
-        let contents = "[";
-        for (let i = 0; i < length; i++) {
-          child = children[i];
-          if (child.predicate.equals(predicate))
-            contents += `, ${this._encodeObject(child.object)}`;
-          else {
-            contents += `${(i ? ";\n  " : "\n  ") + this._encodePredicate(child.predicate)} ${this._encodeObject(child.object)}`;
-            predicate = child.predicate;
-          }
-        }
-        return new SerializedTerm2(`${contents}
-]`);
-    }
-  }
-  // ### `list` creates a list node with the given content
-  list(elements) {
-    const length = elements && elements.length || 0, contents = new Array(length);
-    for (let i = 0; i < length; i++)
-      contents[i] = this._encodeObject(elements[i]);
-    return new SerializedTerm2(`(${contents.join(" ")})`);
-  }
-  // ### `end` signals the end of the output stream
-  end(done) {
-    if (this._subject !== null) {
-      this._write(this._inDefaultGraph ? ".\n" : "\n}\n");
-      this._subject = null;
-    }
-    this._write = this._blockedWrite;
-    let singleDone = done && ((error4, result) => {
-      singleDone = null, done(error4, result);
-    });
-    if (this._endStream) {
-      try {
-        return this._outputStream.end(singleDone);
-      } catch (error4) {
-      }
-    }
-    singleDone && singleDone();
-  }
-};
-function characterReplacer2(character) {
-  let result = escapedCharacters2[character];
-  if (result === void 0) {
-    if (character.length === 1) {
-      result = character.charCodeAt(0).toString(16);
-      result = "\\u0000".substr(0, 6 - result.length) + result;
-    } else {
-      result = ((character.charCodeAt(0) - 55296) * 1024 + character.charCodeAt(1) + 9216).toString(16);
-      result = "\\U00000000".substr(0, 10 - result.length) + result;
-    }
-  }
-  return result;
-}
-
-// node_modules/@muze-nl/oldm-n3/src/oldm-n3.mjs
-var solidNamespace2 = "http://www.w3.org/ns/solid/terms#";
-var rdfNamespace2 = "http://www.w3.org/1999/02/22-rdf-syntax-ns#";
-var n3Parser2 = (input2, uri, type) => {
-  const parser = new N3Parser2({
-    baseIRI: uri,
-    blankNodePrefix: "",
-    format: type
-  });
-  let prefixes4 = /* @__PURE__ */ Object.create(null);
-  const quads = parser.parse(input2, null, (prefix, url3) => {
-    prefixes4[prefix] = url3.id;
-  });
-  return { quads, prefixes: prefixes4 };
-};
-var n3Writer2 = (source2) => {
-  return new Promise((resolve, reject) => {
-    const writer = new N3Writer2({
-      format: source2.mimetype,
-      prefixes: source2.prefixDeclarations("source")
-    });
-    const xsd7 = source2.prefixes.xsd;
-    const { quad: quad3, namedNode: namedNode3, literal: literal3, blankNode: blankNode3 } = N3DataFactory_default2;
-    const writeClassNames = (id2, subject) => {
-      let classNames = subject.a;
-      if (!classNames) {
-        return;
-      }
-      if (!Array.isArray(classNames)) {
-        classNames = [classNames];
-      }
-      if (classNames?.length) {
-        for (let name of classNames) {
-          name = source2.fullURI(name);
-          writer.addQuad(quad3(
-            namedNode3(id2),
-            namedNode3(rdfType2),
-            namedNode3(name)
-          ));
-        }
-      }
-    };
-    const writeProperties = (id2, subject) => {
-      if (!subject) {
-        return;
-      }
-      let preds = getPredicates(subject);
-      for (let pred of preds) {
-        if (pred.predicate.id == "id" || pred.predicate.id == "a") {
-          continue;
-        }
-        if (!Array.isArray(pred.object)) {
-          pred.object = [pred.object];
-        }
-        for (let o of pred.object) {
-          writer.addQuad(quad3(
-            namedNode3(id2),
-            pred.predicate,
-            o
-          ));
-        }
-      }
-    };
-    const getPredicates = (object) => {
-      let preds = [];
-      Object.entries(object).forEach((entry) => {
-        const predicate = entry[0];
-        let object2 = entry[1];
-        const fullPred = source2.fullURI(predicate);
-        let pred = {
-          predicate: namedNode3(fullPred)
-        };
-        if (object2 instanceof Collection2) {
-          pred.object = getCollection(object2);
-        } else if (Array.isArray(object2)) {
-          pred.object = getArray(object2);
-        } else if (object2 instanceof NamedNode3) {
-          pred.object = namedNode3(object2.id);
-        } else if (object2 instanceof BlankNode3) {
-          pred.object = getBlankNode(object2);
-        } else if (isLiteral3(object2)) {
-          pred.object = getLiteral(object2);
-        } else {
-          console.log("oldm-ns: encountered unknown object", object2, predicate);
-        }
-        preds.push(pred);
-      });
-      return preds;
-    };
-    const getLiteral = (object) => {
-      let type = source2.getType(object) || void 0;
-      if (type) {
-        if (type == xsd7 + source2.context.separator + "string" || type == xsd7 + source2.context.separator + "number") {
-          type = void 0;
-        } else {
-          type = source2.fullURI(type);
-        }
-        type = namedNode3(type);
-      } else {
-        let language = object?.language;
-        if (language) {
-          type = language;
-        }
-      }
-      if (object instanceof String) {
-        object = "" + object;
-      } else if (object instanceof Number) {
-        object = +object;
-      }
-      return literal3(object, type);
-    };
-    const isLiteral3 = (value) => {
-      return value instanceof String || value instanceof Number || typeof value == "boolean" || typeof value == "string" || typeof value == "number";
-    };
-    const getCollection = (object) => {
-      let list2 = [];
-      for (let value of object) {
-        if (isLiteral3(value)) {
-          list2.push(getLiteral(value));
-        } else if (value.id) {
-          list2.push(namedNode3(value.id));
-        } else {
-          list2.push(getBlankNode(value));
-        }
-      }
-      return writer.list(list2);
-    };
-    const getBlankNode = (object) => {
-      return writer.blank(getPredicates(object));
-    };
-    const getArray = (object) => {
-      let list2 = [];
-      for (const o of object) {
-        if (isLiteral3(o)) {
-          list2.push(getLiteral(o));
-        } else if (o instanceof NamedNode3) {
-          list2.push(namedNode3(o.id));
-        } else if (o instanceof BlankNode3) {
-          list2.push(getBlankNode(o));
-        } else if (o instanceof Collection2) {
-          list2.push(getCollection(o));
-        }
-      }
-      return list2;
-    };
-    Object.entries(source2.subjects).forEach(([id2, subject]) => {
-      id2 = source2.shortURI(id2, ":");
-      writeClassNames(id2, subject);
-      writeProperties(id2, subject);
-    });
-    writer.end((error4, result) => {
-      if (result) {
-        resolve(result);
-      } else {
-        reject(error4);
-      }
-    });
-  });
-};
-var n3PatchWriter2 = async (source2) => {
-  if (source2.originalSource == null) {
-    throw new Error("Cannot generate a patch without the original graph source");
-  }
-  const currentSource = await n3Writer2(source2);
-  const original = n3Parser2(source2.originalSource, source2.url, source2.mimetype).quads;
-  const current = n3Parser2(currentSource, source2.url, source2.mimetype).quads;
-  const patch = solidPatchChanges2(original, current, {
-    quad: N3DataFactory_default2.quad,
-    variable: N3DataFactory_default2.variable,
-    blankNode: N3DataFactory_default2.blankNode
-  });
-  return serializePatch2(source2, patch.inserts, patch.deletes, patch.where);
-};
-function diffQuads2(original, current) {
-  const originalByKey = new Map(original.map((quad3) => [quadKey2(quad3), quad3]));
-  const currentByKey = new Map(current.map((quad3) => [quadKey2(quad3), quad3]));
-  const deletes = [];
-  const inserts = [];
-  for (const [key, quad3] of originalByKey) {
-    if (!currentByKey.has(key)) {
-      deletes.push(quad3);
-    }
-  }
-  for (const [key, quad3] of currentByKey) {
-    if (!originalByKey.has(key)) {
-      inserts.push(quad3);
-    }
-  }
-  return { inserts, deletes };
-}
-function quadKey2(quad3) {
-  return [
-    termKey2(quad3.subject),
-    termKey2(quad3.predicate),
-    termKey2(quad3.object),
-    termKey2(quad3.graph)
-  ].join(" ");
-}
-function termKey2(term) {
-  if (!term) {
-    return "";
-  }
-  if (term.termType == "Literal") {
-    return [
-      "Literal",
-      term.value,
-      term.language ?? "",
-      term.datatype?.value ?? term.datatype?.id ?? ""
-    ].join("\0");
-  }
-  return `${term.termType}\0${term.value ?? term.id ?? ""}`;
-}
-function solidPatchChanges2(original, current, factory) {
-  const originalAnonymous = anonymousUnits2(original);
-  const currentAnonymous = anonymousUnits2(current);
-  const { deletedUnits, insertedUnits } = diffAnonymousUnits2(originalAnonymous.units, currentAnonymous.units);
-  const anonymousDeletes = [];
-  const anonymousInserts = [];
-  const where = [];
-  for (const unit of deletedUnits) {
-    assertOwnedAnonymousUnit2(unit, "delete");
-    const variableQuads = mapBlankNodes2(unit.quads, (name) => factory.variable(name), factory.quad, "old");
-    where.push(...variableQuads);
-    anonymousDeletes.push(...variableQuads);
-  }
-  for (const unit of insertedUnits) {
-    assertOwnedAnonymousUnit2(unit, "insert");
-    anonymousInserts.push(...mapBlankNodes2(unit.quads, (name) => factory.blankNode(name), factory.quad, "insert"));
-  }
-  const plainOriginal = original.filter((quad3) => !originalAnonymous.quadKeys.has(quadKey2(quad3)));
-  const plainCurrent = current.filter((quad3) => !currentAnonymous.quadKeys.has(quadKey2(quad3)));
-  const plainDiff = diffQuads2(plainOriginal, plainCurrent);
-  assertPatchable2(plainDiff.inserts, "insert changes outside an owned anonymous value");
-  assertPatchable2(plainDiff.deletes, "delete changes outside an owned anonymous value");
-  return {
-    where,
-    deletes: [...plainDiff.deletes, ...anonymousDeletes],
-    inserts: [...plainDiff.inserts, ...anonymousInserts]
-  };
-}
-function anonymousUnits2(quads) {
-  const outgoing = blankSubjectIndex2(quads);
-  const incoming = blankObjectIndex2(quads);
-  const units = [];
-  const quadKeys = /* @__PURE__ */ new Set();
-  for (const edge of quads) {
-    if (!isBlankNode2(edge.object) || isBlankNode2(edge.subject)) {
-      continue;
-    }
-    const closure = blankNodeClosure2(edge.object, outgoing);
-    const canonical = canonicalBlankNode2(edge.object, outgoing);
-    const unitQuads = [edge, ...closure.quads];
-    for (const quad3 of unitQuads) {
-      quadKeys.add(quadKey2(quad3));
-    }
-    units.push({
-      edge,
-      quads: unitQuads,
-      blankNodeIds: closure.blankNodeIds,
-      incoming,
-      cyclic: closure.cyclic || canonical.cyclic,
-      signature: [termKey2(edge.subject), termKey2(edge.predicate), canonical.key].join(" ")
-    });
-  }
-  return { units, quadKeys };
-}
-function blankSubjectIndex2(quads) {
-  const index = /* @__PURE__ */ new Map();
-  for (const quad3 of quads) {
-    if (!isBlankNode2(quad3.subject)) {
-      continue;
-    }
-    const id2 = termValue2(quad3.subject);
-    if (!index.has(id2)) {
-      index.set(id2, []);
-    }
-    index.get(id2).push(quad3);
-  }
-  return index;
-}
-function blankObjectIndex2(quads) {
-  const index = /* @__PURE__ */ new Map();
-  for (const quad3 of quads) {
-    if (!isBlankNode2(quad3.object)) {
-      continue;
-    }
-    const id2 = termValue2(quad3.object);
-    if (!index.has(id2)) {
-      index.set(id2, []);
-    }
-    index.get(id2).push(quad3);
-  }
-  return index;
-}
-function blankNodeClosure2(root, outgoing) {
-  const blankNodeIds = /* @__PURE__ */ new Set();
-  const quads = [];
-  const stack = [root];
-  let cyclic = false;
-  while (stack.length) {
-    const term = stack.pop();
-    const id2 = termValue2(term);
-    if (blankNodeIds.has(id2)) {
-      cyclic = true;
-      continue;
-    }
-    blankNodeIds.add(id2);
-    for (const quad3 of outgoing.get(id2) ?? []) {
-      quads.push(quad3);
-      if (isBlankNode2(quad3.object)) {
-        stack.push(quad3.object);
-      }
-    }
-  }
-  return { quads, blankNodeIds, cyclic };
-}
-function canonicalBlankNode2(term, outgoing, memo = /* @__PURE__ */ new Map(), path2 = /* @__PURE__ */ new Set()) {
-  const id2 = termValue2(term);
-  if (memo.has(id2)) {
-    return memo.get(id2);
-  }
-  if (path2.has(id2)) {
-    return { key: "[cycle]", cyclic: true };
-  }
-  path2.add(id2);
-  let cyclic = false;
-  const properties = (outgoing.get(id2) ?? []).map((quad3) => {
-    const object = canonicalTerm2(quad3.object, outgoing, memo, path2);
-    cyclic ||= object.cyclic;
-    return `${termKey2(quad3.predicate)} ${object.key}`;
-  }).sort();
-  path2.delete(id2);
-  const result = {
-    key: `BlankNode(${properties.join("|")})`,
-    cyclic
-  };
-  memo.set(id2, result);
-  return result;
-}
-function canonicalTerm2(term, outgoing, memo, path2) {
-  if (isBlankNode2(term)) {
-    return canonicalBlankNode2(term, outgoing, memo, path2);
-  }
-  return { key: termKey2(term), cyclic: false };
-}
-function diffAnonymousUnits2(original, current) {
-  const originalBySignature = groupUnitsBySignature2(original);
-  const currentBySignature = groupUnitsBySignature2(current);
-  const signatures = /* @__PURE__ */ new Set([...originalBySignature.keys(), ...currentBySignature.keys()]);
-  const deletedUnits = [];
-  const insertedUnits = [];
-  for (const signature of signatures) {
-    const originalUnits = originalBySignature.get(signature) ?? [];
-    const currentUnits = currentBySignature.get(signature) ?? [];
-    const unchanged = Math.min(originalUnits.length, currentUnits.length);
-    deletedUnits.push(...originalUnits.slice(unchanged));
-    insertedUnits.push(...currentUnits.slice(unchanged));
-  }
-  return { deletedUnits, insertedUnits };
-}
-function groupUnitsBySignature2(units) {
-  const grouped = /* @__PURE__ */ new Map();
-  for (const unit of units) {
-    if (!grouped.has(unit.signature)) {
-      grouped.set(unit.signature, []);
-    }
-    grouped.get(unit.signature).push(unit);
-  }
-  return grouped;
-}
-function assertOwnedAnonymousUnit2(unit, operation) {
-  if (unit.cyclic) {
-    throw new Error(`Cannot generate a Solid PATCH to ${operation} a cyclic anonymous value; use graph.write() and PUT instead`);
-  }
-  for (const id2 of unit.blankNodeIds) {
-    const incoming = unit.incoming.get(id2) ?? [];
-    if (incoming.length != 1) {
-      throw new Error(`Cannot generate a Solid PATCH to ${operation} a shared anonymous value; use graph.write() and PUT instead`);
-    }
-  }
-}
-function mapBlankNodes2(quads, createTerm, createQuad, prefix) {
-  const terms = /* @__PURE__ */ new Map();
-  const mapTerm = (term) => {
-    if (!isBlankNode2(term)) {
-      return term;
-    }
-    const id2 = termValue2(term);
-    if (!terms.has(id2)) {
-      terms.set(id2, createTerm(`${prefix}${terms.size}`));
-    }
-    return terms.get(id2);
-  };
-  return quads.map((quad3) => createQuad(mapTerm(quad3.subject), quad3.predicate, mapTerm(quad3.object), quad3.graph));
-}
-function assertPatchable2(quads, operation) {
-  const hasBlankNode = quads.some(
-    (quad3) => isBlankNode2(quad3.subject) || isBlankNode2(quad3.predicate) || isBlankNode2(quad3.object)
-  );
-  if (hasBlankNode) {
-    throw new Error(`Cannot generate a Solid PATCH with blank nodes in ${operation}; use graph.write() and PUT instead`);
-  }
-}
-function isBlankNode2(term) {
-  return term?.termType == "BlankNode";
-}
-function termValue2(term) {
-  return term?.value ?? term?.id ?? "";
-}
-function serializePatch2(source2, inserts, deletes, where = []) {
-  const prefixes4 = {
-    ...source2.prefixDeclarations("source")
-  };
-  if (quadsUseNamespace2([...where, ...deletes, ...inserts], rdfNamespace2)) {
-    prefixes4.rdf ??= rdfNamespace2;
-  }
-  prefixes4.solid = solidNamespace2;
-  const writer = new N3Writer2({
-    format: "text/turtle",
-    prefixes: prefixes4
-  });
-  const lines = [];
-  for (const [prefix, iri] of Object.entries(prefixes4)) {
-    lines.push(`@prefix ${prefix}: <${iri}> .`);
-  }
-  if (lines.length) {
-    lines.push("");
-  }
-  const predicates = [];
-  if (where.length) {
-    predicates.push(`solid:where ${formula2(writer, where)}`);
-  }
-  if (deletes.length) {
-    predicates.push(`solid:deletes ${formula2(writer, deletes)}`);
-  }
-  if (inserts.length) {
-    predicates.push(`solid:inserts ${formula2(writer, inserts)}`);
-  }
-  let patch = `_:patch a solid:InsertDeletePatch`;
-  if (predicates.length) {
-    patch += ";\n	" + predicates.join(";\n	");
-  }
-  lines.push(`${patch} .`);
-  return lines.join("\n") + "\n";
-}
-function quadsUseNamespace2(quads, namespace) {
-  return quads.some(
-    (quad3) => termUsesNamespace2(quad3.subject, namespace) || termUsesNamespace2(quad3.predicate, namespace) || termUsesNamespace2(quad3.object, namespace)
-  );
-}
-function termUsesNamespace2(term, namespace) {
-  return term?.termType == "NamedNode" && termValue2(term).startsWith(namespace);
-}
-function formula2(writer, quads) {
-  if (!quads.length) {
-    return "{}";
-  }
-  const lines = quads.map((quad3) => `
-		${writer.quadToString(quad3.subject, quad3.predicate, quad3.object).trim()}`);
-  return `{${lines.join("")}
-	}`;
-}
-
-// node_modules/@muze-nl/oldm/src/index.mjs
-var { default: _coreDefault2, ...core2 } = oldm_exports2;
-var oldm4 = {
-  context(options = {}) {
-    const {
-      parser = n3Parser2,
-      writer = n3Writer2,
-      patchWriter = n3PatchWriter2,
-      ...contextOptions
-    } = options;
-    return oldm3({
-      ...contextOptions,
-      parser,
-      writer,
-      patchWriter
-    });
-  },
-  ...core2,
-  ...oldm_n3_exports2
-};
-globalThis.oldm = oldm4;
-var src_default7 = oldm4;
-
-// node_modules/@muze-nl/jaqt/src/jaqt.mjs
-function isPrimitiveWrapper2(data) {
-  return [String, Boolean, Number, BigInt].includes(data?.constructor);
-}
-function getSelectFn2(filter2) {
-  let fns = [];
-  if (filter2 instanceof Function) {
-    fns.push(filter2);
-  } else for (const [filterKey, filterValue] of Object.entries(filter2)) {
-    if (filterValue instanceof Function) {
-      fns.push((data) => {
-        if (filterKey == "_") {
-          return filterValue(data, filterKey, "select");
-        } else {
-          return {
-            [filterKey]: filterValue(data, filterKey, "select")
-          };
-        }
-      });
-    } else if (!isPrimitiveWrapper2(filterValue)) {
-      fns.push((data) => {
-        if (filterKey == "_") {
-          return from2(data[filterKey]).select(filterValue);
-        } else {
-          return {
-            [filterKey]: from2(data[filterKey]).select(filterValue)
-          };
-        }
-      });
-    } else {
-      fns.push(() => {
-        if (filterKey == "_") {
-          return filterValue;
-        } else {
-          return {
-            [filterKey]: filterValue
-          };
-        }
-      });
-    }
-  }
-  if (fns.length == 1) {
-    return fns[0];
-  }
-  return (data) => {
-    let result = {};
-    for (let fn of fns) {
-      Object.assign(result, fn(data));
-    }
-    return result;
-  };
-}
-function getMatchFn2(pattern) {
-  let fns = [];
-  if (Array.isArray(pattern)) {
-    fns.push(anyOf2(...pattern));
-  } else if (pattern instanceof RegExp) {
-    fns.push((data) => pattern.test(data));
-  } else if (pattern instanceof Function) {
-    fns.push((data) => pattern(data));
-  } else if (!isPrimitiveWrapper2(pattern)) {
-    let patternMatches = {};
-    for (const [wKey, wVal] of Object.entries(pattern)) {
-      patternMatches[wKey] = getMatchFn2(wVal);
-    }
-    let matchFn = (data) => {
-      if (Array.isArray(data)) {
-        return data.filter((element2) => matchFn(element2)).length > 0;
-      }
-      if (isPrimitiveWrapper2(data)) {
-        return false;
-      }
-      for (let wKey in patternMatches) {
-        let patternMatchFn = patternMatches[wKey];
-        if (!patternMatchFn(data?.[wKey])) {
-          return false;
-        }
-      }
-      return true;
-    };
-    fns.push(matchFn);
-  } else {
-    fns.push((data) => {
-      if (Array.isArray(data)) {
-        return data.filter((element2) => pattern == element2).length > 0;
-      } else {
-        return pattern == data;
-      }
-    });
-  }
-  if (fns.length == 1) {
-    return fns[0];
-  }
-  return (data) => {
-    for (let fn of fns) {
-      if (!fn(data)) {
-        return false;
-      }
-    }
-    return true;
-  };
-}
-var asc2 = Symbol("asc");
-var desc2 = Symbol("desc");
-function getSortFn2(pattern) {
-  let comparisons = Object.entries(pattern);
-  let fns = [];
-  for (let [key, compare] of comparisons) {
-    if (compare instanceof Function) {
-      fns.push(compare);
-    } else if (compare === asc2) {
-      fns.push((a, b) => a[key] > b[key] ? 1 : a[key] < b[key] ? -1 : 0);
-    } else if (compare === desc2) {
-      fns.push((a, b) => a[key] < b[key] ? 1 : a[key] > b[key] ? -1 : 0);
-    } else if (!isPrimitiveWrapper2(compare)) {
-      let subFn = getSortFn2(compare);
-      fns.push((a, b) => subFn(a[key], b[key]));
-    } else {
-      throw new Error("Unknown sort order", compare);
-    }
-  }
-  if (fns.length == 1) {
-    return fns[0];
-  }
-  return (a, b) => {
-    for (let fn of fns) {
-      let result = fn(a, b);
-      if (result !== 0) {
-        return result;
-      }
-    }
-    return 0;
-  };
-}
-function getAggregateFn2(filter2) {
-  let fns = [];
-  if (filter2 instanceof Function) {
-    fns.push(filter2);
-  } else for (const [filterKey, filterValue] of Object.entries(filter2)) {
-    if (filterValue instanceof Function) {
-      fns.push((a, o, i, l) => {
-        if (isPrimitiveWrapper2(a)) {
-          a = {};
-        }
-        if (o.reduce) {
-          a[filterKey] = o.reduce(filterValue, a[filterKey] || []);
-        } else {
-          a[filterKey] = filterValue(a[filterKey] || [], o, i, l);
-        }
-        return a;
-      });
-    } else if (!isPrimitiveWrapper2(filterValue)) {
-      fns.push((a, o) => {
-        if (isPrimitiveWrapper2(a)) {
-          a = {};
-        }
-        a[filterKey] = from2(o[filterKey]).reduce(filterValue, []);
-        return a;
-      });
-    } else {
-      fns.push((a) => {
-        if (isPrimitiveWrapper2(a)) {
-          a = {};
-        }
-        a[filterKey] = filterValue;
-        return a;
-      });
-    }
-  }
-  if (fns.length == 1) {
-    return fns[0];
-  }
-  return (a, o, i, l) => {
-    let result = {};
-    for (let fn of fns) {
-      Object.assign(result, fn(a, o, i, l));
-    }
-    return result;
-  };
-}
-function getMatchingGroups2(data, pointerFn) {
-  let result = {};
-  for (let entity of data) {
-    let groups = pointerFn(entity);
-    if (!Array.isArray(groups)) {
-      groups = [groups];
-    }
-    for (let group2 of groups) {
-      if (typeof group2 != "string" && !(group2 instanceof String)) {
-        console.warn("JAQT: groupBy(selector) can only handle string values, got:", group2);
-        continue;
-      }
-      if (!result[group2]) {
-        result[group2] = [];
-      }
-      result[group2].push(entity);
-    }
-  }
-  return result;
-}
-function groupBy2(data, pointerFunctions) {
-  let pointerFn = pointerFunctions.shift();
-  if (typeof pointerFn == "string") {
-    pointerFn = _2[pointerFn];
-  }
-  if (typeof pointerFn != "function") {
-    throw new Error("groupBy parameters must be either a property name or a pointer function (e.g.: _.name)");
-  }
-  let groups = getMatchingGroups2(data, pointerFn);
-  if (pointerFunctions.length) {
-    for (let group2 in groups) {
-      groups[group2] = groupBy2(groups[group2], pointerFunctions);
-    }
-  }
-  return groups;
-}
-function anyOf2(...patterns) {
-  let matchFns = patterns.map((pattern) => getMatchFn2(pattern));
-  return (data) => matchFns.some((fn) => fn(data));
-}
-var FunctionProxyHandler2 = {
-  apply(target, thisArg, argumentsList) {
-    let result = target.apply(thisArg, argumentsList);
-    if (typeof result === "object") {
-      return new Proxy(result, DataProxyHandler2);
-    }
-    return result;
-  }
-};
-var DataProxyHandler2 = {
-  get(target, property) {
-    let result = null;
-    if (typeof property === "symbol") {
-      result = target[property];
-    }
-    if (Array.isArray(target)) {
-      switch (property) {
-        case "where":
-          result = function(shape) {
-            let matchFn = getMatchFn2(shape);
-            return new Proxy(
-              target.filter((element2) => matchFn(element2)),
-              DataProxyHandler2
-            );
-          };
-          break;
-        case "select":
-          result = function(filter2) {
-            let selectFn = getSelectFn2(filter2);
-            return new Proxy(
-              target.map(selectFn),
-              DataProxyHandler2
-            );
-          };
-          break;
-        case "reduce":
-          result = function(pattern, initial = []) {
-            let aggregateFn = getAggregateFn2(pattern);
-            let temp = target.reduce(aggregateFn, initial);
-            if (Array.isArray(temp)) {
-              return new Proxy(temp, DataProxyHandler2);
-            } else if (!isPrimitiveWrapper2(temp)) {
-              return new Proxy(temp, GroupByProxyHandler2);
-            } else {
-              return temp;
-            }
-          };
-          break;
-        case "orderBy":
-          result = function(pattern) {
-            let sortFn = getSortFn2(pattern);
-            return new Proxy(
-              target.toSorted(sortFn),
-              DataProxyHandler2
-            );
-          };
-          break;
-        case "groupBy":
-          result = function(...groups) {
-            let temp = groupBy2(target, groups);
-            return new Proxy(
-              temp,
-              GroupByProxyHandler2
-            );
-          };
-          break;
-      }
-    }
-    if (!result && target && typeof target === "object") {
-      if (property === "select") {
-        result = function(filter2) {
-          let selector = getSelectFn2(filter2);
-          return new Proxy(selector(target), DataProxyHandler2);
-        };
-      }
-    }
-    if (!result && target && typeof target[property] === "function") {
-      result = new Proxy(target[property], FunctionProxyHandler2);
-    }
-    if (!result) {
-      result = target[property];
-    }
-    return result;
-  }
-};
-var GroupByProxyHandler2 = {
-  get(target, property) {
-    let result = null;
-    switch (property) {
-      case "select":
-        result = function(filter2) {
-          let selectFn = getSelectFn2(filter2);
-          let result2 = {};
-          for (let group2 in target) {
-            if (Array.isArray(target[group2])) {
-              result2[group2] = new Proxy(target[group2].map(selectFn), DataProxyHandler2);
-            } else {
-              result2[group2] = new Proxy(target[group2], GroupByProxyHandler2);
-            }
-          }
-          return result2;
-        };
-        break;
-      case "reduce":
-        result = function(pattern, initial = []) {
-          let aggregateFn = getAggregateFn2(pattern);
-          let result2 = {};
-          for (let group2 in target) {
-            if (Array.isArray(target[group2])) {
-              let temp = target[group2].reduce(aggregateFn, initial);
-              if (Array.isArray(temp)) {
-                result2[group2] = new Proxy(temp, DataProxyHandler2);
-              } else if (!isPrimitiveWrapper2(temp)) {
-                result2[group2] = new Proxy(temp, GroupByProxyHandler2);
-              } else {
-                result2[group2] = temp;
-              }
-            } else {
-              result2[group2] = new Proxy(target[group2], GroupByProxyHandler2);
-            }
-          }
-          return result2;
-        };
-        break;
-      default:
-        if (Array.isArray(target[property])) {
-          result = from2(target[property]);
-        } else {
-          result = target[property];
-        }
-        break;
-    }
-    return result;
-  }
-};
-var EmptyHandler2 = {
-  get(target, property) {
-    let result = null;
-    switch (property) {
-      case "where":
-        result = function() {
-          return new Proxy(new Null2(), EmptyHandler2);
-        };
-        break;
-      case "reduce":
-      case "select":
-        result = function() {
-          return null;
-        };
-        break;
-      case "orderBy":
-        result = function() {
-          return new Proxy(new Null2(), EmptyHandler2);
-        };
-        break;
-      case "groupBy":
-        result = function() {
-          return new Proxy(new Null2(), EmptyHandler2);
-        };
-        break;
-    }
-    if (!result && typeof target?.[property] == "function") {
-      result = target[property];
-    }
-    return result;
-  }
-};
-var Null2 = class {
-  toJSON() {
-    return null;
-  }
-};
-function from2(data) {
-  if (!data || typeof data !== "object") {
-    return new Proxy(new Null2(), EmptyHandler2);
-  }
-  return new Proxy(data, DataProxyHandler2);
-}
-function getPointerFn2(path2) {
-  return (data, key) => {
-    if (path2?.length > 0) {
-      let localPath = path2.slice();
-      let prop = localPath.shift();
-      while (prop) {
-        if (Array.isArray(data) && parseInt(prop) != prop) {
-          localPath.unshift(prop);
-          return data.map(getPointerFn2(localPath));
-        } else if (typeof data?.[prop] != "undefined") {
-          data = data[prop];
-        } else {
-          data = null;
-        }
-        prop = localPath.shift();
-      }
-      return data;
-    } else if (key && key !== "_") {
-      if (typeof data?.[key] != "undefined") {
-        return data[key];
-      } else {
-        return null;
-      }
-    } else {
-      return data;
-    }
-  };
-}
-var pointerHandler2 = (path2) => {
-  if (!path2) {
-    path2 = [];
-  }
-  return {
-    get(target, property) {
-      if (property == "constructor" || typeof property == "symbol") {
-        return target[property];
-      }
-      let newpath = path2.concat([property]);
-      return new Proxy(getPointerFn2(newpath), pointerHandler2(newpath));
-    },
-    apply(target, thisArg, argumentsList) {
-      let result = target(...argumentsList);
-      if (Array.isArray(result)) {
-        result = result.flat(Infinity);
-      }
-      return result;
-    }
-  };
-};
-var _2 = new Proxy(getPointerFn2(), pointerHandler2());
-
-// src/features/paragraph-note-stacks/annotation-model.js
-var annotationModel = {
-  vocabulary: {
-    prefixes: {
-      rdf: "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
-      rdfs: "http://www.w3.org/2000/01/rdf-schema#",
-      dcterms: "http://purl.org/dc/terms/",
-      oa: "http://www.w3.org/ns/oa#",
-      schema: "https://schema.org/",
-      cobalt: "https://vocab.muze.nl/cobalt#"
-    },
-    classes: {
-      annotation: "oa$Annotation",
-      textualBody: "oa$TextualBody",
-      specificResource: "oa$SpecificResource",
-      fragmentSelector: "oa$FragmentSelector",
-      cobaltFragment: "cobalt$Fragment"
-    },
-    predicates: {
-      type: "rdf$type",
-      label: "rdfs$label",
-      created: "dcterms$created",
-      modified: "dcterms$modified",
-      format: "dcterms$format",
-      value: "rdf$value",
-      hasBody: "oa$hasBody",
-      hasTarget: "oa$hasTarget",
-      hasSource: "oa$hasSource",
-      hasSelector: "oa$hasSelector",
-      text: "schema$text",
-      cobaltFragment: "cobalt$fragment"
-    },
-    mediaTypes: {
-      cobaltFragment: "application/vnd.cobalt.fragment+json"
-    }
-  },
-  createAnnotationNote({ anchorId, fragment, now: now2 = (/* @__PURE__ */ new Date()).toISOString() }) {
-    const annotationId = this.createLocalSubjectId({});
-    const body = {
-      id: `${annotationId}#body`,
-      rdf$type: [
-        this.vocabulary.classes.textualBody,
-        this.vocabulary.classes.cobaltFragment
-      ],
-      dcterms$format: this.vocabulary.mediaTypes.cobaltFragment,
-      rdf$value: this.noteText({ fragment }),
-      schema$text: this.noteText({ fragment }),
-      cobalt$fragment: fragment
-    };
-    const target = {
-      id: `${annotationId}#target`,
-      rdf$type: this.vocabulary.classes.specificResource,
-      oa$hasSource: this.currentDocumentIri({}),
-      oa$hasSelector: {
-        id: `${annotationId}#selector-fragment`,
-        rdf$type: this.vocabulary.classes.fragmentSelector,
-        rdf$value: anchorId
-      }
-    };
-    return {
-      id: annotationId,
-      rdf$type: this.vocabulary.classes.annotation,
-      dcterms$created: now2,
-      dcterms$modified: now2,
-      oa$hasBody: body,
-      oa$hasTarget: target
-    };
-  },
-  createLocalSubjectId() {
-    if (globalThis.crypto?.randomUUID) {
-      return `urn:uuid:${globalThis.crypto.randomUUID()}`;
-    }
-    return `urn:muze:margin-notes:${Date.now()}-${Math.random().toString(16).slice(2)}`;
-  },
-  currentDocumentIri() {
-    const href = globalThis.location?.href;
-    if (!href) {
-      return "urn:muze:margin-notes:local-document";
-    }
-    return href.replace(/#.*/, "");
-  },
-  annotationAnchorId({ annotation }) {
-    const target = src_default7.one(annotation?.oa$hasTarget, "first");
-    const fragment = from2(src_default7.many(target?.oa$hasSelector)).where((selector) => src_default7.many(selector?.rdf$type).includes(this.vocabulary.classes.fragmentSelector))[0];
-    return fragment?.rdf$value;
-  },
-  annotationBody({ annotation }) {
-    return src_default7.one(annotation?.oa$hasBody, "first");
-  },
-  annotationBodyFragment({ annotation }) {
-    return this.annotationBody({ annotation })?.cobalt$fragment || { text: "", annotations: [] };
-  },
-  updateAnnotationBody({ annotation, fragment, now: now2 = (/* @__PURE__ */ new Date()).toISOString() }) {
-    const body = this.annotationBody({ annotation });
-    if (!body) return;
-    body.rdf$value = this.noteText({ fragment });
-    body.schema$text = this.noteText({ fragment });
-    body.cobalt$fragment = fragment;
-    annotation.dcterms$modified = now2;
-  },
-  removeAnnotationFromGraph({ app: app2, annotationId }) {
-    const index = app2.data.marginNotes.graph.findIndex((annotation) => annotation.id === annotationId);
-    if (index >= 0) {
-      app2.data.marginNotes.graph.splice(index, 1);
-    }
-  },
-  toRenderableNote({ annotation }) {
-    const note = {
-      id: annotation.id,
-      annotation,
-      anchorId: this.annotationAnchorId({ annotation }),
-      body: this.annotationBodyFragment({ annotation }),
-      created: annotation.dcterms$created,
-      modified: annotation.dcterms$modified
-    };
-    return this.syncRenderableNote({ note });
-  },
-  syncRenderableNote({ note }) {
-    const annotation = note.annotation;
-    const fragment = this.annotationBodyFragment({ annotation });
-    note.anchorId = this.annotationAnchorId({ annotation });
-    note.body = fragment;
-    note.bodyText = this.noteText({ fragment });
-    note.created = annotation.dcterms$created;
-    note.modified = annotation.dcterms$modified;
-    note.createdLabel = `Created: ${(note.created || "").substring(0, 10)}`;
-    return note;
-  },
-  toStoredAnnotation({ annotation }) {
-    return this.cloneValue({ value: annotation });
-  },
-  toStorageDocument({ subjects }) {
-    return {
-      format: "margin-notes-oldmed-graph",
-      version: 1,
-      prefixes: this.vocabulary.prefixes,
-      subjects: Array.from(from2(subjects).where((annotation) => this.isMarginNoteAnnotation({ value: annotation })).select((annotation) => this.toStoredAnnotation({ annotation })))
-    };
-  },
-  toStoredGraph({ value }) {
-    if (Array.isArray(value)) {
-      return Array.from(from2(value).select((note) => {
-        if (this.isMarginNoteAnnotation({ value: note })) {
-          return note;
-        }
-        return this.annotationFromLegacyNote({ note });
-      }).where((annotation) => this.isMarginNoteAnnotation({ value: annotation })));
-    }
-    if (Array.isArray(value?.subjects)) {
-      return Array.from(from2(value.subjects).where((subject) => this.isMarginNoteAnnotation({ value: subject })));
-    }
-    return [];
-  },
-  isOldmedAnnotation({ value }) {
-    return src_default7.many(value?.rdf$type).includes(this.vocabulary.classes.annotation);
-  },
-  isMarginNoteAnnotation({ value }) {
-    return Boolean(
-      this.isOldmedAnnotation({ value }) && this.annotationBody({ annotation: value }) && this.annotationAnchorId({ annotation: value })
-    );
-  },
-  annotationFromLegacyNote({ note }) {
-    const annotation = this.createAnnotationNote({
-      anchorId: note.anchorId,
-      fragment: note.body || { text: "", annotations: [] },
-      now: note.created || (/* @__PURE__ */ new Date()).toISOString()
-    });
-    annotation.id = this.legacyLocalSubjectId({ id: note.id });
-    annotation.dcterms$created = note.created || annotation.dcterms$created;
-    annotation.dcterms$modified = note.modified || annotation.dcterms$modified;
-    annotation.oa$hasBody.id = `${annotation.id}#body`;
-    annotation.oa$hasTarget.id = `${annotation.id}#target`;
-    annotation.oa$hasTarget.oa$hasSelector.id = `${annotation.id}#selector-fragment`;
-    return annotation;
-  },
-  legacyLocalSubjectId({ id: id2 }) {
-    if (typeof id2 === "string" && /^(?:[a-z][a-z0-9+.-]*:)/i.test(id2)) {
-      return id2;
-    }
-    return `urn:muze:margin-notes:${encodeURIComponent(id2 || this.createLocalSubjectId({}))}`;
-  },
-  cloneValue({ value }) {
-    return JSON.parse(JSON.stringify(value));
-  },
-  noteText({ fragment }) {
-    return fragment?.text || "(empty note)";
-  }
-};
-
-// src/features/paragraph-note-stacks/root.html
-var root_default = '<div class="margin-notes-root" hidden></div>\n';
-
-// src/features/paragraph-note-stacks/anchor-widget.html
-var anchor_widget_default = '<span class="margin-notes-anchor-widget">\n  <button\n    type="button"\n    class="margin-notes-target-add-btn"\n    title="Add note"\n    aria-label="Add note"\n    data-simply-command="createNote"\n    data-simply-value=":value"\n  >+</button>\n  <span class="margin-notes-target-note-list" data-simply-shortcuts="marginNotesNote">\n    <span class="margin-notes-target-note-items" data-simply-list="visibleNotes">\n      <template rel="margin-notes-inline-note"></template>\n    </span>\n    <button\n      type="button"\n      class="margin-notes-target-note-count"\n      aria-expanded="false"\n      data-margin-notes-empty="true"\n      data-simply-command="toggleAnchorNoteList"\n      data-simply-value=":value"\n    ><span data-simply-field="overflowLabel"></span></button>\n  </span>\n</span>\n';
-
-// src/features/paragraph-note-stacks/inline-note.html
-var inline_note_default = '<article class="margin-notes-target-note">\n  <button\n    type="button"\n    class="margin-notes-target-note-toggle"\n    aria-expanded="false"\n    data-simply-shortcuts="marginNotesNote"\n    data-simply-command="expandInlineNote"\n    data-simply-value=":value"\n  ><span class="margin-notes-target-note-text" data-simply-field="bodyText"></span></button>\n  <button\n    type="button"\n    class="margin-notes-target-note-close"\n    aria-label="Close note"\n    data-simply-command="collapseInlineNote"\n    data-simply-value=":value"\n  >x</button>\n  <span class="margin-notes-target-note-actions">\n    <button\n      type="button"\n      class="margin-notes-target-note-action"\n      data-simply-command="updateNote"\n      data-simply-value=":value"\n    >Edit</button>\n    <button\n      type="button"\n      class="margin-notes-target-note-action"\n      data-simply-command="deleteNote"\n      data-simply-value=":value"\n    >Delete</button>\n  </span>\n</article>\n';
-
-// src/features/solid-connection/control.html
-var control_default = '<form class="margin-notes-solid-connection" data-margin-notes-solid-connection>\n  <label class="margin-notes-solid-connection-webid">\n    <span>WebID</span>\n    <input\n      type="url"\n      inputmode="url"\n      autocomplete="url"\n      placeholder="https://example.solidcommunity.net/profile/card#me"\n      data-margin-notes-solid-webid\n    >\n  </label>\n  <button type="submit" class="ds-button ds-button-primary">Connect</button>\n  <p class="margin-notes-solid-connection-status" data-margin-notes-solid-status>Not connected</p>\n</form>\n';
-
-// src/design-system.css
-var design_system_default = '/*\n * Curated the-ds subset for margin-notes.\n *\n * This intentionally does not import the-ds wholesale. Margin notes is embedded\n * into host documents, so this file only defines design tokens and the small\n * button/dialog primitives used by the component.\n */\n\n@layer reset, setup, theme, base, component, page, utility;\n\n@layer setup {\n  :root,\n  :host {\n    --ds-black: #000;\n    --ds-white: #fff;\n    --ds-primary: oklch(0.7388 0.1792 126.69);\n    --ds-support: oklch(0.7388 0.1792 216.69);\n\n    --ds-grey-0: #eef1f8;\n    --ds-grey-5: #e9edf6;\n    --ds-grey-10: #e4eaf4;\n    --ds-grey-20: #dae2ed;\n    --ds-grey-30: #cdd7e3;\n    --ds-grey-40: #bdc8d4;\n    --ds-grey-50: #a8b4c0;\n    --ds-grey-60: #8f9ba6;\n    --ds-grey-70: #707c84;\n    --ds-grey-80: #4d565c;\n    --ds-grey-90: #262c2f;\n    --ds-grey-100: #000;\n\n    --ds-color-error: rgb(253, 143, 143);\n    --ds-color-warning: #ffffcc;\n    --ds-color-info: rgb(140, 180, 250);\n  }\n}\n\n@layer theme {\n  :root,\n  :host {\n    --ds-color-scheme: light;\n    --ds-font-heading: var(--margin-notes-font-family, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif);\n    --ds-font-body: var(--margin-notes-font-family, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif);\n    --ds-font-weight: 400;\n    --ds-font-size: 1rem;\n    --ds-line-height: 1.5rem;\n\n    --ds-heading-weight: 600;\n    --ds-space: var(--ds-line-height);\n    --ds-space-d4: calc(var(--ds-space) / 4);\n    --ds-space-d3: calc(var(--ds-space) / 3);\n    --ds-space-d2: calc(var(--ds-space) / 2);\n    --ds-space-x2: calc(2 * var(--ds-space));\n    --ds-space-x3: calc(3 * var(--ds-space));\n    --ds-space-x4: calc(4 * var(--ds-space));\n\n    --ds-primary-10: oklch(from var(--ds-primary) calc(l + 0.3) c h);\n    --ds-primary-90: oklch(from var(--ds-primary) calc(l - 0.3) c h);\n    --ds-primary-high: var(--ds-primary-90);\n    --ds-primary-low: var(--ds-primary-10);\n    --ds-primary-contrast: var(--ds-white);\n\n    --ds-support-10: oklch(from var(--ds-support) calc(l + 0.3) c h);\n    --ds-support-90: oklch(from var(--ds-support) calc(l - 0.3) c h);\n    --ds-support-high: var(--ds-support-90);\n    --ds-support-low: var(--ds-support-10);\n    --ds-support-contrast: var(--ds-white);\n\n    --ds-grey-high: var(--ds-grey-90);\n    --ds-grey-medium: var(--ds-grey-60);\n    --ds-grey-low: var(--ds-grey-10);\n    --ds-color: var(--ds-black);\n    --ds-color-background: var(--ds-white);\n    --ds-color-contrast: var(--ds-color);\n\n    --ds-shadow-light: rgba(0, 0, 0, 0.07);\n    --ds-shadow-middle: rgba(0, 0, 0, 0.09);\n    --ds-shadow-dark: rgba(0, 0, 0, 0.11);\n    --ds-shadow-tiny: 0 1px 1px var(--ds-shadow-dark);\n    --ds-shadow-small:\n      0 1px 1px var(--ds-shadow-dark),\n      0 2px 2px var(--ds-shadow-middle),\n      0 4px 4px var(--ds-shadow-light);\n    --ds-shadow-medium:\n      0 1px 1px var(--ds-shadow-middle),\n      0 2px 2px var(--ds-shadow-middle),\n      0 4px 4px var(--ds-shadow-middle),\n      0 6px 8px var(--ds-shadow-middle),\n      0 8px 16px var(--ds-shadow-middle);\n    --ds-shadow-large:\n      0 -2px 2px var(--ds-shadow-light),\n      0 4px 2px var(--ds-shadow-light),\n      0 8px 4px var(--ds-shadow-light),\n      0 16px 8px var(--ds-shadow-light),\n      0 32px 16px var(--ds-shadow-light);\n\n    --ds-box-radius: 4px;\n\n    --ds-input-border: var(--ds-grey-medium);\n    --ds-input-space: var(--ds-space);\n    --ds-input-font: var(--ds-font-body);\n    --ds-input-height: calc(var(--ds-line-height) * 1.5);\n    --ds-input-margin: calc(var(--ds-line-height) * 0.5);\n\n    --ds-button-space: calc(0.5 * var(--ds-input-space));\n    --ds-button-bg-color: var(--ds-grey-low);\n    --ds-button-default-bg-color: var(--ds-white);\n    --ds-button-border: 1px solid var(--ds-grey-low);\n    --ds-button-disabled-color: var(--ds-grey-medium);\n    --ds-button-disabled-bg-color: var(--ds-white);\n    --ds-button-primary-bg-color: var(--ds-primary);\n    --ds-button-primary-color: var(--ds-primary-contrast);\n    --ds-button-primary-border-color: transparent;\n    --ds-button-support-bg-color: var(--ds-support);\n    --ds-button-support-color: var(--ds-support-contrast);\n    --ds-button-support-border-color: transparent;\n    --ds-button-line-height: calc(var(--ds-line-height) * 1.5);\n    --ds-button-shadow: 0;\n    --ds-button-shadow-hover: var(--ds-shadow-small);\n    --ds-button-radius: var(--ds-box-radius);\n    --ds-button-padding: calc(0.5 * var(--ds-line-height));\n    --ds-button-font-size: calc(0.875 * var(--ds-font-size));\n\n    --ds-dialog-background: var(--ds-color-background);\n    --ds-dialog-color: var(--ds-color-contrast);\n    --ds-dialog-shadow: var(--ds-shadow-large);\n    --ds-dialog-radius: calc(2 * var(--ds-box-radius));\n    --ds-dialog-size: calc(50% - (1 / 2 * var(--ds-space)));\n    --ds-dialog-min-width: 25em;\n  }\n\n  :root[data-margin-notes-theme="dark"],\n  :host([data-margin-notes-theme="dark"]) {\n    --ds-color-scheme: dark;\n    --ds-primary: oklch(0.78 0.14 142);\n    --ds-support: oklch(0.78 0.13 225);\n    --ds-primary-high: oklch(0.84 0.11 142);\n    --ds-primary-low: oklch(0.3 0.08 142);\n    --ds-support-high: oklch(0.82 0.1 225);\n    --ds-support-low: oklch(0.3 0.08 225);\n    --ds-grey-high: #f3f3ed;\n    --ds-grey-medium: #b8bbad;\n    --ds-grey-low: #343831;\n    --ds-color: #f3f3ed;\n    --ds-color-background: #1b1d19;\n    --ds-color-contrast: #f3f3ed;\n    --ds-shadow-light: rgba(0, 0, 0, 0.18);\n    --ds-shadow-middle: rgba(0, 0, 0, 0.24);\n    --ds-shadow-dark: rgba(0, 0, 0, 0.32);\n    --ds-input-border: #5b6054;\n    --ds-button-bg-color: #343831;\n    --ds-button-default-bg-color: #242720;\n    --ds-button-border: 1px solid #4a5045;\n    --ds-button-disabled-color: #8e9285;\n    --ds-button-disabled-bg-color: #242720;\n    --ds-dialog-background: #1f211d;\n  }\n\n  @media (prefers-color-scheme: dark) {\n    :root[data-margin-notes-theme="system"],\n    :host([data-margin-notes-theme="system"]) {\n      --ds-color-scheme: dark;\n      --ds-primary: oklch(0.78 0.14 142);\n      --ds-support: oklch(0.78 0.13 225);\n      --ds-primary-high: oklch(0.84 0.11 142);\n      --ds-primary-low: oklch(0.3 0.08 142);\n      --ds-support-high: oklch(0.82 0.1 225);\n      --ds-support-low: oklch(0.3 0.08 225);\n      --ds-grey-high: #f3f3ed;\n      --ds-grey-medium: #b8bbad;\n      --ds-grey-low: #343831;\n      --ds-color: #f3f3ed;\n      --ds-color-background: #1b1d19;\n      --ds-color-contrast: #f3f3ed;\n      --ds-shadow-light: rgba(0, 0, 0, 0.18);\n      --ds-shadow-middle: rgba(0, 0, 0, 0.24);\n      --ds-shadow-dark: rgba(0, 0, 0, 0.32);\n      --ds-input-border: #5b6054;\n      --ds-button-bg-color: #343831;\n      --ds-button-default-bg-color: #242720;\n      --ds-button-border: 1px solid #4a5045;\n      --ds-button-disabled-color: #8e9285;\n      --ds-button-disabled-bg-color: #242720;\n      --ds-dialog-background: #1f211d;\n    }\n  }\n}\n\n@layer component {\n  .ds-button {\n    background-color: var(--ds-button-bg-color);\n    border: 0;\n    border-radius: var(--ds-button-radius);\n    box-shadow: var(--ds-button-shadow);\n    box-sizing: border-box;\n    color: inherit;\n    cursor: pointer;\n    display: inline-block;\n    font: inherit;\n    font-size: var(--ds-button-font-size);\n    line-height: var(--ds-button-line-height);\n    margin: 0 var(--ds-button-space) var(--ds-button-space) 0;\n    min-height: var(--ds-button-line-height);\n    outline: var(--ds-button-border);\n    overflow: visible;\n    padding: 0 var(--ds-button-padding);\n    text-align: center;\n    text-decoration: none;\n    white-space: nowrap;\n  }\n\n  .ds-button:hover,\n  .ds-button:focus {\n    box-shadow: var(--ds-button-shadow-hover);\n    text-decoration: none;\n  }\n\n  .ds-button-default {\n    background-color: var(--ds-button-default-bg-color);\n  }\n\n  .ds-button-primary,\n  .ds-button-primary:hover {\n    background-color: var(--ds-button-primary-bg-color);\n    color: var(--ds-button-primary-color);\n    outline: 1px solid var(--ds-button-primary-border-color);\n  }\n\n  .ds-button-support,\n  .ds-button-support:hover {\n    background-color: var(--ds-button-support-bg-color);\n    color: var(--ds-button-support-color);\n    outline: 1px solid var(--ds-button-support-border-color);\n  }\n\n  .ds-button-naked {\n    background: none;\n    box-shadow: none;\n    outline: none;\n  }\n\n  .ds-dialog {\n    background: var(--ds-dialog-background);\n    border: 0;\n    border-radius: var(--ds-dialog-radius);\n    box-shadow: var(--ds-dialog-shadow);\n    color: var(--ds-dialog-color);\n    max-width: 100%;\n    min-width: min(100%, var(--ds-dialog-min-width));\n    padding: 0;\n    width: var(--ds-dialog-size);\n  }\n}\n';
-
-// src/features/paragraph-note-stacks/ui.css
-var ui_default = '[data-margin-notes-target],\n.margin-notes-anchor-widget {\n  --margin-notes-paper-background: var(--ds-color-background, #fff);\n  --margin-notes-open-background: var(--ds-color-background, #fffefb);\n  --margin-notes-note-color: var(--ds-grey-high, #302a1d);\n  --margin-notes-muted-color: var(--ds-grey-medium, #5d5a51);\n  --margin-notes-rule-color: var(--ds-grey-low, #ebe4d1);\n  --margin-notes-marker-color: var(--ds-support, #c9a84f);\n  --margin-notes-action-color: var(--ds-primary-high, #4d5f8f);\n  --margin-notes-focus-color: var(--ds-primary-high, #3162d4);\n  --margin-notes-radius: var(--ds-box-radius, 4px);\n  --margin-notes-shadow: var(--ds-shadow-small, 0 4px 14px rgba(20, 31, 56, 0.16));\n  --margin-notes-font: var(--ds-font-body, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif);\n  color-scheme: var(--ds-color-scheme, light);\n}\n\n[data-margin-notes-target] {\n  position: relative;\n  outline: none;\n}\n\n.margin-notes-anchor-widget,\n.margin-notes-anchor-widget-host {\n  display: contents;\n}\n\n[data-margin-notes-target]::before {\n  bottom: 0;\n  content: "";\n  left: -3rem;\n  position: absolute;\n  top: 0;\n  width: 3rem;\n}\n\n[data-margin-notes-target].margin-notes-target-tabstop:focus-visible {\n  outline: 2px solid var(--margin-notes-focus-color);\n  outline-offset: 4px;\n}\n\n.margin-notes-target-add-btn {\n  align-items: center;\n  background: var(--margin-notes-paper-background);\n  border: 1px solid var(--ds-grey-30, #cfd6e6);\n  border-radius: 999px;\n  box-shadow: var(--margin-notes-shadow);\n  color: var(--margin-notes-action-color);\n  cursor: pointer;\n  display: inline-flex;\n  font: 600 1rem/1 var(--margin-notes-font);\n  height: 2rem;\n  justify-content: center;\n  left: -2.75rem;\n  opacity: 0;\n  pointer-events: none;\n  position: absolute;\n  top: 0.35rem;\n  transform: translateX(0.25rem);\n  transition: opacity 120ms ease, transform 120ms ease, border-color 120ms ease;\n  width: 2rem;\n  z-index: 2;\n}\n\n[data-margin-notes-target]:hover .margin-notes-target-add-btn,\n[data-margin-notes-target]:focus .margin-notes-target-add-btn,\n[data-margin-notes-target]:focus-within .margin-notes-target-add-btn,\n.margin-notes-target-add-btn:focus-visible {\n  opacity: 1;\n  pointer-events: auto;\n  transform: translateX(0);\n}\n\n.margin-notes-target-add-btn:hover,\n.margin-notes-target-add-btn:focus-visible {\n  border-color: var(--margin-notes-focus-color);\n}\n\n.margin-notes-target-note-list {\n  display: flex;\n  flex-direction: column;\n  gap: 0;\n  left: calc(100% + 1.25rem);\n  position: absolute;\n  top: 0;\n  width: min(17rem, 34vw);\n  z-index: 3;\n}\n\n.margin-notes-target-note-list.is-expanded {\n  background: var(--margin-notes-open-background);\n  border-radius: var(--margin-notes-radius);\n  box-shadow: 0 0 0 0.35rem var(--margin-notes-open-background);\n  z-index: 30;\n}\n\n.margin-notes-target-note-count {\n  align-items: center;\n  align-self: flex-start;\n  background: transparent;\n  border: 0;\n  color: var(--margin-notes-muted-color);\n  cursor: pointer;\n  display: inline-flex;\n  font: 600 0.78rem/1 var(--margin-notes-font);\n  gap: 0.25rem;\n  padding: 0.05rem 0.2rem;\n}\n\n.margin-notes-target-note-count::before,\n.margin-notes-target-note-toggle::before {\n  background: var(--margin-notes-marker-color);\n  border-radius: 1px;\n  content: "";\n  display: inline-block;\n  flex: 0 0 auto;\n  height: 0.72rem;\n  opacity: 0.72;\n  transform: rotate(-2deg);\n  width: 0.58rem;\n}\n\n.margin-notes-target-note-count[hidden],\n.margin-notes-target-note-count[data-margin-notes-empty="true"],\n.margin-notes-target-note[hidden] {\n  display: none;\n}\n\n.margin-notes-target-note-items {\n  display: flex;\n  flex-direction: column;\n  gap: 0;\n}\n\n.margin-notes-target-note {\n  background: transparent;\n  border-radius: var(--margin-notes-radius);\n  color: var(--margin-notes-note-color);\n  min-height: 2rem;\n  position: relative;\n}\n\n.margin-notes-target-note.is-expanded {\n  background: var(--margin-notes-open-background);\n  left: 0;\n  position: absolute;\n  right: auto;\n  top: var(--margin-notes-expanded-top, 0);\n  width: min(24rem, 54vw);\n  z-index: 20;\n}\n\n.margin-notes-target-note-toggle {\n  align-items: baseline;\n  background: transparent;\n  border: 0;\n  color: inherit;\n  cursor: pointer;\n  display: flex;\n  gap: 0.38rem;\n  font: 0.875rem/1.35 var(--margin-notes-font);\n  overflow: hidden;\n  padding: 0.16rem 0;\n  text-align: left;\n  width: 100%;\n}\n\n.margin-notes-target-note-text {\n  min-width: 0;\n  overflow: hidden;\n  text-overflow: ellipsis;\n  white-space: nowrap;\n}\n\n.margin-notes-target-note.is-expanded .margin-notes-target-note-toggle {\n  cursor: text;\n  overflow: visible;\n  padding: 0.35rem 2rem 0.55rem 0;\n}\n\n.margin-notes-target-note.is-expanded .margin-notes-target-note-text {\n  overflow: visible;\n  text-overflow: clip;\n  white-space: normal;\n}\n\n.margin-notes-target-note-actions {\n  border-top: 1px solid var(--margin-notes-rule-color);\n  display: none;\n  gap: 0.35rem;\n  justify-content: flex-end;\n  padding: 0 0.45rem 0.45rem;\n}\n\n.margin-notes-target-note.is-expanded .margin-notes-target-note-actions {\n  display: flex;\n}\n\n.margin-notes-target-note-action {\n  background: transparent;\n  border: 0;\n  color: var(--margin-notes-action-color);\n  cursor: pointer;\n  font: 600 0.78rem/1 var(--margin-notes-font);\n  padding: 0.35rem;\n}\n\n.margin-notes-target-note-close {\n  align-items: center;\n  background: transparent;\n  border: 0;\n  color: var(--margin-notes-muted-color);\n  cursor: pointer;\n  display: none;\n  font: 1.1rem/1 var(--margin-notes-font);\n  height: 1.65rem;\n  justify-content: center;\n  padding: 0;\n  position: absolute;\n  right: 0.25rem;\n  top: 0.25rem;\n  width: 1.65rem;\n}\n\n.margin-notes-target-note.is-expanded .margin-notes-target-note-close {\n  display: inline-flex;\n}\n\n@media (max-width: 760px) {\n  [data-margin-notes-target]::before {\n    display: none;\n  }\n\n  .margin-notes-target-add-btn {\n    left: auto;\n    right: 0;\n    top: -0.85rem;\n  }\n\n  .margin-notes-target-note-list {\n    left: 0;\n    position: relative;\n    top: auto;\n    width: 100%;\n  }\n\n  .margin-notes-target-note.is-expanded {\n    width: min(100%, 24rem);\n  }\n}\n';
-
-// src/features/solid-connection/ui.css
-var ui_default2 = '.margin-notes-solid-connection {\n  color: var(--ds-color-contrast);\n  display: grid;\n  font-family: var(--ds-font-body);\n  font-size: 0.875rem;\n  gap: calc(var(--ds-space) / 3);\n  line-height: 1.35;\n}\n\n.margin-notes-solid-connection-webid {\n  display: grid;\n  gap: calc(var(--ds-space) / 4);\n}\n\n.margin-notes-solid-connection-webid span {\n  color: var(--ds-grey-medium);\n  font-size: 0.75rem;\n  font-weight: 600;\n}\n\n.margin-notes-solid-connection-webid input {\n  background: var(--ds-color-background);\n  border: 1px solid var(--ds-input-border);\n  border-radius: var(--ds-box-radius);\n  box-sizing: border-box;\n  color: var(--ds-color-contrast);\n  font: inherit;\n  inline-size: 100%;\n  min-block-size: var(--ds-input-height);\n  padding: 0 calc(var(--ds-space) / 3);\n}\n\n.margin-notes-solid-connection-status {\n  color: var(--ds-grey-medium);\n  margin: 0;\n}\n\n.margin-notes-solid-connection-status[data-status="connected"] {\n  color: var(--ds-primary-high);\n}\n\n.margin-notes-solid-connection-status[data-status="error"] {\n  color: var(--ds-color-error);\n}\n';
-
-// node_modules/@muze-nl/assert/src/assert-core.mjs
-var assert_core_exports = {};
-__export(assert_core_exports, {
-  Optional: () => Optional,
-  Recommended: () => Recommended,
-  Required: () => Required,
-  allOf: () => allOf,
-  anyOf: () => anyOf3,
-  assert: () => assert,
-  disable: () => disable,
-  enable: () => enable,
-  error: () => error,
-  fails: () => fails,
-  formatIssue: () => formatIssue,
-  formatIssues: () => formatIssues,
-  instanceOf: () => instanceOf,
-  issues: () => issues,
-  not: () => not,
-  oneOf: () => oneOf,
-  validEmail: () => validEmail,
-  validURL: () => validURL,
-  warn: () => warn
-});
-var assertEnabled = false;
-function enable() {
-  assertEnabled = true;
-}
-function disable() {
-  assertEnabled = false;
-}
-function appendPath(path2 = "", key) {
-  if (typeof path2 == "undefined" || path2 == null) {
-    path2 = "";
-  }
-  if (typeof key == "number") {
-    return `${path2}[${key}]`;
-  }
-  return `${path2}.${key}`;
-}
-function pathToArray(path2 = "") {
-  if (Array.isArray(path2)) {
-    return path2;
-  }
-  if (!path2) {
-    return [];
-  }
-  let result = [];
-  let matcher = /(?:^|\.)([^.\[\]]+)|\[(\d+)\]/g;
-  let match;
-  while (match = matcher.exec(path2)) {
-    if (typeof match[1] != "undefined") {
-      result.push(match[1]);
-    } else if (typeof match[2] != "undefined") {
-      result.push(Number(match[2]));
-    }
-  }
-  return result;
-}
-function pathToString(path2 = []) {
-  if (typeof path2 == "string") {
-    return path2.startsWith(".") ? path2.slice(1) : path2;
-  }
-  return path2.map((part, index) => {
-    if (typeof part == "number") {
-      return `[${part}]`;
-    }
-    return `${index ? "." : ""}${part}`;
-  }).join("");
-}
-function describeFunction(value) {
-  if (value === String) {
-    return "string";
-  }
-  if (value === Number) {
-    return "number";
-  }
-  if (value === Boolean) {
-    return "boolean";
-  }
-  return value.name || "function";
-}
-function clip(text, maxLength = 60) {
-  if (text.length <= maxLength) {
-    return text;
-  }
-  return text.slice(0, maxLength - 1) + "\u2026";
-}
-function quoteString(value) {
-  return `'${clip(String(value).replace(/\\/g, "\\\\").replace(/'/g, "\\'").replace(/\n/g, "\\n"))}'`;
-}
-function jsonSummary(value) {
-  try {
-    let json = JSON.stringify(value);
-    if (typeof json == "string") {
-      return clip(json);
-    }
-  } catch (e) {
-  }
-  let name = value?.constructor?.name;
-  if (name && name != "Object") {
-    return name;
-  }
-  return Object.prototype.toString.call(value);
-}
-function formatValue(value) {
-  if (typeof value == "string") {
-    return quoteString(value);
-  }
-  if (typeof value == "undefined") {
-    return "undefined";
-  }
-  if (value === null) {
-    return "null";
-  }
-  if (typeof value == "function") {
-    return describeFunction(value);
-  }
-  if (value instanceof RegExp) {
-    return value.toString();
-  }
-  if (typeof value == "number" || typeof value == "boolean" || typeof value == "bigint") {
-    return String(value);
-  }
-  if (typeof value == "symbol") {
-    return value.toString();
-  }
-  return jsonSummary(value);
-}
-function describeExpected(value) {
-  if (value === String || value === Number || value === Boolean) {
-    return describeFunction(value);
-  }
-  if (typeof value == "function") {
-    return describeFunction(value);
-  }
-  if (value instanceof RegExp) {
-    return value.toString();
-  }
-  if (Array.isArray(value)) {
-    return "[" + value.map(describeExpected).join(", ") + "]";
-  }
-  return formatValue(value);
-}
-function describeOneOf(patterns) {
-  return patterns.map(describeExpected).join(", ");
-}
-function conciseMessage(message, actual, expected) {
-  if (message == "data and pattern are not equal") {
-    return `expected ${formatValue(expected)}, found ${formatValue(actual)}`;
-  }
-  if (message == "data does not match pattern" || /^data\[\d+\] does not match pattern$/.test(message)) {
-    return `expected ${describeExpected(expected)}, found ${formatValue(actual)}`;
-  }
-  if (message == "data is undefined, should match pattern") {
-    return `missing; expected ${describeExpected(expected)}`;
-  }
-  if (message == "data is required") {
-    return "required";
-  }
-  if (message == "data is an empty string, which is not allowed") {
-    return "empty string is not allowed";
-  }
-  if (message == "data is not an object, pattern is") {
-    return "data is not an object";
-  }
-  if (message == "data is not an instanceof pattern") {
-    return `expected instance of ${describeExpected(expected)}, found ${formatValue(actual)}`;
-  }
-  if (message == "data does not match oneOf patterns" || message == "data does not match anyOf patterns") {
-    return `expected one of ${describeOneOf(expected)}, found ${formatValue(actual)}`;
-  }
-  if (message == "data matches pattern, when required not to") {
-    return `must not match ${describeExpected(expected)}`;
-  }
-  return message;
-}
-function formatIssue(issue, options = {}) {
-  if (!issue || typeof issue != "object") {
-    return String(issue);
-  }
-  let path2 = issue.pathString || pathToString(issue.path || []) || "value";
-  let indent = options.indent ?? "";
-  return `${indent}${path2}: ${issue.message}`;
-}
-function formatIssues(issues3, options = {}) {
-  if (!issues3) {
-    return false;
-  }
-  let indent = options.indent ?? "  - ";
-  return (Array.isArray(issues3) ? issues3 : [issues3]).map((issue) => formatIssue(issue, { ...options, indent }));
-}
-function issueFromProblem(problem) {
-  if (!problem || typeof problem != "object") {
-    return {
-      path: [],
-      pathString: "",
-      message: String(problem),
-      expected: void 0,
-      actual: void 0
-    };
-  }
-  let path2 = pathToArray(problem.path);
-  let pathString = pathToString(path2);
-  let actual = problem.actual ?? problem.found;
-  let expected = describeExpected(problem.expected);
-  let message = conciseMessage(problem.message, actual, problem.expected);
-  return {
-    path: path2,
-    pathString,
-    message,
-    expected,
-    actual
-  };
-}
-function problemsToIssues(problems) {
-  if (!problems) {
-    return [];
-  }
-  let result = [];
-  for (let problem of Array.isArray(problems) ? problems : [problems]) {
-    if (!problem) {
-      continue;
-    }
-    if (problem && typeof problem == "object" && problem.problems) {
-      let nested = problemsToIssues(problem.problems);
-      if (nested.length) {
-        result = result.concat(nested);
-        continue;
-      }
-    }
-    result.push(issueFromProblem(problem));
-  }
-  return result;
-}
-function assert(source2, test) {
-  if (assertEnabled) {
-    let problems = fails(source2, test);
-    if (problems) {
-      let assertionIssues = problemsToIssues(problems);
-      let formattedIssues = formatIssues(assertionIssues);
-      let message = "Assertions failed:\n" + formattedIssues.join("\n");
-      console.error("\u{1F170}\uFE0F  " + message);
-      throw new Error(message, {
-        cause: { problems, issues: assertionIssues, source: source2 }
-      });
-    }
-  }
-}
-function Optional(pattern) {
-  return function _Optional(data, root, path2) {
-    if (typeof data != "undefined" && data != null && typeof pattern != "undefined") {
-      return fails(data, pattern, root, path2);
-    }
-  };
-}
-function Required(pattern) {
-  return function _Required(data, root, path2) {
-    if (data == null || typeof data == "undefined") {
-      return error("data is required", data, pattern || "any value", path2);
-    } else if (typeof pattern != "undefined") {
-      return fails(data, pattern, root, path2);
-    } else {
-      return false;
-    }
-  };
-}
-function Recommended(pattern) {
-  return function _Recommended(data, root, path2) {
-    if (data == null || typeof data == "undefined") {
-      warn("data does not contain recommended value", data, pattern, path2);
-      return false;
-    } else {
-      return fails(data, pattern, root, path2);
-    }
-  };
-}
-function oneOf(...patterns) {
-  return function _oneOf(data, root, path2) {
-    for (let pattern of patterns) {
-      if (!fails(data, pattern, root, path2)) {
-        return false;
-      }
-    }
-    return error("data does not match oneOf patterns", data, patterns, path2);
-  };
-}
-function anyOf3(...patterns) {
-  return function _anyOf(data, root, path2) {
-    if (!Array.isArray(data)) {
-      return error("data is not an array", data, "anyOf", path2);
-    }
-    for (let [index, value] of data.entries()) {
-      let itemPath = appendPath(path2, index);
-      if (oneOf(...patterns)(value, root, itemPath)) {
-        return error("data does not match anyOf patterns", value, patterns, itemPath);
-      }
-    }
-    return false;
-  };
-}
-function allOf(...patterns) {
-  return function _allOf(data, root, path2) {
-    let problems = [];
-    for (let pattern of patterns) {
-      problems = problems.concat(fails(data, pattern, root, path2));
-    }
-    problems = problems.filter(Boolean);
-    if (problems.length) {
-      return error("data does not match all given patterns", data, patterns, path2, problems);
-    }
-  };
-}
-function validURL(data, root, path2) {
-  try {
-    if (data instanceof URL) {
-      data = data.href;
-    }
-    let url3 = new URL(data);
-    if (url3.href != data) {
-      if (!(url3.href + "/" == data || url3.href == data + "/")) {
-        return error("data is not a valid url", data, "validURL", path2);
-      }
-    }
-  } catch (e) {
-    return error("data is not a valid url", data, "validURL", path2);
-  }
-}
-function validEmail(data, root, path2) {
-  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data)) {
-    return error("data is not a valid email", data, "validEmail", path2);
-  }
-}
-function instanceOf(constructor) {
-  return function _instanceOf(data, root, path2) {
-    if (!(data instanceof constructor)) {
-      return error("data is not an instanceof pattern", data, constructor, path2);
-    }
-  };
-}
-function not(pattern) {
-  return function _not(data, root, path2) {
-    if (!fails(data, pattern, root, path2)) {
-      return error("data matches pattern, when required not to", data, pattern, path2);
-    }
-  };
-}
-function issues(data, pattern, root) {
-  let problems = fails(data, pattern, root);
-  if (!problems) {
-    return false;
-  }
-  return problemsToIssues(problems);
-}
-function fails(data, pattern, root, path2 = "") {
-  if (typeof root == "undefined") {
-    root = data;
-  }
-  let problems = [];
-  if (pattern === Boolean) {
-    if (typeof data != "boolean" && !(data instanceof Boolean)) {
-      problems.push(error("data is not a boolean", data, pattern, path2));
-    }
-  } else if (pattern === Number) {
-    if (typeof data != "number" && !(data instanceof Number)) {
-      problems.push(error("data is not a number", data, pattern, path2));
-    }
-  } else if (pattern === String) {
-    if (typeof data != "string" && !(data instanceof String)) {
-      problems.push(error("data is not a string", data, pattern, path2));
-    }
-    if (data == "") {
-      problems.push(error("data is an empty string, which is not allowed", data, pattern, path2));
-    }
-  } else if (pattern instanceof RegExp) {
-    if (Array.isArray(data)) {
-      let index = data.findIndex((element2, index2) => fails(element2, pattern, root, appendPath(path2, index2)));
-      if (index > -1) {
-        problems.push(error("data[" + index + "] does not match pattern", data[index], pattern, appendPath(path2, index)));
-      }
-    } else if (typeof data == "undefined") {
-      problems.push(error("data is undefined, should match pattern", data, pattern, path2));
-    } else if (!pattern.test(data)) {
-      problems.push(error("data does not match pattern", data, pattern, path2));
-    }
-  } else if (pattern instanceof Function) {
-    let problem = pattern(data, root, path2);
-    if (problem) {
-      if (Array.isArray(problem)) {
-        problems = problems.concat(problem);
-      } else {
-        problems.push(problem);
-      }
-    }
-  } else if (Array.isArray(pattern)) {
-    if (!Array.isArray(data)) {
-      problems.push(error("data is not an array", data, [], path2));
-    } else {
-      for (let p of pattern) {
-        for (let index of data.keys()) {
-          let problem = fails(data[index], p, root, appendPath(path2, index));
-          if (Array.isArray(problem)) {
-            problems = problems.concat(problem);
-          } else if (problem) {
-            problems.push(problem);
-          }
-        }
-      }
-    }
-  } else if (pattern && typeof pattern == "object") {
-    if (Array.isArray(data)) {
-      let index = data.findIndex((element2, index2) => fails(element2, pattern, root, appendPath(path2, index2)));
-      if (index > -1) {
-        problems.push(error("data[" + index + "] does not match pattern", data[index], pattern, appendPath(path2, index)));
-      }
-    } else if (!data || typeof data != "object") {
-      problems.push(error("data is not an object, pattern is", data, pattern, path2));
-    } else {
-      if (data instanceof URLSearchParams) {
-        data = Object.fromEntries(data);
-      }
-      if (pattern instanceof Function) {
-        let result = fails(data, pattern, root, path2);
-        if (result) {
-          problems = problems.concat(result);
-        }
-      } else {
-        for (const [patternKey, subpattern] of Object.entries(pattern)) {
-          let result = fails(data[patternKey], subpattern, root, appendPath(path2, patternKey));
-          if (result) {
-            problems = problems.concat(result);
-          }
-        }
-      }
-    }
-  } else {
-    if (pattern != data) {
-      problems.push(error("data and pattern are not equal", data, pattern, path2));
-    }
-  }
-  if (problems.length) {
-    return problems;
-  }
-  return false;
-}
-function error(message, found, expected, path2 = "", problems) {
-  let pathParts = pathToArray(path2);
-  let result = {
-    path: path2,
-    pathString: pathToString(pathParts),
-    pathParts,
-    message,
-    found,
-    expected
-  };
-  if (problems) {
-    result.problems = problems;
-  }
-  return result;
-}
-function warn(message, data, pattern, path2) {
-  console.warn("\u{1F170}\uFE0F  Assert: " + path2, message, pattern, data);
-}
-
-// node_modules/@muze-nl/assert/src/assert.mjs
-globalThis.assert = { ...assert_core_exports };
 
 // ../solid-tools/node_modules/@muze-nl/metro-oidc/node_modules/@muze-nl/metro/src/metro.mjs
 var metro_exports = {};
@@ -23693,472 +18705,6 @@ __export(oauth2_exports, {
   isRedirected: () => isRedirected,
   parseBearerChallenge: () => parseBearerChallenge
 });
-
-// ../solid-tools/node_modules/@muze-nl/assert/src/assert-core.mjs
-var assert_core_exports2 = {};
-__export(assert_core_exports2, {
-  Optional: () => Optional2,
-  Recommended: () => Recommended2,
-  Required: () => Required2,
-  allOf: () => allOf2,
-  anyOf: () => anyOf4,
-  assert: () => assert2,
-  disable: () => disable2,
-  enable: () => enable2,
-  error: () => error2,
-  fails: () => fails2,
-  formatIssue: () => formatIssue2,
-  formatIssues: () => formatIssues2,
-  instanceOf: () => instanceOf2,
-  issues: () => issues2,
-  not: () => not2,
-  oneOf: () => oneOf2,
-  validEmail: () => validEmail2,
-  validURL: () => validURL2,
-  warn: () => warn2
-});
-var assertEnabled2 = false;
-function enable2() {
-  assertEnabled2 = true;
-}
-function disable2() {
-  assertEnabled2 = false;
-}
-function appendPath2(path2 = "", key) {
-  if (typeof path2 == "undefined" || path2 == null) {
-    path2 = "";
-  }
-  if (typeof key == "number") {
-    return `${path2}[${key}]`;
-  }
-  return `${path2}.${key}`;
-}
-function pathToArray2(path2 = "") {
-  if (Array.isArray(path2)) {
-    return path2;
-  }
-  if (!path2) {
-    return [];
-  }
-  let result = [];
-  let matcher = /(?:^|\.)([^.\[\]]+)|\[(\d+)\]/g;
-  let match;
-  while (match = matcher.exec(path2)) {
-    if (typeof match[1] != "undefined") {
-      result.push(match[1]);
-    } else if (typeof match[2] != "undefined") {
-      result.push(Number(match[2]));
-    }
-  }
-  return result;
-}
-function pathToString2(path2 = []) {
-  if (typeof path2 == "string") {
-    return path2.startsWith(".") ? path2.slice(1) : path2;
-  }
-  return path2.map((part, index) => {
-    if (typeof part == "number") {
-      return `[${part}]`;
-    }
-    return `${index ? "." : ""}${part}`;
-  }).join("");
-}
-function describeFunction2(value) {
-  if (value === String) {
-    return "string";
-  }
-  if (value === Number) {
-    return "number";
-  }
-  if (value === Boolean) {
-    return "boolean";
-  }
-  return value.name || "function";
-}
-function clip2(text, maxLength = 60) {
-  if (text.length <= maxLength) {
-    return text;
-  }
-  return text.slice(0, maxLength - 1) + "\u2026";
-}
-function quoteString2(value) {
-  return `'${clip2(String(value).replace(/\\/g, "\\\\").replace(/'/g, "\\'").replace(/\n/g, "\\n"))}'`;
-}
-function jsonSummary2(value) {
-  try {
-    let json = JSON.stringify(value);
-    if (typeof json == "string") {
-      return clip2(json);
-    }
-  } catch (e) {
-  }
-  let name = value?.constructor?.name;
-  if (name && name != "Object") {
-    return name;
-  }
-  return Object.prototype.toString.call(value);
-}
-function formatValue2(value) {
-  if (typeof value == "string") {
-    return quoteString2(value);
-  }
-  if (typeof value == "undefined") {
-    return "undefined";
-  }
-  if (value === null) {
-    return "null";
-  }
-  if (typeof value == "function") {
-    return describeFunction2(value);
-  }
-  if (value instanceof RegExp) {
-    return value.toString();
-  }
-  if (typeof value == "number" || typeof value == "boolean" || typeof value == "bigint") {
-    return String(value);
-  }
-  if (typeof value == "symbol") {
-    return value.toString();
-  }
-  return jsonSummary2(value);
-}
-function describeExpected2(value) {
-  if (value === String || value === Number || value === Boolean) {
-    return describeFunction2(value);
-  }
-  if (typeof value == "function") {
-    return describeFunction2(value);
-  }
-  if (value instanceof RegExp) {
-    return value.toString();
-  }
-  if (Array.isArray(value)) {
-    return "[" + value.map(describeExpected2).join(", ") + "]";
-  }
-  return formatValue2(value);
-}
-function describeOneOf2(patterns) {
-  return patterns.map(describeExpected2).join(", ");
-}
-function conciseMessage2(message, actual, expected) {
-  if (message == "data and pattern are not equal") {
-    return `expected ${formatValue2(expected)}, found ${formatValue2(actual)}`;
-  }
-  if (message == "data does not match pattern" || /^data\[\d+\] does not match pattern$/.test(message)) {
-    return `expected ${describeExpected2(expected)}, found ${formatValue2(actual)}`;
-  }
-  if (message == "data is undefined, should match pattern") {
-    return `missing; expected ${describeExpected2(expected)}`;
-  }
-  if (message == "data is required") {
-    return "required";
-  }
-  if (message == "data is an empty string, which is not allowed") {
-    return "empty string is not allowed";
-  }
-  if (message == "data is not an object, pattern is") {
-    return "data is not an object";
-  }
-  if (message == "data is not an instanceof pattern") {
-    return `expected instance of ${describeExpected2(expected)}, found ${formatValue2(actual)}`;
-  }
-  if (message == "data does not match oneOf patterns" || message == "data does not match anyOf patterns") {
-    return `expected one of ${describeOneOf2(expected)}, found ${formatValue2(actual)}`;
-  }
-  if (message == "data matches pattern, when required not to") {
-    return `must not match ${describeExpected2(expected)}`;
-  }
-  return message;
-}
-function formatIssue2(issue, options = {}) {
-  if (!issue || typeof issue != "object") {
-    return String(issue);
-  }
-  let path2 = issue.pathString || pathToString2(issue.path || []) || "value";
-  let indent = options.indent ?? "";
-  return `${indent}${path2}: ${issue.message}`;
-}
-function formatIssues2(issues3, options = {}) {
-  if (!issues3) {
-    return false;
-  }
-  let indent = options.indent ?? "  - ";
-  return (Array.isArray(issues3) ? issues3 : [issues3]).map((issue) => formatIssue2(issue, { ...options, indent }));
-}
-function issueFromProblem2(problem) {
-  if (!problem || typeof problem != "object") {
-    return {
-      path: [],
-      pathString: "",
-      message: String(problem),
-      expected: void 0,
-      actual: void 0
-    };
-  }
-  let path2 = pathToArray2(problem.path);
-  let pathString = pathToString2(path2);
-  let actual = problem.actual ?? problem.found;
-  let expected = describeExpected2(problem.expected);
-  let message = conciseMessage2(problem.message, actual, problem.expected);
-  return {
-    path: path2,
-    pathString,
-    message,
-    expected,
-    actual
-  };
-}
-function problemsToIssues2(problems) {
-  if (!problems) {
-    return [];
-  }
-  let result = [];
-  for (let problem of Array.isArray(problems) ? problems : [problems]) {
-    if (!problem) {
-      continue;
-    }
-    if (problem && typeof problem == "object" && problem.problems) {
-      let nested = problemsToIssues2(problem.problems);
-      if (nested.length) {
-        result = result.concat(nested);
-        continue;
-      }
-    }
-    result.push(issueFromProblem2(problem));
-  }
-  return result;
-}
-function assert2(source2, test) {
-  if (assertEnabled2) {
-    let problems = fails2(source2, test);
-    if (problems) {
-      let assertionIssues = problemsToIssues2(problems);
-      let formattedIssues = formatIssues2(assertionIssues);
-      let message = "Assertions failed:\n" + formattedIssues.join("\n");
-      console.error("\u{1F170}\uFE0F  " + message);
-      throw new Error(message, {
-        cause: { problems, issues: assertionIssues, source: source2 }
-      });
-    }
-  }
-}
-function Optional2(pattern) {
-  return function _Optional(data, root, path2) {
-    if (typeof data != "undefined" && data != null && typeof pattern != "undefined") {
-      return fails2(data, pattern, root, path2);
-    }
-  };
-}
-function Required2(pattern) {
-  return function _Required(data, root, path2) {
-    if (data == null || typeof data == "undefined") {
-      return error2("data is required", data, pattern || "any value", path2);
-    } else if (typeof pattern != "undefined") {
-      return fails2(data, pattern, root, path2);
-    } else {
-      return false;
-    }
-  };
-}
-function Recommended2(pattern) {
-  return function _Recommended(data, root, path2) {
-    if (data == null || typeof data == "undefined") {
-      warn2("data does not contain recommended value", data, pattern, path2);
-      return false;
-    } else {
-      return fails2(data, pattern, root, path2);
-    }
-  };
-}
-function oneOf2(...patterns) {
-  return function _oneOf(data, root, path2) {
-    for (let pattern of patterns) {
-      if (!fails2(data, pattern, root, path2)) {
-        return false;
-      }
-    }
-    return error2("data does not match oneOf patterns", data, patterns, path2);
-  };
-}
-function anyOf4(...patterns) {
-  return function _anyOf(data, root, path2) {
-    if (!Array.isArray(data)) {
-      return error2("data is not an array", data, "anyOf", path2);
-    }
-    for (let [index, value] of data.entries()) {
-      let itemPath = appendPath2(path2, index);
-      if (oneOf2(...patterns)(value, root, itemPath)) {
-        return error2("data does not match anyOf patterns", value, patterns, itemPath);
-      }
-    }
-    return false;
-  };
-}
-function allOf2(...patterns) {
-  return function _allOf(data, root, path2) {
-    let problems = [];
-    for (let pattern of patterns) {
-      problems = problems.concat(fails2(data, pattern, root, path2));
-    }
-    problems = problems.filter(Boolean);
-    if (problems.length) {
-      return error2("data does not match all given patterns", data, patterns, path2, problems);
-    }
-  };
-}
-function validURL2(data, root, path2) {
-  try {
-    if (data instanceof URL) {
-      data = data.href;
-    }
-    let url3 = new URL(data);
-    if (url3.href != data) {
-      if (!(url3.href + "/" == data || url3.href == data + "/")) {
-        return error2("data is not a valid url", data, "validURL", path2);
-      }
-    }
-  } catch (e) {
-    return error2("data is not a valid url", data, "validURL", path2);
-  }
-}
-function validEmail2(data, root, path2) {
-  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data)) {
-    return error2("data is not a valid email", data, "validEmail", path2);
-  }
-}
-function instanceOf2(constructor) {
-  return function _instanceOf(data, root, path2) {
-    if (!(data instanceof constructor)) {
-      return error2("data is not an instanceof pattern", data, constructor, path2);
-    }
-  };
-}
-function not2(pattern) {
-  return function _not(data, root, path2) {
-    if (!fails2(data, pattern, root, path2)) {
-      return error2("data matches pattern, when required not to", data, pattern, path2);
-    }
-  };
-}
-function issues2(data, pattern, root) {
-  let problems = fails2(data, pattern, root);
-  if (!problems) {
-    return false;
-  }
-  return problemsToIssues2(problems);
-}
-function fails2(data, pattern, root, path2 = "") {
-  if (typeof root == "undefined") {
-    root = data;
-  }
-  let problems = [];
-  if (pattern === Boolean) {
-    if (typeof data != "boolean" && !(data instanceof Boolean)) {
-      problems.push(error2("data is not a boolean", data, pattern, path2));
-    }
-  } else if (pattern === Number) {
-    if (typeof data != "number" && !(data instanceof Number)) {
-      problems.push(error2("data is not a number", data, pattern, path2));
-    }
-  } else if (pattern === String) {
-    if (typeof data != "string" && !(data instanceof String)) {
-      problems.push(error2("data is not a string", data, pattern, path2));
-    }
-    if (data == "") {
-      problems.push(error2("data is an empty string, which is not allowed", data, pattern, path2));
-    }
-  } else if (pattern instanceof RegExp) {
-    if (Array.isArray(data)) {
-      let index = data.findIndex((element2, index2) => fails2(element2, pattern, root, appendPath2(path2, index2)));
-      if (index > -1) {
-        problems.push(error2("data[" + index + "] does not match pattern", data[index], pattern, appendPath2(path2, index)));
-      }
-    } else if (typeof data == "undefined") {
-      problems.push(error2("data is undefined, should match pattern", data, pattern, path2));
-    } else if (!pattern.test(data)) {
-      problems.push(error2("data does not match pattern", data, pattern, path2));
-    }
-  } else if (pattern instanceof Function) {
-    let problem = pattern(data, root, path2);
-    if (problem) {
-      if (Array.isArray(problem)) {
-        problems = problems.concat(problem);
-      } else {
-        problems.push(problem);
-      }
-    }
-  } else if (Array.isArray(pattern)) {
-    if (!Array.isArray(data)) {
-      problems.push(error2("data is not an array", data, [], path2));
-    } else {
-      for (let p of pattern) {
-        for (let index of data.keys()) {
-          let problem = fails2(data[index], p, root, appendPath2(path2, index));
-          if (Array.isArray(problem)) {
-            problems = problems.concat(problem);
-          } else if (problem) {
-            problems.push(problem);
-          }
-        }
-      }
-    }
-  } else if (pattern && typeof pattern == "object") {
-    if (Array.isArray(data)) {
-      let index = data.findIndex((element2, index2) => fails2(element2, pattern, root, appendPath2(path2, index2)));
-      if (index > -1) {
-        problems.push(error2("data[" + index + "] does not match pattern", data[index], pattern, appendPath2(path2, index)));
-      }
-    } else if (!data || typeof data != "object") {
-      problems.push(error2("data is not an object, pattern is", data, pattern, path2));
-    } else {
-      if (data instanceof URLSearchParams) {
-        data = Object.fromEntries(data);
-      }
-      if (pattern instanceof Function) {
-        let result = fails2(data, pattern, root, path2);
-        if (result) {
-          problems = problems.concat(result);
-        }
-      } else {
-        for (const [patternKey, subpattern] of Object.entries(pattern)) {
-          let result = fails2(data[patternKey], subpattern, root, appendPath2(path2, patternKey));
-          if (result) {
-            problems = problems.concat(result);
-          }
-        }
-      }
-    }
-  } else {
-    if (pattern != data) {
-      problems.push(error2("data and pattern are not equal", data, pattern, path2));
-    }
-  }
-  if (problems.length) {
-    return problems;
-  }
-  return false;
-}
-function error2(message, found, expected, path2 = "", problems) {
-  let pathParts = pathToArray2(path2);
-  let result = {
-    path: path2,
-    pathString: pathToString2(pathParts),
-    pathParts,
-    message,
-    found,
-    expected
-  };
-  if (problems) {
-    result.problems = problems;
-  }
-  return result;
-}
-function warn2(message, data, pattern, path2) {
-  console.warn("\u{1F170}\uFE0F  Assert: " + path2, message, pattern, data);
-}
-
-// ../solid-tools/node_modules/@muze-nl/assert/src/assert.mjs
-globalThis.assert = { ...assert_core_exports2 };
 
 // ../solid-tools/node_modules/@muze-nl/metro-oauth2/src/tokenstore.mjs
 function tokenStore(site) {
@@ -25733,11 +20279,11 @@ function createSolidMetroClient(input2, options = {}) {
 var DEFAULT_ROOT_FOLDER_NAME = "margin-notes";
 var DEFAULT_PREFERENCES_FILENAME = "preferences.ttl";
 var DEFAULT_CLIENT_NAME = "Margin Notes";
-var LINKED_DATA_ACCEPT2 = "text/turtle, application/ld+json;q=0.9, */*;q=0.1";
+var LINKED_DATA_ACCEPT = "text/turtle, application/ld+json;q=0.9, */*;q=0.1";
 var TURTLE = "text/turtle";
 var SPARQL_UPDATE = "application/sparql-update";
 var PREFERENCES_SUBJECT = "#margin-notes";
-var prefixes3 = {
+var prefixes2 = {
   rdf: "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
   pim: "http://www.w3.org/ns/pim/space#",
   solid: "http://www.w3.org/ns/solid/terms#",
@@ -25750,7 +20296,7 @@ async function createSolidNotesConnection(options = {}) {
   const pageUrl = currentPageUrl(options.pageUrl);
   const discoverySolid = options.discoverySolid || options.solid || createDiscoverySolid({ webId, options });
   const profile = await discoverySolid.discoverWebId(webId);
-  const storageUrl2 = src_default7.one(profile?.storage, "first");
+  const storageUrl2 = src_default2.one(profile?.storage, "first");
   if (!storageUrl2) {
     throw new Error(`No Solid storage root found in WebID profile: ${webId}`);
   }
@@ -25821,12 +20367,15 @@ async function marginNotesRootFolder({ solid: solid2, preferencesUrl, storageUrl
   return rootFolderUrl;
 }
 async function loadMarginNotesRootFolder({ solid: solid2, preferencesUrl }) {
-  const response3 = await solid2.get(preferencesUrl, {
-    headers: solidRequestHeaders({ accept: LINKED_DATA_ACCEPT2 })
-  });
-  if (response3?.status === 404) return "";
-  await ensureOk({ response: response3, operation: "read preferences" });
-  const graph2 = await graphFromResponse({ response: response3, resourceUrl: preferencesUrl });
+  let graph2;
+  try {
+    graph2 = await solid2.get(preferencesUrl, {
+      headers: { Accept: LINKED_DATA_ACCEPT }
+    });
+  } catch (error4) {
+    if (isMissing(error4.cause)) return "";
+    throw error4;
+  }
   const subject = from2(graphSubjects(graph2)).where((subject2) => firstId(subject2.mn$rootFolder))[0];
   return firstId(subject?.mn$rootFolder);
 }
@@ -25835,70 +20384,46 @@ async function saveDefaultMarginNotesRootFolder({ solid: solid2, preferencesUrl,
   if (!exists) {
     const response4 = await solid2.put(preferencesUrl, {
       body: preferencesTurtle({ preferencesUrl, rootFolderUrl }),
-      headers: solidRequestHeaders({ contentType: TURTLE })
+      headers: { "Content-Type": TURTLE }
     });
     await ensureOk({ response: response4, operation: "create preferences" });
     return;
   }
   const response3 = await solid2.patch(preferencesUrl, {
     body: preferencesPatch({ preferencesUrl, rootFolderUrl }),
-    headers: solidRequestHeaders({ contentType: SPARQL_UPDATE })
+    headers: { "Content-Type": SPARQL_UPDATE }
   });
   await ensureOk({ response: response3, operation: "update preferences" });
 }
 async function ensureRootFolder({ solid: solid2, rootFolderUrl }) {
-  if (typeof solid2.createContainer !== "function") return;
   const response3 = await solid2.createContainer(rootFolderUrl);
   if (response3?.ok || [200, 201, 204, 205, 409, 412].includes(response3?.status)) return;
   await ensureOk({ response: response3, operation: "create margin-notes folder" });
 }
 async function resourceExists({ solid: solid2, resourceUrl }) {
-  let response3;
-  if (typeof solid2.head === "function") {
-    response3 = await solid2.head(resourceUrl);
-  } else {
-    response3 = await solid2.get(resourceUrl, {
-      headers: solidRequestHeaders({ accept: LINKED_DATA_ACCEPT2 })
-    });
-  }
+  const response3 = await solid2.head(resourceUrl);
   if (response3?.status === 404) return false;
   await ensureOk({ response: response3, operation: "check preferences" });
   return true;
 }
-async function graphFromResponse({ response: response3, resourceUrl }) {
-  const data = response3?.data ?? response3;
-  if (data?.subjects || data?.primary) {
-    return data;
-  }
-  return src_default7.context({
-    defaultGraph: resourceUrl,
-    prefixes: prefixes3
-  }).parse(await responseText(response3), resourceUrl, responseContentType(response3) || TURTLE);
-}
 function graphSubjects(graph2) {
-  if (Array.isArray(graph2?.data)) return graph2.data;
-  if (Array.isArray(graph2?.subjects)) return graph2.subjects;
-  if (graph2?.subjects && typeof graph2.subjects === "object") return Object.values(graph2.subjects);
-  if (graph2?.primary) return [graph2.primary];
-  return [];
+  return src_default2.subjects(graph2);
+}
+function isMissing(response3) {
+  return response3?.status === 404;
 }
 async function responseText(response3) {
-  if (typeof response3?.text === "function") return response3.text();
-  if (typeof response3?.data === "string") return response3.data;
-  return "";
-}
-function responseContentType(response3) {
-  return response3?.headers?.get?.("Content-Type") || response3?.headers?.get?.("content-type") || "";
+  return response3.text();
 }
 function preferencesTurtle({ preferencesUrl, rootFolderUrl }) {
-  return `@prefix mn: <${prefixes3.mn}>.
+  return `@prefix mn: <${prefixes2.mn}>.
 
 <${preferencesSubject(preferencesUrl)}> a mn:Preferences;
   mn:rootFolder <${rootFolderUrl}>.
 `;
 }
 function preferencesPatch({ preferencesUrl, rootFolderUrl }) {
-  return `PREFIX mn: <${prefixes3.mn}>
+  return `PREFIX mn: <${prefixes2.mn}>
 INSERT DATA { <${preferencesSubject(preferencesUrl)}> a mn:Preferences; mn:rootFolder <${rootFolderUrl}>. }`;
 }
 function preferencesSubject(preferencesUrl) {
@@ -25986,7 +20511,7 @@ function ensureSlash4(url3) {
   return String(url3).endsWith("/") ? String(url3) : `${url3}/`;
 }
 function firstId(value) {
-  const item = src_default7.one(value, "first");
+  const item = src_default2.one(value, "first");
   return typeof item === "string" ? item : item?.id || "";
 }
 function encodePathSegment(value) {
@@ -26794,7 +21319,7 @@ var paragraphNoteStacks = {
           return [];
         }
       },
-      async saveGraph({ app: app2, key, subjects }) {
+      async saveGraph({ app: app2, key, subjects: subjects2 }) {
         const notesService = await this.ensureNotesService({
           app: app2,
           storeKey: key
@@ -26807,14 +21332,14 @@ var paragraphNoteStacks = {
         return this.saveGraphToStore({
           store: app2.marginNotesRuntime.store,
           key,
-          subjects
+          subjects: subjects2
         });
       },
-      async saveGraphToStore({ store, key, subjects, throwOnError = false }) {
+      async saveGraphToStore({ store, key, subjects: subjects2, throwOnError = false }) {
         try {
           await store.save({
             key,
-            value: this.toStorageDocument({ subjects })
+            value: this.toStorageDocument({ subjects: subjects2 })
           });
           return true;
         } catch (error4) {
@@ -27246,22 +21771,22 @@ function createSolidResourceStore(options = {}) {
       const resourceUrl = resourceUrlFrom({ key, defaultResourceUrl });
       const solid2 = solidFor(resourceUrl);
       const response3 = await callResource(() => solid2.get(resourceUrl, {
-        headers: solidRequestHeaders({ accept })
+        headers: { Accept: accept }
       }));
-      if (isMissing(response3)) return null;
-      await ensureOk2({ response: response3, operation: "load" });
-      const data = response3?.data ?? response3;
+      if (isMissing2(response3)) return null;
+      const data = response3;
       if (isOldmGraph(data)) {
         return storageDocumentFromGraph({ graph: data, resourceUrl });
       }
       if (isStorageDocument(data)) {
         return data;
       }
+      await ensureOk2({ response: response3, operation: "load" });
       const text = await responseText2(response3);
       if (!text.trim()) return null;
       if (isLinkedDataResponse(response3)) {
         return storageDocumentFromGraph({
-          graph: oldmContext({ resourceUrl }).parse(text, resourceUrl, responseContentType2(response3) || DEFAULT_CONTENT_TYPE),
+          graph: oldmContext({ resourceUrl }).parse(text, resourceUrl, responseContentType(response3) || DEFAULT_CONTENT_TYPE),
           resourceUrl
         });
       }
@@ -27282,7 +21807,7 @@ function createSolidResourceStore(options = {}) {
       const graph2 = graphFromStorageDocument({ document: value, resourceUrl });
       const response3 = await callResource(() => solid2.put(resourceUrl, {
         body: graph2,
-        headers: solidRequestHeaders({ contentType })
+        headers: { "Content-Type": contentType }
       }));
       await ensureOk2({ response: response3, operation: "save" });
       return {
@@ -27295,7 +21820,7 @@ function createSolidResourceStore(options = {}) {
       const resourceUrl = resourceUrlFrom({ key, defaultResourceUrl });
       const solid2 = solidFor(resourceUrl, { needsAuthorization: true });
       const response3 = await callResource(() => solid2.delete(resourceUrl));
-      if (isMissing(response3) || response3.status === 410) {
+      if (isMissing2(response3) || response3.status === 410) {
         return {
           key: resourceUrl,
           resourceUrl,
@@ -27325,13 +21850,13 @@ function assertOptions(options) {
     throw new TypeError(`Invalid Solid resource store options: ${optionIssues[0].pathString} ${optionIssues[0].message}`);
   }
 }
-function oldmContext({ resourceUrl, prefixes: prefixes4 = {} }) {
-  return src_default7.context({
+function oldmContext({ resourceUrl, prefixes: prefixes3 = {} }) {
+  return src_default2.context({
     defaultGraph: resourceUrl,
-    prefixes: annotationPrefixes(prefixes4)
+    prefixes: annotationPrefixes(prefixes3)
   });
 }
-function annotationPrefixes(prefixes4 = {}) {
+function annotationPrefixes(prefixes3 = {}) {
   return {
     rdf: "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
     rdfs: "http://www.w3.org/2000/01/rdf-schema#",
@@ -27339,7 +21864,7 @@ function annotationPrefixes(prefixes4 = {}) {
     oa: "http://www.w3.org/ns/oa#",
     schema: "https://schema.org/",
     cobalt: "https://vocab.muze.nl/cobalt#",
-    ...prefixes4
+    ...prefixes3
   };
 }
 function graphFromStorageDocument({ document: document2, resourceUrl }) {
@@ -27389,7 +21914,7 @@ function graphValueFromStorageValue({ graph: graph2, predicate, value }) {
   return value;
 }
 function storageDocumentFromGraph({ graph: graph2, resourceUrl }) {
-  const subjects = Array.from(from2(graphSubjects2(graph2)).where((subject) => src_default7.many(subject.a).includes("oa$Annotation") || src_default7.many(subject.rdf$type).includes("oa$Annotation")).select((subject) => repairConventionalAnnotationParts({
+  const subjects2 = Array.from(from2(graphSubjects2(graph2)).where((subject) => src_default2.many(subject.a).includes("oa$Annotation") || src_default2.many(subject.rdf$type).includes("oa$Annotation")).select((subject) => repairConventionalAnnotationParts({
     graph: graph2,
     annotation: storageSubjectFromOldmSubject({ graph: graph2, subject })
   })));
@@ -27398,7 +21923,7 @@ function storageDocumentFromGraph({ graph: graph2, resourceUrl }) {
     version: DEFAULT_VERSION,
     prefixes: annotationPrefixes(graph2?.prefixes ?? graph2?.context?.prefixes),
     resourceUrl,
-    subjects
+    subjects: subjects2
   };
 }
 function repairConventionalAnnotationParts({ graph: graph2, annotation }) {
@@ -27430,7 +21955,7 @@ function repairConventionalAnnotationParts({ graph: graph2, annotation }) {
   return annotation;
 }
 function conventionalSubject({ graph: graph2, subjectId, suffixes, types }) {
-  const subject = from2(suffixes).select((suffix) => graph2?.subjects?.[`${subjectId}${suffix}`]).where((candidate) => candidate && src_default7.many(candidate.a).some((type) => types.includes(type)))[0];
+  const subject = from2(suffixes).select((suffix) => graph2?.subjects?.[`${subjectId}${suffix}`]).where((candidate) => candidate && src_default2.many(candidate.a).some((type) => types.includes(type)))[0];
   if (!subject) return null;
   return storageSubjectFromOldmSubject({ graph: graph2, subject });
 }
@@ -27480,16 +22005,7 @@ function storageLiteralValue({ predicate, value }) {
   return value;
 }
 function graphSubjects2(graph2) {
-  if (Array.isArray(graph2?.data)) {
-    return graph2.data;
-  }
-  if (Array.isArray(graph2?.subjects)) {
-    return graph2.subjects;
-  }
-  if (graph2?.subjects && typeof graph2.subjects === "object") {
-    return Object.values(graph2.subjects);
-  }
-  return [];
+  return src_default2.subjects(graph2);
 }
 function resourceUrlFrom({ key, defaultResourceUrl }) {
   const resourceUrl = defaultResourceUrl || key;
@@ -27549,13 +22065,13 @@ async function callResource(operation) {
   try {
     return await operation();
   } catch (error4) {
-    if (isMissing(error4?.cause)) {
+    if (isMissing2(error4?.cause)) {
       return error4.cause;
     }
     throw error4;
   }
 }
-function isMissing(response3) {
+function isMissing2(response3) {
   return response3?.status === 404;
 }
 function isStorageDocument(value) {
@@ -27568,10 +22084,10 @@ function isOldmNamedNode(value) {
   return Boolean(value && typeof value === "object" && typeof value.id === "string" && value.graph);
 }
 function isLinkedDataResponse(response3) {
-  return /^text\/turtle\b|^application\/ld\+json\b|^application\/n-quads\b|^application\/trig\b/.test(responseContentType2(response3));
+  return /^text\/turtle\b|^application\/ld\+json\b|^application\/n-quads\b|^application\/trig\b/.test(responseContentType(response3));
 }
-function responseContentType2(response3) {
-  return response3?.headers?.get?.("Content-Type") || response3?.headers?.get?.("content-type") || "";
+function responseContentType(response3) {
+  return response3.headers.get("Content-Type") || "";
 }
 async function ensureOk2({ response: response3, operation }) {
   if (response3.ok) return;
@@ -27580,13 +22096,7 @@ async function ensureOk2({ response: response3, operation }) {
   throw new Error(`Solid resource ${operation} failed (${response3.status} ${response3.statusText})${detail}`);
 }
 async function responseText2(response3) {
-  if (typeof response3?.text === "function") {
-    return response3.text();
-  }
-  if (typeof response3?.data === "string") {
-    return response3.data;
-  }
-  return "";
+  return response3.text();
 }
 
 // src/index.js
@@ -27625,10 +22135,8 @@ export {
 /*! Bundled license information:
 
 ieee754/index.js:
-ieee754/index.js:
   (*! ieee754. BSD-3-Clause License. Feross Aboukhadijeh <https://feross.org/opensource> *)
 
-buffer/index.js:
 buffer/index.js:
   (*!
    * The buffer module from node.js, for the browser.

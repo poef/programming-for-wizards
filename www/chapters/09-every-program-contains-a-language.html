@@ -46,7 +46,7 @@
   <script defer src="../assets/exhibits/exhibit-kit.js"></script>
   <script defer src="https://cdn.jsdelivr.net/gh/muze-labs/simplyflow@main/packages/simplyflow/dist/simply.flow.js"></script>
   <script type="module" src="../assets/exhibits/exhibits.js"></script>
-  <script type="module" src="../assets/margin-notes-demo.js?v=749b9c26e9"></script>
+  <script type="module" src="../assets/margin-notes-demo.js?v=1901ef11f5"></script>
 </head>
 <body>
   <a class="skip-link" href="#main">Skip to manuscript</a>
@@ -80,7 +80,7 @@
 <section class="map-section">
   <h2>Part III: Inventing languages</h2>
   <ol>
-    <li><a href="../chapters/08-programming-languages-are-for-humans.html#book-start" data-chapter-start><span>08</span>Teaching machines our words</a></li><li><a aria-current="page" href="../chapters/09-every-program-contains-a-language.html#book-start" data-chapter-start><span>09</span>Every program grows a language</a></li><li><a href="../chapters/10-code-exhibit-extending-javascript-with-jaqt.html#book-start" data-chapter-start><span>10</span>Code exhibit: extending JavaScript with JAQT</a></li>
+    <li><a href="../chapters/08-programming-languages-are-for-humans.html#book-start" data-chapter-start><span>08</span>Teaching machines our words</a></li><li><a aria-current="page" href="../chapters/09-every-program-contains-a-language.html#book-start" data-chapter-start><span>09</span>Every program grows a language</a></li><li><a href="../chapters/10-code-exhibit-extending-javascript-with-jaqt.html#book-start" data-chapter-start><span>10</span>Code exhibit: growing queries inside javascript</a></li>
   </ol>
 </section>
 <section class="map-section">
@@ -113,29 +113,21 @@
   <div class="book-progress" role="progressbar" aria-label="Book progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" data-book-progress>
     <span data-book-progress-bar></span>
   </div>
-  <div id="book-start" class="manuscript-pages" data-page-scroller data-book-chapter-id="09-every-program-contains-a-language" data-book-chapter-index="11" data-book-page-weights="563,27,1761,763,630,26,1305,1676,1260,20,1090,485,2022,29,1587,1216,1346,30,1186,1332,1036,37,728,74,133">
+  <div id="book-start" class="manuscript-pages" data-page-scroller data-book-chapter-id="09-every-program-contains-a-language" data-book-chapter-index="11" data-book-page-weights="558,27,1779,763,630,26,1305,1676,1260,20,1090,504,2044,29,1591,1216,1374,30,1186,1337,1036,37,728,74,133">
   <header class="chapter-header ">
     <p class="chapter-kicker">Part III: Inventing languages</p>
     <p class="chapter-number">Chapter 09</p>
     <svg class="chapter-glyph" viewBox="0 0 96 96" focusable="false" aria-hidden="true"><path d="M22 31h20v20H22zM54 31h20v20H54zM38 60h20v20H38z"/><path d="M42 41h12M48 51v9"/></svg>
   </header>
   <h1 id="h-09-every-program-grows-a-language"><a class="anchor-link" href="#h-09-every-program-grows-a-language" aria-label="Link to Every program grows a language">#</a>Every program grows a language</h1>
-<p id="p-09-a-program-is-not-only-written-in-a" data-note-target><span class="passage-margin" data-passage-margin aria-label="Margin for this passage">
+<p id="p-09-so-far-ive-described-programming-language-design-as" data-note-target><span class="passage-margin" data-passage-margin aria-label="Margin for this passage">
 <span class="passage-margin-notes" data-passage-margin-notes></span>
 
-</span>A program is not only written in a language. A program also creates a language.</p>
-<p id="p-09-every-time-you-name-a-variable-function-class" data-note-target><span class="passage-margin" data-passage-margin aria-label="Margin for this passage">
-<span class="passage-margin-notes" data-passage-margin-notes></span>
-
-</span>Every time you name a variable, function, class or method, you add a word to your program. Add enough words and you've created a language all your own.</p>
+</span>So far, I've described programming language design as a conscious choice, a thing someone set out to build. But if you've ever written a piece of software, you too have been building a programming language. Every time you name a variable, function, class or method, you add a word to your program. Add enough words and you've created a language all your own.</p>
 <p id="p-09-when-you-write-the-code-that-language-is" data-note-target><span class="passage-margin" data-passage-margin aria-label="Margin for this passage">
 <span class="passage-margin-notes" data-passage-margin-notes></span>
 
-</span>When you write the code, that language is obvious because you've invented it. Anyone else must learn it before they can safely change your program.</p>
-<p id="p-09-this-is-why-reading-code-is-harder-than" data-note-target><span class="passage-margin" data-passage-margin aria-label="Margin for this passage">
-<span class="passage-margin-notes" data-passage-margin-notes></span>
-
-</span>This is why reading code is harder than writing it.</p>
+</span>When you write the code, that language is obvious because you've invented it. Anyone else must learn it before they can safely change your program. This is why reading code is harder than writing it.</p>
 <p id="p-09-most-of-the-time-programs-grow-their-local" data-note-target><span class="passage-margin" data-passage-margin aria-label="Margin for this passage">
 <span class="passage-margin-notes" data-passage-margin-notes></span>
 
@@ -143,7 +135,7 @@
 <p id="p-09-that-is-not-automatically-bad-it-is-how" data-note-target><span class="passage-margin" data-passage-margin aria-label="Margin for this passage">
 <span class="passage-margin-notes" data-passage-margin-notes></span>
 
-</span>That is not automatically bad. It is how useful code grows.</p>
+</span>That's not automatically bad, it is how useful code grows.</p>
 <p id="p-09-but-sometimes-the-local-language-wants-to-stop" data-note-target><span class="passage-margin" data-passage-margin aria-label="Margin for this passage">
 <span class="passage-margin-notes" data-passage-margin-notes></span>
 
@@ -207,7 +199,7 @@
 </span>Designed for humans, not computers.</p>
   <nav class="chapter-pagination" aria-label="Chapter navigation">
     <a rel="prev" href="08-programming-languages-are-for-humans.html"><span>Previous</span>Teaching machines our words</a>
-    <a rel="next" href="10-code-exhibit-extending-javascript-with-jaqt.html"><span>Next</span>Code exhibit: extending JavaScript with JAQT</a>
+    <a rel="next" href="10-code-exhibit-extending-javascript-with-jaqt.html"><span>Next</span>Code exhibit: growing queries inside javascript</a>
   </nav>
   </div>
   <div class="page-turner" data-page-controls hidden>
