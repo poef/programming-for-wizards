@@ -162,8 +162,3 @@ A personal Web asks:
 <!-- paragraph-id: p-16-the-second-question-does-not-require-solid -->
 The second question does not require Solid as its only answer. But Solid is a serious attempt to build the answer into the Web itself.
 
-<!-- paragraph-id: p-16-the-web-has-become-an-operating-system -->
-The Web has become an operating system.
-
-<!-- paragraph-id: p-16-the-user-still-needs-a-home-directory -->
-The user still needs a home directory.

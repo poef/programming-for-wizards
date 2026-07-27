@@ -200,5 +200,3 @@ Just like human languages.
 <!-- paragraph-id: p-08-you-should-be-aware-of-this-tension-you -->
 You should be aware of this tension. You do not escape it by choosing the one true language, because the one true language does not exist. You escape it, when you can, by making the language of the program fit the problem more closely.
 
-<!-- paragraph-id: p-08-that-is-where-domain-specific-languages-come-in -->
-That is where [domain-specific languages](https://martinfowler.com/dsl.html) come in.

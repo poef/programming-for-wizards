@@ -29,7 +29,7 @@ There is an actual wizard who has thought about this.
 In that view, there is the physical world, made of bodies and stones and rain and hunger. And then there is the imagined world: countries and borders, money, laws, gods, companies. These things are not fake. But they do not exist in the same way a stone exists. They exist because enough people believe in them.
 
 <!-- paragraph-id: p-04-language-is-how-we-imagine-our-world-and -->
-Language is how we imagine our world. And then we make our imagination reality. This is why language is magic in a very practical sense.
+Language is how we imagine our world, then we make our imagination reality. This is why language is magic in a very practical sense.
 
 <!-- paragraph-id: p-04-computer-programs-make-this-even-stranger-a-program -->
 Computer programs make this even stranger. A program starts as something imagined. Then the computer runs it. A message is sent, money moves or a robot arm turns. The imaginary is made real. 

@@ -23,7 +23,7 @@ But to understand where and how to change the world, you must first understand h
 That's the point of this book.
 
 <!-- paragraph-id: p-01-you-may-already-have-good-tools-a-productive -->
-You may already have good tools, a productive framework and years of experience using them. This book isn't an argument for throwing them away. Its an attempt to look at the choices underneath them: the names, assumptions and boundaries that made those tools possible.
+You may already have good tools, a productive framework and years of experience using them. This book isn't an argument for throwing them away. It's an attempt to look at the choices underneath them: the names, assumptions and boundaries that made those tools possible.
 
 <!-- paragraph-id: p-01-now-this-doesnt-mean-we-should-just-go -->
 Now, this doesn't mean we should just go about changing anything we like. For one thing, you will find it difficult to convince other people to join you in this mad quest. But if you understand the world, how it got here, and what problem it attempted to solve, then maybe you can find a different way to look at it. A different place to stand, that will show you a new solution.

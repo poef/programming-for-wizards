@@ -66,7 +66,7 @@ But the DOM is still considered a compilation target. Not something that you pro
 Even JavaScript itself has become something you often process before the browser sees it. For years that meant [npm](https://www.npmjs.com/), bundlers, transpilers and configuration files. [Babel](https://babeljs.io/) compiled JavaScript to JavaScript. 
 
 <!-- paragraph-id: p-07-bundled-minified-obfuscated-unreadable -->
-Bundled, minified, obfuscated, unreadable.
+Bundled, minified, obfuscated and unreadable JavaScript.
 
 <!-- paragraph-id: p-07-all-this-stuff-makes-web-development-so-much -->
 All this stuff makes web development so much harder than it needed to be. This is the real fallout from rushing JavaScript into production in 1995. Because it was so incomplete, wizards all over the world invented their own enhancements. 
@@ -98,4 +98,4 @@ A lot of what people now call "using the computer" is really using the browser. 
 None of these has replaced the operating system. We're still divided into an Apple and Windows world, with a little sprinkling of Linux in between. But more and more traditional OS concerns are moving to the Web. And maybe not always in the way we'd like.
 
 <!-- paragraph-id: p-07-netscape-wanted-the-browser-to-become-the-operating -->
-Netscape wanted the browser to become the operating system. In many ways it did. The network is becoming the OS. The question is whether this new OS serves you or someone else?
+Netscape wanted the browser to become the operating systemm and in many ways it did. The network is becoming the OS. The question is whether this new OS serves you or someone else?

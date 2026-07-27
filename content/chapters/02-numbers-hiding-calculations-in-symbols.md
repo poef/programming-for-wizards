@@ -41,10 +41,10 @@ Notice we've come from the age of cave paintings, at least 35,000 years ago, all
 But let's step back a bit and introduce the [abacus](https://en.wikipedia.org/wiki/Abacus). This simple device's origins are unknown, and it may have been invented more than once. We know for certain that it was in use by the Roman era; they probably stole it from the Greeks, who may have gotten it from Egyptians or Babylonians, who probably got it from the Sumerians. 
 
 <!-- paragraph-id: p-02-by-now-you-may-have-noticed-a-pattern -->
-By now, you may have noticed a pattern. Everyone is stealing from everyone else.
+By now, you may have noticed a pattern: Everyone is stealing from everyone else.
 
 <!-- paragraph-id: p-02-thats-how-good-ideas-travel-they-get-copied -->
-That's how good ideas travel. They get copied, renamed, improved and eventually taught to children as if they had always existed.
+That's how good ideas travel, they get copied, renamed, improved and eventually taught to children as if they had always existed.
 
 <!-- rule-id: rule-02-wizards-first-rule -->
 > **Wizard's first rule**
@@ -174,6 +174,3 @@ Binary numbers are so ubiquitous in programming that you'll see the powers of 2 
 
 <!-- paragraph-id: p-02-this-is-a-good-time-to-end-our -->
 This is a good time to end our archaeological dig through numbers. We started with fingers and tally marks, and ended with two numerals that can represent any number a computer needs.
-
-<!-- paragraph-id: p-02-so-how-do-you-make-a-number-bigger -->
-So how do you make a number bigger than your fingers? You invent a better way to write it down.

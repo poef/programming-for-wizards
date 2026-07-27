@@ -528,10 +528,7 @@ Sometimes you want the hard border. A database server cannot run arbitrary JavaS
 A host-language DSL has its own dangers. If the conventions are too weak, it dissolves back into ordinary code. If the tricks are too clever, readers have to learn JavaScript and your secret dialect of JavaScript at the same time.
 
 <!-- paragraph-id: p-10-so-the-question-is-not-whether-separate-dsls -->
-So the question is not whether separate DSLs are bad and embedded DSLs are good.
-
-<!-- paragraph-id: p-10-the-question-is-where-the-boundary-belongs -->
-The question is where the boundary belongs.
+So the question is not whether separate DSLs are bad and embedded DSLs are good. The question is where the boundary belongs.
 
 <!-- paragraph-id: p-10-a-parser-version-of-a-dsl-puts-the -->
 A parser version of a DSL puts the boundary around a new query language. The JAQT-shaped version moves the boundary inward. JavaScript remains the language. The DSL is the shape of a few objects, a handful of functions, and an agreement about what certain positions mean.

@@ -104,7 +104,7 @@ It combines three pieces of information in a single, human-readable string:
 And just like that, we could now refer to any file on any computer anywhere in the world.
 
 <!-- paragraph-id: p-05-and-it-is-simple-small-readable-you-can -->
-And it is simple, small, readable. You can copy a URL into an e-mail, print it in a book, write it on a whiteboard, paste it in a chat message, or, if you are feeling particularly cursed, read it aloud over the phone.
+And it is simple, small and readable. You can copy a URL into an e-mail, print it in a book, write it on a whiteboard, paste it in a chat message, or, if you are feeling particularly cursed, read it aloud over the phone.
 
 <!-- paragraph-id: p-05-the-url-is-an-address-but-it-is -->
 The URL is an address, but it is also a tiny user interface to the network.
@@ -215,7 +215,7 @@ A URL begins by saying which kind of space you are entering. `http:` is one poss
 It has such a great design that wizards everywhere steal it and extend it for their own purposes. Not all later schemes were protocols. Some told the browser how to interpret the rest of the string; others opened another application. 
 
 <!-- paragraph-id: p-05-almost-none-of-the-pieces-in-a-url -->
-Almost none of the pieces in a URL were new. The trick was putting existing pieces together in one simple, small, readable string. 
+Almost none of the pieces in a URL were new. The trick was putting existing pieces together in one simple string. 
 
 <!-- rule-id: rule-05-wizards-fourth-rule -->
 > **Wizard's fourth rule**
