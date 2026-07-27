@@ -1,7 +1,7 @@
 {
   "id": "programming-for-wizards",
   "title": "Programming for Wizards",
-  "generatedAt": "2026-07-26T07:00:22.364Z",
+  "generatedAt": "2026-07-26T09:28:21.061Z",
   "phase": "01-enhanced-static-manuscript",
   "features": {
     "notes": "planned",
@@ -40,7 +40,7 @@
       "url": "chapters/02-numbers-hiding-calculations-in-symbols.html",
       "previous": "interlude-01-useful-tricks",
       "next": "03-logic-turning-truth-into-machinery",
-      "wordCount": 1779,
+      "wordCount": 1759,
       "rule": "Wizard's first rule"
     },
     {
@@ -64,7 +64,7 @@
       "url": "chapters/04-language-the-tool-that-changes-the-thinker.html",
       "previous": "03-logic-turning-truth-into-machinery",
       "next": "interlude-02-meaning-escapes",
-      "wordCount": 630,
+      "wordCount": 629,
       "rule": "Wizard's third rule"
     },
     {
@@ -76,7 +76,7 @@
       "url": "chapters/05-the-web-as-address.html",
       "previous": "interlude-02-meaning-escapes",
       "next": "06-the-web-as-document",
-      "wordCount": 1305,
+      "wordCount": 1304,
       "rule": "Wizard's fourth rule"
     },
     {
@@ -100,7 +100,7 @@
       "url": "chapters/07-the-web-as-platform.html",
       "previous": "06-the-web-as-document",
       "next": "interlude-03-poor-protocol",
-      "wordCount": 1260,
+      "wordCount": 1263,
       "rule": "Wizard's sixth rule"
     },
     {
@@ -112,7 +112,7 @@
       "url": "chapters/08-programming-languages-are-for-humans.html",
       "previous": "interlude-03-poor-protocol",
       "next": "09-every-program-contains-a-language",
-      "wordCount": 1090,
+      "wordCount": 1083,
       "rule": "Wizard's seventh rule"
     },
     {
@@ -208,7 +208,7 @@
       "url": "chapters/16-the-web-as-home.html",
       "previous": "15-the-web-as-data",
       "next": "interlude-06-final-rule",
-      "wordCount": 1036,
+      "wordCount": 1022,
       "rule": null
     },
     {
@@ -275,7 +275,7 @@
       "part": "Part I: Representations are spells",
       "partId": "representations-are-spells",
       "url": "chapters/02-numbers-hiding-calculations-in-symbols.html",
-      "wordCount": 1779
+      "wordCount": 1759
     },
     {
       "id": "03-logic-turning-truth-into-machinery",
@@ -295,7 +295,7 @@
       "part": "Part I: Representations are spells",
       "partId": "representations-are-spells",
       "url": "chapters/04-language-the-tool-that-changes-the-thinker.html",
-      "wordCount": 630
+      "wordCount": 629
     },
     {
       "id": "interlude-02-meaning-escapes",
@@ -315,7 +315,7 @@
       "part": "Part II: The Web",
       "partId": "the-web",
       "url": "chapters/05-the-web-as-address.html",
-      "wordCount": 1305
+      "wordCount": 1304
     },
     {
       "id": "06-the-web-as-document",
@@ -335,7 +335,7 @@
       "part": "Part II: The Web",
       "partId": "the-web",
       "url": "chapters/07-the-web-as-platform.html",
-      "wordCount": 1260
+      "wordCount": 1263
     },
     {
       "id": "interlude-03-poor-protocol",
@@ -355,7 +355,7 @@
       "part": "Part III: Inventing languages",
       "partId": "inventing-languages",
       "url": "chapters/08-programming-languages-are-for-humans.html",
-      "wordCount": 1090
+      "wordCount": 1083
     },
     {
       "id": "09-every-program-contains-a-language",
@@ -455,7 +455,7 @@
       "part": "Part V: The Next Web",
       "partId": "the-next-web",
       "url": "chapters/16-the-web-as-home.html",
-      "wordCount": 1036
+      "wordCount": 1022
     },
     {
       "id": "interlude-06-final-rule",
@@ -818,14 +818,14 @@
     {
       "id": "p-02-by-now-you-may-have-noticed-a-pattern",
       "type": "paragraph",
-      "label": "By now, you may have noticed a pattern. Everyone is stealing from everyone else.",
+      "label": "By now, you may have noticed a pattern: Everyone is stealing from everyone else.",
       "chapter": "02-numbers-hiding-calculations-in-symbols",
       "url": "chapters/02-numbers-hiding-calculations-in-symbols.html#p-02-by-now-you-may-have-noticed-a-pattern"
     },
     {
       "id": "p-02-thats-how-good-ideas-travel-they-get-copied",
       "type": "paragraph",
-      "label": "That's how good ideas travel. They get copied, renamed, improved and eventually taught to children as if they had always",
+      "label": "That's how good ideas travel, they get copied, renamed, improved and eventually taught to children as if they had always",
       "chapter": "02-numbers-hiding-calculations-in-symbols",
       "url": "chapters/02-numbers-hiding-calculations-in-symbols.html#p-02-thats-how-good-ideas-travel-they-get-copied"
     },
@@ -1101,13 +1101,6 @@
       "label": "This is a good time to end our archaeological dig through numbers. We started with fingers and tally marks, and ended wi",
       "chapter": "02-numbers-hiding-calculations-in-symbols",
       "url": "chapters/02-numbers-hiding-calculations-in-symbols.html#p-02-this-is-a-good-time-to-end-our"
-    },
-    {
-      "id": "p-02-so-how-do-you-make-a-number-bigger",
-      "type": "paragraph",
-      "label": "So how do you make a number bigger than your fingers? You invent a better way to write it down.",
-      "chapter": "02-numbers-hiding-calculations-in-symbols",
-      "url": "chapters/02-numbers-hiding-calculations-in-symbols.html#p-02-so-how-do-you-make-a-number-bigger"
     },
     {
       "id": "h-03-logic-the-truth-is-out-there",
@@ -1413,7 +1406,7 @@
     {
       "id": "p-04-language-is-how-we-imagine-our-world-and",
       "type": "paragraph",
-      "label": "Language is how we imagine our world. And then we make our imagination reality. This is why language is magic in a very ",
+      "label": "Language is how we imagine our world, then we make our imagination reality. This is why language is magic in a very prac",
       "chapter": "04-language-the-tool-that-changes-the-thinker",
       "url": "chapters/04-language-the-tool-that-changes-the-thinker.html#p-04-language-is-how-we-imagine-our-world-and"
     },
@@ -1630,7 +1623,7 @@
     {
       "id": "p-05-and-it-is-simple-small-readable-you-can",
       "type": "paragraph",
-      "label": "And it is simple, small, readable. You can copy a URL into an e-mail, print it in a book, write it on a whiteboard, past",
+      "label": "And it is simple, small and readable. You can copy a URL into an e-mail, print it in a book, write it on a whiteboard, p",
       "chapter": "05-the-web-as-address",
       "url": "chapters/05-the-web-as-address.html#p-05-and-it-is-simple-small-readable-you-can"
     },
@@ -1854,7 +1847,7 @@
     {
       "id": "p-05-almost-none-of-the-pieces-in-a-url",
       "type": "paragraph",
-      "label": "Almost none of the pieces in a URL were new. The trick was putting existing pieces together in one simple, small, readab",
+      "label": "Almost none of the pieces in a URL were new. The trick was putting existing pieces together in one simple string.",
       "chapter": "05-the-web-as-address",
       "url": "chapters/05-the-web-as-address.html#p-05-almost-none-of-the-pieces-in-a-url"
     },
@@ -2351,7 +2344,7 @@
     {
       "id": "p-07-bundled-minified-obfuscated-unreadable",
       "type": "paragraph",
-      "label": "Bundled, minified, obfuscated, unreadable.",
+      "label": "Bundled, minified, obfuscated and unreadable JavaScript.",
       "chapter": "07-the-web-as-platform",
       "url": "chapters/07-the-web-as-platform.html#p-07-bundled-minified-obfuscated-unreadable"
     },
@@ -2428,7 +2421,7 @@
     {
       "id": "p-07-netscape-wanted-the-browser-to-become-the-operating",
       "type": "paragraph",
-      "label": "Netscape wanted the browser to become the operating system. In many ways it did. The network is becoming the OS. The que",
+      "label": "Netscape wanted the browser to become the operating systemm and in many ways it did. The network is becoming the OS. The",
       "chapter": "07-the-web-as-platform",
       "url": "chapters/07-the-web-as-platform.html#p-07-netscape-wanted-the-browser-to-become-the-operating"
     },
@@ -2711,13 +2704,6 @@
       "label": "You should be aware of this tension. You do not escape it by choosing the one true language, because the one true langua",
       "chapter": "08-programming-languages-are-for-humans",
       "url": "chapters/08-programming-languages-are-for-humans.html#p-08-you-should-be-aware-of-this-tension-you"
-    },
-    {
-      "id": "p-08-that-is-where-domain-specific-languages-come-in",
-      "type": "paragraph",
-      "label": "That is where domain-specific languages come in.",
-      "chapter": "08-programming-languages-are-for-humans",
-      "url": "chapters/08-programming-languages-are-for-humans.html#p-08-that-is-where-domain-specific-languages-come-in"
     },
     {
       "id": "h-09-every-program-grows-a-language",
@@ -3506,16 +3492,9 @@
     {
       "id": "p-10-so-the-question-is-not-whether-separate-dsls",
       "type": "paragraph",
-      "label": "So the question is not whether separate DSLs are bad and embedded DSLs are good.",
+      "label": "So the question is not whether separate DSLs are bad and embedded DSLs are good. The question is where the boundary belo",
       "chapter": "10-code-exhibit-extending-javascript-with-jaqt",
       "url": "chapters/10-code-exhibit-extending-javascript-with-jaqt.html#p-10-so-the-question-is-not-whether-separate-dsls"
-    },
-    {
-      "id": "p-10-the-question-is-where-the-boundary-belongs",
-      "type": "paragraph",
-      "label": "The question is where the boundary belongs.",
-      "chapter": "10-code-exhibit-extending-javascript-with-jaqt",
-      "url": "chapters/10-code-exhibit-extending-javascript-with-jaqt.html#p-10-the-question-is-where-the-boundary-belongs"
     },
     {
       "id": "p-10-a-parser-version-of-a-dsl-puts-the",
@@ -5966,20 +5945,6 @@
       "label": "The second question does not require Solid as its only answer. But Solid is a serious attempt to build the answer into t",
       "chapter": "16-the-web-as-home",
       "url": "chapters/16-the-web-as-home.html#p-16-the-second-question-does-not-require-solid"
-    },
-    {
-      "id": "p-16-the-web-has-become-an-operating-system",
-      "type": "paragraph",
-      "label": "The Web has become an operating system.",
-      "chapter": "16-the-web-as-home",
-      "url": "chapters/16-the-web-as-home.html#p-16-the-web-has-become-an-operating-system"
-    },
-    {
-      "id": "p-16-the-user-still-needs-a-home-directory",
-      "type": "paragraph",
-      "label": "The user still needs a home directory.",
-      "chapter": "16-the-web-as-home",
-      "url": "chapters/16-the-web-as-home.html#p-16-the-user-still-needs-a-home-directory"
     },
     {
       "id": "h-17-epilogue-the-margin-you-have-been-using",

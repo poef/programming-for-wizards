@@ -4470,16 +4470,16 @@ var SimplyRoute = class {
         link = link.parentElement;
       }
       if (link && link.pathname && link.hostname == globalThis.location.hostname && !link.link && !link.dataset.simplyCommand) {
-        let check = [
+        let check2 = [
           { match: link.hash, goto: link.hash },
           { match: link.pathname + link.hash, goto: link.pathname + link.search + link.hash },
           { match: link.pathname, goto: link.pathname + link.search }
         ];
         let target;
         do {
-          target = check.shift();
+          target = check2.shift();
           target.match = getPath(target.match, this.baseURL);
-        } while (check.length && !this.has(target.match));
+        } while (check2.length && !this.has(target.match));
         if (this.has(target.match)) {
           let params = this.runListeners("goto", { path: target.goto });
           if (params.path) {
@@ -5736,18 +5736,21 @@ __export(oldm_exports, {
   Context: () => Context,
   Graph: () => Graph,
   NamedNode: () => NamedNode,
+  aliases: () => aliases,
   default: () => oldm,
   first: () => first,
   many: () => many,
   one: () => one,
   prefixes: () => prefixes,
-  rdfType: () => rdfType,
-  subjects: () => subjects
+  rdfType: () => rdfType
 });
 function oldm(options) {
   return new Context(options);
 }
 var rdfType = "http://www.w3.org/1999/02/22-rdf-syntax-ns#type";
+var aliases = {
+  "http://schema.org/": "https://schema.org/"
+};
 var prefixes = {
   acl: "http://www.w3.org/ns/auth/acl#",
   acp: "http://www.w3.org/ns/solid/acp#",
@@ -5761,7 +5764,7 @@ var prefixes = {
   pim: "http://www.w3.org/ns/pim/space#",
   rdf: "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
   rdfs: "http://www.w3.org/2000/01/rdf-schema#",
-  schema: "http://schema.org/",
+  schema: "https://schema.org/",
   solid: "http://www.w3.org/ns/solid/terms#",
   stat: "http://www.w3.org/ns/posix/stat#",
   turtle: "http://www.w3.org/ns/iana/media-types/text/turtle#",
@@ -5791,36 +5794,6 @@ function many(values2) {
     return [];
   }
   return [values2];
-}
-function subjects(value) {
-  if (!value) {
-    return [];
-  }
-  if (Array.isArray(value)) {
-    return value.filter(isSubject);
-  }
-  if (typeof value.id == "string") {
-    return [value];
-  }
-  if (Array.isArray(value.data)) {
-    return value.data.filter(isSubject);
-  }
-  if (Array.isArray(value.subjects)) {
-    return value.subjects.filter(isSubject);
-  }
-  if (value.subjects && typeof value.subjects == "object") {
-    return Object.values(value.subjects).filter(isSubject);
-  }
-  if (isSubject(value.primary)) {
-    return [value.primary];
-  }
-  if (isSubject(value)) {
-    return [value];
-  }
-  return [];
-}
-function isSubject(value) {
-  return Boolean(value && typeof value == "object" && !Array.isArray(value));
 }
 function first(...values2) {
   for (const value of values2) {
@@ -5900,19 +5873,19 @@ function sameSourceValue(left, right) {
   }
   return false;
 }
-function resolveValue(value, subjects2, context) {
+function resolveValue(value, subjects, context) {
   if (value instanceof Collection) {
     const collection2 = new Collection(context);
     for (const item of value) {
-      collection2.push(resolveValue(item, subjects2, context));
+      collection2.push(resolveValue(item, subjects, context));
     }
     return collection2;
   }
   if (Array.isArray(value)) {
-    return value.map((item) => resolveValue(item, subjects2, context));
+    return value.map((item) => resolveValue(item, subjects, context));
   }
-  if (value instanceof NamedNode && subjects2[value.id]) {
-    return subjects2[value.id];
+  if (value instanceof NamedNode && subjects[value.id]) {
+    return subjects[value.id];
   }
   return value;
 }
@@ -5939,6 +5912,7 @@ var Context = class {
     this.graphsByUrl = /* @__PURE__ */ Object.create(null);
     this.defaultGraph = options?.defaultGraph ?? null;
     this.separator = options?.separator ?? "$";
+    this.aliases = { ...aliases, ...options?.aliases ?? {} };
     Object.defineProperty(this, "subjects", {
       get() {
         return this.getSubjects();
@@ -5970,21 +5944,21 @@ var Context = class {
     }
     return this.addGraph(new Graph(quads, url3, type, prefixes3, this, input2));
   }
-  addGraph(graph2) {
-    if (!graph2?.url) {
+  addGraph(graph3) {
+    if (!graph3?.url) {
       throw new Error("Cannot add graph without a url");
     }
-    const existing = this.graphsByUrl[graph2.url];
+    const existing = this.graphsByUrl[graph3.url];
     if (existing) {
       const index = this.graphs.indexOf(existing);
       if (index >= 0) {
-        this.graphs[index] = graph2;
+        this.graphs[index] = graph3;
       }
     } else {
-      this.graphs.push(graph2);
+      this.graphs.push(graph3);
     }
-    this.graphsByUrl[graph2.url] = graph2;
-    return graph2;
+    this.graphsByUrl[graph3.url] = graph3;
+    return graph3;
   }
   graph(url3) {
     return this.graphsByUrl[this.fullURI(url3)];
@@ -5996,11 +5970,11 @@ var Context = class {
     return this.resolveGraph(subject, options).add(subject, predicate, value, { prefixPreference: "context" });
   }
   delete(subject, predicate = null, value = void 0, options = {}) {
-    const graph2 = this.resolveGraph(subject, options);
+    const graph3 = this.resolveGraph(subject, options);
     if (arguments.length < 3) {
-      return graph2.delete(subject, predicate, void 0, { prefixPreference: "context", hasValue: false });
+      return graph3.delete(subject, predicate, void 0, { prefixPreference: "context", hasValue: false });
     }
-    return graph2.delete(subject, predicate, value, { prefixPreference: "context", hasValue: true });
+    return graph3.delete(subject, predicate, value, { prefixPreference: "context", hasValue: true });
   }
   resolveGraph(subject, options = {}) {
     if (options.graph) {
@@ -6019,7 +5993,7 @@ var Context = class {
       if (documentGraph) {
         return documentGraph;
       }
-      const subjectSources = this.graphs.filter((graph2) => graph2.subjects[id2]);
+      const subjectSources = this.graphs.filter((graph3) => graph3.subjects[id2]);
       if (subjectSources.length == 1) {
         return subjectSources[0];
       }
@@ -6035,16 +6009,16 @@ var Context = class {
     }
     throw new Error("Cannot choose a source graph. Use context.set/add/delete(..., { graph }) or graph.set/add/delete(...) to choose one explicitly.");
   }
-  getGraphOption(graph2) {
-    if (graph2 instanceof Graph) {
-      if (!this.graphs.includes(graph2)) {
+  getGraphOption(graph3) {
+    if (graph3 instanceof Graph) {
+      if (!this.graphs.includes(graph3)) {
         throw new Error("The selected graph is not part of this context");
       }
-      return graph2;
+      return graph3;
     }
-    const resolved = this.graph(graph2);
+    const resolved = this.graph(graph3);
     if (!resolved) {
-      throw new Error(`Unknown graph: ${graph2}`);
+      throw new Error(`Unknown graph: ${graph3}`);
     }
     return resolved;
   }
@@ -6068,18 +6042,18 @@ var Context = class {
     if (!id2) {
       return [];
     }
-    return this.graphs.filter((graph2) => {
-      const graphSubject = graph2.subjects[id2];
+    return this.graphs.filter((graph3) => {
+      const graphSubject = graph3.subjects[id2];
       return graphSubject && this.subjectHasSource(graphSubject, predicate, value, arguments.length >= 3);
     });
   }
   sourcesForBlankNode(subject, predicate, value, hasValue) {
-    const graph2 = subject.graph;
-    if (!(graph2 instanceof Graph)) {
+    const graph3 = subject.graph;
+    if (!(graph3 instanceof Graph)) {
       return [];
     }
     if (this.subjectHasSource(subject, predicate, value, hasValue)) {
-      return [graph2];
+      return [graph3];
     }
     return [];
   }
@@ -6118,27 +6092,27 @@ var Context = class {
     return this.subjects[this.fullURI(shortID)];
   }
   getSubjects() {
-    const subjects2 = /* @__PURE__ */ Object.create(null);
+    const subjects = /* @__PURE__ */ Object.create(null);
     this.#buildingSubjects = true;
     try {
-      for (const graph2 of this.graphs) {
-        for (const id2 of Object.keys(graph2.subjects)) {
-          if (!subjects2[id2]) {
-            subjects2[id2] = this.contextSubject(new NamedNode(id2, this));
+      for (const graph3 of this.graphs) {
+        for (const id2 of Object.keys(graph3.subjects)) {
+          if (!subjects[id2]) {
+            subjects[id2] = this.contextSubject(new NamedNode(id2, this));
           }
         }
       }
-      for (const graph2 of this.graphs) {
-        for (const [id2, subject] of Object.entries(graph2.subjects)) {
-          this.mergeSubject(subjects2[id2], subject, subjects2);
+      for (const graph3 of this.graphs) {
+        for (const [id2, subject] of Object.entries(graph3.subjects)) {
+          this.mergeSubject(subjects[id2], subject, subjects);
         }
       }
     } finally {
       this.#buildingSubjects = false;
     }
-    return subjects2;
+    return subjects;
   }
-  mergeSubject(target, source2, subjects2) {
+  mergeSubject(target, source2, subjects) {
     for (const [predicate, value] of Object.entries(source2)) {
       if (predicate == "id") {
         continue;
@@ -6146,7 +6120,7 @@ var Context = class {
       const contextPredicate = predicate == "a" ? "a" : this.propertyName(source2.graph.fullURI(predicate, null, "source"));
       target[contextPredicate] = mergeValue(
         target[contextPredicate],
-        resolveValue(value, subjects2, this)
+        resolveValue(value, subjects, this)
       );
     }
   }
@@ -6193,12 +6167,23 @@ var Context = class {
     if (!separator) {
       separator = this.separator;
     }
+    fullURI = this.canonicalURI(fullURI);
     for (const prefix of this.prefixOrder) {
-      if (fullURI.startsWith(this.prefixes[prefix])) {
-        return prefix + separator + fullURI.substring(this.prefixes[prefix].length);
+      const iri = this.canonicalURI(this.prefixes[prefix]);
+      if (fullURI.startsWith(iri)) {
+        return prefix + separator + fullURI.substring(iri.length);
       }
     }
     return fullURI;
+  }
+  canonicalURI(uri) {
+    uri = String(uri);
+    for (const [alias, canonical] of Object.entries(this.aliases)) {
+      if (uri.startsWith(alias)) {
+        return canonical + uri.substring(alias.length);
+      }
+    }
+    return uri;
   }
   setType(literal2, shortType) {
     if (!shortType) {
@@ -6496,9 +6481,11 @@ var Graph = class {
     if (!separator) {
       separator = this.context.separator;
     }
+    fullURI = this.context.canonicalURI(fullURI);
     for (const [prefix, iri] of this.prefixEntries(preference)) {
-      if (fullURI.startsWith(iri)) {
-        return prefix + separator + fullURI.substring(iri.length);
+      const canonicalIRI = this.context.canonicalURI(iri);
+      if (fullURI.startsWith(canonicalIRI)) {
+        return prefix + separator + fullURI.substring(canonicalIRI.length);
       }
     }
     if (this.url && fullURI.startsWith(this.url)) {
@@ -6552,9 +6539,9 @@ var Graph = class {
   }
 };
 var BlankNode = class {
-  constructor(graph2) {
+  constructor(graph3) {
     Object.defineProperty(this, "graph", {
-      value: graph2,
+      value: graph3,
       writable: false,
       enumerable: false
     });
@@ -6595,8 +6582,8 @@ var BlankNode = class {
   }
 };
 var NamedNode = class extends BlankNode {
-  constructor(id2, graph2) {
-    super(graph2);
+  constructor(id2, graph3) {
+    super(graph3);
     Object.defineProperty(this, "id", {
       value: id2,
       writable: false,
@@ -6605,10 +6592,10 @@ var NamedNode = class extends BlankNode {
   }
 };
 var Collection = class extends Array {
-  constructor(graph2) {
+  constructor(graph3) {
     super();
     Object.defineProperty(this, "graph", {
-      value: graph2,
+      value: graph3,
       writable: false,
       enumerable: false
     });
@@ -7253,12 +7240,12 @@ var DefaultGraph = class extends Term {
 };
 DEFAULTGRAPH = new DefaultGraph();
 var Quad = class extends Term {
-  constructor(subject, predicate, object, graph2) {
+  constructor(subject, predicate, object, graph3) {
     super("");
     this._subject = subject;
     this._predicate = predicate;
     this._object = object;
-    this._graph = graph2 || DEFAULTGRAPH;
+    this._graph = graph3 || DEFAULTGRAPH;
   }
   // ### The term type of this term
   get termType() {
@@ -7325,8 +7312,8 @@ function variable(name) {
 function defaultGraph() {
   return DEFAULTGRAPH;
 }
-function quad(subject, predicate, object, graph2) {
-  return new Quad(subject, predicate, object, graph2);
+function quad(subject, predicate, object, graph3) {
+  return new Quad(subject, predicate, object, graph3);
 }
 function fromTerm(term) {
   if (term instanceof Term)
@@ -7404,14 +7391,14 @@ var N3Parser = class _N3Parser {
   }
   // ### `_saveContext` stores the current parsing context
   // when entering a new scope (list, blank node, formula)
-  _saveContext(type, graph2, subject, predicate, object) {
+  _saveContext(type, graph3, subject, predicate, object) {
     const n3Mode = this._n3Mode;
     this._contextStack.push({
       type,
       subject,
       predicate,
       object,
-      graph: graph2,
+      graph: graph3,
       inverse: n3Mode ? this._inversePredicate : false,
       blankPrefix: n3Mode ? this._prefixes._ : "",
       quantified: n3Mode ? this._quantified : null
@@ -7919,7 +7906,7 @@ var N3Parser = class _N3Parser {
   }
   // ### `_readPunctuation` reads punctuation between quads or quad parts
   _readPunctuation(token) {
-    let next, graph2 = this._graph, startingAnnotation = false;
+    let next, graph3 = this._graph, startingAnnotation = false;
     const subject = this._subject, inversePredicate = this._inversePredicate;
     switch (token.type) {
       // A closing brace ends a graph
@@ -7967,7 +7954,7 @@ var N3Parser = class _N3Parser {
         next = this._readPunctuation;
         break;
       default:
-        if (this._supportsQuads && this._graph === null && (graph2 = this._readEntity(token)) !== void 0) {
+        if (this._supportsQuads && this._graph === null && (graph3 = this._readEntity(token)) !== void 0) {
           next = this._readQuadPunctuation;
           break;
         }
@@ -7976,9 +7963,9 @@ var N3Parser = class _N3Parser {
     if (subject !== null && (!startingAnnotation || startingAnnotation && !this._annotation)) {
       const predicate = this._predicate, object = this._object;
       if (!inversePredicate)
-        this._emit(subject, predicate, object, graph2);
+        this._emit(subject, predicate, object, graph3);
       else
-        this._emit(object, predicate, subject, graph2);
+        this._emit(object, predicate, subject, graph3);
     }
     if (startingAnnotation) {
       this._annotation = true;
@@ -8269,8 +8256,8 @@ var N3Parser = class _N3Parser {
     }
   }
   // ### `_emit` sends a quad through the callback
-  _emit(subject, predicate, object, graph2) {
-    this._callback(null, this._factory.quad(subject, predicate, object, graph2 || this.DEFAULTGRAPH));
+  _emit(subject, predicate, object, graph3) {
+    this._callback(null, this._factory.quad(subject, predicate, object, graph3 || this.DEFAULTGRAPH));
   }
   // ### `_error` emits an error message through the callback
   _error(message, token) {
@@ -8594,12 +8581,12 @@ var N3Writer = class {
     this._outputStream.write(string, "utf8", callback);
   }
   // ### `_writeQuad` writes the quad to the output stream
-  _writeQuad(subject, predicate, object, graph2, done) {
+  _writeQuad(subject, predicate, object, graph3, done) {
     try {
-      if (!graph2.equals(this._graph)) {
-        this._write((this._subject === null ? "" : this._inDefaultGraph ? ".\n" : "\n}\n") + (DEFAULTGRAPH2.equals(graph2) ? "" : `${this._encodeIriOrBlank(graph2)} {
+      if (!graph3.equals(this._graph)) {
+        this._write((this._subject === null ? "" : this._inDefaultGraph ? ".\n" : "\n}\n") + (DEFAULTGRAPH2.equals(graph3) ? "" : `${this._encodeIriOrBlank(graph3)} {
 `));
-        this._graph = graph2;
+        this._graph = graph3;
         this._subject = null;
       }
       if (subject.equals(this._subject)) {
@@ -8615,13 +8602,13 @@ var N3Writer = class {
     }
   }
   // ### `_writeQuadLine` writes the quad to the output stream as a single line
-  _writeQuadLine(subject, predicate, object, graph2, done) {
+  _writeQuadLine(subject, predicate, object, graph3, done) {
     delete this._prefixMatch;
-    this._write(this.quadToString(subject, predicate, object, graph2), done);
+    this._write(this.quadToString(subject, predicate, object, graph3), done);
   }
   // ### `quadToString` serializes a quad as a string
-  quadToString(subject, predicate, object, graph2) {
-    return `${this._encodeSubject(subject)} ${this._encodeIriOrBlank(predicate)} ${this._encodeObject(object)}${graph2 && graph2.value ? ` ${this._encodeIriOrBlank(graph2)} .
+  quadToString(subject, predicate, object, graph3) {
+    return `${this._encodeSubject(subject)} ${this._encodeIriOrBlank(predicate)} ${this._encodeObject(object)}${graph3 && graph3.value ? ` ${this._encodeIriOrBlank(graph3)} .
 ` : " .\n"}`;
   }
   // ### `quadsToString` serializes an array of quads as a string
@@ -8702,21 +8689,21 @@ var N3Writer = class {
     }
   }
   // ### `_encodeQuad` encodes an RDF-star quad
-  _encodeQuad({ subject, predicate, object, graph: graph2 }) {
-    return `<<(${this._encodeSubject(subject)} ${this._encodePredicate(predicate)} ${this._encodeObject(object)}${isDefaultGraph(graph2) ? "" : ` ${this._encodeIriOrBlank(graph2)}`})>>`;
+  _encodeQuad({ subject, predicate, object, graph: graph3 }) {
+    return `<<(${this._encodeSubject(subject)} ${this._encodePredicate(predicate)} ${this._encodeObject(object)}${isDefaultGraph(graph3) ? "" : ` ${this._encodeIriOrBlank(graph3)}`})>>`;
   }
   // ### `_blockedWrite` replaces `_write` after the writer has been closed
   _blockedWrite() {
     throw new Error("Cannot write because the writer has been closed.");
   }
   // ### `addQuad` adds the quad to the output stream
-  addQuad(subject, predicate, object, graph2, done) {
+  addQuad(subject, predicate, object, graph3, done) {
     if (object === void 0)
       this._writeQuad(subject.subject, subject.predicate, subject.object, subject.graph, predicate);
-    else if (typeof graph2 === "function")
-      this._writeQuad(subject, predicate, object, DEFAULTGRAPH2, graph2);
+    else if (typeof graph3 === "function")
+      this._writeQuad(subject, predicate, object, DEFAULTGRAPH2, graph3);
     else
-      this._writeQuad(subject, predicate, object, graph2 || DEFAULTGRAPH2, done);
+      this._writeQuad(subject, predicate, object, graph3 || DEFAULTGRAPH2, done);
   }
   // ### `addQuads` adds the quads to the output stream
   addQuads(quads) {
@@ -9534,6 +9521,13 @@ function groupBy(data, pointerFunctions) {
   }
   return groups;
 }
+function matchIf(test, pattern) {
+  if (!test) {
+    return () => true;
+  }
+  let matchFn = getMatchFn(pattern);
+  return (data) => matchFn(data);
+}
 function anyOf(...patterns) {
   let matchFns = patterns.map((pattern) => getMatchFn(pattern));
   return (data) => matchFns.some((fn) => fn(data));
@@ -9780,15 +9774,903 @@ var pointerHandler = (path2) => {
 };
 var _ = new Proxy(getPointerFn(), pointerHandler());
 
-// ../solid-tools/packages/solid-workspace/src/index.mjs
-function workspace(options = {}) {
-  return new SolidWorkspace(options);
+// ../../muze-nl/assert/src/assert-core.mjs
+var assert_core_exports = {};
+__export(assert_core_exports, {
+  Optional: () => Optional,
+  Recommended: () => Recommended,
+  Required: () => Required,
+  allOf: () => allOf,
+  anyOf: () => anyOf2,
+  assert: () => assert,
+  check: () => check,
+  disable: () => disable,
+  enable: () => enable,
+  error: () => error,
+  fails: () => fails,
+  formatIssue: () => formatIssue,
+  formatIssues: () => formatIssues,
+  instanceOf: () => instanceOf,
+  issues: () => issues,
+  not: () => not,
+  oneOf: () => oneOf,
+  validEmail: () => validEmail,
+  validURL: () => validURL,
+  warn: () => warn
+});
+var assertEnabled = false;
+function enable() {
+  assertEnabled = true;
 }
+function disable() {
+  assertEnabled = false;
+}
+function appendPath(path2 = "", key) {
+  if (typeof path2 == "undefined" || path2 == null) {
+    path2 = "";
+  }
+  if (typeof key == "number") {
+    return `${path2}[${key}]`;
+  }
+  return `${path2}.${key}`;
+}
+function pathToArray(path2 = "") {
+  if (Array.isArray(path2)) {
+    return path2;
+  }
+  if (!path2) {
+    return [];
+  }
+  let result = [];
+  let matcher = /(?:^|\.)([^.\[\]]+)|\[(\d+)\]/g;
+  let match;
+  while (match = matcher.exec(path2)) {
+    if (typeof match[1] != "undefined") {
+      result.push(match[1]);
+    } else if (typeof match[2] != "undefined") {
+      result.push(Number(match[2]));
+    }
+  }
+  return result;
+}
+function pathToString(path2 = []) {
+  if (typeof path2 == "string") {
+    return path2.startsWith(".") ? path2.slice(1) : path2;
+  }
+  return path2.map((part, index) => {
+    if (typeof part == "number") {
+      return `[${part}]`;
+    }
+    return `${index ? "." : ""}${part}`;
+  }).join("");
+}
+function describeFunction(value) {
+  if (value === String) {
+    return "string";
+  }
+  if (value === Number) {
+    return "number";
+  }
+  if (value === Boolean) {
+    return "boolean";
+  }
+  if (value === Array) {
+    return "array";
+  }
+  if (value === Object) {
+    return "object";
+  }
+  return value.name || "function";
+}
+function clip(text, maxLength = 60) {
+  if (text.length <= maxLength) {
+    return text;
+  }
+  return text.slice(0, maxLength - 1) + "\u2026";
+}
+function quoteString(value) {
+  return `'${clip(String(value).replace(/\\/g, "\\\\").replace(/'/g, "\\'").replace(/\n/g, "\\n"))}'`;
+}
+function jsonSummary(value) {
+  try {
+    let json = JSON.stringify(value);
+    if (typeof json == "string") {
+      return clip(json);
+    }
+  } catch (e) {
+  }
+  let name = value?.constructor?.name;
+  if (name && name != "Object") {
+    return name;
+  }
+  return Object.prototype.toString.call(value);
+}
+function formatValue(value) {
+  if (typeof value == "string") {
+    return quoteString(value);
+  }
+  if (typeof value == "undefined") {
+    return "undefined";
+  }
+  if (value === null) {
+    return "null";
+  }
+  if (typeof value == "function") {
+    return describeFunction(value);
+  }
+  if (value instanceof RegExp) {
+    return value.toString();
+  }
+  if (typeof value == "number" || typeof value == "boolean" || typeof value == "bigint") {
+    return String(value);
+  }
+  if (typeof value == "symbol") {
+    return value.toString();
+  }
+  return jsonSummary(value);
+}
+function describeExpected(value) {
+  if (value === String || value === Number || value === Boolean || value === Array || value === Object) {
+    return describeFunction(value);
+  }
+  if (typeof value == "function") {
+    return describeFunction(value);
+  }
+  if (value instanceof RegExp) {
+    return value.toString();
+  }
+  if (Array.isArray(value)) {
+    return "[" + value.map(describeExpected).join(", ") + "]";
+  }
+  return formatValue(value);
+}
+function describeOneOf(patterns) {
+  return patterns.map(describeExpected).join(", ");
+}
+function conciseMessage(message, actual, expected) {
+  if (message == "data and pattern are not equal") {
+    return `expected ${formatValue(expected)}, found ${formatValue(actual)}`;
+  }
+  if (message == "data does not match pattern" || /^data\[\d+\] does not match pattern$/.test(message)) {
+    return `expected ${describeExpected(expected)}, found ${formatValue(actual)}`;
+  }
+  if (message == "data is undefined, should match pattern") {
+    return `missing; expected ${describeExpected(expected)}`;
+  }
+  if (message == "data is required") {
+    return "required";
+  }
+  if (message == "data is an empty string, which is not allowed") {
+    return "empty string is not allowed";
+  }
+  if (message == "data is not an object, pattern is") {
+    return "data is not an object";
+  }
+  if (message == "data is not an instanceof pattern") {
+    return `expected instance of ${describeExpected(expected)}, found ${formatValue(actual)}`;
+  }
+  if (message == "data does not match oneOf patterns" || message == "data does not match anyOf patterns") {
+    return `expected one of ${describeOneOf(expected)}, found ${formatValue(actual)}`;
+  }
+  if (message == "data matches pattern, when required not to") {
+    return `must not match ${describeExpected(expected)}`;
+  }
+  return message;
+}
+function formatIssue(issue, options = {}) {
+  if (!issue || typeof issue != "object") {
+    return String(issue);
+  }
+  let path2 = issue.pathString || pathToString(issue.path || []) || "value";
+  let indent = options.indent ?? "";
+  return `${indent}${path2}: ${issue.message}`;
+}
+function formatIssues(issues3, options = {}) {
+  if (!issues3) {
+    return false;
+  }
+  let indent = options.indent ?? "  - ";
+  return (Array.isArray(issues3) ? issues3 : [issues3]).map((issue) => formatIssue(issue, { ...options, indent }));
+}
+function issueFromProblem(problem) {
+  if (!problem || typeof problem != "object") {
+    return {
+      path: [],
+      pathString: "",
+      message: String(problem),
+      expected: void 0,
+      actual: void 0
+    };
+  }
+  let path2 = pathToArray(problem.path);
+  let pathString = pathToString(path2);
+  let actual = problem.actual ?? problem.found;
+  let expected = describeExpected(problem.expected);
+  let message = conciseMessage(problem.message, actual, problem.expected);
+  return {
+    path: path2,
+    pathString,
+    message,
+    expected,
+    actual
+  };
+}
+function problemsToIssues(problems) {
+  if (!problems) {
+    return [];
+  }
+  let result = [];
+  for (let problem of Array.isArray(problems) ? problems : [problems]) {
+    if (!problem) {
+      continue;
+    }
+    if (problem && typeof problem == "object" && problem.problems) {
+      let nested = problemsToIssues(problem.problems);
+      if (nested.length) {
+        result = result.concat(nested);
+        continue;
+      }
+    }
+    result.push(issueFromProblem(problem));
+  }
+  return result;
+}
+function assertionError(source2, problems, message = "Assertions failed", ErrorType = Error) {
+  let assertionIssues = problemsToIssues(problems);
+  let formattedIssues = formatIssues(assertionIssues);
+  return new ErrorType(message + ":\n" + formattedIssues.join("\n"), {
+    cause: { problems, issues: assertionIssues, source: source2 }
+  });
+}
+function assert(source2, test) {
+  if (assertEnabled) {
+    let problems = fails(source2, test);
+    if (problems) {
+      let error4 = assertionError(source2, problems);
+      console.error("\u{1F170}\uFE0F  " + error4.message);
+      throw error4;
+    }
+  }
+}
+function check(source2, test, message = "Assertions failed", ErrorType = Error) {
+  let problems = fails(source2, test);
+  if (problems) {
+    throw assertionError(source2, problems, message, ErrorType);
+  }
+}
+function Optional(pattern) {
+  return function _Optional(data, root, path2) {
+    if (typeof data != "undefined" && data != null && typeof pattern != "undefined") {
+      return fails(data, pattern, root, path2);
+    }
+  };
+}
+function Required(pattern) {
+  return function _Required(data, root, path2) {
+    if (data == null || typeof data == "undefined") {
+      return error("data is required", data, pattern || "any value", path2);
+    } else if (typeof pattern != "undefined") {
+      return fails(data, pattern, root, path2);
+    } else {
+      return false;
+    }
+  };
+}
+function Recommended(pattern) {
+  return function _Recommended(data, root, path2) {
+    if (data == null || typeof data == "undefined") {
+      warn("data does not contain recommended value", data, pattern, path2);
+      return false;
+    } else {
+      return fails(data, pattern, root, path2);
+    }
+  };
+}
+function oneOf(...patterns) {
+  return function _oneOf(data, root, path2) {
+    for (let pattern of patterns) {
+      if (!fails(data, pattern, root, path2)) {
+        return false;
+      }
+    }
+    return error("data does not match oneOf patterns", data, patterns, path2);
+  };
+}
+function anyOf2(...patterns) {
+  return function _anyOf(data, root, path2) {
+    if (!Array.isArray(data)) {
+      return error("data is not an array", data, "anyOf", path2);
+    }
+    for (let [index, value] of data.entries()) {
+      let itemPath = appendPath(path2, index);
+      if (oneOf(...patterns)(value, root, itemPath)) {
+        return error("data does not match anyOf patterns", value, patterns, itemPath);
+      }
+    }
+    return false;
+  };
+}
+function allOf(...patterns) {
+  return function _allOf(data, root, path2) {
+    let problems = [];
+    for (let pattern of patterns) {
+      problems = problems.concat(fails(data, pattern, root, path2));
+    }
+    problems = problems.filter(Boolean);
+    if (problems.length) {
+      return error("data does not match all given patterns", data, patterns, path2, problems);
+    }
+  };
+}
+function validURL(data, root, path2) {
+  try {
+    if (data instanceof URL) {
+      data = data.href;
+    }
+    let url3 = new URL(data);
+    if (url3.href != data) {
+      if (!(url3.href + "/" == data || url3.href == data + "/")) {
+        return error("data is not a valid url", data, "validURL", path2);
+      }
+    }
+  } catch (e) {
+    return error("data is not a valid url", data, "validURL", path2);
+  }
+}
+function validEmail(data, root, path2) {
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data)) {
+    return error("data is not a valid email", data, "validEmail", path2);
+  }
+}
+function instanceOf(constructor) {
+  return function _instanceOf(data, root, path2) {
+    if (!(data instanceof constructor)) {
+      return error("data is not an instanceof pattern", data, constructor, path2);
+    }
+  };
+}
+function not(pattern) {
+  return function _not(data, root, path2) {
+    if (!fails(data, pattern, root, path2)) {
+      return error("data matches pattern, when required not to", data, pattern, path2);
+    }
+  };
+}
+function issues(data, pattern, root) {
+  let problems = fails(data, pattern, root);
+  if (!problems) {
+    return false;
+  }
+  return problemsToIssues(problems);
+}
+function fails(data, pattern, root, path2 = "") {
+  if (typeof root == "undefined") {
+    root = data;
+  }
+  let problems = [];
+  if (pattern === Boolean) {
+    if (typeof data != "boolean" && !(data instanceof Boolean)) {
+      problems.push(error("data is not a boolean", data, pattern, path2));
+    }
+  } else if (pattern === Number) {
+    if (typeof data != "number" && !(data instanceof Number)) {
+      problems.push(error("data is not a number", data, pattern, path2));
+    }
+  } else if (pattern === String) {
+    if (typeof data != "string" && !(data instanceof String)) {
+      problems.push(error("data is not a string", data, pattern, path2));
+    }
+    if (data == "") {
+      problems.push(error("data is an empty string, which is not allowed", data, pattern, path2));
+    }
+  } else if (pattern === Array) {
+    if (!Array.isArray(data)) {
+      problems.push(error("data is not an array", data, pattern, path2));
+    }
+  } else if (pattern === Object) {
+    if (!data || typeof data != "object" || Array.isArray(data)) {
+      problems.push(error("data is not an object", data, pattern, path2));
+    }
+  } else if (pattern instanceof RegExp) {
+    if (Array.isArray(data)) {
+      let index = data.findIndex((element2, index2) => fails(element2, pattern, root, appendPath(path2, index2)));
+      if (index > -1) {
+        problems.push(error("data[" + index + "] does not match pattern", data[index], pattern, appendPath(path2, index)));
+      }
+    } else if (typeof data == "undefined") {
+      problems.push(error("data is undefined, should match pattern", data, pattern, path2));
+    } else if (!pattern.test(data)) {
+      problems.push(error("data does not match pattern", data, pattern, path2));
+    }
+  } else if (pattern instanceof Function) {
+    let problem = pattern(data, root, path2);
+    if (problem) {
+      if (Array.isArray(problem)) {
+        problems = problems.concat(problem);
+      } else {
+        problems.push(problem);
+      }
+    }
+  } else if (Array.isArray(pattern)) {
+    if (!Array.isArray(data)) {
+      problems.push(error("data is not an array", data, [], path2));
+    } else {
+      for (let p of pattern) {
+        for (let index of data.keys()) {
+          let problem = fails(data[index], p, root, appendPath(path2, index));
+          if (Array.isArray(problem)) {
+            problems = problems.concat(problem);
+          } else if (problem) {
+            problems.push(problem);
+          }
+        }
+      }
+    }
+  } else if (pattern && typeof pattern == "object") {
+    if (Array.isArray(data)) {
+      let index = data.findIndex((element2, index2) => fails(element2, pattern, root, appendPath(path2, index2)));
+      if (index > -1) {
+        problems.push(error("data[" + index + "] does not match pattern", data[index], pattern, appendPath(path2, index)));
+      }
+    } else if (!data || typeof data != "object") {
+      problems.push(error("data is not an object, pattern is", data, pattern, path2));
+    } else {
+      if (data instanceof URLSearchParams) {
+        data = Object.fromEntries(data);
+      }
+      if (pattern instanceof Function) {
+        let result = fails(data, pattern, root, path2);
+        if (result) {
+          problems = problems.concat(result);
+        }
+      } else {
+        for (const [patternKey, subpattern] of Object.entries(pattern)) {
+          let result = fails(data[patternKey], subpattern, root, appendPath(path2, patternKey));
+          if (result) {
+            problems = problems.concat(result);
+          }
+        }
+      }
+    }
+  } else {
+    if (pattern != data) {
+      problems.push(error("data and pattern are not equal", data, pattern, path2));
+    }
+  }
+  if (problems.length) {
+    return problems;
+  }
+  return false;
+}
+function error(message, found, expected, path2 = "", problems) {
+  let pathParts = pathToArray(path2);
+  let result = {
+    path: path2,
+    pathString: pathToString(pathParts),
+    pathParts,
+    message,
+    found,
+    expected
+  };
+  if (problems) {
+    result.problems = problems;
+  }
+  return result;
+}
+function warn(message, data, pattern, path2) {
+  console.warn("\u{1F170}\uFE0F  Assert: " + path2, message, pattern, data);
+}
+
+// ../../muze-nl/assert/src/assert.mjs
+globalThis.assert = { ...assert_core_exports };
+
+// ../solid-tools/packages/solid-workspace/src/collection.mjs
 function collection(options = {}) {
   return {
     kind: "collection",
     ...options
   };
+}
+var WorkspaceCollection = class {
+  constructor(workspace2, name, descriptor = {}) {
+    check(descriptor, Object, "solid-workspace: collection descriptor must be an object", TypeError);
+    check(descriptor.sources, Optional(Array), "solid-workspace: collection sources must be an array", TypeError);
+    this.workspace = workspace2;
+    this.name = name;
+    this.descriptor = descriptor;
+  }
+  list() {
+    const sourceIds = src_default2.many(this.descriptor.sources).map((source2) => this.workspace.sourcePatterns.get(source2) ?? source2);
+    const className = this.descriptor.shape?.for;
+    return from(this.workspace.records).where({
+      deleted: false,
+      sourceId: matchIf(sourceIds.length > 0, sourceIds),
+      object: matchIf(className, { a: className })
+    }).select((record) => record.object).toArray();
+  }
+  get(id2) {
+    return this.list().find((object) => object.id === id2 || object["@id"] === id2) ?? null;
+  }
+  async create(object = {}, options = {}) {
+    const createIn = options.createIn ?? this.descriptor.createIn;
+    if (!createIn) {
+      throw new Error(`solid-workspace: collection ${this.name} needs createIn to create objects`);
+    }
+    let data = { ...object };
+    if (this.descriptor.shape?.applyDefaults) {
+      data = this.descriptor.shape.applyDefaults(object);
+    }
+    if (this.descriptor.shape) {
+      this.descriptor.shape.assert(data, {
+        message: `solid-workspace: ${this.name} object does not match its shape`
+      });
+    }
+    return this.workspace.createIn(createIn, data, {
+      ...options,
+      save: options.save ?? false
+    });
+  }
+  update(object, changes = {}) {
+    Object.assign(object, changes);
+    return object;
+  }
+  delete(object, options = {}) {
+    return this.workspace.delete(object, options);
+  }
+  save(object, options = {}) {
+    return this.workspace.save(object, options);
+  }
+  saveAll() {
+    const sourceIds = src_default2.many(this.descriptor.sources).map((source2) => this.workspace.sourcePatterns.get(source2) ?? source2);
+    const className = this.descriptor.shape?.for;
+    return this.workspace.saveAll(from(this.workspace.records).where({
+      sourceId: matchIf(sourceIds.length > 0, sourceIds),
+      object: matchIf(className, { a: className })
+    }).toArray());
+  }
+};
+
+// ../solid-tools/packages/solid-workspace/src/graph-document.mjs
+function mergeGraphDocuments(documents = [], options = {}) {
+  check(documents, Array, "solid-workspace: graph documents must be an array", TypeError);
+  const base = graphDocumentFrom(documents[0]);
+  const merged = {
+    format: options.format ?? base.format,
+    version: options.version ?? base.version,
+    prefixes: {},
+    subjects: {}
+  };
+  const subjectsById = /* @__PURE__ */ new Map();
+  for (const document2 of documents.map(graphDocumentFrom)) {
+    Object.assign(merged.prefixes, document2.prefixes);
+    for (const subject of document2.data) {
+      if (!subject?.id) continue;
+      const current = subjectsById.get(subject.id);
+      if (!current) {
+        const clone2 = cloneValue(subject);
+        subjectsById.set(subject.id, clone2);
+        merged.subjects[clone2.id] = clone2;
+        continue;
+      }
+      mergeSubject(current, subject);
+    }
+  }
+  const target = {
+    ...merged,
+    changed: !graphDocumentsEqual(base, merged)
+  };
+  if (Object.keys(target.prefixes).length === 0) {
+    delete target.prefixes;
+  }
+  if (target.format == null) delete target.format;
+  if (target.version == null) delete target.version;
+  return withData(target);
+}
+function graphDocumentFrom(value, options = {}) {
+  if (!value) {
+    return withData({
+      format: null,
+      version: null,
+      prefixes: {},
+      subjects: {}
+    });
+  }
+  if (typeof value === "string" || value instanceof String) {
+    return graphDocumentFromTurtle(value, options);
+  }
+  if (Array.isArray(value)) {
+    return withData({
+      format: null,
+      version: null,
+      prefixes: {},
+      subjects: subjectsFromArray(value)
+    });
+  }
+  let subjects = {};
+  if (Array.isArray(value.subjects)) {
+    throw new TypeError("solid-workspace: graph document subjects must be an object map");
+  }
+  if (value.subjects && typeof value.subjects === "object") {
+    subjects = value.subjects;
+  }
+  if (Object.hasOwn(value, "format") || Object.hasOwn(value, "version") || Object.hasOwn(value, "prefixes") || Object.hasOwn(value, "subjects")) {
+    return withData({
+      format: value.format ?? null,
+      version: value.version ?? null,
+      prefixes: value.prefixes ?? {},
+      subjects
+    });
+  }
+  return withData({
+    format: null,
+    version: null,
+    prefixes: {},
+    subjects
+  });
+}
+function cloneGraphDocument(document2) {
+  const graphDocument = graphDocumentFrom(document2);
+  return withData({
+    ...graphDocument,
+    prefixes: cloneValue(graphDocument.prefixes),
+    subjects: cloneValue(graphDocument.subjects)
+  });
+}
+function graphDocumentFromTurtle(turtle, options = {}) {
+  const context = src_default2.context({
+    defaultGraph: options.url,
+    prefixes: options.prefixes ?? {}
+  });
+  const document2 = graphDocumentFrom(context.parse(String(turtle), options.url, "text/turtle"));
+  return withData({
+    ...document2,
+    subjects: subjectsFromArray(
+      document2.data.filter((subject) => Object.keys(subject).length > 1)
+    )
+  });
+}
+async function graphDocumentToTurtle(document2, options = {}) {
+  const graphDocument = graphDocumentFrom(document2);
+  const context = src_default2.context({
+    defaultGraph: options.url,
+    prefixes: {
+      ...graphDocument.prefixes,
+      ...options.prefixes
+    }
+  });
+  const graph3 = context.parse("", options.url, "text/turtle");
+  for (const subject of graphDocument.data) {
+    writeSubjectToGraph({ graph: graph3, subject });
+  }
+  return graph3.write();
+}
+function cloneValue(value) {
+  if (Array.isArray(value)) {
+    return value.map(cloneValue);
+  }
+  if (isPrimitiveWrapper2(value)) {
+    return clonePrimitiveWrapper(value);
+  }
+  if (isObject(value)) {
+    return Object.fromEntries(
+      Object.entries(value).map(([key, item]) => [key, cloneValue(item)])
+    );
+  }
+  return value;
+}
+function isObject(value) {
+  return Boolean(value && typeof value === "object" && !Array.isArray(value) && !isPrimitiveWrapper2(value));
+}
+function mergeSubject(target, incoming) {
+  for (const [predicate, value] of Object.entries(incoming)) {
+    if (predicate === "id") continue;
+    if (!Object.hasOwn(target, predicate)) {
+      target[predicate] = cloneValue(value);
+      continue;
+    }
+    target[predicate] = mergeValues(target[predicate], value);
+  }
+  return target;
+}
+function mergeValues(left, right) {
+  if (valueEquals(left, right)) {
+    return left;
+  }
+  if (isObject(left) && isObject(right) && left.id && left.id === right.id) {
+    return mergeSubject(left, right);
+  }
+  const values2 = [];
+  for (const item of [...arrayValues(left), ...arrayValues(right)]) {
+    if (!values2.some((existing) => valueEquals(existing, item))) {
+      values2.push(cloneValue(item));
+    }
+  }
+  return values2.length === 1 ? values2[0] : values2;
+}
+function arrayValues(value) {
+  return Array.isArray(value) ? value : [value];
+}
+function valueEquals(left, right) {
+  return valueKey(left) === valueKey(right);
+}
+function valueKey(value) {
+  if (isPrimitiveWrapper2(value)) {
+    return `literal:${JSON.stringify(sortObject(primitiveWrapperData(value)))}`;
+  }
+  if (isObject(value)) {
+    return value.id ? `id:${value.id}` : `json:${JSON.stringify(sortObject(value))}`;
+  }
+  if (typeof value === "string" || typeof value === "number" || typeof value === "boolean") {
+    return `literal:${JSON.stringify({ value })}`;
+  }
+  return `${typeof value}:${String(value)}`;
+}
+function sortObject(value) {
+  if (Array.isArray(value)) {
+    return value.map(sortObject);
+  }
+  if (!isObject(value)) {
+    return value;
+  }
+  return Object.fromEntries(
+    Object.entries(value).sort(([left], [right]) => left.localeCompare(right)).map(([key, item]) => [key, sortObject(item)])
+  );
+}
+function isPrimitiveWrapper2(value) {
+  return value instanceof String || value instanceof Number || value instanceof Boolean;
+}
+function clonePrimitiveWrapper(value) {
+  const clone2 = new value.constructor(value.valueOf());
+  for (const [key, item] of Object.entries(value)) {
+    if (!/^\d+$/.test(key)) {
+      clone2[key] = cloneValue(item);
+    }
+  }
+  return clone2;
+}
+function primitiveWrapperData(value) {
+  const data = {
+    value: value.valueOf()
+  };
+  for (const [key, item] of Object.entries(value)) {
+    if (!/^\d+$/.test(key)) {
+      if (value instanceof String && key === "type" && item === "xsd$string") {
+        continue;
+      }
+      data[key] = item;
+    }
+  }
+  return data;
+}
+function graphDocumentsEqual(left, right) {
+  return JSON.stringify(sortObject(graphDocumentComparable(left))) === JSON.stringify(sortObject(graphDocumentComparable(right)));
+}
+function graphDocumentComparable(document2) {
+  return {
+    format: document2.format ?? null,
+    version: document2.version ?? null,
+    prefixes: document2.prefixes ?? {},
+    subjects: Object.values(document2.subjects ?? {})
+  };
+}
+function withData(document2) {
+  Object.defineProperty(document2, "data", {
+    get() {
+      return Object.values(this.subjects);
+    },
+    enumerable: false
+  });
+  return document2;
+}
+function subjectsFromArray(subjects) {
+  const result = {};
+  for (const subject of subjects) {
+    if (subject?.id) {
+      result[subject.id] = subject;
+    }
+  }
+  return result;
+}
+function writeSubjectToGraph({ graph: graph3, subject }) {
+  if (!subject?.id) return null;
+  for (const [predicate, value] of Object.entries(subject)) {
+    if (predicate === "id") continue;
+    graph3.set(subject.id, predicate, graphValueFromObjectValue({ graph: graph3, value }));
+  }
+  return subject.id;
+}
+function graphValueFromObjectValue({ graph: graph3, value }) {
+  if (Array.isArray(value)) {
+    return value.map((item) => graphValueFromObjectValue({ graph: graph3, value: item }));
+  }
+  if (isObject(value)) {
+    if (value.id) {
+      writeSubjectToGraph({ graph: graph3, subject: value });
+      return value.id;
+    }
+    return JSON.stringify(value);
+  }
+  return value;
+}
+
+// ../solid-tools/packages/solid-workspace/src/status.mjs
+function updateRecordStatus(record, status2) {
+  record.status = status2.status;
+  record.error = status2.error ?? null;
+  record.response = status2.response ?? record.response;
+  return statusFor(record, status2);
+}
+function statusFor(record, status2 = {}) {
+  return {
+    object: record.object,
+    sourceUrl: record.sourceUrl,
+    source: record.source,
+    ...status2
+  };
+}
+function sourceStatus(source2, status2 = {}) {
+  return {
+    id: source2.id,
+    type: source2.type ?? source2.kind ?? "source",
+    url: source2.url ?? null,
+    local: Boolean(source2.local),
+    logicalResource: source2.logicalResource ?? null,
+    replica: source2.replica ?? null,
+    state: status2.state ?? "idle",
+    error: status2.error ?? null,
+    syncPending: Boolean(status2.syncPending),
+    pendingFrom: src_default2.many(status2.pendingFrom)
+  };
+}
+function workspaceState(currentWorkspace) {
+  const states = Object.values(currentWorkspace.status.sources).map((status2) => status2.state);
+  if (states.length === 0) {
+    return "idle";
+  }
+  if (states.some((state) => state === "ready" || state === "sync-pending")) {
+    return "ready";
+  }
+  if (states.some((state) => state === "opening" || state === "syncing")) {
+    return "opening";
+  }
+  return "error";
+}
+function resourceState(currentWorkspace, logicalResource) {
+  const states = resourceSources(logicalResource).map((source2) => currentWorkspace.status.sources[source2.id]?.state).filter(Boolean);
+  if (states.length === 0) {
+    return "idle";
+  }
+  if (states.some((state) => state === "sync-pending")) {
+    return "sync-pending";
+  }
+  if (states.some((state) => state === "ready")) {
+    return "ready";
+  }
+  if (states.some((state) => state === "opening" || state === "syncing")) {
+    return "opening";
+  }
+  return states[0] ?? "idle";
+}
+function sourceFailureState(error4) {
+  const status2 = errorStatus(error4);
+  if (status2 === 401 || status2 === 403) {
+    return "auth-needed";
+  }
+  if (!status2 || error4?.name === "TypeError") {
+    return "offline";
+  }
+  return "error";
+}
+function errorStatus(error4) {
+  return error4?.cause?.status;
+}
+function resourceSources(logicalResource) {
+  return [logicalResource.local, logicalResource.remote].filter(Boolean);
+}
+
+// ../solid-tools/packages/solid-workspace/src/workspace.mjs
+function workspace(options = {}) {
+  return new SolidWorkspace(options);
 }
 function resource(idOrOptions, options = {}) {
   let config = { ...idOrOptions };
@@ -9814,53 +10696,10 @@ function resource(idOrOptions, options = {}) {
     id: String(config.id)
   });
 }
-function mergeGraphDocuments(documents = [], options = {}) {
-  if (!Array.isArray(documents)) {
-    throw new TypeError("solid-workspace: graph documents must be an array");
-  }
-  const base = graphDocumentFrom(documents[0]);
-  const merged = {
-    format: options.format ?? base.format,
-    version: options.version ?? base.version,
-    prefixes: {},
-    subjects: []
-  };
-  const subjectsById = /* @__PURE__ */ new Map();
-  for (const document2 of documents.map(graphDocumentFrom)) {
-    Object.assign(merged.prefixes, document2.prefixes);
-    for (const subject of document2.subjects) {
-      if (!subject?.id) continue;
-      const current = subjectsById.get(subject.id);
-      if (!current) {
-        const clone2 = cloneValue(subject);
-        subjectsById.set(subject.id, clone2);
-        merged.subjects.push(clone2);
-        continue;
-      }
-      mergeSubject(current, subject);
-    }
-  }
-  const target = {
-    ...merged,
-    changed: !graphDocumentsEqual(base, merged)
-  };
-  if (Object.keys(target.prefixes).length === 0) {
-    delete target.prefixes;
-  }
-  if (target.format == null) delete target.format;
-  if (target.version == null) delete target.version;
-  return target;
-}
 var solid = {
   resource(url3, options = {}) {
     return source("resource", url3, {
       type: "solid-resource",
-      ...options
-    });
-  },
-  turtleResource(url3, options = {}) {
-    return source("resource", url3, {
-      type: "solid-turtle-resource",
       ...options
     });
   },
@@ -9882,140 +10721,16 @@ var solid = {
     });
   }
 };
-var local = {
-  memory(idOrOptions, options = {}) {
-    let config = { ...idOrOptions };
-    if (typeof idOrOptions === "string") {
-      config = { ...options, id: idOrOptions };
-    }
-    const id2 = config.id ?? config.key ?? "local-memory";
-    const url3 = config.url ?? `memory://${encodeURIComponent(id2)}`;
-    let initialDocument = config.document;
-    if (initialDocument == null) {
-      initialDocument = {
-        format: config.format ?? "oldmed-graph",
-        version: config.version ?? 1,
-        prefixes: config.prefixes ?? {},
-        subjects: []
-      };
-    }
-    let document2 = graphDocumentFrom(initialDocument);
-    return graphResource({
-      ...config,
-      id: id2,
-      url: url3,
-      local: true,
-      type: "local-memory",
-      async load() {
-        return cloneGraphDocument(document2);
-      },
-      async save(value) {
-        document2 = graphDocumentFrom(value);
-        return {
-          ok: true,
-          status: "saved",
-          sourceUrl: url3,
-          document: cloneGraphDocument(document2)
-        };
-      },
-      async turtle() {
-        return graphDocumentToTurtle(document2, {
-          url: url3,
-          prefixes: config.prefixes
-        });
-      }
-    });
-  },
-  indexedDB(nameOrOptions, options = {}) {
-    let config = { ...nameOrOptions };
-    if (typeof nameOrOptions === "string") {
-      config = { ...options, name: nameOrOptions };
-    }
-    const databaseName = config.name ?? config.databaseName ?? config.database;
-    if (!databaseName) {
-      throw new TypeError("solid-workspace: IndexedDB database name is required");
-    }
-    const storeName = config.store ?? config.storeName ?? "resources";
-    const key = config.key ?? config.id ?? "default";
-    const id2 = config.id ?? `${databaseName}:${key}`;
-    const url3 = config.url ?? `indexeddb://${encodeURIComponent(databaseName)}/${encodeURIComponent(storeName)}/${encodeURIComponent(key)}`;
-    const databaseVersion = config.databaseVersion ?? 1;
-    const initialDocument = config.document === void 0 ? null : graphDocumentFrom(config.document);
-    const indexedDBFactory = config.indexedDB;
-    const sourceConfig = { ...config };
-    delete sourceConfig.indexedDB;
-    delete sourceConfig.document;
-    delete sourceConfig.databaseVersion;
-    async function loadDocument() {
-      const database = await openIndexedDatabase({
-        indexedDB: indexedDBFactory,
-        name: databaseName,
-        version: databaseVersion,
-        storeName
-      });
-      try {
-        const entry = await indexedDBGet(database, storeName, key);
-        if (entry?.document) {
-          return graphDocumentFrom(entry.document);
-        }
-        return graphDocumentFrom(initialDocument);
-      } finally {
-        database.close?.();
-      }
-    }
-    return graphResource({
-      ...sourceConfig,
-      id: id2,
-      url: url3,
-      local: true,
-      type: "local-indexeddb",
-      async load() {
-        return cloneGraphDocument(await loadDocument());
-      },
-      async save(value) {
-        const document2 = graphDocumentFrom(value);
-        const database = await openIndexedDatabase({
-          indexedDB: indexedDBFactory,
-          name: databaseName,
-          version: databaseVersion,
-          storeName
-        });
-        try {
-          await indexedDBPut(database, storeName, {
-            key,
-            document: cloneGraphDocument(document2),
-            updatedAt: (/* @__PURE__ */ new Date()).toISOString()
-          });
-        } finally {
-          database.close?.();
-        }
-        return {
-          ok: true,
-          status: "saved",
-          sourceUrl: url3,
-          document: cloneGraphDocument(document2)
-        };
-      },
-      async turtle() {
-        return graphDocumentToTurtle(await loadDocument(), {
-          url: url3,
-          prefixes: config.prefixes
-        });
-      }
-    });
-  }
-};
 var SolidWorkspace = class {
   constructor(options = {}) {
-    if (!options || typeof options !== "object") {
-      throw new TypeError("solid-workspace: workspace options must be an object");
-    }
+    check(options, Object, "solid-workspace: workspace options must be an object", TypeError);
     const client3 = options.solid ?? options.solidApi ?? options.client;
     this.solid = client3;
     this.sources = [];
     this.sourceById = /* @__PURE__ */ new Map();
     this.resources = [];
     this.resourceById = /* @__PURE__ */ new Map();
+    this.sourcePatterns = /* @__PURE__ */ new Map();
     this.status = {
       state: "idle",
       error: null,
@@ -10068,11 +10783,13 @@ var SolidWorkspace = class {
         this.sources.push(descriptor);
       }
       this.sourceById.set(descriptor.id, descriptor);
+      this.sourcePatterns.set(descriptor.id, descriptor.id);
       this.setSourceStatus(descriptor, this.status.sources[descriptor.id] ?? { state: "idle" });
       for (const record of this.records) {
         const source2 = record.source?.parent ?? record.source;
         if (source2?.id === descriptor.id) {
           record.source = descriptor;
+          record.sourceId = recordSourceId(record);
         }
       }
     }
@@ -10126,6 +10843,7 @@ var SolidWorkspace = class {
       this.resources.push(current);
     }
     this.resourceById.set(current.id, current);
+    this.sourcePatterns.set(current.id, (current.local ?? current.remote).id);
     this.setResourceStatus(current);
     return current;
   }
@@ -10138,7 +10856,7 @@ var SolidWorkspace = class {
       return this.openResource(options);
     }
     if (isOpenAllOptions(options) && this.resources.length > 0) {
-      const resourceSourceIds = new Set(this.resources.flatMap((item) => resourceSources(item).map((source2) => source2.id)));
+      const resourceSourceIds = new Set(this.resources.flatMap((item) => resourceSources2(item).map((source2) => source2.id)));
       for (const item of this.resources) {
         await this.openResource(item, options);
       }
@@ -10179,7 +10897,7 @@ var SolidWorkspace = class {
   }
   async openResource(resourceOrId, options = {}) {
     const logicalResource = resolveResource(this, resourceOrId);
-    const sources = resourceSources(logicalResource);
+    const sources = resourceSources2(logicalResource);
     const failures = [];
     const loaded = [];
     const throwOnError = options.throwOnError ?? false;
@@ -10210,7 +10928,7 @@ var SolidWorkspace = class {
         ], options);
         if (document2.changed || options.force === true) {
           await saveGraphDocument(this, logicalResource.local, document2, options.writeOptions);
-          this.replaceSourceRecords(logicalResource.local, cloneValue(document2.subjects), {
+          this.replaceSourceRecords(logicalResource.local, cloneValue(document2.data), {
             source: logicalResource.local,
             sourceUrl: logicalResource.local.url,
             status: "loaded"
@@ -10293,7 +11011,7 @@ var SolidWorkspace = class {
           source: descriptor,
           workspace: this
         }));
-        const objects = document2.subjects;
+        const objects = document2.data;
         if (descriptor.append) {
           this.trackObjects(objects, {
             source: descriptor,
@@ -10312,18 +11030,18 @@ var SolidWorkspace = class {
       }
       assertSolidClient(this);
       try {
-        const response3 = await this.solid.get(descriptor.url, requestOptions(descriptor.options));
-        const objects = subjectsFromResponse(response3);
+        const data = await this.solid.get(descriptor.url, requestOptions(descriptor.options));
+        const objects = Object.values(data.subjects);
         if (descriptor.append) {
           this.trackObjects(objects, {
-            response: response3,
+            data,
             source: descriptor,
             sourceUrl: descriptor.url,
             status: "loaded"
           });
         } else {
           this.replaceSourceRecords(descriptor, objects, {
-            response: response3,
+            data,
             source: descriptor,
             sourceUrl: descriptor.url,
             status: "loaded"
@@ -10332,7 +11050,7 @@ var SolidWorkspace = class {
         this.setSourceStatus(descriptor, { state: "ready", error: null });
         return objects;
       } catch (error4) {
-        if ([404, 410].includes(statusFromError(error4))) {
+        if ([404, 410].includes(errorStatus(error4))) {
           if (!descriptor.append) {
             this.replaceSourceRecords(descriptor, [], {
               source: descriptor,
@@ -10370,14 +11088,14 @@ var SolidWorkspace = class {
   dataset(options = {}) {
     const config = normalizeDatasetOptions(this, options);
     const records = recordsForSources(this, config.sources ?? this.sources);
-    return mergeGraphDocuments([
-      {
-        format: config.format,
-        version: config.version,
-        prefixes: config.prefixes,
-        subjects: records.map((record) => record.object)
+    return mergeGraphDocuments(records.filter((record) => record.object.id).map((record) => ({
+      format: config.format,
+      version: config.version,
+      prefixes: config.prefixes,
+      subjects: {
+        [record.object.id]: record.object
       }
-    ], config);
+    })), config);
   }
   async sync(options = {}) {
     if (isResourceReference(this, options)) {
@@ -10533,12 +11251,12 @@ var SolidWorkspace = class {
     }
     try {
       await saveGraphDocument(this, localSource, document2, options.localWriteOptions ?? options.writeOptions);
-      this.replaceSourceRecords(remoteSource, cloneValue(document2.subjects), {
+      this.replaceSourceRecords(remoteSource, cloneValue(document2.data), {
         source: remoteSource,
         sourceUrl: remoteSource.url,
         status: "loaded"
       });
-      this.replaceSourceRecords(localSource, cloneValue(document2.subjects), {
+      this.replaceSourceRecords(localSource, cloneValue(document2.data), {
         source: localSource,
         sourceUrl: localSource.url,
         status: "loaded"
@@ -10595,7 +11313,7 @@ var SolidWorkspace = class {
       }));
       return graphDocumentFrom(response3);
     } catch (error4) {
-      const status2 = statusFromError(error4);
+      const status2 = errorStatus(error4);
       if (status2 === 404 || status2 === 410) {
         return graphDocumentFrom(null);
       }
@@ -10603,13 +11321,13 @@ var SolidWorkspace = class {
     }
   }
   track(object, options = {}) {
-    if (!isObject(object)) {
-      throw new TypeError("solid-workspace: can only track object values");
-    }
+    check(object, Object, "solid-workspace: can only track object values", TypeError);
     const record = {
       object,
       source: options.source ?? null,
+      sourceId: recordSourceId(options),
       sourceUrl: options.sourceUrl ?? options.source?.url ?? object.id ?? null,
+      data: options.data ?? null,
       response: options.response ?? null,
       status: options.status ?? "loaded",
       readOnly: Boolean(options.readOnly ?? options.source?.readOnly),
@@ -10665,12 +11383,12 @@ var SolidWorkspace = class {
     if (!record) {
       throw new Error("solid-workspace: cannot save an object that is not tracked by this workspace");
     }
-    const validation = validateRecord(record);
-    if (!validation.ok) {
+    const issues3 = validateRecord(record);
+    if (issues3) {
       return updateRecordStatus(record, {
         ok: false,
         status: "validation_failed",
-        issues: validation.issues
+        issues: issues3
       });
     }
     if (record.readOnly) {
@@ -10752,9 +11470,12 @@ var SolidWorkspace = class {
     }
     const failures = statuses.filter((status2) => !status2.ok);
     if (failures.length > 0) {
-      const error4 = new Error("solid-workspace: saveAll failed");
+      const error4 = new Error("solid-workspace: saveAll failed", {
+        cause: {
+          failures
+        }
+      });
       error4.statuses = statuses;
-      error4.failures = failures;
       throw error4;
     }
     return statuses;
@@ -10832,68 +11553,8 @@ var SolidWorkspace = class {
     return next;
   }
 };
-var WorkspaceCollection = class {
-  constructor(workspace2, name, descriptor = {}) {
-    this.workspace = workspace2;
-    this.name = name;
-    this.descriptor = normalizeCollection(descriptor);
-  }
-  list() {
-    return Array.from(from(this.workspace.records).where((record) => !record.deleted).where((record) => collectionIncludesRecord(this.workspace, this.descriptor, record)).select((record) => record.object));
-  }
-  get(id2) {
-    return this.list().find((object) => object.id === id2 || object["@id"] === id2) ?? null;
-  }
-  async create(object = {}, options = {}) {
-    let data = { ...object };
-    if (this.descriptor.shape?.applyDefaults) {
-      data = this.descriptor.shape.applyDefaults(object);
-    }
-    const validation = this.descriptor.shape?.validate?.(data);
-    if (validation && !validation.ok) {
-      const error4 = new Error(`solid-workspace: ${this.name} object does not match its shape`);
-      error4.validation = validation;
-      throw error4;
-    }
-    return this.workspace.createIn(options.createIn ?? this.descriptor.createIn, data, {
-      ...options,
-      save: options.save ?? false
-    });
-  }
-  update(object, changes = {}) {
-    Object.assign(object, changes);
-    return object;
-  }
-  delete(object, options = {}) {
-    return this.workspace.delete(object, options);
-  }
-  save(object, options = {}) {
-    return this.workspace.save(object, options);
-  }
-  saveAll() {
-    return this.workspace.saveAll(Array.from(from(this.workspace.records).where((record) => collectionIncludesRecord(this.workspace, this.descriptor, record))));
-  }
-};
-function source(kind, url3, options) {
-  if (!url3) {
-    throw new TypeError("solid-workspace: source url is required");
-  }
-  return Object.freeze({
-    ...options,
-    workspacePart: "source",
-    kind,
-    type: options.type ?? kind,
-    id: options.id ?? String(url3),
-    url: String(url3),
-    readOnly: Boolean(options.readOnly),
-    shape: options.shape ?? null,
-    options: options.options ?? {}
-  });
-}
 function graphResource(options = {}) {
-  if (!options || typeof options !== "object") {
-    throw new TypeError("solid-workspace: graph resource options must be an object");
-  }
+  check(options, Object, "solid-workspace: graph resource options must be an object", TypeError);
   if (!options.id) {
     throw new TypeError("solid-workspace: graph resource id is required");
   }
@@ -10916,6 +11577,22 @@ function graphResource(options = {}) {
     url: String(options.url)
   });
 }
+function source(kind, url3, options) {
+  if (!url3) {
+    throw new TypeError("solid-workspace: source url is required");
+  }
+  return Object.freeze({
+    ...options,
+    workspacePart: "source",
+    kind,
+    type: options.type ?? kind,
+    id: options.id ?? String(url3),
+    url: String(url3),
+    readOnly: Boolean(options.readOnly),
+    shape: options.shape ?? null,
+    options: options.options ?? {}
+  });
+}
 function assertWorkspaceSource(descriptor, role = "source") {
   if (descriptor?.workspacePart !== "source") {
     throw new TypeError(`solid-workspace: resource ${role} replica must be a source from a factory`);
@@ -10931,29 +11608,13 @@ function resourceReplicaSource(descriptor, { resource: resource2, replica, syncT
   });
 }
 function normalizeSources(sources) {
-  if (!Array.isArray(sources)) {
-    throw new TypeError("solid-workspace: sources must be an array");
-  }
+  check(sources, Array, "solid-workspace: sources must be an array", TypeError);
   return sources.map((descriptor) => {
-    if (!descriptor || descriptor.kind !== "resource" && descriptor.kind !== "container") {
-      throw new TypeError("solid-workspace: sources must be solid.resource() or solid.container() descriptors");
-    }
+    check(descriptor, {
+      kind: oneOf("resource", "container")
+    }, "solid-workspace: sources must be solid.resource() or solid.container() descriptors", TypeError);
     return descriptor;
   });
-}
-function normalizeCollection(descriptor) {
-  if (!descriptor || typeof descriptor !== "object") {
-    throw new TypeError("solid-workspace: collection descriptor must be an object");
-  }
-  const sources = descriptor.sources ?? [];
-  if (!Array.isArray(sources)) {
-    throw new TypeError("solid-workspace: collection sources must be an array");
-  }
-  return {
-    ...descriptor,
-    sources,
-    createIn: descriptor.createIn ?? sources[0]
-  };
 }
 function normalizeDatasetOptions(currentWorkspace, options = {}) {
   if (isResourceReference(currentWorkspace, options)) {
@@ -11003,7 +11664,7 @@ function resolveResource(currentWorkspace, resourceOrId) {
   }
   return resourceOrId;
 }
-function resourceSources(logicalResource) {
+function resourceSources2(logicalResource) {
   return [logicalResource.local, logicalResource.remote].filter(Boolean);
 }
 function datasetSourcesForResources(currentWorkspace, resources) {
@@ -11038,177 +11699,20 @@ function resolveCreateSource(currentWorkspace, sourceOrResourceOrId) {
 function recordsForSources(currentWorkspace, sources) {
   const descriptors = new Set(normalizeLoadSources(currentWorkspace, sources));
   const ids2 = new Set([...descriptors].map((source2) => source2.id));
-  return Array.from(from(currentWorkspace.records).where((record) => !record.deleted).where((record) => {
+  return from(currentWorkspace.records).where((record) => {
+    if (record.deleted) {
+      return false;
+    }
     const source2 = record.source?.parent ?? record.source;
     return source2 && (descriptors.has(source2) || ids2.has(source2.id));
-  }));
+  }).toArray();
 }
 function recordBelongsToSources(record, sources) {
   const source2 = record.source?.parent ?? record.source;
   return Boolean(source2 && sources.some((candidate) => candidate === source2 || candidate.id === source2.id));
 }
-function collectionIncludesRecord(currentWorkspace, descriptor, record) {
-  if (descriptor.sources.length > 0) {
-    const sourceId = record.source?.parent?.id ?? record.source?.id;
-    const matches = descriptor.sources.some((collectionSource) => {
-      const logicalResource = currentWorkspace.resourceById.get(collectionSource);
-      if (logicalResource) {
-        const preferredSource = logicalResource.local ?? logicalResource.remote;
-        return preferredSource?.id === sourceId;
-      }
-      return collectionSource === sourceId;
-    });
-    if (!matches) {
-      return false;
-    }
-  }
-  if (descriptor.shape?.class) {
-    const classes = src_default2.many(record.object.rdf$type);
-    if (!classes.includes(descriptor.shape.class)) {
-      return false;
-    }
-  }
-  return true;
-}
-function subjectsFromResponse(response3) {
-  return src_default2.subjects(response3);
-}
-function graphDocumentFrom(value) {
-  if (!value) {
-    return {
-      format: null,
-      version: null,
-      prefixes: {},
-      subjects: []
-    };
-  }
-  const subjects2 = src_default2.subjects(value);
-  if (Array.isArray(value)) {
-    return {
-      format: null,
-      version: null,
-      prefixes: {},
-      subjects: subjects2
-    };
-  }
-  if (Object.hasOwn(value, "format") || Object.hasOwn(value, "version") || Object.hasOwn(value, "prefixes") || Object.hasOwn(value, "subjects") || Object.hasOwn(value, "data") || Object.hasOwn(value, "primary")) {
-    return {
-      format: value.format ?? null,
-      version: value.version ?? null,
-      prefixes: value.prefixes ?? {},
-      subjects: subjects2
-    };
-  }
-  return {
-    format: null,
-    version: null,
-    prefixes: {},
-    subjects: subjects2
-  };
-}
-function mergeSubject(target, incoming) {
-  for (const [predicate, value] of Object.entries(incoming)) {
-    if (predicate === "id") continue;
-    if (!Object.hasOwn(target, predicate)) {
-      target[predicate] = cloneValue(value);
-      continue;
-    }
-    target[predicate] = mergeValues(target[predicate], value);
-  }
-  return target;
-}
-function mergeValues(left, right) {
-  if (valueEquals(left, right)) {
-    return left;
-  }
-  if (isObject(left) && isObject(right) && left.id && left.id === right.id) {
-    return mergeSubject(left, right);
-  }
-  const values2 = [];
-  for (const item of [...arrayValues(left), ...arrayValues(right)]) {
-    if (!values2.some((existing) => valueEquals(existing, item))) {
-      values2.push(cloneValue(item));
-    }
-  }
-  return values2.length === 1 ? values2[0] : values2;
-}
-function arrayValues(value) {
-  return Array.isArray(value) ? value : [value];
-}
-function valueEquals(left, right) {
-  return valueKey(left) === valueKey(right);
-}
-function valueKey(value) {
-  if (isObject(value)) {
-    return value.id ? `id:${value.id}` : `json:${JSON.stringify(sortObject(value))}`;
-  }
-  return `${typeof value}:${String(value)}`;
-}
-function sortObject(value) {
-  if (Array.isArray(value)) {
-    return value.map(sortObject);
-  }
-  if (!isObject(value)) {
-    return value;
-  }
-  return Object.fromEntries(
-    Object.entries(value).sort(([left], [right]) => left.localeCompare(right)).map(([key, item]) => [key, sortObject(item)])
-  );
-}
-function graphDocumentsEqual(left, right) {
-  return JSON.stringify(sortObject(graphDocumentComparable(left))) === JSON.stringify(sortObject(graphDocumentComparable(right)));
-}
-function graphDocumentComparable(document2) {
-  return {
-    format: document2.format ?? null,
-    version: document2.version ?? null,
-    prefixes: document2.prefixes ?? {},
-    subjects: document2.subjects ?? []
-  };
-}
-function cloneGraphDocument(document2) {
-  const graphDocument = graphDocumentFrom(document2);
-  return {
-    ...graphDocument,
-    prefixes: cloneValue(graphDocument.prefixes),
-    subjects: cloneValue(graphDocument.subjects)
-  };
-}
-function graphDocumentToTurtle(document2, options = {}) {
-  const graphDocument = graphDocumentFrom(document2);
-  const context = src_default2.context({
-    defaultGraph: options.url,
-    prefixes: {
-      ...graphDocument.prefixes,
-      ...options.prefixes
-    }
-  });
-  const graph2 = context.parse("", options.url, "text/turtle");
-  for (const subject of graphDocument.subjects) {
-    writeSubjectToGraph({ graph: graph2, subject });
-  }
-  return graph2.write();
-}
-function writeSubjectToGraph({ graph: graph2, subject }) {
-  if (!subject?.id) return null;
-  for (const [predicate, value] of Object.entries(subject)) {
-    if (predicate === "id") continue;
-    graph2.set(subject.id, predicate, graphValueFromObjectValue({ graph: graph2, value }));
-  }
-  return subject.id;
-}
-function graphValueFromObjectValue({ graph: graph2, value }) {
-  if (Array.isArray(value)) {
-    return value.map((item) => graphValueFromObjectValue({ graph: graph2, value: item }));
-  }
-  if (isObject(value)) {
-    if (value.id) {
-      writeSubjectToGraph({ graph: graph2, subject: value });
-      return value.id;
-    }
-    return JSON.stringify(value);
-  }
-  return value;
+function recordSourceId(record) {
+  return record.source?.parent?.id ?? record.source?.id ?? null;
 }
 async function saveGraphDocument(workspace2, source2, document2, options = {}) {
   if (typeof source2.save === "function") {
@@ -11221,6 +11725,60 @@ async function saveGraphDocument(workspace2, source2, document2, options = {}) {
   assertSolidClient(workspace2);
   return workspace2.solid.put(source2.url, bodyOptions(document2, writeOptions(source2, options)));
 }
+function assertSolidClient(workspace2) {
+  if (!workspace2.solid) {
+    throw new TypeError("solid-workspace: a Solid API client is required for Solid sources");
+  }
+}
+function oldmSourcesOf(record, object, predicate, value) {
+  const data = record.data;
+  const context = data?.context ?? data?.primary?.context;
+  if (!context || typeof context.sources !== "function") {
+    return [];
+  }
+  return context.sources(object, predicate, value).map((source2) => typeof source2 === "string" ? source2 : source2?.url ?? source2?.id).filter(Boolean);
+}
+function validateRecord(record) {
+  if (record.source.shape) {
+    return record.source.shape.fails(record.object);
+  }
+  return false;
+}
+function writeOptions(source2, options) {
+  const headers = new Headers(source2?.writeOptions?.headers);
+  for (const [key, value] of new Headers(options?.headers)) {
+    headers.set(key, value);
+  }
+  if (!headers.has("Content-Type")) {
+    headers.set("Content-Type", "text/turtle");
+  }
+  return {
+    ...source2?.writeOptions,
+    ...options,
+    headers
+  };
+}
+function requestOptions(options = {}) {
+  return {
+    ...options,
+    headers: new Headers(options.headers)
+  };
+}
+function bodyOptions(body, options = {}) {
+  return {
+    ...options,
+    body,
+    headers: new Headers(options.headers)
+  };
+}
+function ensureSlash(url3) {
+  return String(url3).endsWith("/") ? String(url3) : `${url3}/`;
+}
+function unique(items) {
+  return [...new Set(items)];
+}
+
+// ../solid-tools/packages/solid-workspace/src/indexeddb.mjs
 function openIndexedDatabase({ indexedDB, name, version, storeName }) {
   const factory = indexedDB ?? globalThis.indexedDB;
   if (!factory) {
@@ -11261,143 +11819,157 @@ function objectStoreExists(objectStoreNames, storeName) {
   }
   return src_default2.many(objectStoreNames).includes(storeName);
 }
-function assertSolidClient(workspace2) {
-  if (!workspace2.solid) {
-    throw new TypeError("solid-workspace: a Solid API client is required for Solid sources");
+
+// ../solid-tools/packages/solid-workspace/src/local.mjs
+var local = {
+  memory(idOrOptions, options = {}) {
+    let config = { ...idOrOptions };
+    if (typeof idOrOptions === "string") {
+      config = { ...options, id: idOrOptions };
+    }
+    const id2 = config.id ?? config.key ?? "local-memory";
+    const url3 = config.url ?? `memory://${encodeURIComponent(id2)}`;
+    let initialDocument = config.document;
+    if (initialDocument == null) {
+      initialDocument = {
+        format: config.format ?? "oldmed-graph",
+        version: config.version ?? 1,
+        prefixes: config.prefixes ?? {},
+        subjects: {}
+      };
+    }
+    let turtle = config.turtle ?? null;
+    async function loadDocument() {
+      if (turtle == null) {
+        turtle = await graphDocumentToTurtle(initialDocument, {
+          url: url3,
+          prefixes: config.prefixes
+        });
+      }
+      return graphDocumentFromTurtle(turtle, {
+        url: url3,
+        prefixes: config.prefixes
+      });
+    }
+    return graphResource({
+      ...config,
+      id: id2,
+      url: url3,
+      local: true,
+      type: "local-memory",
+      async load() {
+        return cloneGraphDocument(await loadDocument());
+      },
+      async save(value) {
+        const document2 = graphDocumentFrom(value);
+        turtle = await graphDocumentToTurtle(document2, {
+          url: url3,
+          prefixes: config.prefixes
+        });
+        return {
+          ok: true,
+          status: "saved",
+          sourceUrl: url3,
+          document: cloneGraphDocument(document2)
+        };
+      },
+      async turtle() {
+        await loadDocument();
+        return turtle;
+      }
+    });
+  },
+  indexedDB(nameOrOptions, options = {}) {
+    let config = { ...nameOrOptions };
+    if (typeof nameOrOptions === "string") {
+      config = { ...options, name: nameOrOptions };
+    }
+    const databaseName = config.name ?? config.databaseName ?? config.database;
+    if (!databaseName) {
+      throw new TypeError("solid-workspace: IndexedDB database name is required");
+    }
+    const storeName = config.store ?? config.storeName ?? "resources";
+    const key = config.key ?? config.id ?? "default";
+    const id2 = config.id ?? `${databaseName}:${key}`;
+    const url3 = config.url ?? `indexeddb://${encodeURIComponent(databaseName)}/${encodeURIComponent(storeName)}/${encodeURIComponent(key)}`;
+    const databaseVersion = config.databaseVersion ?? 1;
+    const initialDocument = config.document === void 0 ? null : graphDocumentFrom(config.document);
+    const initialTurtle = config.turtle ?? null;
+    const indexedDBFactory = config.indexedDB;
+    const sourceConfig = { ...config };
+    delete sourceConfig.indexedDB;
+    delete sourceConfig.document;
+    delete sourceConfig.turtle;
+    delete sourceConfig.databaseVersion;
+    async function loadTurtle() {
+      const database = await openIndexedDatabase({
+        indexedDB: indexedDBFactory,
+        name: databaseName,
+        version: databaseVersion,
+        storeName
+      });
+      try {
+        const entry = await indexedDBGet(database, storeName, key);
+        if (entry?.turtle) {
+          return entry.turtle;
+        }
+        if (initialTurtle != null) {
+          return initialTurtle;
+        }
+        return graphDocumentToTurtle(initialDocument, {
+          url: url3,
+          prefixes: config.prefixes
+        });
+      } finally {
+        database.close?.();
+      }
+    }
+    return graphResource({
+      ...sourceConfig,
+      id: id2,
+      url: url3,
+      local: true,
+      type: "local-indexeddb",
+      async load() {
+        return cloneGraphDocument(graphDocumentFromTurtle(await loadTurtle(), {
+          url: url3,
+          prefixes: config.prefixes
+        }));
+      },
+      async save(value) {
+        const document2 = graphDocumentFrom(value);
+        const turtle = await graphDocumentToTurtle(document2, {
+          url: url3,
+          prefixes: config.prefixes
+        });
+        const database = await openIndexedDatabase({
+          indexedDB: indexedDBFactory,
+          name: databaseName,
+          version: databaseVersion,
+          storeName
+        });
+        try {
+          await indexedDBPut(database, storeName, {
+            key,
+            turtle,
+            updatedAt: (/* @__PURE__ */ new Date()).toISOString()
+          });
+        } finally {
+          database.close?.();
+        }
+        return {
+          ok: true,
+          status: "saved",
+          sourceUrl: url3,
+          document: cloneGraphDocument(document2)
+        };
+      },
+      async turtle() {
+        return loadTurtle();
+      }
+    });
   }
-}
-function cloneValue(value) {
-  if (Array.isArray(value)) {
-    return value.map(cloneValue);
-  }
-  if (isObject(value)) {
-    return Object.fromEntries(
-      Object.entries(value).map(([key, item]) => [key, cloneValue(item)])
-    );
-  }
-  return value;
-}
-function oldmSourcesOf(record, object, predicate, value) {
-  const data = record.response;
-  const context = data?.context ?? data?.primary?.context;
-  if (!context || typeof context.sources !== "function") {
-    return [];
-  }
-  return context.sources(object, predicate, value).map((source2) => typeof source2 === "string" ? source2 : source2?.url ?? source2?.id).filter(Boolean);
-}
-function statusFromError(error4) {
-  return error4?.cause?.status;
-}
-function validateRecord(record) {
-  const validation = record.source?.shape?.validate?.(record.object);
-  return validation ?? { ok: true, issues: [] };
-}
-function writeOptions(source2, options) {
-  const headers = new Headers(source2?.writeOptions?.headers);
-  for (const [key, value] of new Headers(options?.headers)) {
-    headers.set(key, value);
-  }
-  if (!headers.has("Content-Type")) {
-    headers.set("Content-Type", "text/turtle");
-  }
-  return {
-    ...source2?.writeOptions,
-    ...options,
-    headers
-  };
-}
-function requestOptions(options = {}) {
-  return {
-    ...options,
-    headers: new Headers(options.headers)
-  };
-}
-function bodyOptions(body, options = {}) {
-  return {
-    ...options,
-    body,
-    headers: new Headers(options.headers)
-  };
-}
-function updateRecordStatus(record, status2) {
-  record.status = status2.status;
-  record.error = status2.error ?? null;
-  record.response = status2.response ?? record.response;
-  return statusFor(record, status2);
-}
-function statusFor(record, status2 = {}) {
-  return {
-    object: record.object,
-    sourceUrl: record.sourceUrl,
-    source: record.source,
-    ...status2
-  };
-}
-function sourceStatus(source2, status2 = {}) {
-  return {
-    id: source2.id,
-    type: source2.type ?? source2.kind ?? "source",
-    url: source2.url ?? null,
-    local: Boolean(source2.local),
-    logicalResource: source2.logicalResource ?? null,
-    replica: source2.replica ?? null,
-    state: status2.state ?? "idle",
-    error: status2.error ?? null,
-    syncPending: Boolean(status2.syncPending),
-    pendingFrom: src_default2.many(status2.pendingFrom)
-  };
-}
-function workspaceState(currentWorkspace) {
-  const states = Object.values(currentWorkspace.status.sources).map((status2) => status2.state);
-  if (states.length === 0) {
-    return "idle";
-  }
-  if (states.some((state) => state === "ready" || state === "sync-pending")) {
-    return "ready";
-  }
-  if (states.some((state) => state === "opening" || state === "syncing")) {
-    return "opening";
-  }
-  return "error";
-}
-function resourceState(currentWorkspace, logicalResource) {
-  const states = resourceSources(logicalResource).map((source2) => currentWorkspace.status.sources[source2.id]?.state).filter(Boolean);
-  if (states.length === 0) {
-    return "idle";
-  }
-  if (states.some((state) => state === "sync-pending")) {
-    return "sync-pending";
-  }
-  if (states.some((state) => state === "ready")) {
-    return "ready";
-  }
-  if (states.some((state) => state === "opening" || state === "syncing")) {
-    return "opening";
-  }
-  return states[0] ?? "idle";
-}
-function sourceFailureState(error4) {
-  const status2 = errorStatus(error4);
-  if (status2 === 401 || status2 === 403) {
-    return "auth-needed";
-  }
-  if (!status2 || error4?.name === "TypeError") {
-    return "offline";
-  }
-  return "error";
-}
-function errorStatus(error4) {
-  return error4?.cause?.status;
-}
-function ensureSlash(url3) {
-  return String(url3).endsWith("/") ? String(url3) : `${url3}/`;
-}
-function unique(items) {
-  return [...new Set(items)];
-}
-function isObject(value) {
-  return Boolean(value && typeof value === "object" && !Array.isArray(value));
-}
+};
 
 // ../solid-tools/packages/simplysolid/src/index.mjs
 function simplySolid(config = {}) {
@@ -11545,8 +12117,8 @@ var SimplySolid = class {
     for (const url3 of this.conventions.requiredContainers) {
       checks.push(await checkContainer(this.solid, url3));
     }
-    const missing = checks.filter((check) => check.status === "missing");
-    const repair = checks.filter((check) => check.status === "error");
+    const missing = checks.filter((check2) => check2.status === "missing");
+    const repair = checks.filter((check2) => check2.status === "error");
     const state = repair.length > 0 ? "repair-needed" : missing.length > 0 ? "setup-needed" : "ready";
     this.status.setup = setupStatus(state, this.conventions, this.registrations, {
       checks,
@@ -11730,7 +12302,7 @@ function normalizeConfig(config) {
     throw new TypeError("simplysolid: a Solid API client, workspace, source, resource, or local-first data config is required");
   }
   for (const [name, descriptor] of Object.entries(data)) {
-    const normalized = normalizeCollection2(name, descriptor, config);
+    const normalized = normalizeCollection(name, descriptor, config);
     collections[name] = normalized.collection;
     if (normalized.source) {
       generatedSources.push(normalized.source);
@@ -11752,7 +12324,7 @@ function normalizeConfig(config) {
     registrations: registrationsFor(config, conventions)
   };
 }
-function normalizeCollection2(name, descriptor = {}, config = {}) {
+function normalizeCollection(name, descriptor = {}, config = {}) {
   if (!descriptor || typeof descriptor !== "object") {
     throw new TypeError(`simplysolid: collection ${name} must be an object`);
   }
@@ -11830,10 +12402,12 @@ function remoteSourceForResource(name, descriptor = {}, config = {}, resourceId 
   if (!url3) {
     return null;
   }
-  return solid.turtleResource(url3, {
+  return solid.resource(url3, {
     id: remoteConfig.id ?? descriptor.remoteSource ?? `${resourceId}:solid`,
     readOnly: Boolean(remoteConfig.readOnly ?? descriptor.readOnly),
     shape: remoteConfig.shape ?? descriptor.shape ?? null,
+    load: remoteConfig.load ?? descriptor.load,
+    save: remoteConfig.save ?? descriptor.save,
     options: remoteConfig.options ?? descriptor.options ?? {},
     writeOptions: remoteConfig.writeOptions ?? descriptor.writeOptions
   });
@@ -11857,10 +12431,12 @@ function remoteResourcePart(name, descriptor = {}, service) {
     throw new TypeError(`simplysolid: connected resource ${name} needs a url, resourceUrl, or path`);
   }
   return resource(resourceId, {
-    remote: solid.turtleResource(url3, {
+    remote: solid.resource(url3, {
       id: config.id ?? config.source ?? `${resourceId}:solid`,
       readOnly: Boolean(config.readOnly),
       shape: config.shape ?? null,
+      load: config.load,
+      save: config.save,
       options: config.options ?? {},
       writeOptions: config.writeOptions
     })
@@ -11935,13 +12511,14 @@ function registrationsFor(config, conventions) {
   }
   const data = config.data ?? config.collections ?? {};
   return Object.entries(data).map(([name, descriptor]) => {
-    if (!descriptor?.shape?.class) {
+    const forClass = descriptor.shape?.for;
+    if (!forClass) {
       return null;
     }
     const sourceUrl = descriptor.path && conventions.appStorage ? new URL(descriptor.path, firstStorage(config.storage)).href : descriptor.url ?? null;
     return {
       collection: name,
-      forClass: descriptor.shape.class,
+      forClass,
       instanceContainer: sourceUrl?.endsWith("/") ? sourceUrl : null,
       instance: sourceUrl && !sourceUrl.endsWith("/") ? sourceUrl : null,
       private: descriptor.private ?? true,
@@ -13555,7 +14132,7 @@ var CobaltEditorModal = class {
 };
 
 // node_modules/@muze-nl/jaqt/src/jaqt.mjs
-function isPrimitiveWrapper2(data) {
+function isPrimitiveWrapper3(data) {
   return [String, Boolean, Number, BigInt].includes(data?.constructor);
 }
 function getSelectFn2(filter2) {
@@ -13573,7 +14150,7 @@ function getSelectFn2(filter2) {
           };
         }
       });
-    } else if (!isPrimitiveWrapper2(filterValue)) {
+    } else if (!isPrimitiveWrapper3(filterValue)) {
       fns.push((data) => {
         if (filterKey == "_") {
           return from2(data[filterKey]).select(filterValue);
@@ -13609,12 +14186,12 @@ function getSelectFn2(filter2) {
 function getMatchFn2(pattern) {
   let fns = [];
   if (Array.isArray(pattern)) {
-    fns.push(anyOf2(...pattern));
+    fns.push(anyOf3(...pattern));
   } else if (pattern instanceof RegExp) {
     fns.push((data) => pattern.test(data));
   } else if (pattern instanceof Function) {
     fns.push((data) => pattern(data));
-  } else if (!isPrimitiveWrapper2(pattern)) {
+  } else if (!isPrimitiveWrapper3(pattern)) {
     let patternMatches = {};
     for (const [wKey, wVal] of Object.entries(pattern)) {
       patternMatches[wKey] = getMatchFn2(wVal);
@@ -13623,7 +14200,7 @@ function getMatchFn2(pattern) {
       if (Array.isArray(data)) {
         return data.filter((element2) => matchFn(element2)).length > 0;
       }
-      if (isPrimitiveWrapper2(data)) {
+      if (isPrimitiveWrapper3(data)) {
         return false;
       }
       for (let wKey in patternMatches) {
@@ -13668,7 +14245,7 @@ function getSortFn2(pattern) {
       fns.push((a, b) => a[key] > b[key] ? 1 : a[key] < b[key] ? -1 : 0);
     } else if (compare === desc2) {
       fns.push((a, b) => a[key] < b[key] ? 1 : a[key] > b[key] ? -1 : 0);
-    } else if (!isPrimitiveWrapper2(compare)) {
+    } else if (!isPrimitiveWrapper3(compare)) {
       let subFn = getSortFn2(compare);
       fns.push((a, b) => subFn(a[key], b[key]));
     } else {
@@ -13695,7 +14272,7 @@ function getAggregateFn2(filter2) {
   } else for (const [filterKey, filterValue] of Object.entries(filter2)) {
     if (filterValue instanceof Function) {
       fns.push((a, o, i, l) => {
-        if (isPrimitiveWrapper2(a)) {
+        if (isPrimitiveWrapper3(a)) {
           a = {};
         }
         if (o.reduce) {
@@ -13705,9 +14282,9 @@ function getAggregateFn2(filter2) {
         }
         return a;
       });
-    } else if (!isPrimitiveWrapper2(filterValue)) {
+    } else if (!isPrimitiveWrapper3(filterValue)) {
       fns.push((a, o) => {
-        if (isPrimitiveWrapper2(a)) {
+        if (isPrimitiveWrapper3(a)) {
           a = {};
         }
         a[filterKey] = from2(o[filterKey]).reduce(filterValue, []);
@@ -13715,7 +14292,7 @@ function getAggregateFn2(filter2) {
       });
     } else {
       fns.push((a) => {
-        if (isPrimitiveWrapper2(a)) {
+        if (isPrimitiveWrapper3(a)) {
           a = {};
         }
         a[filterKey] = filterValue;
@@ -13770,7 +14347,7 @@ function groupBy2(data, pointerFunctions) {
   }
   return groups;
 }
-function anyOf2(...patterns) {
+function anyOf3(...patterns) {
   let matchFns = patterns.map((pattern) => getMatchFn2(pattern));
   return (data) => matchFns.some((fn) => fn(data));
 }
@@ -13815,7 +14392,7 @@ var DataProxyHandler2 = {
             let temp = target.reduce(aggregateFn, initial);
             if (Array.isArray(temp)) {
               return new Proxy(temp, DataProxyHandler2);
-            } else if (!isPrimitiveWrapper2(temp)) {
+            } else if (!isPrimitiveWrapper3(temp)) {
               return new Proxy(temp, GroupByProxyHandler2);
             } else {
               return temp;
@@ -13886,7 +14463,7 @@ var GroupByProxyHandler2 = {
               let temp = target[group2].reduce(aggregateFn, initial);
               if (Array.isArray(temp)) {
                 result2[group2] = new Proxy(temp, DataProxyHandler2);
-              } else if (!isPrimitiveWrapper2(temp)) {
+              } else if (!isPrimitiveWrapper3(temp)) {
                 result2[group2] = new Proxy(temp, GroupByProxyHandler2);
               } else {
                 result2[group2] = temp;
@@ -14086,7 +14663,10 @@ var annotationModel = {
   },
   annotationAnchorId({ annotation }) {
     const target = src_default2.one(annotation?.oa$hasTarget, "first");
-    const fragment = from2(src_default2.many(target?.oa$hasSelector)).where((selector) => src_default2.many(selector?.rdf$type).includes(this.vocabulary.classes.fragmentSelector))[0];
+    const fragment = from2(src_default2.many(target?.oa$hasSelector)).where((selector) => src_default2.many(selector?.rdf$type).includes(this.vocabulary.classes.fragmentSelector) || src_default2.many(selector?.a).includes(this.vocabulary.classes.fragmentSelector))[0];
+    if (fragment?.rdf$value != null) {
+      return String(fragment.rdf$value);
+    }
     return fragment?.rdf$value;
   },
   annotationBody({ annotation }) {
@@ -14132,14 +14712,31 @@ var annotationModel = {
     return note;
   },
   toStoredAnnotation({ annotation }) {
-    return this.cloneValue({ value: annotation });
+    const stored = this.cloneValue({ value: annotation });
+    const body = this.annotationBody({ annotation: stored });
+    if (body?.rdf$value != null) {
+      body.rdf$value = String(body.rdf$value);
+    }
+    if (body?.schema$text != null) {
+      body.schema$text = String(body.schema$text);
+    }
+    if (body?.cobalt$fragment?.text != null) {
+      body.cobalt$fragment.text = String(body.cobalt$fragment.text);
+    }
+    const target = src_default2.one(stored?.oa$hasTarget, "first");
+    for (const selector of src_default2.many(target?.oa$hasSelector)) {
+      if (selector?.rdf$value != null) {
+        selector.rdf$value = String(selector.rdf$value);
+      }
+    }
+    return stored;
   },
-  toStorageDocument({ subjects: subjects2 }) {
+  toStorageDocument({ subjects }) {
     return {
       format: "margin-notes-oldmed-graph",
       version: 1,
       prefixes: this.vocabulary.prefixes,
-      subjects: Array.from(from2(subjects2).where((annotation) => this.isMarginNoteAnnotation({ value: annotation })).select((annotation) => this.toStoredAnnotation({ annotation })))
+      subjects: Array.from(from2(subjects).where((annotation) => this.isMarginNoteAnnotation({ value: annotation })).select((annotation) => this.toStoredAnnotation({ annotation })))
     };
   },
   toStoredGraph({ value }) {
@@ -14157,7 +14754,7 @@ var annotationModel = {
     return [];
   },
   isOldmedAnnotation({ value }) {
-    return src_default2.many(value?.rdf$type).includes(this.vocabulary.classes.annotation);
+    return src_default2.many(value?.rdf$type).includes(this.vocabulary.classes.annotation) || src_default2.many(value?.a).includes(this.vocabulary.classes.annotation);
   },
   isMarginNoteAnnotation({ value }) {
     return Boolean(
@@ -14185,10 +14782,28 @@ var annotationModel = {
     return `urn:muze:margin-notes:${encodeURIComponent(id2 || this.createLocalSubjectId({}))}`;
   },
   cloneValue({ value }) {
-    return JSON.parse(JSON.stringify(value));
+    if (Array.isArray(value)) {
+      return value.map((item) => this.cloneValue({ value: item }));
+    }
+    if (value instanceof String || value instanceof Number || value instanceof Boolean) {
+      return value.valueOf();
+    }
+    if (value && typeof value === "object") {
+      const entries = Object.entries(value);
+      if (entries.length === 1 && value.id) {
+        return value.id;
+      }
+      return Object.fromEntries(
+        entries.map(([key, item]) => [key, this.cloneValue({ value: item })])
+      );
+    }
+    return value;
   },
   noteText({ fragment }) {
-    return fragment?.text || "(empty note)";
+    if (fragment?.text != null) {
+      return String(fragment.text);
+    }
+    return "(empty note)";
   }
 };
 
@@ -14214,36 +14829,36 @@ var ui_default = '[data-margin-notes-target],\n.margin-notes-anchor-widget {\n  
 var ui_default2 = '.margin-notes-solid-connection {\n  color: var(--ds-color-contrast);\n  display: grid;\n  font-family: var(--ds-font-body);\n  font-size: 0.875rem;\n  gap: calc(var(--ds-space) / 3);\n  line-height: 1.35;\n}\n\n.margin-notes-solid-connection-webid {\n  display: grid;\n  gap: calc(var(--ds-space) / 4);\n}\n\n.margin-notes-solid-connection-webid span {\n  color: var(--ds-grey-medium);\n  font-size: 0.75rem;\n  font-weight: 600;\n}\n\n.margin-notes-solid-connection-webid input {\n  background: var(--ds-color-background);\n  border: 1px solid var(--ds-input-border);\n  border-radius: var(--ds-box-radius);\n  box-sizing: border-box;\n  color: var(--ds-color-contrast);\n  font: inherit;\n  inline-size: 100%;\n  min-block-size: var(--ds-input-height);\n  padding: 0 calc(var(--ds-space) / 3);\n}\n\n.margin-notes-solid-connection-status {\n  color: var(--ds-grey-medium);\n  margin: 0;\n}\n\n.margin-notes-solid-connection-status[data-status="connected"] {\n  color: var(--ds-primary-high);\n}\n\n.margin-notes-solid-connection-status[data-status="error"] {\n  color: var(--ds-color-error);\n}\n';
 
 // node_modules/@muze-nl/assert/src/assert-core.mjs
-var assert_core_exports = {};
-__export(assert_core_exports, {
-  Optional: () => Optional,
-  Recommended: () => Recommended,
-  Required: () => Required,
-  allOf: () => allOf,
-  anyOf: () => anyOf3,
-  assert: () => assert,
-  disable: () => disable,
-  enable: () => enable,
-  error: () => error,
-  fails: () => fails,
-  formatIssue: () => formatIssue,
-  formatIssues: () => formatIssues,
-  instanceOf: () => instanceOf,
-  issues: () => issues,
-  not: () => not,
-  oneOf: () => oneOf,
-  validEmail: () => validEmail,
-  validURL: () => validURL,
-  warn: () => warn
+var assert_core_exports2 = {};
+__export(assert_core_exports2, {
+  Optional: () => Optional2,
+  Recommended: () => Recommended2,
+  Required: () => Required2,
+  allOf: () => allOf2,
+  anyOf: () => anyOf4,
+  assert: () => assert2,
+  disable: () => disable2,
+  enable: () => enable2,
+  error: () => error2,
+  fails: () => fails2,
+  formatIssue: () => formatIssue2,
+  formatIssues: () => formatIssues2,
+  instanceOf: () => instanceOf2,
+  issues: () => issues2,
+  not: () => not2,
+  oneOf: () => oneOf2,
+  validEmail: () => validEmail2,
+  validURL: () => validURL2,
+  warn: () => warn2
 });
-var assertEnabled = false;
-function enable() {
-  assertEnabled = true;
+var assertEnabled2 = false;
+function enable2() {
+  assertEnabled2 = true;
 }
-function disable() {
-  assertEnabled = false;
+function disable2() {
+  assertEnabled2 = false;
 }
-function appendPath(path2 = "", key) {
+function appendPath2(path2 = "", key) {
   if (typeof path2 == "undefined" || path2 == null) {
     path2 = "";
   }
@@ -14252,7 +14867,7 @@ function appendPath(path2 = "", key) {
   }
   return `${path2}.${key}`;
 }
-function pathToArray(path2 = "") {
+function pathToArray2(path2 = "") {
   if (Array.isArray(path2)) {
     return path2;
   }
@@ -14271,7 +14886,7 @@ function pathToArray(path2 = "") {
   }
   return result;
 }
-function pathToString(path2 = []) {
+function pathToString2(path2 = []) {
   if (typeof path2 == "string") {
     return path2.startsWith(".") ? path2.slice(1) : path2;
   }
@@ -14282,7 +14897,7 @@ function pathToString(path2 = []) {
     return `${index ? "." : ""}${part}`;
   }).join("");
 }
-function describeFunction(value) {
+function describeFunction2(value) {
   if (value === String) {
     return "string";
   }
@@ -14294,20 +14909,20 @@ function describeFunction(value) {
   }
   return value.name || "function";
 }
-function clip(text, maxLength = 60) {
+function clip2(text, maxLength = 60) {
   if (text.length <= maxLength) {
     return text;
   }
   return text.slice(0, maxLength - 1) + "\u2026";
 }
-function quoteString(value) {
-  return `'${clip(String(value).replace(/\\/g, "\\\\").replace(/'/g, "\\'").replace(/\n/g, "\\n"))}'`;
+function quoteString2(value) {
+  return `'${clip2(String(value).replace(/\\/g, "\\\\").replace(/'/g, "\\'").replace(/\n/g, "\\n"))}'`;
 }
-function jsonSummary(value) {
+function jsonSummary2(value) {
   try {
     let json = JSON.stringify(value);
     if (typeof json == "string") {
-      return clip(json);
+      return clip2(json);
     }
   } catch (e) {
   }
@@ -14317,9 +14932,9 @@ function jsonSummary(value) {
   }
   return Object.prototype.toString.call(value);
 }
-function formatValue(value) {
+function formatValue2(value) {
   if (typeof value == "string") {
-    return quoteString(value);
+    return quoteString2(value);
   }
   if (typeof value == "undefined") {
     return "undefined";
@@ -14328,7 +14943,7 @@ function formatValue(value) {
     return "null";
   }
   if (typeof value == "function") {
-    return describeFunction(value);
+    return describeFunction2(value);
   }
   if (value instanceof RegExp) {
     return value.toString();
@@ -14339,35 +14954,35 @@ function formatValue(value) {
   if (typeof value == "symbol") {
     return value.toString();
   }
-  return jsonSummary(value);
+  return jsonSummary2(value);
 }
-function describeExpected(value) {
+function describeExpected2(value) {
   if (value === String || value === Number || value === Boolean) {
-    return describeFunction(value);
+    return describeFunction2(value);
   }
   if (typeof value == "function") {
-    return describeFunction(value);
+    return describeFunction2(value);
   }
   if (value instanceof RegExp) {
     return value.toString();
   }
   if (Array.isArray(value)) {
-    return "[" + value.map(describeExpected).join(", ") + "]";
+    return "[" + value.map(describeExpected2).join(", ") + "]";
   }
-  return formatValue(value);
+  return formatValue2(value);
 }
-function describeOneOf(patterns) {
-  return patterns.map(describeExpected).join(", ");
+function describeOneOf2(patterns) {
+  return patterns.map(describeExpected2).join(", ");
 }
-function conciseMessage(message, actual, expected) {
+function conciseMessage2(message, actual, expected) {
   if (message == "data and pattern are not equal") {
-    return `expected ${formatValue(expected)}, found ${formatValue(actual)}`;
+    return `expected ${formatValue2(expected)}, found ${formatValue2(actual)}`;
   }
   if (message == "data does not match pattern" || /^data\[\d+\] does not match pattern$/.test(message)) {
-    return `expected ${describeExpected(expected)}, found ${formatValue(actual)}`;
+    return `expected ${describeExpected2(expected)}, found ${formatValue2(actual)}`;
   }
   if (message == "data is undefined, should match pattern") {
-    return `missing; expected ${describeExpected(expected)}`;
+    return `missing; expected ${describeExpected2(expected)}`;
   }
   if (message == "data is required") {
     return "required";
@@ -14379,32 +14994,32 @@ function conciseMessage(message, actual, expected) {
     return "data is not an object";
   }
   if (message == "data is not an instanceof pattern") {
-    return `expected instance of ${describeExpected(expected)}, found ${formatValue(actual)}`;
+    return `expected instance of ${describeExpected2(expected)}, found ${formatValue2(actual)}`;
   }
   if (message == "data does not match oneOf patterns" || message == "data does not match anyOf patterns") {
-    return `expected one of ${describeOneOf(expected)}, found ${formatValue(actual)}`;
+    return `expected one of ${describeOneOf2(expected)}, found ${formatValue2(actual)}`;
   }
   if (message == "data matches pattern, when required not to") {
-    return `must not match ${describeExpected(expected)}`;
+    return `must not match ${describeExpected2(expected)}`;
   }
   return message;
 }
-function formatIssue(issue, options = {}) {
+function formatIssue2(issue, options = {}) {
   if (!issue || typeof issue != "object") {
     return String(issue);
   }
-  let path2 = issue.pathString || pathToString(issue.path || []) || "value";
+  let path2 = issue.pathString || pathToString2(issue.path || []) || "value";
   let indent = options.indent ?? "";
   return `${indent}${path2}: ${issue.message}`;
 }
-function formatIssues(issues3, options = {}) {
+function formatIssues2(issues3, options = {}) {
   if (!issues3) {
     return false;
   }
   let indent = options.indent ?? "  - ";
-  return (Array.isArray(issues3) ? issues3 : [issues3]).map((issue) => formatIssue(issue, { ...options, indent }));
+  return (Array.isArray(issues3) ? issues3 : [issues3]).map((issue) => formatIssue2(issue, { ...options, indent }));
 }
-function issueFromProblem(problem) {
+function issueFromProblem2(problem) {
   if (!problem || typeof problem != "object") {
     return {
       path: [],
@@ -14414,11 +15029,11 @@ function issueFromProblem(problem) {
       actual: void 0
     };
   }
-  let path2 = pathToArray(problem.path);
-  let pathString = pathToString(path2);
+  let path2 = pathToArray2(problem.path);
+  let pathString = pathToString2(path2);
   let actual = problem.actual ?? problem.found;
-  let expected = describeExpected(problem.expected);
-  let message = conciseMessage(problem.message, actual, problem.expected);
+  let expected = describeExpected2(problem.expected);
+  let message = conciseMessage2(problem.message, actual, problem.expected);
   return {
     path: path2,
     pathString,
@@ -14427,7 +15042,7 @@ function issueFromProblem(problem) {
     actual
   };
 }
-function problemsToIssues(problems) {
+function problemsToIssues2(problems) {
   if (!problems) {
     return [];
   }
@@ -14437,22 +15052,22 @@ function problemsToIssues(problems) {
       continue;
     }
     if (problem && typeof problem == "object" && problem.problems) {
-      let nested = problemsToIssues(problem.problems);
+      let nested = problemsToIssues2(problem.problems);
       if (nested.length) {
         result = result.concat(nested);
         continue;
       }
     }
-    result.push(issueFromProblem(problem));
+    result.push(issueFromProblem2(problem));
   }
   return result;
 }
-function assert(source2, test) {
-  if (assertEnabled) {
-    let problems = fails(source2, test);
+function assert2(source2, test) {
+  if (assertEnabled2) {
+    let problems = fails2(source2, test);
     if (problems) {
-      let assertionIssues = problemsToIssues(problems);
-      let formattedIssues = formatIssues(assertionIssues);
+      let assertionIssues = problemsToIssues2(problems);
+      let formattedIssues = formatIssues2(assertionIssues);
       let message = "Assertions failed:\n" + formattedIssues.join("\n");
       console.error("\u{1F170}\uFE0F  " + message);
       throw new Error(message, {
@@ -14461,71 +15076,71 @@ function assert(source2, test) {
     }
   }
 }
-function Optional(pattern) {
+function Optional2(pattern) {
   return function _Optional(data, root, path2) {
     if (typeof data != "undefined" && data != null && typeof pattern != "undefined") {
-      return fails(data, pattern, root, path2);
+      return fails2(data, pattern, root, path2);
     }
   };
 }
-function Required(pattern) {
+function Required2(pattern) {
   return function _Required(data, root, path2) {
     if (data == null || typeof data == "undefined") {
-      return error("data is required", data, pattern || "any value", path2);
+      return error2("data is required", data, pattern || "any value", path2);
     } else if (typeof pattern != "undefined") {
-      return fails(data, pattern, root, path2);
+      return fails2(data, pattern, root, path2);
     } else {
       return false;
     }
   };
 }
-function Recommended(pattern) {
+function Recommended2(pattern) {
   return function _Recommended(data, root, path2) {
     if (data == null || typeof data == "undefined") {
-      warn("data does not contain recommended value", data, pattern, path2);
+      warn2("data does not contain recommended value", data, pattern, path2);
       return false;
     } else {
-      return fails(data, pattern, root, path2);
+      return fails2(data, pattern, root, path2);
     }
   };
 }
-function oneOf(...patterns) {
+function oneOf2(...patterns) {
   return function _oneOf(data, root, path2) {
     for (let pattern of patterns) {
-      if (!fails(data, pattern, root, path2)) {
+      if (!fails2(data, pattern, root, path2)) {
         return false;
       }
     }
-    return error("data does not match oneOf patterns", data, patterns, path2);
+    return error2("data does not match oneOf patterns", data, patterns, path2);
   };
 }
-function anyOf3(...patterns) {
+function anyOf4(...patterns) {
   return function _anyOf(data, root, path2) {
     if (!Array.isArray(data)) {
-      return error("data is not an array", data, "anyOf", path2);
+      return error2("data is not an array", data, "anyOf", path2);
     }
     for (let [index, value] of data.entries()) {
-      let itemPath = appendPath(path2, index);
-      if (oneOf(...patterns)(value, root, itemPath)) {
-        return error("data does not match anyOf patterns", value, patterns, itemPath);
+      let itemPath = appendPath2(path2, index);
+      if (oneOf2(...patterns)(value, root, itemPath)) {
+        return error2("data does not match anyOf patterns", value, patterns, itemPath);
       }
     }
     return false;
   };
 }
-function allOf(...patterns) {
+function allOf2(...patterns) {
   return function _allOf(data, root, path2) {
     let problems = [];
     for (let pattern of patterns) {
-      problems = problems.concat(fails(data, pattern, root, path2));
+      problems = problems.concat(fails2(data, pattern, root, path2));
     }
     problems = problems.filter(Boolean);
     if (problems.length) {
-      return error("data does not match all given patterns", data, patterns, path2, problems);
+      return error2("data does not match all given patterns", data, patterns, path2, problems);
     }
   };
 }
-function validURL(data, root, path2) {
+function validURL2(data, root, path2) {
   try {
     if (data instanceof URL) {
       data = data.href;
@@ -14533,69 +15148,69 @@ function validURL(data, root, path2) {
     let url3 = new URL(data);
     if (url3.href != data) {
       if (!(url3.href + "/" == data || url3.href == data + "/")) {
-        return error("data is not a valid url", data, "validURL", path2);
+        return error2("data is not a valid url", data, "validURL", path2);
       }
     }
   } catch (e) {
-    return error("data is not a valid url", data, "validURL", path2);
+    return error2("data is not a valid url", data, "validURL", path2);
   }
 }
-function validEmail(data, root, path2) {
+function validEmail2(data, root, path2) {
   if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data)) {
-    return error("data is not a valid email", data, "validEmail", path2);
+    return error2("data is not a valid email", data, "validEmail", path2);
   }
 }
-function instanceOf(constructor) {
+function instanceOf2(constructor) {
   return function _instanceOf(data, root, path2) {
     if (!(data instanceof constructor)) {
-      return error("data is not an instanceof pattern", data, constructor, path2);
+      return error2("data is not an instanceof pattern", data, constructor, path2);
     }
   };
 }
-function not(pattern) {
+function not2(pattern) {
   return function _not(data, root, path2) {
-    if (!fails(data, pattern, root, path2)) {
-      return error("data matches pattern, when required not to", data, pattern, path2);
+    if (!fails2(data, pattern, root, path2)) {
+      return error2("data matches pattern, when required not to", data, pattern, path2);
     }
   };
 }
-function issues(data, pattern, root) {
-  let problems = fails(data, pattern, root);
+function issues2(data, pattern, root) {
+  let problems = fails2(data, pattern, root);
   if (!problems) {
     return false;
   }
-  return problemsToIssues(problems);
+  return problemsToIssues2(problems);
 }
-function fails(data, pattern, root, path2 = "") {
+function fails2(data, pattern, root, path2 = "") {
   if (typeof root == "undefined") {
     root = data;
   }
   let problems = [];
   if (pattern === Boolean) {
     if (typeof data != "boolean" && !(data instanceof Boolean)) {
-      problems.push(error("data is not a boolean", data, pattern, path2));
+      problems.push(error2("data is not a boolean", data, pattern, path2));
     }
   } else if (pattern === Number) {
     if (typeof data != "number" && !(data instanceof Number)) {
-      problems.push(error("data is not a number", data, pattern, path2));
+      problems.push(error2("data is not a number", data, pattern, path2));
     }
   } else if (pattern === String) {
     if (typeof data != "string" && !(data instanceof String)) {
-      problems.push(error("data is not a string", data, pattern, path2));
+      problems.push(error2("data is not a string", data, pattern, path2));
     }
     if (data == "") {
-      problems.push(error("data is an empty string, which is not allowed", data, pattern, path2));
+      problems.push(error2("data is an empty string, which is not allowed", data, pattern, path2));
     }
   } else if (pattern instanceof RegExp) {
     if (Array.isArray(data)) {
-      let index = data.findIndex((element2, index2) => fails(element2, pattern, root, appendPath(path2, index2)));
+      let index = data.findIndex((element2, index2) => fails2(element2, pattern, root, appendPath2(path2, index2)));
       if (index > -1) {
-        problems.push(error("data[" + index + "] does not match pattern", data[index], pattern, appendPath(path2, index)));
+        problems.push(error2("data[" + index + "] does not match pattern", data[index], pattern, appendPath2(path2, index)));
       }
     } else if (typeof data == "undefined") {
-      problems.push(error("data is undefined, should match pattern", data, pattern, path2));
+      problems.push(error2("data is undefined, should match pattern", data, pattern, path2));
     } else if (!pattern.test(data)) {
-      problems.push(error("data does not match pattern", data, pattern, path2));
+      problems.push(error2("data does not match pattern", data, pattern, path2));
     }
   } else if (pattern instanceof Function) {
     let problem = pattern(data, root, path2);
@@ -14608,11 +15223,11 @@ function fails(data, pattern, root, path2 = "") {
     }
   } else if (Array.isArray(pattern)) {
     if (!Array.isArray(data)) {
-      problems.push(error("data is not an array", data, [], path2));
+      problems.push(error2("data is not an array", data, [], path2));
     } else {
       for (let p of pattern) {
         for (let index of data.keys()) {
-          let problem = fails(data[index], p, root, appendPath(path2, index));
+          let problem = fails2(data[index], p, root, appendPath2(path2, index));
           if (Array.isArray(problem)) {
             problems = problems.concat(problem);
           } else if (problem) {
@@ -14623,24 +15238,24 @@ function fails(data, pattern, root, path2 = "") {
     }
   } else if (pattern && typeof pattern == "object") {
     if (Array.isArray(data)) {
-      let index = data.findIndex((element2, index2) => fails(element2, pattern, root, appendPath(path2, index2)));
+      let index = data.findIndex((element2, index2) => fails2(element2, pattern, root, appendPath2(path2, index2)));
       if (index > -1) {
-        problems.push(error("data[" + index + "] does not match pattern", data[index], pattern, appendPath(path2, index)));
+        problems.push(error2("data[" + index + "] does not match pattern", data[index], pattern, appendPath2(path2, index)));
       }
     } else if (!data || typeof data != "object") {
-      problems.push(error("data is not an object, pattern is", data, pattern, path2));
+      problems.push(error2("data is not an object, pattern is", data, pattern, path2));
     } else {
       if (data instanceof URLSearchParams) {
         data = Object.fromEntries(data);
       }
       if (pattern instanceof Function) {
-        let result = fails(data, pattern, root, path2);
+        let result = fails2(data, pattern, root, path2);
         if (result) {
           problems = problems.concat(result);
         }
       } else {
         for (const [patternKey, subpattern] of Object.entries(pattern)) {
-          let result = fails(data[patternKey], subpattern, root, appendPath(path2, patternKey));
+          let result = fails2(data[patternKey], subpattern, root, appendPath2(path2, patternKey));
           if (result) {
             problems = problems.concat(result);
           }
@@ -14649,7 +15264,7 @@ function fails(data, pattern, root, path2 = "") {
     }
   } else {
     if (pattern != data) {
-      problems.push(error("data and pattern are not equal", data, pattern, path2));
+      problems.push(error2("data and pattern are not equal", data, pattern, path2));
     }
   }
   if (problems.length) {
@@ -14657,11 +15272,11 @@ function fails(data, pattern, root, path2 = "") {
   }
   return false;
 }
-function error(message, found, expected, path2 = "", problems) {
-  let pathParts = pathToArray(path2);
+function error2(message, found, expected, path2 = "", problems) {
+  let pathParts = pathToArray2(path2);
   let result = {
     path: path2,
-    pathString: pathToString(pathParts),
+    pathString: pathToString2(pathParts),
     pathParts,
     message,
     found,
@@ -14672,14 +15287,14 @@ function error(message, found, expected, path2 = "", problems) {
   }
   return result;
 }
-function warn(message, data, pattern, path2) {
+function warn2(message, data, pattern, path2) {
   console.warn("\u{1F170}\uFE0F  Assert: " + path2, message, pattern, data);
 }
 
 // node_modules/@muze-nl/assert/src/assert.mjs
-globalThis.assert = { ...assert_core_exports };
+globalThis.assert = { ...assert_core_exports2 };
 
-// ../solid-tools/node_modules/@muze-nl/metro-core/src/index.mjs
+// ../../muze-nl/metro/packages/metro-core/src/index.mjs
 var src_exports3 = {};
 __export(src_exports3, {
   Client: () => Client,
@@ -14691,7 +15306,7 @@ __export(src_exports3, {
   url: () => url
 });
 
-// ../solid-tools/node_modules/@muze-nl/metro-core/src/metro.mjs
+// ../../muze-nl/metro/packages/metro-core/src/metro.mjs
 var metroURL = "https://metro.muze.nl/details/";
 if (!Symbol.metroProxy) {
   Symbol.metroProxy = Symbol("isProxy");
@@ -15353,7 +15968,7 @@ function deepClone(object) {
   return object;
 }
 
-// ../solid-tools/node_modules/@muze-nl/metro-middleware/src/json.mjs
+// ../../muze-nl/metro/packages/metro-middleware/src/json.mjs
 function jsonmw(options) {
   options = Object.assign({
     contentType: "application/json",
@@ -15409,7 +16024,7 @@ function isPlainText(contentType) {
   return /^text\/plain\b/.exec(contentType);
 }
 
-// ../solid-tools/node_modules/@muze-nl/metro-middleware/src/thrower.mjs
+// ../../muze-nl/metro/packages/metro-middleware/src/thrower.mjs
 function throwermw(options) {
   return async function thrower(req, next) {
     let res = await next(req);
@@ -15426,18 +16041,37 @@ function throwermw(options) {
   };
 }
 
-// ../solid-tools/node_modules/@muze-nl/metro-middleware/src/getdata.mjs
-function getdatamw() {
+// ../../muze-nl/metro/packages/metro-middleware/src/getdata.mjs
+function getdatamw(options = {}) {
   return async function getdata(req, next) {
     let res = await next(req);
-    if (res.ok && res.data) {
-      return res.data;
+    if (res.ok) {
+      if (options.alwaysData) {
+        let data = res.data;
+        if (data == null) {
+          data = {};
+        }
+        if (options.responseProperty && (typeof data != "object" && typeof data != "function")) {
+          throw new TypeError("getdata: responseProperty requires response.data to be an object");
+        }
+        if (options.responseProperty) {
+          Object.defineProperty(data, options.responseProperty, {
+            value: res,
+            enumerable: false,
+            configurable: true
+          });
+        }
+        return data;
+      }
+      if (res.data) {
+        return res.data;
+      }
     }
     return res;
   };
 }
 
-// ../solid-tools/node_modules/@muze-nl/metro-middleware/src/_trace.mjs
+// ../../muze-nl/metro/packages/metro-middleware/src/_trace.mjs
 function traceEvent(name, data = {}, context = null) {
   for (const tracer of tracersFor(context)) {
     if (tracer && typeof tracer.event == "function") {
@@ -15456,7 +16090,7 @@ function tracersFor(context) {
   return context?.tracers || Object.values(Client.tracers || {});
 }
 
-// ../solid-tools/node_modules/@muze-nl/metro-middleware/src/backoff.mjs
+// ../../muze-nl/metro/packages/metro-middleware/src/backoff.mjs
 var DEFAULT_BACKOFF_STATUSES = [429, 503];
 function backoffmw(options = {}) {
   options = Object.assign({
@@ -15696,7 +16330,7 @@ backoffmw.localStorageStore = localStorageBackoffStore;
 backoffmw.parseRetryAfter = parseRetryAfter;
 backoffmw.responseDelay = responseBackoffDelay;
 
-// ../solid-tools/node_modules/@muze-nl/metro-middleware/src/retry.mjs
+// ../../muze-nl/metro/packages/metro-middleware/src/retry.mjs
 var DEFAULT_RETRY_STATUS = [408, 425, 429, 500, 502, 503, 504];
 var DEFAULT_RETRY_METHODS = ["GET", "HEAD", "OPTIONS"];
 function retrymw(options = {}) {
@@ -15842,7 +16476,7 @@ function displayURL(value) {
   }
 }
 
-// ../solid-tools/node_modules/@muze-nl/metro-middleware/src/abort.mjs
+// ../../muze-nl/metro/packages/metro-middleware/src/abort.mjs
 function abortmw(options = {}) {
   if (isAbortSignal(options)) {
     options = { signal: options };
@@ -15924,7 +16558,7 @@ function isAbortSignal(value) {
 abortmw.combineSignals = combineSignals;
 abortmw.abortError = abortError;
 
-// ../solid-tools/node_modules/@muze-nl/metro-middleware/src/timeout.mjs
+// ../../muze-nl/metro/packages/metro-middleware/src/timeout.mjs
 function timeoutmw(options = 3e4) {
   if (typeof options == "number") {
     options = { ms: options };
@@ -15980,7 +16614,7 @@ function delayFor2(ms, req) {
 }
 timeoutmw.timeoutError = timeoutError;
 
-// ../solid-tools/node_modules/@muze-nl/metro-middleware/src/echo.mock.mjs
+// ../../muze-nl/metro/packages/metro-middleware/src/echo.mock.mjs
 function echomw() {
   return async function echo(req) {
     let options = {
@@ -15994,7 +16628,7 @@ function echomw() {
   };
 }
 
-// ../solid-tools/node_modules/@muze-nl/metro-middleware/src/error.mock.mjs
+// ../../muze-nl/metro/packages/metro-middleware/src/error.mock.mjs
 var baseResponse = {
   status: 200,
   statusText: "OK",
@@ -16070,7 +16704,7 @@ function errormw(options) {
   };
 }
 
-// ../solid-tools/node_modules/@muze-nl/metro-middleware/src/index.mjs
+// ../../muze-nl/metro/packages/metro-middleware/src/index.mjs
 var src_default3 = {
   json: jsonmw,
   thrower: throwermw,
@@ -16083,15 +16717,27 @@ var src_default3 = {
   errorMock: errormw
 };
 
-// ../solid-tools/node_modules/@muze-nl/metro-api/src/index.mjs
+// ../../muze-nl/metro/packages/metro-api/src/index.mjs
 var API = class extends Client {
   #methods = null;
   #base = "";
-  constructor(base, methods, bind2 = null) {
+  constructor(base, methods = {}, bind2 = null) {
     if (base instanceof Client) {
-      super(base.clientOptions, throwermw(), getdatamw());
+      super(base.clientOptions);
     } else {
-      super(base, throwermw(), getdatamw());
+      let baseURL = base;
+      if (base && typeof base == "object" && !(base instanceof URL)) {
+        baseURL = base.url;
+      }
+      try {
+        new URL(baseURL);
+      } catch {
+        throw new TypeError(
+          "metro-api: API base must be an absolute URL or Metro client",
+          { cause: base }
+        );
+      }
+      super(base);
     }
     if (!bind2) {
       bind2 = this;
@@ -16112,23 +16758,14 @@ var API = class extends Client {
     return new this.constructor(this.#base, Object.assign({}, this.#methods, methods));
   }
 };
-var JsonAPI = class extends API {
-  constructor(base, methods, bind2 = null) {
-    if (base instanceof Client) {
-      super(base.with(jsonmw()), methods, bind2);
-    } else {
-      super(client(base, jsonmw()), methods, bind2);
-    }
-  }
-};
-function api(...options) {
-  return new API(...deepClone(options));
+function api(base, methods) {
+  return new API(client(base, throwermw(), getdatamw()), methods);
 }
-function jsonApi(...options) {
-  return new JsonAPI(...deepClone(options));
+function jsonApi(base, methods) {
+  return new API(client(base, jsonmw(), throwermw(), getdatamw()), methods);
 }
 
-// ../solid-tools/node_modules/@muze-nl/metro-trace/src/index.mjs
+// ../../muze-nl/metro/packages/metro-trace/src/index.mjs
 var src_exports4 = {};
 __export(src_exports4, {
   GraphTracer: () => GraphTracer,
@@ -16136,13 +16773,13 @@ __export(src_exports4, {
   clear: () => clear,
   default: () => src_default4,
   delete: () => remove,
-  graph: () => graph,
+  graph: () => graph2,
   group: () => group,
   localConsole: () => localConsole,
   remove: () => remove
 });
 
-// ../solid-tools/node_modules/@muze-nl/metro-trace/src/tracegraph.mjs
+// ../../muze-nl/metro/packages/metro-trace/src/tracegraph.mjs
 var DEFAULT_OPTIONS = {
   name: "Metro trace",
   view: "tree",
@@ -16172,11 +16809,11 @@ var SEVERITY_SYMBOL = {
   skipped: "\u23ED",
   pending: "\u2026"
 };
-function graph(options = {}) {
+function graph2(options = {}) {
   return new GraphTracer(options);
 }
 function localConsole(options = {}) {
-  return graph(options);
+  return graph2(options);
 }
 var GraphTracer = class {
   constructor(options = {}) {
@@ -17090,7 +17727,7 @@ function safeLocalStorage2() {
   }
 }
 
-// ../solid-tools/node_modules/@muze-nl/metro-trace/src/index.mjs
+// ../../muze-nl/metro/packages/metro-trace/src/index.mjs
 var metroConsole2 = {
   info: (message, ...details) => console.info("\u24C2\uFE0F  ", message, ...details),
   group: (name) => console.group("\u24C2\uFE0F  " + name),
@@ -17131,11 +17768,11 @@ var src_default4 = {
   remove,
   clear,
   group,
-  graph: (...args) => graph(...args),
+  graph: (...args) => graph2(...args),
   localConsole: (...args) => localConsole(...args)
 };
 
-// ../solid-tools/node_modules/@muze-nl/metro-hashparams/src/index.mjs
+// ../../muze-nl/metro/packages/metro-hashparams/src/index.mjs
 var src_exports5 = {};
 __export(src_exports5, {
   append: () => append,
@@ -17165,7 +17802,7 @@ function clear2(url3) {
   return url3.with({ hash });
 }
 
-// ../solid-tools/node_modules/@muze-nl/metro-formdata/src/index.mjs
+// ../../muze-nl/metro/packages/metro-formdata/src/index.mjs
 var metroURL2 = "https://metro.muze.nl/details/";
 if (!Symbol.metroProxy) {
   Symbol.metroProxy = Symbol("isProxy");
@@ -17229,10 +17866,9 @@ function formdata(...options) {
   });
 }
 
-// ../solid-tools/node_modules/@muze-nl/metro/src/index.mjs
+// ../../muze-nl/metro/packages/metro/src/index.mjs
 var metro = Object.assign({}, src_exports3, {
   API,
-  JsonAPI,
   api,
   jsonApi,
   mw: src_default3,
@@ -17242,31 +17878,15 @@ var metro = Object.assign({}, src_exports3, {
 });
 var src_default5 = metro;
 
-// ../solid-tools/node_modules/@muze-nl/metro-oldm/src/oldmmw.mjs
+// ../../muze-nl/oldm/packages/metro-oldm/src/oldmmw.mjs
 function oldmmw(options) {
   options = Object.assign({
     contentType: "text/turtle",
-    prefixes: {
-      "ldp": "http://www.w3.org/ns/ldp#",
-      "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
-      "dct": "http://purl.org/dc/terms/",
-      "stat": "http://www.w3.org/ns/posix/stat#",
-      "turtle": "http://www.w3.org/ns/iana/media-types/text/turtle#",
-      "schem": "https://schema.org/",
-      "solid": "http://www.w3.org/ns/solid/terms#",
-      "acl": "http://www.w3.org/ns/auth/acl#",
-      "pims": "http://www.w3.org/ns/pim/space#",
-      "vcard": "http://www.w3.org/2006/vcard/ns#",
-      "foaf": "http://xmlns.com/foaf/0.1/"
-    },
     parser: src_default2.n3Parser,
     writer: src_default2.n3Writer
   }, options);
-  if (!options.prefixes["ldp"]) {
-    options.prefixes["ldp"] = "http://www.w3.org/ns/ldp#";
-  }
-  const context = src_default2.context(options);
-  return async function oldmmw2(req, next) {
+  const context = options.context ?? src_default2.context(options);
+  async function oldmmw2(req, next) {
     if (!req.headers.get("Accept")) {
       req = req.with({
         headers: {
@@ -17304,7 +17924,9 @@ function oldmmw(options) {
       }
     }
     return res;
-  };
+  }
+  oldmmw2.context = context;
+  return oldmmw2;
 }
 var mimetypes = [
   /^text\/turtle\b/,
@@ -17325,479 +17947,11 @@ function isPlainText2(contentType) {
   return /^text\/plain\b/.exec(contentType);
 }
 
-// ../solid-tools/node_modules/@muze-nl/metro-oldm/src/index.mjs
+// ../../muze-nl/oldm/packages/metro-oldm/src/index.mjs
 var src_default6 = oldmmw;
-
-// ../solid-tools/node_modules/@muze-nl/assert/src/assert-core.mjs
-var assert_core_exports2 = {};
-__export(assert_core_exports2, {
-  Optional: () => Optional2,
-  Recommended: () => Recommended2,
-  Required: () => Required2,
-  allOf: () => allOf2,
-  anyOf: () => anyOf4,
-  assert: () => assert2,
-  disable: () => disable2,
-  enable: () => enable2,
-  error: () => error2,
-  fails: () => fails2,
-  formatIssue: () => formatIssue2,
-  formatIssues: () => formatIssues2,
-  instanceOf: () => instanceOf2,
-  issues: () => issues2,
-  not: () => not2,
-  oneOf: () => oneOf2,
-  validEmail: () => validEmail2,
-  validURL: () => validURL2,
-  warn: () => warn2
-});
-var assertEnabled2 = false;
-function enable2() {
-  assertEnabled2 = true;
-}
-function disable2() {
-  assertEnabled2 = false;
-}
-function appendPath2(path2 = "", key) {
-  if (typeof path2 == "undefined" || path2 == null) {
-    path2 = "";
-  }
-  if (typeof key == "number") {
-    return `${path2}[${key}]`;
-  }
-  return `${path2}.${key}`;
-}
-function pathToArray2(path2 = "") {
-  if (Array.isArray(path2)) {
-    return path2;
-  }
-  if (!path2) {
-    return [];
-  }
-  let result = [];
-  let matcher = /(?:^|\.)([^.\[\]]+)|\[(\d+)\]/g;
-  let match;
-  while (match = matcher.exec(path2)) {
-    if (typeof match[1] != "undefined") {
-      result.push(match[1]);
-    } else if (typeof match[2] != "undefined") {
-      result.push(Number(match[2]));
-    }
-  }
-  return result;
-}
-function pathToString2(path2 = []) {
-  if (typeof path2 == "string") {
-    return path2.startsWith(".") ? path2.slice(1) : path2;
-  }
-  return path2.map((part, index) => {
-    if (typeof part == "number") {
-      return `[${part}]`;
-    }
-    return `${index ? "." : ""}${part}`;
-  }).join("");
-}
-function describeFunction2(value) {
-  if (value === String) {
-    return "string";
-  }
-  if (value === Number) {
-    return "number";
-  }
-  if (value === Boolean) {
-    return "boolean";
-  }
-  return value.name || "function";
-}
-function clip2(text, maxLength = 60) {
-  if (text.length <= maxLength) {
-    return text;
-  }
-  return text.slice(0, maxLength - 1) + "\u2026";
-}
-function quoteString2(value) {
-  return `'${clip2(String(value).replace(/\\/g, "\\\\").replace(/'/g, "\\'").replace(/\n/g, "\\n"))}'`;
-}
-function jsonSummary2(value) {
-  try {
-    let json = JSON.stringify(value);
-    if (typeof json == "string") {
-      return clip2(json);
-    }
-  } catch (e) {
-  }
-  let name = value?.constructor?.name;
-  if (name && name != "Object") {
-    return name;
-  }
-  return Object.prototype.toString.call(value);
-}
-function formatValue2(value) {
-  if (typeof value == "string") {
-    return quoteString2(value);
-  }
-  if (typeof value == "undefined") {
-    return "undefined";
-  }
-  if (value === null) {
-    return "null";
-  }
-  if (typeof value == "function") {
-    return describeFunction2(value);
-  }
-  if (value instanceof RegExp) {
-    return value.toString();
-  }
-  if (typeof value == "number" || typeof value == "boolean" || typeof value == "bigint") {
-    return String(value);
-  }
-  if (typeof value == "symbol") {
-    return value.toString();
-  }
-  return jsonSummary2(value);
-}
-function describeExpected2(value) {
-  if (value === String || value === Number || value === Boolean) {
-    return describeFunction2(value);
-  }
-  if (typeof value == "function") {
-    return describeFunction2(value);
-  }
-  if (value instanceof RegExp) {
-    return value.toString();
-  }
-  if (Array.isArray(value)) {
-    return "[" + value.map(describeExpected2).join(", ") + "]";
-  }
-  return formatValue2(value);
-}
-function describeOneOf2(patterns) {
-  return patterns.map(describeExpected2).join(", ");
-}
-function conciseMessage2(message, actual, expected) {
-  if (message == "data and pattern are not equal") {
-    return `expected ${formatValue2(expected)}, found ${formatValue2(actual)}`;
-  }
-  if (message == "data does not match pattern" || /^data\[\d+\] does not match pattern$/.test(message)) {
-    return `expected ${describeExpected2(expected)}, found ${formatValue2(actual)}`;
-  }
-  if (message == "data is undefined, should match pattern") {
-    return `missing; expected ${describeExpected2(expected)}`;
-  }
-  if (message == "data is required") {
-    return "required";
-  }
-  if (message == "data is an empty string, which is not allowed") {
-    return "empty string is not allowed";
-  }
-  if (message == "data is not an object, pattern is") {
-    return "data is not an object";
-  }
-  if (message == "data is not an instanceof pattern") {
-    return `expected instance of ${describeExpected2(expected)}, found ${formatValue2(actual)}`;
-  }
-  if (message == "data does not match oneOf patterns" || message == "data does not match anyOf patterns") {
-    return `expected one of ${describeOneOf2(expected)}, found ${formatValue2(actual)}`;
-  }
-  if (message == "data matches pattern, when required not to") {
-    return `must not match ${describeExpected2(expected)}`;
-  }
-  return message;
-}
-function formatIssue2(issue, options = {}) {
-  if (!issue || typeof issue != "object") {
-    return String(issue);
-  }
-  let path2 = issue.pathString || pathToString2(issue.path || []) || "value";
-  let indent = options.indent ?? "";
-  return `${indent}${path2}: ${issue.message}`;
-}
-function formatIssues2(issues3, options = {}) {
-  if (!issues3) {
-    return false;
-  }
-  let indent = options.indent ?? "  - ";
-  return (Array.isArray(issues3) ? issues3 : [issues3]).map((issue) => formatIssue2(issue, { ...options, indent }));
-}
-function issueFromProblem2(problem) {
-  if (!problem || typeof problem != "object") {
-    return {
-      path: [],
-      pathString: "",
-      message: String(problem),
-      expected: void 0,
-      actual: void 0
-    };
-  }
-  let path2 = pathToArray2(problem.path);
-  let pathString = pathToString2(path2);
-  let actual = problem.actual ?? problem.found;
-  let expected = describeExpected2(problem.expected);
-  let message = conciseMessage2(problem.message, actual, problem.expected);
-  return {
-    path: path2,
-    pathString,
-    message,
-    expected,
-    actual
-  };
-}
-function problemsToIssues2(problems) {
-  if (!problems) {
-    return [];
-  }
-  let result = [];
-  for (let problem of Array.isArray(problems) ? problems : [problems]) {
-    if (!problem) {
-      continue;
-    }
-    if (problem && typeof problem == "object" && problem.problems) {
-      let nested = problemsToIssues2(problem.problems);
-      if (nested.length) {
-        result = result.concat(nested);
-        continue;
-      }
-    }
-    result.push(issueFromProblem2(problem));
-  }
-  return result;
-}
-function assert2(source2, test) {
-  if (assertEnabled2) {
-    let problems = fails2(source2, test);
-    if (problems) {
-      let assertionIssues = problemsToIssues2(problems);
-      let formattedIssues = formatIssues2(assertionIssues);
-      let message = "Assertions failed:\n" + formattedIssues.join("\n");
-      console.error("\u{1F170}\uFE0F  " + message);
-      throw new Error(message, {
-        cause: { problems, issues: assertionIssues, source: source2 }
-      });
-    }
-  }
-}
-function Optional2(pattern) {
-  return function _Optional(data, root, path2) {
-    if (typeof data != "undefined" && data != null && typeof pattern != "undefined") {
-      return fails2(data, pattern, root, path2);
-    }
-  };
-}
-function Required2(pattern) {
-  return function _Required(data, root, path2) {
-    if (data == null || typeof data == "undefined") {
-      return error2("data is required", data, pattern || "any value", path2);
-    } else if (typeof pattern != "undefined") {
-      return fails2(data, pattern, root, path2);
-    } else {
-      return false;
-    }
-  };
-}
-function Recommended2(pattern) {
-  return function _Recommended(data, root, path2) {
-    if (data == null || typeof data == "undefined") {
-      warn2("data does not contain recommended value", data, pattern, path2);
-      return false;
-    } else {
-      return fails2(data, pattern, root, path2);
-    }
-  };
-}
-function oneOf2(...patterns) {
-  return function _oneOf(data, root, path2) {
-    for (let pattern of patterns) {
-      if (!fails2(data, pattern, root, path2)) {
-        return false;
-      }
-    }
-    return error2("data does not match oneOf patterns", data, patterns, path2);
-  };
-}
-function anyOf4(...patterns) {
-  return function _anyOf(data, root, path2) {
-    if (!Array.isArray(data)) {
-      return error2("data is not an array", data, "anyOf", path2);
-    }
-    for (let [index, value] of data.entries()) {
-      let itemPath = appendPath2(path2, index);
-      if (oneOf2(...patterns)(value, root, itemPath)) {
-        return error2("data does not match anyOf patterns", value, patterns, itemPath);
-      }
-    }
-    return false;
-  };
-}
-function allOf2(...patterns) {
-  return function _allOf(data, root, path2) {
-    let problems = [];
-    for (let pattern of patterns) {
-      problems = problems.concat(fails2(data, pattern, root, path2));
-    }
-    problems = problems.filter(Boolean);
-    if (problems.length) {
-      return error2("data does not match all given patterns", data, patterns, path2, problems);
-    }
-  };
-}
-function validURL2(data, root, path2) {
-  try {
-    if (data instanceof URL) {
-      data = data.href;
-    }
-    let url3 = new URL(data);
-    if (url3.href != data) {
-      if (!(url3.href + "/" == data || url3.href == data + "/")) {
-        return error2("data is not a valid url", data, "validURL", path2);
-      }
-    }
-  } catch (e) {
-    return error2("data is not a valid url", data, "validURL", path2);
-  }
-}
-function validEmail2(data, root, path2) {
-  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data)) {
-    return error2("data is not a valid email", data, "validEmail", path2);
-  }
-}
-function instanceOf2(constructor) {
-  return function _instanceOf(data, root, path2) {
-    if (!(data instanceof constructor)) {
-      return error2("data is not an instanceof pattern", data, constructor, path2);
-    }
-  };
-}
-function not2(pattern) {
-  return function _not(data, root, path2) {
-    if (!fails2(data, pattern, root, path2)) {
-      return error2("data matches pattern, when required not to", data, pattern, path2);
-    }
-  };
-}
-function issues2(data, pattern, root) {
-  let problems = fails2(data, pattern, root);
-  if (!problems) {
-    return false;
-  }
-  return problemsToIssues2(problems);
-}
-function fails2(data, pattern, root, path2 = "") {
-  if (typeof root == "undefined") {
-    root = data;
-  }
-  let problems = [];
-  if (pattern === Boolean) {
-    if (typeof data != "boolean" && !(data instanceof Boolean)) {
-      problems.push(error2("data is not a boolean", data, pattern, path2));
-    }
-  } else if (pattern === Number) {
-    if (typeof data != "number" && !(data instanceof Number)) {
-      problems.push(error2("data is not a number", data, pattern, path2));
-    }
-  } else if (pattern === String) {
-    if (typeof data != "string" && !(data instanceof String)) {
-      problems.push(error2("data is not a string", data, pattern, path2));
-    }
-    if (data == "") {
-      problems.push(error2("data is an empty string, which is not allowed", data, pattern, path2));
-    }
-  } else if (pattern instanceof RegExp) {
-    if (Array.isArray(data)) {
-      let index = data.findIndex((element2, index2) => fails2(element2, pattern, root, appendPath2(path2, index2)));
-      if (index > -1) {
-        problems.push(error2("data[" + index + "] does not match pattern", data[index], pattern, appendPath2(path2, index)));
-      }
-    } else if (typeof data == "undefined") {
-      problems.push(error2("data is undefined, should match pattern", data, pattern, path2));
-    } else if (!pattern.test(data)) {
-      problems.push(error2("data does not match pattern", data, pattern, path2));
-    }
-  } else if (pattern instanceof Function) {
-    let problem = pattern(data, root, path2);
-    if (problem) {
-      if (Array.isArray(problem)) {
-        problems = problems.concat(problem);
-      } else {
-        problems.push(problem);
-      }
-    }
-  } else if (Array.isArray(pattern)) {
-    if (!Array.isArray(data)) {
-      problems.push(error2("data is not an array", data, [], path2));
-    } else {
-      for (let p of pattern) {
-        for (let index of data.keys()) {
-          let problem = fails2(data[index], p, root, appendPath2(path2, index));
-          if (Array.isArray(problem)) {
-            problems = problems.concat(problem);
-          } else if (problem) {
-            problems.push(problem);
-          }
-        }
-      }
-    }
-  } else if (pattern && typeof pattern == "object") {
-    if (Array.isArray(data)) {
-      let index = data.findIndex((element2, index2) => fails2(element2, pattern, root, appendPath2(path2, index2)));
-      if (index > -1) {
-        problems.push(error2("data[" + index + "] does not match pattern", data[index], pattern, appendPath2(path2, index)));
-      }
-    } else if (!data || typeof data != "object") {
-      problems.push(error2("data is not an object, pattern is", data, pattern, path2));
-    } else {
-      if (data instanceof URLSearchParams) {
-        data = Object.fromEntries(data);
-      }
-      if (pattern instanceof Function) {
-        let result = fails2(data, pattern, root, path2);
-        if (result) {
-          problems = problems.concat(result);
-        }
-      } else {
-        for (const [patternKey, subpattern] of Object.entries(pattern)) {
-          let result = fails2(data[patternKey], subpattern, root, appendPath2(path2, patternKey));
-          if (result) {
-            problems = problems.concat(result);
-          }
-        }
-      }
-    }
-  } else {
-    if (pattern != data) {
-      problems.push(error2("data and pattern are not equal", data, pattern, path2));
-    }
-  }
-  if (problems.length) {
-    return problems;
-  }
-  return false;
-}
-function error2(message, found, expected, path2 = "", problems) {
-  let pathParts = pathToArray2(path2);
-  let result = {
-    path: path2,
-    pathString: pathToString2(pathParts),
-    pathParts,
-    message,
-    found,
-    expected
-  };
-  if (problems) {
-    result.problems = problems;
-  }
-  return result;
-}
-function warn2(message, data, pattern, path2) {
-  console.warn("\u{1F170}\uFE0F  Assert: " + path2, message, pattern, data);
-}
-
-// ../solid-tools/node_modules/@muze-nl/assert/src/assert.mjs
-globalThis.assert = { ...assert_core_exports2 };
 
 // ../solid-tools/packages/metro-solid/src/client.mjs
 var BASIC_CONTAINER = "http://www.w3.org/ns/ldp#BasicContainer";
-var SOLID_OLDM_MIDDLEWARE = Symbol.for("muze.metro-solid.oldmMiddleware");
-var SOLID_METADATA_MIDDLEWARE = Symbol.for("muze.metro-solid.metadataMiddleware");
 var SOLID_RESPONSE = Symbol.for("muze.metro-solid.response");
 function ensureSlash3(url3) {
   return String(url3).endsWith("/") ? String(url3) : `${url3}/`;
@@ -17805,151 +17959,113 @@ function ensureSlash3(url3) {
 function ids(value) {
   return from(src_default2.many(value)).select((item) => typeof item === "string" ? item : item?.id).where(Boolean).toArray();
 }
-function solidResponseMetadataMiddleware() {
-  async function solidResponseMetadata(req, next) {
-    const response3 = await next(req);
-    const data = response3?.data;
-    if (data && (typeof data === "object" || typeof data === "function") && !data[SOLID_RESPONSE]) {
-      Object.defineProperty(data, SOLID_RESPONSE, {
-        value: response3,
-        enumerable: false,
-        configurable: true
+function solidApi(base, methods) {
+  const linkedData = src_default6();
+  return new src_default5.API(src_default5.client(
+    base,
+    linkedData,
+    src_default5.mw.thrower(),
+    src_default5.mw.getdata({
+      alwaysData: true,
+      responseProperty: SOLID_RESPONSE
+    })
+  ), {
+    create(url3, body, options = {}) {
+      const headers = new Headers(options.headers);
+      if (!headers.has("If-None-Match")) {
+        headers.set("If-None-Match", "*");
+      }
+      return this.put(String(url3), {
+        ...options,
+        body,
+        headers
       });
-    }
-    return response3;
-  }
-  solidResponseMetadata[SOLID_METADATA_MIDDLEWARE] = true;
-  return solidResponseMetadata;
-}
-var SolidAPI = class extends src_default5.API {
-  constructor(base, methods = {}, bind2 = null) {
-    if (!base) {
-      throw new TypeError("metro-solid: base URL or Metro client is required");
-    }
-    if (!methods || typeof methods !== "object") {
-      throw new TypeError("metro-solid: API methods must be an object");
-    }
-    let client3 = base;
-    const middlewares = [];
-    if (base instanceof src_default5.Client) {
-      if (!base.clientOptions.middlewares?.some((middleware) => middleware?.[SOLID_OLDM_MIDDLEWARE] === true || middleware?.name === "oldmmw")) {
-        const oldmMiddleware = src_default6();
-        oldmMiddleware[SOLID_OLDM_MIDDLEWARE] = true;
-        middlewares.push(oldmMiddleware);
+    },
+    createContainer(url3, options = {}) {
+      const headers = new Headers(options.headers);
+      if (!headers.has("If-None-Match")) {
+        headers.set("If-None-Match", "*");
       }
-      if (!base.clientOptions.middlewares?.some((middleware) => middleware?.[SOLID_METADATA_MIDDLEWARE] === true || middleware?.name === "solidResponseMetadata")) {
-        middlewares.push(solidResponseMetadataMiddleware());
+      if (!headers.has("Link")) {
+        headers.set("Link", `<${options.containerType ?? BASIC_CONTAINER}>; rel="type"`);
       }
-      if (middlewares.length > 0) {
-        client3 = base.with(...middlewares);
+      return this.put(ensureSlash3(url3), {
+        ...options,
+        body: options.body ?? "",
+        headers
+      });
+    },
+    async postToContainer(url3, body, options = {}) {
+      const result = await this.post(ensureSlash3(url3), {
+        ...options,
+        body,
+        headers: new Headers(options.headers)
+      });
+      const response3 = result[SOLID_RESPONSE];
+      return {
+        response: response3,
+        location: response3.headers.get("Location"),
+        etag: response3.headers.get("ETag")
+      };
+    },
+    async contains(url3, options = {}) {
+      const headers = new Headers(options.headers);
+      if (!headers.has("Accept")) {
+        headers.set("Accept", "text/turtle");
       }
-    } else {
-      const oldmMiddleware = src_default6();
-      oldmMiddleware[SOLID_OLDM_MIDDLEWARE] = true;
-      client3 = src_default5.client(base, oldmMiddleware, solidResponseMetadataMiddleware());
-    }
-    super(client3, {
-      create(url3, body, options = {}) {
-        const headers = new Headers(options.headers);
-        if (!headers.has("If-None-Match")) {
-          headers.set("If-None-Match", "*");
-        }
-        return this.put(String(url3), {
-          ...options,
-          body,
-          headers
-        });
-      },
-      createContainer(url3, options = {}) {
-        const headers = new Headers(options.headers);
-        if (!headers.has("If-None-Match")) {
-          headers.set("If-None-Match", "*");
-        }
-        if (!headers.has("Link")) {
-          headers.set("Link", `<${options.containerType ?? BASIC_CONTAINER}>; rel="type"`);
-        }
-        return this.put(ensureSlash3(url3), {
-          ...options,
-          body: options.body ?? "",
-          headers
-        });
-      },
-      async postToContainer(url3, body, options = {}) {
-        const result = await this.post(ensureSlash3(url3), {
-          ...options,
-          body,
-          headers: new Headers(options.headers)
-        });
-        const response3 = result?.[SOLID_RESPONSE] ?? result;
-        const location = response3.headers.get("Location");
-        const etag = response3.headers.get("ETag");
-        return {
-          response: response3,
-          location,
-          etag
-        };
-      },
-      async contains(url3, options = {}) {
-        const headers = new Headers(options.headers);
-        if (!headers.has("Accept")) {
-          headers.set("Accept", "text/turtle");
-        }
-        const result = await this.get(ensureSlash3(url3), {
-          ...options,
-          headers
-        });
-        const response3 = result?.[SOLID_RESPONSE] ?? null;
-        return from(src_default2.many(result?.primary?.ldp$contains)).select((resource2) => {
-          const id2 = typeof resource2 === "string" ? resource2 : resource2?.id;
-          return { id: id2, url: id2, resource: resource2, response: response3 };
-        }).where((entry) => entry.id).toArray();
-      },
-      async discoverProfile(webId, options = {}) {
-        const headers = new Headers(options.headers);
-        if (!headers.has("Accept")) {
-          headers.set("Accept", "text/turtle");
-        }
-        const webIdIssues = issues2(webId, allOf2(String, validURL2));
-        if (webIdIssues) {
-          throw new TypeError(`metro-solid: webId must be a fully qualified URL: ${webIdIssues[0].message}`);
-        }
-        const subjectId = webId;
-        const result = await this.get(subjectId, {
-          ...options,
-          headers
-        });
-        const profile = result?.primary;
-        if (!profile?.id) {
-          throw new Error(`metro-solid: WebID did not resolve to a profile subject: ${subjectId}`);
-        }
-        return profile;
-      },
-      async discoverStorage(webId, options = {}) {
-        const profile = await this.discoverProfile(webId, options);
-        const storageUrls = [...new Set(from(ids(profile.pims$storage)).select(ensureSlash3).toArray())];
-        return from(storageUrls).select((url3) => ({
-          profile,
-          id: url3,
-          url: url3
-        })).toArray();
-      },
-      async discoverWebId(webId, options = {}) {
-        const profile = await this.discoverProfile(webId, options);
-        const storage = [...new Set(from(ids(profile.pims$storage)).select(ensureSlash3).toArray())];
-        return {
-          webId,
-          profile,
-          storage,
-          issuer: ids(profile.solid$oidcIssuer)[0] ?? null,
-          inbox: ids(profile.ldp$inbox)[0] ?? null
-        };
-      },
-      ...methods
-    }, bind2);
-  }
-};
-function solidApi(...options) {
-  return new SolidAPI(...src_default5.deepClone(options));
+      const result = await this.get(ensureSlash3(url3), {
+        ...options,
+        headers
+      });
+      const response3 = result[SOLID_RESPONSE];
+      return from(src_default2.many(result?.primary?.ldp$contains)).select((resource2) => {
+        const id2 = typeof resource2 === "string" ? resource2 : resource2?.id;
+        return { id: id2, url: id2, resource: resource2, response: response3 };
+      }).where((entry) => entry.id).toArray();
+    },
+    async discoverProfile(webId, options = {}) {
+      const headers = new Headers(options.headers);
+      if (!headers.has("Accept")) {
+        headers.set("Accept", "text/turtle");
+      }
+      const webIdIssues = issues(webId, allOf(String, validURL));
+      if (webIdIssues) {
+        throw new TypeError(`metro-solid: webId must be a fully qualified URL: ${webIdIssues[0].message}`);
+      }
+      const subjectId = webId;
+      const result = await this.get(subjectId, {
+        ...options,
+        headers
+      });
+      const profile = result?.primary;
+      if (!profile?.id) {
+        throw new Error(`metro-solid: WebID did not resolve to a profile subject: ${subjectId}`);
+      }
+      return profile;
+    },
+    async discoverStorage(webId, options = {}) {
+      const profile = await this.discoverProfile(webId, options);
+      const storageUrls = [...new Set(from(ids(profile.pim$storage)).select(ensureSlash3).toArray())];
+      return from(storageUrls).select((url3) => ({
+        profile,
+        id: url3,
+        url: url3
+      })).toArray();
+    },
+    async discoverWebId(webId, options = {}) {
+      const profile = await this.discoverProfile(webId, options);
+      const storage = [...new Set(from(ids(profile.pim$storage)).select(ensureSlash3).toArray())];
+      return {
+        webId,
+        profile,
+        storage,
+        issuer: ids(profile.solid$oidcIssuer)[0] ?? null,
+        inbox: ids(profile.ldp$inbox)[0] ?? null
+      };
+    },
+    ...methods,
+    oldm: linkedData.context
+  });
 }
 
 // ../solid-tools/node_modules/@muze-nl/metro-oidc/node_modules/@muze-nl/metro/src/metro.mjs
@@ -18660,7 +18776,7 @@ var API2 = class extends Client2 {
     return new this.constructor(this.#base, Object.assign({}, this.#methods, methods));
   }
 };
-var JsonAPI2 = class extends API2 {
+var JsonAPI = class extends API2 {
   constructor(base, methods, bind2 = null) {
     if (base instanceof Client2) {
       super(base.with(jsonmw2()), methods, bind2);
@@ -18673,7 +18789,7 @@ function api2(...options) {
   return new API2(...deepClone2(options));
 }
 function jsonApi2(...options) {
-  return new JsonAPI2(...deepClone2(options));
+  return new JsonAPI(...deepClone2(options));
 }
 
 // ../solid-tools/node_modules/@muze-nl/metro-oidc/node_modules/@muze-nl/metro/src/everything.mjs
@@ -18767,7 +18883,7 @@ function oauth2mw(options) {
       return false;
     }
   };
-  assert2(options, {});
+  assert(options, {});
   const oauth22 = Object.assign({}, defaultOptions.oauth2_configuration, options?.oauth2_configuration);
   options = Object.assign({}, defaultOptions, options);
   options.oauth2_configuration = oauth22;
@@ -18778,13 +18894,13 @@ function oauth2mw(options) {
   if (!options.state) {
     options.state = store.state;
   }
-  assert2(options, {
+  assert(options, {
     oauth2_configuration: {
-      client_id: Required2(/.+/),
+      client_id: Required(/.+/),
       grant_type: "authorization_code",
-      authorization_endpoint: Required2(validURL2),
-      token_endpoint: Required2(validURL2),
-      redirect_uri: Required2(validURL2)
+      authorization_endpoint: Required(validURL),
+      token_endpoint: Required(validURL),
+      redirect_uri: Required(validURL)
     }
   });
   for (let option in oauth22) {
@@ -18908,7 +19024,7 @@ function oauth2mw(options) {
       throw metroError("oauth2mw: Missing options.oauth2_configuration.authorization_endpoint");
     }
     let url3 = url(oauth22.authorization_endpoint, { hash: "" });
-    assert2(oauth22, {
+    assert(oauth22, {
       client_id: /.+/,
       redirect_uri: /.+/,
       scope: /.*/
@@ -18943,7 +19059,7 @@ function oauth2mw(options) {
     return url(url3, { search });
   }
   function getAccessTokenRequest(grant_type = null) {
-    assert2(oauth22, {
+    assert(oauth22, {
       client_id: /.+/,
       redirect_uri: /.+/
     });
@@ -19226,36 +19342,36 @@ var validAuthMethods = [
   "private_key_jwt"
 ];
 var oauth_authorization_server_metadata = {
-  authorization_endpoint: Required2(validURL2),
-  issuer: Required2(validURL2),
-  response_types_supported: Required2(anyOf4("code", "token")),
-  token_endpoint: Required2(validURL2),
-  scopes_supported: Recommended2([]),
-  code_challendge_methods_supported: Optional2([]),
-  grant_types_supported: Optional2([]),
-  introspection_endpoint: Optional2(validURL2),
-  introspection_endpoint_auth_methods_supported: Optional2(validAuthMethods),
-  introspection_endpoint_auth_signing_alg_values_supported: Optional2(validAlgorithms),
-  jwks_uri: Optional2(validURL2),
-  op_policy_uri: Optional2(validURL2),
-  op_tos_uri: Optional2(validURL2),
-  registration_endpoint: Optional2(validURL2),
-  response_modes_supported: Optional2([]),
-  revocation_endpoint: Optional2(validURL2),
-  revocation_endpoint_auth_methods_supported: Optional2(validAuthMethods),
-  revocation_endpoint_auth_signing_alg_values_supported: Optional2(validAlgorithms),
-  service_documentation: Optional2(validURL2),
-  token_endpoint_auth_methods_supported: Optional2([]),
-  token_endpoint_auth_signing_alg_values_supported: Optional2([]),
-  ui_locales_supported: Optional2([])
+  authorization_endpoint: Required(validURL),
+  issuer: Required(validURL),
+  response_types_supported: Required(anyOf2("code", "token")),
+  token_endpoint: Required(validURL),
+  scopes_supported: Recommended([]),
+  code_challendge_methods_supported: Optional([]),
+  grant_types_supported: Optional([]),
+  introspection_endpoint: Optional(validURL),
+  introspection_endpoint_auth_methods_supported: Optional(validAuthMethods),
+  introspection_endpoint_auth_signing_alg_values_supported: Optional(validAlgorithms),
+  jwks_uri: Optional(validURL),
+  op_policy_uri: Optional(validURL),
+  op_tos_uri: Optional(validURL),
+  registration_endpoint: Optional(validURL),
+  response_modes_supported: Optional([]),
+  revocation_endpoint: Optional(validURL),
+  revocation_endpoint_auth_methods_supported: Optional(validAuthMethods),
+  revocation_endpoint_auth_signing_alg_values_supported: Optional(validAlgorithms),
+  service_documentation: Optional(validURL),
+  token_endpoint_auth_methods_supported: Optional([]),
+  token_endpoint_auth_signing_alg_values_supported: Optional([]),
+  ui_locales_supported: Optional([])
 };
 function makeClient(options = {}) {
   const defaultOptions = {
     client: client()
   };
   options = Object.assign({}, defaultOptions, options);
-  assert2(options, {
-    issuer: Required2(validURL2)
+  assert(options, {
+    issuer: Required(validURL)
   });
   const oauth_authorization_server_configuration = fetchWellknownOauthAuthorizationServer(options.issuer);
   return options.client.with(options.issuer);
@@ -19265,9 +19381,9 @@ async function fetchWellknownOauthAuthorizationServer(issuer, client3) {
   if (!res.ok) {
     throw metroError("metro.oidcmw: Error while fetching " + issuer + ".wellknown/oauth_authorization_server", res);
   }
-  assert2(res.headers.get("Content-Type"), /application\/json.*/);
+  assert(res.headers.get("Content-Type"), /application\/json.*/);
   let configuration = await res.json();
-  assert2(configuration, oauth_authorization_server_metadata);
+  assert(configuration, oauth_authorization_server_metadata);
   return configuration;
 }
 
@@ -19615,11 +19731,11 @@ async function generateKeyPair(alg, options) {
 
 // ../solid-tools/node_modules/@muze-nl/metro-oauth2/src/oauth2.dpop.mjs
 function dpopmw(options) {
-  assert2(options, {
-    site: Required2(validURL2),
-    authorization_endpoint: Required2(validURL2),
-    token_endpoint: Required2(validURL2),
-    dpop_signing_alg_values_supported: Optional2([])
+  assert(options, {
+    site: Required(validURL),
+    authorization_endpoint: Required(validURL),
+    token_endpoint: Required(validURL),
+    dpop_signing_alg_values_supported: Optional([])
     // this property is unfortunately rarely supported
   });
   return async (req, next) => {
@@ -20367,16 +20483,16 @@ async function marginNotesRootFolder({ solid: solid2, preferencesUrl, storageUrl
   return rootFolderUrl;
 }
 async function loadMarginNotesRootFolder({ solid: solid2, preferencesUrl }) {
-  let graph2;
+  let graph3;
   try {
-    graph2 = await solid2.get(preferencesUrl, {
+    graph3 = await solid2.get(preferencesUrl, {
       headers: { Accept: LINKED_DATA_ACCEPT }
     });
   } catch (error4) {
     if (isMissing(error4.cause)) return "";
     throw error4;
   }
-  const subject = from2(graphSubjects(graph2)).where((subject2) => firstId(subject2.mn$rootFolder))[0];
+  const subject = from2(graphSubjects(graph3)).where((subject2) => firstId(subject2.mn$rootFolder))[0];
   return firstId(subject?.mn$rootFolder);
 }
 async function saveDefaultMarginNotesRootFolder({ solid: solid2, preferencesUrl, rootFolderUrl }) {
@@ -20406,8 +20522,8 @@ async function resourceExists({ solid: solid2, resourceUrl }) {
   await ensureOk({ response: response3, operation: "check preferences" });
   return true;
 }
-function graphSubjects(graph2) {
-  return src_default2.subjects(graph2);
+function graphSubjects(graph3) {
+  return Object.values(graph3.subjects);
 }
 function isMissing(response3) {
   return response3?.status === 404;
@@ -20469,20 +20585,20 @@ function storageOptions({ options, pageUrl }) {
   };
 }
 function assertConnectionOptions(options) {
-  const optionIssues = issues(options, {
-    webId: Required(String),
-    pageUrl: Optional(String),
-    callbackUrl: Optional(String),
-    preferencesUrl: Optional(String),
-    preferencesFilename: Optional(String),
-    rootFolderName: Optional(String),
-    clientName: Optional(String),
-    usePopupAuth: Optional(Boolean),
-    authorize_callback: Optional(callable),
-    force_authorization: Optional(Boolean),
-    forceAuthorizationForWrites: Optional(Boolean),
-    client_info: Optional(Object),
-    solidOptions: Optional(Object)
+  const optionIssues = issues2(options, {
+    webId: Required2(String),
+    pageUrl: Optional2(String),
+    callbackUrl: Optional2(String),
+    preferencesUrl: Optional2(String),
+    preferencesFilename: Optional2(String),
+    rootFolderName: Optional2(String),
+    clientName: Optional2(String),
+    usePopupAuth: Optional2(Boolean),
+    authorize_callback: Optional2(callable),
+    force_authorization: Optional2(Boolean),
+    forceAuthorizationForWrites: Optional2(Boolean),
+    client_info: Optional2(Object),
+    solidOptions: Optional2(Object)
   });
   if (optionIssues) {
     throw new TypeError(`Invalid Solid notes connection options: ${optionIssues[0].pathString} ${optionIssues[0].message}`);
@@ -20490,7 +20606,7 @@ function assertConnectionOptions(options) {
 }
 function callable(value, _root, path2) {
   if (typeof value !== "function") {
-    return error("data is not a function", value, "function", path2);
+    return error2("data is not a function", value, "function", path2);
   }
   return false;
 }
@@ -20538,6 +20654,369 @@ async function ensureOk({ response: response3, operation }) {
   const detail = (await responseText(response3)).trim();
   const suffix = detail ? `: ${detail}` : "";
   throw new Error(`Solid ${operation} failed (${response3?.status || "unknown"} ${response3?.statusText || ""})${suffix}`);
+}
+
+// src/storage/solid-resource-store.js
+var DEFAULT_ACCEPT = "text/turtle, application/ld+json;q=0.9, application/json;q=0.2";
+var DEFAULT_CONTENT_TYPE = "text/turtle";
+var DEFAULT_FORMAT = "margin-notes-oldmed-graph";
+var DEFAULT_VERSION = 1;
+var NODE_PREDICATES = /* @__PURE__ */ new Set([
+  "oa$hasBody",
+  "oa$hasTarget",
+  "oa$hasSource",
+  "oa$hasSelector",
+  "schema$about"
+]);
+var INLINE_PREDICATES = /* @__PURE__ */ new Set([
+  "oa$hasBody",
+  "oa$hasTarget",
+  "oa$hasSelector"
+]);
+function createSolidResourceStore(options = {}) {
+  assertOptions(options);
+  const defaultResourceUrl = options.resourceUrl || "";
+  const accept = options.accept || DEFAULT_ACCEPT;
+  const contentType = options.contentType || DEFAULT_CONTENT_TYPE;
+  const providedSolid = options.solid || options.solidApi || null;
+  const generatedClient = {
+    clients: /* @__PURE__ */ new Map()
+  };
+  function solidFor(resourceUrl, requestOptions2 = {}) {
+    return solidClientFor({ options, providedSolid, resourceUrl, generatedClient, requestOptions: requestOptions2 });
+  }
+  return {
+    name: "solidResourceStore",
+    async load({ key } = {}) {
+      const resourceUrl = resourceUrlFrom({ key, defaultResourceUrl });
+      const solid2 = solidFor(resourceUrl);
+      const response3 = await callResource(() => solid2.get(resourceUrl, {
+        headers: { Accept: accept }
+      }));
+      if (isMissing2(response3)) return null;
+      const data = response3;
+      if (isOldmGraph(data)) {
+        return storageDocumentFromGraph({ graph: data, resourceUrl });
+      }
+      if (isStorageDocument(data)) {
+        return data;
+      }
+      await ensureOk2({ response: response3, operation: "load" });
+      const text = await responseText2(response3);
+      if (!text.trim()) return null;
+      if (isLinkedDataResponse(response3)) {
+        return storageDocumentFromGraph({
+          graph: oldmContext({ resourceUrl }).parse(text, resourceUrl, responseContentType(response3) || DEFAULT_CONTENT_TYPE),
+          resourceUrl
+        });
+      }
+      let parsed;
+      try {
+        parsed = JSON.parse(text);
+      } catch (error4) {
+        throw new Error(`Solid resource load returned invalid linked data or JSON from ${resourceUrl}: ${error4.message}`);
+      }
+      if (!isStorageDocument(parsed) && !Array.isArray(parsed)) {
+        throw new Error(`Solid resource load returned JSON that is not a notes document from ${resourceUrl}`);
+      }
+      return parsed;
+    },
+    async save({ key, value } = {}) {
+      const resourceUrl = resourceUrlFrom({ key, defaultResourceUrl });
+      const solid2 = solidFor(resourceUrl, { writesBody: true });
+      const graph3 = graphFromStorageDocument({ document: value, resourceUrl });
+      const response3 = await callResource(() => solid2.put(resourceUrl, {
+        body: graph3,
+        headers: { "Content-Type": contentType }
+      }));
+      await ensureOk2({ response: response3, operation: "save" });
+      return {
+        key: resourceUrl,
+        resourceUrl,
+        status: response3.status
+      };
+    },
+    async remove({ key } = {}) {
+      const resourceUrl = resourceUrlFrom({ key, defaultResourceUrl });
+      const solid2 = solidFor(resourceUrl, { needsAuthorization: true });
+      const response3 = await callResource(() => solid2.delete(resourceUrl));
+      if (isMissing2(response3) || response3.status === 410) {
+        return {
+          key: resourceUrl,
+          resourceUrl,
+          status: response3.status
+        };
+      }
+      await ensureOk2({ response: response3, operation: "remove" });
+      return {
+        key: resourceUrl,
+        resourceUrl,
+        status: response3.status
+      };
+    }
+  };
+}
+function assertOptions(options) {
+  const optionIssues = issues2(options, {
+    resourceUrl: Optional2(String),
+    rootUrl: Optional2(String),
+    storageUrl: Optional2(String),
+    accept: Optional2(String),
+    contentType: Optional2(String),
+    force_authorization: Optional2(Boolean),
+    forceAuthorizationForWrites: Optional2(Boolean)
+  });
+  if (optionIssues) {
+    throw new TypeError(`Invalid Solid resource store options: ${optionIssues[0].pathString} ${optionIssues[0].message}`);
+  }
+}
+function oldmContext({ resourceUrl, prefixes: prefixes3 = {} }) {
+  return src_default2.context({
+    defaultGraph: resourceUrl,
+    prefixes: annotationPrefixes(prefixes3)
+  });
+}
+function annotationPrefixes(prefixes3 = {}) {
+  return {
+    rdf: "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+    rdfs: "http://www.w3.org/2000/01/rdf-schema#",
+    dcterms: "http://purl.org/dc/terms/",
+    oa: "http://www.w3.org/ns/oa#",
+    schema: "https://schema.org/",
+    cobalt: "https://vocab.muze.nl/cobalt#",
+    ...prefixes3
+  };
+}
+function graphFromStorageDocument({ document: document2, resourceUrl }) {
+  let storageDocument = { subjects: [] };
+  if (isStorageDocument(document2)) {
+    storageDocument = document2;
+  }
+  const context = oldmContext({
+    resourceUrl,
+    prefixes: storageDocument.prefixes
+  });
+  const graph3 = context.parse("", resourceUrl, DEFAULT_CONTENT_TYPE);
+  for (const subject of storageDocument.subjects) {
+    writeSubjectToGraph2({ graph: graph3, subject });
+  }
+  return graph3;
+}
+function writeSubjectToGraph2({ graph: graph3, subject }) {
+  if (!subject?.id) return null;
+  for (const [predicate, value] of Object.entries(subject)) {
+    if (predicate === "id") continue;
+    if (predicate === "rdf$type") {
+      graph3.set(subject.id, "rdf$type", value);
+      continue;
+    }
+    graph3.set(subject.id, predicate, graphValueFromStorageValue({ graph: graph3, predicate, value }));
+  }
+  return subject.id;
+}
+function graphValueFromStorageValue({ graph: graph3, predicate, value }) {
+  if (Array.isArray(value)) {
+    return value.map((item) => graphValueFromStorageValue({ graph: graph3, predicate, value: item }));
+  }
+  if (value && typeof value === "object") {
+    if (predicate === "cobalt$fragment") {
+      return JSON.stringify(value);
+    }
+    if (value.id) {
+      writeSubjectToGraph2({ graph: graph3, subject: value });
+      return value.id;
+    }
+    return JSON.stringify(value);
+  }
+  if (typeof value === "string" && !NODE_PREDICATES.has(predicate)) {
+    return new String(value);
+  }
+  return value;
+}
+function storageDocumentFromGraph({ graph: graph3, resourceUrl }) {
+  const subjects = Array.from(from2(graphSubjects2(graph3)).where((subject) => src_default2.many(subject.a).includes("oa$Annotation") || src_default2.many(subject.rdf$type).includes("oa$Annotation")).select((subject) => repairConventionalAnnotationParts({
+    graph: graph3,
+    annotation: storageSubjectFromOldmSubject({ graph: graph3, subject })
+  })));
+  return {
+    format: DEFAULT_FORMAT,
+    version: DEFAULT_VERSION,
+    prefixes: annotationPrefixes(graph3?.prefixes ?? graph3?.context?.prefixes),
+    resourceUrl,
+    subjects
+  };
+}
+function repairConventionalAnnotationParts({ graph: graph3, annotation }) {
+  if (!annotation?.id) return annotation;
+  const body = annotation.oa$hasBody || conventionalSubject({
+    graph: graph3,
+    subjectId: annotation.id,
+    suffixes: ["#body", "-body"],
+    types: ["oa$TextualBody", "cobalt$Fragment"]
+  });
+  if (body) {
+    annotation.oa$hasBody = body;
+  }
+  const target = annotation.oa$hasTarget || conventionalSubject({
+    graph: graph3,
+    subjectId: annotation.id,
+    suffixes: ["#target", "-target"],
+    types: ["oa$SpecificResource"]
+  });
+  if (target) {
+    target.oa$hasSelector = target.oa$hasSelector || conventionalSubject({
+      graph: graph3,
+      subjectId: annotation.id,
+      suffixes: ["#selector-fragment", "-selector", "#selector"],
+      types: ["oa$FragmentSelector"]
+    });
+    annotation.oa$hasTarget = target;
+  }
+  return annotation;
+}
+function conventionalSubject({ graph: graph3, subjectId, suffixes, types }) {
+  const subject = from2(suffixes).select((suffix) => graph3?.subjects?.[`${subjectId}${suffix}`]).where((candidate) => candidate && src_default2.many(candidate.a).some((type) => types.includes(type)))[0];
+  if (!subject) return null;
+  return storageSubjectFromOldmSubject({ graph: graph3, subject });
+}
+function storageSubjectFromOldmSubject({ graph: graph3, subject, seen = /* @__PURE__ */ new Set() }) {
+  if (!subject || seen.has(subject.id)) {
+    return subject?.id;
+  }
+  seen.add(subject.id);
+  const result = {};
+  for (const [predicate, value] of Object.entries(subject)) {
+    if (predicate === "graph") continue;
+    if (predicate === "a") {
+      result.rdf$type = storageValueFromOldmValue({ graph: graph3, predicate, value, seen });
+      continue;
+    }
+    result[predicate] = storageValueFromOldmValue({ graph: graph3, predicate, value, seen });
+  }
+  return result;
+}
+function storageValueFromOldmValue({ graph: graph3, predicate, value, seen }) {
+  if (Array.isArray(value)) {
+    return value.map((item) => storageValueFromOldmValue({ graph: graph3, predicate, value: item, seen }));
+  }
+  if (isOldmNamedNode(value)) {
+    const linkedSubject = graph3?.subjects?.[value.id];
+    if (linkedSubject && INLINE_PREDICATES.has(predicate)) {
+      return storageSubjectFromOldmSubject({ graph: graph3, subject: linkedSubject, seen });
+    }
+    return value.id;
+  }
+  if (value instanceof String) {
+    return storageLiteralValue({ predicate, value: value.toString() });
+  }
+  if (value && typeof value === "object") {
+    return storageSubjectFromOldmSubject({ graph: graph3, subject: value, seen });
+  }
+  return storageLiteralValue({ predicate, value });
+}
+function storageLiteralValue({ predicate, value }) {
+  if (predicate === "cobalt$fragment" && typeof value === "string") {
+    try {
+      return JSON.parse(value);
+    } catch {
+      return { text: value, annotations: [] };
+    }
+  }
+  return value;
+}
+function graphSubjects2(graph3) {
+  return Object.values(graph3.subjects);
+}
+function resourceUrlFrom({ key, defaultResourceUrl }) {
+  const resourceUrl = defaultResourceUrl || key;
+  if (issues2(resourceUrl, String)) {
+    throw new Error("Solid resource store requires a resourceUrl option or key");
+  }
+  return resourceUrl;
+}
+function solidClientFor({ options, providedSolid, resourceUrl, generatedClient, requestOptions: requestOptions2 = {} }) {
+  if (providedSolid) {
+    assertSolidClient2(providedSolid);
+    return providedSolid;
+  }
+  const rootUrl = options.rootUrl || options.storageUrl || resourceUrl;
+  const forceAuthorization = forceAuthorizationForRequest({ options, requestOptions: requestOptions2 });
+  const cacheKey = `${rootUrl}
+force:${forceAuthorization}`;
+  if (generatedClient.clients.has(cacheKey)) {
+    return generatedClient.clients.get(cacheKey);
+  }
+  const metroClient = createSolidMetroClient(rootUrl, {
+    ...options,
+    oidc: options.oidc ?? Boolean(options.issuer),
+    force_authorization: forceAuthorization,
+    configureMetro: options.configureMetro ?? true
+  });
+  const solid2 = solidApi(metroClient);
+  generatedClient.clients.set(cacheKey, solid2);
+  return solid2;
+}
+function forceAuthorizationForRequest({ options, requestOptions: requestOptions2 }) {
+  if (options.force_authorization !== void 0) {
+    return options.force_authorization;
+  }
+  if (requestOptions2.writesBody || requestOptions2.needsAuthorization) {
+    return Boolean(options.forceAuthorizationForWrites);
+  }
+  return false;
+}
+function assertSolidClient2(solid2) {
+  const clientIssues = issues2(solid2, {
+    get: callable2,
+    put: callable2,
+    delete: callable2
+  });
+  if (clientIssues) {
+    throw new TypeError("Solid resource store requires a Solid API client with get/put/delete");
+  }
+}
+function callable2(value, _root, path2) {
+  if (typeof value !== "function") {
+    return error2("data is not a function", value, "function", path2);
+  }
+  return false;
+}
+async function callResource(operation) {
+  try {
+    return await operation();
+  } catch (error4) {
+    if (isMissing2(error4?.cause)) {
+      return error4.cause;
+    }
+    throw error4;
+  }
+}
+function isMissing2(response3) {
+  return response3?.status === 404;
+}
+function isStorageDocument(value) {
+  return Boolean(value && typeof value === "object" && Array.isArray(value.subjects));
+}
+function isOldmGraph(value) {
+  return Boolean(value && typeof value === "object" && typeof value.write === "function" && value.subjects);
+}
+function isOldmNamedNode(value) {
+  return Boolean(value && typeof value === "object" && typeof value.id === "string" && value.graph);
+}
+function isLinkedDataResponse(response3) {
+  return /^text\/turtle\b|^application\/ld\+json\b|^application\/n-quads\b|^application\/trig\b/.test(responseContentType(response3));
+}
+function responseContentType(response3) {
+  return response3.headers.get("Content-Type") || "";
+}
+async function ensureOk2({ response: response3, operation }) {
+  if (response3.ok) return;
+  const body = await responseText2(response3).catch(() => "");
+  const detail = body.trim() ? `: ${body.trim()}` : "";
+  throw new Error(`Solid resource ${operation} failed (${response3.status} ${response3.statusText})${detail}`);
+}
+async function responseText2(response3) {
+  return response3.text();
 }
 
 // src/features/paragraph-note-stacks.js
@@ -20765,11 +21244,34 @@ var paragraphNoteStacks = {
         if (!solidClient) {
           throw new Error("Solid connection did not provide a Solid API client for note sync");
         }
+        const solidStore = notesApi.createSolidResourceStore({
+          resourceUrl: connection.resourceUrl,
+          solid: solidClient
+        });
         await notesService.connect({
           solid: solidClient,
           resources: {
             notes: {
-              url: connection.resourceUrl
+              url: connection.resourceUrl,
+              async load() {
+                const document2 = await solidStore.load({ key: connection.resourceUrl });
+                if (!document2) {
+                  return { subjects: {} };
+                }
+                return {
+                  ...document2,
+                  subjects: Object.fromEntries(document2.subjects.map((subject) => [subject.id, subject]))
+                };
+              },
+              async save(document2) {
+                return solidStore.save({
+                  key: connection.resourceUrl,
+                  value: {
+                    ...document2,
+                    subjects: Object.values(document2.subjects)
+                  }
+                });
+              }
             }
           }
         });
@@ -20810,18 +21312,18 @@ var paragraphNoteStacks = {
     },
     async reloadNotesFromStore() {
       const notesApi = this.api.notes;
-      const graph2 = await notesApi.loadGraph({
+      const graph3 = await notesApi.loadGraph({
         app: this,
         key: this.data.marginNotes.storeKey,
         throwOnError: true
       });
-      await this.actions.replaceNotesGraph({ graph: graph2 });
+      await this.actions.replaceNotesGraph({ graph: graph3 });
     },
-    async replaceNotesGraph({ graph: graph2 }) {
+    async replaceNotesGraph({ graph: graph3 }) {
       const notesApi = this.api.notes;
-      this.data.marginNotes.graph = graph2;
+      this.data.marginNotes.graph = graph3;
       const notesByAnchor = notesApi.groupNotesByAnchor({
-        notes: graph2
+        notes: graph3
       });
       for (const anchor2 of this.data.marginNotes.anchors) {
         anchor2.notes = notesByAnchor[anchor2.id] || [];
@@ -21124,6 +21626,7 @@ var paragraphNoteStacks = {
       ...annotationModel,
       CobaltEditorModal,
       createSolidNotesConnection,
+      createSolidResourceStore,
       authorizePopup,
       path: path_default,
       templates: {
@@ -21270,6 +21773,7 @@ var paragraphNoteStacks = {
           store: app2.marginNotesRuntime.store,
           key: storeKey
         });
+        const localDocument = this.toStorageDocument({ subjects: legacyGraph });
         const service = app2.marginNotesRuntime.simplySolid({
           localFirst: true,
           app: {
@@ -21283,7 +21787,10 @@ var paragraphNoteStacks = {
                 store: "resources",
                 key: storeKey,
                 prefixes: this.vocabulary.prefixes,
-                document: this.toStorageDocument({ subjects: legacyGraph })
+                document: {
+                  ...localDocument,
+                  subjects: Object.fromEntries(localDocument.subjects.map((subject) => [subject.id, subject]))
+                }
               }
             }
           }
@@ -21319,7 +21826,7 @@ var paragraphNoteStacks = {
           return [];
         }
       },
-      async saveGraph({ app: app2, key, subjects: subjects2 }) {
+      async saveGraph({ app: app2, key, subjects }) {
         const notesService = await this.ensureNotesService({
           app: app2,
           storeKey: key
@@ -21332,14 +21839,14 @@ var paragraphNoteStacks = {
         return this.saveGraphToStore({
           store: app2.marginNotesRuntime.store,
           key,
-          subjects: subjects2
+          subjects
         });
       },
-      async saveGraphToStore({ store, key, subjects: subjects2, throwOnError = false }) {
+      async saveGraphToStore({ store, key, subjects, throwOnError = false }) {
         try {
           await store.save({
             key,
-            value: this.toStorageDocument({ subjects: subjects2 })
+            value: this.toStorageDocument({ subjects })
           });
           return true;
         } catch (error4) {
@@ -21735,369 +22242,6 @@ var MarginNotes = class {
     return this.app?.getSolidConnection() || null;
   }
 };
-
-// src/storage/solid-resource-store.js
-var DEFAULT_ACCEPT = "text/turtle, application/ld+json;q=0.9, application/json;q=0.2";
-var DEFAULT_CONTENT_TYPE = "text/turtle";
-var DEFAULT_FORMAT = "margin-notes-oldmed-graph";
-var DEFAULT_VERSION = 1;
-var NODE_PREDICATES = /* @__PURE__ */ new Set([
-  "oa$hasBody",
-  "oa$hasTarget",
-  "oa$hasSource",
-  "oa$hasSelector",
-  "schema$about"
-]);
-var INLINE_PREDICATES = /* @__PURE__ */ new Set([
-  "oa$hasBody",
-  "oa$hasTarget",
-  "oa$hasSelector"
-]);
-function createSolidResourceStore(options = {}) {
-  assertOptions(options);
-  const defaultResourceUrl = options.resourceUrl || "";
-  const accept = options.accept || DEFAULT_ACCEPT;
-  const contentType = options.contentType || DEFAULT_CONTENT_TYPE;
-  const providedSolid = options.solid || options.solidApi || null;
-  const generatedClient = {
-    clients: /* @__PURE__ */ new Map()
-  };
-  function solidFor(resourceUrl, requestOptions2 = {}) {
-    return solidClientFor({ options, providedSolid, resourceUrl, generatedClient, requestOptions: requestOptions2 });
-  }
-  return {
-    name: "solidResourceStore",
-    async load({ key } = {}) {
-      const resourceUrl = resourceUrlFrom({ key, defaultResourceUrl });
-      const solid2 = solidFor(resourceUrl);
-      const response3 = await callResource(() => solid2.get(resourceUrl, {
-        headers: { Accept: accept }
-      }));
-      if (isMissing2(response3)) return null;
-      const data = response3;
-      if (isOldmGraph(data)) {
-        return storageDocumentFromGraph({ graph: data, resourceUrl });
-      }
-      if (isStorageDocument(data)) {
-        return data;
-      }
-      await ensureOk2({ response: response3, operation: "load" });
-      const text = await responseText2(response3);
-      if (!text.trim()) return null;
-      if (isLinkedDataResponse(response3)) {
-        return storageDocumentFromGraph({
-          graph: oldmContext({ resourceUrl }).parse(text, resourceUrl, responseContentType(response3) || DEFAULT_CONTENT_TYPE),
-          resourceUrl
-        });
-      }
-      let parsed;
-      try {
-        parsed = JSON.parse(text);
-      } catch (error4) {
-        throw new Error(`Solid resource load returned invalid linked data or JSON from ${resourceUrl}: ${error4.message}`);
-      }
-      if (!isStorageDocument(parsed) && !Array.isArray(parsed)) {
-        throw new Error(`Solid resource load returned JSON that is not a notes document from ${resourceUrl}`);
-      }
-      return parsed;
-    },
-    async save({ key, value } = {}) {
-      const resourceUrl = resourceUrlFrom({ key, defaultResourceUrl });
-      const solid2 = solidFor(resourceUrl, { writesBody: true });
-      const graph2 = graphFromStorageDocument({ document: value, resourceUrl });
-      const response3 = await callResource(() => solid2.put(resourceUrl, {
-        body: graph2,
-        headers: { "Content-Type": contentType }
-      }));
-      await ensureOk2({ response: response3, operation: "save" });
-      return {
-        key: resourceUrl,
-        resourceUrl,
-        status: response3.status
-      };
-    },
-    async remove({ key } = {}) {
-      const resourceUrl = resourceUrlFrom({ key, defaultResourceUrl });
-      const solid2 = solidFor(resourceUrl, { needsAuthorization: true });
-      const response3 = await callResource(() => solid2.delete(resourceUrl));
-      if (isMissing2(response3) || response3.status === 410) {
-        return {
-          key: resourceUrl,
-          resourceUrl,
-          status: response3.status
-        };
-      }
-      await ensureOk2({ response: response3, operation: "remove" });
-      return {
-        key: resourceUrl,
-        resourceUrl,
-        status: response3.status
-      };
-    }
-  };
-}
-function assertOptions(options) {
-  const optionIssues = issues(options, {
-    resourceUrl: Optional(String),
-    rootUrl: Optional(String),
-    storageUrl: Optional(String),
-    accept: Optional(String),
-    contentType: Optional(String),
-    force_authorization: Optional(Boolean),
-    forceAuthorizationForWrites: Optional(Boolean)
-  });
-  if (optionIssues) {
-    throw new TypeError(`Invalid Solid resource store options: ${optionIssues[0].pathString} ${optionIssues[0].message}`);
-  }
-}
-function oldmContext({ resourceUrl, prefixes: prefixes3 = {} }) {
-  return src_default2.context({
-    defaultGraph: resourceUrl,
-    prefixes: annotationPrefixes(prefixes3)
-  });
-}
-function annotationPrefixes(prefixes3 = {}) {
-  return {
-    rdf: "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
-    rdfs: "http://www.w3.org/2000/01/rdf-schema#",
-    dcterms: "http://purl.org/dc/terms/",
-    oa: "http://www.w3.org/ns/oa#",
-    schema: "https://schema.org/",
-    cobalt: "https://vocab.muze.nl/cobalt#",
-    ...prefixes3
-  };
-}
-function graphFromStorageDocument({ document: document2, resourceUrl }) {
-  let storageDocument = { subjects: [] };
-  if (isStorageDocument(document2)) {
-    storageDocument = document2;
-  }
-  const context = oldmContext({
-    resourceUrl,
-    prefixes: storageDocument.prefixes
-  });
-  const graph2 = context.parse("", resourceUrl, DEFAULT_CONTENT_TYPE);
-  for (const subject of storageDocument.subjects) {
-    writeSubjectToGraph2({ graph: graph2, subject });
-  }
-  return graph2;
-}
-function writeSubjectToGraph2({ graph: graph2, subject }) {
-  if (!subject?.id) return null;
-  for (const [predicate, value] of Object.entries(subject)) {
-    if (predicate === "id") continue;
-    if (predicate === "rdf$type") {
-      graph2.set(subject.id, "rdf$type", value);
-      continue;
-    }
-    graph2.set(subject.id, predicate, graphValueFromStorageValue({ graph: graph2, predicate, value }));
-  }
-  return subject.id;
-}
-function graphValueFromStorageValue({ graph: graph2, predicate, value }) {
-  if (Array.isArray(value)) {
-    return value.map((item) => graphValueFromStorageValue({ graph: graph2, predicate, value: item }));
-  }
-  if (value && typeof value === "object") {
-    if (predicate === "cobalt$fragment") {
-      return JSON.stringify(value);
-    }
-    if (value.id) {
-      writeSubjectToGraph2({ graph: graph2, subject: value });
-      return value.id;
-    }
-    return JSON.stringify(value);
-  }
-  if (typeof value === "string" && !NODE_PREDICATES.has(predicate)) {
-    return new String(value);
-  }
-  return value;
-}
-function storageDocumentFromGraph({ graph: graph2, resourceUrl }) {
-  const subjects2 = Array.from(from2(graphSubjects2(graph2)).where((subject) => src_default2.many(subject.a).includes("oa$Annotation") || src_default2.many(subject.rdf$type).includes("oa$Annotation")).select((subject) => repairConventionalAnnotationParts({
-    graph: graph2,
-    annotation: storageSubjectFromOldmSubject({ graph: graph2, subject })
-  })));
-  return {
-    format: DEFAULT_FORMAT,
-    version: DEFAULT_VERSION,
-    prefixes: annotationPrefixes(graph2?.prefixes ?? graph2?.context?.prefixes),
-    resourceUrl,
-    subjects: subjects2
-  };
-}
-function repairConventionalAnnotationParts({ graph: graph2, annotation }) {
-  if (!annotation?.id) return annotation;
-  const body = annotation.oa$hasBody || conventionalSubject({
-    graph: graph2,
-    subjectId: annotation.id,
-    suffixes: ["#body", "-body"],
-    types: ["oa$TextualBody", "cobalt$Fragment"]
-  });
-  if (body) {
-    annotation.oa$hasBody = body;
-  }
-  const target = annotation.oa$hasTarget || conventionalSubject({
-    graph: graph2,
-    subjectId: annotation.id,
-    suffixes: ["#target", "-target"],
-    types: ["oa$SpecificResource"]
-  });
-  if (target) {
-    target.oa$hasSelector = target.oa$hasSelector || conventionalSubject({
-      graph: graph2,
-      subjectId: annotation.id,
-      suffixes: ["#selector-fragment", "-selector", "#selector"],
-      types: ["oa$FragmentSelector"]
-    });
-    annotation.oa$hasTarget = target;
-  }
-  return annotation;
-}
-function conventionalSubject({ graph: graph2, subjectId, suffixes, types }) {
-  const subject = from2(suffixes).select((suffix) => graph2?.subjects?.[`${subjectId}${suffix}`]).where((candidate) => candidate && src_default2.many(candidate.a).some((type) => types.includes(type)))[0];
-  if (!subject) return null;
-  return storageSubjectFromOldmSubject({ graph: graph2, subject });
-}
-function storageSubjectFromOldmSubject({ graph: graph2, subject, seen = /* @__PURE__ */ new Set() }) {
-  if (!subject || seen.has(subject.id)) {
-    return subject?.id;
-  }
-  seen.add(subject.id);
-  const result = {};
-  for (const [predicate, value] of Object.entries(subject)) {
-    if (predicate === "graph") continue;
-    if (predicate === "a") {
-      result.rdf$type = storageValueFromOldmValue({ graph: graph2, predicate, value, seen });
-      continue;
-    }
-    result[predicate] = storageValueFromOldmValue({ graph: graph2, predicate, value, seen });
-  }
-  return result;
-}
-function storageValueFromOldmValue({ graph: graph2, predicate, value, seen }) {
-  if (Array.isArray(value)) {
-    return value.map((item) => storageValueFromOldmValue({ graph: graph2, predicate, value: item, seen }));
-  }
-  if (isOldmNamedNode(value)) {
-    const linkedSubject = graph2?.subjects?.[value.id];
-    if (linkedSubject && INLINE_PREDICATES.has(predicate)) {
-      return storageSubjectFromOldmSubject({ graph: graph2, subject: linkedSubject, seen });
-    }
-    return value.id;
-  }
-  if (value instanceof String) {
-    return storageLiteralValue({ predicate, value: value.toString() });
-  }
-  if (value && typeof value === "object") {
-    return storageSubjectFromOldmSubject({ graph: graph2, subject: value, seen });
-  }
-  return storageLiteralValue({ predicate, value });
-}
-function storageLiteralValue({ predicate, value }) {
-  if (predicate === "cobalt$fragment" && typeof value === "string") {
-    try {
-      return JSON.parse(value);
-    } catch {
-      return { text: value, annotations: [] };
-    }
-  }
-  return value;
-}
-function graphSubjects2(graph2) {
-  return src_default2.subjects(graph2);
-}
-function resourceUrlFrom({ key, defaultResourceUrl }) {
-  const resourceUrl = defaultResourceUrl || key;
-  if (issues(resourceUrl, String)) {
-    throw new Error("Solid resource store requires a resourceUrl option or key");
-  }
-  return resourceUrl;
-}
-function solidClientFor({ options, providedSolid, resourceUrl, generatedClient, requestOptions: requestOptions2 = {} }) {
-  if (providedSolid) {
-    assertSolidClient2(providedSolid);
-    return providedSolid;
-  }
-  const rootUrl = options.rootUrl || options.storageUrl || resourceUrl;
-  const forceAuthorization = forceAuthorizationForRequest({ options, requestOptions: requestOptions2 });
-  const cacheKey = `${rootUrl}
-force:${forceAuthorization}`;
-  if (generatedClient.clients.has(cacheKey)) {
-    return generatedClient.clients.get(cacheKey);
-  }
-  const metroClient = createSolidMetroClient(rootUrl, {
-    ...options,
-    oidc: options.oidc ?? Boolean(options.issuer),
-    force_authorization: forceAuthorization,
-    configureMetro: options.configureMetro ?? true
-  });
-  const solid2 = solidApi(metroClient);
-  generatedClient.clients.set(cacheKey, solid2);
-  return solid2;
-}
-function forceAuthorizationForRequest({ options, requestOptions: requestOptions2 }) {
-  if (options.force_authorization !== void 0) {
-    return options.force_authorization;
-  }
-  if (requestOptions2.writesBody || requestOptions2.needsAuthorization) {
-    return Boolean(options.forceAuthorizationForWrites);
-  }
-  return false;
-}
-function assertSolidClient2(solid2) {
-  const clientIssues = issues(solid2, {
-    get: callable2,
-    put: callable2,
-    delete: callable2
-  });
-  if (clientIssues) {
-    throw new TypeError("Solid resource store requires a Solid API client with get/put/delete");
-  }
-}
-function callable2(value, _root, path2) {
-  if (typeof value !== "function") {
-    return error("data is not a function", value, "function", path2);
-  }
-  return false;
-}
-async function callResource(operation) {
-  try {
-    return await operation();
-  } catch (error4) {
-    if (isMissing2(error4?.cause)) {
-      return error4.cause;
-    }
-    throw error4;
-  }
-}
-function isMissing2(response3) {
-  return response3?.status === 404;
-}
-function isStorageDocument(value) {
-  return Boolean(value && typeof value === "object" && Array.isArray(value.subjects));
-}
-function isOldmGraph(value) {
-  return Boolean(value && typeof value === "object" && typeof value.write === "function" && value.subjects);
-}
-function isOldmNamedNode(value) {
-  return Boolean(value && typeof value === "object" && typeof value.id === "string" && value.graph);
-}
-function isLinkedDataResponse(response3) {
-  return /^text\/turtle\b|^application\/ld\+json\b|^application\/n-quads\b|^application\/trig\b/.test(responseContentType(response3));
-}
-function responseContentType(response3) {
-  return response3.headers.get("Content-Type") || "";
-}
-async function ensureOk2({ response: response3, operation }) {
-  if (response3.ok) return;
-  const body = await responseText2(response3).catch(() => "");
-  const detail = body.trim() ? `: ${body.trim()}` : "";
-  throw new Error(`Solid resource ${operation} failed (${response3.status} ${response3.statusText})${detail}`);
-}
-async function responseText2(response3) {
-  return response3.text();
-}
 
 // src/index.js
 var MarginNotesAPI = {
