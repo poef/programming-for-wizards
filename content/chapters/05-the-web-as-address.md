@@ -141,7 +141,7 @@ The Web was developed by Sir Tim on a Unix machine: a NeXT Cube designed by Stev
 Unix itself had stolen and simplified ideas from earlier systems such as Multics. One of its beautiful tricks is that users do not normally need to care which physical device a file is on. There is a single tree. Disks and devices can be mounted into that tree. The messy physical world disappears behind a simpler name world.
 
 <!-- paragraph-id: p-05-simple-ideas-often-grow-more-complex-threads-when -->
-Simple ideas often grow more complex threads when they meet the real world. For example, how would you create a file with a name that includes a `/`? The simple answer would be "don't do that." A common solution is to define a special 'escape' character, e.g. `\`:
+Simple ideas often grow more complex threads when they meet the real world. For example, how would you create a file with a name that includes a `/`? The simple answer would be "don't do that." A common solution is to define a special 'escape' character, e.g. `\\`:
 
 <!-- code-id: code-05-code-folder-withaslash -->
 ```
