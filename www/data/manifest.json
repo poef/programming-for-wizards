@@ -1,7 +1,7 @@
 {
   "id": "programming-for-wizards",
   "title": "Programming for Wizards",
-  "generatedAt": "2026-07-28T08:01:55.913Z",
+  "generatedAt": "2026-07-28T08:19:16.327Z",
   "phase": "01-enhanced-static-manuscript",
   "features": {
     "notes": "planned",
@@ -184,7 +184,7 @@
       "url": "chapters/14-the-web-as-commons.html",
       "previous": "interlude-05-knitted-castle",
       "next": "15-the-web-as-data",
-      "wordCount": 1186,
+      "wordCount": 1171,
       "rule": null
     },
     {
@@ -435,7 +435,7 @@
       "part": "Part V: The Next Web",
       "partId": "the-next-web",
       "url": "chapters/14-the-web-as-commons.html",
-      "wordCount": 1186
+      "wordCount": 1171
     },
     {
       "id": "15-the-web-as-data",
@@ -5067,16 +5067,16 @@
     {
       "id": "p-14-a-closed-system-can-coordinate-through-ownership-one",
       "type": "paragraph",
-      "label": "A closed system can coordinate through ownership. One organization controls the pieces and can make them fit. A commons ",
+      "label": "A closed system can coordinate through ownership. One organization controls the pieces and can make them fit.",
       "chapter": "14-the-web-as-commons",
       "url": "chapters/14-the-web-as-commons.html#p-14-a-closed-system-can-coordinate-through-ownership-one"
     },
     {
-      "id": "p-14-a-standard-is-a-boundary-that-does-not",
+      "id": "p-14-in-a-commons-the-boundary-itself-must-be",
       "type": "paragraph",
-      "label": "A standard is a boundary that does not belong to one implementation. It says: this name, format or behaviour can be reli",
+      "label": "In a commons, the boundary itself must be public. Independent tools, people and organizations need agreements they can r",
       "chapter": "14-the-web-as-commons",
-      "url": "chapters/14-the-web-as-commons.html#p-14-a-standard-is-a-boundary-that-does-not"
+      "url": "chapters/14-the-web-as-commons.html#p-14-in-a-commons-the-boundary-itself-must-be"
     },
     {
       "id": "p-14-standards-are-often-boring-that-is-part-of",
