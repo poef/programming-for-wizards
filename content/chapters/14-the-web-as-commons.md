@@ -43,10 +43,9 @@ Innovation can come from elsewhere only when the structure gives it a place to a
 
 <!-- paragraph-id: p-14-a-closed-system-can-coordinate-through-ownership-one -->
 A closed system can coordinate through ownership. One organization controls the pieces and can make them fit.
-A commons cannot rely on that. Independent tools, people and organizations need agreements.
 
-<!-- paragraph-id: p-14-a-standard-is-a-boundary-that-does-not -->
-A standard is a boundary that does not belong to one implementation. It says: this name, format or behaviour can be relied on by things that were built separately.
+<!-- paragraph-id: p-14-in-a-commons-the-boundary-itself-must-be -->
+In a commons, the boundary itself must be public. Independent tools, people and organizations need agreements they can rely on without sharing an owner. They need standards.
 
 <!-- paragraph-id: p-14-standards-are-often-boring-that-is-part-of -->
 Standards are often boring. That's not a bug, but a feature. A standard should not require everyone to admire the same library, framework or company. It gives different implementations just enough shared ground to meet.
