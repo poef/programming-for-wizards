@@ -1,7 +1,7 @@
 {
   "id": "programming-for-wizards",
   "title": "Programming for Wizards",
-  "generatedAt": "2026-07-26T09:28:21.061Z",
+  "generatedAt": "2026-07-28T07:21:01.233Z",
   "phase": "01-enhanced-static-manuscript",
   "features": {
     "notes": "planned",
@@ -118,13 +118,13 @@
     {
       "id": "09-every-program-contains-a-language",
       "number": "09",
-      "title": "Every program grows a language",
+      "title": "Separated by a Common Language",
       "part": "Part III: Inventing languages",
       "partId": "inventing-languages",
       "url": "chapters/09-every-program-contains-a-language.html",
       "previous": "08-programming-languages-are-for-humans",
       "next": "10-code-exhibit-extending-javascript-with-jaqt",
-      "wordCount": 504,
+      "wordCount": 1447,
       "rule": "Wizard's eighth rule"
     },
     {
@@ -361,11 +361,11 @@
       "id": "09-every-program-contains-a-language",
       "kind": "chapter",
       "label": "09",
-      "title": "Every program grows a language",
+      "title": "Separated by a Common Language",
       "part": "Part III: Inventing languages",
       "partId": "inventing-languages",
       "url": "chapters/09-every-program-contains-a-language.html",
-      "wordCount": 504
+      "wordCount": 1447
     },
     {
       "id": "10-code-exhibit-extending-javascript-with-jaqt",
@@ -2706,53 +2706,361 @@
       "url": "chapters/08-programming-languages-are-for-humans.html#p-08-you-should-be-aware-of-this-tension-you"
     },
     {
-      "id": "h-09-every-program-grows-a-language",
+      "id": "h-09-separated-by-a-common-language",
       "type": "heading",
-      "label": "Every program grows a language",
+      "label": "Separated by a Common Language",
       "chapter": "09-every-program-contains-a-language",
-      "url": "chapters/09-every-program-contains-a-language.html#h-09-every-program-grows-a-language"
+      "url": "chapters/09-every-program-contains-a-language.html#h-09-separated-by-a-common-language"
     },
     {
-      "id": "p-09-so-far-ive-described-programming-language-design-as",
+      "id": "p-09-react-is-at-the-time-of-writing-the",
       "type": "paragraph",
-      "label": "So far, I've described programming language design as a conscious choice, a thing someone set out to build. But if you'v",
+      "label": "React is, at the time of writing, the dominant JavaScript library for building user interfaces. As a web developer, you ",
       "chapter": "09-every-program-contains-a-language",
-      "url": "chapters/09-every-program-contains-a-language.html#p-09-so-far-ive-described-programming-language-design-as"
+      "url": "chapters/09-every-program-contains-a-language.html#p-09-react-is-at-the-time-of-writing-the"
     },
     {
-      "id": "p-09-when-you-write-the-code-that-language-is",
+      "id": "p-09-react-has-become-so-ubiquitous-that-companies-no",
       "type": "paragraph",
-      "label": "When you write the code, that language is obvious because you've invented it. Anyone else must learn it before they can ",
+      "label": "React has become so ubiquitous that companies no longer search only for web developers or JavaScript developers. They se",
       "chapter": "09-every-program-contains-a-language",
-      "url": "chapters/09-every-program-contains-a-language.html#p-09-when-you-write-the-code-that-language-is"
+      "url": "chapters/09-every-program-contains-a-language.html#p-09-react-has-become-so-ubiquitous-that-companies-no"
     },
     {
-      "id": "p-09-most-of-the-time-programs-grow-their-local",
+      "id": "p-09-that-is-not-an-accident",
       "type": "paragraph",
-      "label": "Most of the time, programs grow their local language by accident. You do not choose to create it--it just happens. Alway",
+      "label": "That is not an accident.",
       "chapter": "09-every-program-contains-a-language",
-      "url": "chapters/09-every-program-contains-a-language.html#p-09-most-of-the-time-programs-grow-their-local"
+      "url": "chapters/09-every-program-contains-a-language.html#p-09-that-is-not-an-accident"
     },
     {
-      "id": "p-09-that-is-not-automatically-bad-it-is-how",
+      "id": "p-09-react-and-its-constellation-of-supporting-tools-and",
       "type": "paragraph",
-      "label": "That's not automatically bad, it is how useful code grows.",
+      "label": "React and its constellation of supporting tools and libraries have become their own thing. A React developer expects a c",
       "chapter": "09-every-program-contains-a-language",
-      "url": "chapters/09-every-program-contains-a-language.html#p-09-that-is-not-automatically-bad-it-is-how"
+      "url": "chapters/09-every-program-contains-a-language.html#p-09-react-and-its-constellation-of-supporting-tools-and"
     },
     {
-      "id": "p-09-but-sometimes-the-local-language-wants-to-stop",
+      "id": "p-09-react-is-effectively-a-dialect-inside-javascript-the",
       "type": "paragraph",
-      "label": "But sometimes the local language wants to stop being accidental. Sometimes the problem has a vocabulary of its own, and ",
+      "label": "React is effectively a dialect inside JavaScript. The syntax still belongs to JavaScript. Much of the meaning belongs to",
       "chapter": "09-every-program-contains-a-language",
-      "url": "chapters/09-every-program-contains-a-language.html#p-09-but-sometimes-the-local-language-wants-to-stop"
+      "url": "chapters/09-every-program-contains-a-language.html#p-09-react-is-effectively-a-dialect-inside-javascript-the"
     },
     {
-      "id": "p-09-at-that-point-a-wizard-may-decide-to",
+      "id": "p-09-react-is-one-example-of-a-library-framework",
       "type": "paragraph",
-      "label": "At that point, a wizard may decide to make the language explicit.",
+      "label": "React is one example of a library, framework, or tool written in a language in such a way that it changes what the langu",
       "chapter": "09-every-program-contains-a-language",
-      "url": "chapters/09-every-program-contains-a-language.html#p-09-at-that-point-a-wizard-may-decide-to"
+      "url": "chapters/09-every-program-contains-a-language.html#p-09-react-is-one-example-of-a-library-framework"
+    },
+    {
+      "id": "p-09-but-this-is-not-limited-to-react-or",
+      "type": "paragraph",
+      "label": "But this is not limited to React or even JavaScript. Lisp is the quintessential example. There is no language that can b",
+      "chapter": "09-every-program-contains-a-language",
+      "url": "chapters/09-every-program-contains-a-language.html#p-09-but-this-is-not-limited-to-react-or"
+    },
+    {
+      "id": "p-09-and-people-have-done-so",
+      "type": "paragraph",
+      "label": "And people have done so.",
+      "chapter": "09-every-program-contains-a-language",
+      "url": "chapters/09-every-program-contains-a-language.html#p-09-and-people-have-done-so"
+    },
+    {
+      "id": "p-09-oh-boy-have-they-done-so",
+      "type": "paragraph",
+      "label": "Oh boy, have they done so.",
+      "chapter": "09-every-program-contains-a-language",
+      "url": "chapters/09-every-program-contains-a-language.html#p-09-oh-boy-have-they-done-so"
+    },
+    {
+      "id": "h-09-a-language-of-your-own",
+      "type": "heading",
+      "label": "A language of your own",
+      "chapter": "09-every-program-contains-a-language",
+      "url": "chapters/09-every-program-contains-a-language.html#h-09-a-language-of-your-own"
+    },
+    {
+      "id": "p-09-heres-the-problem-lisp-is-one-of-the",
+      "type": "paragraph",
+      "label": "Here's the problem: Lisp is one of the most expressive languages ever made. Almost anything invented in programming-lang",
+      "chapter": "09-every-program-contains-a-language",
+      "url": "chapters/09-every-program-contains-a-language.html#p-09-heres-the-problem-lisp-is-one-of-the"
+    },
+    {
+      "id": "aside-09-aside-ive-mentioned-that-javascript-was-inspired-by",
+      "type": "aside",
+      "label": "Aside: I've mentioned that JavaScript was inspired by Scheme. Scheme is a dialect of Lisp, so, by a sufficiently irrespo",
+      "chapter": "09-every-program-contains-a-language",
+      "url": "chapters/09-every-program-contains-a-language.html#aside-09-aside-ive-mentioned-that-javascript-was-inspired-by"
+    },
+    {
+      "id": "p-09-richard-gabriel-and-guy-steele-wrote-about-lisps",
+      "type": "paragraph",
+      "label": "Richard Gabriel and Guy Steele wrote about Lisp’s tendency to split into separate worlds in their rather long 1993 artic",
+      "chapter": "09-every-program-contains-a-language",
+      "url": "chapters/09-every-program-contains-a-language.html#p-09-richard-gabriel-and-guy-steele-wrote-about-lisps"
+    },
+    {
+      "id": "aside-09-it-would-seem-that-almost-every-little-research",
+      "type": "aside",
+      "label": "It would seem that almost every little research group has its own version of Lisp.",
+      "chapter": "09-every-program-contains-a-language",
+      "url": "chapters/09-every-program-contains-a-language.html#aside-09-it-would-seem-that-almost-every-little-research"
+    },
+    {
+      "id": "p-09-this-proliferation-eventually-led-to-common-lisp-an",
+      "type": "paragraph",
+      "label": "This proliferation eventually led to Common Lisp: an attempt to bring several diverging branches of the Lisp family back",
+      "chapter": "09-every-program-contains-a-language",
+      "url": "chapters/09-every-program-contains-a-language.html#p-09-this-proliferation-eventually-led-to-common-lisp-an"
+    },
+    {
+      "id": "p-09-but-the-issue-was-inherent-in-lisp-no",
+      "type": "paragraph",
+      "label": "But the issue was inherent in Lisp, no matter the version. Any developer could extend Lisp itself, from within Lisp. The",
+      "chapter": "09-every-program-contains-a-language",
+      "url": "chapters/09-every-program-contains-a-language.html#p-09-but-the-issue-was-inherent-in-lisp-no"
+    },
+    {
+      "id": "p-09-why-would-you-not-do-that",
+      "type": "paragraph",
+      "label": "Why would you not do that?",
+      "chapter": "09-every-program-contains-a-language",
+      "url": "chapters/09-every-program-contains-a-language.html#p-09-why-would-you-not-do-that"
+    },
+    {
+      "id": "p-09-a-famous-example-is-viaweb-one-of-the",
+      "type": "paragraph",
+      "label": "A famous example is Viaweb, one of the earliest web applications. Its founder, Paul Graham, wrote extensively about the ",
+      "chapter": "09-every-program-contains-a-language",
+      "url": "chapters/09-every-program-contains-a-language.html#p-09-a-famous-example-is-viaweb-one-of-the"
+    },
+    {
+      "id": "p-09-so-whats-the-problem-again-if-growing-your",
+      "type": "paragraph",
+      "label": "So what's the problem again? If growing your own language leads to this kind of success, why not grow as much of it as p",
+      "chapter": "09-every-program-contains-a-language",
+      "url": "chapters/09-every-program-contains-a-language.html#p-09-so-whats-the-problem-again-if-growing-your"
+    },
+    {
+      "id": "p-09-because-the-advantage-is-local",
+      "type": "paragraph",
+      "label": "Because the advantage is local.",
+      "chapter": "09-every-program-contains-a-language",
+      "url": "chapters/09-every-program-contains-a-language.html#p-09-because-the-advantage-is-local"
+    },
+    {
+      "id": "p-09-every-new-word-in-your-language-makes-the",
+      "type": "paragraph",
+      "label": "Every new word in your language makes the people inside the system more fluent, more able to express themselves. It also",
+      "chapter": "09-every-program-contains-a-language",
+      "url": "chapters/09-every-program-contains-a-language.html#p-09-every-new-word-in-your-language-makes-the"
+    },
+    {
+      "id": "h-09-the-vanilla-paradox",
+      "type": "heading",
+      "label": "The vanilla paradox",
+      "chapter": "09-every-program-contains-a-language",
+      "url": "chapters/09-every-program-contains-a-language.html#h-09-the-vanilla-paradox"
+    },
+    {
+      "id": "p-09-theres-a-recurring-movement-against-large-frameworks-like",
+      "type": "paragraph",
+      "label": "There's a recurring movement against large frameworks, like React. The idea is to return to a more standard, more 'vanil",
+      "chapter": "09-every-program-contains-a-language",
+      "url": "chapters/09-every-program-contains-a-language.html#p-09-theres-a-recurring-movement-against-large-frameworks-like"
+    },
+    {
+      "id": "p-09-i-admire-the-sentiment-but-unfortunately-cannot-consider",
+      "type": "paragraph",
+      "label": "I admire the sentiment, but unfortunately cannot consider myself a convert. I too think that the large frameworks tend t",
+      "chapter": "09-every-program-contains-a-language",
+      "url": "chapters/09-every-program-contains-a-language.html#p-09-i-admire-the-sentiment-but-unfortunately-cannot-consider"
+    },
+    {
+      "id": "p-09-but-theres-no-such-thing-as-a-vanilla",
+      "type": "paragraph",
+      "label": "But there's no such thing as a Vanilla JavaScript application. Not for long. And the same goes for PHP, C, Rust and cert",
+      "chapter": "09-every-program-contains-a-language",
+      "url": "chapters/09-every-program-contains-a-language.html#p-09-but-theres-no-such-thing-as-a-vanilla"
+    },
+    {
+      "id": "p-09-weve-already-discussed-the-reason-its-not-only",
+      "type": "paragraph",
+      "label": "We've already discussed the reason. It's not only Lisp that allows a developer to grow the language.",
+      "chapter": "09-every-program-contains-a-language",
+      "url": "chapters/09-every-program-contains-a-language.html#p-09-weve-already-discussed-the-reason-its-not-only"
+    },
+    {
+      "id": "p-09-it-is-universal",
+      "type": "paragraph",
+      "label": "It is universal.",
+      "chapter": "09-every-program-contains-a-language",
+      "url": "chapters/09-every-program-contains-a-language.html#p-09-it-is-universal"
+    },
+    {
+      "id": "p-09-in-the-previous-chapter-i-showed-that-programming",
+      "type": "paragraph",
+      "label": "In the previous chapter, I showed that programming languages make some thoughts easier to express than others. Different",
+      "chapter": "09-every-program-contains-a-language",
+      "url": "chapters/09-every-program-contains-a-language.html#p-09-in-the-previous-chapter-i-showed-that-programming"
+    },
+    {
+      "id": "p-09-lisp-makes-it-easy-to-build-that-power",
+      "type": "paragraph",
+      "label": "Lisp makes it easy to build that power into the language itself. But it is not limited to Lisp. Every language has that ",
+      "chapter": "09-every-program-contains-a-language",
+      "url": "chapters/09-every-program-contains-a-language.html#p-09-lisp-makes-it-easy-to-build-that-power"
+    },
+    {
+      "id": "p-09-this-is-not-an-accident-this-is-the",
+      "type": "paragraph",
+      "label": "This is not an accident. This is the point.",
+      "chapter": "09-every-program-contains-a-language",
+      "url": "chapters/09-every-program-contains-a-language.html#p-09-this-is-not-an-accident-this-is-the"
+    },
+    {
+      "id": "p-09-each-program-extends-its-host-language-the-syntax",
+      "type": "paragraph",
+      "label": "Each program extends its host language. The syntax doesn't change, but increasingly the program supplies the meaning.",
+      "chapter": "09-every-program-contains-a-language",
+      "url": "chapters/09-every-program-contains-a-language.html#p-09-each-program-extends-its-host-language-the-syntax"
+    },
+    {
+      "id": "p-09-vanilla-software-does-not-remain-vanilla-for-long",
+      "type": "paragraph",
+      "label": "Vanilla software does not remain vanilla for long.",
+      "chapter": "09-every-program-contains-a-language",
+      "url": "chapters/09-every-program-contains-a-language.html#p-09-vanilla-software-does-not-remain-vanilla-for-long"
+    },
+    {
+      "id": "p-09-nor-should-it",
+      "type": "paragraph",
+      "label": "Nor should it.",
+      "chapter": "09-every-program-contains-a-language",
+      "url": "chapters/09-every-program-contains-a-language.html#p-09-nor-should-it"
+    },
+    {
+      "id": "h-09-muddying-the-waters",
+      "type": "heading",
+      "label": "Muddying the waters",
+      "chapter": "09-every-program-contains-a-language",
+      "url": "chapters/09-every-program-contains-a-language.html#h-09-muddying-the-waters"
+    },
+    {
+      "id": "p-09-in-1991-i-moved-to-the-university-of",
+      "type": "paragraph",
+      "label": "In 1991, I moved to the University of Twente campus to study computer science. It was a heady time. Not least because I ",
+      "chapter": "09-every-program-contains-a-language",
+      "url": "chapters/09-every-program-contains-a-language.html#p-09-in-1991-i-moved-to-the-university-of"
+    },
+    {
+      "id": "p-09-our-local-instance-and-the-cause-of-much",
+      "type": "paragraph",
+      "label": "Our local instance, and the cause of much sleep deprivation and many missed lectures, was called Underworld. It was buil",
+      "chapter": "09-every-program-contains-a-language",
+      "url": "chapters/09-every-program-contains-a-language.html#p-09-our-local-instance-and-the-cause-of-much"
+    },
+    {
+      "id": "p-09-i-have-to-explain-that-last-sentence-a",
+      "type": "paragraph",
+      "label": "I have to explain that last sentence a little. I mean 'inside' fairly literally. You didn't just look at a codebase and ",
+      "chapter": "09-every-program-contains-a-language",
+      "url": "chapters/09-every-program-contains-a-language.html#p-09-i-have-to-explain-that-last-sentence-a"
+    },
+    {
+      "id": "p-09-lpmud-not-only-had-rooms-you-were-a",
+      "type": "paragraph",
+      "label": "LPMud not only had 'rooms'. You were a 'player', and creatures that roamed the world were 'monsters'. The system had a '",
+      "chapter": "09-every-program-contains-a-language",
+      "url": "chapters/09-every-program-contains-a-language.html#p-09-lpmud-not-only-had-rooms-you-were-a"
+    },
+    {
+      "id": "p-09-and-it-fit",
+      "type": "paragraph",
+      "label": "And it fit.",
+      "chapter": "09-every-program-contains-a-language",
+      "url": "chapters/09-every-program-contains-a-language.html#p-09-and-it-fit"
+    },
+    {
+      "id": "p-09-lpmud-is-still-around-there-are-still-wizards",
+      "type": "paragraph",
+      "label": "LPMud is still around. There are still wizards writing inside its code, its world. Unfortunately, few other software sys",
+      "chapter": "09-every-program-contains-a-language",
+      "url": "chapters/09-every-program-contains-a-language.html#p-09-lpmud-is-still-around-there-are-still-wizards"
+    },
+    {
+      "id": "h-09-a-pattern-emerges",
+      "type": "heading",
+      "label": "A pattern emerges",
+      "chapter": "09-every-program-contains-a-language",
+      "url": "chapters/09-every-program-contains-a-language.html#h-09-a-pattern-emerges"
+    },
+    {
+      "id": "p-09-domain-driven-design-attempts-to-make-developers-more",
+      "type": "paragraph",
+      "label": "Domain-Driven Design attempts to make developers more conscious of this. It tells them to learn the ubiquitous language ",
+      "chapter": "09-every-program-contains-a-language",
+      "url": "chapters/09-every-program-contains-a-language.html#p-09-domain-driven-design-attempts-to-make-developers-more"
+    },
+    {
+      "id": "p-09-design-patterns-take-a-different-route-they-teach",
+      "type": "paragraph",
+      "label": "Design patterns take a different route. They teach developers to use common patterns, and common words, across different",
+      "chapter": "09-every-program-contains-a-language",
+      "url": "chapters/09-every-program-contains-a-language.html#p-09-design-patterns-take-a-different-route-they-teach"
+    },
+    {
+      "id": "p-09-i-cannot-disagree-that-they-succeed-in-their",
+      "type": "paragraph",
+      "label": "I cannot disagree that they succeed in their stated aims. But the price is that the language may fit the programmers bet",
+      "chapter": "09-every-program-contains-a-language",
+      "url": "chapters/09-every-program-contains-a-language.html#p-09-i-cannot-disagree-that-they-succeed-in-their"
+    },
+    {
+      "id": "p-09-so-far-ive-hopefully-shown-that-programs-extend",
+      "type": "paragraph",
+      "label": "So far I've hopefully shown that programs extend their host language. They create their own dialect. You can choose that",
+      "chapter": "09-every-program-contains-a-language",
+      "url": "chapters/09-every-program-contains-a-language.html#p-09-so-far-ive-hopefully-shown-that-programs-extend"
+    },
+    {
+      "id": "p-09-i-grew-up-in-a-christian-household-i",
+      "type": "paragraph",
+      "label": "I grew up in a Christian household. I think it's more like the curse of Babel.",
+      "chapter": "09-every-program-contains-a-language",
+      "url": "chapters/09-every-program-contains-a-language.html#p-09-i-grew-up-in-a-christian-household-i"
+    },
+    {
+      "id": "p-09-domain-driven-design-seems-to-offer-a-way",
+      "type": "paragraph",
+      "label": "Domain-Driven Design seems to offer a way through: listen to the language of the problem domain and mirror it in the cod",
+      "chapter": "09-every-program-contains-a-language",
+      "url": "chapters/09-every-program-contains-a-language.html#p-09-domain-driven-design-seems-to-offer-a-way"
+    },
+    {
+      "id": "p-09-software-development-becomes-partly-a-matter-of-becoming",
+      "type": "paragraph",
+      "label": "Software development becomes partly a matter of becoming one with your world, your domain. It's almost holistic. Not som",
+      "chapter": "09-every-program-contains-a-language",
+      "url": "chapters/09-every-program-contains-a-language.html#p-09-software-development-becomes-partly-a-matter-of-becoming"
+    },
+    {
+      "id": "p-09-more-something-for-wizards",
+      "type": "paragraph",
+      "label": "More something for wizards.",
+      "chapter": "09-every-program-contains-a-language",
+      "url": "chapters/09-every-program-contains-a-language.html#p-09-more-something-for-wizards"
+    },
+    {
+      "id": "p-09-all-choices-have-trade-offs-the-language-that",
+      "type": "paragraph",
+      "label": "All choices have trade-offs. The language that allows you to work quickly now may slow down the next person who has to l",
+      "chapter": "09-every-program-contains-a-language",
+      "url": "chapters/09-every-program-contains-a-language.html#p-09-all-choices-have-trade-offs-the-language-that"
     },
     {
       "id": "rule-09-wizards-eighth-rule",
@@ -2762,88 +3070,25 @@
       "url": "chapters/09-every-program-contains-a-language.html#rule-09-wizards-eighth-rule"
     },
     {
-      "id": "h-09-domain-specific-languages",
-      "type": "heading",
-      "label": "Domain-Specific Languages",
+      "id": "p-09-im-sorry-that-i-cannot-give-you-easy",
+      "type": "paragraph",
+      "label": "I'm sorry that I cannot give you easy advice to follow. And what's worse, the curse of Babel isn't limited to your code.",
       "chapter": "09-every-program-contains-a-language",
-      "url": "chapters/09-every-program-contains-a-language.html#h-09-domain-specific-languages"
+      "url": "chapters/09-every-program-contains-a-language.html#p-09-im-sorry-that-i-cannot-give-you-easy"
     },
     {
-      "id": "p-09-a-domain-specific-language-or-dsl-is-a",
+      "id": "p-09-its-in-your-data-as-well",
       "type": "paragraph",
-      "label": "A domain-specific language, or DSL, is a language made for one kind of problem. A DSL is much more limited than a normal",
+      "label": "It's in your data as well.",
       "chapter": "09-every-program-contains-a-language",
-      "url": "chapters/09-every-program-contains-a-language.html#p-09-a-domain-specific-language-or-dsl-is-a"
+      "url": "chapters/09-every-program-contains-a-language.html#p-09-its-in-your-data-as-well"
     },
     {
-      "id": "p-09-when-you-start-using-dsls-you-dont-use",
+      "id": "p-09-code-can-be-replaced-data-has-a-habit",
       "type": "paragraph",
-      "label": "When you start using DSLs, you don't use a single programming language anymore. You use many small languages, and glue t",
+      "label": "Code can be replaced. Data has a habit of surviving.",
       "chapter": "09-every-program-contains-a-language",
-      "url": "chapters/09-every-program-contains-a-language.html#p-09-when-you-start-using-dsls-you-dont-use"
-    },
-    {
-      "id": "p-09-creating-a-true-dsl-means-creating-your-own",
-      "type": "paragraph",
-      "label": "Creating a true DSL means creating your own compiler and runtime. It makes the boundary between the DSL and the source p",
-      "chapter": "09-every-program-contains-a-language",
-      "url": "chapters/09-every-program-contains-a-language.html#p-09-creating-a-true-dsl-means-creating-your-own"
-    },
-    {
-      "id": "p-09-the-best-dsls-are-so-well-known-that",
-      "type": "paragraph",
-      "label": "The best DSLs are so well known that we don't think of them as DSLs anymore.",
-      "chapter": "09-every-program-contains-a-language",
-      "url": "chapters/09-every-program-contains-a-language.html#p-09-the-best-dsls-are-so-well-known-that"
-    },
-    {
-      "id": "p-09-one-example-is-regular-expressions-any-non-trivial",
-      "type": "paragraph",
-      "label": "One example is Regular Expressions. Any non-trivial program will have them. Beginning programmers hate them, because the",
-      "chapter": "09-every-program-contains-a-language",
-      "url": "chapters/09-every-program-contains-a-language.html#p-09-one-example-is-regular-expressions-any-non-trivial"
-    },
-    {
-      "id": "p-09-another-example-is-sql-almost-any-software-that",
-      "type": "paragraph",
-      "label": "Another example is SQL. Almost any software that uses a database will have some SQL in it. It may be hidden behind an OR",
-      "chapter": "09-every-program-contains-a-language",
-      "url": "chapters/09-every-program-contains-a-language.html#p-09-another-example-is-sql-almost-any-software-that"
-    },
-    {
-      "id": "p-09-done-correctly-a-dsl-allows-you-to-divide",
-      "type": "paragraph",
-      "label": "Done correctly, a DSL allows you to divide your problem along natural boundaries in the domain.",
-      "chapter": "09-every-program-contains-a-language",
-      "url": "chapters/09-every-program-contains-a-language.html#p-09-done-correctly-a-dsl-allows-you-to-divide"
-    },
-    {
-      "id": "p-09-sql-allows-you-to-express-ideas-about-data",
-      "type": "paragraph",
-      "label": "SQL allows you to express ideas about data without worrying about functions, loops or variables. Regular expressions all",
-      "chapter": "09-every-program-contains-a-language",
-      "url": "chapters/09-every-program-contains-a-language.html#p-09-sql-allows-you-to-express-ideas-about-data"
-    },
-    {
-      "id": "p-09-inside-a-dsl-you-can-focus-on-the",
-      "type": "paragraph",
-      "label": "Inside a DSL, you can focus on the specific problem it was designed to solve, and forget the outer world.",
-      "chapter": "09-every-program-contains-a-language",
-      "url": "chapters/09-every-program-contains-a-language.html#p-09-inside-a-dsl-you-can-focus-on-the"
-    },
-    {
-      "id": "p-09-but-the-most-important-thing-to-remember-is",
-      "type": "paragraph",
-      "label": "But the most important thing to remember is that you are creating a new language whenever you add any variable, function",
-      "chapter": "09-every-program-contains-a-language",
-      "url": "chapters/09-every-program-contains-a-language.html#p-09-but-the-most-important-thing-to-remember-is"
-    },
-    {
-      "id": "p-09-designed-for-humans-not-computers",
-      "type": "paragraph",
-      "label": "Designed for humans, not computers.",
-      "chapter": "09-every-program-contains-a-language",
-      "url": "chapters/09-every-program-contains-a-language.html#p-09-designed-for-humans-not-computers"
+      "url": "chapters/09-every-program-contains-a-language.html#p-09-code-can-be-replaced-data-has-a-habit"
     },
     {
       "id": "h-10-code-exhibit-growing-queries-inside-javascript",
