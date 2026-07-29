@@ -1,7 +1,7 @@
 {
   "id": "programming-for-wizards",
   "title": "Programming for Wizards",
-  "generatedAt": "2026-07-29T14:16:06.121Z",
+  "generatedAt": "2026-07-29T14:31:45.210Z",
   "phase": "01-enhanced-static-manuscript",
   "features": {
     "notes": "planned",
@@ -130,13 +130,13 @@
     {
       "id": "10-code-exhibit-extending-javascript-with-jaqt",
       "number": "10",
-      "title": "Code exhibit: growing queries inside javascript",
+      "title": "Code exhibit: growing queries inside JavaScript",
       "part": "Part III: Inventing languages",
       "partId": "inventing-languages",
       "url": "chapters/10-code-exhibit-extending-javascript-with-jaqt.html",
       "previous": "09-every-program-contains-a-language",
       "next": "interlude-04-worse-spell",
-      "wordCount": 2044,
+      "wordCount": 1863,
       "rule": null
     },
     {
@@ -371,11 +371,11 @@
       "id": "10-code-exhibit-extending-javascript-with-jaqt",
       "kind": "chapter",
       "label": "10",
-      "title": "Code exhibit: growing queries inside javascript",
+      "title": "Code exhibit: growing queries inside JavaScript",
       "part": "Part III: Inventing languages",
       "partId": "inventing-languages",
       "url": "chapters/10-code-exhibit-extending-javascript-with-jaqt.html",
-      "wordCount": 2044
+      "wordCount": 1863
     },
     {
       "id": "interlude-04-worse-spell",
@@ -3149,65 +3149,30 @@
     {
       "id": "h-10-code-exhibit-growing-queries-inside-javascript",
       "type": "heading",
-      "label": "Code exhibit: growing queries inside javascript",
+      "label": "Code exhibit: growing queries inside JavaScript",
       "chapter": "10-code-exhibit-extending-javascript-with-jaqt",
       "url": "chapters/10-code-exhibit-extending-javascript-with-jaqt.html#h-10-code-exhibit-growing-queries-inside-javascript"
     },
     {
       "id": "p-10-the-previous-chapter-introduced-the-concept-of-a",
       "type": "paragraph",
-      "label": "The previous chapter introduced the concept of a domain-specific language as a way to focus on a specific problem, witho",
+      "label": "Chapter 8 introduced the concept of a domain-specific language: a little language focused on a specific problem. But it ",
       "chapter": "10-code-exhibit-extending-javascript-with-jaqt",
       "url": "chapters/10-code-exhibit-extending-javascript-with-jaqt.html#p-10-the-previous-chapter-introduced-the-concept-of-a"
     },
     {
       "id": "p-10-you-can-create-a-dsl-with-its-own",
       "type": "paragraph",
-      "label": "You can create a DSL with its own parser or compiler, as I've written about in the previous chapter, but you don't alway",
+      "label": "You can create a DSL with its own parser or compiler. But you don't always have to.",
       "chapter": "10-code-exhibit-extending-javascript-with-jaqt",
       "url": "chapters/10-code-exhibit-extending-javascript-with-jaqt.html#p-10-you-can-create-a-dsl-with-its-own"
     },
     {
-      "id": "p-10-sometimes-the-language-you-need-is-already-hiding",
-      "type": "paragraph",
-      "label": "Sometimes the language you need is already hiding inside the language you're using. You add a few conventions, a few hel",
-      "chapter": "10-code-exhibit-extending-javascript-with-jaqt",
-      "url": "chapters/10-code-exhibit-extending-javascript-with-jaqt.html#p-10-sometimes-the-language-you-need-is-already-hiding"
-    },
-    {
-      "id": "p-10-that-distinction-matters-a-separate-parser-creates-a",
-      "type": "paragraph",
-      "label": "That distinction matters. A separate parser creates a hard border. On one side is PHP, JavaScript, Python, or whatever l",
-      "chapter": "10-code-exhibit-extending-javascript-with-jaqt",
-      "url": "chapters/10-code-exhibit-extending-javascript-with-jaqt.html#p-10-that-distinction-matters-a-separate-parser-creates-a"
-    },
-    {
-      "id": "p-10-sometimes-that-border-is-worth-it-sql-is",
-      "type": "paragraph",
-      "label": "Occasionally that border is worth it. SQL is not JavaScript, and that is part of its power. Regular expressions are thei",
-      "chapter": "10-code-exhibit-extending-javascript-with-jaqt",
-      "url": "chapters/10-code-exhibit-extending-javascript-with-jaqt.html#p-10-sometimes-that-border-is-worth-it-sql-is"
-    },
-    {
-      "id": "p-10-but-borders-are-expensive-so-before-we-build",
-      "type": "paragraph",
-      "label": "But borders are expensive. So before we build one, it is worth asking a wizard's question:",
-      "chapter": "10-code-exhibit-extending-javascript-with-jaqt",
-      "url": "chapters/10-code-exhibit-extending-javascript-with-jaqt.html#p-10-but-borders-are-expensive-so-before-we-build"
-    },
-    {
-      "id": "aside-10-what-if-the-language-we-need-is-already",
+      "id": "aside-10-note-for-this-example-well-wade-into-the",
       "type": "aside",
-      "label": "What if the language we need is already hiding inside the language we have?",
+      "label": "Note: For this example, we'll wade into the deeper waters of JavaScript. Don't worry if you didn't bring your wellies. Y",
       "chapter": "10-code-exhibit-extending-javascript-with-jaqt",
-      "url": "chapters/10-code-exhibit-extending-javascript-with-jaqt.html#aside-10-what-if-the-language-we-need-is-already"
-    },
-    {
-      "id": "p-10-now-for-this-example-well-wade-into-the",
-      "type": "paragraph",
-      "label": "Now, for this example, we'll wade into the deeper waters of JavaScript. Don't worry if you didn't bring your wellies. Yo",
-      "chapter": "10-code-exhibit-extending-javascript-with-jaqt",
-      "url": "chapters/10-code-exhibit-extending-javascript-with-jaqt.html#p-10-now-for-this-example-well-wade-into-the"
+      "url": "chapters/10-code-exhibit-extending-javascript-with-jaqt.html#aside-10-note-for-this-example-well-wade-into-the"
     },
     {
       "id": "h-10-a-pile-of-little-records",
