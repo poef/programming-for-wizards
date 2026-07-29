@@ -104,10 +104,10 @@ Nor should it.
 ## Muddying the waters
 
 <!-- paragraph-id: p-09-in-1991-i-moved-to-the-university-of -->
-In 1991, I moved to the University of Twente campus to study computer science. It was a heady time. Not least because I was introduced to networks, local at first, and then to the wonder of MUDs: Multi-User Dungeons. 
+In 1991, as a student, I was introduced to the wonder of MUDs: Multi-User Dungeons. 
 
 <!-- paragraph-id: p-09-our-local-instance-and-the-cause-of-much -->
-Our local instance, and the cause of much sleep deprivation and many missed lectures, was called *Underworld*. It was built in LPMud. It was my first encounter with a reasonably large and complex piece of software--at least from the inside.
+Our local MUD, the cause of much sleep deprivation and many missed lectures, was called *Underworld*. It was built in LPMud. It was my first encounter with a reasonably large and complex piece of software--at least from the inside.
 
 <!-- paragraph-id: p-09-i-have-to-explain-that-last-sentence-a -->
 I have to explain that last sentence a little. I mean 'inside' fairly literally. You didn't just look at a codebase and edit some files. You were a wizard, and you walked through the codebase. Each room was a separate file. You could stand inside that room and edit it while you were there. 
@@ -136,7 +136,7 @@ I cannot disagree that they succeed in their stated aims. But the price is that 
 So far I've hopefully shown that programs extend their host language. They create their own dialect. You can choose that dialect, if you're careful. But when it isn't a conscious choice, the dialect may become unwieldy. It may become difficult to think new thoughts or to extend the program. Programmers call this technical debt. 
 
 <!-- paragraph-id: p-09-i-grew-up-in-a-christian-household-i -->
-I grew up in a Christian household. I think it's more like the curse of Babel.
+I think it's more like the curse of Babel.
 
 <!-- paragraph-id: p-09-domain-driven-design-seems-to-offer-a-way -->
 Domain-Driven Design seems to offer a way through: listen to the language of the problem domain and mirror it in the code. I think that is wise. But what is that language? Where does it start, and where does it end?

@@ -197,6 +197,29 @@ Just like human languages.
 >
 > The bill always comes due.
 
-<!-- paragraph-id: p-08-you-should-be-aware-of-this-tension-you -->
-You should be aware of this tension. You do not escape it by choosing the one true language, because the one true language does not exist. You escape it, when you can, by making the language of the program fit the problem more closely.
+<!-- paragraph-id: p-08-there-is-an-alternative-approach-that-may-help -->
+There is an alternative approach that may help. Instead of trying to provide the one true programming language for every problem and every programmer, why not create more specialized languages and switch between them?
 
+<!-- paragraph-id: p-08-such-a-domain-specific-language-can-be-tiny -->
+Such a Domain-Specific Language can be tiny, easy to learn, and focused only on doing the one thing that the general language has trouble expressing clearly and succinctly. 
+
+<!-- paragraph-id: p-08-this-is-not-a-new-idea-as-a -->
+This is not a new idea. As a developer, you've most likely used such a language without noticing it as one. A common example is regular expressions. Each one is written in a tiny language designed only to help match strings of text. 
+
+<!-- paragraph-id: p-08-another-more-obvious-example-is-sql-most-databases -->
+Another, more obvious example is SQL. Most databases speak a dialect of SQL, and you use it to query your data. You may have delegated the task of actually understanding SQL to a separate library, an ORM--Object-Relational Mapper--which means only that you will have a harder time debugging the problems it eventually introduces.
+
+<!-- paragraph-id: p-08-these-are-successful-and-common-examples-there-are -->
+These are successful and common examples. There are many more. They work because they focus so tightly on one problem, one domain. You don't need to learn an entire new programming language, or at least not a large one. And many of them are available in most general-purpose languages you are likely to use.
+
+<!-- paragraph-id: p-08-so-this-is-the-perfect-solution-right -->
+So this is the perfect solution, right?
+
+<!-- paragraph-id: p-08-again-there-is-always-a-cost -->
+Again, there is always a cost. 
+
+<!-- paragraph-id: p-08-a-dsl-introduces-a-new-boundary-a-new -->
+A DSL introduces a new boundary, a new border, that is not always easy to cross. Functions and variables from your programming language are not automatically available on the other side. You will need to bring them over. And if you're not careful, you may end up with broken or insecure software. SQL Injection is the friendly term you will come to hate.
+
+<!-- paragraph-id: p-08-and-just-as-with-sql-not-every-programmer -->
+And, just as with SQL, not every programmer will speak your DSL or understand it.
