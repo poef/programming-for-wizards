@@ -116,5 +116,35 @@ Wait a minute... what is this `nand` thing? Why not just write `not and`?
 <!-- paragraph-id: p-03-well-it-so-happens-that-your-computer-can -->
 Well... it so happens that your computer can implement just about everything with only [`nand` logic](https://en.wikipedia.org/wiki/NAND_logic). All other operations can be written as combinations of one or more NANDs. Hardware wizards found ways to create tiny [NAND _gates_](https://en.wikipedia.org/wiki/NAND_gate), and from those gates built the tiny parts of modern CPUs.
 
+## This much is true
+
+What does all this logic trickery do for you? Well, you can reason with it, of course. But doing so can become difficult pretty quickly. For example, when is this logic equation true?
+
+```
+(not p and not q and r) 
+or (not p and q and r) 
+or (p and q and r) 
+or (p and not q and r)
+```
+
+Unless you are a computer, you probably struggle coming up with the answer. A truth table won't help you here, there are three variables, not two. It becomes difficult to see the pattern. But there is a slightly different truth table that may help: A [Karnaugh map](https://en.wikipedia.org/wiki/Karnaugh_map):
+
+| p \ qr | 00 | 01 | 11 | 10 |
+| ------ | -- | -- | -- | -- |
+| 0      | 0  | 1  | 1  | 0  |
+| 1      | 0  | 1  | 1  | 0  |
+
+Instead of `true` and `false`, we're using `1` and `0`, but they mean the same thing.
+
+The column headings now show a combination of both `q` and `r`, in an unusual order. The trick is that this order makes sure that only one of those values changes when you move to the left or the right. So each column shows answers that only differ in one detail, one input, compared to the columns next to them.
+
+What you probably noticed immediately is that the `true` outputs, the `1`s, are clustered in a block in the middle. If you look carefully, in that block both `p` and `q` vary, while `r` stays the same. So the output always matches the value of `r`. 
+
+You can simplify the whole equation to just `r` and get the same result.
+
+The map did not change the equation, it only changed how it was written down. It contains the same answers as a truth table would. The only thing that changes is that we chose a notation that allows you to see the patterns.
+
+A useful notation changes what you can easily express and see.
+
 <!-- paragraph-id: p-03-tables-dont-lie-but-people-do-and-we -->
 Tables don't lie, but people do. And we like it. So much that we've invented something entirely new. Something clever and diabolical, called language.
