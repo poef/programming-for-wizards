@@ -219,7 +219,7 @@ So this is the perfect solution, right?
 Again, there is always a cost. 
 
 <!-- paragraph-id: p-08-a-dsl-introduces-a-new-boundary-a-new -->
-A DSL introduces a new boundary, a new border, that is not always easy to cross. Functions and variables from your programming language are not automatically available on the other side. You will need to bring them over. And if you're not careful, you may end up with broken or insecure software. SQL Injection is the friendly term you will come to hate.
+A DSL introduces a new boundary, a new border, that is not always easy to cross. Functions and variables from your programming language are not automatically available on the other side. You will need to bring them over. And if you're not careful, you may end up with broken or insecure software. SQL injection is the friendly term you will come to hate.
 
 <!-- paragraph-id: p-08-and-just-as-with-sql-not-every-programmer -->
 And, just as with SQL, not every programmer will speak your DSL or understand it.
