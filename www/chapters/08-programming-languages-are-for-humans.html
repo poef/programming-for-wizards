@@ -113,7 +113,7 @@
   <div class="book-progress" role="progressbar" aria-label="Book progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" data-book-progress>
     <span data-book-progress-bar></span>
   </div>
-  <div id="book-start" class="manuscript-pages" data-page-scroller data-book-chapter-id="08-programming-languages-are-for-humans" data-book-chapter-index="10" data-book-page-weights="558,27,1759,763,629,26,1304,1676,1263,20,1083,1447,2044,29,1591,1216,1374,30,1171,1337,1022,37,728,74,133">
+  <div id="book-start" class="manuscript-pages" data-page-scroller data-book-chapter-id="08-programming-languages-are-for-humans" data-book-chapter-index="10" data-book-page-weights="558,27,1759,763,629,26,1304,1676,1263,20,1342,1415,2044,29,1591,1216,1374,30,1171,1337,1022,37,728,74,133">
   <header class="chapter-header ">
     <p class="chapter-kicker">Part III: Inventing languages</p>
     <p class="chapter-number">Chapter 08</p>
@@ -387,10 +387,42 @@ END</code></pre>
 <p class="rule-label">Wizard's seventh rule</p>
 <p>The bill always comes due.</p>
 </aside>
-<p id="p-08-you-should-be-aware-of-this-tension-you" data-note-target><span class="passage-margin" data-passage-margin aria-label="Margin for this passage">
+<p id="p-08-there-is-an-alternative-approach-that-may-help" data-note-target><span class="passage-margin" data-passage-margin aria-label="Margin for this passage">
 <span class="passage-margin-notes" data-passage-margin-notes></span>
 
-</span>You should be aware of this tension. You do not escape it by choosing the one true language, because the one true language does not exist. You escape it, when you can, by making the language of the program fit the problem more closely.</p>
+</span>There is an alternative approach that may help. Instead of trying to provide the one true programming language for every problem and every programmer, why not create more specialized languages and switch between them?</p>
+<p id="p-08-such-a-domain-specific-language-can-be-tiny" data-note-target><span class="passage-margin" data-passage-margin aria-label="Margin for this passage">
+<span class="passage-margin-notes" data-passage-margin-notes></span>
+
+</span>Such a Domain-Specific Language can be tiny, easy to learn, and focused only on doing the one thing that the general language has trouble expressing clearly and succinctly.</p>
+<p id="p-08-this-is-not-a-new-idea-as-a" data-note-target><span class="passage-margin" data-passage-margin aria-label="Margin for this passage">
+<span class="passage-margin-notes" data-passage-margin-notes></span>
+
+</span>This is not a new idea. As a developer, you've most likely used such a language without noticing it as one. A common example is regular expressions. Each one is written in a tiny language designed only to help match strings of text.</p>
+<p id="p-08-another-more-obvious-example-is-sql-most-databases" data-note-target><span class="passage-margin" data-passage-margin aria-label="Margin for this passage">
+<span class="passage-margin-notes" data-passage-margin-notes></span>
+
+</span>Another, more obvious example is SQL. Most databases speak a dialect of SQL, and you use it to query your data. You may have delegated the task of actually understanding SQL to a separate library, an ORM—Object-Relational Mapper—which means only that you will have a harder time debugging the problems it eventually introduces.</p>
+<p id="p-08-these-are-successful-and-common-examples-there-are" data-note-target><span class="passage-margin" data-passage-margin aria-label="Margin for this passage">
+<span class="passage-margin-notes" data-passage-margin-notes></span>
+
+</span>These are successful and common examples. There are many more. They work because they focus so tightly on one problem, one domain. You don't need to learn an entire new programming language, or at least not a large one. And many of them are available in most general-purpose languages you are likely to use.</p>
+<p id="p-08-so-this-is-the-perfect-solution-right" data-note-target><span class="passage-margin" data-passage-margin aria-label="Margin for this passage">
+<span class="passage-margin-notes" data-passage-margin-notes></span>
+
+</span>So this is the perfect solution, right?</p>
+<p id="p-08-again-there-is-always-a-cost" data-note-target><span class="passage-margin" data-passage-margin aria-label="Margin for this passage">
+<span class="passage-margin-notes" data-passage-margin-notes></span>
+
+</span>Again, there is always a cost.</p>
+<p id="p-08-a-dsl-introduces-a-new-boundary-a-new" data-note-target><span class="passage-margin" data-passage-margin aria-label="Margin for this passage">
+<span class="passage-margin-notes" data-passage-margin-notes></span>
+
+</span>A DSL introduces a new boundary, a new border, that is not always easy to cross. Functions and variables from your programming language are not automatically available on the other side. You will need to bring them over. And if you're not careful, you may end up with broken or insecure software. SQL Injection is the friendly term you will come to hate.</p>
+<p id="p-08-and-just-as-with-sql-not-every-programmer" data-note-target><span class="passage-margin" data-passage-margin aria-label="Margin for this passage">
+<span class="passage-margin-notes" data-passage-margin-notes></span>
+
+</span>And, just as with SQL, not every programmer will speak your DSL or understand it.</p>
   <nav class="chapter-pagination" aria-label="Chapter navigation">
     <a rel="prev" href="interlude-03-poor-protocol.html"><span>Previous</span>Interlude</a>
     <a rel="next" href="09-every-program-contains-a-language.html"><span>Next</span>Separated by a Common Language</a>

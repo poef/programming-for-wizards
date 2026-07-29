@@ -1,7 +1,7 @@
 {
   "id": "programming-for-wizards",
   "title": "Programming for Wizards",
-  "generatedAt": "2026-07-28T08:19:16.327Z",
+  "generatedAt": "2026-07-29T14:16:06.121Z",
   "phase": "01-enhanced-static-manuscript",
   "features": {
     "notes": "planned",
@@ -112,7 +112,7 @@
       "url": "chapters/08-programming-languages-are-for-humans.html",
       "previous": "interlude-03-poor-protocol",
       "next": "09-every-program-contains-a-language",
-      "wordCount": 1083,
+      "wordCount": 1342,
       "rule": "Wizard's seventh rule"
     },
     {
@@ -124,7 +124,7 @@
       "url": "chapters/09-every-program-contains-a-language.html",
       "previous": "08-programming-languages-are-for-humans",
       "next": "10-code-exhibit-extending-javascript-with-jaqt",
-      "wordCount": 1447,
+      "wordCount": 1415,
       "rule": "Wizard's eighth rule"
     },
     {
@@ -355,7 +355,7 @@
       "part": "Part III: Inventing languages",
       "partId": "inventing-languages",
       "url": "chapters/08-programming-languages-are-for-humans.html",
-      "wordCount": 1083
+      "wordCount": 1342
     },
     {
       "id": "09-every-program-contains-a-language",
@@ -365,7 +365,7 @@
       "part": "Part III: Inventing languages",
       "partId": "inventing-languages",
       "url": "chapters/09-every-program-contains-a-language.html",
-      "wordCount": 1447
+      "wordCount": 1415
     },
     {
       "id": "10-code-exhibit-extending-javascript-with-jaqt",
@@ -2699,11 +2699,67 @@
       "url": "chapters/08-programming-languages-are-for-humans.html#rule-08-wizards-seventh-rule"
     },
     {
-      "id": "p-08-you-should-be-aware-of-this-tension-you",
+      "id": "p-08-there-is-an-alternative-approach-that-may-help",
       "type": "paragraph",
-      "label": "You should be aware of this tension. You do not escape it by choosing the one true language, because the one true langua",
+      "label": "There is an alternative approach that may help. Instead of trying to provide the one true programming language for every",
       "chapter": "08-programming-languages-are-for-humans",
-      "url": "chapters/08-programming-languages-are-for-humans.html#p-08-you-should-be-aware-of-this-tension-you"
+      "url": "chapters/08-programming-languages-are-for-humans.html#p-08-there-is-an-alternative-approach-that-may-help"
+    },
+    {
+      "id": "p-08-such-a-domain-specific-language-can-be-tiny",
+      "type": "paragraph",
+      "label": "Such a Domain-Specific Language can be tiny, easy to learn, and focused only on doing the one thing that the general lan",
+      "chapter": "08-programming-languages-are-for-humans",
+      "url": "chapters/08-programming-languages-are-for-humans.html#p-08-such-a-domain-specific-language-can-be-tiny"
+    },
+    {
+      "id": "p-08-this-is-not-a-new-idea-as-a",
+      "type": "paragraph",
+      "label": "This is not a new idea. As a developer, you've most likely used such a language without noticing it as one. A common exa",
+      "chapter": "08-programming-languages-are-for-humans",
+      "url": "chapters/08-programming-languages-are-for-humans.html#p-08-this-is-not-a-new-idea-as-a"
+    },
+    {
+      "id": "p-08-another-more-obvious-example-is-sql-most-databases",
+      "type": "paragraph",
+      "label": "Another, more obvious example is SQL. Most databases speak a dialect of SQL, and you use it to query your data. You may ",
+      "chapter": "08-programming-languages-are-for-humans",
+      "url": "chapters/08-programming-languages-are-for-humans.html#p-08-another-more-obvious-example-is-sql-most-databases"
+    },
+    {
+      "id": "p-08-these-are-successful-and-common-examples-there-are",
+      "type": "paragraph",
+      "label": "These are successful and common examples. There are many more. They work because they focus so tightly on one problem, o",
+      "chapter": "08-programming-languages-are-for-humans",
+      "url": "chapters/08-programming-languages-are-for-humans.html#p-08-these-are-successful-and-common-examples-there-are"
+    },
+    {
+      "id": "p-08-so-this-is-the-perfect-solution-right",
+      "type": "paragraph",
+      "label": "So this is the perfect solution, right?",
+      "chapter": "08-programming-languages-are-for-humans",
+      "url": "chapters/08-programming-languages-are-for-humans.html#p-08-so-this-is-the-perfect-solution-right"
+    },
+    {
+      "id": "p-08-again-there-is-always-a-cost",
+      "type": "paragraph",
+      "label": "Again, there is always a cost.",
+      "chapter": "08-programming-languages-are-for-humans",
+      "url": "chapters/08-programming-languages-are-for-humans.html#p-08-again-there-is-always-a-cost"
+    },
+    {
+      "id": "p-08-a-dsl-introduces-a-new-boundary-a-new",
+      "type": "paragraph",
+      "label": "A DSL introduces a new boundary, a new border, that is not always easy to cross. Functions and variables from your progr",
+      "chapter": "08-programming-languages-are-for-humans",
+      "url": "chapters/08-programming-languages-are-for-humans.html#p-08-a-dsl-introduces-a-new-boundary-a-new"
+    },
+    {
+      "id": "p-08-and-just-as-with-sql-not-every-programmer",
+      "type": "paragraph",
+      "label": "And, just as with SQL, not every programmer will speak your DSL or understand it.",
+      "chapter": "08-programming-languages-are-for-humans",
+      "url": "chapters/08-programming-languages-are-for-humans.html#p-08-and-just-as-with-sql-not-every-programmer"
     },
     {
       "id": "h-09-separated-by-a-common-language",
@@ -2953,14 +3009,14 @@
     {
       "id": "p-09-in-1991-i-moved-to-the-university-of",
       "type": "paragraph",
-      "label": "In 1991, I moved to the University of Twente campus to study computer science. It was a heady time. Not least because I ",
+      "label": "In 1991, as a student, I was introduced to the wonder of MUDs: Multi-User Dungeons.",
       "chapter": "09-every-program-contains-a-language",
       "url": "chapters/09-every-program-contains-a-language.html#p-09-in-1991-i-moved-to-the-university-of"
     },
     {
       "id": "p-09-our-local-instance-and-the-cause-of-much",
       "type": "paragraph",
-      "label": "Our local instance, and the cause of much sleep deprivation and many missed lectures, was called Underworld. It was buil",
+      "label": "Our local MUD, the cause of much sleep deprivation and many missed lectures, was called Underworld. It was built in LPMu",
       "chapter": "09-every-program-contains-a-language",
       "url": "chapters/09-every-program-contains-a-language.html#p-09-our-local-instance-and-the-cause-of-much"
     },
@@ -3030,7 +3086,7 @@
     {
       "id": "p-09-i-grew-up-in-a-christian-household-i",
       "type": "paragraph",
-      "label": "I grew up in a Christian household. I think it's more like the curse of Babel.",
+      "label": "I think it's more like the curse of Babel.",
       "chapter": "09-every-program-contains-a-language",
       "url": "chapters/09-every-program-contains-a-language.html#p-09-i-grew-up-in-a-christian-household-i"
     },
