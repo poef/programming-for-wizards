@@ -118,8 +118,10 @@ Well... it so happens that your computer can implement just about everything wit
 
 ## This much is true
 
+<!-- paragraph-id: p-03-what-does-all-this-logic-trickery-do-for -->
 What does all this logic trickery do for you? Well, you can reason with it, of course. But doing so can become difficult pretty quickly. For example, when is this logic equation true?
 
+<!-- code-id: code-03-code-not-p-and-not-q-and-r -->
 ```
 (not p and not q and r) 
 or (not p and q and r) 
@@ -127,6 +129,7 @@ or (p and q and r)
 or (p and not q and r)
 ```
 
+<!-- paragraph-id: p-03-unless-you-are-a-computer-you-probably-struggle -->
 Unless you are a computer, you probably struggle coming up with the answer. A truth table won't help you here, there are three variables, not two. It becomes difficult to see the pattern. But there is a slightly different truth table that may help: A [Karnaugh map](https://en.wikipedia.org/wiki/Karnaugh_map):
 
 | p \ qr | 00 | 01 | 11 | 10 |
@@ -134,16 +137,22 @@ Unless you are a computer, you probably struggle coming up with the answer. A tr
 | 0      | 0  | 1  | 1  | 0  |
 | 1      | 0  | 1  | 1  | 0  |
 
+<!-- paragraph-id: p-03-instead-of-true-and-false-were-using-1 -->
 Instead of `true` and `false`, we're using `1` and `0`, but they mean the same thing.
 
+<!-- paragraph-id: p-03-the-column-headings-now-show-a-combination-of -->
 The column headings now show a combination of both `q` and `r`, in an unusual order. The trick is that this order makes sure that only one of those values changes when you move to the left or the right. So each column shows answers that only differ in one detail, one input, compared to the columns next to them.
 
+<!-- paragraph-id: p-03-what-you-probably-noticed-immediately-is-that-the -->
 What you probably noticed immediately is that the `true` outputs, the `1`s, are clustered in a block in the middle. If you look carefully, in that block both `p` and `q` vary, while `r` stays the same. So the output always matches the value of `r`. 
 
+<!-- paragraph-id: p-03-you-can-simplify-the-whole-equation-to-just -->
 You can simplify the whole equation to just `r` and get the same result.
 
+<!-- paragraph-id: p-03-the-map-did-not-change-the-equation-it -->
 The map did not change the equation, it only changed how it was written down. It contains the same answers as a truth table would. The only thing that changes is that we chose a notation that allows you to see the patterns.
 
+<!-- paragraph-id: p-03-a-useful-notation-changes-what-you-can-easily -->
 A useful notation changes what you can easily express and see.
 
 <!-- paragraph-id: p-03-tables-dont-lie-but-people-do-and-we -->

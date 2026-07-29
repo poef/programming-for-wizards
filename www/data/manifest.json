@@ -1,7 +1,7 @@
 {
   "id": "programming-for-wizards",
   "title": "Programming for Wizards",
-  "generatedAt": "2026-07-29T14:31:45.210Z",
+  "generatedAt": "2026-07-29T15:34:40.674Z",
   "phase": "01-enhanced-static-manuscript",
   "features": {
     "notes": "planned",
@@ -52,7 +52,7 @@
       "url": "chapters/03-logic-turning-truth-into-machinery.html",
       "previous": "02-numbers-hiding-calculations-in-symbols",
       "next": "04-language-the-tool-that-changes-the-thinker",
-      "wordCount": 763,
+      "wordCount": 1113,
       "rule": "Wizard's second rule"
     },
     {
@@ -285,7 +285,7 @@
       "part": "Part I: Representations are spells",
       "partId": "representations-are-spells",
       "url": "chapters/03-logic-turning-truth-into-machinery.html",
-      "wordCount": 763
+      "wordCount": 1113
     },
     {
       "id": "04-language-the-tool-that-changes-the-thinker",
@@ -1332,6 +1332,83 @@
       "label": "Well... it so happens that your computer can implement just about everything with only nand logic. All other operations ",
       "chapter": "03-logic-turning-truth-into-machinery",
       "url": "chapters/03-logic-turning-truth-into-machinery.html#p-03-well-it-so-happens-that-your-computer-can"
+    },
+    {
+      "id": "h-03-this-much-is-true",
+      "type": "heading",
+      "label": "This much is true",
+      "chapter": "03-logic-turning-truth-into-machinery",
+      "url": "chapters/03-logic-turning-truth-into-machinery.html#h-03-this-much-is-true"
+    },
+    {
+      "id": "p-03-what-does-all-this-logic-trickery-do-for",
+      "type": "paragraph",
+      "label": "What does all this logic trickery do for you? Well, you can reason with it, of course. But doing so can become difficult",
+      "chapter": "03-logic-turning-truth-into-machinery",
+      "url": "chapters/03-logic-turning-truth-into-machinery.html#p-03-what-does-all-this-logic-trickery-do-for"
+    },
+    {
+      "id": "code-03-code-not-p-and-not-q-and-r",
+      "type": "code",
+      "label": "code block",
+      "chapter": "03-logic-turning-truth-into-machinery",
+      "url": "chapters/03-logic-turning-truth-into-machinery.html#code-03-code-not-p-and-not-q-and-r"
+    },
+    {
+      "id": "p-03-unless-you-are-a-computer-you-probably-struggle",
+      "type": "paragraph",
+      "label": "Unless you are a computer, you probably struggle coming up with the answer. A truth table won't help you here, there are",
+      "chapter": "03-logic-turning-truth-into-machinery",
+      "url": "chapters/03-logic-turning-truth-into-machinery.html#p-03-unless-you-are-a-computer-you-probably-struggle"
+    },
+    {
+      "id": "table-03-106",
+      "type": "table",
+      "label": "table",
+      "chapter": "03-logic-turning-truth-into-machinery",
+      "url": "chapters/03-logic-turning-truth-into-machinery.html#table-03-106"
+    },
+    {
+      "id": "p-03-instead-of-true-and-false-were-using-1",
+      "type": "paragraph",
+      "label": "Instead of true and false, we're using 1 and 0, but they mean the same thing.",
+      "chapter": "03-logic-turning-truth-into-machinery",
+      "url": "chapters/03-logic-turning-truth-into-machinery.html#p-03-instead-of-true-and-false-were-using-1"
+    },
+    {
+      "id": "p-03-the-column-headings-now-show-a-combination-of",
+      "type": "paragraph",
+      "label": "The column headings now show a combination of both q and r, in an unusual order. The trick is that this order makes sure",
+      "chapter": "03-logic-turning-truth-into-machinery",
+      "url": "chapters/03-logic-turning-truth-into-machinery.html#p-03-the-column-headings-now-show-a-combination-of"
+    },
+    {
+      "id": "p-03-what-you-probably-noticed-immediately-is-that-the",
+      "type": "paragraph",
+      "label": "What you probably noticed immediately is that the true outputs, the 1s, are clustered in a block in the middle. If you l",
+      "chapter": "03-logic-turning-truth-into-machinery",
+      "url": "chapters/03-logic-turning-truth-into-machinery.html#p-03-what-you-probably-noticed-immediately-is-that-the"
+    },
+    {
+      "id": "p-03-you-can-simplify-the-whole-equation-to-just",
+      "type": "paragraph",
+      "label": "You can simplify the whole equation to just r and get the same result.",
+      "chapter": "03-logic-turning-truth-into-machinery",
+      "url": "chapters/03-logic-turning-truth-into-machinery.html#p-03-you-can-simplify-the-whole-equation-to-just"
+    },
+    {
+      "id": "p-03-the-map-did-not-change-the-equation-it",
+      "type": "paragraph",
+      "label": "The map did not change the equation, it only changed how it was written down. It contains the same answers as a truth ta",
+      "chapter": "03-logic-turning-truth-into-machinery",
+      "url": "chapters/03-logic-turning-truth-into-machinery.html#p-03-the-map-did-not-change-the-equation-it"
+    },
+    {
+      "id": "p-03-a-useful-notation-changes-what-you-can-easily",
+      "type": "paragraph",
+      "label": "A useful notation changes what you can easily express and see.",
+      "chapter": "03-logic-turning-truth-into-machinery",
+      "url": "chapters/03-logic-turning-truth-into-machinery.html#p-03-a-useful-notation-changes-what-you-can-easily"
     },
     {
       "id": "p-03-tables-dont-lie-but-people-do-and-we",

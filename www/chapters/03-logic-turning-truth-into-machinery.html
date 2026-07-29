@@ -113,7 +113,7 @@
   <div class="book-progress" role="progressbar" aria-label="Book progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" data-book-progress>
     <span data-book-progress-bar></span>
   </div>
-  <div id="book-start" class="manuscript-pages" data-page-scroller data-book-chapter-id="03-logic-turning-truth-into-machinery" data-book-chapter-index="3" data-book-page-weights="558,27,1759,763,629,26,1304,1676,1263,20,1342,1415,1863,29,1591,1216,1374,30,1171,1337,1022,37,728,74,133">
+  <div id="book-start" class="manuscript-pages" data-page-scroller data-book-chapter-id="03-logic-turning-truth-into-machinery" data-book-chapter-index="3" data-book-page-weights="558,27,1759,1113,629,26,1304,1676,1263,20,1342,1415,1863,29,1591,1216,1374,30,1171,1337,1022,37,728,74,133">
   <header class="chapter-header ">
     <p class="chapter-kicker">Part I: Representations are spells</p>
     <p class="chapter-number">Chapter 03</p>
@@ -292,6 +292,59 @@
 <a href="https://en.wikipedia.org/wiki/NAND_logic" title="https://en.wikipedia.org/wiki/NAND_logic">https://en.wikipedia.org/wiki/NAND_logic</a>
 <a href="https://en.wikipedia.org/wiki/NAND_gate" title="https://en.wikipedia.org/wiki/NAND_gate">https://en.wikipedia.org/wiki/NAND_gate</a>
 </span></p>
+<h2 id="h-03-this-much-is-true"><a class="anchor-link" href="#h-03-this-much-is-true" aria-label="Link to This much is true">#</a>This much is true</h2>
+<p id="p-03-what-does-all-this-logic-trickery-do-for" data-note-target><span class="passage-margin" data-passage-margin aria-label="Margin for this passage">
+<span class="passage-margin-notes" data-passage-margin-notes></span>
+
+</span>What does all this logic trickery do for you? Well, you can reason with it, of course. But doing so can become difficult pretty quickly. For example, when is this logic equation true?</p>
+<figure id="code-03-code-not-p-and-not-q-and-r" class="code-figure" data-note-target>
+<figcaption>code</figcaption>
+<pre><code>(not p and not q and r) 
+or (not p and q and r) 
+or (p and q and r) 
+or (p and not q and r)</code></pre>
+</figure>
+<p id="p-03-unless-you-are-a-computer-you-probably-struggle" data-note-target><span class="passage-margin" data-passage-margin aria-label="Margin for this passage">
+<span class="passage-margin-notes" data-passage-margin-notes></span>
+<span class="side-links side-links-margin" aria-label="Related links for this paragraph">
+<a href="https://en.wikipedia.org/wiki/Karnaugh_map" title="https://en.wikipedia.org/wiki/Karnaugh_map" tabindex="-1">https://en.wikipedia.org/wiki/Karnaugh_map</a>
+</span>
+</span>Unless you are a computer, you probably struggle coming up with the answer. A truth table won't help you here, there are three variables, not two. It becomes difficult to see the pattern. But there is a slightly different truth table that may help: A Karnaugh map:<span class="side-links side-links-inline" aria-label="Related links for this paragraph">
+<a href="https://en.wikipedia.org/wiki/Karnaugh_map" title="https://en.wikipedia.org/wiki/Karnaugh_map">https://en.wikipedia.org/wiki/Karnaugh_map</a>
+</span></p>
+<figure id="table-03-106" class="table-figure" data-note-target>
+<table>
+<thead><tr><th>p \ qr</th><th>00</th><th>01</th><th>11</th><th>10</th></tr></thead>
+<tbody>
+<tr><td>0</td><td>0</td><td>1</td><td>1</td><td>0</td></tr>
+<tr><td>1</td><td>0</td><td>1</td><td>1</td><td>0</td></tr>
+</tbody>
+</table>
+</figure>
+<p id="p-03-instead-of-true-and-false-were-using-1" data-note-target><span class="passage-margin" data-passage-margin aria-label="Margin for this passage">
+<span class="passage-margin-notes" data-passage-margin-notes></span>
+
+</span>Instead of <code>true</code> and <code>false</code>, we're using <code>1</code> and <code>0</code>, but they mean the same thing.</p>
+<p id="p-03-the-column-headings-now-show-a-combination-of" data-note-target><span class="passage-margin" data-passage-margin aria-label="Margin for this passage">
+<span class="passage-margin-notes" data-passage-margin-notes></span>
+
+</span>The column headings now show a combination of both <code>q</code> and <code>r</code>, in an unusual order. The trick is that this order makes sure that only one of those values changes when you move to the left or the right. So each column shows answers that only differ in one detail, one input, compared to the columns next to them.</p>
+<p id="p-03-what-you-probably-noticed-immediately-is-that-the" data-note-target><span class="passage-margin" data-passage-margin aria-label="Margin for this passage">
+<span class="passage-margin-notes" data-passage-margin-notes></span>
+
+</span>What you probably noticed immediately is that the <code>true</code> outputs, the <code>1</code>s, are clustered in a block in the middle. If you look carefully, in that block both <code>p</code> and <code>q</code> vary, while <code>r</code> stays the same. So the output always matches the value of <code>r</code>.</p>
+<p id="p-03-you-can-simplify-the-whole-equation-to-just" data-note-target><span class="passage-margin" data-passage-margin aria-label="Margin for this passage">
+<span class="passage-margin-notes" data-passage-margin-notes></span>
+
+</span>You can simplify the whole equation to just <code>r</code> and get the same result.</p>
+<p id="p-03-the-map-did-not-change-the-equation-it" data-note-target><span class="passage-margin" data-passage-margin aria-label="Margin for this passage">
+<span class="passage-margin-notes" data-passage-margin-notes></span>
+
+</span>The map did not change the equation, it only changed how it was written down. It contains the same answers as a truth table would. The only thing that changes is that we chose a notation that allows you to see the patterns.</p>
+<p id="p-03-a-useful-notation-changes-what-you-can-easily" data-note-target><span class="passage-margin" data-passage-margin aria-label="Margin for this passage">
+<span class="passage-margin-notes" data-passage-margin-notes></span>
+
+</span>A useful notation changes what you can easily express and see.</p>
 <p id="p-03-tables-dont-lie-but-people-do-and-we" data-note-target><span class="passage-margin" data-passage-margin aria-label="Margin for this passage">
 <span class="passage-margin-notes" data-passage-margin-notes></span>
 
