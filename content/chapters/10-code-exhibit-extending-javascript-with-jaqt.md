@@ -2,31 +2,16 @@
 tags: programming for wizards
 ---
 
-# Code exhibit: growing queries inside javascript
+# Code exhibit: growing queries inside JavaScript
 
 <!-- paragraph-id: p-10-the-previous-chapter-introduced-the-concept-of-a -->
-The previous chapter introduced the concept of a domain-specific language as a way to focus on a specific problem, without worrying about the outside world. But it left out a little trick. 
+Chapter 8 introduced the concept of a domain-specific language: a little language focused on a specific problem. But it left out a trick.
 
 <!-- paragraph-id: p-10-you-can-create-a-dsl-with-its-own -->
-You can create a DSL with its own parser or compiler, as I've written about in the previous chapter, but you don't always have to.
+You can create a DSL with its own parser or compiler. But you don't always have to.
 
-<!-- paragraph-id: p-10-sometimes-the-language-you-need-is-already-hiding -->
-Sometimes the language you need is already hiding inside the language you're using. You add a few conventions, a few helper functions, and suddenly ordinary JavaScript starts to read like a little query language.
-
-<!-- paragraph-id: p-10-that-distinction-matters-a-separate-parser-creates-a -->
-That distinction matters. A separate parser creates a hard border. On one side is PHP, JavaScript, Python, or whatever language your program is written in. On the other side is your new little language. Once you cross that boundary, you no longer have access to all the useful things from the host language. Functions, imports, editor help, error messages, test tools, and familiar habits.
-
-<!-- paragraph-id: p-10-sometimes-that-border-is-worth-it-sql-is -->
-Occasionally that border is worth it. SQL is not JavaScript, and that is part of its power. Regular expressions are their own dense, cursed little world, and we keep using them because the curse is useful.
-
-<!-- paragraph-id: p-10-but-borders-are-expensive-so-before-we-build -->
-But borders are expensive. So before we build one, it is worth asking a wizard's question:
-
-<!-- aside-id: aside-10-what-if-the-language-we-need-is-already -->
-> What if the language we need is already hiding inside the language we have?
-
-<!-- paragraph-id: p-10-now-for-this-example-well-wade-into-the -->
-Now, for this example, we'll wade into the deeper waters of JavaScript. Don't worry if you didn't bring your wellies. You can watch from the bank. The code should reveal the trick anyway.
+<!-- aside-id: aside-10-note-for-this-example-well-wade-into-the -->
+> **Note:** For this example, we'll wade into the deeper waters of JavaScript. Don't worry if you didn't bring your wellies. You can watch from the bank. The code should reveal the trick anyway.
 
 ## A pile of little records
 
