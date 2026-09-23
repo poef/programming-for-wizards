@@ -378,10 +378,7 @@ The result is:
 ```
 
 <!-- paragraph-id: p-10-this-is-not-real-jaqt-it-is-a -->
-The code you've seen so far is a small sample of a larger library, called [JAQT](https://github.com/muze-nl/jaqt). This is not JAQT. It is a small wooden model of the bridge. JAQT itself has a more capable `_`, more operations, and a lot more practical edge-case handling. Libraries are where edge cases go to start families.
-
-<!-- paragraph-id: p-10-the-point-of-the-model-is-the-shape -->
-The point of the model is the shape.
+The code you've seen so far is a simplified version of a larger library, called [JAQT](https://github.com/muze-nl/jaqt). JAQT itself has a more capable `_`, more operations, and a lot more practical edge-case handling. Libraries are where edge cases go to start families.
 
 <!-- aside-id: aside-10-this-trick-was-inspired-by-lisp-in-lisp -->
 > This trick was inspired by Lisp. In Lisp, a macro can receive a piece of program before it is evaluated, inspect its shape and turn it into different code. JavaScript functions cannot do that: their arguments have already been evaluated before the function sees them. So JAQT takes a different route. It represents the query as an ordinary object, and puts functions in the places where the query needs behaviour that must wait until later. A Lisp version would probably use macros to turn the query into those functions. JAQT carries the unfinished behaviour around explicitly instead.
@@ -496,10 +493,7 @@ const result = from(people)
 ```
 
 <!-- paragraph-id: p-10-the-spread-operator-did-not-need-to-be -->
-The spread operator did not need to be added to our DSL. It was already in JavaScript. Arrow functions did not need to be added. Imports did not need to be added. Tests did not need to be added. The surrounding language remains available.
-
-<!-- paragraph-id: p-10-every-piece-of-it-is-still-javascript-so -->
-Every piece of it is still JavaScript, so it works with all the other JavaScript you already have. It can be tested and reused like any other code. There are just a few new words to learn.
+The spread operator was already in JavaScript, so we could just use it. Arrow functions and imports work too. It all works with the JavaScript you already have, and can be tested and reused like any other code. There are just a few new words to learn.
 
 ## The border question
 

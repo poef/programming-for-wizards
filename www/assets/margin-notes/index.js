@@ -5739,6 +5739,7 @@ __export(oldm_exports, {
   aliases: () => aliases,
   default: () => oldm,
   first: () => first,
+  literal: () => literal,
   many: () => many,
   one: () => one,
   prefixes: () => prefixes,
@@ -5748,6 +5749,8 @@ function oldm(options) {
   return new Context(options);
 }
 var rdfType = "http://www.w3.org/1999/02/22-rdf-syntax-ns#type";
+var rdfFirst = "http://www.w3.org/1999/02/22-rdf-syntax-ns#first";
+var rdfRest = "http://www.w3.org/1999/02/22-rdf-syntax-ns#rest";
 var aliases = {
   "http://schema.org/": "https://schema.org/"
 };
@@ -5771,6 +5774,25 @@ var prefixes = {
   vcard: "http://www.w3.org/2006/vcard/ns#",
   xsd: "http://www.w3.org/2001/XMLSchema#"
 };
+function literal(value, options = {}) {
+  let result;
+  if (typeof value == "string" || value instanceof String) {
+    result = new String(value);
+  } else if (typeof value == "number" || value instanceof Number) {
+    result = new Number(value);
+  } else {
+    throw new TypeError("literal expects a string or number");
+  }
+  const type = options.type ?? value?.type;
+  const language = options.language ?? value?.language;
+  if (type !== void 0) {
+    result.type = type;
+  }
+  if (language !== void 0) {
+    result.language = language;
+  }
+  return result;
+}
 function one(values2, whichOne = "last") {
   let result = values2;
   if (Array.isArray(values2)) {
@@ -5847,6 +5869,15 @@ function sameValue(left, right) {
     return String(left) == String(right) && left?.type == right?.type && left?.language == right?.language;
   }
   return false;
+}
+function normalizeStringLiteral(value, graph3) {
+  if (typeof value != "string" && !(value instanceof String) || value.language) {
+    return value;
+  }
+  return literal(value, {
+    type: graph3.fullURI(value.type ?? "http://www.w3.org/2001/XMLSchema#string"),
+    language: ""
+  });
 }
 function sameSourceValue(left, right) {
   if (left === right) {
@@ -6185,24 +6216,24 @@ var Context = class {
     }
     return uri;
   }
-  setType(literal2, shortType) {
+  setType(literal3, shortType) {
     if (!shortType) {
-      return literal2;
+      return literal3;
     }
-    if (typeof literal2 == "string") {
-      literal2 = new String(literal2);
-    } else if (typeof literal2 == "number") {
-      literal2 = new Number(literal2);
+    if (typeof literal3 == "string") {
+      literal3 = new String(literal3);
+    } else if (typeof literal3 == "number") {
+      literal3 = new Number(literal3);
     }
-    if (typeof literal2 !== "object") {
-      throw new Error("cannot set type on ", literal2, shortType);
+    if (typeof literal3 !== "object") {
+      throw new Error("cannot set type on ", literal3, shortType);
     }
-    literal2.type = shortType;
-    return literal2;
+    literal3.type = shortType;
+    return literal3;
   }
-  getType(literal2) {
-    if (literal2 && typeof literal2 == "object") {
-      return literal2.type;
+  getType(literal3) {
+    if (literal3 && typeof literal3 == "object") {
+      return literal3.type;
     }
     return null;
   }
@@ -6216,29 +6247,14 @@ var Graph = class {
     this.context = context;
     this.originalSource = originalSource;
     this.subjects = /* @__PURE__ */ Object.create(null);
+    this.#readCollections(quads);
     for (let quad2 of quads) {
       let subject;
       if (quad2.subject.termType == "BlankNode") {
-        let shortPred = this.shortURI(quad2.predicate.id, ":");
-        let shortObj;
-        switch (shortPred) {
-          case "rdf:first":
-            subject = this.addCollection(quad2.subject.id);
-            shortObj = quad2.object.id ? this.shortURI(quad2.object.id, ":") : null;
-            if (shortObj != "rdf:nil") {
-              const value = this.getValue(quad2.object);
-              if (value) {
-                subject.push(value);
-              }
-            }
-            continue;
-          case "rdf:rest":
-            this.#blankNodes[quad2.object.id] = this.#blankNodes[quad2.subject.id];
-            continue;
-          default:
-            subject = this.addBlankNode(quad2.subject.id);
-            break;
+        if (quad2.predicate.id == rdfFirst || quad2.predicate.id == rdfRest) {
+          continue;
         }
+        subject = this.addBlankNode(quad2.subject.id);
       } else {
         subject = this.addNamedNode(quad2.subject.id);
       }
@@ -6254,6 +6270,35 @@ var Graph = class {
         return Object.values(this.subjects);
       }
     });
+  }
+  #readCollections(quads) {
+    const first2 = /* @__PURE__ */ new Map();
+    const rest = /* @__PURE__ */ new Map();
+    for (const quad2 of quads) {
+      if (quad2.subject.termType != "BlankNode") {
+        continue;
+      }
+      if (quad2.predicate.id == rdfFirst) {
+        first2.set(quad2.subject.id, quad2.object);
+      } else if (quad2.predicate.id == rdfRest) {
+        rest.set(quad2.subject.id, quad2.object.id);
+      }
+    }
+    const collections = /* @__PURE__ */ new Map();
+    for (const quad2 of quads) {
+      if (quad2.object.termType == "BlankNode" && quad2.predicate.id != rdfRest && first2.has(quad2.object.id)) {
+        collections.set(quad2.object.id, this.addCollection(quad2.object.id));
+      }
+    }
+    for (const [head, collection2] of collections) {
+      const visited = /* @__PURE__ */ new Set();
+      let id2 = head;
+      while (first2.has(id2) && !visited.has(id2)) {
+        visited.add(id2);
+        collection2.push(this.getValue(first2.get(id2)));
+        id2 = rest.get(id2);
+      }
+    }
   }
   addNamedNode(uri) {
     let absURI = new URL(uri, this.url).href;
@@ -6380,8 +6425,8 @@ var Graph = class {
       delete node[property];
       return true;
     }
-    const deleteValues = property == "a" ? values(this.normalizeTypeValues(value, preference)) : values(this.normalizeValues(value, preference));
-    const remaining = values(node[property]).filter((item) => !deleteValues.some((deleteValue) => sameValue(item, deleteValue)));
+    const deleteValues = (property == "a" ? values(this.normalizeTypeValues(value, preference)) : values(this.normalizeValues(value, preference))).map((item) => normalizeStringLiteral(item, this));
+    const remaining = values(node[property]).filter((item) => !deleteValues.some((deleteValue) => sameValue(normalizeStringLiteral(item, this), deleteValue)));
     if (remaining.length == values(node[property]).length) {
       return false;
     }
@@ -6496,27 +6541,25 @@ var Graph = class {
   /**
    * This sets the type of a literal, usually one of the xsd types
    */
-  setType(literal2, type) {
+  setType(literal3, type) {
     const shortType = this.shortURI(type);
-    return this.context.setType(literal2, shortType);
+    return this.context.setType(literal3, shortType);
   }
   /**
    * This returns the type of a literal, or null
    */
-  getType(literal2) {
-    return this.context.getType(literal2);
+  getType(literal3) {
+    return this.context.getType(literal3);
   }
-  setLanguage(literal2, language) {
-    if (typeof literal2 == "string") {
-      literal2 = new String(literal2);
-    } else if (typeof literal2 == "number") {
-      literal2 = new Number(literal2);
+  setLanguage(value, language) {
+    if (typeof value == "string" || typeof value == "number") {
+      value = literal(value);
     }
-    if (typeof literal2 !== "object") {
-      throw new Error("cannot set language on ", literal2);
+    if (typeof value !== "object") {
+      throw new Error("cannot set language on ", value);
     }
-    literal2.language = language;
-    return literal2;
+    value.language = language;
+    return value;
   }
   getValue(object) {
     let result;
@@ -6528,7 +6571,7 @@ var Graph = class {
       }
       let language = object.language;
       if (language) {
-        result = this.setLanguage(result, language);
+        result = literal(result, { language });
       }
     } else if (object.termType == "BlankNode") {
       result = this.addBlankNode(object.id);
@@ -7105,7 +7148,7 @@ var DataFactory = {
   namedNode,
   blankNode,
   variable,
-  literal,
+  literal: literal2,
   defaultGraph,
   quad,
   triple: quad,
@@ -7284,7 +7327,7 @@ function namedNode(iri) {
 function blankNode(name) {
   return new BlankNode2(name || `n3-${_blankNodeCounter++}`);
 }
-function literal(value, languageOrDataType) {
+function literal2(value, languageOrDataType) {
   if (typeof languageOrDataType === "string")
     return new Literal(`"${value}"@${languageOrDataType.toLowerCase()}`);
   if (languageOrDataType !== void 0 && !("termType" in languageOrDataType)) {
@@ -7328,7 +7371,7 @@ function fromTerm(term) {
     case "DefaultGraph":
       return DEFAULTGRAPH;
     case "Literal":
-      return literal(term.value, term.language || term.datatype);
+      return literal2(term.value, term.language || term.datatype);
     case "Quad":
       return fromQuad(term);
     default:
@@ -7827,7 +7870,7 @@ var N3Parser = class _N3Parser {
   }
   // ### `_completeLiteral` completes a literal with an optional datatype or language
   _completeLiteral(token, component) {
-    let literal2 = this._factory.literal(this._literalValue);
+    let literal3 = this._factory.literal(this._literalValue);
     let readCb;
     switch (token.type) {
       // Create a datatyped literal
@@ -7838,20 +7881,20 @@ var N3Parser = class _N3Parser {
         if (datatype.value === IRIs_default.rdf.langString || datatype.value === IRIs_default.rdf.dirLangString) {
           return this._error("Detected illegal (directional) languaged-tagged string with explicit datatype", token);
         }
-        literal2 = this._factory.literal(this._literalValue, datatype);
+        literal3 = this._factory.literal(this._literalValue, datatype);
         token = null;
         break;
       // Create a language-tagged string
       case "langcode":
         if (token.value.split("-").some((t) => t.length > 8))
           return this._error("Detected language tag with subtag longer than 8 characters", token);
-        literal2 = this._factory.literal(this._literalValue, token.value);
+        literal3 = this._factory.literal(this._literalValue, token.value);
         this._literalLanguage = token.value;
         token = null;
         readCb = this._readDirCode.bind(this, component);
         break;
     }
-    return { token, literal: literal2, readCb };
+    return { token, literal: literal3, readCb };
   }
   _readDirCode(component, listItem, token) {
     if (token.type === "dircode") {
@@ -8639,18 +8682,18 @@ var N3Writer = class {
     return !prefixMatch ? `<${iri}>` : !prefixMatch[1] ? iri : this._prefixIRIs[prefixMatch[1]] + prefixMatch[2];
   }
   // ### `_encodeLiteral` represents a literal
-  _encodeLiteral(literal2) {
-    let value = literal2.value;
+  _encodeLiteral(literal3) {
+    let value = literal3.value;
     if (escape.test(value))
       value = value.replace(escapeAll, characterReplacer);
-    const direction = literal2.direction ? `--${literal2.direction}` : "";
-    if (literal2.language)
-      return `"${value}"@${literal2.language}${direction}`;
+    const direction = literal3.direction ? `--${literal3.direction}` : "";
+    if (literal3.language)
+      return `"${value}"@${literal3.language}${direction}`;
     if (this._lineMode) {
-      if (literal2.datatype.value === xsd3.string)
+      if (literal3.datatype.value === xsd3.string)
         return `"${value}"`;
     } else {
-      switch (literal2.datatype.value) {
+      switch (literal3.datatype.value) {
         case xsd3.string:
           return `"${value}"`;
         case xsd3.boolean:
@@ -8671,7 +8714,7 @@ var N3Writer = class {
           break;
       }
     }
-    return `"${value}"^^${this._encodeIriOrBlank(literal2.datatype)}`;
+    return `"${value}"^^${this._encodeIriOrBlank(literal3.datatype)}`;
   }
   // ### `_encodePredicate` represents a predicate
   _encodePredicate(predicate) {
@@ -8836,46 +8879,47 @@ var n3Parser = (input2, uri, type) => {
 };
 var n3Writer = (source2) => {
   return new Promise((resolve, reject) => {
+    const resourceUrl = source2.url.split("#")[0];
+    const prefixes3 = source2.prefixDeclarations("source");
+    const hasResourcePrefix = Object.values(prefixes3).includes(`${resourceUrl}#`);
     const writer = new N3Writer({
       format: source2.mimetype,
-      prefixes: source2.prefixDeclarations("source")
+      prefixes: prefixes3,
+      // N3 makes IRIs relative before matching prefixes; preserve declared resource prefixes.
+      baseIRI: hasResourcePrefix ? void 0 : resourceUrl
     });
     const xsd4 = source2.prefixes.xsd;
-    const { quad: quad2, namedNode: namedNode2, literal: literal2, blankNode: blankNode2 } = N3DataFactory_default;
-    const writeClassNames = (id2, subject) => {
+    const { quad: quad2, namedNode: namedNode2, literal: literal3, blankNode: blankNode2 } = N3DataFactory_default;
+    const blankNodes = /* @__PURE__ */ new Map();
+    const getClassPredicates = (subject) => {
+      const predicates = [];
       let classNames = subject.a;
       if (!classNames) {
-        return;
+        return predicates;
       }
       if (!Array.isArray(classNames)) {
         classNames = [classNames];
       }
-      if (classNames?.length) {
-        for (let name of classNames) {
-          name = source2.fullURI(name);
-          writer.addQuad(quad2(
-            namedNode2(id2),
-            namedNode2(rdfType),
-            namedNode2(name)
-          ));
-        }
+      for (const name of classNames) {
+        predicates.push({
+          predicate: namedNode2(rdfType),
+          object: namedNode2(source2.fullURI(name))
+        });
       }
+      return predicates;
     };
-    const writeProperties = (id2, subject) => {
+    const writeProperties = (subjectNode, subject) => {
       if (!subject) {
         return;
       }
       let preds = getPredicates(subject);
       for (let pred of preds) {
-        if (pred.predicate.id == "id" || pred.predicate.id == "a") {
-          continue;
-        }
         if (!Array.isArray(pred.object)) {
           pred.object = [pred.object];
         }
         for (let o of pred.object) {
           writer.addQuad(quad2(
-            namedNode2(id2),
+            subjectNode,
             pred.predicate,
             o
           ));
@@ -8883,9 +8927,12 @@ var n3Writer = (source2) => {
       }
     };
     const getPredicates = (object) => {
-      let preds = [];
+      let preds = getClassPredicates(object);
       Object.entries(object).forEach((entry) => {
         const predicate = entry[0];
+        if (predicate == "id" || predicate == "a") {
+          return;
+        }
         let object2 = entry[1];
         const fullPred = source2.fullURI(predicate);
         let pred = {
@@ -8909,26 +8956,24 @@ var n3Writer = (source2) => {
       return preds;
     };
     const getLiteral = (object) => {
+      const language = object?.language;
       let type = source2.getType(object) || void 0;
-      if (type) {
+      if (language) {
+        type = language;
+      } else if (type) {
         if (type == xsd4 + source2.context.separator + "string" || type == xsd4 + source2.context.separator + "number") {
           type = void 0;
         } else {
           type = source2.fullURI(type);
         }
         type = namedNode2(type);
-      } else {
-        let language = object?.language;
-        if (language) {
-          type = language;
-        }
       }
       if (object instanceof String) {
         object = "" + object;
       } else if (object instanceof Number) {
         object = +object;
       }
-      return literal2(object, type);
+      return literal3(object, type);
     };
     const isLiteral2 = (value) => {
       return value instanceof String || value instanceof Number || typeof value == "boolean" || typeof value == "string" || typeof value == "number";
@@ -8947,7 +8992,12 @@ var n3Writer = (source2) => {
       return writer.list(list2);
     };
     const getBlankNode = (object) => {
-      return writer.blank(getPredicates(object));
+      if (!blankNodes.has(object)) {
+        const node = blankNode2();
+        blankNodes.set(object, node);
+        writeProperties(node, object);
+      }
+      return blankNodes.get(object);
     };
     const getArray = (object) => {
       let list2 = [];
@@ -8965,9 +9015,7 @@ var n3Writer = (source2) => {
       return list2;
     };
     Object.entries(source2.subjects).forEach(([id2, subject]) => {
-      id2 = source2.shortURI(id2, ":");
-      writeClassNames(id2, subject);
-      writeProperties(id2, subject);
+      writeProperties(namedNode2(id2), subject);
     });
     writer.end((error4, result) => {
       if (result) {
@@ -9038,15 +9086,30 @@ function solidPatchChanges(original, current, factory) {
   const anonymousDeletes = [];
   const anonymousInserts = [];
   const where = [];
+  const originalTerms = /* @__PURE__ */ new Map();
+  const replacementTerms = /* @__PURE__ */ new Map();
   for (const unit of deletedUnits) {
     assertOwnedAnonymousUnit(unit, "delete");
-    const variableQuads = mapBlankNodes(unit.quads, (name) => factory.variable(name), factory.quad, "old");
+    const variableQuads = mapBlankNodes(
+      unit.quads,
+      (name) => factory.variable(name),
+      factory.quad,
+      "old",
+      originalTerms
+    );
     where.push(...variableQuads);
     anonymousDeletes.push(...variableQuads);
   }
   for (const unit of insertedUnits) {
     assertOwnedAnonymousUnit(unit, "insert");
-    anonymousInserts.push(...mapBlankNodes(unit.quads, (name) => factory.blankNode(name), factory.quad, "insert"));
+    const insertedQuads = mapBlankNodes(
+      unit.quads,
+      (name) => factory.blankNode(name),
+      factory.quad,
+      "insert",
+      replacementTerms
+    );
+    anonymousInserts.push(...insertedQuads);
   }
   const plainOriginal = original.filter((quad2) => !originalAnonymous.quadKeys.has(quadKey(quad2)));
   const plainCurrent = current.filter((quad2) => !currentAnonymous.quadKeys.has(quadKey(quad2)));
@@ -9200,8 +9263,7 @@ function assertOwnedAnonymousUnit(unit, operation) {
     }
   }
 }
-function mapBlankNodes(quads, createTerm, createQuad, prefix) {
-  const terms = /* @__PURE__ */ new Map();
+function mapBlankNodes(quads, createTerm, createQuad, prefix, terms) {
   const mapTerm = (term) => {
     if (!isBlankNode(term)) {
       return term;

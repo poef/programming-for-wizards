@@ -199,4 +199,4 @@ Also accept that some things should not be reusable. Software fitted closely to 
 The Lego castle is not built from magic universal parts. It is built by choosing where the studs go, making those connections clear, and refusing to pull threads through them later.
 
 <!-- paragraph-id: p-11-the-knitted-castle-is-always-waiting-every-useful -->
-The knitted castle is always waiting. Every useful feature wants to add another loop. The wizard's work is not to prevent that. It is to decide which loops belong inside a part, and where the thread must stop.
+Of course, knowing all this doesn't mean you won't start knitting again. You only need one value from that other component, and it's right there, so why make things difficult? You can always clean it up later. Just make sure you still know where the studs ought to go.

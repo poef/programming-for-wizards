@@ -1,7 +1,7 @@
 {
   "id": "programming-for-wizards",
   "title": "Programming for Wizards",
-  "generatedAt": "2026-07-29T15:34:40.674Z",
+  "generatedAt": "2026-09-23T08:32:29.523Z",
   "phase": "01-enhanced-static-manuscript",
   "features": {
     "notes": "planned",
@@ -136,7 +136,7 @@
       "url": "chapters/10-code-exhibit-extending-javascript-with-jaqt.html",
       "previous": "09-every-program-contains-a-language",
       "next": "interlude-04-worse-spell",
-      "wordCount": 1863,
+      "wordCount": 1808,
       "rule": null
     },
     {
@@ -148,7 +148,7 @@
       "url": "chapters/11-the-knitted-castle.html",
       "previous": "interlude-04-worse-spell",
       "next": "12-objects-binding-data-behavior-and-time",
-      "wordCount": 1591,
+      "wordCount": 1602,
       "rule": "Wizard's ninth rule"
     },
     {
@@ -160,7 +160,7 @@
       "url": "chapters/12-objects-binding-data-behavior-and-time.html",
       "previous": "11-the-knitted-castle",
       "next": "13-architecture-arches-pyramids-and-change",
-      "wordCount": 1216,
+      "wordCount": 1174,
       "rule": "Wizard's tenth rule"
     },
     {
@@ -172,7 +172,7 @@
       "url": "chapters/13-architecture-arches-pyramids-and-change.html",
       "previous": "12-objects-binding-data-behavior-and-time",
       "next": "interlude-05-knitted-castle",
-      "wordCount": 1374,
+      "wordCount": 1353,
       "rule": "Wizard's eleventh rule"
     },
     {
@@ -196,7 +196,7 @@
       "url": "chapters/15-the-web-as-data.html",
       "previous": "14-the-web-as-commons",
       "next": "16-the-web-as-home",
-      "wordCount": 1337,
+      "wordCount": 1303,
       "rule": null
     },
     {
@@ -208,7 +208,7 @@
       "url": "chapters/16-the-web-as-home.html",
       "previous": "15-the-web-as-data",
       "next": "interlude-06-final-rule",
-      "wordCount": 1022,
+      "wordCount": 1064,
       "rule": null
     },
     {
@@ -375,7 +375,7 @@
       "part": "Part III: Inventing languages",
       "partId": "inventing-languages",
       "url": "chapters/10-code-exhibit-extending-javascript-with-jaqt.html",
-      "wordCount": 1863
+      "wordCount": 1808
     },
     {
       "id": "interlude-04-worse-spell",
@@ -395,7 +395,7 @@
       "part": "Part IV: Boundaries",
       "partId": "boundaries",
       "url": "chapters/11-the-knitted-castle.html",
-      "wordCount": 1591
+      "wordCount": 1602
     },
     {
       "id": "12-objects-binding-data-behavior-and-time",
@@ -405,7 +405,7 @@
       "part": "Part IV: Boundaries",
       "partId": "boundaries",
       "url": "chapters/12-objects-binding-data-behavior-and-time.html",
-      "wordCount": 1216
+      "wordCount": 1174
     },
     {
       "id": "13-architecture-arches-pyramids-and-change",
@@ -415,7 +415,7 @@
       "part": "Part IV: Boundaries",
       "partId": "boundaries",
       "url": "chapters/13-architecture-arches-pyramids-and-change.html",
-      "wordCount": 1374
+      "wordCount": 1353
     },
     {
       "id": "interlude-05-knitted-castle",
@@ -445,7 +445,7 @@
       "part": "Part V: The Next Web",
       "partId": "the-next-web",
       "url": "chapters/15-the-web-as-data.html",
-      "wordCount": 1337
+      "wordCount": 1303
     },
     {
       "id": "16-the-web-as-home",
@@ -455,7 +455,7 @@
       "part": "Part V: The Next Web",
       "partId": "the-next-web",
       "url": "chapters/16-the-web-as-home.html",
-      "wordCount": 1022
+      "wordCount": 1064
     },
     {
       "id": "interlude-06-final-rule",
@@ -495,7 +495,7 @@
       "part": "Back Matter",
       "partId": "back-matter",
       "url": "chapters/about-the-author.html",
-      "wordCount": 133
+      "wordCount": 152
     }
   ],
   "exhibits": [],
@@ -3702,16 +3702,9 @@
     {
       "id": "p-10-this-is-not-real-jaqt-it-is-a",
       "type": "paragraph",
-      "label": "The code you've seen so far is a small sample of a larger library, called JAQT. This is not JAQT. It is a small wooden m",
+      "label": "The code you've seen so far is a simplified version of a larger library, called JAQT. JAQT itself has a more capable , m",
       "chapter": "10-code-exhibit-extending-javascript-with-jaqt",
       "url": "chapters/10-code-exhibit-extending-javascript-with-jaqt.html#p-10-this-is-not-real-jaqt-it-is-a"
-    },
-    {
-      "id": "p-10-the-point-of-the-model-is-the-shape",
-      "type": "paragraph",
-      "label": "The point of the model is the shape.",
-      "chapter": "10-code-exhibit-extending-javascript-with-jaqt",
-      "url": "chapters/10-code-exhibit-extending-javascript-with-jaqt.html#p-10-the-point-of-the-model-is-the-shape"
     },
     {
       "id": "aside-10-this-trick-was-inspired-by-lisp-in-lisp",
@@ -3793,16 +3786,9 @@
     {
       "id": "p-10-the-spread-operator-did-not-need-to-be",
       "type": "paragraph",
-      "label": "The spread operator did not need to be added to our DSL. It was already in JavaScript. Arrow functions did not need to b",
+      "label": "The spread operator was already in JavaScript, so we could just use it. Arrow functions and imports work too. It all wor",
       "chapter": "10-code-exhibit-extending-javascript-with-jaqt",
       "url": "chapters/10-code-exhibit-extending-javascript-with-jaqt.html#p-10-the-spread-operator-did-not-need-to-be"
-    },
-    {
-      "id": "p-10-every-piece-of-it-is-still-javascript-so",
-      "type": "paragraph",
-      "label": "Every piece of it is still JavaScript, so it works with all the other JavaScript you already have. It can be tested and ",
-      "chapter": "10-code-exhibit-extending-javascript-with-jaqt",
-      "url": "chapters/10-code-exhibit-extending-javascript-with-jaqt.html#p-10-every-piece-of-it-is-still-javascript-so"
     },
     {
       "id": "h-10-the-border-question",
@@ -4318,7 +4304,7 @@
     {
       "id": "p-11-the-knitted-castle-is-always-waiting-every-useful",
       "type": "paragraph",
-      "label": "The knitted castle is always waiting. Every useful feature wants to add another loop. The wizard's work is not to preven",
+      "label": "Of course, knowing all this doesn't mean you won't start knitting again. You only need one value from that other compone",
       "chapter": "11-the-knitted-castle",
       "url": "chapters/11-the-knitted-castle.html#p-11-the-knitted-castle-is-always-waiting-every-useful"
     },
@@ -4332,16 +4318,9 @@
     {
       "id": "p-12-in-the-previous-chapter-we-looked-at-the",
       "type": "paragraph",
-      "label": "In the previous chapter we looked at the knitted castle: the strange tendency of software to grow threads. Every useful ",
+      "label": "We aren't the first programmers to get tangled up in our own code. Object-Oriented Programming is one of the great histo",
       "chapter": "12-objects-binding-data-behavior-and-time",
       "url": "chapters/12-objects-binding-data-behavior-and-time.html#p-12-in-the-previous-chapter-we-looked-at-the"
-    },
-    {
-      "id": "p-12-object-oriented-programming-is-one-of-the-great",
-      "type": "paragraph",
-      "label": "Object-Oriented Programming is one of the great historical answers to that problem. Perhaps the most successful one.",
-      "chapter": "12-objects-binding-data-behavior-and-time",
-      "url": "chapters/12-objects-binding-data-behavior-and-time.html#p-12-object-oriented-programming-is-one-of-the-great"
     },
     {
       "id": "p-12-it-promised-a-way-to-make-software-out",
@@ -5032,7 +5011,7 @@
     {
       "id": "p-13-that-is-not-a-moral-failure-it-is",
       "type": "paragraph",
-      "label": "That is not a moral failure. It is what happens when you have to work before the future has finished introducing itself.",
+      "label": "You can't predict all of this, but being wrong doesn't have to break everything.",
       "chapter": "13-architecture-arches-pyramids-and-change",
       "url": "chapters/13-architecture-arches-pyramids-and-change.html#p-13-that-is-not-a-moral-failure-it-is"
     },
@@ -5716,13 +5695,6 @@
       "url": "chapters/15-the-web-as-data.html#p-15-tim-berners-lee-described-linked-data-with-deliberately"
     },
     {
-      "id": "p-15-this-is-the-url-chapter-returning-in-another",
-      "type": "paragraph",
-      "label": "This is the URL chapter returning in another costume.",
-      "chapter": "15-the-web-as-data",
-      "url": "chapters/15-the-web-as-data.html#p-15-this-is-the-url-chapter-returning-in-another"
-    },
-    {
       "id": "p-15-a-url-lets-one-document-point-outside-itself",
       "type": "paragraph",
       "label": "A URL lets one document point outside itself. Linked data lets one fact point outside itself.",
@@ -6054,7 +6026,7 @@
     {
       "id": "p-16-sometimes-moving-the-boundary-changes-the-problem-more",
       "type": "paragraph",
-      "label": "Sometimes moving the boundary changes the problem more than solving it ever could.",
+      "label": "We could spend a lot of time making it easier to move data between applications. But why should changing applications me",
       "chapter": "16-the-web-as-home",
       "url": "chapters/16-the-web-as-home.html#p-16-sometimes-moving-the-boundary-changes-the-problem-more"
     },
@@ -6565,23 +6537,23 @@
     {
       "id": "p-Bio-auke-van-slooten-is-the-founder-of-muze",
       "type": "paragraph",
-      "label": "Auke van Slooten is the founder of Muze, a web software studio built around a stubborn belief: the Web should stay a pla",
+      "label": "Auke van Slooten is a programmer and the founder of Muze. His ideas about computing took shape in the European hacker cu",
       "chapter": "about-the-author",
       "url": "chapters/about-the-author.html#p-Bio-auke-van-slooten-is-the-founder-of-muze"
     },
     {
       "id": "p-Bio-his-work-focuses-on-small-understandable-tools-for",
       "type": "paragraph",
-      "label": "His work focuses on small, understandable tools for the open Web: libraries, editors, teaching material, and experiments",
+      "label": "He has been building software for the Web ever since, much of it with friends from that community. The tools have change",
       "chapter": "about-the-author",
       "url": "chapters/about-the-author.html#p-Bio-his-work-focuses-on-small-understandable-tools-for"
     },
     {
-      "id": "p-Bio-programming-for-wizards-grew-out-of-that-work",
+      "id": "p-Bio-you-can-find-out-more-about-muze",
       "type": "paragraph",
-      "label": "Programming for Wizards grew out of that work. It is written for people who suspect that computers are not magic, but al",
+      "label": "You can find out more about Muze and our work at muze.nl.",
       "chapter": "about-the-author",
-      "url": "chapters/about-the-author.html#p-Bio-programming-for-wizards-grew-out-of-that-work"
+      "url": "chapters/about-the-author.html#p-Bio-you-can-find-out-more-about-muze"
     }
   ]
 }

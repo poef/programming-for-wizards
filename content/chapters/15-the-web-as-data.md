@@ -188,9 +188,6 @@ This is where linked data gets its name. The data is not only structured. It poi
 <!-- paragraph-id: p-15-tim-berners-lee-described-linked-data-with-deliberately -->
 Tim Berners-Lee described linked data with deliberately simple rules: use URIs as names for things, use HTTP URIs so they can be looked up, provide useful information when they are looked up, and include links to other URIs.
 
-<!-- paragraph-id: p-15-this-is-the-url-chapter-returning-in-another -->
-This is the URL chapter returning in another costume.
-
 <!-- paragraph-id: p-15-a-url-lets-one-document-point-outside-itself -->
 A URL lets one document point outside itself. Linked data lets one fact point outside itself.
 
@@ -257,7 +254,7 @@ Back in the knitted castle, the useful question was not whether something could 
 Linked data moves that boundary further.
 
 <!-- paragraph-id: p-15-the-application-does-not-need-to-own-all -->
-Two applications do not need to share code if they can recognise the same things, use the same names and work with the same data. A contacts application can describe a person. A calendar can invite that person. A photo tool can say that the person appears in a picture.
+Two applications do not need to share code if they can recognise the same things, use the same names and work with the same data.
 
 <!-- paragraph-id: p-15-it-can-become-an-editor-viewer-filter-search -->
 The shared part is not hidden inside either program. It is in the names and data they agree to use.

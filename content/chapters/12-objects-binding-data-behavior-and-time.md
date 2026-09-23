@@ -5,10 +5,7 @@ tags: programming for wizards
 # Boundaries: Data, behavior, and time
 
 <!-- paragraph-id: p-12-in-the-previous-chapter-we-looked-at-the -->
-In the previous chapter we looked at the knitted castle: the strange tendency of software to grow threads. Every useful piece starts to depend on data shapes, frameworks, databases, styling, configuration, lifecycles, users, errors and history. Before long, the piece is no longer a brick. It is a tower with half the castle still attached.
-
-<!-- paragraph-id: p-12-object-oriented-programming-is-one-of-the-great -->
-Object-Oriented Programming is one of the great historical answers to that problem. Perhaps the most successful one.
+We aren't the first programmers to get tangled up in our own code. Object-Oriented Programming is one of the great historical answers to that problem. Perhaps the most successful one.
 
 <!-- paragraph-id: p-12-it-promised-a-way-to-make-software-out -->
 It promised a way to make software out of reusable pieces. Pieces that were not just functions, but little things that carried their own data and behavior around with them. Objects could be combined. Classes could be extended. The internal mess could be hidden. The outside world could talk to a smaller public surface.

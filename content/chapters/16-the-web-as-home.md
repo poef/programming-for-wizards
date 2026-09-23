@@ -65,7 +65,7 @@ In the first version, replacing an application means moving your life from one s
 In the second, replacing an application can be closer to changing tools on a workbench.
 
 <!-- paragraph-id: p-16-sometimes-moving-the-boundary-changes-the-problem-more -->
-Sometimes moving the boundary changes the problem more than solving it ever could.
+We could spend a lot of time making it easier to move data between applications. But why should changing applications mean moving the data at all? Put the data outside the application, and that problem may disappear. Sometimes the better fix is to change the circumstances that made something a problem in the first place.
 
 <!-- paragraph-id: p-16-for-this-second-shape-to-work -->
 For this second shape to work, the important things cannot all be owned by the application.
@@ -161,4 +161,3 @@ A personal Web asks:
 
 <!-- paragraph-id: p-16-the-second-question-does-not-require-solid -->
 The second question does not require Solid as its only answer. But Solid is a serious attempt to build the answer into the Web itself.
-

@@ -5,10 +5,10 @@ tags: programming for wizards, author bio
 # About the author
 
 <!-- paragraph-id: p-Bio-auke-van-slooten-is-the-founder-of-muze -->
-Auke van Slooten is the founder of Muze, a web software studio built around a stubborn belief: the Web should stay a place where curious people can make things for themselves.
+Auke van Slooten is a programmer and the founder of Muze. His ideas about computing took shape in the European hacker culture of the 1990s, around student networks, shared computers and hacker camps. You learned how things worked by taking them apart, trying things and talking to people who knew something you didn’t. Then you shared what you’d figured out. Building your own was a perfectly reasonable thing to do.
 
 <!-- paragraph-id: p-Bio-his-work-focuses-on-small-understandable-tools-for -->
-His work focuses on small, understandable tools for the open Web: libraries, editors, teaching material, and experiments that lower the distance between reading a page and changing it. Much of that work circles around the same themes as this book: programming as a way of reshaping problems, the browser as a shared workshop, and the Web as something people should be able to inhabit rather than merely consume.
+He has been building software for the Web ever since, much of it with friends from that community. The tools have changed, but he still expects to be able to look inside, change things and connect them to something else. He has also spent enough time building systems that made this difficult to have some experience of getting it wrong. *Programming for Wizards* draws on both.
 
-<!-- paragraph-id: p-Bio-programming-for-wizards-grew-out-of-that-work -->
-*Programming for Wizards* grew out of that work. It is written for people who suspect that computers are not magic, but also suspect that the metaphor might still be useful.
+<!-- paragraph-id: p-Bio-you-can-find-out-more-about-muze -->
+You can find out more about Muze and our work at [muze.nl](https://muze.nl/).
