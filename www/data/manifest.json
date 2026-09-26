@@ -1,7 +1,7 @@
 {
   "id": "programming-for-wizards",
   "title": "Programming for Wizards",
-  "generatedAt": "2026-09-23T08:32:29.523Z",
+  "generatedAt": "2026-09-26T14:04:36.653Z",
   "phase": "01-enhanced-static-manuscript",
   "features": {
     "notes": "planned",
@@ -40,7 +40,7 @@
       "url": "chapters/02-numbers-hiding-calculations-in-symbols.html",
       "previous": "interlude-01-useful-tricks",
       "next": "03-logic-turning-truth-into-machinery",
-      "wordCount": 1759,
+      "wordCount": 1397,
       "rule": "Wizard's first rule"
     },
     {
@@ -275,7 +275,7 @@
       "part": "Part I: Representations are spells",
       "partId": "representations-are-spells",
       "url": "chapters/02-numbers-hiding-calculations-in-symbols.html",
-      "wordCount": 1759
+      "wordCount": 1397
     },
     {
       "id": "03-logic-turning-truth-into-machinery",
@@ -776,42 +776,35 @@
     {
       "id": "p-02-what-the-romans-invented-here-was-that-you",
       "type": "paragraph",
-      "label": "What the Romans invented here was that you could write a calculation to describe the number. 4 is written as V minus I. ",
+      "label": "The clever part was not the new symbols. It was that you could write a calculation into the number. 4 is written as IV: ",
       "chapter": "02-numbers-hiding-calculations-in-symbols",
       "url": "chapters/02-numbers-hiding-calculations-in-symbols.html#p-02-what-the-romans-invented-here-was-that-you"
     },
     {
-      "id": "p-02-the-simple-rule-is-that-smaller-marks-before",
-      "type": "paragraph",
-      "label": "The simple rule is that smaller marks before larger marks mean subtraction. If they are placed after larger marks, they ",
-      "chapter": "02-numbers-hiding-calculations-in-symbols",
-      "url": "chapters/02-numbers-hiding-calculations-in-symbols.html#p-02-the-simple-rule-is-that-smaller-marks-before"
-    },
-    {
       "id": "p-02-so-as-an-example-what-does-the-roman",
       "type": "paragraph",
-      "label": "So as an example, what does the Roman numeral MMXXI translate to in our Arabic numerals? Yes, we call them Arabic numera",
+      "label": "So what does the Roman numeral MMXXI mean? Add it up: 1000 + 1000 + 10 + 10 + 1 is 2021. Easy enough. Now try MCMXCVIII.",
       "chapter": "02-numbers-hiding-calculations-in-symbols",
       "url": "chapters/02-numbers-hiding-calculations-in-symbols.html#p-02-so-as-an-example-what-does-the-roman"
     },
     {
-      "id": "p-02-now-what-about-mcmxcviii-and-were-still-just",
-      "type": "paragraph",
-      "label": "Now what about MCMXCVIII? And we're still just around 2000. Roman numerals still get unwieldy fairly quickly. But it's b",
-      "chapter": "02-numbers-hiding-calculations-in-symbols",
-      "url": "chapters/02-numbers-hiding-calculations-in-symbols.html#p-02-now-what-about-mcmxcviii-and-were-still-just"
-    },
-    {
       "id": "p-02-notice-weve-come-from-the-age-of-cave",
       "type": "paragraph",
-      "label": "Notice we've come from the age of cave paintings, at least 35,000 years ago, all the way to the Romans, and we still hav",
+      "label": "Better than tally marks, but it gets unwieldy fast. And notice: we've come from the cave paintings, at least 35,000 year",
       "chapter": "02-numbers-hiding-calculations-in-symbols",
       "url": "chapters/02-numbers-hiding-calculations-in-symbols.html#p-02-notice-weve-come-from-the-age-of-cave"
     },
     {
+      "id": "h-02-stealing-the-abacus",
+      "type": "heading",
+      "label": "Stealing the abacus",
+      "chapter": "02-numbers-hiding-calculations-in-symbols",
+      "url": "chapters/02-numbers-hiding-calculations-in-symbols.html#h-02-stealing-the-abacus"
+    },
+    {
       "id": "p-02-but-lets-step-back-a-bit-and-introduce",
       "type": "paragraph",
-      "label": "But let's step back a bit and introduce the abacus. This simple device's origins are unknown, and it may have been inven",
+      "label": "Meanwhile, merchants were counting on the abacus. Its origins are unknown, and it may have been invented more than once.",
       "chapter": "02-numbers-hiding-calculations-in-symbols",
       "url": "chapters/02-numbers-hiding-calculations-in-symbols.html#p-02-but-lets-step-back-a-bit-and-introduce"
     },
@@ -825,7 +818,7 @@
     {
       "id": "p-02-thats-how-good-ideas-travel-they-get-copied",
       "type": "paragraph",
-      "label": "That's how good ideas travel, they get copied, renamed, improved and eventually taught to children as if they had always",
+      "label": "That's how good ideas travel: they get copied, renamed, improved and eventually taught to children as if they had always",
       "chapter": "02-numbers-hiding-calculations-in-symbols",
       "url": "chapters/02-numbers-hiding-calculations-in-symbols.html#p-02-thats-how-good-ideas-travel-they-get-copied"
     },
@@ -837,144 +830,130 @@
       "url": "chapters/02-numbers-hiding-calculations-in-symbols.html#rule-02-wizards-first-rule"
     },
     {
-      "id": "p-02-anyway-back-to-the-abacus-lets-show-one",
-      "type": "paragraph",
-      "label": "Anyway, back to the abacus. Let's show one for those who haven't seen one yet:",
-      "chapter": "02-numbers-hiding-calculations-in-symbols",
-      "url": "chapters/02-numbers-hiding-calculations-in-symbols.html#p-02-anyway-back-to-the-abacus-lets-show-one"
-    },
-    {
       "id": "image-02-abacus6-png",
       "type": "image",
-      "label": "Abacus_6.png",
+      "label": "A Chinese abacus with two beads above the bar and five below in each column",
       "chapter": "02-numbers-hiding-calculations-in-symbols",
       "url": "chapters/02-numbers-hiding-calculations-in-symbols.html#image-02-abacus6-png"
     },
     {
       "id": "p-02-this-is-a-chinese-version-you-could-probably",
       "type": "paragraph",
-      "label": "This is a Chinese version; you could probably find something like it still in use around the world today. The idea is si",
+      "label": "This is a Chinese version, still in use in places today. Each column holds one position in a number. The upper beads cou",
       "chapter": "02-numbers-hiding-calculations-in-symbols",
       "url": "chapters/02-numbers-hiding-calculations-in-symbols.html#p-02-this-is-a-chinese-version-you-could-probably"
     },
     {
       "id": "p-02-but-much-more-important-is-that-here-again",
       "type": "paragraph",
-      "label": "But much more important is that here, again, the system introduces a calculation into the representation of numbers. It'",
+      "label": "The important trick is that each column is worth ten times the column to its right. The same bead means 1, or 10, or 100",
       "chapter": "02-numbers-hiding-calculations-in-symbols",
       "url": "chapters/02-numbers-hiding-calculations-in-symbols.html#p-02-but-much-more-important-is-that-here-again"
     },
     {
+      "id": "h-02-nothing-at-last",
+      "type": "heading",
+      "label": "Nothing, at last",
+      "chapter": "02-numbers-hiding-calculations-in-symbols",
+      "url": "chapters/02-numbers-hiding-calculations-in-symbols.html#h-02-nothing-at-last"
+    },
+    {
       "id": "p-02-its-a-lot-easier-to-explain-if-i",
       "type": "paragraph",
-      "label": "It's a lot easier to explain if I use Arabic numerals. They use the exact same multiplication by column as the abacus do",
+      "label": "Our own numerals work exactly like the abacus. The rightmost column is multiplied by 1, the next by 10, then 100, then 1",
       "chapter": "02-numbers-hiding-calculations-in-symbols",
       "url": "chapters/02-numbers-hiding-calculations-in-symbols.html#p-02-its-a-lot-easier-to-explain-if-i"
     },
     {
       "id": "p-02-and-here-for-the-first-time-in-our",
       "type": "paragraph",
-      "label": "And here, for the first time in our story, we have the number 0. You can write 11, but how do you write 'one ten and no ",
+      "label": "And here, for the first time in our story, we need the number 0. You can write 11, but how do you write 'one ten and no ",
       "chapter": "02-numbers-hiding-calculations-in-symbols",
       "url": "chapters/02-numbers-hiding-calculations-in-symbols.html#p-02-and-here-for-the-first-time-in-our"
     },
     {
       "id": "p-02-as-a-side-note-the-idea-of-a",
       "type": "paragraph",
-      "label": "As a side note, the idea of a number 0 is much older than this. But its status was not well established. The mathematici",
+      "label": "The idea of zero is older than this, but its status was shaky. Mathematicians asked how a number, or anything, could be ",
       "chapter": "02-numbers-hiding-calculations-in-symbols",
       "url": "chapters/02-numbers-hiding-calculations-in-symbols.html#p-02-as-a-side-note-the-idea-of-a"
     },
     {
-      "id": "p-02-as-another-aside-i-should-probably-call-arabic",
-      "type": "paragraph",
-      "label": "As another aside, I should probably call Arabic numerals Hindu numerals instead. It seems the Arabs got the idea from In",
+      "id": "h-02-numbers-that-turn-themselves",
+      "type": "heading",
+      "label": "Numbers that turn themselves",
       "chapter": "02-numbers-hiding-calculations-in-symbols",
-      "url": "chapters/02-numbers-hiding-calculations-in-symbols.html#p-02-as-another-aside-i-should-probably-call-arabic"
-    },
-    {
-      "id": "p-02-now-back-to-large-numbers-by-using-position",
-      "type": "paragraph",
-      "label": "Now back to large numbers. By using position to multiply each numeral, we can write very large numbers. Much larger than",
-      "chapter": "02-numbers-hiding-calculations-in-symbols",
-      "url": "chapters/02-numbers-hiding-calculations-in-symbols.html#p-02-now-back-to-large-numbers-by-using-position"
-    },
-    {
-      "id": "p-02-but-there-is-another-calculation-hidden-inside-these",
-      "type": "paragraph",
-      "label": "But there is another calculation hidden inside these numbers. This is called modular arithmetic. The idea is that we can",
-      "chapter": "02-numbers-hiding-calculations-in-symbols",
-      "url": "chapters/02-numbers-hiding-calculations-in-symbols.html#p-02-but-there-is-another-calculation-hidden-inside-these"
+      "url": "chapters/02-numbers-hiding-calculations-in-symbols.html#h-02-numbers-that-turn-themselves"
     },
     {
       "id": "p-02-why-is-this-important-well-this-insight-opens",
       "type": "paragraph",
-      "label": "Why is this important? Well, this insight opens the way for mechanical calculators: devices that can add and subtract nu",
+      "label": "Positional notation also makes numbers mechanical. Picture a simple click counter. Each position is a wheel marked 0 to ",
       "chapter": "02-numbers-hiding-calculations-in-symbols",
       "url": "chapters/02-numbers-hiding-calculations-in-symbols.html#p-02-why-is-this-important-well-this-insight-opens"
     },
     {
       "id": "image-02-detailofarothcalculatingmachine-png",
       "type": "image",
-      "label": "Detail_of_a_Roth_Calculating_machine.png",
+      "label": "The number wheels of a Roth calculating machine",
       "chapter": "02-numbers-hiding-calculations-in-symbols",
       "url": "chapters/02-numbers-hiding-calculations-in-symbols.html#image-02-detailofarothcalculatingmachine-png"
     },
     {
       "id": "p-02-blaise-pascal-is-credited-with-making-one-of",
       "type": "paragraph",
-      "label": "Blaise Pascal is credited with making one of the first usable mechanical calculators. It could add and subtract, and wit",
+      "label": "Blaise Pascal built one of the first usable mechanical calculators this way in the 1640s. It could add and subtract, and",
       "chapter": "02-numbers-hiding-calculations-in-symbols",
       "url": "chapters/02-numbers-hiding-calculations-in-symbols.html#p-02-blaise-pascal-is-credited-with-making-one-of"
     },
     {
       "id": "p-02-i-should-mention-the-antikythera-device-this-is",
       "type": "paragraph",
-      "label": "I should mention the Antikythera mechanism. This is a device from the classical Greek era, which is thought to have been",
+      "label": "(A Greek wizard had built something astonishing much earlier. The Antikythera mechanism, from around 100 BC, used gears ",
       "chapter": "02-numbers-hiding-calculations-in-symbols",
       "url": "chapters/02-numbers-hiding-calculations-in-symbols.html#p-02-i-should-mention-the-antikythera-device-this-is"
     },
     {
-      "id": "p-02-to-really-understand-how-much-of-a-leap",
-      "type": "paragraph",
-      "label": "To really understand how much of a leap this is, just take a look back at our timeline of numbers. Around 100 BC is befo",
+      "id": "h-02-bigger-than-you-think",
+      "type": "heading",
+      "label": "Bigger than you think",
       "chapter": "02-numbers-hiding-calculations-in-symbols",
-      "url": "chapters/02-numbers-hiding-calculations-in-symbols.html#p-02-to-really-understand-how-much-of-a-leap"
+      "url": "chapters/02-numbers-hiding-calculations-in-symbols.html#h-02-bigger-than-you-think"
     },
     {
       "id": "p-02-were-getting-pretty-good-at-writing-large-numbers",
       "type": "paragraph",
-      "label": "We're getting pretty good at writing large numbers. We can write down 1,000,000 and read it without blinking an eye. But",
+      "label": "We can now write 1,000,000 and read it without blinking. But science makes up bigger numbers faster than we can write th",
       "chapter": "02-numbers-hiding-calculations-in-symbols",
       "url": "chapters/02-numbers-hiding-calculations-in-symbols.html#p-02-were-getting-pretty-good-at-writing-large-numbers"
     },
     {
       "id": "p-02-to-write-that-number-down-you-will-need",
       "type": "paragraph",
-      "label": "To write that number down, you will need a number with at least 111 zeros. Clearly that is no longer practical. So enter",
+      "label": "Writing all those zeros is no longer practical. So enter scientific notation, which adds yet another calculation to the ",
       "chapter": "02-numbers-hiding-calculations-in-symbols",
       "url": "chapters/02-numbers-hiding-calculations-in-symbols.html#p-02-to-write-that-number-down-you-will-need"
     },
     {
-      "id": "math-02-069",
+      "id": "math-02-063",
       "type": "math",
       "label": "math block",
       "chapter": "02-numbers-hiding-calculations-in-symbols",
-      "url": "chapters/02-numbers-hiding-calculations-in-symbols.html#math-02-069"
+      "url": "chapters/02-numbers-hiding-calculations-in-symbols.html#math-02-063"
     },
     {
       "id": "p-02-but-we-can-also-use-these-to-explain",
       "type": "paragraph",
-      "label": "But we can also use these to explain the positional nature of Arabic numerals:",
+      "label": "Exponents also show exactly what positional notation was doing all along:",
       "chapter": "02-numbers-hiding-calculations-in-symbols",
       "url": "chapters/02-numbers-hiding-calculations-in-symbols.html#p-02-but-we-can-also-use-these-to-explain"
     },
     {
-      "id": "table-02-075",
+      "id": "table-02-069",
       "type": "table",
       "label": "table",
       "chapter": "02-numbers-hiding-calculations-in-symbols",
-      "url": "chapters/02-numbers-hiding-calculations-in-symbols.html#table-02-075"
+      "url": "chapters/02-numbers-hiding-calculations-in-symbols.html#table-02-069"
     },
     {
       "id": "p-02-so-the-number-972-is-equal-to-9",
@@ -984,53 +963,67 @@
       "url": "chapters/02-numbers-hiding-calculations-in-symbols.html#p-02-so-the-number-972-is-equal-to-9"
     },
     {
+      "id": "h-02-down-to-two",
+      "type": "heading",
+      "label": "Down to two",
+      "chapter": "02-numbers-hiding-calculations-in-symbols",
+      "url": "chapters/02-numbers-hiding-calculations-in-symbols.html#h-02-down-to-two"
+    },
+    {
       "id": "p-02-so-what-about-our-original-two-numbers-1",
       "type": "paragraph",
-      "label": "So what about our original two numbers, 1 and 0? Well, if you understand the magic of positional notation, it turns out ",
+      "label": "So what about our original two numbers, 1 and 0? Once you see that the magic is in the positions, it turns out that noth",
       "chapter": "02-numbers-hiding-calculations-in-symbols",
       "url": "chapters/02-numbers-hiding-calculations-in-symbols.html#p-02-so-what-about-our-original-two-numbers-1"
     },
     {
       "id": "p-02-you-can-use-any-number-of-numerals-such",
       "type": "paragraph",
-      "label": "You can use any number of numerals, such as 16 for hexadecimal numbers, for example:",
+      "label": "Use 16 and you get hexadecimal, with A to F standing in for 10 to 15. The 0x prefix just says 'this is hexadecimal':",
       "chapter": "02-numbers-hiding-calculations-in-symbols",
       "url": "chapters/02-numbers-hiding-calculations-in-symbols.html#p-02-you-can-use-any-number-of-numerals-such"
     },
     {
-      "id": "math-02-085",
+      "id": "math-02-081",
       "type": "math",
       "label": "math block",
       "chapter": "02-numbers-hiding-calculations-in-symbols",
-      "url": "chapters/02-numbers-hiding-calculations-in-symbols.html#math-02-085"
-    },
-    {
-      "id": "p-02-0x-is-just-a-convention-to-say-this",
-      "type": "paragraph",
-      "label": "0x is just a convention to say 'this is a hexadecimal number', and since there are 16 single-position numerals, we've go",
-      "chapter": "02-numbers-hiding-calculations-in-symbols",
-      "url": "chapters/02-numbers-hiding-calculations-in-symbols.html#p-02-0x-is-just-a-convention-to-say-this"
+      "url": "chapters/02-numbers-hiding-calculations-in-symbols.html#math-02-081"
     },
     {
       "id": "p-02-or-octal-with-8-numerals-per-position",
       "type": "paragraph",
-      "label": "Or octal, with 8 numerals per position:",
+      "label": "Use 8 and you get octal:",
       "chapter": "02-numbers-hiding-calculations-in-symbols",
       "url": "chapters/02-numbers-hiding-calculations-in-symbols.html#p-02-or-octal-with-8-numerals-per-position"
     },
     {
-      "id": "math-02-093",
+      "id": "math-02-087",
       "type": "math",
       "label": "math block",
       "chapter": "02-numbers-hiding-calculations-in-symbols",
-      "url": "chapters/02-numbers-hiding-calculations-in-symbols.html#math-02-093"
+      "url": "chapters/02-numbers-hiding-calculations-in-symbols.html#math-02-087"
     },
     {
       "id": "p-02-or-reduce-it-to-two-numerals-1-and",
       "type": "paragraph",
-      "label": "Or reduce it to two numerals, 1 and 0, and you get binary:",
+      "label": "Or reduce it to just 1 and 0, and you get binary. Each column is now worth twice the one to its right:",
       "chapter": "02-numbers-hiding-calculations-in-symbols",
       "url": "chapters/02-numbers-hiding-calculations-in-symbols.html#p-02-or-reduce-it-to-two-numerals-1-and"
+    },
+    {
+      "id": "table-02-093",
+      "type": "table",
+      "label": "table",
+      "chapter": "02-numbers-hiding-calculations-in-symbols",
+      "url": "chapters/02-numbers-hiding-calculations-in-symbols.html#table-02-093"
+    },
+    {
+      "id": "p-02-this-means-that-the-binary-number-101-is",
+      "type": "paragraph",
+      "label": "So the binary number 101 is",
+      "chapter": "02-numbers-hiding-calculations-in-symbols",
+      "url": "chapters/02-numbers-hiding-calculations-in-symbols.html#p-02-this-means-that-the-binary-number-101-is"
     },
     {
       "id": "math-02-099",
@@ -1040,11 +1033,11 @@
       "url": "chapters/02-numbers-hiding-calculations-in-symbols.html#math-02-099"
     },
     {
-      "id": "p-02-and-using-exponents-we-can-explain-it-a",
+      "id": "p-02-binary-numbers-are-so-ubiquitous-in-programming-that",
       "type": "paragraph",
-      "label": "And using exponents, we can explain it a bit better:",
+      "label": "Binary is everywhere in programming, so you'll meet the powers of 2 often. Here are the first few:",
       "chapter": "02-numbers-hiding-calculations-in-symbols",
-      "url": "chapters/02-numbers-hiding-calculations-in-symbols.html#p-02-and-using-exponents-we-can-explain-it-a"
+      "url": "chapters/02-numbers-hiding-calculations-in-symbols.html#p-02-binary-numbers-are-so-ubiquitous-in-programming-that"
     },
     {
       "id": "table-02-105",
@@ -1054,53 +1047,39 @@
       "url": "chapters/02-numbers-hiding-calculations-in-symbols.html#table-02-105"
     },
     {
-      "id": "p-02-this-means-that-the-binary-number-101-is",
-      "type": "paragraph",
-      "label": "This means that the binary number 101 is equal to",
-      "chapter": "02-numbers-hiding-calculations-in-symbols",
-      "url": "chapters/02-numbers-hiding-calculations-in-symbols.html#p-02-this-means-that-the-binary-number-101-is"
-    },
-    {
-      "id": "math-02-111",
-      "type": "math",
-      "label": "math block",
-      "chapter": "02-numbers-hiding-calculations-in-symbols",
-      "url": "chapters/02-numbers-hiding-calculations-in-symbols.html#math-02-111"
-    },
-    {
-      "id": "p-02-this-simplifies-to",
-      "type": "paragraph",
-      "label": "This simplifies to",
-      "chapter": "02-numbers-hiding-calculations-in-symbols",
-      "url": "chapters/02-numbers-hiding-calculations-in-symbols.html#p-02-this-simplifies-to"
-    },
-    {
-      "id": "math-02-117",
-      "type": "math",
-      "label": "math block",
-      "chapter": "02-numbers-hiding-calculations-in-symbols",
-      "url": "chapters/02-numbers-hiding-calculations-in-symbols.html#math-02-117"
-    },
-    {
-      "id": "p-02-binary-numbers-are-so-ubiquitous-in-programming-that",
-      "type": "paragraph",
-      "label": "Binary numbers are so ubiquitous in programming that you'll see the powers of 2 often. Here are the first few:",
-      "chapter": "02-numbers-hiding-calculations-in-symbols",
-      "url": "chapters/02-numbers-hiding-calculations-in-symbols.html#p-02-binary-numbers-are-so-ubiquitous-in-programming-that"
-    },
-    {
-      "id": "table-02-124",
-      "type": "table",
-      "label": "table",
-      "chapter": "02-numbers-hiding-calculations-in-symbols",
-      "url": "chapters/02-numbers-hiding-calculations-in-symbols.html#table-02-124"
-    },
-    {
       "id": "p-02-this-is-a-good-time-to-end-our",
       "type": "paragraph",
-      "label": "This is a good time to end our archaeological dig through numbers. We started with fingers and tally marks, and ended wi",
+      "label": "Two symbols are the fewest a positional system can have, and they are all a machine needs: on or off, a hole or no hole,",
       "chapter": "02-numbers-hiding-calculations-in-symbols",
       "url": "chapters/02-numbers-hiding-calculations-in-symbols.html#p-02-this-is-a-good-time-to-end-our"
+    },
+    {
+      "id": "p-02-look-back-at-the-road-we-took-tally",
+      "type": "paragraph",
+      "label": "Look back at the road we took. Tally marks just counted. Roman numerals hid additions and subtractions in the order of t",
+      "chapter": "02-numbers-hiding-calculations-in-symbols",
+      "url": "chapters/02-numbers-hiding-calculations-in-symbols.html#p-02-look-back-at-the-road-we-took-tally"
+    },
+    {
+      "id": "p-02-at-every-step-the-numbers-themselves-hardly-changed",
+      "type": "paragraph",
+      "label": "At every step, the numbers themselves hardly changed. The notation did. And each new notation did some of the thinking f",
+      "chapter": "02-numbers-hiding-calculations-in-symbols",
+      "url": "chapters/02-numbers-hiding-calculations-in-symbols.html#p-02-at-every-step-the-numbers-themselves-hardly-changed"
+    },
+    {
+      "id": "p-02-that-is-the-first-trick-of-this-book",
+      "type": "paragraph",
+      "label": "That is the first trick of this book: choose a notation that does the work.",
+      "chapter": "02-numbers-hiding-calculations-in-symbols",
+      "url": "chapters/02-numbers-hiding-calculations-in-symbols.html#p-02-that-is-the-first-trick-of-this-book"
+    },
+    {
+      "id": "p-02-but-a-machine-full-of-ones-and-zeros",
+      "type": "paragraph",
+      "label": "But a machine full of ones and zeros can count. It cannot yet decide anything. For that, we need a second trick.",
+      "chapter": "02-numbers-hiding-calculations-in-symbols",
+      "url": "chapters/02-numbers-hiding-calculations-in-symbols.html#p-02-but-a-machine-full-of-ones-and-zeros"
     },
     {
       "id": "h-03-logic-the-truth-is-out-there",

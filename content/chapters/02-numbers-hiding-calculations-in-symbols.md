@@ -8,7 +8,7 @@ tags: programming for wizards
 How do you make a number bigger than your fingers?
 
 <!-- paragraph-id: p-02-its-no-secret-that-programming-is-based-on -->
-It's no secret that programming is based on numbers. Two of them, 0 and 1. It may come as a surprise that one of those numbers is much newer than the other. 
+It's no secret that programming is based on numbers. Two of them, 0 and 1. It may come as a surprise that one of those numbers is much newer than the other.
 
 <!-- paragraph-id: p-02-lets-go-back-way-back-to-the-first -->
 Let's go back, way back, to the first number system our cave-dwelling ancestors ever used: our fingers.
@@ -17,97 +17,84 @@ Let's go back, way back, to the first number system our cave-dwelling ancestors 
 Hold up your hands and you can count to 10. But what if you want to add a number to your cave painting? Well, you make [tally marks](https://en.wikipedia.org/wiki/Tally_marks): `IIII`.
 
 <!-- paragraph-id: p-02-so-the-first-number-we-used-was-1 -->
-So the first number we used was `1`, or the tally mark: `I`. But tally marks get cumbersome quickly. So someone invented a new symbol to mark 5 tallies: <img src="https://upload.wikimedia.org/wikipedia/commons/1/1d/Tally_marks-Five-bar_Gate.svg" style="height:1em">
+So the first number we used was `1`, or the tally mark: `I`. But tally marks get cumbersome quickly. So someone invented a new symbol to mark 5 tallies: <img src="https://upload.wikimedia.org/wikipedia/commons/1/1d/Tally_marks-Five-bar_Gate.svg" style="height:1em" alt="five-bar gate tally mark">
 
 <!-- paragraph-id: p-02-and-so-it-stayed-for-quite-a-while -->
-And so it stayed for quite a while. Until a Roman (or probably someone else, and the Romans just stole the idea) had the idea to add symbols for other numbers. So we got `X` for 10. And the Romans redesigned the tally marks further. `I`, `II` and `III` remained the same, but 4 became `IV`, 5 became `V` and 6 became `VI`. 
+And so it stayed for quite a while. Until a Roman (or probably someone else, and the Romans just stole the idea) had the idea to add symbols for other numbers: `V` for 5, `X` for 10, and later `L`, `C`, `D` and `M` for 50, 100, 500 and 1000.
 
 <!-- paragraph-id: p-02-what-the-romans-invented-here-was-that-you -->
-What the Romans invented here was that you could write a calculation to describe the number. 4 is written as `V` minus `I`. The minus operation is indicated by writing the `I` before the `V`. If you write it after the `V`, it is `V` plus `I`, or 6.
-
-<!-- paragraph-id: p-02-the-simple-rule-is-that-smaller-marks-before -->
-The simple rule is that smaller marks before larger marks mean subtraction. If they are placed after larger marks, they mean addition. The Romans got creative after `X` and invented marks for 50, 100, 500, 1000 and 5000. They didn't need numbers bigger than that apparently. (Well, actually, a wizard somewhere says, they also had bars you could add on top of a mark to multiply its value by 1000... so there's that.)
+The clever part was not the new symbols. It was that you could write a calculation into the number. 4 is written as `IV`: `V` minus `I`. 6 is `VI`: `V` plus `I`. A smaller mark before a larger one means subtract. After it means add.
 
 <!-- paragraph-id: p-02-so-as-an-example-what-does-the-roman -->
-So as an example, what does the [Roman numeral](https://en.wikipedia.org/wiki/Roman_numerals) `MMXXI` translate to in our [Arabic numerals](https://en.wikipedia.org/wiki/Hindu%E2%80%93Arabic_numeral_system)? Yes, we call them Arabic numerals. No, the story is not quite that simple. Patience.
-
-<!-- paragraph-id: p-02-now-what-about-mcmxcviii-and-were-still-just -->
-Now what about `MCMXCVIII`? And we're still just around 2000. Roman numerals still get unwieldy fairly quickly. But it's better than tally marks.
+So what does the [Roman numeral](https://en.wikipedia.org/wiki/Roman_numerals) `MMXXI` mean? Add it up: 1000 + 1000 + 10 + 10 + 1 is 2021. Easy enough. Now try `MCMXCVIII`. That's 1000, plus 1000 minus 100, plus 100 minus 10, plus 5, plus 3. It's 1998, and you had to do sums just to read it.
 
 <!-- paragraph-id: p-02-notice-weve-come-from-the-age-of-cave -->
-Notice we've come from the age of cave paintings, at least 35,000 years ago, all the way to the Romans, and we still have to do without `0`.
+Better than tally marks, but it gets unwieldy fast. And notice: we've come from the cave paintings, at least 35,000 years ago, all the way to the Romans, and we still have to do without `0`.
+
+## Stealing the abacus
 
 <!-- paragraph-id: p-02-but-lets-step-back-a-bit-and-introduce -->
-But let's step back a bit and introduce the [abacus](https://en.wikipedia.org/wiki/Abacus). This simple device's origins are unknown, and it may have been invented more than once. We know for certain that it was in use by the Roman era; they probably stole it from the Greeks, who may have gotten it from Egyptians or Babylonians, who probably got it from the Sumerians. 
+Meanwhile, merchants were counting on the [abacus](https://en.wikipedia.org/wiki/Abacus). Its origins are unknown, and it may have been invented more than once. The Romans probably stole it from the Greeks, who may have gotten it from the Egyptians or Babylonians, who probably got it from the Sumerians.
 
 <!-- paragraph-id: p-02-by-now-you-may-have-noticed-a-pattern -->
 By now, you may have noticed a pattern: Everyone is stealing from everyone else.
 
 <!-- paragraph-id: p-02-thats-how-good-ideas-travel-they-get-copied -->
-That's how good ideas travel, they get copied, renamed, improved and eventually taught to children as if they had always existed.
+That's how good ideas travel: they get copied, renamed, improved and eventually taught to children as if they had always existed.
 
 <!-- rule-id: rule-02-wizards-first-rule -->
 > **Wizard's first rule**
 >
 > Steal the good stuff.
 
-<!-- paragraph-id: p-02-anyway-back-to-the-abacus-lets-show-one -->
-Anyway, back to the abacus. Let's show one for those who haven't seen one yet:
-
 <!-- image-id: image-02-abacus6-png -->
-<img src="https://upload.wikimedia.org/wikipedia/commons/a/af/Abacus_6.png">
+<img src="https://upload.wikimedia.org/wikipedia/commons/a/af/Abacus_6.png" alt="A Chinese abacus with two beads above the bar and five below in each column">
 
 <!-- paragraph-id: p-02-this-is-a-chinese-version-you-could-probably -->
-This is a Chinese version; you could probably find something like it still in use around the world today. The idea is simple: each column represents one position in a number. The upper beads denote 5, the lower beads denote 1. An observant wizard may spot a discrepancy here. Couldn't you do with one less upper and lower bead? Well, yes you could. It's a kind of magic.
+This is a Chinese version, still in use in places today. Each column holds one position in a number. The upper beads count 5, the lower beads count 1. (An observant wizard will notice there are more beads than you need to show 0 to 9. The spares hold a column's overflow for a moment in the middle of a calculation, before you carry it.)
 
 <!-- paragraph-id: p-02-but-much-more-important-is-that-here-again -->
-But much more important is that here, again, the system introduces a calculation into the representation of numbers. It's different from the Roman one, and it's much more consistent and still in use today. It's the idea that each column is multiplied by a number. The rightmost column is multiplied by `I`, so not much change there. The one next to it is multiplied by `X`, the next one by `C`, the next by `M` and so on. Except of course the Romans had trouble writing numbers bigger than about `M`, without trickery.
+The important trick is that each column is worth ten times the column to its right. The same bead means 1, or 10, or 100, depending only on where it sits. The calculation has moved out of the symbols and into their position.
+
+## Nothing, at last
 
 <!-- paragraph-id: p-02-its-a-lot-easier-to-explain-if-i -->
-It's a lot easier to explain if I use Arabic numerals. They use the exact same multiplication by column as the abacus does. The rightmost column is multiplied by 1, the next is multiplied by 10, then 100, then 1000 and so on.
+Our own numerals work exactly like the abacus. The rightmost column is multiplied by 1, the next by 10, then 100, then 1000 and so on. They are usually called [Arabic numerals](https://en.wikipedia.org/wiki/Hindu%E2%80%93Arabic_numeral_system), although the Arabs got them from Indian mathematicians, who had been using them for a few hundred years already. (See the wizard's first rule.)
 
 <!-- paragraph-id: p-02-and-here-for-the-first-time-in-our -->
-And here, for the first time in our story, we have the number `0`. You can write `11`, but how do you write 'one ten and no ones'? Zero fills that hole elegantly.
+And here, for the first time in our story, we need the number `0`. You can write `11`, but how do you write 'one ten and no ones'? On an abacus you just leave the column empty. On paper, you need a symbol for the empty column. Zero fills that hole.
 
 <!-- paragraph-id: p-02-as-a-side-note-the-idea-of-a -->
-As a side note, the idea of a [number 0](https://en.wikipedia.org/wiki/0) is much older than this. But its status was not well established. The mathematicians of the time asked how a number, or anything, could be nothing. With [positional notation](https://en.wikipedia.org/wiki/Positional_notation), `0` became not just a placeholder, but as a number in its own right. 
+The idea of [zero](https://en.wikipedia.org/wiki/0) is older than this, but its status was shaky. Mathematicians asked how a number, or anything, could be nothing. [Positional notation](https://en.wikipedia.org/wiki/Positional_notation) settled the argument by making zero indispensable, first as a placeholder and then as a number in its own right.
 
-<!-- paragraph-id: p-02-as-another-aside-i-should-probably-call-arabic -->
-As another aside, I should probably call Arabic numerals Hindu numerals instead. It seems the Arabs got the idea from Indian mathematicians, who had been using these symbols for a few hundred years already. (See the wizard's first rule.)
-
-<!-- paragraph-id: p-02-now-back-to-large-numbers-by-using-position -->
-Now back to large numbers. By using position to multiply each numeral, we can write very large numbers. Much larger than we usually need, say on a market square haggling over the price of a chicken. And all this by multiplying by 10.
-
-<!-- paragraph-id: p-02-but-there-is-another-calculation-hidden-inside-these -->
-But there is another calculation hidden inside these numbers. This is called [modular arithmetic](https://en.wikipedia.org/wiki/Modular_arithmetic). The idea is that we can divide a number by another number, and instead of using the result of that division, we only keep the remainder. So 12 modulo 10 is 2. And in Arabic numerals each position is filled with a number from 0 to 9, which matches the modulo 10 operation exactly.
+## Numbers that turn themselves
 
 <!-- paragraph-id: p-02-why-is-this-important-well-this-insight-opens -->
-Why is this important? Well, this insight opens the way for mechanical calculators: devices that can add and subtract numbers. They do so using a carry mechanism. You can see these still in use today in simple counting devices. Each position of a large number is represented with a wheel with the numbers 0 to 9 on it. Each click moves the rightmost wheel one position, using 10 gearing pins attached to the wheel. When the number displayed is 9 and you click the counter, the wheel continues to 0. The wheel to the left of it is then pushed forward by the single gearing pin attached to the first wheel on the other side. This pin only engages when moving from 9 to 0. This is called the carry, and it carries 1 from the right wheel to the left wheel, effectively multiplying it by 10.
+Positional notation also makes numbers mechanical. Picture a simple click counter. Each position is a wheel marked 0 to 9. Each click turns the rightmost wheel one step. When it rolls over from 9 back to 0, a single pin nudges the wheel on its left forward by one. That is the carry: ten on the right becomes one on the left. The rule was already written into the numbers. The machine only had to follow it.
 
 <!-- image-id: image-02-detailofarothcalculatingmachine-png -->
-<img src="https://upload.wikimedia.org/wikipedia/commons/b/b7/Detail_of_a_Roth_Calculating_machine.png">
+<img src="https://upload.wikimedia.org/wikipedia/commons/b/b7/Detail_of_a_Roth_Calculating_machine.png" alt="The number wheels of a Roth calculating machine">
 
 <!-- paragraph-id: p-02-blaise-pascal-is-credited-with-making-one-of -->
-[Blaise Pascal](https://en.wikipedia.org/wiki/Blaise_Pascal) is credited with making one of the first usable mechanical calculators. It could add and subtract, and with repeated motions also multiply and divide. It's not a computer yet, but we've come a long way from scratch marks.
+[Blaise Pascal](https://en.wikipedia.org/wiki/Blaise_Pascal) built one of the first usable mechanical calculators this way in the 1640s. It could add and subtract, and with repeated motions also multiply and divide. It's not a computer yet, but we've come a long way from scratch marks.
 
 <!-- paragraph-id: p-02-i-should-mention-the-antikythera-device-this-is -->
-I should mention the [Antikythera mechanism](https://en.wikipedia.org/wiki/Antikythera_mechanism). This is a device from the classical Greek era, which is thought to have been able to calculate astronomical positions and eclipses. It's called the earliest analog computer, and has been dated to somewhere between 205 BC and 87 BC. No others like it have survived; this one was only found in 1901, and not understood until very recently. [The next time we know of that a device of similar complexity was made, we're in the Renaissance in Western Europe](https://www.nature.com/articles/444534a).
+(A Greek wizard had built something astonishing much earlier. The [Antikythera mechanism](https://en.wikipedia.org/wiki/Antikythera_mechanism), from around 100 BC, used gears to predict astronomical positions and eclipses, long before zero or positional notation reached Europe. [Nothing of similar complexity is known until the Renaissance](https://www.nature.com/articles/444534a). Some magic gets lost.)
 
-<!-- paragraph-id: p-02-to-really-understand-how-much-of-a-leap -->
-To really understand how much of a leap this is, just take a look back at our timeline of numbers. Around 100 BC is before the invention of 0, before positional notation and the carry mechanism. Yet some Greek wizard, perhaps from Rhodes, still managed to make this device.
+## Bigger than you think
 
 <!-- paragraph-id: p-02-were-getting-pretty-good-at-writing-large-numbers -->
-We're getting pretty good at writing large numbers. We can write down 1,000,000 and read it without blinking an eye. But science is progressing and making up bigger numbers faster than we can write them down. How about the number of atoms in the universe? Or even bigger, all the possible move sequences in the game of chess?
+We can now write 1,000,000 and read it without blinking. But science makes up bigger numbers faster than we can write them down. The number of atoms in the observable universe is roughly a 1 followed by 80 zeros. The number of possible games of chess is [estimated at around a 1 followed by 120 zeros](https://en.wikipedia.org/wiki/Shannon_number).
 
 <!-- paragraph-id: p-02-to-write-that-number-down-you-will-need -->
-To write that number down, you will need a number with at least 111 zeros. Clearly that is no longer practical. So enter [scientific notation](https://en.wikipedia.org/wiki/Scientific_notation), where we add another calculation as part of the notation of a number: exponents.
+Writing all those zeros is no longer practical. So enter [scientific notation](https://en.wikipedia.org/wiki/Scientific_notation), which adds yet another calculation to the notation: the exponent.
 
 $$
-2 \times 10^{111}
+10^{120}
 $$
 
 <!-- paragraph-id: p-02-but-we-can-also-use-these-to-explain -->
-But we can also use these to explain the positional nature of Arabic numerals:
+Exponents also show exactly what positional notation was doing all along:
 
 | $$ \times 10^{2} $$  | $$ \times 10^{1} $$ | $$ \times 10^{0} $$ |
 | - | - | - |
@@ -116,61 +103,57 @@ But we can also use these to explain the positional nature of Arabic numerals:
 <!-- paragraph-id: p-02-so-the-number-972-is-equal-to-9 -->
 So the number 972 is equal to $$ 9 \times 10^2 + 7 \times 10^1 + 2 \times 10^0 $$
 
+## Down to two
+
 <!-- paragraph-id: p-02-so-what-about-our-original-two-numbers-1 -->
-So what about our original two numbers, `1` and `0`? Well, if you understand the magic of positional notation, it turns out that you don't actually need all 10 numerals in each position.
+So what about our original two numbers, `1` and `0`? Once you see that the magic is in the positions, it turns out that nothing forces you to use ten numerals per position.
 
 <!-- paragraph-id: p-02-you-can-use-any-number-of-numerals-such -->
-You can use any number of numerals, such as 16 for [hexadecimal](https://en.wikipedia.org/wiki/Hexadecimal) numbers, for example:
+Use 16 and you get [hexadecimal](https://en.wikipedia.org/wiki/Hexadecimal), with `A` to `F` standing in for 10 to 15. The `0x` prefix just says 'this is hexadecimal':
 
 $$
-    0x1F   = 1 \times 16 + 15
+    0x1F   = 1 \times 16 + 15 = 31
 $$
-
-<!-- paragraph-id: p-02-0x-is-just-a-convention-to-say-this -->
-*`0x` is just a convention to say 'this is a hexadecimal number', and since there are 16 single-position numerals, we've got `A` to `F` as placeholders for 10 to 15.*
 
 <!-- paragraph-id: p-02-or-octal-with-8-numerals-per-position -->
-Or [octal](https://en.wikipedia.org/wiki/Octal), with 8 numerals per position:
+Use 8 and you get [octal](https://en.wikipedia.org/wiki/Octal):
 
 $$
-    0o17 = 1 \times 8 + 7
+    0o17 = 1 \times 8 + 7 = 15
 $$
 
 <!-- paragraph-id: p-02-or-reduce-it-to-two-numerals-1-and -->
-Or reduce it to two numerals, `1` and `0`, and you get [binary](https://en.wikipedia.org/wiki/Binary_number):
-
-$$
-    11 = 1 \times 2 + 1
-$$
-
-<!-- paragraph-id: p-02-and-using-exponents-we-can-explain-it-a -->
-And using exponents, we can explain it a bit better:
+Or reduce it to just `1` and `0`, and you get [binary](https://en.wikipedia.org/wiki/Binary_number). Each column is now worth twice the one to its right:
 
 | $$ \times 2^{2} $$  | $$ \times 2^{1} $$ | $$ \times 2^{0} $$ |
 | - | - | - |
 | 1 | 0 | 1 |
 
 <!-- paragraph-id: p-02-this-means-that-the-binary-number-101-is -->
-This means that the binary number `101` is equal to
+So the binary number `101` is
 
 $$
-    1 \times 2^2 + 0 \times 2^1 + 1 \times 2^0
+    1 \times 2^2 + 0 \times 2^1 + 1 \times 2^0 = 4 + 0 + 1 = 5
 $$
-
-<!-- paragraph-id: p-02-this-simplifies-to -->
-This simplifies to
-
-$$
-    1 \times 4 + 1 = 5
-$$
-
 
 <!-- paragraph-id: p-02-binary-numbers-are-so-ubiquitous-in-programming-that -->
-Binary numbers are so ubiquitous in programming that you'll see the powers of 2 often. Here are the first few:
+Binary is everywhere in programming, so you'll meet the powers of 2 often. Here are the first few:
 
 | $2^{10}$ | $2^9$ | $2^8$ | $2^7$ | $2^6$ | $2^5$ | $2^4$ | $2^3$ | $2^2$ | $2^1$ | $2^0$  |
 | - | - | - | - | - | - | - | - | - | - | - |
 |1024 | 512 | 256 | 128 | 64 | 32 | 16 | 8 | 4 | 2 | 1 |
 
 <!-- paragraph-id: p-02-this-is-a-good-time-to-end-our -->
-This is a good time to end our archaeological dig through numbers. We started with fingers and tally marks, and ended with two numerals that can represent any number a computer needs.
+Two symbols are the fewest a positional system can have, and they are all a machine needs: on or off, a hole or no hole, a pin up or a pin down. That is why computers count in binary.
+
+<!-- paragraph-id: p-02-look-back-at-the-road-we-took-tally -->
+Look back at the road we took. Tally marks just counted. Roman numerals hid additions and subtractions in the order of their symbols. The abacus moved the calculation into position. Zero made that position writable. The carry let a machine do the sums, and exponents let us write numbers too big to write.
+
+<!-- paragraph-id: p-02-at-every-step-the-numbers-themselves-hardly-changed -->
+At every step, the numbers themselves hardly changed. The notation did. And each new notation did some of the thinking for us, until the thinking was simple enough for a machine.
+
+<!-- paragraph-id: p-02-that-is-the-first-trick-of-this-book -->
+That is the first trick of this book: choose a notation that does the work.
+
+<!-- paragraph-id: p-02-but-a-machine-full-of-ones-and-zeros -->
+But a machine full of ones and zeros can count. It cannot yet decide anything. For that, we need a second trick.
