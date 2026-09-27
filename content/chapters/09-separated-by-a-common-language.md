@@ -10,11 +10,8 @@ React is, at the time of writing, the dominant JavaScript library for building u
 <!-- paragraph-id: p-09-react-has-become-so-ubiquitous-that-companies-no -->
 React has become so ubiquitous that companies no longer search only for web developers or JavaScript developers. They search for React developers. There are blogs, forums, conferences, and symposia for React developers.
 
-<!-- paragraph-id: p-09-that-is-not-an-accident -->
-That is not an accident.
-
 <!-- paragraph-id: p-09-react-and-its-constellation-of-supporting-tools-and -->
-React and its constellation of supporting tools and libraries have become their own thing. A React developer expects a certain way of looking at and solving problems. Traditional, or “vanilla,” JavaScript libraries often do not fit comfortably into that worldview. React has created its own vocabulary, rules, idioms, and community.
+That is not an accident. React and its constellation of supporting tools and libraries have become their own thing. A React developer expects a certain way of looking at and solving problems. Traditional, or “vanilla,” JavaScript libraries often do not fit comfortably into that worldview. React has created its own vocabulary, rules, idioms, and community.
 
 <!-- paragraph-id: p-09-react-is-effectively-a-dialect-inside-javascript-the -->
 React is effectively a dialect inside JavaScript. The syntax still belongs to JavaScript. Much of the meaning belongs to React.
@@ -23,10 +20,7 @@ React is effectively a dialect inside JavaScript. The syntax still belongs to Ja
 React is one example of a library, framework, or tool written in a language in such a way that it changes what the language is capable of: which things are easy to express, and which ideas come naturally to the programmer. It has changed the language spoken by the people who use it.
 
 <!-- paragraph-id: p-09-but-this-is-not-limited-to-react-or -->
-But this is not limited to React or even JavaScript. Lisp is the quintessential example. There is no language that can be extended, bent around and generally abused to quite the same extent. You can create any language you like within and around Lisp. 
-
-<!-- paragraph-id: p-09-and-people-have-done-so -->
-And people have done so. 
+But this is not limited to React or even JavaScript. Lisp is the quintessential example. There is no language that can be extended, bent around and generally abused to quite the same extent. You can create any language you like within and around Lisp. And people have done so.
 
 <!-- paragraph-id: p-09-oh-boy-have-they-done-so -->
 Oh boy, have they done so.
@@ -49,10 +43,7 @@ Richard Gabriel and Guy Steele wrote about Lisp’s tendency to split into separ
 This proliferation eventually led to Common Lisp: an attempt to bring several diverging branches of the Lisp family back into one common language.
 
 <!-- paragraph-id: p-09-but-the-issue-was-inherent-in-lisp-no -->
-But the issue was inherent in Lisp, no matter the version. Any developer could extend Lisp itself, from within Lisp. The new additions could look and behave as though they had always been a part of it.
-
-<!-- paragraph-id: p-09-why-would-you-not-do-that -->
-Why would you not do that?
+But the issue was inherent in Lisp, no matter the version. Any developer could extend Lisp itself, from within Lisp. The new additions could look and behave as though they had always been a part of it. Why would you not do that?
 
 <!-- paragraph-id: p-09-a-famous-example-is-viaweb-one-of-the -->
 A famous example is Viaweb, one of the earliest web applications. Its founder, Paul Graham, wrote extensively about the advantages Lisp gave the company. Viaweb's small team could build features faster than their competitors. Lisp was their secret weapon.
@@ -78,10 +69,7 @@ I admire the sentiment, but unfortunately cannot consider myself a convert. I to
 But there's no such thing as a Vanilla JavaScript application. Not for long. And the same goes for PHP, C, Rust and certainly Lisp.
 
 <!-- paragraph-id: p-09-weve-already-discussed-the-reason-its-not-only -->
-We've already discussed the reason. It's not only Lisp that allows a developer to grow the language. 
-
-<!-- paragraph-id: p-09-it-is-universal -->
-It is universal.
+We've already discussed the reason. It's not only Lisp that allows a developer to grow the language. It is universal.
 
 <!-- paragraph-id: p-09-in-the-previous-chapter-i-showed-that-programming -->
 In the previous chapter, I showed that programming languages make some thoughts easier to express than others. Different operations can become cheap.
@@ -96,10 +84,7 @@ This is not an accident. This is the point.
 Each program extends its host language. The syntax doesn't change, but increasingly the program supplies the meaning.
 
 <!-- paragraph-id: p-09-vanilla-software-does-not-remain-vanilla-for-long -->
-Vanilla software does not remain vanilla for long. 
-
-<!-- paragraph-id: p-09-nor-should-it -->
-Nor should it.
+Vanilla software does not remain vanilla for long. Nor should it.
 
 ## Muddying the waters
 
@@ -113,10 +98,7 @@ Our local MUD, the cause of much sleep deprivation and many missed lectures, was
 I have to explain that last sentence a little. I mean 'inside' fairly literally. You didn't just look at a codebase and edit some files. You were a wizard, and you walked through the codebase. Each room was a separate file. You could stand inside that room and edit it while you were there. 
 
 <!-- paragraph-id: p-09-lpmud-not-only-had-rooms-you-were-a -->
-LPMud not only had 'rooms'. You were a 'player', and creatures that roamed the world were 'monsters'. The system had a 'heartbeat' that made everything move. The language it used in the code was the language of its world. It was quirky and poetic. 
-
-<!-- paragraph-id: p-09-and-it-fit -->
-And it fit.
+LPMud not only had 'rooms'. You were a 'player', and creatures that roamed the world were 'monsters'. The system had a 'heartbeat' that made everything move. The language it used in the code was the language of its world. It was quirky and poetic. And it fit.
 
 <!-- paragraph-id: p-09-lpmud-is-still-around-there-are-still-wizards -->
 LPMud is still around. There are still wizards writing inside its code, its world. Unfortunately, few other software systems have gone this far in inhabiting their own code—to make the language truly fit the domain.
@@ -142,10 +124,7 @@ I think it's more like the curse of Babel.
 Domain-Driven Design seems to offer a way through: listen to the language of the problem domain and mirror it in the code. I think that is wise. But what is that language? Where does it start, and where does it end?
 
 <!-- paragraph-id: p-09-software-development-becomes-partly-a-matter-of-becoming -->
-Software development becomes partly a matter of becoming one with your world, your domain. It's almost holistic. Not something a book can teach you, certainly not one for dummies. 
-
-<!-- paragraph-id: p-09-more-something-for-wizards -->
-More something for wizards.
+Software development becomes partly a matter of becoming one with your world, your domain. It's almost holistic. Not something a book can teach you, certainly not one for dummies. More something for wizards.
 
 <!-- paragraph-id: p-09-all-choices-have-trade-offs-the-language-that -->
 All choices have trade-offs. The language that allows you to work quickly now may slow down the next person who has to learn it. And a language shared by everyone may be easier to enter, but less able to express this particular world.
@@ -156,10 +135,7 @@ All choices have trade-offs. The language that allows you to work quickly now ma
 > Mind your language.
 
 <!-- paragraph-id: p-09-im-sorry-that-i-cannot-give-you-easy -->
-I'm sorry that I cannot give you easy advice to follow. And what's worse, the curse of Babel isn't limited to your code. 
-
-<!-- paragraph-id: p-09-its-in-your-data-as-well -->
-It's in your data as well.
+I'm sorry that I cannot give you easy advice to follow. And what's worse, the curse of Babel isn't limited to your code. It's in your data as well.
 
 <!-- paragraph-id: p-09-code-can-be-replaced-data-has-a-habit -->
 Code can be replaced. Data has a habit of surviving.

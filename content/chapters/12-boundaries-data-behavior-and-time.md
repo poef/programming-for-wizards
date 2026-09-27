@@ -11,10 +11,7 @@ We aren't the first programmers to get tangled up in our own code. Object-Orient
 It promised a way to make software out of reusable pieces. Pieces that were not just functions, but little things that carried their own data and behavior around with them. Objects could be combined. Classes could be extended. The internal mess could be hidden. The outside world could talk to a smaller public surface.
 
 <!-- paragraph-id: p-12-that-promise-was-powerful-enough-that-oop-took -->
-That promise was powerful enough that OOP took over much of the programming world. For many programmers, programming became object-oriented programming.
-
-<!-- paragraph-id: p-12-and-yet-the-knitted-castle-did-not-go -->
-And yet the knitted castle did not go away.
+That promise was powerful enough that OOP took over much of the programming world. For many programmers, programming became object-oriented programming. And yet the knitted castle did not go away.
 
 <!-- paragraph-id: p-12-so-i-will-not-start-with-a-definition -->
 So I will not start with a definition of OOP. Definitions are where this subject goes to become religious. I will start with the promise, and with the part of the promise that still matters.
@@ -71,10 +68,7 @@ class Order {
 ```
 
 <!-- paragraph-id: p-12-this-looks-convenient-and-convenience-is-one-of -->
-This looks convenient, and convenience is one of the most dangerous forms of magic. The `Order` class now decides not only what an order is, but also where databases come from. If the database changes, the order changes. If you want to test the order, you need a database or a trick.
-
-<!-- paragraph-id: p-12-the-dependency-is-hidden -->
-The dependency is hidden.
+This looks convenient, and convenience is one of the most dangerous forms of magic. The `Order` class now decides not only what an order is, but also where databases come from. If the database changes, the order changes. If you want to test the order, you need a database or a trick. The dependency is hidden.
 
 <!-- paragraph-id: p-12-a-cleaner-version-is-to-ask-for-what -->
 A cleaner version is to ask for what you need.
@@ -184,7 +178,7 @@ One useful boundary is the shell/core split.
 The core contains the rules of the program. It should know as little as possible about files, databases, networks, frameworks, clocks and random number generators. The shell knows about the outside world. It wires everything together.
 
 <!-- paragraph-id: p-12-factory-spells-clearly-belong-in-the-shell-this -->
-Factory spells clearly belong in the shell. This is where the Lego blocks are connected. I sometimes use the term "glue layer", but gluing Lego bricks together is frowned upon. A factory is a specific version of a pattern I've been using a lot: the bridge. Instead of two or more components having to know about each other, with threads connecting them, only the bridge knows how to tie the knots.
+Factory spells clearly belong in the shell. This is where the Lego blocks are connected. I sometimes use the term "glue layer", but gluing Lego bricks together is frowned upon. A factory is a specific version of a pattern I use a lot in my own work: the bridge. Instead of two or more components having to know about each other, with threads connecting them, only the bridge knows how to tie the knots.
 
 <!-- paragraph-id: p-12-boundaries-are-not-found-by-drawing-boxes-first -->
 Boundaries are not found by drawing boxes first. They appear when you notice that two things know too much about each other, change for different reasons, or must be connected by knowledge that belongs to neither.

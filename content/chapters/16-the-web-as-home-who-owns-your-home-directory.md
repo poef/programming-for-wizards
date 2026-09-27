@@ -76,7 +76,7 @@ Linked data helps different tools understand the same things. But by itself, it 
 ## Connecting to Solid
 
 <!-- paragraph-id: p-16-there-is-a-project-called-solid-that-explores -->
-There is a project called [Solid](https://solidproject.org/) that explores this kind of world. 
+Decades after he gave us the Web, Sir Tim started a project called [Solid](https://solidproject.org/) to explore this kind of world.
 
 <!-- paragraph-id: p-16-solid-separates-identity-and-data-from-applications-a -->
 Solid separates identity and data from applications. A person has an identity on the Web. Their data can live in storage they choose, usually called a pod. Applications ask for permission to read or change parts of it.
@@ -88,7 +88,7 @@ The Solid protocols add shared infrastructure for identity, storage and permissi
 Solid servers and libraries provide a platform on top of those agreements. A notes application can write a note without also becoming an identity provider, storage service and permission system.
 
 <!-- paragraph-id: p-16-linked-data-describes-what-the-data-means-and -->
-Linked data describes what the data means and how it relates to other things. Solid decides where that data lives, who controls it, and which applications may use it.
+Linked data describes what the data means and how it relates to other things. With Solid, the person decides where that data lives, who controls it, and which applications may use it.
 
 <!-- paragraph-id: p-16-solid-does-not-replace-the-web-it-enhances -->
 Solid adds to the Web rather than replacing it. It can be useful without becoming the answer to everything.

@@ -23,7 +23,7 @@ I think the situation is more dire than that. We're not stacking bricks, instead
 Let's take a step back first, back to when you first discovered programming. I hope it isn't too hard to remember the heady first days, the unimaginable power you had to make a computer do your bidding, to create something entirely new.
 
 <!-- paragraph-id: p-11-then-if-you-are-like-me-you-got -->
-Then, if you are like me, you got serious about writing software, your darling program grew up and grew big. And adding new features, or debugging existing ones, grew more and more difficult. Your guesstimates grew more and more wildly off. Each new feature fighting with all the ones before it.
+Then, if you are like me, you got serious about writing software, your darling program grew up and grew big. And adding new features, or debugging existing ones, grew more and more difficult. Your guesstimates grew more and more wildly off. Each new feature fought with all the ones before it.
 
 <!-- paragraph-id: p-11-you-cannot-win-the-problem-is-complexity-in -->
 You cannot win. The problem is complexity. In software development, growing complexity appears to be as harsh a law as the [second law of thermodynamics.](https://en.wikipedia.org/wiki/Second_law_of_thermodynamics)
@@ -49,10 +49,7 @@ This is funny when it is yarn, it is less funny when it is your application.
 The dream is obvious. We want software pieces that behave like Lego bricks.
 
 <!-- paragraph-id: p-11-a-lego-brick-does-not-care-whether-it -->
-A Lego brick does not care whether it is used in a castle, a spaceship, a bridge, or a thing a small child insists is definitely a horse. It has a few simple connection points or studs. A few strict measurements used throughout. The studs are boring. The brick does not bring a castle architecture with it.
-
-<!-- paragraph-id: p-11-that-boringness-is-part-of-the-magic -->
-That boringness is part of the magic.
+A Lego brick does not care whether it is used in a castle, a spaceship, a bridge, or a thing a small child insists is definitely a horse. It has a few simple connection points or studs. A few strict measurements used throughout. The studs are boring. The brick does not bring a castle architecture with it. That boringness is part of the magic.
 
 <!-- paragraph-id: p-11-a-lego-brick-is-reusable-because-it-makes -->
 A Lego brick is reusable because it makes very few assumptions about the thing you are building. Most software components are not like that.
@@ -105,10 +102,7 @@ We have become very good at shipping bundles of software around the world. We ar
 ## Reuse has a direction
 
 <!-- paragraph-id: p-11-one-reason-the-lego-dream-fails-is-that -->
-One reason the Lego dream fails is that we talk about reuse as if all reuse were the same.
-
-<!-- paragraph-id: p-11-it-is-not -->
-It is not.
+One reason the Lego dream fails is that we talk about reuse as if all reuse were the same. It is not.
 
 <!-- paragraph-id: p-11-a-pure-function-is-often-easy-to-reuse -->
 A pure function is often easy to reuse because it asks for little. Give it input. Receive output. It does not need to know where the input came from or where the output will go.
@@ -148,11 +142,8 @@ Instead, look for the boundary.
 
 ## The boundary is the component
 
-<!-- paragraph-id: p-11-this-is-the-part-that-is-easy-to -->
-This is the part that is easy to miss.
-
 <!-- paragraph-id: p-11-the-reusable-thing-is-not-only-the-code -->
-The reusable thing is not only the code. It is the boundary around the code.
+This is the part that is easy to miss. The reusable thing is not only the code. It is the boundary around the code.
 
 <!-- paragraph-id: p-11-the-boundary-is-where-the-bargain-is-made -->
 The boundary is where the bargain is made. This data may cross. These names matter. This part stays hidden. This part is someone else's problem.

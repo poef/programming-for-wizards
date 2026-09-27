@@ -64,37 +64,37 @@ This is a human-readable snapshot. The canonical source for the generated site s
 
 ### Part I: Representations are spells
 
-- [02. Numbers: bigger than you think](content/chapters/02-numbers-hiding-calculations-in-symbols.md)
-- [03. Logic: the truth is out there](content/chapters/03-logic-turning-truth-into-machinery.md)
-- [04. Language: the oldest trick](content/chapters/04-language-the-tool-that-changes-the-thinker.md)
+- [02. Numbers: bigger than you think](content/chapters/02-numbers-bigger-than-you-think.md)
+- [03. Logic: the truth is out there](content/chapters/03-logic-the-truth-is-out-there.md)
+- [04. Language: the oldest trick](content/chapters/04-language-the-oldest-trick.md)
 
 ### Part II: The Web, from address to platform
 
-- [05. The Web: one string to rule them all](content/chapters/05-the-web-as-address.md)
-- [06. The Web: the shape of words](content/chapters/06-the-web-as-document.md)
-- [07. The Web: waking up the words](content/chapters/07-the-web-as-platform.md)
+- [05. The Web: one string to rule them all](content/chapters/05-the-web-one-string-to-rule-them-all.md)
+- [06. The Web: the shape of words](content/chapters/06-the-web-the-shape-of-words.md)
+- [07. The Web: waking up the words](content/chapters/07-the-web-waking-up-the-words.md)
 
 ### Part III: Inventing languages
 
-- [08. Teaching machines our words](content/chapters/08-programming-languages-are-for-humans.md)
-- [09. Every program grows a language](content/chapters/09-every-program-contains-a-language.md)
-- [10. Code exhibit: extending JavaScript with JAQT](content/chapters/10-code-exhibit-extending-javascript-with-jaqt.md)
+- [08. Teaching machines our words](content/chapters/08-teaching-machines-our-words.md)
+- [09. Separated by a Common Language](content/chapters/09-separated-by-a-common-language.md)
+- [10. Code exhibit: growing queries inside JavaScript](content/chapters/10-code-exhibit-growing-queries-inside-javascript.md)
 
 ### Part IV: Boundaries and reusable pieces
 
 - [11. The knitted castle](content/chapters/11-the-knitted-castle.md)
-- [12. Objects: binding data, behavior, and time](content/chapters/12-objects-binding-data-behavior-and-time.md)
+- [12. Boundaries: Data, behavior, and time](content/chapters/12-boundaries-data-behavior-and-time.md)
 
 ### Part V: Architecture, change, commons, and home
 
-- [13. Architecture: arches, pyramids, and change](content/chapters/13-architecture-arches-pyramids-and-change.md)
-- [14. The Web as commons: innovation happens elsewhere](content/chapters/14-the-web-as-commons.md)
-- [15. The Web as data: things should have addresses too](content/chapters/15-the-web-as-data.md)
-- [16. The Web as home: who owns your home directory?](content/chapters/16-the-web-as-home.md)
+- [13. Architecture: arches and change](content/chapters/13-architecture-arches-and-change.md)
+- [14. The Web as commons: innovation happens elsewhere](content/chapters/14-the-web-as-commons-innovation-happens-elsewhere.md)
+- [15. The Web as data: things should have addresses too](content/chapters/15-the-web-as-data-things-should-have-addresses-too.md)
+- [16. The Web as home: who owns your home directory?](content/chapters/16-the-web-as-home-who-owns-your-home-directory.md)
 
 ### Epilogue
 
-- [17. Epilogue: shifting ground](content/chapters/17-rule-zero-there-are-no-rules.md)
+- [17. Epilogue: the margin you have been using](content/chapters/17-epilogue-the-margin-you-have-been-using.md)
 
 ### Back Matter
 

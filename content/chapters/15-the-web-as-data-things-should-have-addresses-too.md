@@ -217,7 +217,7 @@ A word that looks obvious to a human may be vague to software. It may even be ob
 Linked data therefore uses vocabularies: shared sets of terms with public identifiers and definitions. Different applications can use the same property name because that property does not belong to either application.
 
 <!-- paragraph-id: p-15-this-is-where-your-eyes-may-start-to -->
-This is where your eyes may start to gloss over. Vocabularies, ontologies, IRIs. This all sounds abstract and academic, and it is. It's also necessary and powerful.
+This is where your eyes may start to glaze over. Vocabularies, ontologies, IRIs. This all sounds abstract and academic, and it is. It's also necessary and powerful.
 
 <!-- paragraph-id: p-15-when-independent-tools-can-recognise-the-same-names -->
 When independent tools recognise the same names for the same kinds of facts, they can work on those facts independently. But the only way to get there is for people to agree, enough, about what each name means. The problem is that shared meaning is social work pretending to be technical work. 
@@ -248,7 +248,7 @@ We need both boundaries, but they are not the same.
 ## The boundary moves again
 
 <!-- paragraph-id: p-15-think-again-about-small-reusable-software -->
-Back in the knitted castle, the useful question was not whether something could be reused, but in what direction. A file format can be reused by programs that do not share code. A protocol lets different systems meet and then go their separate ways again.
+Reuse has a direction. The useful question was never whether something could be reused, but which way. A file format can be reused by programs that do not share code. A protocol lets different systems meet and then go their separate ways again.
 
 <!-- paragraph-id: p-15-a-small-calendar-tool-can-stay-small-if -->
 Linked data moves that boundary further.
@@ -264,6 +264,3 @@ Linked data gives names somewhere to meet. It lets work done by one application 
 
 <!-- paragraph-id: p-15-if-the-meaning-can-live-outside-the-application -->
 If the meaning can live outside the application, why should the application own the only copy of the data?
-
-<!-- paragraph-id: p-15-where-should-a-persons-data-live -->
-Where should a person’s data live?
