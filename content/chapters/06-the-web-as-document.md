@@ -53,6 +53,9 @@ as well as simple structures.
 allowed the end-tags to be omitted for the "h1" and "p" elements.
 ```
 
+<!-- paragraph-id: p-06-unfortunately-their-work-only-made-it-out-of -->
+GML was technically available in the 1970s, but for years hardly anyone outside IBM could really use it. So the award for one of the first widely available markup languages that described the meaning--the semantics--of a text goes to [Scribe](http://www.columbia.edu/cu/computinghistory/scribe.pdf), in 1980. But we did not end up in a Scribe world, so I'll leave it there and return to GML.
+
 <!-- paragraph-id: p-06-gml-eventually-turned-into-sgml-standard-generalized-markup -->
 GML grew into [SGML--the Standard Generalized Markup Language](https://en.wikipedia.org/wiki/Standard_Generalized_Markup_Language), which became an industry standard in 1986. In 1989, when Sir Tim looked around for a markup language for the Web, he found SGML as a well-defined standard. But SGML itself has no tags. It is a language for defining your own document formats. This was clearly too complex. The original GML did have tags, nice and short ones. So [HTML](https://html.spec.whatwg.org/) was born out of a combination of SGML and GML. Stolen goods, once again.
 

@@ -1,7 +1,7 @@
 {
   "id": "programming-for-wizards",
   "title": "Programming for Wizards",
-  "generatedAt": "2026-09-27T09:47:21.889Z",
+  "generatedAt": "2026-09-27T09:49:50.104Z",
   "phase": "01-enhanced-static-manuscript",
   "features": {
     "notes": "planned",
@@ -88,7 +88,7 @@
       "url": "chapters/06-the-web-as-document.html",
       "previous": "05-the-web-as-address",
       "next": "07-the-web-as-platform",
-      "wordCount": 1323,
+      "wordCount": 1384,
       "rule": "Wizard's fifth rule"
     },
     {
@@ -325,7 +325,7 @@
       "part": "Part II: The Web",
       "partId": "the-web",
       "url": "chapters/06-the-web-as-document.html",
-      "wordCount": 1323
+      "wordCount": 1384
     },
     {
       "id": "07-the-web-as-platform",
@@ -1997,6 +1997,13 @@
       "label": "gml block",
       "chapter": "06-the-web-as-document",
       "url": "chapters/06-the-web-as-document.html#code-06-gml-h1-chapter-1-introduction"
+    },
+    {
+      "id": "p-06-unfortunately-their-work-only-made-it-out-of",
+      "type": "paragraph",
+      "label": "GML was technically available in the 1970s, but for years hardly anyone outside IBM could really use it. So the award fo",
+      "chapter": "06-the-web-as-document",
+      "url": "chapters/06-the-web-as-document.html#p-06-unfortunately-their-work-only-made-it-out-of"
     },
     {
       "id": "p-06-gml-eventually-turned-into-sgml-standard-generalized-markup",
