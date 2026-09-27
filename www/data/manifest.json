@@ -1,7 +1,7 @@
 {
   "id": "programming-for-wizards",
   "title": "Programming for Wizards",
-  "generatedAt": "2026-09-27T10:32:35.382Z",
+  "generatedAt": "2026-09-27T10:39:38.739Z",
   "phase": "01-enhanced-static-manuscript",
   "features": {
     "notes": "planned",
@@ -184,7 +184,7 @@
       "url": "chapters/14-the-web-as-commons-innovation-happens-elsewhere.html",
       "previous": "interlude-05-knitted-castle",
       "next": "15-the-web-as-data-things-should-have-addresses-too",
-      "wordCount": 1171,
+      "wordCount": 1172,
       "rule": null
     },
     {
@@ -196,7 +196,7 @@
       "url": "chapters/15-the-web-as-data-things-should-have-addresses-too.html",
       "previous": "14-the-web-as-commons-innovation-happens-elsewhere",
       "next": "16-the-web-as-home-who-owns-your-home-directory",
-      "wordCount": 1303,
+      "wordCount": 1295,
       "rule": null
     },
     {
@@ -208,7 +208,7 @@
       "url": "chapters/16-the-web-as-home-who-owns-your-home-directory.html",
       "previous": "15-the-web-as-data-things-should-have-addresses-too",
       "next": "interlude-06-final-rule",
-      "wordCount": 1064,
+      "wordCount": 1075,
       "rule": null
     },
     {
@@ -435,7 +435,7 @@
       "part": "Part V: The Next Web",
       "partId": "the-next-web",
       "url": "chapters/14-the-web-as-commons-innovation-happens-elsewhere.html",
-      "wordCount": 1171
+      "wordCount": 1172
     },
     {
       "id": "15-the-web-as-data-things-should-have-addresses-too",
@@ -445,7 +445,7 @@
       "part": "Part V: The Next Web",
       "partId": "the-next-web",
       "url": "chapters/15-the-web-as-data-things-should-have-addresses-too.html",
-      "wordCount": 1303
+      "wordCount": 1295
     },
     {
       "id": "16-the-web-as-home-who-owns-your-home-directory",
@@ -455,7 +455,7 @@
       "part": "Part V: The Next Web",
       "partId": "the-next-web",
       "url": "chapters/16-the-web-as-home-who-owns-your-home-directory.html",
-      "wordCount": 1064
+      "wordCount": 1075
     },
     {
       "id": "interlude-06-final-rule",
@@ -5599,7 +5599,7 @@
     {
       "id": "p-15-this-is-where-your-eyes-may-start-to",
       "type": "paragraph",
-      "label": "This is where your eyes may start to gloss over. Vocabularies, ontologies, IRIs. This all sounds abstract and academic, ",
+      "label": "This is where your eyes may start to glaze over. Vocabularies, ontologies, IRIs. This all sounds abstract and academic, ",
       "chapter": "15-the-web-as-data-things-should-have-addresses-too",
       "url": "chapters/15-the-web-as-data-things-should-have-addresses-too.html#p-15-this-is-where-your-eyes-may-start-to"
     },
@@ -5676,7 +5676,7 @@
     {
       "id": "p-15-think-again-about-small-reusable-software",
       "type": "paragraph",
-      "label": "Back in the knitted castle, the useful question was not whether something could be reused, but in what direction. A file",
+      "label": "Reuse has a direction. The useful question was never whether something could be reused, but which way. A file format can",
       "chapter": "15-the-web-as-data-things-should-have-addresses-too",
       "url": "chapters/15-the-web-as-data-things-should-have-addresses-too.html#p-15-think-again-about-small-reusable-software"
     },
@@ -5714,13 +5714,6 @@
       "label": "If the meaning can live outside the application, why should the application own the only copy of the data?",
       "chapter": "15-the-web-as-data-things-should-have-addresses-too",
       "url": "chapters/15-the-web-as-data-things-should-have-addresses-too.html#p-15-if-the-meaning-can-live-outside-the-application"
-    },
-    {
-      "id": "p-15-where-should-a-persons-data-live",
-      "type": "paragraph",
-      "label": "Where should a person’s data live?",
-      "chapter": "15-the-web-as-data-things-should-have-addresses-too",
-      "url": "chapters/15-the-web-as-data-things-should-have-addresses-too.html#p-15-where-should-a-persons-data-live"
     },
     {
       "id": "h-16-the-web-as-home-who-owns-your-home-directory",
@@ -5893,7 +5886,7 @@
     {
       "id": "p-16-there-is-a-project-called-solid-that-explores",
       "type": "paragraph",
-      "label": "There is a project called Solid that explores this kind of world.",
+      "label": "Decades after he gave us the Web, Sir Tim started a project called Solid to explore this kind of world.",
       "chapter": "16-the-web-as-home-who-owns-your-home-directory",
       "url": "chapters/16-the-web-as-home-who-owns-your-home-directory.html#p-16-there-is-a-project-called-solid-that-explores"
     },
@@ -5921,7 +5914,7 @@
     {
       "id": "p-16-linked-data-describes-what-the-data-means-and",
       "type": "paragraph",
-      "label": "Linked data describes what the data means and how it relates to other things. Solid decides where that data lives, who c",
+      "label": "Linked data describes what the data means and how it relates to other things. With Solid, the person decides where that ",
       "chapter": "16-the-web-as-home-who-owns-your-home-directory",
       "url": "chapters/16-the-web-as-home-who-owns-your-home-directory.html#p-16-linked-data-describes-what-the-data-means-and"
     },

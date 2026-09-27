@@ -25,7 +25,7 @@ That's not a system built to grow, or to allow change at scale.
 ## The bazaar needs streets
 
 <!-- paragraph-id: p-14-eric-s-raymond-wrote-the-cathedral-and-the -->
-Eric S. Raymond wrote [*The Cathedral and the Bazaar*](http://www.catb.org/~esr/writings/cathedral-bazaar/cathedral-bazaar/), contrasting carefully planned cathedral-style development with the messy, adaptive energy of open source. The point of the bazaar is not the mess, the point is anyone can build a stall there.
+Eric S. Raymond wrote [*The Cathedral and the Bazaar*](http://www.catb.org/~esr/writings/cathedral-bazaar/cathedral-bazaar/), contrasting carefully planned cathedral-style development with the messy, adaptive energy of open source. The point of the bazaar is not the mess. The point is that anyone can build a stall there.
 
 <!-- paragraph-id: p-14-a-bazaar-still-needs-streets-a-stall-needs -->
 A bazaar still needs streets. A stall needs somewhere to stand. People need to know where the entrance is. Someone has to stop a new stall from blocking it.
