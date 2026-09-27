@@ -128,7 +128,7 @@ NODE"accountname password"::device:[directory.subdirectory]filename.type;ver
 ```
 
 <!-- paragraph-id: p-05-the-web-was-developed-by-sir-tim-on -->
-Sir Tim built the Web on a NeXT computer, from Steve Jobs's company, running a Unix-based operating system. So it is no surprise that the URL follows Unix's path format, the simplest of the bunch.
+Sir Tim built the Web on a NeXT Cube, Steve Jobs's Unix machine. So it is no surprise that the URL follows Unix's path format, the simplest of the bunch.
 
 <!-- paragraph-id: p-05-unix-itself-had-stolen-and-simplified-ideas-from -->
 Unix itself had stolen and simplified ideas from earlier systems such as Multics. One of its beautiful tricks is that users do not normally need to care which physical device a file is on. There is a single tree. Disks and devices can be mounted into that tree. The messy physical world disappears behind a simpler name world.

@@ -1,7 +1,7 @@
 {
   "id": "programming-for-wizards",
   "title": "Programming for Wizards",
-  "generatedAt": "2026-09-27T09:08:44.978Z",
+  "generatedAt": "2026-09-27T09:38:28.413Z",
   "phase": "01-enhanced-static-manuscript",
   "features": {
     "notes": "planned",
@@ -76,7 +76,7 @@
       "url": "chapters/05-the-web-as-address.html",
       "previous": "interlude-02-meaning-escapes",
       "next": "06-the-web-as-document",
-      "wordCount": 1320,
+      "wordCount": 1315,
       "rule": "Wizard's fourth rule"
     },
     {
@@ -315,7 +315,7 @@
       "part": "Part II: The Web",
       "partId": "the-web",
       "url": "chapters/05-the-web-as-address.html",
-      "wordCount": 1320
+      "wordCount": 1315
     },
     {
       "id": "06-the-web-as-document",
@@ -1728,7 +1728,7 @@
     {
       "id": "p-05-the-web-was-developed-by-sir-tim-on",
       "type": "paragraph",
-      "label": "Sir Tim built the Web on a NeXT computer, from Steve Jobs's company, running a Unix-based operating system. So it is no ",
+      "label": "Sir Tim built the Web on a NeXT Cube, Steve Jobs's Unix machine. So it is no surprise that the URL follows Unix's path f",
       "chapter": "05-the-web-as-address",
       "url": "chapters/05-the-web-as-address.html#p-05-the-web-was-developed-by-sir-tim-on"
     },
