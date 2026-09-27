@@ -77,24 +77,24 @@ This is a human-readable snapshot. The canonical source for the generated site s
 ### Part III: Inventing languages
 
 - [08. Teaching machines our words](content/chapters/08-programming-languages-are-for-humans.md)
-- [09. Every program grows a language](content/chapters/09-every-program-contains-a-language.md)
-- [10. Code exhibit: extending JavaScript with JAQT](content/chapters/10-code-exhibit-extending-javascript-with-jaqt.md)
+- [09. Separated by a Common Language](content/chapters/09-every-program-contains-a-language.md)
+- [10. Code exhibit: growing queries inside JavaScript](content/chapters/10-code-exhibit-extending-javascript-with-jaqt.md)
 
 ### Part IV: Boundaries and reusable pieces
 
 - [11. The knitted castle](content/chapters/11-the-knitted-castle.md)
-- [12. Objects: binding data, behavior, and time](content/chapters/12-objects-binding-data-behavior-and-time.md)
+- [12. Boundaries: Data, behavior, and time](content/chapters/12-objects-binding-data-behavior-and-time.md)
 
 ### Part V: Architecture, change, commons, and home
 
-- [13. Architecture: arches, pyramids, and change](content/chapters/13-architecture-arches-pyramids-and-change.md)
+- [13. Architecture: arches and change](content/chapters/13-architecture-arches-pyramids-and-change.md)
 - [14. The Web as commons: innovation happens elsewhere](content/chapters/14-the-web-as-commons.md)
 - [15. The Web as data: things should have addresses too](content/chapters/15-the-web-as-data.md)
 - [16. The Web as home: who owns your home directory?](content/chapters/16-the-web-as-home.md)
 
 ### Epilogue
 
-- [17. Epilogue: shifting ground](content/chapters/17-rule-zero-there-are-no-rules.md)
+- [17. Epilogue: the margin you have been using](content/chapters/17-rule-zero-there-are-no-rules.md)
 
 ### Back Matter
 

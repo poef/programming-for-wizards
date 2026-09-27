@@ -76,13 +76,13 @@
         {
           "number": "09",
           "id": "09-every-program-contains-a-language",
-          "title": "Every program grows a language",
+          "title": "Separated by a Common Language",
           "source": "chapters/09-every-program-contains-a-language.md"
         },
         {
           "number": "10",
           "id": "10-code-exhibit-extending-javascript-with-jaqt",
-          "title": "Code exhibit: extending JavaScript with JAQT",
+          "title": "Code exhibit: growing queries inside JavaScript",
           "source": "chapters/10-code-exhibit-extending-javascript-with-jaqt.md"
         }
       ]
@@ -100,13 +100,13 @@
         {
           "number": "12",
           "id": "12-objects-binding-data-behavior-and-time",
-          "title": "Objects: binding data, behavior, and time",
+          "title": "Boundaries: Data, behavior, and time",
           "source": "chapters/12-objects-binding-data-behavior-and-time.md"
         },
         {
           "number": "13",
           "id": "13-architecture-arches-pyramids-and-change",
-          "title": "Architecture: arches, pyramids, and change",
+          "title": "Architecture: arches and change",
           "source": "chapters/13-architecture-arches-pyramids-and-change.md"
         }
       ]
@@ -142,7 +142,7 @@
         {
           "number": "17",
           "id": "17-rule-zero-there-are-no-rules",
-          "title": "Epilogue: shifting ground",
+          "title": "Epilogue: the margin you have been using",
           "source": "chapters/17-rule-zero-there-are-no-rules.md"
         },
         {
