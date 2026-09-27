@@ -8,7 +8,7 @@ tags: programming for wizards
 In 1989 a wizard called [Tim](https://www.w3.org/People/Berners-Lee/) invented the [World Wide Web](https://www.w3.org/History/1989/proposal-msw.html) and changed the world forever. There was [quite](https://en.wikipedia.org/wiki/Fall_of_the_Berlin_Wall) a [bit](https://history.state.gov/milestones/1989-1992/apartheid) of [world-changing](https://en.wikipedia.org/wiki/History_of_Poland_%281945%E2%80%931989%29#Final_decade_of_the_Polish_People%27s_Republic_%281980%E2%80%931989%29) going on that year, so this particular change didn't look all that important at the time. A proposal for sharing documents at CERN had to compete with falling walls, collapsing regimes and the end of the Cold War. Looking back, it may have mattered more than any of them.
 
 <!-- paragraph-id: p-05-the-first-website-did-not-look-much-like -->
-The [first website](https://info.cern.ch) lived at CERN, and its address still hosts a small page in its memory. Like the original, it doesn't look much like the future. It is mostly text and links. It doesn't even have a cookie banner:
+The [first website](https://info.cern.ch) did not look much like the future. It was mostly text and links. It didn't even have a cookie banner:
 
 <!-- code-id: code-05-html -->
 ```htmlembedded=
