@@ -133,7 +133,7 @@ This is attractive. It looks like a query. It removes the repeated `person`. It 
 But now the text is not JavaScript. JavaScript cannot run it. We need tokens, grammar rules, a parse tree, a translator, and our own error messages. If we want `startsWith`, we must define that operation in the new language. If we want to use an existing JavaScript helper, we need a way to smuggle that helper across the border.
 
 <!-- paragraph-id: p-10-i-learned-this-the-hard-way-an-earlier -->
-I learned this the hard way. An earlier attempt of mine used a triplestore and a Datalog query parser. It worked. But everyone who used it had to learn another language, and once their query crossed into it, all the JavaScript functions they already knew were out of reach.
+I learned this the hard way. An earlier attempt of mine used a [triplestore](https://en.wikipedia.org/wiki/Triplestore) and a [Datalog](https://en.wikipedia.org/wiki/Datalog) query parser. It worked. But everyone who used it had to learn another language, and once their query crossed into it, all the JavaScript functions they already knew were out of reach.
 
 <!-- paragraph-id: p-10-again-this-can-be-a-good-trade-sql -->
 Again, this can be a good trade. SQL earns its border. A query string that can be sent to a database server, optimized, explained, logged, and permission-checked is doing work that ordinary JavaScript cannot do by itself.

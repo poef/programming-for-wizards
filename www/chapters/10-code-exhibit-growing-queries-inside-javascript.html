@@ -255,8 +255,14 @@ select firstName, lastName, address.city, fullName as label</code></pre>
 </span>But now the text is not JavaScript. JavaScript cannot run it. We need tokens, grammar rules, a parse tree, a translator, and our own error messages. If we want <code>startsWith</code>, we must define that operation in the new language. If we want to use an existing JavaScript helper, we need a way to smuggle that helper across the border.</p>
 <p id="p-10-i-learned-this-the-hard-way-an-earlier" data-note-target><span class="passage-margin" data-passage-margin aria-label="Margin for this passage">
 <span class="passage-margin-notes" data-passage-margin-notes></span>
-
-</span>I learned this the hard way. An earlier attempt of mine used a triplestore and a Datalog query parser. It worked. But everyone who used it had to learn another language, and once their query crossed into it, all the JavaScript functions they already knew were out of reach.</p>
+<span class="side-links side-links-margin" aria-label="Related links for this paragraph">
+<a href="https://en.wikipedia.org/wiki/Triplestore" title="https://en.wikipedia.org/wiki/Triplestore" tabindex="-1">https://en.wikipedia.org/wiki/Triplestore</a>
+<a href="https://en.wikipedia.org/wiki/Datalog" title="https://en.wikipedia.org/wiki/Datalog" tabindex="-1">https://en.wikipedia.org/wiki/Datalog</a>
+</span>
+</span>I learned this the hard way. An earlier attempt of mine used a triplestore and a Datalog query parser. It worked. But everyone who used it had to learn another language, and once their query crossed into it, all the JavaScript functions they already knew were out of reach.<span class="side-links side-links-inline" aria-label="Related links for this paragraph">
+<a href="https://en.wikipedia.org/wiki/Triplestore" title="https://en.wikipedia.org/wiki/Triplestore">https://en.wikipedia.org/wiki/Triplestore</a>
+<a href="https://en.wikipedia.org/wiki/Datalog" title="https://en.wikipedia.org/wiki/Datalog">https://en.wikipedia.org/wiki/Datalog</a>
+</span></p>
 <p id="p-10-again-this-can-be-a-good-trade-sql" data-note-target><span class="passage-margin" data-passage-margin aria-label="Margin for this passage">
 <span class="passage-margin-notes" data-passage-margin-notes></span>
 
