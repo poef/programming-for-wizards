@@ -153,7 +153,7 @@ An escape character says: the next character is not what it seems. But DOS alrea
 Here the escape character is `%`, and it is always followed by two hexadecimal digits. `2F` is hexadecimal for 47, and in the [ASCII encoding](https://en.wikipedia.org/wiki/ASCII) character 47 is `/`.
 
 <!-- paragraph-id: p-05-any-character-can-be-added-to-a-url -->
-Any character can be added to a URL like this, even one that isn't normally printable. So a URL stays plain text, and plain text survives being pasted into an e-mail or printed in a book.
+Any character can be added to a URL like this, even one that isn't normally printable. That lets a URL travel anywhere: in an e-mail, or even in a book.
 
 ## The hostname
 

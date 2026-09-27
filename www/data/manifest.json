@@ -1,7 +1,7 @@
 {
   "id": "programming-for-wizards",
   "title": "Programming for Wizards",
-  "generatedAt": "2026-09-27T09:49:50.104Z",
+  "generatedAt": "2026-09-27T09:52:32.333Z",
   "phase": "01-enhanced-static-manuscript",
   "features": {
     "notes": "planned",
@@ -76,7 +76,7 @@
       "url": "chapters/05-the-web-as-address.html",
       "previous": "interlude-02-meaning-escapes",
       "next": "06-the-web-as-document",
-      "wordCount": 1294,
+      "wordCount": 1288,
       "rule": "Wizard's fourth rule"
     },
     {
@@ -315,7 +315,7 @@
       "part": "Part II: The Web",
       "partId": "the-web",
       "url": "chapters/05-the-web-as-address.html",
-      "wordCount": 1294
+      "wordCount": 1288
     },
     {
       "id": "06-the-web-as-document",
@@ -1777,7 +1777,7 @@
     {
       "id": "p-05-any-character-can-be-added-to-a-url",
       "type": "paragraph",
-      "label": "Any character can be added to a URL like this, even one that isn't normally printable. So a URL stays plain text, and pl",
+      "label": "Any character can be added to a URL like this, even one that isn't normally printable. That lets a URL travel anywhere: ",
       "chapter": "05-the-web-as-address",
       "url": "chapters/05-the-web-as-address.html#p-05-any-character-can-be-added-to-a-url"
     },
