@@ -10,6 +10,9 @@ Chapter 8 introduced the concept of a domain-specific language: a little languag
 <!-- paragraph-id: p-10-you-can-create-a-dsl-with-its-own -->
 You can create a DSL with its own parser or compiler. But you don't always have to.
 
+<!-- paragraph-id: p-10-what-i-wanted-was-a-query-language-that -->
+What I wanted was a query language that looked a lot like GraphQL, but without a new parser or a new language. I didn't get there by reasoning it out step by step. After enough years, some solutions feel right before you can explain why. That is not much use in a book. So in this chapter I've worked backwards, starting from an ordinary solution that works, and taking the steps one at a time towards the one I ended up with.
+
 <!-- aside-id: aside-10-note-for-this-example-well-wade-into-the -->
 > **Note:** For this example, we'll wade into the deeper waters of JavaScript. Don't worry if you didn't bring your wellies. You can watch from the bank. The code should reveal the trick anyway.
 
@@ -108,7 +111,7 @@ This is better. `filter()` says which records survive. `map()` says what shape t
 Still, there is a small itch. The word `person` is everywhere. The input shape and the output shape are present, but buried in repeated property access. 
 
 <!-- paragraph-id: p-10-a-common-mistake-is-to-notice-this-itch -->
-A common mistake is to notice this itch and immediately summon a parser.
+My first instinct, when I notice this itch, is to summon a parser. I've done it before. But that comes with its own costs.
 
 ## The tempting new language
 
@@ -128,6 +131,9 @@ This is attractive. It looks like a query. It removes the repeated `person`. It 
 
 <!-- paragraph-id: p-10-but-now-the-text-is-not-javascript-javascript -->
 But now the text is not JavaScript. JavaScript cannot run it. We need tokens, grammar rules, a parse tree, a translator, and our own error messages. If we want `startsWith`, we must define that operation in the new language. If we want to use an existing JavaScript helper, we need a way to smuggle that helper across the border.
+
+<!-- paragraph-id: p-10-i-learned-this-the-hard-way-an-earlier -->
+I learned this the hard way. An earlier attempt of mine used a triplestore and a Datalog query parser. It worked. But everyone who used it had to learn another language, and once their query crossed into it, all the JavaScript functions they already knew were out of reach.
 
 <!-- paragraph-id: p-10-again-this-can-be-a-good-trade-sql -->
 Again, this can be a good trade. SQL earns its border. A query string that can be sent to a database server, optimized, explained, logged, and permission-checked is doing work that ordinary JavaScript cannot do by itself.

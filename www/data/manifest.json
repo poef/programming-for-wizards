@@ -1,7 +1,7 @@
 {
   "id": "programming-for-wizards",
   "title": "Programming for Wizards",
-  "generatedAt": "2026-09-27T10:20:47.294Z",
+  "generatedAt": "2026-09-27T10:31:24.070Z",
   "phase": "01-enhanced-static-manuscript",
   "features": {
     "notes": "planned",
@@ -136,7 +136,7 @@
       "url": "chapters/10-code-exhibit-growing-queries-inside-javascript.html",
       "previous": "09-separated-by-a-common-language",
       "next": "interlude-04-worse-spell",
-      "wordCount": 1808,
+      "wordCount": 1950,
       "rule": null
     },
     {
@@ -375,7 +375,7 @@
       "part": "Part III: Inventing languages",
       "partId": "inventing-languages",
       "url": "chapters/10-code-exhibit-growing-queries-inside-javascript.html",
-      "wordCount": 1808
+      "wordCount": 1950
     },
     {
       "id": "interlude-04-worse-spell",
@@ -3112,6 +3112,13 @@
       "url": "chapters/10-code-exhibit-growing-queries-inside-javascript.html#p-10-you-can-create-a-dsl-with-its-own"
     },
     {
+      "id": "p-10-what-i-wanted-was-a-query-language-that",
+      "type": "paragraph",
+      "label": "What I wanted was a query language that looked a lot like GraphQL, but without a new parser or a new language. I didn't ",
+      "chapter": "10-code-exhibit-growing-queries-inside-javascript",
+      "url": "chapters/10-code-exhibit-growing-queries-inside-javascript.html#p-10-what-i-wanted-was-a-query-language-that"
+    },
+    {
       "id": "aside-10-note-for-this-example-well-wade-into-the",
       "type": "aside",
       "label": "Note: For this example, we'll wade into the deeper waters of JavaScript. Don't worry if you didn't bring your wellies. Y",
@@ -3212,7 +3219,7 @@
     {
       "id": "p-10-a-common-mistake-is-to-notice-this-itch",
       "type": "paragraph",
-      "label": "A common mistake is to notice this itch and immediately summon a parser.",
+      "label": "My first instinct, when I notice this itch, is to summon a parser. I've done it before. But that comes with its own cost",
       "chapter": "10-code-exhibit-growing-queries-inside-javascript",
       "url": "chapters/10-code-exhibit-growing-queries-inside-javascript.html#p-10-a-common-mistake-is-to-notice-this-itch"
     },
@@ -3250,6 +3257,13 @@
       "label": "But now the text is not JavaScript. JavaScript cannot run it. We need tokens, grammar rules, a parse tree, a translator,",
       "chapter": "10-code-exhibit-growing-queries-inside-javascript",
       "url": "chapters/10-code-exhibit-growing-queries-inside-javascript.html#p-10-but-now-the-text-is-not-javascript-javascript"
+    },
+    {
+      "id": "p-10-i-learned-this-the-hard-way-an-earlier",
+      "type": "paragraph",
+      "label": "I learned this the hard way. An earlier attempt of mine used a triplestore and a Datalog query parser. It worked. But ev",
+      "chapter": "10-code-exhibit-growing-queries-inside-javascript",
+      "url": "chapters/10-code-exhibit-growing-queries-inside-javascript.html#p-10-i-learned-this-the-hard-way-an-earlier"
     },
     {
       "id": "p-10-again-this-can-be-a-good-trade-sql",
