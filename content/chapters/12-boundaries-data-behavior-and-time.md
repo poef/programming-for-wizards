@@ -178,7 +178,7 @@ One useful boundary is the shell/core split.
 The core contains the rules of the program. It should know as little as possible about files, databases, networks, frameworks, clocks and random number generators. The shell knows about the outside world. It wires everything together.
 
 <!-- paragraph-id: p-12-factory-spells-clearly-belong-in-the-shell-this -->
-Factory spells clearly belong in the shell. This is where the Lego blocks are connected. I sometimes use the term "glue layer", but gluing Lego bricks together is frowned upon. A factory is a specific version of a pattern I've been using a lot: the bridge. Instead of two or more components having to know about each other, with threads connecting them, only the bridge knows how to tie the knots.
+Factory spells clearly belong in the shell. This is where the Lego blocks are connected. I sometimes use the term "glue layer", but gluing Lego bricks together is frowned upon. A factory is a specific version of a pattern I use a lot in my own work: the bridge. Instead of two or more components having to know about each other, with threads connecting them, only the bridge knows how to tie the knots.
 
 <!-- paragraph-id: p-12-boundaries-are-not-found-by-drawing-boxes-first -->
 Boundaries are not found by drawing boxes first. They appear when you notice that two things know too much about each other, change for different reasons, or must be connected by knowledge that belongs to neither.

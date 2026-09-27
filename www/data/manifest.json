@@ -1,7 +1,7 @@
 {
   "id": "programming-for-wizards",
   "title": "Programming for Wizards",
-  "generatedAt": "2026-09-27T10:16:12.792Z",
+  "generatedAt": "2026-09-27T10:20:47.294Z",
   "phase": "01-enhanced-static-manuscript",
   "features": {
     "notes": "planned",
@@ -160,7 +160,7 @@
       "url": "chapters/12-boundaries-data-behavior-and-time.html",
       "previous": "11-the-knitted-castle",
       "next": "13-architecture-arches-and-change",
-      "wordCount": 1174,
+      "wordCount": 1177,
       "rule": "Wizard's tenth rule"
     },
     {
@@ -405,7 +405,7 @@
       "part": "Part IV: Boundaries",
       "partId": "boundaries",
       "url": "chapters/12-boundaries-data-behavior-and-time.html",
-      "wordCount": 1174
+      "wordCount": 1177
     },
     {
       "id": "13-architecture-arches-and-change",
