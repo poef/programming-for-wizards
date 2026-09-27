@@ -1,7 +1,7 @@
 {
   "id": "programming-for-wizards",
   "title": "Programming for Wizards",
-  "generatedAt": "2026-09-27T09:52:32.333Z",
+  "generatedAt": "2026-09-27T09:57:04.415Z",
   "phase": "01-enhanced-static-manuscript",
   "features": {
     "notes": "planned",
@@ -124,7 +124,7 @@
       "url": "chapters/09-every-program-contains-a-language.html",
       "previous": "08-programming-languages-are-for-humans",
       "next": "10-code-exhibit-extending-javascript-with-jaqt",
-      "wordCount": 1415,
+      "wordCount": 1410,
       "rule": "Wizard's eighth rule"
     },
     {
@@ -365,7 +365,7 @@
       "part": "Part III: Inventing languages",
       "partId": "inventing-languages",
       "url": "chapters/09-every-program-contains-a-language.html",
-      "wordCount": 1415
+      "wordCount": 1410
     },
     {
       "id": "10-code-exhibit-extending-javascript-with-jaqt",
@@ -2720,13 +2720,6 @@
       "url": "chapters/08-programming-languages-are-for-humans.html#p-08-small-powerful-languages-are-wonderful-for-the-writer"
     },
     {
-      "id": "p-08-just-like-human-languages",
-      "type": "paragraph",
-      "label": "Just like human languages.",
-      "chapter": "08-programming-languages-are-for-humans",
-      "url": "chapters/08-programming-languages-are-for-humans.html#p-08-just-like-human-languages"
-    },
-    {
       "id": "rule-08-wizards-seventh-rule",
       "type": "rule",
       "label": "Wizard's seventh rule",
@@ -2771,16 +2764,9 @@
     {
       "id": "p-08-so-this-is-the-perfect-solution-right",
       "type": "paragraph",
-      "label": "So this is the perfect solution, right?",
+      "label": "So this is the perfect solution, right? Again, there is always a cost.",
       "chapter": "08-programming-languages-are-for-humans",
       "url": "chapters/08-programming-languages-are-for-humans.html#p-08-so-this-is-the-perfect-solution-right"
-    },
-    {
-      "id": "p-08-again-there-is-always-a-cost",
-      "type": "paragraph",
-      "label": "Again, there is always a cost.",
-      "chapter": "08-programming-languages-are-for-humans",
-      "url": "chapters/08-programming-languages-are-for-humans.html#p-08-again-there-is-always-a-cost"
     },
     {
       "id": "p-08-a-dsl-introduces-a-new-boundary-a-new",
@@ -2818,16 +2804,9 @@
       "url": "chapters/09-every-program-contains-a-language.html#p-09-react-has-become-so-ubiquitous-that-companies-no"
     },
     {
-      "id": "p-09-that-is-not-an-accident",
-      "type": "paragraph",
-      "label": "That is not an accident.",
-      "chapter": "09-every-program-contains-a-language",
-      "url": "chapters/09-every-program-contains-a-language.html#p-09-that-is-not-an-accident"
-    },
-    {
       "id": "p-09-react-and-its-constellation-of-supporting-tools-and",
       "type": "paragraph",
-      "label": "React and its constellation of supporting tools and libraries have become their own thing. A React developer expects a c",
+      "label": "That is not an accident. React and its constellation of supporting tools and libraries have become their own thing. A Re",
       "chapter": "09-every-program-contains-a-language",
       "url": "chapters/09-every-program-contains-a-language.html#p-09-react-and-its-constellation-of-supporting-tools-and"
     },
@@ -2851,13 +2830,6 @@
       "label": "But this is not limited to React or even JavaScript. Lisp is the quintessential example. There is no language that can b",
       "chapter": "09-every-program-contains-a-language",
       "url": "chapters/09-every-program-contains-a-language.html#p-09-but-this-is-not-limited-to-react-or"
-    },
-    {
-      "id": "p-09-and-people-have-done-so",
-      "type": "paragraph",
-      "label": "And people have done so.",
-      "chapter": "09-every-program-contains-a-language",
-      "url": "chapters/09-every-program-contains-a-language.html#p-09-and-people-have-done-so"
     },
     {
       "id": "p-09-oh-boy-have-they-done-so",
@@ -2914,13 +2886,6 @@
       "label": "But the issue was inherent in Lisp, no matter the version. Any developer could extend Lisp itself, from within Lisp. The",
       "chapter": "09-every-program-contains-a-language",
       "url": "chapters/09-every-program-contains-a-language.html#p-09-but-the-issue-was-inherent-in-lisp-no"
-    },
-    {
-      "id": "p-09-why-would-you-not-do-that",
-      "type": "paragraph",
-      "label": "Why would you not do that?",
-      "chapter": "09-every-program-contains-a-language",
-      "url": "chapters/09-every-program-contains-a-language.html#p-09-why-would-you-not-do-that"
     },
     {
       "id": "p-09-a-famous-example-is-viaweb-one-of-the",
@@ -2981,16 +2946,9 @@
     {
       "id": "p-09-weve-already-discussed-the-reason-its-not-only",
       "type": "paragraph",
-      "label": "We've already discussed the reason. It's not only Lisp that allows a developer to grow the language.",
+      "label": "We've already discussed the reason. It's not only Lisp that allows a developer to grow the language. It is universal.",
       "chapter": "09-every-program-contains-a-language",
       "url": "chapters/09-every-program-contains-a-language.html#p-09-weve-already-discussed-the-reason-its-not-only"
-    },
-    {
-      "id": "p-09-it-is-universal",
-      "type": "paragraph",
-      "label": "It is universal.",
-      "chapter": "09-every-program-contains-a-language",
-      "url": "chapters/09-every-program-contains-a-language.html#p-09-it-is-universal"
     },
     {
       "id": "p-09-in-the-previous-chapter-i-showed-that-programming",
@@ -3007,13 +2965,6 @@
       "url": "chapters/09-every-program-contains-a-language.html#p-09-lisp-makes-it-easy-to-build-that-power"
     },
     {
-      "id": "p-09-this-is-not-an-accident-this-is-the",
-      "type": "paragraph",
-      "label": "This is not an accident. This is the point.",
-      "chapter": "09-every-program-contains-a-language",
-      "url": "chapters/09-every-program-contains-a-language.html#p-09-this-is-not-an-accident-this-is-the"
-    },
-    {
       "id": "p-09-each-program-extends-its-host-language-the-syntax",
       "type": "paragraph",
       "label": "Each program extends its host language. The syntax doesn't change, but increasingly the program supplies the meaning.",
@@ -3023,16 +2974,9 @@
     {
       "id": "p-09-vanilla-software-does-not-remain-vanilla-for-long",
       "type": "paragraph",
-      "label": "Vanilla software does not remain vanilla for long.",
+      "label": "Vanilla software does not remain vanilla for long. Nor should it.",
       "chapter": "09-every-program-contains-a-language",
       "url": "chapters/09-every-program-contains-a-language.html#p-09-vanilla-software-does-not-remain-vanilla-for-long"
-    },
-    {
-      "id": "p-09-nor-should-it",
-      "type": "paragraph",
-      "label": "Nor should it.",
-      "chapter": "09-every-program-contains-a-language",
-      "url": "chapters/09-every-program-contains-a-language.html#p-09-nor-should-it"
     },
     {
       "id": "h-09-muddying-the-waters",
@@ -3068,13 +3012,6 @@
       "label": "LPMud not only had 'rooms'. You were a 'player', and creatures that roamed the world were 'monsters'. The system had a '",
       "chapter": "09-every-program-contains-a-language",
       "url": "chapters/09-every-program-contains-a-language.html#p-09-lpmud-not-only-had-rooms-you-were-a"
-    },
-    {
-      "id": "p-09-and-it-fit",
-      "type": "paragraph",
-      "label": "And it fit.",
-      "chapter": "09-every-program-contains-a-language",
-      "url": "chapters/09-every-program-contains-a-language.html#p-09-and-it-fit"
     },
     {
       "id": "p-09-lpmud-is-still-around-there-are-still-wizards",
@@ -3140,13 +3077,6 @@
       "url": "chapters/09-every-program-contains-a-language.html#p-09-software-development-becomes-partly-a-matter-of-becoming"
     },
     {
-      "id": "p-09-more-something-for-wizards",
-      "type": "paragraph",
-      "label": "More something for wizards.",
-      "chapter": "09-every-program-contains-a-language",
-      "url": "chapters/09-every-program-contains-a-language.html#p-09-more-something-for-wizards"
-    },
-    {
       "id": "p-09-all-choices-have-trade-offs-the-language-that",
       "type": "paragraph",
       "label": "All choices have trade-offs. The language that allows you to work quickly now may slow down the next person who has to l",
@@ -3166,13 +3096,6 @@
       "label": "I'm sorry that I cannot give you easy advice to follow. And what's worse, the curse of Babel isn't limited to your code.",
       "chapter": "09-every-program-contains-a-language",
       "url": "chapters/09-every-program-contains-a-language.html#p-09-im-sorry-that-i-cannot-give-you-easy"
-    },
-    {
-      "id": "p-09-its-in-your-data-as-well",
-      "type": "paragraph",
-      "label": "It's in your data as well.",
-      "chapter": "09-every-program-contains-a-language",
-      "url": "chapters/09-every-program-contains-a-language.html#p-09-its-in-your-data-as-well"
     },
     {
       "id": "p-09-code-can-be-replaced-data-has-a-habit",
@@ -3910,13 +3833,6 @@
       "url": "chapters/11-the-knitted-castle.html#p-11-a-lego-brick-does-not-care-whether-it"
     },
     {
-      "id": "p-11-that-boringness-is-part-of-the-magic",
-      "type": "paragraph",
-      "label": "That boringness is part of the magic.",
-      "chapter": "11-the-knitted-castle",
-      "url": "chapters/11-the-knitted-castle.html#p-11-that-boringness-is-part-of-the-magic"
-    },
-    {
       "id": "p-11-a-lego-brick-is-reusable-because-it-makes",
       "type": "paragraph",
       "label": "A Lego brick is reusable because it makes very few assumptions about the thing you are building. Most software component",
@@ -4038,16 +3954,9 @@
     {
       "id": "p-11-one-reason-the-lego-dream-fails-is-that",
       "type": "paragraph",
-      "label": "One reason the Lego dream fails is that we talk about reuse as if all reuse were the same.",
+      "label": "One reason the Lego dream fails is that we talk about reuse as if all reuse were the same. It is not.",
       "chapter": "11-the-knitted-castle",
       "url": "chapters/11-the-knitted-castle.html#p-11-one-reason-the-lego-dream-fails-is-that"
-    },
-    {
-      "id": "p-11-it-is-not",
-      "type": "paragraph",
-      "label": "It is not.",
-      "chapter": "11-the-knitted-castle",
-      "url": "chapters/11-the-knitted-castle.html#p-11-it-is-not"
     },
     {
       "id": "p-11-a-pure-function-is-often-easy-to-reuse",
@@ -4141,16 +4050,9 @@
       "url": "chapters/11-the-knitted-castle.html#h-11-the-boundary-is-the-component"
     },
     {
-      "id": "p-11-this-is-the-part-that-is-easy-to",
-      "type": "paragraph",
-      "label": "This is the part that is easy to miss.",
-      "chapter": "11-the-knitted-castle",
-      "url": "chapters/11-the-knitted-castle.html#p-11-this-is-the-part-that-is-easy-to"
-    },
-    {
       "id": "p-11-the-reusable-thing-is-not-only-the-code",
       "type": "paragraph",
-      "label": "The reusable thing is not only the code. It is the boundary around the code.",
+      "label": "This is the part that is easy to miss. The reusable thing is not only the code. It is the boundary around the code.",
       "chapter": "11-the-knitted-castle",
       "url": "chapters/11-the-knitted-castle.html#p-11-the-reusable-thing-is-not-only-the-code"
     },
@@ -4295,13 +4197,6 @@
       "url": "chapters/12-objects-binding-data-behavior-and-time.html#p-12-that-promise-was-powerful-enough-that-oop-took"
     },
     {
-      "id": "p-12-and-yet-the-knitted-castle-did-not-go",
-      "type": "paragraph",
-      "label": "And yet the knitted castle did not go away.",
-      "chapter": "12-objects-binding-data-behavior-and-time",
-      "url": "chapters/12-objects-binding-data-behavior-and-time.html#p-12-and-yet-the-knitted-castle-did-not-go"
-    },
-    {
       "id": "p-12-so-i-will-not-start-with-a-definition",
       "type": "paragraph",
       "label": "So I will not start with a definition of OOP. Definitions are where this subject goes to become religious. I will start ",
@@ -4412,13 +4307,6 @@
       "label": "This looks convenient, and convenience is one of the most dangerous forms of magic. The Order class now decides not only",
       "chapter": "12-objects-binding-data-behavior-and-time",
       "url": "chapters/12-objects-binding-data-behavior-and-time.html#p-12-this-looks-convenient-and-convenience-is-one-of"
-    },
-    {
-      "id": "p-12-the-dependency-is-hidden",
-      "type": "paragraph",
-      "label": "The dependency is hidden.",
-      "chapter": "12-objects-binding-data-behavior-and-time",
-      "url": "chapters/12-objects-binding-data-behavior-and-time.html#p-12-the-dependency-is-hidden"
     },
     {
       "id": "p-12-a-cleaner-version-is-to-ask-for-what",
@@ -4822,16 +4710,9 @@
     {
       "id": "p-13-changing-the-language-changed-the-amount-and-shape",
       "type": "paragraph",
-      "label": "Changing the language changed the amount and shape of the software.",
+      "label": "Changing the language changed the amount and shape of the software. That can be an arch.",
       "chapter": "13-architecture-arches-pyramids-and-change",
       "url": "chapters/13-architecture-arches-pyramids-and-change.html#p-13-changing-the-language-changed-the-amount-and-shape"
-    },
-    {
-      "id": "p-13-that-can-be-an-arch",
-      "type": "paragraph",
-      "label": "That can be an arch.",
-      "chapter": "13-architecture-arches-pyramids-and-change",
-      "url": "chapters/13-architecture-arches-pyramids-and-change.html#p-13-that-can-be-an-arch"
     },
     {
       "id": "p-13-sometimes-it-is-just-a-private-dialect-with",

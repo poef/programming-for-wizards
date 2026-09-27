@@ -187,10 +187,7 @@ But there is a cost. Eventually the patterns become the language. Instead of wri
 So the natural pressure on programming languages is not to become smaller and more powerful, but bigger and less powerful.
 
 <!-- paragraph-id: p-08-small-powerful-languages-are-wonderful-for-the-writer -->
-Small, powerful languages are wonderful for the writer, but dangerous for the reader. Large, standard languages are easier to share, but they also make it harder to say unusual things simply.
-
-<!-- paragraph-id: p-08-just-like-human-languages -->
-Just like human languages.
+Small, powerful languages are wonderful for the writer, but dangerous for the reader. Large, standard languages are easier to share, but they also make it harder to say unusual things simply. Just like human languages.
 
 <!-- rule-id: rule-08-wizards-seventh-rule -->
 > **Wizard's seventh rule**
@@ -213,10 +210,7 @@ Another, more obvious example is SQL. Most databases speak a dialect of SQL, and
 These are successful and common examples. There are many more. They work because they focus so tightly on one problem, one domain. You don't need to learn an entire new programming language, or at least not a large one. And many of them are available in most general-purpose languages you are likely to use.
 
 <!-- paragraph-id: p-08-so-this-is-the-perfect-solution-right -->
-So this is the perfect solution, right?
-
-<!-- paragraph-id: p-08-again-there-is-always-a-cost -->
-Again, there is always a cost. 
+So this is the perfect solution, right? Again, there is always a cost.
 
 <!-- paragraph-id: p-08-a-dsl-introduces-a-new-boundary-a-new -->
 A DSL introduces a new boundary, a new border, that is not always easy to cross. Functions and variables from your programming language are not automatically available on the other side. You will need to bring them over. And if you're not careful, you may end up with broken or insecure software. SQL injection is the friendly term you will come to hate.
