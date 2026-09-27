@@ -54,7 +54,7 @@ allowed the end-tags to be omitted for the "h1" and "p" elements.
 ```
 
 <!-- paragraph-id: p-06-gml-eventually-turned-into-sgml-standard-generalized-markup -->
-GML grew into [SGML--the Standard Generalized Markup Language](https://en.wikipedia.org/wiki/Standard_Generalized_Markup_Language), which became an international standard in 1986. SGML itself has no tags. It is a language for defining document formats, each described by a DTD--a Document Type Definition. Powerful, and far too heavy for what Sir Tim needed. But CERN already had a simple SGML format of its own, with short tags inherited from GML: `h1`, `p`, `ol`, `li`. [HTML](https://html.spec.whatwg.org/) borrowed them. Stolen goods, once again.
+GML grew into [SGML--the Standard Generalized Markup Language](https://en.wikipedia.org/wiki/Standard_Generalized_Markup_Language), which became an international standard in 1986. SGML itself has no tags. It is a language for defining your own document formats. Powerful, and far too heavy for what Sir Tim needed. But CERN already had a simple SGML format of its own, with short tags inherited from GML: `h1`, `p`, `ol`, `li`. [HTML](https://html.spec.whatwg.org/) borrowed them. Stolen goods, once again.
 
 <!-- paragraph-id: p-06-here-is-that-first-html-page-again -->
 Here is the page from the previous chapter again:
@@ -81,7 +81,7 @@ Here is the page from the previous chapter again:
 ```
 
 <!-- paragraph-id: p-06-this-is-not-an-sgml-document-it-doesnt -->
-It is not an SGML document: it has no DTD. HTML 2.0 was later formally defined in SGML, until [HTML5](https://html.spec.whatwg.org/multipage/introduction.html#history-2) dropped it again.
+It is not a proper SGML document. Later versions of HTML did follow SGML, until [HTML5](https://html.spec.whatwg.org/multipage/introduction.html#history-2).
 
 <!-- paragraph-id: p-06-it-does-use-the-same-syntax-to-differentiate -->
 It does use the SGML way of separating markup from content: every tag sits between `<` and `>`.

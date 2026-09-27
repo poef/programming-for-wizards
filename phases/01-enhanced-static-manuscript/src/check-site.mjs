@@ -288,7 +288,9 @@ function checkSmartPunctuationRendering(htmlByFile) {
   const chapterFile = path.join(siteChapterDir, "06-the-web-as-document.html")
   const html = htmlByFile.get(chapterFile) ?? ""
 
-  if (!html.includes("each described by a DTD—a Document Type Definition")) {
+  const proseChapterFile = path.join(siteChapterDir, "07-the-web-as-platform.html")
+  const proseHtml = htmlByFile.get(proseChapterFile) ?? ""
+  if (!proseHtml.includes("It has become an interface—a keyboard")) {
     fail("Double hyphens in prose should render as em dashes")
     return
   }

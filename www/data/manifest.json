@@ -1,7 +1,7 @@
 {
   "id": "programming-for-wizards",
   "title": "Programming for Wizards",
-  "generatedAt": "2026-09-27T09:38:28.413Z",
+  "generatedAt": "2026-09-27T09:39:44.688Z",
   "phase": "01-enhanced-static-manuscript",
   "features": {
     "notes": "planned",
@@ -76,7 +76,7 @@
       "url": "chapters/05-the-web-as-address.html",
       "previous": "interlude-02-meaning-escapes",
       "next": "06-the-web-as-document",
-      "wordCount": 1315,
+      "wordCount": 1313,
       "rule": "Wizard's fourth rule"
     },
     {
@@ -88,7 +88,7 @@
       "url": "chapters/06-the-web-as-document.html",
       "previous": "05-the-web-as-address",
       "next": "07-the-web-as-platform",
-      "wordCount": 1287,
+      "wordCount": 1274,
       "rule": "Wizard's fifth rule"
     },
     {
@@ -100,7 +100,7 @@
       "url": "chapters/07-the-web-as-platform.html",
       "previous": "06-the-web-as-document",
       "next": "interlude-03-poor-protocol",
-      "wordCount": 1212,
+      "wordCount": 1205,
       "rule": "Wizard's sixth rule"
     },
     {
@@ -315,7 +315,7 @@
       "part": "Part II: The Web",
       "partId": "the-web",
       "url": "chapters/05-the-web-as-address.html",
-      "wordCount": 1315
+      "wordCount": 1313
     },
     {
       "id": "06-the-web-as-document",
@@ -325,7 +325,7 @@
       "part": "Part II: The Web",
       "partId": "the-web",
       "url": "chapters/06-the-web-as-document.html",
-      "wordCount": 1287
+      "wordCount": 1274
     },
     {
       "id": "07-the-web-as-platform",
@@ -335,7 +335,7 @@
       "part": "Part II: The Web",
       "partId": "the-web",
       "url": "chapters/07-the-web-as-platform.html",
-      "wordCount": 1212
+      "wordCount": 1205
     },
     {
       "id": "interlude-03-poor-protocol",
@@ -2022,7 +2022,7 @@
     {
       "id": "p-06-this-is-not-an-sgml-document-it-doesnt",
       "type": "paragraph",
-      "label": "It is not an SGML document: it has no DTD. HTML 2.0 was later formally defined in SGML, until HTML5 dropped it again.",
+      "label": "It is not a proper SGML document. Later versions of HTML did follow SGML, until HTML5.",
       "chapter": "06-the-web-as-document",
       "url": "chapters/06-the-web-as-document.html#p-06-this-is-not-an-sgml-document-it-doesnt"
     },

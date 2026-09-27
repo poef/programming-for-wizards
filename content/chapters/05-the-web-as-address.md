@@ -142,7 +142,7 @@ Simple ideas get complicated when they meet the real world. For example, how wou
 ```
 
 <!-- paragraph-id: p-05-an-escape-character-says-the-next-character-is -->
-An escape character says: the next character is not what it seems. But the backslash was already taken, because DOS used it to separate folders. URLs use a different escape, now called URL encoding or percent-encoding:
+An escape character says: the next character is not what it seems. But the backslash was already taken, because DOS used it to separate folders. URLs use a different escape, now called URL encoding:
 
 <!-- code-id: code-05-code-folder-2fwithaslash -->
 ```

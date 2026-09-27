@@ -75,7 +75,7 @@ All this makes web development much harder than it needs to be. It is the real f
 Take modules. For the longest time, JavaScript had none. In the browser you could fake them with a pile of HTML script tags, working around the language rather than in it. Or you could use a bundler to glue all the code into a single file. So we ended up with several module formats and several bundlers, each with its own configuration.
 
 <!-- paragraph-id: p-07-and-even-though-there-now-is-a-clear -->
-There is a standard module system now. But much of what we install from npm still uses the older format designed for [Node](https://nodejs.org/), JavaScript on the server, which the browser doesn't understand without help.
+There is a standard module system now. But much of what we install from npm still uses the older format designed for [Node](https://nodejs.org/), JavaScript on the server.
 
 ## The browser-shaped computer
 
