@@ -21,21 +21,21 @@
       "chapters": [
         {
           "number": "02",
-          "id": "02-numbers-hiding-calculations-in-symbols",
+          "id": "02-numbers-bigger-than-you-think",
           "title": "Numbers: bigger than you think",
-          "source": "chapters/02-numbers-hiding-calculations-in-symbols.md"
+          "source": "chapters/02-numbers-bigger-than-you-think.md"
         },
         {
           "number": "03",
-          "id": "03-logic-turning-truth-into-machinery",
+          "id": "03-logic-the-truth-is-out-there",
           "title": "Logic: the truth is out there",
-          "source": "chapters/03-logic-turning-truth-into-machinery.md"
+          "source": "chapters/03-logic-the-truth-is-out-there.md"
         },
         {
           "number": "04",
-          "id": "04-language-the-tool-that-changes-the-thinker",
+          "id": "04-language-the-oldest-trick",
           "title": "Language: the oldest trick",
-          "source": "chapters/04-language-the-tool-that-changes-the-thinker.md"
+          "source": "chapters/04-language-the-oldest-trick.md"
         }
       ]
     },
@@ -45,21 +45,21 @@
       "chapters": [
         {
           "number": "05",
-          "id": "05-the-web-as-address",
+          "id": "05-the-web-one-string-to-rule-them-all",
           "title": "The Web: one string to rule them all",
-          "source": "chapters/05-the-web-as-address.md"
+          "source": "chapters/05-the-web-one-string-to-rule-them-all.md"
         },
         {
           "number": "06",
-          "id": "06-the-web-as-document",
+          "id": "06-the-web-the-shape-of-words",
           "title": "The Web: the shape of words",
-          "source": "chapters/06-the-web-as-document.md"
+          "source": "chapters/06-the-web-the-shape-of-words.md"
         },
         {
           "number": "07",
-          "id": "07-the-web-as-platform",
+          "id": "07-the-web-waking-up-the-words",
           "title": "The Web: waking up the words",
-          "source": "chapters/07-the-web-as-platform.md"
+          "source": "chapters/07-the-web-waking-up-the-words.md"
         }
       ]
     },
@@ -69,21 +69,21 @@
       "chapters": [
         {
           "number": "08",
-          "id": "08-programming-languages-are-for-humans",
+          "id": "08-teaching-machines-our-words",
           "title": "Teaching machines our words",
-          "source": "chapters/08-programming-languages-are-for-humans.md"
+          "source": "chapters/08-teaching-machines-our-words.md"
         },
         {
           "number": "09",
-          "id": "09-every-program-contains-a-language",
+          "id": "09-separated-by-a-common-language",
           "title": "Separated by a Common Language",
-          "source": "chapters/09-every-program-contains-a-language.md"
+          "source": "chapters/09-separated-by-a-common-language.md"
         },
         {
           "number": "10",
-          "id": "10-code-exhibit-extending-javascript-with-jaqt",
+          "id": "10-code-exhibit-growing-queries-inside-javascript",
           "title": "Code exhibit: growing queries inside JavaScript",
-          "source": "chapters/10-code-exhibit-extending-javascript-with-jaqt.md"
+          "source": "chapters/10-code-exhibit-growing-queries-inside-javascript.md"
         }
       ]
     },
@@ -99,15 +99,15 @@
         },
         {
           "number": "12",
-          "id": "12-objects-binding-data-behavior-and-time",
+          "id": "12-boundaries-data-behavior-and-time",
           "title": "Boundaries: Data, behavior, and time",
-          "source": "chapters/12-objects-binding-data-behavior-and-time.md"
+          "source": "chapters/12-boundaries-data-behavior-and-time.md"
         },
         {
           "number": "13",
-          "id": "13-architecture-arches-pyramids-and-change",
+          "id": "13-architecture-arches-and-change",
           "title": "Architecture: arches and change",
-          "source": "chapters/13-architecture-arches-pyramids-and-change.md"
+          "source": "chapters/13-architecture-arches-and-change.md"
         }
       ]
     },
@@ -117,21 +117,21 @@
       "chapters": [
         {
           "number": "14",
-          "id": "14-the-web-as-commons",
+          "id": "14-the-web-as-commons-innovation-happens-elsewhere",
           "title": "The Web as commons: innovation happens elsewhere",
-          "source": "chapters/14-the-web-as-commons.md"
+          "source": "chapters/14-the-web-as-commons-innovation-happens-elsewhere.md"
         },
         {
           "number": "15",
-          "id": "15-the-web-as-data",
+          "id": "15-the-web-as-data-things-should-have-addresses-too",
           "title": "The Web as data: things should have addresses too",
-          "source": "chapters/15-the-web-as-data.md"
+          "source": "chapters/15-the-web-as-data-things-should-have-addresses-too.md"
         },
         {
           "number": "16",
-          "id": "16-the-web-as-home",
+          "id": "16-the-web-as-home-who-owns-your-home-directory",
           "title": "The Web as home: who owns your home directory?",
-          "source": "chapters/16-the-web-as-home.md"
+          "source": "chapters/16-the-web-as-home-who-owns-your-home-directory.md"
         }
       ]
     },
@@ -141,15 +141,15 @@
       "chapters": [
         {
           "number": "17",
-          "id": "17-rule-zero-there-are-no-rules",
+          "id": "17-epilogue-the-margin-you-have-been-using",
           "title": "Epilogue: the margin you have been using",
-          "source": "chapters/17-rule-zero-there-are-no-rules.md"
+          "source": "chapters/17-epilogue-the-margin-you-have-been-using.md"
         },
         {
           "number": "18",
-          "id": "18-colophon.md",
+          "id": "18-acknowledgements",
           "title": "Acknowledgements",
-          "source": "chapters/18-colophon.md"
+          "source": "chapters/18-acknowledgements.md"
         }
       ]
     }
