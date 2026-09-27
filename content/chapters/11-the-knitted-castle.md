@@ -23,7 +23,7 @@ I think the situation is more dire than that. We're not stacking bricks, instead
 Let's take a step back first, back to when you first discovered programming. I hope it isn't too hard to remember the heady first days, the unimaginable power you had to make a computer do your bidding, to create something entirely new.
 
 <!-- paragraph-id: p-11-then-if-you-are-like-me-you-got -->
-Then, if you are like me, you got serious about writing software, your darling program grew up and grew big. And adding new features, or debugging existing ones, grew more and more difficult. Your guesstimates grew more and more wildly off. Each new feature fighting with all the ones before it.
+Then, if you are like me, you got serious about writing software, your darling program grew up and grew big. And adding new features, or debugging existing ones, grew more and more difficult. Your guesstimates grew more and more wildly off. Each new feature fought with all the ones before it.
 
 <!-- paragraph-id: p-11-you-cannot-win-the-problem-is-complexity-in -->
 You cannot win. The problem is complexity. In software development, growing complexity appears to be as harsh a law as the [second law of thermodynamics.](https://en.wikipedia.org/wiki/Second_law_of_thermodynamics)

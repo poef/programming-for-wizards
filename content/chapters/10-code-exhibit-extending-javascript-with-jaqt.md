@@ -239,7 +239,7 @@ const _ = Symbol("copy this property")
 ```
 
 <!-- paragraph-id: p-10-in-the-real-jaqt-which-this-is-inspired -->
-The `_` is just a placeholder, so we can use the existing javascript object notation, it only means: copy the property with this name.
+The `_` is just a placeholder that lets us keep using plain JavaScript object notation. It means only: copy the property with this name.
 
 <!-- paragraph-id: p-10-now-we-can-describe-the-result -->
 Now we can describe the result:

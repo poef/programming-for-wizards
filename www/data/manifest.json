@@ -1,7 +1,7 @@
 {
   "id": "programming-for-wizards",
   "title": "Programming for Wizards",
-  "generatedAt": "2026-09-26T14:04:36.653Z",
+  "generatedAt": "2026-09-27T09:08:44.978Z",
   "phase": "01-enhanced-static-manuscript",
   "features": {
     "notes": "planned",
@@ -76,7 +76,7 @@
       "url": "chapters/05-the-web-as-address.html",
       "previous": "interlude-02-meaning-escapes",
       "next": "06-the-web-as-document",
-      "wordCount": 1304,
+      "wordCount": 1320,
       "rule": "Wizard's fourth rule"
     },
     {
@@ -88,7 +88,7 @@
       "url": "chapters/06-the-web-as-document.html",
       "previous": "05-the-web-as-address",
       "next": "07-the-web-as-platform",
-      "wordCount": 1676,
+      "wordCount": 1287,
       "rule": "Wizard's fifth rule"
     },
     {
@@ -100,7 +100,7 @@
       "url": "chapters/07-the-web-as-platform.html",
       "previous": "06-the-web-as-document",
       "next": "interlude-03-poor-protocol",
-      "wordCount": 1263,
+      "wordCount": 1212,
       "rule": "Wizard's sixth rule"
     },
     {
@@ -315,7 +315,7 @@
       "part": "Part II: The Web",
       "partId": "the-web",
       "url": "chapters/05-the-web-as-address.html",
-      "wordCount": 1304
+      "wordCount": 1320
     },
     {
       "id": "06-the-web-as-document",
@@ -325,7 +325,7 @@
       "part": "Part II: The Web",
       "partId": "the-web",
       "url": "chapters/06-the-web-as-document.html",
-      "wordCount": 1676
+      "wordCount": 1287
     },
     {
       "id": "07-the-web-as-platform",
@@ -335,7 +335,7 @@
       "part": "Part II: The Web",
       "partId": "the-web",
       "url": "chapters/07-the-web-as-platform.html",
-      "wordCount": 1263
+      "wordCount": 1212
     },
     {
       "id": "interlude-03-poor-protocol",
@@ -1525,7 +1525,7 @@
     {
       "id": "p-05-the-first-website-did-not-look-much-like",
       "type": "paragraph",
-      "label": "The first website did not look much like the future. It was mostly text and links, it didn't even have a cookie banner:",
+      "label": "The first website lived at CERN, and its address still hosts a small page in its memory. Like the original, it doesn't l",
       "chapter": "05-the-web-as-address",
       "url": "chapters/05-the-web-as-address.html#p-05-the-first-website-did-not-look-much-like"
     },
@@ -1539,7 +1539,7 @@
     {
       "id": "p-05-it-does-not-look-revolutionary-today-most-of",
       "type": "paragraph",
-      "label": "It does not look revolutionary today. Most of the Web wasn't. But there is one part that is. It is a small thing, a tag ",
+      "label": "It does not look revolutionary today. Most of the Web wasn't. But one part is. It is a small thing: a tag with just one ",
       "chapter": "05-the-web-as-address",
       "url": "chapters/05-the-web-as-address.html#p-05-it-does-not-look-revolutionary-today-most-of"
     },
@@ -1581,7 +1581,7 @@
     {
       "id": "p-05-but-while-hypertext-as-a-concept-had-been",
       "type": "paragraph",
-      "label": "But while Hypertext as a concept had been around, nobody had truly made it work. At least not on a global scale.",
+      "label": "But while hypertext as a concept had been around, nobody had truly made it work. At least not on a global scale.",
       "chapter": "05-the-web-as-address",
       "url": "chapters/05-the-web-as-address.html#p-05-but-while-hypertext-as-a-concept-had-been"
     },
@@ -1623,7 +1623,7 @@
     {
       "id": "p-05-he-stole-those-ideas-and-packaged-them-together",
       "type": "paragraph",
-      "label": "He stole those ideas and packaged them together in this new thing: the URL.",
+      "label": "He stole those ideas and packaged them together in one new thing: the URL.",
       "chapter": "05-the-web-as-address",
       "url": "chapters/05-the-web-as-address.html#p-05-he-stole-those-ideas-and-packaged-them-together"
     },
@@ -1651,7 +1651,7 @@
     {
       "id": "p-05-it-has-three-obvious-parts",
       "type": "paragraph",
-      "label": "It has three obvious parts:",
+      "label": "It has three parts:",
       "chapter": "05-the-web-as-address",
       "url": "chapters/05-the-web-as-address.html#p-05-it-has-three-obvious-parts"
     },
@@ -1663,23 +1663,16 @@
       "url": "chapters/05-the-web-as-address.html#code-05-text-http-info-cern-ch-hypertext-www-theproject"
     },
     {
-      "id": "p-05-it-combines-three-pieces-of-information-in-a",
-      "type": "paragraph",
-      "label": "It combines three pieces of information in a single, human-readable string:",
-      "chapter": "05-the-web-as-address",
-      "url": "chapters/05-the-web-as-address.html#p-05-it-combines-three-pieces-of-information-in-a"
-    },
-    {
       "id": "p-05-and-just-like-that-we-could-now-refer",
       "type": "paragraph",
-      "label": "And just like that, we could now refer to any file on any computer anywhere in the world.",
+      "label": "How to talk, which computer to talk to, and what to ask it for, all in a single human-readable string. And just like tha",
       "chapter": "05-the-web-as-address",
       "url": "chapters/05-the-web-as-address.html#p-05-and-just-like-that-we-could-now-refer"
     },
     {
       "id": "p-05-and-it-is-simple-small-readable-you-can",
       "type": "paragraph",
-      "label": "And it is simple, small and readable. You can copy a URL into an e-mail, print it in a book, write it on a whiteboard, p",
+      "label": "It is simple, small and readable. You can copy a URL into an e-mail, print it in a book, write it on a whiteboard, paste",
       "chapter": "05-the-web-as-address",
       "url": "chapters/05-the-web-as-address.html#p-05-and-it-is-simple-small-readable-you-can"
     },
@@ -1735,7 +1728,7 @@
     {
       "id": "p-05-the-web-was-developed-by-sir-tim-on",
       "type": "paragraph",
-      "label": "The Web was developed by Sir Tim on a Unix machine: a NeXT Cube designed by Steve Jobs. So it is no surprise that the UR",
+      "label": "Sir Tim built the Web on a NeXT computer, from Steve Jobs's company, running a Unix-based operating system. So it is no ",
       "chapter": "05-the-web-as-address",
       "url": "chapters/05-the-web-as-address.html#p-05-the-web-was-developed-by-sir-tim-on"
     },
@@ -1749,7 +1742,7 @@
     {
       "id": "p-05-simple-ideas-often-grow-more-complex-threads-when",
       "type": "paragraph",
-      "label": "Simple ideas often grow more complex threads when they meet the real world. For example, how would you create a file wit",
+      "label": "Simple ideas get complicated when they meet the real world. For example, how would you name a file that includes a /? Th",
       "chapter": "05-the-web-as-address",
       "url": "chapters/05-the-web-as-address.html#p-05-simple-ideas-often-grow-more-complex-threads-when"
     },
@@ -1763,7 +1756,7 @@
     {
       "id": "p-05-an-escape-character-says-the-next-character-is",
       "type": "paragraph",
-      "label": "An escape character says: the next character is special. However, DOS already used that character. So Sir Tim chose a di",
+      "label": "An escape character says: the next character is not what it seems. But the backslash was already taken, because DOS used",
       "chapter": "05-the-web-as-address",
       "url": "chapters/05-the-web-as-address.html#p-05-an-escape-character-says-the-next-character-is"
     },
@@ -1777,14 +1770,14 @@
     {
       "id": "p-05-the-escape-character-that-signifies-the-start-of",
       "type": "paragraph",
-      "label": "The escape character, that signifies the start of an encoded sequence, is the % character. And it is always followed by ",
+      "label": "Here the escape character is %, and it is always followed by two hexadecimal digits. 2F is hexadecimal for 47, and in th",
       "chapter": "05-the-web-as-address",
       "url": "chapters/05-the-web-as-address.html#p-05-the-escape-character-that-signifies-the-start-of"
     },
     {
       "id": "p-05-any-character-can-be-added-to-a-url",
       "type": "paragraph",
-      "label": "Any character can be added to a URL like this, even if it's not normally printable. This allows URLs to become mobile, p",
+      "label": "Any character can be added to a URL like this, even one that isn't normally printable. So a URL stays plain text, and pl",
       "chapter": "05-the-web-as-address",
       "url": "chapters/05-the-web-as-address.html#p-05-any-character-can-be-added-to-a-url"
     },
@@ -1826,7 +1819,7 @@
     {
       "id": "p-05-a-wizard-called-paul-mockapetris-was-tasked-with",
       "type": "paragraph",
-      "label": "A wizard called Paul Mockapetris was tasked with designing a suitable solution. He did so in 1983, and in 1986 it became",
+      "label": "A wizard called Paul Mockapetris was asked to design something better. He did so in 1983, and by 1986 it was an internet",
       "chapter": "05-the-web-as-address",
       "url": "chapters/05-the-web-as-address.html#p-05-a-wizard-called-paul-mockapetris-was-tasked-with"
     },
@@ -1840,7 +1833,7 @@
     {
       "id": "p-05-by-1988-dns-was-established-sir-tim-did",
       "type": "paragraph",
-      "label": "By 1988 DNS was established, Sir Tim did not need to invent a new naming system. He just put the existing one inside the",
+      "label": "By the time Sir Tim wrote his proposal, DNS was well established. He did not need to invent a naming system. He just put",
       "chapter": "05-the-web-as-address",
       "url": "chapters/05-the-web-as-address.html#p-05-by-1988-dns-was-established-sir-tim-did"
     },
@@ -1896,7 +1889,7 @@
     {
       "id": "p-05-it-has-such-a-great-design-that-wizards",
       "type": "paragraph",
-      "label": "It has such a great design that wizards everywhere steal it and extend it for their own purposes. Not all later schemes ",
+      "label": "The design was good enough that wizards everywhere stole it and extended it for their own purposes. Not all later scheme",
       "chapter": "05-the-web-as-address",
       "url": "chapters/05-the-web-as-address.html#p-05-it-has-such-a-great-design-that-wizards"
     },
@@ -1931,84 +1924,70 @@
     {
       "id": "p-06-ive-written-about-hypertext-and-language-before-but",
       "type": "paragraph",
-      "label": "I've written about hypertext and language before, but what is markup doing here? It's been around longer than you might ",
+      "label": "We've met hypertext and language already, but what is markup doing here? It's older than you might think. Certainly olde",
       "chapter": "06-the-web-as-document",
       "url": "chapters/06-the-web-as-document.html#p-06-ive-written-about-hypertext-and-language-before-but"
     },
     {
       "id": "p-06-markup-is-simply-an-additional-marking-on-a",
       "type": "paragraph",
-      "label": "Markup is simply an additional marking on a document, used to give it extra meaning. The general idea is now called a ma",
+      "label": "Markup is simply extra marking on a document that tells someone what to do with it. Before computers, it belonged to the",
       "chapter": "06-the-web-as-document",
       "url": "chapters/06-the-web-as-document.html#p-06-markup-is-simply-an-additional-marking-on-a"
     },
     {
       "id": "image-06-1920px-metalmovabletype-jpg",
       "type": "image",
-      "label": "1920px-Metal_movable_type.jpg",
+      "label": "Metal movable type set in a composing stick",
       "chapter": "06-the-web-as-document",
       "url": "chapters/06-the-web-as-document.html#image-06-1920px-metalmovabletype-jpg"
     },
     {
       "id": "p-06-the-editor-added-markup-to-tell-the-typesetter",
       "type": "paragraph",
-      "label": "The editor added markup to tell the typesetter what font and font size to use, as well as other layout decisions.",
+      "label": "The markup told the typesetter which font and size to use, and made the other layout decisions.",
       "chapter": "06-the-web-as-document",
       "url": "chapters/06-the-web-as-document.html#p-06-the-editor-added-markup-to-tell-the-typesetter"
     },
     {
-      "id": "p-06-when-the-first-computers-came-around-they-were",
-      "type": "paragraph",
-      "label": "When the first computers came around, they were very limited in the kind of output they could create. If there was a pri",
-      "chapter": "06-the-web-as-document",
-      "url": "chapters/06-the-web-as-document.html#p-06-when-the-first-computers-came-around-they-were"
-    },
-    {
-      "id": "p-06-once-the-output-devices-gained-more-capabilities-their",
-      "type": "paragraph",
-      "label": "Once the output devices gained more capabilities, their manufacturers quickly realized a need to somehow instruct these ",
-      "chapter": "06-the-web-as-document",
-      "url": "chapters/06-the-web-as-document.html#p-06-once-the-output-devices-gained-more-capabilities-their"
-    },
-    {
       "id": "p-06-the-biggest-problem-was-how-to-create-better",
       "type": "paragraph",
-      "label": "The biggest problem was how to create better printed output. Early on, the only way to get decent printed output, was to",
+      "label": "Early computers printed like typewriters. If you wanted decent printed output, you attached a phototypesetter: a complex",
       "chapter": "06-the-web-as-document",
       "url": "chapters/06-the-web-as-document.html#p-06-the-biggest-problem-was-how-to-create-better"
     },
     {
       "id": "p-06-the-wizards-at-bell-labs-who-were-busy",
       "type": "paragraph",
-      "label": "The wizards at Bell Labs, who were busy inventing Unix, were not impressed. They wanted their Unix and C manuals to be n",
+      "label": "The wizards at Bell Labs, who were busy inventing Unix, were not impressed. They wanted their Unix and C manuals nicely ",
       "chapter": "06-the-web-as-document",
       "url": "chapters/06-the-web-as-document.html#p-06-the-wizards-at-bell-labs-who-were-busy"
     },
     {
       "id": "p-06-another-wizard-called-knuth-wanted-to-write-a",
       "type": "paragraph",
-      "label": "Another wizard, called Knuth, wanted to write a book about programming. Well actually, he wanted to write the book on pr",
+      "label": "Another wizard, Donald Knuth, wanted to write a book about programming. Well, actually, he wanted to write the book on p",
       "chapter": "06-the-web-as-document",
       "url": "chapters/06-the-web-as-document.html#p-06-another-wizard-called-knuth-wanted-to-write-a"
     },
     {
       "id": "p-06-so-in-1974-he-took-some-time-off",
       "type": "paragraph",
-      "label": "So in 1974 he took some time off to develop his own, better, typesetting system. That hiatus turned out to be 11 years a",
+      "label": "So in 1977 he set the books aside to write his own typesetting system. He expected it to take a few months. It took the ",
       "chapter": "06-the-web-as-document",
       "url": "chapters/06-the-web-as-document.html#p-06-so-in-1974-he-took-some-time-off"
     },
     {
       "id": "p-06-both-troff-and-tex-use-markup-languages-specifically",
       "type": "paragraph",
-      "label": "Both troff and TeX use markup languages specifically to typeset documents before putting them on paper. As such they are",
+      "label": "Both troff and TeX exist to put documents on paper. Their markup says how the text should look, not what it is.",
       "chapter": "06-the-web-as-document",
       "url": "chapters/06-the-web-as-document.html#p-06-both-troff-and-tex-use-markup-languages-specifically"
     },
     {
       "id": "p-06-this-is-where-things-get-interesting-sometime-in",
       "type": "paragraph",
-      "label": "This is where things get interesting. Sometime in the 1970s some wizards from IBM created a system called GML. This eith",
+      "label": "This is where things get interesting. In 1969, three IBM wizards, Goldfarb, Mosher and Lorie, created GML. Officially it",
       "chapter": "06-the-web-as-document",
       "url": "chapters/06-the-web-as-document.html#p-06-this-is-where-things-get-interesting-sometime-in"
     },
@@ -2020,23 +1999,16 @@
       "url": "chapters/06-the-web-as-document.html#code-06-gml-h1-chapter-1-introduction"
     },
     {
-      "id": "p-06-unfortunately-their-work-only-made-it-out-of",
-      "type": "paragraph",
-      "label": "Unfortunately their work only made it out of IBM as a product you could buy and use, somewhere at the end of the 1980s. ",
-      "chapter": "06-the-web-as-document",
-      "url": "chapters/06-the-web-as-document.html#p-06-unfortunately-their-work-only-made-it-out-of"
-    },
-    {
       "id": "p-06-gml-eventually-turned-into-sgml-standard-generalized-markup",
       "type": "paragraph",
-      "label": "GML eventually turned into SGML--Standard Generalized Markup Language, which became an industry standard in 1986. And in",
+      "label": "GML grew into SGML--the Standard Generalized Markup Language, which became an international standard in 1986. SGML itsel",
       "chapter": "06-the-web-as-document",
       "url": "chapters/06-the-web-as-document.html#p-06-gml-eventually-turned-into-sgml-standard-generalized-markup"
     },
     {
       "id": "p-06-here-is-that-first-html-page-again",
       "type": "paragraph",
-      "label": "Here is that first HTML page again:",
+      "label": "Here is the page from the previous chapter again:",
       "chapter": "06-the-web-as-document",
       "url": "chapters/06-the-web-as-document.html#p-06-here-is-that-first-html-page-again"
     },
@@ -2050,21 +2022,21 @@
     {
       "id": "p-06-this-is-not-an-sgml-document-it-doesnt",
       "type": "paragraph",
-      "label": "This is not an SGML document, it doesn't have a DTD header. Later HTML would become compliant with SGML, at least until ",
+      "label": "It is not an SGML document: it has no DTD. HTML 2.0 was later formally defined in SGML, until HTML5 dropped it again.",
       "chapter": "06-the-web-as-document",
       "url": "chapters/06-the-web-as-document.html#p-06-this-is-not-an-sgml-document-it-doesnt"
     },
     {
       "id": "p-06-it-does-use-the-same-syntax-to-differentiate",
       "type": "paragraph",
-      "label": "It does use the same syntax to differentiate between markup and content. All markup tags are enclosed in characters.",
+      "label": "It does use the SGML way of separating markup from content: every tag sits between .",
       "chapter": "06-the-web-as-document",
       "url": "chapters/06-the-web-as-document.html#p-06-it-does-use-the-same-syntax-to-differentiate"
     },
     {
       "id": "p-06-lets-take-a-closer-look-at-the-reasons",
       "type": "paragraph",
-      "label": "Let's take a closer look at the reasons behind this format. One of the goals of the web was to make HTML easy to write u",
+      "label": "Why this format? One goal of the Web was that anyone could write HTML in an ordinary text editor. So the source had to s",
       "chapter": "06-the-web-as-document",
       "url": "chapters/06-the-web-as-document.html#p-06-lets-take-a-closer-look-at-the-reasons"
     },
@@ -2085,21 +2057,21 @@
     {
       "id": "p-06-this-is-technically-feasible-maybe-even-simpler-however",
       "type": "paragraph",
-      "label": "This is technically feasible, maybe even simpler. However, for a human this is much more difficult to read. And cruciall",
+      "label": "This is technically possible, maybe even simpler. But it is much harder for a human to read. And crucially, it is much e",
       "chapter": "06-the-web-as-document",
       "url": "chapters/06-the-web-as-document.html#p-06-this-is-technically-feasible-maybe-even-simpler-however"
     },
     {
       "id": "p-06-another-consequence-of-the-chosen-format-is-that",
       "type": "paragraph",
-      "label": "Another consequence of the chosen format is that some characters cannot be used in the content anymore. Clearly the and ",
+      "label": "Another consequence of the format is that some characters can no longer be used freely in the content. and \". HTML solve",
       "chapter": "06-the-web-as-document",
       "url": "chapters/06-the-web-as-document.html#p-06-another-consequence-of-the-chosen-format-is-that"
     },
     {
       "id": "p-06-however-now-weve-added-the-character-to-the",
       "type": "paragraph",
-      "label": "However, now we've added the & character to the list of special characters as well. This is easily solved:",
+      "label": "But now & has become special as well. Easily solved:",
       "chapter": "06-the-web-as-document",
       "url": "chapters/06-the-web-as-document.html#p-06-however-now-weve-added-the-character-to-the"
     },
@@ -2113,7 +2085,7 @@
     {
       "id": "p-06-now-for-the-tricky-parts-as-youve-seen",
       "type": "paragraph",
-      "label": "Now for the tricky parts. As you've seen, HTML has elements that have a start and end tags. This means you can enclose o",
+      "label": "Now for the tricky parts. As you've seen, HTML elements have start and end tags. That means elements can contain other e",
       "chapter": "06-the-web-as-document",
       "url": "chapters/06-the-web-as-document.html#p-06-now-for-the-tricky-parts-as-youve-seen"
     },
@@ -2148,14 +2120,14 @@
     {
       "id": "p-06-this-is-how-your-web-browser-understands-this",
       "type": "paragraph",
-      "label": "This is how your web browser understands this HTML. Most modern browsers allow you to take a look at this structure, by ",
+      "label": "This is how your web browser understands the HTML. Most browsers let you look at this structure: press i, or right-click",
       "chapter": "06-the-web-as-document",
       "url": "chapters/06-the-web-as-document.html#p-06-this-is-how-your-web-browser-understands-this"
     },
     {
       "id": "p-06-the-html-specification-forces-you-to-create-a",
       "type": "paragraph",
-      "label": "The HTML specification forces you to create a tree structure of your document. There can be no overlapping markup.",
+      "label": "HTML forces your document into a tree. There can be no overlapping markup.",
       "chapter": "06-the-web-as-document",
       "url": "chapters/06-the-web-as-document.html#p-06-the-html-specification-forces-you-to-create-a"
     },
@@ -2176,21 +2148,21 @@
     {
       "id": "p-06-and-it-would-render-the-same-the-tree",
       "type": "paragraph",
-      "label": "And it would render the same. The tree structure is now made visible by the level of indentation in the source. This is ",
+      "label": "And it would render the same. The indentation makes the tree visible in the source, and makes it much easier to check th",
       "chapter": "06-the-web-as-document",
       "url": "chapters/06-the-web-as-document.html#p-06-and-it-would-render-the-same-the-tree"
     },
     {
       "id": "p-06-to-make-this-work-web-browsers-apply-what",
       "type": "paragraph",
-      "label": "To make this work, web browsers apply what is called white-space collapsing. In general, any time you add multiple white",
+      "label": "This works because browsers apply white-space collapsing. In general, any run of spaces, tabs and line breaks in your co",
       "chapter": "06-the-web-as-document",
       "url": "chapters/06-the-web-as-document.html#p-06-to-make-this-work-web-browsers-apply-what"
     },
     {
       "id": "p-06-for-example-both-lines-in-the-example-below",
       "type": "paragraph",
-      "label": "For example, both lines in the example below will line out perfectly:",
+      "label": "For example, these two lines render identically:",
       "chapter": "06-the-web-as-document",
       "url": "chapters/06-the-web-as-document.html#p-06-for-example-both-lines-in-the-example-below"
     },
@@ -2211,7 +2183,7 @@
     {
       "id": "p-06-now-if-you-really-want-to-open-a",
       "type": "paragraph",
-      "label": "Now if you really want to open a can of worms, try writing a rich text editor, with full WYSIWYG (What-You-See-Is-What-Y",
+      "label": "If you really want to open a can of worms, try writing a rich text editor in HTML, fully WYSIWYG (What-You-See-Is-What-Y",
       "chapter": "06-the-web-as-document",
       "url": "chapters/06-the-web-as-document.html#p-06-now-if-you-really-want-to-open-a"
     },
@@ -2225,21 +2197,21 @@
     {
       "id": "p-06-however-what-you-are-seeing-is-an-editor",
       "type": "paragraph",
-      "label": "However, what you are seeing is an editor, designed by Microsoft originally for Internet Explorer 5.5, with an API that ",
+      "label": "What you get is an editor Microsoft designed for Internet Explorer 5.5, which other browsers then copied, quirks and all",
       "chapter": "06-the-web-as-document",
       "url": "chapters/06-the-web-as-document.html#p-06-however-what-you-are-seeing-is-an-editor"
     },
     {
       "id": "p-06-the-only-successful-in-browser-editors-that-are",
       "type": "paragraph",
-      "label": "The only successful in-browser editors, that are capable of editing any HTML and deliver a good end result, such as clea",
+      "label": "The in-browser editors that do work well, and produce clean HTML, mostly avoid editing HTML directly. They convert the d",
       "chapter": "06-the-web-as-document",
       "url": "chapters/06-the-web-as-document.html#p-06-the-only-successful-in-browser-editors-that-are"
     },
     {
       "id": "p-06-this-is-a-good-lesson-to-learn-just",
       "type": "paragraph",
-      "label": "This is a good lesson to learn: just because something looks simple doesn't mean it is. All choices have consequences. I",
+      "label": "The lesson: just because something looks simple doesn't mean it is. All choices have consequences. If you're careful, yo",
       "chapter": "06-the-web-as-document",
       "url": "chapters/06-the-web-as-document.html#p-06-this-is-a-good-lesson-to-learn-just"
     },
@@ -2260,7 +2232,7 @@
     {
       "id": "p-07-its-may-1995-youve-just-landed-a-dream",
       "type": "paragraph",
-      "label": "It's May 1995. You've just landed a dream job at the hot new startup of the decade: Netscape. You've just arrived and yo",
+      "label": "It's May 1995. You've just landed a dream job at the hot new startup of the decade: Netscape. You want to impress. The g",
       "chapter": "07-the-web-as-platform",
       "url": "chapters/07-the-web-as-platform.html#p-07-its-may-1995-youve-just-landed-a-dream"
     },
@@ -2281,28 +2253,28 @@
     {
       "id": "p-07-before-javascript-if-you-wanted-to-create-an",
       "type": "paragraph",
-      "label": "Before JavaScript, if you wanted to create an interactive website, the only way would be to add a form. A visitor of you",
+      "label": "Before JavaScript, the only way to make a website interactive was a form. A visitor filled it in and pressed submit. The",
       "chapter": "07-the-web-as-platform",
       "url": "chapters/07-the-web-as-platform.html#p-07-before-javascript-if-you-wanted-to-create-an"
     },
     {
       "id": "p-07-in-1995-netscape-was-king-of-the-webbrowser",
       "type": "paragraph",
-      "label": "In 1995 Netscape was king of the webbrowser hill. Microsoft Internet Explorer 1.0 would be released in August 1995, and ",
+      "label": "In 1995 Netscape was king of the browser hill. Internet Explorer 1.0 would only appear in August of that year, and would",
       "chapter": "07-the-web-as-platform",
       "url": "chapters/07-the-web-as-platform.html#p-07-in-1995-netscape-was-king-of-the-webbrowser"
     },
     {
       "id": "p-07-obviously-for-this-to-come-to-fruition-the",
       "type": "paragraph",
-      "label": "Obviously for this to come to fruition, the web would need to be more interactive, more programmable. So Netscape set ou",
+      "label": "For that, the Web would need to be programmable. So Netscape set out a two-pronged strategy. Real™ programmers would use",
       "chapter": "07-the-web-as-platform",
       "url": "chapters/07-the-web-as-platform.html#p-07-obviously-for-this-to-come-to-fruition-the"
     },
     {
       "id": "p-07-why-netscape-chose-java-isnt-hard-to-see",
       "type": "paragraph",
-      "label": "Why Netscape chose Java isn't hard to see. At the time there were still many different computer architectures in use. Wr",
+      "label": "Why Java isn't hard to see. There were still many different computer architectures in use, and writing software that ran",
       "chapter": "07-the-web-as-platform",
       "url": "chapters/07-the-web-as-platform.html#p-07-why-netscape-chose-java-isnt-hard-to-see"
     },
@@ -2337,14 +2309,14 @@
     {
       "id": "p-07-we-got-uncharacteristically-lucky-javascript-was-not-a",
       "type": "paragraph",
-      "label": "We got uncharacteristically lucky. JavaScript was not a tuned-down, dummified version of Java. You see, Brendan was lure",
+      "label": "We got uncharacteristically lucky. JavaScript was not a watered-down, dummified version of Java. Brendan had been lured ",
       "chapter": "07-the-web-as-platform",
       "url": "chapters/07-the-web-as-platform.html#p-07-we-got-uncharacteristically-lucky-javascript-was-not-a"
     },
     {
       "id": "p-07-scheme-is-a-descendant-of-lisp-and-algol",
       "type": "paragraph",
-      "label": "Scheme is a descendant of Lisp (and Algol.) It is nothing like Java. But as any Lisp-like language, you can change the l",
+      "label": "Scheme is a descendant of Lisp (and Algol). It is nothing like Java. Like any Lisp, it is small, and it can be bent into",
       "chapter": "07-the-web-as-platform",
       "url": "chapters/07-the-web-as-platform.html#p-07-scheme-is-a-descendant-of-lisp-and-algol"
     },
@@ -2358,70 +2330,70 @@
     {
       "id": "p-07-like-any-prototype-that-is-pushed-into-production",
       "type": "paragraph",
-      "label": "Like any prototype that is pushed into production too soon, JavaScript has its problems. But its origins in Scheme, and ",
+      "label": "Like any prototype pushed into production too soon, JavaScript has its problems. But its roots in Scheme and Self, thems",
       "chapter": "07-the-web-as-platform",
       "url": "chapters/07-the-web-as-platform.html#p-07-like-any-prototype-that-is-pushed-into-production"
     },
     {
       "id": "p-07-in-2008-javascript-got-some-positive-publicity-with",
       "type": "paragraph",
-      "label": "In 2008 JavaScript got some positive publicity, with a book by wizard Douglas Crockford -- \"JavaScript: The Good Parts\".",
+      "label": "In 2008 JavaScript finally got some good press, in the form of a book by the wizard Douglas Crockford: JavaScript: The G",
       "chapter": "07-the-web-as-platform",
       "url": "chapters/07-the-web-as-platform.html#p-07-in-2008-javascript-got-some-positive-publicity-with"
     },
     {
       "id": "h-07-toil-and-trouble",
       "type": "heading",
-      "label": "Toil and Trouble",
+      "label": "Toil and trouble",
       "chapter": "07-the-web-as-platform",
       "url": "chapters/07-the-web-as-platform.html#h-07-toil-and-trouble"
     },
     {
       "id": "p-07-today-it-is-hard-not-to-associate-the",
       "type": "paragraph",
-      "label": "Today it is hard not to associate the DOM (Document Object Model) with JavaScript. And that is not fair to JavaScript. T",
+      "label": "Today it is hard not to associate JavaScript with the DOM, the Document Object Model we met in the previous chapter. Tha",
       "chapter": "07-the-web-as-platform",
       "url": "chapters/07-the-web-as-platform.html#p-07-today-it-is-hard-not-to-associate-the"
     },
     {
       "id": "p-07-but-the-dom-is-still-considered-a-compilation",
       "type": "paragraph",
-      "label": "But the DOM is still considered a compilation target. Not something that you program directly, unless you are a masochis",
+      "label": "Even so, the DOM is mostly treated as a compilation target: not something you program directly, unless you enjoy pain. I",
       "chapter": "07-the-web-as-platform",
       "url": "chapters/07-the-web-as-platform.html#p-07-but-the-dom-is-still-considered-a-compilation"
     },
     {
       "id": "p-07-even-javascript-itself-has-become-something-you-often",
       "type": "paragraph",
-      "label": "Even JavaScript itself has become something you often process before the browser sees it. For years that meant npm, bund",
+      "label": "Even JavaScript itself is often processed before the browser sees it. For years that meant npm, bundlers, transpilers an",
       "chapter": "07-the-web-as-platform",
       "url": "chapters/07-the-web-as-platform.html#p-07-even-javascript-itself-has-become-something-you-often"
     },
     {
       "id": "p-07-bundled-minified-obfuscated-unreadable",
       "type": "paragraph",
-      "label": "Bundled, minified, obfuscated and unreadable JavaScript.",
+      "label": "The result: bundled, minified, obfuscated and unreadable JavaScript.",
       "chapter": "07-the-web-as-platform",
       "url": "chapters/07-the-web-as-platform.html#p-07-bundled-minified-obfuscated-unreadable"
     },
     {
       "id": "p-07-all-this-stuff-makes-web-development-so-much",
       "type": "paragraph",
-      "label": "All this stuff makes web development so much harder than it needed to be. This is the real fallout from rushing JavaScri",
+      "label": "All this makes web development much harder than it needs to be. It is the real fallout from rushing JavaScript into prod",
       "chapter": "07-the-web-as-platform",
       "url": "chapters/07-the-web-as-platform.html#p-07-all-this-stuff-makes-web-development-so-much"
     },
     {
       "id": "p-07-a-simple-example-is-the-javascript-module-system",
       "type": "paragraph",
-      "label": "A simple example is the JavaScript module system. For the longest time it didn't exist. In the browser you could mimic i",
+      "label": "Take modules. For the longest time, JavaScript had none. In the browser you could fake them with a pile of HTML script t",
       "chapter": "07-the-web-as-platform",
       "url": "chapters/07-the-web-as-platform.html#p-07-a-simple-example-is-the-javascript-module-system"
     },
     {
       "id": "p-07-and-even-though-there-now-is-a-clear",
       "type": "paragraph",
-      "label": "And even though there now is a clear standard module system, what we end up using is often an incompatible version of it",
+      "label": "There is a standard module system now. But much of what we install from npm still uses the older format designed for Nod",
       "chapter": "07-the-web-as-platform",
       "url": "chapters/07-the-web-as-platform.html#p-07-and-even-though-there-now-is-a-clear"
     },
@@ -2435,14 +2407,14 @@
     {
       "id": "p-07-netscapes-dream-did-not-quite-happen-in-the",
       "type": "paragraph",
-      "label": "Netscape's dream did not quite happen in the way Netscape imagined. We did not all simply stop using operating systems a",
+      "label": "Netscape's dream did not happen quite the way Netscape imagined. We did not all simply stop using operating systems and ",
       "chapter": "07-the-web-as-platform",
       "url": "chapters/07-the-web-as-platform.html#p-07-netscapes-dream-did-not-quite-happen-in-the"
     },
     {
       "id": "p-07-a-lot-of-what-people-now-call-using",
       "type": "paragraph",
-      "label": "A lot of what people now call \"using the computer\" is really using the browser. Mail, documents, calendars, maps, bankin",
+      "label": "Yet a lot of what people now call \"using the computer\" is really using the browser. Mail, documents, calendars, maps, ba",
       "chapter": "07-the-web-as-platform",
       "url": "chapters/07-the-web-as-platform.html#p-07-a-lot-of-what-people-now-call-using"
     },
@@ -2470,14 +2442,14 @@
     {
       "id": "p-07-none-of-these-has-replaced-the-operating-system",
       "type": "paragraph",
-      "label": "None of these has replaced the operating system. We're still divided into an Apple and Windows world, with a little spri",
+      "label": "None of these has replaced the operating system. We still live in an Apple and Windows world, with a sprinkling of Linux",
       "chapter": "07-the-web-as-platform",
       "url": "chapters/07-the-web-as-platform.html#p-07-none-of-these-has-replaced-the-operating-system"
     },
     {
       "id": "p-07-netscape-wanted-the-browser-to-become-the-operating",
       "type": "paragraph",
-      "label": "Netscape wanted the browser to become the operating systemm and in many ways it did. The network is becoming the OS. The",
+      "label": "Netscape wanted the browser to become the operating system, and in many ways it did. The network is becoming the OS. The",
       "chapter": "07-the-web-as-platform",
       "url": "chapters/07-the-web-as-platform.html#p-07-netscape-wanted-the-browser-to-become-the-operating"
     },
@@ -3548,7 +3520,7 @@
     {
       "id": "p-10-in-the-real-jaqt-which-this-is-inspired",
       "type": "paragraph",
-      "label": "The is just a placeholder, so we can use the existing javascript object notation, it only means: copy the property with ",
+      "label": "The is just a placeholder that lets us keep using plain JavaScript object notation. It means only: copy the property wit",
       "chapter": "10-code-exhibit-extending-javascript-with-jaqt",
       "url": "chapters/10-code-exhibit-extending-javascript-with-jaqt.html#p-10-in-the-real-jaqt-which-this-is-inspired"
     },

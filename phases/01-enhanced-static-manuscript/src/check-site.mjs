@@ -288,12 +288,12 @@ function checkSmartPunctuationRendering(htmlByFile) {
   const chapterFile = path.join(siteChapterDir, "06-the-web-as-document.html")
   const html = htmlByFile.get(chapterFile) ?? ""
 
-  if (!html.includes("the meaning—the semantics—of a text")) {
+  if (!html.includes("each described by a DTD—a Document Type Definition")) {
     fail("Double hyphens in prose should render as em dashes")
     return
   }
 
-  if (!html.includes("SGML—Standard Generalized Markup Language")) {
+  if (!html.includes("SGML—the Standard Generalized Markup Language")) {
     fail("Double hyphens in link labels should render as em dashes")
     return
   }
