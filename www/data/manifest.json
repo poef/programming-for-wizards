@@ -1,7 +1,7 @@
 {
   "id": "programming-for-wizards",
   "title": "Programming for Wizards",
-  "generatedAt": "2026-09-27T09:39:44.688Z",
+  "generatedAt": "2026-09-27T09:44:54.693Z",
   "phase": "01-enhanced-static-manuscript",
   "features": {
     "notes": "planned",
@@ -76,7 +76,7 @@
       "url": "chapters/05-the-web-as-address.html",
       "previous": "interlude-02-meaning-escapes",
       "next": "06-the-web-as-document",
-      "wordCount": 1313,
+      "wordCount": 1311,
       "rule": "Wizard's fourth rule"
     },
     {
@@ -88,7 +88,7 @@
       "url": "chapters/06-the-web-as-document.html",
       "previous": "05-the-web-as-address",
       "next": "07-the-web-as-platform",
-      "wordCount": 1274,
+      "wordCount": 1323,
       "rule": "Wizard's fifth rule"
     },
     {
@@ -100,7 +100,7 @@
       "url": "chapters/07-the-web-as-platform.html",
       "previous": "06-the-web-as-document",
       "next": "interlude-03-poor-protocol",
-      "wordCount": 1205,
+      "wordCount": 1189,
       "rule": "Wizard's sixth rule"
     },
     {
@@ -315,7 +315,7 @@
       "part": "Part II: The Web",
       "partId": "the-web",
       "url": "chapters/05-the-web-as-address.html",
-      "wordCount": 1313
+      "wordCount": 1311
     },
     {
       "id": "06-the-web-as-document",
@@ -325,7 +325,7 @@
       "part": "Part II: The Web",
       "partId": "the-web",
       "url": "chapters/06-the-web-as-document.html",
-      "wordCount": 1274
+      "wordCount": 1323
     },
     {
       "id": "07-the-web-as-platform",
@@ -335,7 +335,7 @@
       "part": "Part II: The Web",
       "partId": "the-web",
       "url": "chapters/07-the-web-as-platform.html",
-      "wordCount": 1205
+      "wordCount": 1189
     },
     {
       "id": "interlude-03-poor-protocol",
@@ -1756,7 +1756,7 @@
     {
       "id": "p-05-an-escape-character-says-the-next-character-is",
       "type": "paragraph",
-      "label": "An escape character says: the next character is not what it seems. But the backslash was already taken, because DOS used",
+      "label": "An escape character says: the next character is not what it seems. But DOS already used the backslash to separate folder",
       "chapter": "05-the-web-as-address",
       "url": "chapters/05-the-web-as-address.html#p-05-an-escape-character-says-the-next-character-is"
     },
@@ -1973,7 +1973,7 @@
     {
       "id": "p-06-so-in-1974-he-took-some-time-off",
       "type": "paragraph",
-      "label": "So in 1977 he set the books aside to write his own typesetting system. He expected it to take a few months. It took the ",
+      "label": "So in 1977 he took some time off to develop his own, better typesetting system. That hiatus turned out to last about a d",
       "chapter": "06-the-web-as-document",
       "url": "chapters/06-the-web-as-document.html#p-06-so-in-1974-he-took-some-time-off"
     },
@@ -1987,7 +1987,7 @@
     {
       "id": "p-06-this-is-where-things-get-interesting-sometime-in",
       "type": "paragraph",
-      "label": "This is where things get interesting. In 1969, three IBM wizards, Goldfarb, Mosher and Lorie, created GML. Officially it",
+      "label": "This is where things get interesting. Around 1969 some wizards from IBM created a system called GML. This either means G",
       "chapter": "06-the-web-as-document",
       "url": "chapters/06-the-web-as-document.html#p-06-this-is-where-things-get-interesting-sometime-in"
     },
@@ -2001,7 +2001,7 @@
     {
       "id": "p-06-gml-eventually-turned-into-sgml-standard-generalized-markup",
       "type": "paragraph",
-      "label": "GML grew into SGML--the Standard Generalized Markup Language, which became an international standard in 1986. SGML itsel",
+      "label": "GML grew into SGML--the Standard Generalized Markup Language, which became an industry standard in 1986. In 1989, when S",
       "chapter": "06-the-web-as-document",
       "url": "chapters/06-the-web-as-document.html#p-06-gml-eventually-turned-into-sgml-standard-generalized-markup"
     },
@@ -2197,7 +2197,7 @@
     {
       "id": "p-06-however-what-you-are-seeing-is-an-editor",
       "type": "paragraph",
-      "label": "What you get is an editor Microsoft designed for Internet Explorer 5.5, which other browsers then copied, quirks and all",
+      "label": "What you get is an editor designed by Microsoft, originally for Internet Explorer 5.5, with an API derived from WordPad.",
       "chapter": "06-the-web-as-document",
       "url": "chapters/06-the-web-as-document.html#p-06-however-what-you-are-seeing-is-an-editor"
     },
@@ -2316,7 +2316,7 @@
     {
       "id": "p-07-scheme-is-a-descendant-of-lisp-and-algol",
       "type": "paragraph",
-      "label": "Scheme is a descendant of Lisp (and Algol). It is nothing like Java. Like any Lisp, it is small, and it can be bent into",
+      "label": "Scheme is a descendant of Lisp (and Algol). It is nothing like Java. But like any Lisp-like language, it can be changed ",
       "chapter": "07-the-web-as-platform",
       "url": "chapters/07-the-web-as-platform.html#p-07-scheme-is-a-descendant-of-lisp-and-algol"
     },
@@ -2358,7 +2358,7 @@
     {
       "id": "p-07-but-the-dom-is-still-considered-a-compilation",
       "type": "paragraph",
-      "label": "Even so, the DOM is mostly treated as a compilation target: not something you program directly, unless you enjoy pain. I",
+      "label": "Even so, the DOM is mostly treated as a compilation target: not something you program directly, unless you are a masochi",
       "chapter": "07-the-web-as-platform",
       "url": "chapters/07-the-web-as-platform.html#p-07-but-the-dom-is-still-considered-a-compilation"
     },

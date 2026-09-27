@@ -17,13 +17,13 @@ You have 10 days.
 Before JavaScript, the only way to make a website interactive was a form. A visitor filled it in and pressed submit. The browser sent the data to the web server, which called a program through the [CGI interface](https://en.wikipedia.org/wiki/Common_Gateway_Interface). The program did its magic and printed a response, and the server sent that back as a whole new page. Not very interactive at all.
 
 <!-- paragraph-id: p-07-in-1995-netscape-was-king-of-the-webbrowser -->
-In 1995 Netscape was king of the browser hill. [Internet Explorer 1.0](https://en.wikipedia.org/wiki/Internet_Explorer_1) would only appear in August of that year, and wouldn't seriously threaten Netscape until version 4, in 1997. Netscape had set its sights on making the web browser the next operating system. Instead of software shipped on floppy disks and CD-ROMs, they saw a future where software ran in the network, and all you needed was a connection and a browser. Netscape Navigator, of course.
+In 1995 Netscape was king of the browser hill. [Internet Explorer 1.0](https://en.wikipedia.org/wiki/Internet_Explorer_1) would only appear in August of that year, and wouldn't get any real traction until version 4, in 1997. Netscape had set its sights on making the web browser the next operating system. Instead of software shipped on floppy disks and CD-ROMs, they saw a future where software ran in the network, and all you needed was a connection and a browser. Netscape Navigator, of course.
 
 <!-- paragraph-id: p-07-obviously-for-this-to-come-to-fruition-the -->
 For that, the Web would need to be programmable. So Netscape set out a two-pronged strategy. Real™ programmers would use a Real™ programming language to write Real™ programs. The rest of us could glue these together in a scripting language. The Real™ programming language of choice, in 1995, was of course [Java](https://en.wikipedia.org/wiki/Java_%28programming_language%29)™. So the scripting language would have to look like Java.
 
 <!-- paragraph-id: p-07-why-netscape-chose-java-isnt-hard-to-see -->
-Why Java isn't hard to see. There were still many different computer architectures in use, and writing software that ran on all of them was hard. Java sidestepped that problem with the [JVM](https://en.wikipedia.org/wiki/Java_virtual_machine), the Java Virtual Machine, and promised: write once, run anywhere. For a company that wanted software to live in the network, that was exactly the right promise.
+Why Java isn't hard to see. There were still many different computer architectures in use, and writing software that ran on all of them was hard. Java sidestepped that problem with the [JVM](https://en.wikipedia.org/wiki/Java_virtual_machine), the Java Virtual Machine, and promised: write once, run anywhere. Using anything other than Java would have made the whole plan almost impossible.
 
 <!-- paragraph-id: p-07-enter-brendan-eich-as-he-later-described-it -->
 Enter Brendan Eich. As he later described it:
@@ -43,7 +43,7 @@ That prototype became the programming language of the Web.
 We got uncharacteristically lucky. JavaScript was not a watered-down, dummified version of Java. Brendan had been lured to Netscape with the promise that he could build a [Scheme](https://en.wikipedia.org/wiki/Scheme_%28programming_language%29)-like language.
 
 <!-- paragraph-id: p-07-scheme-is-a-descendant-of-lisp-and-algol -->
-Scheme is a descendant of Lisp (and Algol). It is nothing like Java. Like any Lisp, it is small, and it can be bent into almost any shape you need. So Brendan put a Java-like syntax on a Scheme-like core. Ten days later, the world had a new language, and nobody knew yet how much it would matter.
+Scheme is a descendant of Lisp (and Algol). It is nothing like Java. But like any Lisp-like language, it can be changed to do anything any other programming language can do. So Brendan put a Java-like syntax on a Scheme-like core. And 10 days later, the world would be changed forever.
 
 <!-- aside-id: aside-07-brendan-eich-im-not-proud-but-im-happy -->
 > [Brendan Eich](https://web.archive.org/web/20200204010840/https://brendaneich.com/2008/04/popularity/) - "I’m not proud, but I’m happy that I chose Scheme-ish first-class functions and Self-ish (albeit singular) prototypes as the main ingredients. The Java influences, especially y2k Date bugs but also the primitive vs. object distinction (e.g., string vs. String), were unfortunate."
@@ -52,7 +52,7 @@ Scheme is a descendant of Lisp (and Algol). It is nothing like Java. Like any Li
 Like any prototype pushed into production too soon, JavaScript has its problems. But its roots in Scheme and [Self](https://en.wikipedia.org/wiki/Self_%28programming_language%29), themselves descendants of Lisp and [Smalltalk](https://en.wikipedia.org/wiki/Smalltalk), gave it a much healthier base than we could have hoped for.
 
 <!-- paragraph-id: p-07-in-2008-javascript-got-some-positive-publicity-with -->
-In 2008 JavaScript finally got some good press, in the form of a book by the wizard Douglas Crockford: [*JavaScript: The Good Parts*](https://www.goodreads.com/book/show/2998152-javascript). Read it, and you'll find that most of the good parts came from Scheme and Self.
+In 2008 JavaScript finally got some good press, in the form of a book by the wizard Douglas Crockford: [*JavaScript: The Good Parts*](https://www.goodreads.com/book/show/2998152-javascript). Clearly the good parts derive from Scheme and Self.
 
 ## Toil and trouble
 
@@ -60,7 +60,7 @@ In 2008 JavaScript finally got some good press, in the form of a book by the wiz
 Today it is hard not to associate JavaScript with the DOM, the Document Object Model we met in the previous chapter. That is not fair to JavaScript. [The DOM may be the worst API ever invented](https://www.youtube.com/watch?v=Y2Y0U-2qJMs). It was so bad that there came to be not one, not a few, but countless DOM wrapper libraries. I wrote my own, as did many web developers of the era. In the end there was a clear winner, [jQuery](https://jquery.com/), which was then folded back into the browser in a weirdly distorted way. `$(".class")` became `document.querySelectorAll(".class")` because long names are the hallmark of committee standards.
 
 <!-- paragraph-id: p-07-but-the-dom-is-still-considered-a-compilation -->
-Even so, the DOM is mostly treated as a compilation target: not something you program directly, unless you enjoy pain. Instead you use [React](https://react.dev/), [Vue](https://vuejs.org/), [Angular](https://angular.dev/), [Svelte](https://svelte.dev/), [Ember](https://emberjs.com/)...
+Even so, the DOM is mostly treated as a compilation target: not something you program directly, unless you are a masochist. Instead you use [React](https://react.dev/), [Vue](https://vuejs.org/), [Angular](https://angular.dev/), [Svelte](https://svelte.dev/), [Ember](https://emberjs.com/)...
 
 <!-- paragraph-id: p-07-even-javascript-itself-has-become-something-you-often -->
 Even JavaScript itself is often processed before the browser sees it. For years that meant [npm](https://www.npmjs.com/), bundlers, transpilers and configuration files. [Babel](https://babeljs.io/) compiled JavaScript into JavaScript.

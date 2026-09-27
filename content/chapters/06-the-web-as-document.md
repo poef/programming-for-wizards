@@ -28,16 +28,16 @@ Early computers printed like typewriters. If you wanted decent printed output, y
 The wizards at Bell Labs, who were busy inventing Unix, were not impressed. They wanted their Unix and C manuals nicely typeset without fiddling with the machine. So they wrote [`troff`](https://en.wikipedia.org/wiki/Troff), one of the earliest markup languages for computers. It is still with us: every Unix system has a manual command, `man`, and its pages are marked up in a `troff` descendant.
 
 <!-- paragraph-id: p-06-another-wizard-called-knuth-wanted-to-write-a -->
-Another wizard, [Donald Knuth](https://en.wikipedia.org/wiki/Donald_Knuth), wanted to write a book about programming. Well, actually, he wanted to write *the* book on programming. In 1962 Addison-Wesley asked him for a book on compilers, and he [enlarged the scope a bit](https://en.wikipedia.org/wiki/The_Art_of_Computer_Programming): a planned seven volumes, the first three published by 1973. Then the publisher switched from hot-metal type to phototypesetting, and the proofs of a new edition came back looking terrible. Clearly that was unacceptable to a proper wizard.
+Another wizard, [Donald Knuth](https://en.wikipedia.org/wiki/Donald_Knuth), wanted to write a book about programming. Well, actually, he wanted to write *the* book on programming. In 1962 Addison-Wesley approached him about a book on compiler design. But he [enlarged the scope a bit](https://en.wikipedia.org/wiki/The_Art_of_Computer_Programming). The first three parts of a proposed seven-part series were typeset and published by 1973. By then the typesetting systems had changed, and the typesetting instructions for the first books were no longer usable. Clearly that was unacceptable to a proper wizard like Knuth.
 
 <!-- paragraph-id: p-06-so-in-1974-he-took-some-time-off -->
-So in 1977 he set the books aside to write his own typesetting system. He expected it to take a few months. It took the better part of a decade, and produced [TeX](https://tug.org/whatis.html). Built on top of it, [LaTeX](https://www.latex-project.org/) is still how many mathematicians, physicists and computer scientists write their papers. TeX itself is famously close to bug-free, partly because Knuth froze it. Its version number no longer grows; it just adds another digit of π.
+So in 1977 he took some time off to develop his own, better typesetting system. That hiatus turned out to last about a decade, and resulted in [TeX](https://tug.org/whatis.html). An extension of it, [LaTeX](https://www.latex-project.org/), is still the preferred way to deliver scientific and mathematical articles to science magazines. TeX is also one of very few programs that are very likely bug-free. One of the reasons may be gleaned from this quote by Knuth: _"... one of TeX's principal advantages is the fact that it does not change."_
 
 <!-- paragraph-id: p-06-both-troff-and-tex-use-markup-languages-specifically -->
 Both `troff` and TeX exist to put documents on paper. Their markup says how the text should look, not what it is.
 
 <!-- paragraph-id: p-06-this-is-where-things-get-interesting-sometime-in -->
-This is where things get interesting. In 1969, three IBM wizards, Goldfarb, Mosher and Lorie, created [GML](https://en.wikipedia.org/wiki/IBM_Generalized_Markup_Language). Officially it stands for Generalized Markup Language. It also happens to spell their initials. GML described what each part of a text *was*: a heading, a paragraph, a list item. How it should look was left to someone else. Here is an example:
+This is where things get interesting. Around 1969 some wizards from IBM created a system called [GML](https://en.wikipedia.org/wiki/IBM_Generalized_Markup_Language). This either means Generalized Markup Language, or it might mean Goldfarb, Mosher and Lorie, who were the aforementioned wizards. GML described what each part of a text *was*: a heading, a paragraph, a list item. How it should look was left to someone else. Here is an example:
 
 <!-- code-id: code-06-gml-h1-chapter-1-introduction -->
 ```GML
@@ -54,7 +54,7 @@ allowed the end-tags to be omitted for the "h1" and "p" elements.
 ```
 
 <!-- paragraph-id: p-06-gml-eventually-turned-into-sgml-standard-generalized-markup -->
-GML grew into [SGML--the Standard Generalized Markup Language](https://en.wikipedia.org/wiki/Standard_Generalized_Markup_Language), which became an international standard in 1986. SGML itself has no tags. It is a language for defining your own document formats. Powerful, and far too heavy for what Sir Tim needed. But CERN already had a simple SGML format of its own, with short tags inherited from GML: `h1`, `p`, `ol`, `li`. [HTML](https://html.spec.whatwg.org/) borrowed them. Stolen goods, once again.
+GML grew into [SGML--the Standard Generalized Markup Language](https://en.wikipedia.org/wiki/Standard_Generalized_Markup_Language), which became an industry standard in 1986. In 1989, when Sir Tim looked around for a markup language for the Web, he found SGML as a well-defined standard. But SGML itself has no tags. It is a language for defining your own document formats. This was clearly too complex. The original GML did have tags, nice and short ones. So [HTML](https://html.spec.whatwg.org/) was born out of a combination of SGML and GML. Stolen goods, once again.
 
 <!-- paragraph-id: p-06-here-is-that-first-html-page-again -->
 Here is the page from the previous chapter again:
@@ -192,7 +192,7 @@ If you really want to open a can of worms, try writing a rich text editor in HTM
 ```
 
 <!-- paragraph-id: p-06-however-what-you-are-seeing-is-an-editor -->
-What you get is an editor Microsoft designed for Internet Explorer 5.5, which other browsers then copied, quirks and all. Its capabilities are dreadfully limited, and the HTML it produces differs from browser to browser. Standards groups have spent years trying to specify something better. Those efforts stalled.
+What you get is an editor designed by Microsoft, originally for Internet Explorer 5.5, with an API derived from WordPad. Its capabilities are dreadfully limited. And yet there is no improved version. The [WHATWG](https://whatwg.org/), the group now in charge of the HTML specification, started a special workgroup to create a better standard for `contenteditable`. It disbanded after years of trying.
 
 <!-- paragraph-id: p-06-the-only-successful-in-browser-editors-that-are -->
 The in-browser editors that do work well, and produce clean HTML, mostly avoid editing HTML directly. They convert the document to a different model of their own, let you edit that, and convert it back to HTML when you save.
