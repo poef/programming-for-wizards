@@ -1,7 +1,7 @@
 {
   "id": "programming-for-wizards",
   "title": "Programming for Wizards",
-  "generatedAt": "2026-09-27T09:59:56.964Z",
+  "generatedAt": "2026-09-27T10:13:37.459Z",
   "phase": "01-enhanced-static-manuscript",
   "features": {
     "notes": "planned",
@@ -40,7 +40,7 @@
       "url": "chapters/02-numbers-hiding-calculations-in-symbols.html",
       "previous": "interlude-01-useful-tricks",
       "next": "03-logic-turning-truth-into-machinery",
-      "wordCount": 1397,
+      "wordCount": 1307,
       "rule": "Wizard's first rule"
     },
     {
@@ -275,7 +275,7 @@
       "part": "Part I: Representations are spells",
       "partId": "representations-are-spells",
       "url": "chapters/02-numbers-hiding-calculations-in-symbols.html",
-      "wordCount": 1397
+      "wordCount": 1307
     },
     {
       "id": "03-logic-turning-truth-into-machinery",
@@ -1054,32 +1054,11 @@
       "url": "chapters/02-numbers-hiding-calculations-in-symbols.html#p-02-this-is-a-good-time-to-end-our"
     },
     {
-      "id": "p-02-look-back-at-the-road-we-took-tally",
-      "type": "paragraph",
-      "label": "Look back at the road we took. Tally marks just counted. Roman numerals hid additions and subtractions in the order of t",
-      "chapter": "02-numbers-hiding-calculations-in-symbols",
-      "url": "chapters/02-numbers-hiding-calculations-in-symbols.html#p-02-look-back-at-the-road-we-took-tally"
-    },
-    {
       "id": "p-02-at-every-step-the-numbers-themselves-hardly-changed",
       "type": "paragraph",
       "label": "At every step, the numbers themselves hardly changed. The notation did. And each new notation did some of the thinking f",
       "chapter": "02-numbers-hiding-calculations-in-symbols",
       "url": "chapters/02-numbers-hiding-calculations-in-symbols.html#p-02-at-every-step-the-numbers-themselves-hardly-changed"
-    },
-    {
-      "id": "p-02-that-is-the-first-trick-of-this-book",
-      "type": "paragraph",
-      "label": "That is the first trick of this book: choose a notation that does the work.",
-      "chapter": "02-numbers-hiding-calculations-in-symbols",
-      "url": "chapters/02-numbers-hiding-calculations-in-symbols.html#p-02-that-is-the-first-trick-of-this-book"
-    },
-    {
-      "id": "p-02-but-a-machine-full-of-ones-and-zeros",
-      "type": "paragraph",
-      "label": "But a machine full of ones and zeros can count. It cannot yet decide anything. For that, we need a second trick.",
-      "chapter": "02-numbers-hiding-calculations-in-symbols",
-      "url": "chapters/02-numbers-hiding-calculations-in-symbols.html#p-02-but-a-machine-full-of-ones-and-zeros"
     },
     {
       "id": "h-03-logic-the-truth-is-out-there",

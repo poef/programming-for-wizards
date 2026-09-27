@@ -146,14 +146,5 @@ Binary is everywhere in programming, so you'll meet the powers of 2 often. Here 
 <!-- paragraph-id: p-02-this-is-a-good-time-to-end-our -->
 Two symbols are the fewest a positional system can have, and they are all a machine needs: on or off, a hole or no hole, a pin up or a pin down. That is why computers count in binary.
 
-<!-- paragraph-id: p-02-look-back-at-the-road-we-took-tally -->
-Look back at the road we took. Tally marks just counted. Roman numerals hid additions and subtractions in the order of their symbols. The abacus moved the calculation into position. Zero made that position writable. The carry let a machine do the sums, and exponents let us write numbers too big to write.
-
 <!-- paragraph-id: p-02-at-every-step-the-numbers-themselves-hardly-changed -->
 At every step, the numbers themselves hardly changed. The notation did. And each new notation did some of the thinking for us, until the thinking was simple enough for a machine.
-
-<!-- paragraph-id: p-02-that-is-the-first-trick-of-this-book -->
-That is the first trick of this book: choose a notation that does the work.
-
-<!-- paragraph-id: p-02-but-a-machine-full-of-ones-and-zeros -->
-But a machine full of ones and zeros can count. It cannot yet decide anything. For that, we need a second trick.
