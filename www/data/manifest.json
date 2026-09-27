@@ -1,7 +1,7 @@
 {
   "id": "programming-for-wizards",
   "title": "Programming for Wizards",
-  "generatedAt": "2026-09-27T09:57:04.415Z",
+  "generatedAt": "2026-09-27T09:59:56.964Z",
   "phase": "01-enhanced-static-manuscript",
   "features": {
     "notes": "planned",
@@ -124,7 +124,7 @@
       "url": "chapters/09-every-program-contains-a-language.html",
       "previous": "08-programming-languages-are-for-humans",
       "next": "10-code-exhibit-extending-javascript-with-jaqt",
-      "wordCount": 1410,
+      "wordCount": 1415,
       "rule": "Wizard's eighth rule"
     },
     {
@@ -365,7 +365,7 @@
       "part": "Part III: Inventing languages",
       "partId": "inventing-languages",
       "url": "chapters/09-every-program-contains-a-language.html",
-      "wordCount": 1410
+      "wordCount": 1415
     },
     {
       "id": "10-code-exhibit-extending-javascript-with-jaqt",
@@ -2963,6 +2963,13 @@
       "label": "Lisp makes it easy to build that power into the language itself. But it is not limited to Lisp. Every language has that ",
       "chapter": "09-every-program-contains-a-language",
       "url": "chapters/09-every-program-contains-a-language.html#p-09-lisp-makes-it-easy-to-build-that-power"
+    },
+    {
+      "id": "p-09-this-is-not-an-accident-this-is-the",
+      "type": "paragraph",
+      "label": "This is not an accident. This is the point.",
+      "chapter": "09-every-program-contains-a-language",
+      "url": "chapters/09-every-program-contains-a-language.html#p-09-this-is-not-an-accident-this-is-the"
     },
     {
       "id": "p-09-each-program-extends-its-host-language-the-syntax",

@@ -75,7 +75,10 @@ We've already discussed the reason. It's not only Lisp that allows a developer t
 In the previous chapter, I showed that programming languages make some thoughts easier to express than others. Different operations can become cheap.
 
 <!-- paragraph-id: p-09-lisp-makes-it-easy-to-build-that-power -->
-Lisp makes it easy to build that power into the language itself. But it is not limited to Lisp. Every language has that power. Usually, we call it functions, classes, interfaces, variables or properties. Each of these adds a word to the language. As programmers, we strive to make those words count, to make the program easier to think about and reason about. That is the point.
+Lisp makes it easy to build that power into the language itself. But it is not limited to Lisp. Every language has that power. Usually, we call it functions, classes, interfaces, variables or properties. Each of these adds a word to the language. As programmers, we strive to make those words count, to make the program easier to think about and reason about.
+
+<!-- paragraph-id: p-09-this-is-not-an-accident-this-is-the -->
+This is not an accident. This is the point.
 
 <!-- paragraph-id: p-09-each-program-extends-its-host-language-the-syntax -->
 Each program extends its host language. The syntax doesn't change, but increasingly the program supplies the meaning.
