@@ -1,7 +1,7 @@
 {
   "id": "programming-for-wizards",
   "title": "Programming for Wizards",
-  "generatedAt": "2026-09-27T10:39:38.739Z",
+  "generatedAt": "2026-09-27T10:44:20.500Z",
   "phase": "01-enhanced-static-manuscript",
   "features": {
     "notes": "planned",
@@ -220,7 +220,7 @@
       "url": "chapters/17-epilogue-the-margin-you-have-been-using.html",
       "previous": "interlude-06-final-rule",
       "next": "18-acknowledgements",
-      "wordCount": 728,
+      "wordCount": 741,
       "rule": "Wizard's final rule"
     },
     {
@@ -475,7 +475,7 @@
       "part": "Epilogue",
       "partId": "epilogue",
       "url": "chapters/17-epilogue-the-margin-you-have-been-using.html",
-      "wordCount": 728
+      "wordCount": 741
     },
     {
       "id": "18-acknowledgements",
@@ -6103,7 +6103,7 @@
     {
       "id": "p-epilogue-you-may-have-written-notes",
       "type": "paragraph",
-      "label": "You may have written notes in the margins of this book.",
+      "label": "If you are reading the web version of this book, you may have written notes in its margins.",
       "chapter": "17-epilogue-the-margin-you-have-been-using",
       "url": "chapters/17-epilogue-the-margin-you-have-been-using.html#p-epilogue-you-may-have-written-notes"
     },
@@ -6117,7 +6117,7 @@
     {
       "id": "p-epilogue-at-first-the-notes",
       "type": "paragraph",
-      "label": "At first, the notes are stored in your browser. You do not need an account, and the book does not receive everything you",
+      "label": "At first, the notes are stored in your browser. You do not need an account, and the book receives nothing you write unle",
       "chapter": "17-epilogue-the-margin-you-have-been-using",
       "url": "chapters/17-epilogue-the-margin-you-have-been-using.html#p-epilogue-at-first-the-notes"
     },
@@ -6159,7 +6159,7 @@
     {
       "id": "p-epilogue-solid-determines-where-the-note",
       "type": "paragraph",
-      "label": "Solid determines where the note lives, which identity it belongs to, and which applications may read or change it. Linke",
+      "label": "With Solid, you decide where the note lives, which identity it belongs to, and which applications may read or change it.",
       "chapter": "17-epilogue-the-margin-you-have-been-using",
       "url": "chapters/17-epilogue-the-margin-you-have-been-using.html#p-epilogue-solid-determines-where-the-note"
     },
