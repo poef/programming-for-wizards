@@ -108,23 +108,23 @@ var require_base64_js = __commonJS({
       var tmp;
       var len2 = uint8.length;
       var extraBytes = len2 % 3;
-      var parts = [];
+      var parts2 = [];
       var maxChunkLength = 16383;
       for (var i2 = 0, len22 = len2 - extraBytes; i2 < len22; i2 += maxChunkLength) {
-        parts.push(encodeChunk(uint8, i2, i2 + maxChunkLength > len22 ? len22 : i2 + maxChunkLength));
+        parts2.push(encodeChunk(uint8, i2, i2 + maxChunkLength > len22 ? len22 : i2 + maxChunkLength));
       }
       if (extraBytes === 1) {
         tmp = uint8[len2 - 1];
-        parts.push(
+        parts2.push(
           lookup[tmp >> 2] + lookup[tmp << 4 & 63] + "=="
         );
       } else if (extraBytes === 2) {
         tmp = (uint8[len2 - 2] << 8) + uint8[len2 - 1];
-        parts.push(
+        parts2.push(
           lookup[tmp >> 10] + lookup[tmp >> 4 & 63] + lookup[tmp << 2 & 63] + "="
         );
       }
-      return parts.join("");
+      return parts2.join("");
     }
   }
 });
@@ -2836,10 +2836,10 @@ function isInt(s) {
 }
 function setValueByPath(root, path2, value, options = {}) {
   batch(() => {
-    let parts = path2.split(".");
+    let parts2 = path2.split(".");
     let curr = root;
     let part;
-    part = parts.shift();
+    part = parts2.shift();
     let prev = null;
     let prevPart = null;
     let prevCurr = curr;
@@ -2859,7 +2859,7 @@ function setValueByPath(root, path2, value, options = {}) {
         curr = curr[part];
       }
       prevPart = part;
-      part = parts.shift();
+      part = parts2.shift();
       if (part && !curr) {
         const intKey = parseInt(part);
         if (intKey >= 0 && part === "" + intKey) {
@@ -4028,10 +4028,10 @@ function joinPath(path2, suffix) {
   return path2 + suffix;
 }
 function getValueByPath(root, path2) {
-  let parts = path2.split(".");
+  let parts2 = path2.split(".");
   let curr = root;
   let part;
-  part = parts.shift();
+  part = parts2.shift();
   let prevPart = null;
   while (part && curr) {
     part = decodeURIComponent(part);
@@ -4045,7 +4045,7 @@ function getValueByPath(root, path2) {
       curr = curr[part];
     }
     prevPart = part;
-    part = parts.shift();
+    part = parts2.shift();
   }
   return curr;
 }
@@ -5648,15 +5648,15 @@ function mergeOptions(options, otherOptions) {
 }
 function mergeComponents(options, components) {
   for (const name of Object.keys(components)) {
-    const component = components[name];
-    if (component.components) {
-      mergeComponents(options, component.components);
+    const component2 = components[name];
+    if (component2.components) {
+      mergeComponents(options, component2.components);
     }
     if (!options.components) {
       options.components = {};
     }
-    options.components[name] = component;
-    for (const key of Object.keys(component)) {
+    options.components[name] = component2;
+    for (const key of Object.keys(component2)) {
       switch (key) {
         case "start":
         case "onError":
@@ -5667,7 +5667,7 @@ function mergeComponents(options, components) {
           if (!options[key]) {
             options[key] = /* @__PURE__ */ Object.create(null);
           }
-          mergeOptions(options[key], component[key]);
+          mergeOptions(options[key], component2[key]);
           break;
       }
     }
@@ -5745,6 +5745,189 @@ __export(oldm_exports, {
   prefixes: () => prefixes,
   rdfType: () => rdfType
 });
+
+// ../../muze-nl/oldm/packages/oldm-core/src/iri.mjs
+var ucschar = "\\u00A0-\\uD7FF\\uF900-\\uFDCF\\uFDF0-\\uFFEF\\u{10000}-\\u{1FFFD}\\u{20000}-\\u{2FFFD}\\u{30000}-\\u{3FFFD}\\u{40000}-\\u{4FFFD}\\u{50000}-\\u{5FFFD}\\u{60000}-\\u{6FFFD}\\u{70000}-\\u{7FFFD}\\u{80000}-\\u{8FFFD}\\u{90000}-\\u{9FFFD}\\u{A0000}-\\u{AFFFD}\\u{B0000}-\\u{BFFFD}\\u{C0000}-\\u{CFFFD}\\u{D0000}-\\u{DFFFD}\\u{E1000}-\\u{EFFFD}";
+var iprivate = "\\uE000-\\uF8FF\\u{F0000}-\\u{FFFFD}\\u{100000}-\\u{10FFFD}";
+var nameChars = `a-zA-Z0-9._~!$&'()*+,;=\\-${ucschar}`;
+var component = (extra) => new RegExp(`^(?:[${nameChars}${extra}]|%[0-9a-fA-F]{2})*$`, "u");
+var pathPattern = component(":@/");
+var queryPattern = component(":@/?" + iprivate);
+var fragmentPattern = component(":@/?");
+var userPattern = component(":");
+var hostPattern = component("");
+function parts(value, requireAbsolute = false) {
+  if (typeof value != "string") throw new TypeError("Expected an IRI string");
+  if (/[\u0000-\u0020\u007F-\u009F]/.test(value)) throw new TypeError(`Invalid IRI: ${value}`);
+  const match = /^(?:([a-z][a-z0-9+.-]*):)?(?:\/\/([^/?#]*))?([^?#]*)(\?[^#]*)?(#.*)?$/is.exec(value);
+  if (!match) throw new TypeError(`Invalid IRI: ${value}`);
+  const [, scheme, authority, path2, query, fragment] = match;
+  if (requireAbsolute && !scheme) throw new TypeError(`Expected an absolute IRI: ${value}`);
+  if (!pathPattern.test(path2) || query && !queryPattern.test(query.slice(1)) || fragment && !fragmentPattern.test(fragment.slice(1)) || !scheme && authority === void 0 && path2.split("/")[0].includes(":")) {
+    throw new TypeError(`Invalid IRI: ${value}`);
+  }
+  if (authority !== void 0) {
+    const host = authority.slice(authority.lastIndexOf("@") + 1);
+    const user = authority.includes("@") ? authority.slice(0, authority.lastIndexOf("@")) : "";
+    const match2 = /^(\[[^\]]+\]|[^:]*)(?::([0-9]*))?$/.exec(host);
+    if (!userPattern.test(user) || !match2) throw new TypeError(`Invalid IRI authority: ${value}`);
+    if (match2[1].startsWith("[")) {
+      if (!/^\[v[0-9a-f]+\.[a-z0-9._~!$&'()*+,;=:\-]+\]$/i.test(match2[1])) {
+        try {
+          new URL(`http://${match2[1]}/`);
+        } catch {
+          throw new TypeError(`Invalid IP literal: ${value}`);
+        }
+      }
+    } else if (!hostPattern.test(match2[1])) throw new TypeError(`Invalid IRI host: ${value}`);
+    if (/^https?$/i.test(scheme) && !match2[1]) throw new TypeError(`Missing HTTP host: ${value}`);
+  } else if (/^https?$/i.test(scheme)) throw new TypeError(`Missing HTTP authority: ${value}`);
+  return { scheme, authority, path: path2, query, fragment };
+}
+var validatedIRIs = /* @__PURE__ */ new Set();
+function absoluteIRI(value) {
+  if (!validatedIRIs.has(value)) {
+    parts(value, true);
+    if (validatedIRIs.size >= 1024) validatedIRIs.delete(validatedIRIs.values().next().value);
+    validatedIRIs.add(value);
+  }
+  return value;
+}
+function join({ scheme, authority, path: path2, query, fragment }) {
+  return (scheme ? scheme + ":" : "") + (authority === void 0 ? "" : "//" + authority) + path2 + (query ?? "") + (fragment ?? "");
+}
+function removeDotSegments(path2) {
+  let output = "";
+  while (path2) {
+    if (path2.startsWith("../")) path2 = path2.slice(3);
+    else if (path2.startsWith("./")) path2 = path2.slice(2);
+    else if (path2.startsWith("/./") || path2 == "/.") path2 = "/" + path2.slice(3);
+    else if (path2.startsWith("/../") || path2 == "/..") {
+      path2 = "/" + path2.slice(4);
+      output = output.slice(0, Math.max(0, output.lastIndexOf("/")));
+    } else if (path2 == "." || path2 == "..") path2 = "";
+    else {
+      const end = path2.indexOf("/", path2.startsWith("/") ? 1 : 0);
+      if (end < 0) {
+        output += path2;
+        path2 = "";
+      } else {
+        output += path2.slice(0, end);
+        path2 = path2.slice(end);
+      }
+    }
+  }
+  return output;
+}
+function resolveIRIReference(value, base) {
+  if (typeof value == "string" && /^[a-z][a-z0-9+.-]*:/i.test(value)) return absoluteIRI(value);
+  const ref = parts(value);
+  if (base == null) throw new TypeError(`Cannot resolve a relative IRI without a base: ${value}`);
+  const target = parts(base, true);
+  if (ref.authority !== void 0) {
+    target.authority = ref.authority;
+    target.path = removeDotSegments(ref.path);
+    target.query = ref.query;
+  } else if (!ref.path) {
+    target.query = ref.query ?? target.query;
+  } else {
+    if (!ref.path.startsWith("/") && target.authority === void 0 && !target.path.startsWith("/")) {
+      throw new TypeError(`Base IRI does not support relative paths: ${base}`);
+    }
+    const directory = target.authority !== void 0 && !target.path ? "/" : target.path.slice(0, target.path.lastIndexOf("/") + 1);
+    target.path = removeDotSegments(ref.path.startsWith("/") ? ref.path : directory + ref.path);
+    target.query = ref.query;
+  }
+  target.fragment = ref.fragment;
+  return absoluteIRI(join(target));
+}
+function expandIRI(value, namespaceFor, separator, base) {
+  value = value?.id ?? value;
+  if (typeof value != "string") throw new TypeError("Expected an IRI string");
+  const index = value.indexOf(separator);
+  if (index >= 0) {
+    const prefix = value.slice(0, index);
+    const namespace = namespaceFor(prefix);
+    if (namespace !== void 0) return absoluteIRI(absoluteIRI(namespace) + value.slice(index + separator.length));
+    if (separator != ":" && !/[:/?#]/.test(prefix)) throw new TypeError(`Unknown prefix: ${prefix}`);
+  }
+  return resolveIRIReference(value, base);
+}
+function shortenIRI(value, entries, separator, canonicalize = (value2) => value2) {
+  value = canonicalize(value);
+  for (const [prefix, iri] of entries) {
+    const namespace = canonicalize(iri);
+    if (value.startsWith(namespace)) {
+      absoluteIRI(iri);
+      return prefix + separator + value.slice(namespace.length);
+    }
+  }
+  return value;
+}
+function relativeIRI(value, base, separator = "$") {
+  const target = parts(value, true);
+  if (base == null) return value;
+  const origin = parts(base, true);
+  if (target.scheme !== origin.scheme || target.authority !== origin.authority) return value;
+  const suffix = (target.query ?? "") + (target.fragment ?? "");
+  const candidates = [];
+  if (target.path == origin.path) {
+    if (target.query == origin.query) candidates.push(target.fragment ?? "");
+    if (target.query !== void 0) candidates.push(suffix);
+  }
+  if (origin.authority !== void 0 || origin.path.startsWith("/")) {
+    const directory = origin.authority !== void 0 && !origin.path ? "/" : origin.path.slice(0, origin.path.lastIndexOf("/") + 1);
+    const from3 = directory.split("/").slice(0, -1);
+    const to = target.path.split("/");
+    let common = 0;
+    while (common < from3.length && common < to.length - 1 && from3[common] == to[common]) common++;
+    let path2 = "../".repeat(from3.length - common) + to.slice(common).join("/");
+    if (!path2 || path2.startsWith("/") || path2.split("/")[0].includes(":") || path2.split("/")[0].includes(separator)) path2 = "./" + path2;
+    candidates.push(path2 + suffix);
+    if (target.path.startsWith("/") && !target.path.startsWith("//")) candidates.push(target.path + suffix);
+  }
+  return candidates.filter((candidate) => {
+    try {
+      return resolveIRIReference(candidate, base) === value;
+    } catch {
+      return false;
+    }
+  }).sort((a, b) => a.length - b.length)[0] ?? value;
+}
+var pnBase = "A-Za-z\\u00C0-\\u00D6\\u00D8-\\u00F6\\u00F8-\\u02FF\\u0370-\\u037D\\u037F-\\u1FFF\\u200C-\\u200D\\u2070-\\u218F\\u2C00-\\u2FEF\\u3001-\\uD7FF\\uF900-\\uFDCF\\uFDF0-\\uFFFD\\u{10000}-\\u{EFFFF}";
+var pnChars = pnBase + "0-9_\\-\\u00B7\\u0300-\\u036F\\u203F-\\u2040";
+var prefixPattern = new RegExp(`^(?:[${pnBase}](?:[${pnChars}.]*[${pnChars}])?)?$`, "u");
+var firstLocal = new RegExp(`^[${pnBase}_:0-9]$`, "u");
+var restLocal = new RegExp(`^[${pnChars}:]$`, "u");
+function turtlePrefixedIRI(value, entries) {
+  for (const [prefix, namespace] of entries) {
+    if (!prefixPattern.test(prefix) || !value.startsWith(namespace)) continue;
+    const local2 = Array.from(value.slice(namespace.length));
+    let escaped = "";
+    let valid = true;
+    for (let i = 0; i < local2.length; i++) {
+      const char = local2[i];
+      if (char == "%" && /^[0-9a-f]{2}$/i.test(local2.slice(i + 1, i + 3).join(""))) {
+        escaped += local2.slice(i, i + 3).join("");
+        i += 2;
+      } else if ((i ? restLocal : firstLocal).test(char) || char == "." && i && i < local2.length - 1) escaped += char;
+      else if ("_~.-!$&'()*+,;=/?#@%".includes(char)) escaped += "\\" + char;
+      else {
+        valid = false;
+        break;
+      }
+    }
+    if (valid) return prefix + ":" + escaped;
+  }
+  return null;
+}
+
+// ../../muze-nl/oldm/packages/oldm-core/src/oldm.mjs
+function* orderedPrefixes(context) {
+  for (const prefix of context.prefixOrder) {
+    yield [prefix, context.prefixes[prefix]];
+  }
+}
 function oldm(options) {
   return new Context(options);
 }
@@ -5786,7 +5969,7 @@ function literal(value, options = {}) {
   const type = options.type ?? value?.type;
   const language = options.language ?? value?.language;
   if (type !== void 0) {
-    result.type = type;
+    result.type = absoluteIRI(type);
   }
   if (language !== void 0) {
     result.language = language;
@@ -5834,10 +6017,11 @@ function values(value) {
   }
   return [value];
 }
-function mergeValue(existing, value) {
+function mergeValue(existing, value, graph3 = null) {
   const result = values(existing);
   for (const item of values(value)) {
-    if (!result.some((existingItem) => sameValue(existingItem, item))) {
+    const comparable = normalizeStringLiteral(item, graph3);
+    if (!result.some((existingItem) => sameValue(normalizeStringLiteral(existingItem, graph3), comparable))) {
       result.push(item);
     }
   }
@@ -5871,12 +6055,13 @@ function sameValue(left, right) {
   return false;
 }
 function normalizeStringLiteral(value, graph3) {
-  if (typeof value != "string" && !(value instanceof String) || value.language) {
+  if (!graph3 || typeof value != "string" && !(value instanceof String)) {
     return value;
   }
+  const defaultType = value.language ? "http://www.w3.org/1999/02/22-rdf-syntax-ns#langString" : "http://www.w3.org/2001/XMLSchema#string";
   return literal(value, {
-    type: graph3.fullURI(value.type ?? "http://www.w3.org/2001/XMLSchema#string"),
-    language: ""
+    type: graph3.fullURI(value.type ?? defaultType),
+    language: value.language ?? ""
   });
 }
 function sameSourceValue(left, right) {
@@ -5943,6 +6128,7 @@ var Context = class {
     this.graphsByUrl = /* @__PURE__ */ Object.create(null);
     this.defaultGraph = options?.defaultGraph ?? null;
     this.separator = options?.separator ?? "$";
+    this.baseURI = options?.baseURI;
     this.aliases = { ...aliases, ...options?.aliases ?? {} };
     Object.defineProperty(this, "subjects", {
       get() {
@@ -5960,13 +6146,7 @@ var Context = class {
     if (prefixes3) {
       for (let prefix in prefixes3) {
         let prefixURL = prefixes3[prefix];
-        if (prefixURL.match(/^http(s?):\/\/$/i)) {
-          prefixURL += url3.substring(prefixURL.length);
-        } else try {
-          prefixURL = new URL(prefixes3[prefix], url3).href;
-        } catch (err) {
-          console.error("Could not parse prefix", prefixes3[prefix], err.message);
-        }
+        prefixURL = resolveIRIReference(prefixURL, url3);
         if (!this.prefixes[prefix]) {
           this.prefixes[prefix] = prefixURL;
           this.prefixOrder.push(prefix);
@@ -6092,12 +6272,16 @@ var Context = class {
     if (!predicate) {
       return true;
     }
-    const property = subject.graph instanceof Graph ? subject.graph.propertyName(this.fullURI(predicate), "context") : this.propertyName(predicate);
+    const property = subject.graph instanceof Graph ? subject.graph.propertyName(predicate == "a" ? rdfType : this.fullURI(predicate), "context") : this.propertyName(predicate);
     if (!(property in subject)) {
       return false;
     }
     if (!hasValue) {
       return true;
+    }
+    if (property == "a" && subject.graph instanceof Graph) {
+      const graph3 = subject.graph;
+      value = graph3.fullURI(value?.id ?? value, null, "context");
     }
     return values(subject[property]).some((item) => sameSourceValue(item, value));
   }
@@ -6114,10 +6298,11 @@ var Context = class {
     if (predicate?.id) {
       predicate = predicate.id;
     }
-    if (predicate == "a" || predicate == rdfType || this.fullURI(predicate) == rdfType) {
+    const fullPredicate = predicate == "a" ? rdfType : this.fullURI(predicate);
+    if (fullPredicate == rdfType) {
       return "a";
     }
-    return this.shortURI(this.fullURI(predicate));
+    return shortenIRI(fullPredicate, orderedPrefixes(this), this.separator, (iri) => this.canonicalURI(iri));
   }
   get(shortID) {
     return this.subjects[this.fullURI(shortID)];
@@ -6184,28 +6369,14 @@ var Context = class {
       delete target[property];
     }
   }
-  fullURI(shortURI, separator = null) {
-    if (!separator) {
-      separator = this.separator;
-    }
-    const [prefix, path2] = shortURI.split(separator);
-    if (path2 && this.prefixes[prefix]) {
-      return this.prefixes[prefix] + path2;
-    }
-    return shortURI;
+  fullURI(value, separator = null) {
+    return expandIRI(value, (prefix) => Object.hasOwn(this.prefixes, prefix) ? this.prefixes[prefix] : void 0, separator ?? this.separator, this.baseURI);
   }
-  shortURI(fullURI, separator = null) {
-    if (!separator) {
-      separator = this.separator;
-    }
-    fullURI = this.canonicalURI(fullURI);
-    for (const prefix of this.prefixOrder) {
-      const iri = this.canonicalURI(this.prefixes[prefix]);
-      if (fullURI.startsWith(iri)) {
-        return prefix + separator + fullURI.substring(iri.length);
-      }
-    }
-    return fullURI;
+  shortURI(iri, separator = null) {
+    return shortenIRI(absoluteIRI(iri), orderedPrefixes(this), separator ?? this.separator);
+  }
+  relativeURI(iri, base = this.baseURI) {
+    return relativeIRI(iri, base, this.separator);
   }
   canonicalURI(uri) {
     uri = String(uri);
@@ -6228,7 +6399,7 @@ var Context = class {
     if (typeof literal3 !== "object") {
       throw new Error("cannot set type on ", literal3, shortType);
     }
-    literal3.type = shortType;
+    literal3.type = this.fullURI(shortType);
     return literal3;
   }
   getType(literal3) {
@@ -6243,6 +6414,7 @@ var Graph = class {
   constructor(quads, url3, mimetype, prefixes3, context, originalSource = null) {
     this.mimetype = mimetype;
     this.url = url3;
+    this.baseURI = url3.split("#")[0];
     this.prefixes = prefixes3;
     this.context = context;
     this.originalSource = originalSource;
@@ -6301,7 +6473,7 @@ var Graph = class {
     }
   }
   addNamedNode(uri) {
-    let absURI = new URL(uri, this.url).href;
+    const absURI = this.fullURI(uri);
     if (!this.subjects[absURI]) {
       this.subjects[absURI] = new NamedNode(absURI, this);
     }
@@ -6376,11 +6548,11 @@ var Graph = class {
     if (predicate?.id) {
       predicate = predicate.id;
     }
-    const fullPredicate = this.fullURI(predicate, null, preference);
+    const fullPredicate = predicate == "a" ? rdfType : this.fullURI(predicate, null, preference);
     if (predicate == "a" || fullPredicate == rdfType) {
       return "a";
     }
-    return this.shortURI(fullPredicate, null, "source");
+    return shortenIRI(fullPredicate, this.prefixEntries("source"), this.context.separator, (iri) => this.context.canonicalURI(iri));
   }
   set(subject, predicate, value, options = {}) {
     const preference = options.prefixPreference ?? "source";
@@ -6398,7 +6570,7 @@ var Graph = class {
     const node = this.ensureSubject(subject, preference);
     const property = this.propertyName(predicate, preference);
     const newValue = property == "a" ? this.normalizeTypeValues(value, preference) : this.normalizeValues(value, preference);
-    node[property] = mergeValue(node[property], newValue);
+    node[property] = mergeValue(node[property], newValue, this);
     return node;
   }
   delete(subject, predicate = null, value = void 0, options = {}) {
@@ -6481,6 +6653,12 @@ var Graph = class {
       }
       return value;
     }
+    if ((value instanceof String || value instanceof Number) && value.type !== void 0) {
+      const type = this.fullURI(value.type, null, preference);
+      if (type !== value.type) {
+        return literal(value, { type });
+      }
+    }
     if (this.looksLikeURI(value, preference)) {
       return this.addNamedNode(this.fullURI(value, null, preference));
     }
@@ -6493,10 +6671,7 @@ var Graph = class {
     return this.normalizeTypeValue(value, preference);
   }
   normalizeTypeValue(value, preference = "source") {
-    if (value instanceof NamedNode) {
-      return this.shortURI(value.id, null, "source");
-    }
-    return this.shortURI(this.fullURI(value, null, preference), null, "source");
+    return this.fullURI(value, null, preference);
   }
   looksLikeURI(value, preference = "source") {
     if (typeof value != "string") {
@@ -6505,45 +6680,24 @@ var Graph = class {
     if (/^[a-z][a-z0-9+.-]*:/i.test(value)) {
       return true;
     }
-    const [prefix, path2] = value.split(this.context.separator);
-    return Boolean(path2 && this.prefixEntries(preference).some(([candidate]) => candidate == prefix));
+    const index = value.indexOf(this.context.separator);
+    return index >= 0 && this.prefixEntries(preference).some(([prefix]) => prefix == value.slice(0, index));
   }
-  fullURI(shortURI, separator = null, preference = "source") {
-    if (!separator) {
-      separator = this.context.separator;
-    }
-    const [prefix, path2] = String(shortURI).split(separator);
-    if (path2) {
-      for (const [candidate, iri] of this.prefixEntries(preference)) {
-        if (candidate == prefix) {
-          return iri + path2;
-        }
-      }
-    }
-    return shortURI;
+  fullURI(value, separator = null, preference = "source") {
+    return expandIRI(value, (prefix) => this.prefixEntries(preference).find(([name]) => name == prefix)?.[1], separator ?? this.context.separator, this.baseURI);
   }
-  shortURI(fullURI, separator = null, preference = "source") {
-    if (!separator) {
-      separator = this.context.separator;
-    }
-    fullURI = this.context.canonicalURI(fullURI);
-    for (const [prefix, iri] of this.prefixEntries(preference)) {
-      const canonicalIRI = this.context.canonicalURI(iri);
-      if (fullURI.startsWith(canonicalIRI)) {
-        return prefix + separator + fullURI.substring(canonicalIRI.length);
-      }
-    }
-    if (this.url && fullURI.startsWith(this.url)) {
-      return fullURI.substring(this.url.length);
-    }
-    return fullURI;
+  shortURI(iri, separator = null, preference = "source") {
+    return shortenIRI(absoluteIRI(iri), this.prefixEntries(preference), separator ?? this.context.separator);
+  }
+  relativeURI(iri, base = this.baseURI) {
+    return relativeIRI(iri, base, this.context.separator);
   }
   /**
    * This sets the type of a literal, usually one of the xsd types
    */
   setType(literal3, type) {
-    const shortType = this.shortURI(type);
-    return this.context.setType(literal3, shortType);
+    const fullType = this.fullURI(type);
+    return this.context.setType(literal3, fullType);
   }
   /**
    * This returns the type of a literal, or null
@@ -6594,11 +6748,10 @@ var BlankNode = class {
       predicate = predicate.id;
     }
     if (predicate == rdfType) {
-      let type = this.graph.shortURI(object.id);
-      this.addType(type);
+      this.addType(object.id);
     } else {
       const value = this.graph.getValue(object);
-      predicate = this.graph.shortURI(predicate);
+      predicate = this.graph.propertyName(predicate);
       if (!this[predicate]) {
         this[predicate] = value;
       } else if (Array.isArray(this[predicate])) {
@@ -6614,6 +6767,7 @@ var BlankNode = class {
    * The type value can be any URI, xsdTypes are unexpected here
    */
   addType(type) {
+    type = this.graph.fullURI(type);
     if (!this.a) {
       this.a = type;
     } else {
@@ -7869,7 +8023,7 @@ var N3Parser = class _N3Parser {
     return this._completeObjectLiteral(token, true);
   }
   // ### `_completeLiteral` completes a literal with an optional datatype or language
-  _completeLiteral(token, component) {
+  _completeLiteral(token, component2) {
     let literal3 = this._factory.literal(this._literalValue);
     let readCb;
     switch (token.type) {
@@ -7891,22 +8045,22 @@ var N3Parser = class _N3Parser {
         literal3 = this._factory.literal(this._literalValue, token.value);
         this._literalLanguage = token.value;
         token = null;
-        readCb = this._readDirCode.bind(this, component);
+        readCb = this._readDirCode.bind(this, component2);
         break;
     }
     return { token, literal: literal3, readCb };
   }
-  _readDirCode(component, listItem, token) {
+  _readDirCode(component2, listItem, token) {
     if (token.type === "dircode") {
       const term = this._factory.literal(this._literalValue, { language: this._literalLanguage, direction: token.value });
-      if (component === "subject")
+      if (component2 === "subject")
         this._subject = term;
       else
         this._object = term;
       this._literalLanguage = void 0;
       token = null;
     }
-    if (component === "subject")
+    if (component2 === "subject")
       return token === null ? this._readPredicateOrNamedGraph : this._readPredicateOrNamedGraph(token);
     return this._completeObjectLiteralPost(token, listItem);
   }
@@ -8877,17 +9031,22 @@ var n3Parser = (input2, uri, type) => {
   });
   return { quads, prefixes: prefixes3 };
 };
+var ResourceWriter = class extends N3Writer {
+  constructor(source2, options) {
+    super(options);
+    this.source = source2;
+    this.entries = Object.entries(options.prefixes);
+  }
+  _encodeIriOrBlank(term) {
+    if (term.termType != "NamedNode" || this._lineMode) return super._encodeIriOrBlank(term);
+    const iri = absoluteIRI(term.value);
+    return turtlePrefixedIRI(iri, this.entries) ?? `<${this.source.relativeURI(iri)}>`;
+  }
+};
 var n3Writer = (source2) => {
   return new Promise((resolve, reject) => {
-    const resourceUrl = source2.url.split("#")[0];
     const prefixes3 = source2.prefixDeclarations("source");
-    const hasResourcePrefix = Object.values(prefixes3).includes(`${resourceUrl}#`);
-    const writer = new N3Writer({
-      format: source2.mimetype,
-      prefixes: prefixes3,
-      // N3 makes IRIs relative before matching prefixes; preserve declared resource prefixes.
-      baseIRI: hasResourcePrefix ? void 0 : resourceUrl
-    });
+    const writer = new ResourceWriter(source2, { format: source2.mimetype, prefixes: prefixes3 });
     const xsd4 = source2.prefixes.xsd;
     const { quad: quad2, namedNode: namedNode2, literal: literal3, blankNode: blankNode2 } = N3DataFactory_default;
     const blankNodes = /* @__PURE__ */ new Map();
@@ -9019,7 +9178,8 @@ var n3Writer = (source2) => {
     });
     writer.end((error4, result) => {
       if (result) {
-        resolve(result);
+        resolve(writer._lineMode ? result : `@base <${absoluteIRI(source2.baseURI)}> .
+` + result);
       } else {
         reject(error4);
       }
@@ -10596,7 +10756,7 @@ function primitiveWrapperData(value) {
   };
   for (const [key, item] of Object.entries(value)) {
     if (!/^\d+$/.test(key)) {
-      if (value instanceof String && key === "type" && item === "xsd$string") {
+      if (value instanceof String && key === "type" && item === "http://www.w3.org/2001/XMLSchema#string") {
         continue;
       }
       data[key] = item;
@@ -13078,21 +13238,21 @@ function isCobaltSelectionOpeningTag(tag) {
   return /^<span\s[^>]*data-cobalt-selection=["']true["'][^>]*>$/i.test(tag);
 }
 function shortcutFromKeyboardEvent(event) {
-  const parts = [];
+  const parts2 = [];
   if (event.ctrlKey) {
-    parts.push("ctrl");
+    parts2.push("ctrl");
   }
   if (event.metaKey) {
-    parts.push("meta");
+    parts2.push("meta");
   }
   if (event.altKey) {
-    parts.push("alt");
+    parts2.push("alt");
   }
   if (event.shiftKey) {
-    parts.push("shift");
+    parts2.push("shift");
   }
-  parts.push(event.key.toLowerCase());
-  return parts.join("+");
+  parts2.push(event.key.toLowerCase());
+  return parts2.join("+");
 }
 function escapeAttribute(value) {
   return value.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
@@ -14193,6 +14353,42 @@ var CobaltEditorModal = class {
   }
 };
 
+// src/features/paragraph-note-stacks/vocabulary.js
+var annotationVocabulary = {
+  prefixes: {
+    rdf: "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+    rdfs: "http://www.w3.org/2000/01/rdf-schema#",
+    dcterms: "http://purl.org/dc/terms/",
+    oa: "http://www.w3.org/ns/oa#",
+    schema: "https://schema.org/",
+    cobalt: "https://vocab.muze.nl/cobalt#"
+  },
+  classes: {
+    annotation: "http://www.w3.org/ns/oa#Annotation",
+    textualBody: "http://www.w3.org/ns/oa#TextualBody",
+    specificResource: "http://www.w3.org/ns/oa#SpecificResource",
+    fragmentSelector: "http://www.w3.org/ns/oa#FragmentSelector",
+    cobaltFragment: "https://vocab.muze.nl/cobalt#Fragment"
+  },
+  predicates: {
+    type: "rdf$type",
+    label: "rdfs$label",
+    created: "dcterms$created",
+    modified: "dcterms$modified",
+    format: "dcterms$format",
+    value: "rdf$value",
+    hasBody: "oa$hasBody",
+    hasTarget: "oa$hasTarget",
+    hasSource: "oa$hasSource",
+    hasSelector: "oa$hasSelector",
+    text: "schema$text",
+    cobaltFragment: "cobalt$fragment"
+  },
+  mediaTypes: {
+    cobaltFragment: "application/vnd.cobalt.fragment+json"
+  }
+};
+
 // node_modules/@muze-nl/jaqt/src/jaqt.mjs
 function isPrimitiveWrapper3(data) {
   return [String, Boolean, Number, BigInt].includes(data?.constructor);
@@ -14644,44 +14840,11 @@ var _2 = new Proxy(getPointerFn2(), pointerHandler2());
 
 // src/features/paragraph-note-stacks/annotation-model.js
 var annotationModel = {
-  vocabulary: {
-    prefixes: {
-      rdf: "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
-      rdfs: "http://www.w3.org/2000/01/rdf-schema#",
-      dcterms: "http://purl.org/dc/terms/",
-      oa: "http://www.w3.org/ns/oa#",
-      schema: "https://schema.org/",
-      cobalt: "https://vocab.muze.nl/cobalt#"
-    },
-    classes: {
-      annotation: "oa$Annotation",
-      textualBody: "oa$TextualBody",
-      specificResource: "oa$SpecificResource",
-      fragmentSelector: "oa$FragmentSelector",
-      cobaltFragment: "cobalt$Fragment"
-    },
-    predicates: {
-      type: "rdf$type",
-      label: "rdfs$label",
-      created: "dcterms$created",
-      modified: "dcterms$modified",
-      format: "dcterms$format",
-      value: "rdf$value",
-      hasBody: "oa$hasBody",
-      hasTarget: "oa$hasTarget",
-      hasSource: "oa$hasSource",
-      hasSelector: "oa$hasSelector",
-      text: "schema$text",
-      cobaltFragment: "cobalt$fragment"
-    },
-    mediaTypes: {
-      cobaltFragment: "application/vnd.cobalt.fragment+json"
-    }
-  },
+  vocabulary: annotationVocabulary,
   createAnnotationNote({ anchorId, fragment, now: now2 = (/* @__PURE__ */ new Date()).toISOString() }) {
     const annotationId = this.createLocalSubjectId({});
     const body = {
-      id: `${annotationId}#body`,
+      id: this.relatedSubjectId({ annotationId, part: "body" }),
       rdf$type: [
         this.vocabulary.classes.textualBody,
         this.vocabulary.classes.cobaltFragment
@@ -14692,11 +14855,11 @@ var annotationModel = {
       cobalt$fragment: fragment
     };
     const target = {
-      id: `${annotationId}#target`,
+      id: this.relatedSubjectId({ annotationId, part: "target" }),
       rdf$type: this.vocabulary.classes.specificResource,
       oa$hasSource: this.currentDocumentIri({}),
       oa$hasSelector: {
-        id: `${annotationId}#selector-fragment`,
+        id: this.relatedSubjectId({ annotationId, part: "selector-fragment" }),
         rdf$type: this.vocabulary.classes.fragmentSelector,
         rdf$value: anchorId
       }
@@ -14709,6 +14872,9 @@ var annotationModel = {
       oa$hasBody: body,
       oa$hasTarget: target
     };
+  },
+  relatedSubjectId({ annotationId, part }) {
+    return `${annotationId}${annotationId.includes("#") ? "-" : "#"}${part}`;
   },
   createLocalSubjectId() {
     if (globalThis.crypto?.randomUUID) {
@@ -14802,6 +14968,8 @@ var annotationModel = {
     };
   },
   toStoredGraph({ value }) {
+    const context = src_default2.context({ prefixes: { ...this.vocabulary.prefixes, ...value?.prefixes } });
+    value = this.expandStoredTypes({ value, context });
     if (Array.isArray(value)) {
       return Array.from(from2(value).select((note) => {
         if (this.isMarginNoteAnnotation({ value: note })) {
@@ -14814,6 +14982,32 @@ var annotationModel = {
       return Array.from(from2(value.subjects).where((subject) => this.isMarginNoteAnnotation({ value: subject })));
     }
     return [];
+  },
+  // Upgrade only RDF type values at the load boundary. Keep already-current
+  // subjects by reference so edits still belong to their workspace records.
+  expandStoredTypes({ value, context }) {
+    if (Array.isArray(value)) {
+      const expanded = value.map((item) => this.expandStoredTypes({ value: item, context }));
+      return expanded.some((item, index) => item !== value[index]) ? expanded : value;
+    }
+    if (!value || typeof value !== "object" || value instanceof String || value instanceof Number || value instanceof Boolean) {
+      return value;
+    }
+    let result = value;
+    for (const [key, item] of Object.entries(value)) {
+      let expanded;
+      if (value.id && (key === "a" || key === "rdf$type")) {
+        expanded = Array.isArray(item) ? item.map((type) => context.fullURI(type)) : context.fullURI(item);
+        if (Array.isArray(item) && expanded.every((type, index) => type === item[index])) expanded = item;
+      } else {
+        expanded = this.expandStoredTypes({ value: item, context });
+      }
+      if (expanded !== item) {
+        if (result === value) result = { ...value };
+        result[key] = expanded;
+      }
+    }
+    return result;
   },
   isOldmedAnnotation({ value }) {
     return src_default2.many(value?.rdf$type).includes(this.vocabulary.classes.annotation) || src_default2.many(value?.a).includes(this.vocabulary.classes.annotation);
@@ -14832,9 +15026,9 @@ var annotationModel = {
     annotation.id = this.legacyLocalSubjectId({ id: note.id });
     annotation.dcterms$created = note.created || annotation.dcterms$created;
     annotation.dcterms$modified = note.modified || annotation.dcterms$modified;
-    annotation.oa$hasBody.id = `${annotation.id}#body`;
-    annotation.oa$hasTarget.id = `${annotation.id}#target`;
-    annotation.oa$hasTarget.oa$hasSelector.id = `${annotation.id}#selector-fragment`;
+    annotation.oa$hasBody.id = this.relatedSubjectId({ annotationId: annotation.id, part: "body" });
+    annotation.oa$hasTarget.id = this.relatedSubjectId({ annotationId: annotation.id, part: "target" });
+    annotation.oa$hasTarget.oa$hasSelector.id = this.relatedSubjectId({ annotationId: annotation.id, part: "selector-fragment" });
     return annotation;
   },
   legacyLocalSubjectId({ id: id2 }) {
@@ -14848,13 +15042,14 @@ var annotationModel = {
       return value.map((item) => this.cloneValue({ value: item }));
     }
     if (value instanceof String || value instanceof Number || value instanceof Boolean) {
-      return value.valueOf();
+      const clone2 = new value.constructor(value.valueOf());
+      for (const [key, item] of Object.entries(value)) {
+        if (!/^\d+$/.test(key)) clone2[key] = this.cloneValue({ value: item });
+      }
+      return clone2;
     }
     if (value && typeof value === "object") {
       const entries = Object.entries(value);
-      if (entries.length === 1 && value.id) {
-        return value.id;
-      }
       return Object.fromEntries(
         entries.map(([key, item]) => [key, this.cloneValue({ value: item })])
       );
@@ -18013,6 +18208,11 @@ function isPlainText2(contentType) {
 var src_default6 = oldmmw;
 
 // ../solid-tools/packages/metro-solid/src/client.mjs
+var vocabulary = src_default2.context();
+function propertyValue(subject, iri) {
+  const owner = subject?.graph ?? vocabulary;
+  return subject?.[owner.propertyName(iri)];
+}
 var BASIC_CONTAINER = "http://www.w3.org/ns/ldp#BasicContainer";
 var SOLID_RESPONSE = Symbol.for("muze.metro-solid.response");
 function ensureSlash3(url3) {
@@ -18080,7 +18280,7 @@ function solidApi(base, methods) {
         headers
       });
       const response3 = result[SOLID_RESPONSE];
-      return from(src_default2.many(result?.primary?.ldp$contains)).select((resource2) => {
+      return from(src_default2.many(propertyValue(result?.primary, "http://www.w3.org/ns/ldp#contains"))).select((resource2) => {
         const id2 = typeof resource2 === "string" ? resource2 : resource2?.id;
         return { id: id2, url: id2, resource: resource2, response: response3 };
       }).where((entry) => entry.id).toArray();
@@ -18107,7 +18307,7 @@ function solidApi(base, methods) {
     },
     async discoverStorage(webId, options = {}) {
       const profile = await this.discoverProfile(webId, options);
-      const storageUrls = [...new Set(from(ids(profile.pim$storage)).select(ensureSlash3).toArray())];
+      const storageUrls = [...new Set(from(ids(propertyValue(profile, "http://www.w3.org/ns/pim/space#storage"))).select(ensureSlash3).toArray())];
       return from(storageUrls).select((url3) => ({
         profile,
         id: url3,
@@ -18116,13 +18316,13 @@ function solidApi(base, methods) {
     },
     async discoverWebId(webId, options = {}) {
       const profile = await this.discoverProfile(webId, options);
-      const storage = [...new Set(from(ids(profile.pim$storage)).select(ensureSlash3).toArray())];
+      const storage = [...new Set(from(ids(propertyValue(profile, "http://www.w3.org/ns/pim/space#storage"))).select(ensureSlash3).toArray())];
       return {
         webId,
         profile,
         storage,
-        issuer: ids(profile.solid$oidcIssuer)[0] ?? null,
-        inbox: ids(profile.ldp$inbox)[0] ?? null
+        issuer: ids(propertyValue(profile, "http://www.w3.org/ns/solid/terms#oidcIssuer"))[0] ?? null,
+        inbox: ids(propertyValue(profile, "http://www.w3.org/ns/ldp#inbox"))[0] ?? null
       };
     },
     ...methods,
@@ -20840,12 +21040,7 @@ function oldmContext({ resourceUrl, prefixes: prefixes3 = {} }) {
 }
 function annotationPrefixes(prefixes3 = {}) {
   return {
-    rdf: "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
-    rdfs: "http://www.w3.org/2000/01/rdf-schema#",
-    dcterms: "http://purl.org/dc/terms/",
-    oa: "http://www.w3.org/ns/oa#",
-    schema: "https://schema.org/",
-    cobalt: "https://vocab.muze.nl/cobalt#",
+    ...annotationVocabulary.prefixes,
     ...prefixes3
   };
 }
@@ -20868,8 +21063,8 @@ function writeSubjectToGraph2({ graph: graph3, subject }) {
   if (!subject?.id) return null;
   for (const [predicate, value] of Object.entries(subject)) {
     if (predicate === "id") continue;
-    if (predicate === "rdf$type") {
-      graph3.set(subject.id, "rdf$type", value);
+    if (predicate === "rdf$type" || predicate === "a") {
+      graph3.add(subject.id, "a", value);
       continue;
     }
     graph3.set(subject.id, predicate, graphValueFromStorageValue({ graph: graph3, predicate, value }));
@@ -20879,6 +21074,9 @@ function writeSubjectToGraph2({ graph: graph3, subject }) {
 function graphValueFromStorageValue({ graph: graph3, predicate, value }) {
   if (Array.isArray(value)) {
     return value.map((item) => graphValueFromStorageValue({ graph: graph3, predicate, value: item }));
+  }
+  if (value instanceof String || value instanceof Number) {
+    return src_default2.literal(value);
   }
   if (value && typeof value === "object") {
     if (predicate === "cobalt$fragment") {
@@ -20896,7 +21094,7 @@ function graphValueFromStorageValue({ graph: graph3, predicate, value }) {
   return value;
 }
 function storageDocumentFromGraph({ graph: graph3, resourceUrl }) {
-  const subjects = Array.from(from2(graphSubjects2(graph3)).where((subject) => src_default2.many(subject.a).includes("oa$Annotation") || src_default2.many(subject.rdf$type).includes("oa$Annotation")).select((subject) => repairConventionalAnnotationParts({
+  const subjects = Array.from(from2(graphSubjects2(graph3)).where((subject) => src_default2.many(subject.a).includes(annotationVocabulary.classes.annotation) || src_default2.many(subject.rdf$type).includes(annotationVocabulary.classes.annotation)).select((subject) => repairConventionalAnnotationParts({
     graph: graph3,
     annotation: storageSubjectFromOldmSubject({ graph: graph3, subject })
   })));
@@ -20914,7 +21112,7 @@ function repairConventionalAnnotationParts({ graph: graph3, annotation }) {
     graph: graph3,
     subjectId: annotation.id,
     suffixes: ["#body", "-body"],
-    types: ["oa$TextualBody", "cobalt$Fragment"]
+    types: [annotationVocabulary.classes.textualBody, annotationVocabulary.classes.cobaltFragment]
   });
   if (body) {
     annotation.oa$hasBody = body;
@@ -20923,14 +21121,14 @@ function repairConventionalAnnotationParts({ graph: graph3, annotation }) {
     graph: graph3,
     subjectId: annotation.id,
     suffixes: ["#target", "-target"],
-    types: ["oa$SpecificResource"]
+    types: [annotationVocabulary.classes.specificResource]
   });
   if (target) {
     target.oa$hasSelector = target.oa$hasSelector || conventionalSubject({
       graph: graph3,
       subjectId: annotation.id,
       suffixes: ["#selector-fragment", "-selector", "#selector"],
-      types: ["oa$FragmentSelector"]
+      types: [annotationVocabulary.classes.fragmentSelector]
     });
     annotation.oa$hasTarget = target;
   }
@@ -20966,10 +21164,13 @@ function storageValueFromOldmValue({ graph: graph3, predicate, value, seen }) {
     if (linkedSubject && INLINE_PREDICATES.has(predicate)) {
       return storageSubjectFromOldmSubject({ graph: graph3, subject: linkedSubject, seen });
     }
-    return value.id;
+    return NODE_PREDICATES.has(predicate) ? value.id : { id: value.id };
   }
-  if (value instanceof String) {
-    return storageLiteralValue({ predicate, value: value.toString() });
+  if (value instanceof String || value instanceof Number) {
+    if (predicate !== "cobalt$fragment" && (value.language || value.type && value.type !== "http://www.w3.org/2001/XMLSchema#string")) {
+      return src_default2.literal(value);
+    }
+    return storageLiteralValue({ predicate, value: value.valueOf() });
   }
   if (value && typeof value === "object") {
     return storageSubjectFromOldmSubject({ graph: graph3, subject: value, seen });
