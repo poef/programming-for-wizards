@@ -1,5 +1,5 @@
 import { createHash } from "node:crypto"
-import { cp, mkdir, readFile, readdir, rm, writeFile } from "node:fs/promises"
+import { cp, mkdir, readFile, readdir, rm, stat, writeFile } from "node:fs/promises"
 import path from "node:path"
 import { fileURLToPath } from "node:url"
 import { deflateRawSync } from "node:zlib"
@@ -10,11 +10,21 @@ const bookPath = path.join(contentDir, "book.json")
 const wizardsPath = path.join(contentDir, "wizards.json")
 const phaseDir = path.join(rootDir, "phases", "01-enhanced-static-manuscript")
 const exhibitPhaseDir = path.join(rootDir, "phases", "03-core-explorable-exhibits")
-const marginNotesDistDir = path.resolve(rootDir, "..", "solid-margin-notes", "dist")
+const marginNotesPackageDir = await resolveMarginNotesPackageDir()
 const siteDir = path.join(rootDir, "www")
 const siteChapterDir = path.join(siteDir, "chapters")
 const siteAssetDir = path.join(siteDir, "assets")
 const siteDataDir = path.join(siteDir, "data")
+async function resolveMarginNotesPackageDir() {
+  try {
+    const { createRequire } = await import("node:module")
+    const require = createRequire(import.meta.url)
+    const manifestPath = require.resolve("margin-notes/package.json")
+    return path.join(path.dirname(manifestPath), "dist")
+  } catch {}
+  return null
+}
+
 const buildAssetVersion = await buildAssetRevision()
 const epubFileName = "programming-for-wizards.epub"
 const epubPath = path.join(siteDir, epubFileName)
@@ -182,27 +192,31 @@ async function main() {
 }
 
 async function copyLocalMarginNotesBundle() {
+  if (!marginNotesPackageDir) {
+    console.warn("[margin-notes] Package not installed; run npm install to enable the local demo.")
+    return
+  }
   try {
     await cp(
-      marginNotesDistDir,
+      marginNotesPackageDir,
       path.join(siteAssetDir, "margin-notes"),
       { recursive: true }
     )
   } catch (error) {
     if (error?.code === "ENOENT") {
-      console.warn("[margin-notes] No local bundle found; run npm run build in ../solid-margin-notes to enable the local demo.")
+      console.warn("[margin-notes] No dist bundle found in the installed margin-notes package.")
       return
     }
-
     throw error
   }
 }
+
 
 async function buildAssetRevision() {
   const revision = createHash("sha1")
 
   await addFileToRevision(revision, path.join(phaseDir, "assets", "margin-notes-demo.js"))
-  await addFileToRevision(revision, path.join(marginNotesDistDir, "index.js"), { optional: true })
+  await addFileToRevision(revision, marginNotesPackageDir ? path.join(marginNotesPackageDir, "index.js") : "", { optional: true })
 
   return revision.digest("hex").slice(0, 10)
 }
