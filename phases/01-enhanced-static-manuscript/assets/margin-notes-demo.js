@@ -8,7 +8,7 @@ ready.then(async () => {
   const assetVersion = new URL(import.meta.url).searchParams.get("v") || "dev"
   let marginNotes
   try {
-    marginNotes = await import(`./margin-notes/index.js?v=${encodeURIComponent(assetVersion)}`)
+    marginNotes = await import(`./margin-notes/index.min.js?v=${encodeURIComponent(assetVersion)}`)
   } catch (error) {
     console.info("[margin-notes] Local demo bundle is not available.", error)
     return

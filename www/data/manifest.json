@@ -1,12 +1,12 @@
 {
   "id": "programming-for-wizards",
   "title": "Programming for Wizards",
-  "generatedAt": "2026-10-30T18:23:22.100Z",
+  "generatedAt": "2026-10-30T18:58:41.691Z",
   "phase": "01-enhanced-static-manuscript",
   "features": {
     "notes": "planned",
     "solidNotes": "planned",
-    "exhibitRuntime": true,
+    "exhibitRuntime": false,
     "readerSettings": true,
     "mathRendering": true,
     "staticFallbacks": true

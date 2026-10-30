@@ -1,5 +1,8 @@
 # Phase 3: Core Explorable Exhibits
 
+These exhibits have been dropped from the current manuscript. Their source is
+retained here for reference; the book build does not copy or load these assets.
+
 Goal: build the strongest interactive explanations first.
 
 This phase owns the small exhibit runtime. The runtime should feel like a library that happened because several exhibits needed the same few ideas:

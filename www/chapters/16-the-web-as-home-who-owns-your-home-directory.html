@@ -9,13 +9,14 @@
   <script>
     (() => {
       const root = document.documentElement
+      root.dataset.theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light"
       root.dataset.readerRuntime = "active"
       if (root.dataset.pageKind === "chapter") root.dataset.readerBoot = "pending"
       if (window.location.hash === "#book-end") root.dataset.initialPagePosition = "pending"
       try {
         const settings = JSON.parse(localStorage.getItem("programming-for-wizards.reader-settings") || "{}")
         if (typeof settings.font === "string") root.dataset.font = settings.font
-        if (typeof settings.theme === "string") root.dataset.theme = settings.theme
+        if (["light", "dark", "contrast"].includes(settings.theme)) root.dataset.theme = settings.theme
         if (typeof settings.motion === "string") root.dataset.motion = settings.motion
         if (typeof settings.flow === "string") root.dataset.flow = settings.flow
         if (typeof settings.fontScale === "string") root.style.setProperty("--book-font-scale", settings.fontScale + "%")
@@ -28,7 +29,6 @@
   <link rel="apple-touch-icon" href="../assets/images/icons/programming-for-wizards-icon-192.png">
   <link rel="stylesheet" href="../assets/book.css">
   <link rel="stylesheet" href="../assets/margin-notes-demo.css">
-  <link rel="stylesheet" href="../assets/exhibits/exhibits.css">
   <script>
     window.MathJax = {
       tex: {
@@ -43,10 +43,7 @@
   </script>
   <script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
   <script defer src="../assets/book.js"></script>
-  <script defer src="../assets/exhibits/exhibit-kit.js"></script>
-  <script defer src="https://cdn.jsdelivr.net/gh/muze-labs/simplyflow@main/packages/simplyflow/dist/simply.flow.js"></script>
-  <script type="module" src="../assets/exhibits/exhibits.js"></script>
-  <script type="module" src="../assets/margin-notes-demo.js?v=6ee9f8b248"></script>
+  <script type="module" src="../assets/margin-notes-demo.js?v=023aeac7f9"></script>
 </head>
 <body>
   <a class="skip-link" href="#main">Skip to manuscript</a>
@@ -401,6 +398,7 @@
       </label>
       <label>Theme
         <select data-setting="theme">
+          <option value="auto">Browser default</option>
           <option value="light">Light</option>
           <option value="dark">Dark</option>
           <option value="contrast">Contrast</option>

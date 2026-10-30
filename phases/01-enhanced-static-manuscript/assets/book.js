@@ -13,7 +13,7 @@
     lineHeight: "160",
     columnWidth: "48",
     flow: "paged",
-    theme: "light",
+    theme: "auto",
     motion: "auto"
   }
 
@@ -233,10 +233,14 @@
     })
   }
 
+  const browserDarkMode = window.matchMedia("(prefers-color-scheme: dark)")
+
   const applySettings = settings => {
     const root = document.documentElement
     root.dataset.font = settings.font
-    root.dataset.theme = settings.theme
+    root.dataset.theme = settings.theme === "auto"
+      ? (browserDarkMode.matches ? "dark" : "light")
+      : settings.theme
     root.dataset.motion = settings.motion
     root.dataset.flow = settings.flow
     root.style.setProperty("--book-font-scale", `${settings.fontScale}%`)
@@ -886,7 +890,6 @@
       "video",
       "[contenteditable]",
       "[role]",
-      "[data-exhibit-id]",
       ".margin-anchor"
     ].join(",")))
     let pageTapStart = null
@@ -1114,6 +1117,9 @@
   }
 
   const settings = loadSettings()
+  browserDarkMode.addEventListener("change", () => {
+    if (settings.theme === "auto") applySettings(settings)
+  })
   const controls = document.querySelectorAll("[data-setting]")
 
   applySettings(settings)

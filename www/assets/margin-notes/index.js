@@ -5011,3290 +5011,583 @@ var Collection = class extends Array {
   }
 };
 
-// node_modules/@muze-nl/oldm-n3/src/oldm-n3.mjs
-var oldm_n3_exports = {};
-__export(oldm_n3_exports, {
-  n3Parser: () => n3Parser,
-  n3PatchWriter: () => n3PatchWriter,
-  n3Writer: () => n3Writer
-});
-
-// node_modules/n3/src/IRIs.js
-var RDF = "http://www.w3.org/1999/02/22-rdf-syntax-ns#";
+// node_modules/@muze-labs/oldm-turtle/src/oldm-turtle.mjs
+var RDF_FIRST = "http://www.w3.org/1999/02/22-rdf-syntax-ns#first";
+var RDF_REST = "http://www.w3.org/1999/02/22-rdf-syntax-ns#rest";
+var RDF_NIL = "http://www.w3.org/1999/02/22-rdf-syntax-ns#nil";
 var XSD = "http://www.w3.org/2001/XMLSchema#";
-var SWAP = "http://www.w3.org/2000/10/swap/";
-var IRIs_default = {
-  xsd: {
-    decimal: `${XSD}decimal`,
-    boolean: `${XSD}boolean`,
-    dateTime: `${XSD}dateTime`,
-    double: `${XSD}double`,
-    integer: `${XSD}integer`,
-    string: `${XSD}string`
-  },
-  rdf: {
-    type: `${RDF}type`,
-    nil: `${RDF}nil`,
-    first: `${RDF}first`,
-    rest: `${RDF}rest`,
-    langString: `${RDF}langString`,
-    dirLangString: `${RDF}dirLangString`,
-    reifies: `${RDF}reifies`
-  },
-  owl: {
-    sameAs: "http://www.w3.org/2002/07/owl#sameAs"
-  },
-  r: {
-    forSome: `${SWAP}reify#forSome`,
-    forAll: `${SWAP}reify#forAll`
-  },
-  log: {
-    implies: `${SWAP}log#implies`,
-    isImpliedBy: `${SWAP}log#isImpliedBy`
-  }
-};
-
-// node_modules/n3/src/N3Lexer.js
-var { xsd } = IRIs_default;
-var SPACE = 32;
-var TAB = 9;
-var LF = 10;
-var CR = 13;
-var HASH = 35;
-var DOT = 46;
-var COLON = 58;
-var ZERO = 48;
-var NINE = 57;
-var PERCENT = 37;
-var BACKSLASH = 92;
-function isWhitespace(charCode) {
-  return charCode === SPACE || charCode >= TAB && charCode <= CR || charCode >= 160 && (charCode === 160 || charCode === 5760 || charCode >= 8192 && charCode <= 8202 || charCode === 8232 || charCode === 8233 || charCode === 8239 || charCode === 8287 || charCode === 12288 || charCode === 65279);
+function namedNode(id2) {
+  return { termType: "NamedNode", id: id2 };
 }
-var asciiDelimiters = new Uint8Array(128);
-for (const char of `,;!^#()[]{}"'<> 	
-\v\f\r`)
-  asciiDelimiters[char.charCodeAt(0)] = 1;
-function isDelimiter(charCode) {
-  return charCode < 128 ? asciiDelimiters[charCode] === 1 : isWhitespace(charCode);
+function blankNode(id2) {
+  return { termType: "BlankNode", id: id2 };
 }
-function canEndName(input2, pos, inputFinished) {
-  let charCode = input2.charCodeAt(pos);
-  if (charCode === DOT)
-    charCode = input2.charCodeAt(++pos);
-  if (pos >= input2.length)
-    return inputFinished;
-  return isDelimiter(charCode);
+function variable(id2) {
+  return { termType: "Variable", id: id2 };
 }
-var stringEscapeReplacements = {
-  "\\": "\\",
-  "'": "'",
-  '"': '"',
-  "n": "\n",
-  "r": "\r",
-  "t": "	",
-  "f": "\f",
-  "b": "\b"
-};
-var localNameEscapeReplacements = {
-  "_": "_",
-  "~": "~",
-  ".": ".",
-  "-": "-",
-  "!": "!",
-  "$": "$",
-  "&": "&",
-  "'": "'",
-  "(": "(",
-  ")": ")",
-  "*": "*",
-  "+": "+",
-  ",": ",",
-  ";": ";",
-  "=": "=",
-  "/": "/",
-  "?": "?",
-  "#": "#",
-  "@": "@",
-  "%": "%"
-};
-var illegalIriChars = /[\x00-\x20<>\\"\{\}\|\^\`]/;
-var PREFIX_START = 1;
-var LOCAL_START = 2;
-var NAME_CHAR = 4;
-var LOCAL_CHAR = 8;
-var LOCAL_ESCAPE = 16;
-var asciiNameClasses = new Uint8Array(128);
-for (let charCode = 0; charCode < 128; charCode++) {
-  const char = String.fromCharCode(charCode);
-  const letter = char >= "A" && char <= "Z" || char >= "a" && char <= "z";
-  const nameChar = letter || char === "_" || char === "-" || char >= "0" && char <= "9";
-  asciiNameClasses[charCode] = (letter ? PREFIX_START : 0) | (nameChar && char !== "-" || char === ":" ? LOCAL_START : 0) | (nameChar ? NAME_CHAR : 0) | (nameChar || char === ":" ? LOCAL_CHAR : 0) | (char in localNameEscapeReplacements ? LOCAL_ESCAPE : 0);
-}
-function nameCharLength(input2, pos, charClass) {
-  const charCode = input2.charCodeAt(pos);
-  if (charCode < 128)
-    return (asciiNameClasses[charCode] & charClass) !== 0 ? 1 : 0;
-  if (charCode >= 55296 && charCode <= 56191) {
-    const low = input2.charCodeAt(pos + 1);
-    return low >= 56320 && low <= 57343 ? 2 : 0;
-  }
-  if (charClass >= NAME_CHAR && (charCode === 183 || charCode >= 768 && charCode <= 879 || charCode === 8255 || charCode === 8256))
-    return 1;
-  return charCode >= 192 && charCode <= 8191 && charCode !== 215 && charCode !== 247 && (charCode < 768 || charCode >= 880 && charCode !== 894) || charCode >= 8204 && charCode <= 8205 || charCode >= 8304 && charCode <= 8591 || charCode >= 11264 && charCode <= 12271 || charCode >= 12289 && charCode <= 55295 || charCode >= 63744 && charCode <= 64975 || charCode >= 65008 && charCode <= 65533 ? 1 : 0;
-}
-function isLocalEscape(charCode) {
-  return charCode < 128 && (asciiNameClasses[charCode] & LOCAL_ESCAPE) !== 0;
-}
-function isHexDigit(charCode) {
-  return charCode >= ZERO && charCode <= NINE || charCode >= 65 && charCode <= 70 || charCode >= 97 && charCode <= 102;
-}
-function skipPrefix(input2, pos) {
-  let length = nameCharLength(input2, pos, PREFIX_START);
-  while (length !== 0) {
-    pos += length;
-    const next = input2.charCodeAt(pos) === DOT ? pos + 1 : pos;
-    const charCode = input2.charCodeAt(next);
-    length = charCode < 128 ? (asciiNameClasses[charCode] & NAME_CHAR) !== 0 ? 1 : 0 : nameCharLength(input2, next, NAME_CHAR);
-    if (length !== 0)
-      pos = next;
-  }
-  return pos;
-}
-function skipLocalName(input2, pos) {
-  let end = pos, charClass = LOCAL_START;
-  while (true) {
-    const charCode = input2.charCodeAt(pos);
-    let length = charCode < 128 ? (asciiNameClasses[charCode] & charClass) !== 0 ? 1 : 0 : nameCharLength(input2, pos, charClass);
-    if (length === 0 && charCode === PERCENT && isHexDigit(input2.charCodeAt(pos + 1)) && isHexDigit(input2.charCodeAt(pos + 2)))
-      length = 3;
-    else if (length === 0 && charCode === BACKSLASH && isLocalEscape(input2.charCodeAt(pos + 1)))
-      length = 2;
-    if (length !== 0) {
-      end = pos += length;
-      charClass = LOCAL_CHAR;
-    } else if (charCode === DOT && charClass === LOCAL_CHAR)
-      pos++;
-    else
-      return end;
-  }
-}
-function skipPrefixedName(input2, pos, inputFinished) {
-  const colon = skipPrefix(input2, pos);
-  if (input2.charCodeAt(colon) !== COLON)
-    return -1;
-  const end = skipLocalName(input2, colon + 1);
-  return canEndName(input2, end, inputFinished) ? end : -1;
-}
-function isValidCodePoint(charCode) {
-  return charCode <= 1114111 && (charCode < 55296 || charCode > 57343);
-}
-var lineModeRegExps = {
-  _iri: true,
-  _unescapedIri: true,
-  _simpleQuotedString: true,
-  _langcode: true,
-  _blank: true,
-  _commentLine: true,
-  _whitespace: true
-};
-var invalidRegExp = /$0^/;
-var nonWhitespace = /\S*/y;
-function execAt(regExp, input2, pos) {
-  regExp.lastIndex = pos;
-  return regExp.exec(input2);
-}
-function testAt(regExp, input2, pos) {
-  regExp.lastIndex = pos;
-  return regExp.test(input2);
-}
-function execAtEnd(regExp, input2, pos) {
-  regExp.lastIndex = 0;
-  return regExp.exec(`${input2.slice(pos)} `);
-}
-function isSeparatorCode(code) {
-  return code === SPACE || code === TAB || code === LF || code === CR || code === HASH;
-}
-var reservedWords = /^(?:prefix|base|version|graph|forsome|forall|iri|a|true|false|has|is|of|id)$/i;
-var MIN_RESCAN_LENGTH = 1024;
-var N3Lexer = class {
-  constructor(options) {
-    this._iri = /<((?:[^ <>{}\\]|\\[uU])+)>[ \t]*/y;
-    this._unescapedIri = /<([^\x00-\x20<>\\"\{\}\|\^\`]*)>[ \t]*/y;
-    this._simpleQuotedString = /"([^"\\\r\n]*)"(?=[^"])/y;
-    this._simpleApostropheString = /'([^'\\\r\n]*)'(?=[^'])/y;
-    this._langcode = /@([a-z]+(?:-[a-z0-9]+)*)(?=[^a-z0-9])/iy;
-    this._variable = /\?(?:(?:[A-Z_a-z\xc0-\xd6\xd8-\xf6\xf8-\u02ff\u0370-\u037d\u037f-\u1fff\u200c\u200d\u2070-\u218f\u2c00-\u2fef\u3001-\ud7ff\uf900-\ufdcf\ufdf0-\ufffd]|[\ud800-\udb7f][\udc00-\udfff])(?:[\-0-9:A-Z_a-z\xb7\xc0-\xd6\xd8-\xf6\xf8-\u037d\u037f-\u1fff\u200c\u200d\u203f\u2040\u2070-\u218f\u2c00-\u2fef\u3001-\ud7ff\uf900-\ufdcf\ufdf0-\ufffd]|[\ud800-\udb7f][\udc00-\udfff])*)(?=[.,;!\^\s#()\[\]\{\}"'<>])/y;
-    this._blank = /_:((?:[0-9A-Z_a-z\xc0-\xd6\xd8-\xf6\xf8-\u02ff\u0370-\u037d\u037f-\u1fff\u200c\u200d\u2070-\u218f\u2c00-\u2fef\u3001-\ud7ff\uf900-\ufdcf\ufdf0-\ufffd]|[\ud800-\udb7f][\udc00-\udfff])(?:\.?[\-0-9A-Z_a-z\xb7\xc0-\xd6\xd8-\xf6\xf8-\u037d\u037f-\u1fff\u200c\u200d\u203f\u2040\u2070-\u218f\u2c00-\u2fef\u3001-\ud7ff\uf900-\ufdcf\ufdf0-\ufffd]|[\ud800-\udb7f][\udc00-\udfff])*)(?:[ \t]+|(?=\.?[,;:!\^\s#()\[\]\{\}"'<>]))/y;
-    this._number = /[\-+]?(?:(\d+\.\d*|\.?\d+)[eE][\-+]?\d+|(?=\.?\d)\d*(?:(\.)\d+)?)(?=\.?[,;:!\^\s#()\[\]\{\}"'<>])/y;
-    this._boolean = /(?:true|false)(?=[.,;!\^\s#()\[\]\{\}"'<>])/y;
-    this._atKeyword = /@[a-z]+(?=[\s#<:"'.])/iy;
-    this._keyword = /(?:PREFIX|BASE|VERSION|GRAPH)(?=[\s#<"'])/iy;
-    this._n3Verb = /(?:has|is|of)(?=[\s#()\[\]\{\}"'<>?_+\-0-9])/y;
-    this._n3Id = /id(?=[\s#<])/y;
-    this._shortPredicates = /a(?=[\s#()\[\]\{\}"'<>])/y;
-    this._commentLine = /[ \t]*#([^\n\r]*)(?:\r\n|\n|\r)([ \t]*)/y;
-    this._whitespace = /[ \t]+/y;
-    options = options || {};
-    this._isImpliedBy = options.isImpliedBy;
-    if (this._lineMode = !!options.lineMode) {
-      this._n3Mode = false;
-      for (const key in this) {
-        if (!(key in lineModeRegExps) && this[key] instanceof RegExp)
-          this[key] = invalidRegExp;
-      }
-      this._keyword = /VERSION(?=[\s#<"])/y;
-    } else {
-      this._n3Mode = options.n3 !== false;
-    }
-    this._directive = null;
-    if (options.directives && options.directives.length !== 0) {
-      for (const name of options.directives) {
-        if (!/^[a-z]+$/i.test(name) || reservedWords.test(name))
-          throw new Error(`Invalid directive name: "${name}"`);
-      }
-      this._directive = new RegExp(`(?:${options.directives.join("|")})(?=[\\s#<])`, "iy");
-      this._directiveMaxLength = Math.max(...options.directives.map((name) => name.length));
-      this._directiveStarts = options.directives.map((name) => name[0].toLowerCase() + name[0].toUpperCase()).join("");
-    }
-    this.comments = !!options.comments;
-    this._literalClosingPos = 0;
-  }
-  // ## Private methods
-  // ### `_tokenizeToEnd` tokenizes as for as possible, emitting tokens through the callback
-  _tokenizeToEnd(callback, inputFinished) {
-    const input2 = this._input;
-    let pos = 0;
-    let currentLineLength = this._linePosition + input2.length;
-    while (true) {
-      while (true) {
-        let charCode = input2.charCodeAt(pos), separatorLength = 0;
-        if (charCode === SPACE || charCode === TAB) {
-          const next = input2.charCodeAt(pos + 1);
-          separatorLength = next === SPACE || next === TAB ? execAt(this._whitespace, input2, pos)[0].length : 1;
-          charCode = input2.charCodeAt(pos + separatorLength);
-        }
-        if (charCode === HASH) {
-          const comment = execAt(this._commentLine, input2, pos);
-          if (comment) {
-            const commentLength = comment[0].length;
-            if (!inputFinished && pos + commentLength === input2.length && input2.charCodeAt(input2.length - 1) === CR)
-              return this._suspend(input2, pos, currentLineLength);
-            if (this.comments)
-              emitComment(comment[1], this._line, currentLineLength - (input2.length - pos) + separatorLength);
-            pos += commentLength;
-            currentLineLength = input2.length - pos + comment[2].length;
-            this._line++;
-          } else {
-            pos += separatorLength;
-            if (!inputFinished)
-              return this._suspend(input2, pos, currentLineLength);
-            if (this.comments)
-              emitComment(input2.slice(pos + 1), this._line, currentLineLength - (input2.length - pos));
-            pos = input2.length;
-            break;
-          }
-        } else if (charCode === LF || charCode === CR) {
-          if (!inputFinished && charCode === CR && pos + separatorLength + 1 === input2.length)
-            return this._suspend(input2, pos, currentLineLength);
-          separatorLength += charCode === CR && input2.charCodeAt(pos + separatorLength + 1) === LF ? 2 : 1;
-          let indentationLength = 0;
-          const next = input2.charCodeAt(pos + separatorLength);
-          if (next === SPACE || next === TAB) {
-            const following = input2.charCodeAt(pos + separatorLength + 1);
-            indentationLength = following === SPACE || following === TAB ? execAt(this._whitespace, input2, pos + separatorLength)[0].length : 1;
-          }
-          pos += separatorLength + indentationLength;
-          currentLineLength = input2.length - pos + indentationLength;
-          this._line++;
-        } else {
-          pos += separatorLength;
-          break;
-        }
-      }
-      if (pos >= input2.length) {
-        if (inputFinished && this._previousMarker === "^^")
-          return reportSyntaxError(this, input2, pos);
-        this._linePosition = currentLineLength;
-        if (inputFinished) {
-          emitToken("eof", "", "", this._line, currentLineLength, 0);
-          return this._input = null;
-        }
-        return this._input = "";
-      }
-      const line = this._line, firstChar = input2[pos];
-      let type = "", value = "", prefix = "", match = null, matchLength = 0, lexicalLength = 0, finalLineLength = 0, inconclusive = false, tripleQuoted = false;
-      switch (firstChar) {
-        case "^":
-          if (this._previousMarker === "^^")
-            return reportSyntaxError(this, input2, pos);
-          if (input2.length - pos < 3)
-            break;
-          else if (input2[pos + 1] === "^") {
-            this._previousMarker = "^^";
-            pos += 2;
-            if (input2[pos] !== "<") {
-              if (isSeparatorCode(input2.charCodeAt(pos)))
-                continue;
-              inconclusive = true;
-              break;
-            }
-          } else {
-            if (this._n3Mode) {
-              matchLength = 1;
-              type = "^";
-            }
-            break;
-          }
-        // Fall through in case the type is an IRI
-        case "<":
-          if (match = execAt(this._unescapedIri, input2, pos)) {
-            type = "IRI", value = match[1];
-            lexicalLength = match[1].length + 2;
-          } else if (match = execAt(this._iri, input2, pos)) {
-            value = this._unescape(match[1], stringEscapeReplacements);
-            if (value === null || illegalIriChars.test(value))
-              return reportSyntaxError(this, input2, pos);
-            type = "IRI";
-            lexicalLength = match[1].length + 2;
-          } else if (input2.length - pos > 2 && input2[pos + 1] === "<" && input2[pos + 2] === "(")
-            type = "<<(", matchLength = 3;
-          else if (!this._lineMode && input2.length - pos > (inputFinished ? 1 : 2) && input2[pos + 1] === "<")
-            type = "<<", matchLength = 2;
-          else if (this._n3Mode && input2.length - pos > 1 && input2[pos + 1] === "=") {
-            matchLength = 2;
-            if (this._isImpliedBy) type = "abbreviation", value = "<";
-            else type = "inverse", value = ">";
-          } else if (this._n3Mode && input2.length - pos > 1 && input2[pos + 1] === "-")
-            type = "inversePredicate", matchLength = 2;
-          break;
-        case ">":
-          if (input2.length - pos > 1 && input2[pos + 1] === ">")
-            type = ">>", matchLength = 2;
-          break;
-        case "_":
-          if ((match = execAt(this._blank, input2, pos)) || inputFinished && (match = execAtEnd(this._blank, input2, pos))) {
-            type = "blank", prefix = "_", value = match[1];
-            lexicalLength = match[1].length + 2;
-          }
-          break;
-        case '"':
-          if (match = execAt(this._simpleQuotedString, input2, pos))
-            value = match[1];
-          else {
-            ({ value, matchLength, finalLineLength, tripleQuoted } = this._parseLiteral(input2, pos));
-            if (value === null)
-              return reportSyntaxError(this, input2, pos);
-          }
-          if (match !== null || matchLength !== 0) {
-            type = "literal";
-            this._literalClosingPos = 0;
-          }
-          break;
-        case "'":
-          if (!this._lineMode) {
-            if (match = execAt(this._simpleApostropheString, input2, pos))
-              value = match[1];
-            else {
-              ({ value, matchLength, finalLineLength, tripleQuoted } = this._parseLiteral(input2, pos));
-              if (value === null)
-                return reportSyntaxError(this, input2, pos);
-            }
-            if (match !== null || matchLength !== 0) {
-              type = "literal";
-              this._literalClosingPos = 0;
-            }
-          }
-          break;
-        case "?":
-          if (this._n3Mode && (match = execAt(this._variable, input2, pos)))
-            type = "var", value = match[0];
-          break;
-        case "@":
-          if (this._previousMarker === "literal" && (match = execAt(this._langcode, input2, pos)) && match[1] !== "version") {
-            const end = pos + match[0].length;
-            if (!inputFinished && input2[end] === "-" && input2[end + 1] !== "-")
-              match = null;
-            else
-              type = "langcode", value = match[1];
-          } else if (match = execAt(this._atKeyword, input2, pos))
-            type = match[0];
-          break;
-        case ".":
-          if (input2.length - pos === 1 ? inputFinished : input2[pos + 1] < "0" || input2[pos + 1] > "9") {
-            type = ".";
-            matchLength = 1;
-            break;
-          }
-        // Fall through to numerical case (could be a decimal dot)
-        case "0":
-        case "1":
-        case "2":
-        case "3":
-        case "4":
-        case "5":
-        case "6":
-        case "7":
-        case "8":
-        case "9":
-        case "+":
-        case "-":
-          if (input2[pos + 1] === "-") {
-            if (this._previousMarker === "langcode") {
-              if (input2.startsWith("--ltr", pos))
-                type = "dircode", value = "ltr", matchLength = 5;
-              else if (input2.startsWith("--rtl", pos))
-                type = "dircode", value = "rtl", matchLength = 5;
-            }
-            break;
-          }
-          if (match = execAt(this._number, input2, pos) || inputFinished && (match = execAtEnd(this._number, input2, pos))) {
-            type = "literal", value = match[0];
-            prefix = typeof match[1] === "string" ? xsd.double : typeof match[2] === "string" ? xsd.decimal : xsd.integer;
-          }
-          break;
-        case "B":
-        case "b":
-        case "p":
-        case "P":
-        case "G":
-        case "g":
-        case "V":
-        case "v":
-          if (match = execAt(this._keyword, input2, pos))
-            type = match[0].toUpperCase();
-          else
-            inconclusive = true;
-          break;
-        case "f":
-        case "t":
-          if (testAt(this._boolean, input2, pos))
-            type = "literal", value = firstChar === "t" ? "true" : "false", prefix = xsd.boolean, matchLength = value.length;
-          else
-            inconclusive = true;
-          break;
-        case "a":
-          if (testAt(this._shortPredicates, input2, pos))
-            type = "abbreviation", value = "a", matchLength = 1;
-          else
-            inconclusive = true;
-          break;
-        case "h":
-        case "o":
-          if (this._n3Mode && (match = this._matchN3Verb(input2, pos, inputFinished)))
-            type = match[0];
-          else
-            inconclusive = true;
-          break;
-        case "i":
-          if (this._n3Mode && testAt(this._n3Id, input2, pos))
-            type = "id", matchLength = 2;
-          else if (this._n3Mode && (match = this._matchN3Verb(input2, pos, inputFinished)))
-            type = match[0];
-          else
-            inconclusive = true;
-          break;
-        case "=":
-          if (this._n3Mode && input2.length - pos > 1) {
-            type = "abbreviation";
-            if (input2[pos + 1] !== ">")
-              matchLength = 1, value = "=";
-            else
-              matchLength = 2, value = ">";
-          }
-          break;
-        case "!":
-          if (!this._n3Mode)
-            break;
-        case ")":
-          if (!inputFinished && (input2.length - pos === 1 || input2.length - pos === 2 && input2[pos + 1] === ">")) {
-            break;
-          }
-          if (input2.length - pos > 2 && input2[pos + 1] === ">" && input2[pos + 2] === ">") {
-            type = ")>>", matchLength = 3;
-            break;
-          }
-        case ",":
-        case ";":
-        case "[":
-        case "]":
-        case "(":
-        case "}":
-        case "~":
-          if (!this._lineMode) {
-            matchLength = 1;
-            type = firstChar;
-          }
-          break;
-        case "{":
-          if (!this._lineMode && input2.length - pos >= 2) {
-            if (input2[pos + 1] === "|")
-              type = "{|", matchLength = 2;
-            else
-              type = firstChar, matchLength = 1;
-          }
-          break;
-        case "|":
-          if (input2.length - pos >= 2 && input2[pos + 1] === "}")
-            type = "|}", matchLength = 2;
-          break;
-        default:
-          inconclusive = true;
-      }
-      if (inconclusive) {
-        let end;
-        if ((this._previousMarker === "@prefix" || this._previousMarker === "PREFIX") && input2.charCodeAt(end = skipPrefix(input2, pos)) === COLON && end + 1 < input2.length && (input2[end + 1] === "#" || input2[end + 1] === "<" || isWhitespace(input2.charCodeAt(end + 1)))) {
-          type = "prefix", value = input2.slice(pos, end);
-          matchLength = end + 1 - pos;
-        } else if (this._directive !== null && this._directiveStarts.includes(firstChar) && ((match = execAt(this._directive, input2, pos)) || inputFinished && input2.length - pos <= this._directiveMaxLength && (match = execAtEnd(this._directive, input2, pos))))
-          type = match[0].toUpperCase();
-        else if (!this._lineMode && (end = skipPrefixedName(input2, pos, inputFinished)) >= 0) {
-          const colon = input2.indexOf(":", pos);
-          type = "prefixed", prefix = input2.slice(pos, colon);
-          value = this._unescape(input2.slice(colon + 1, end), localNameEscapeReplacements);
-          matchLength = end - pos;
-        }
-      }
-      if (this._previousMarker === "^^") {
-        switch (type) {
-          case "prefixed":
-            type = "type";
-            break;
-          case "IRI":
-            type = "typeIRI";
-            break;
-          default:
-            type = "";
-        }
-      }
-      if (!type) {
-        if (inputFinished || !input2.startsWith("'''", pos) && !input2.startsWith('"""', pos) && /\n|\r/.test(input2.slice(pos)))
-          return reportSyntaxError(this, input2, pos);
-        else
-          return this._suspend(input2, pos, currentLineLength);
-      }
-      const length = matchLength || match[0].length;
-      const start = currentLineLength - (input2.length - pos);
-      let token;
-      if (finalLineLength) {
-        token = {
-          type,
-          value,
-          prefix,
-          line,
-          start,
-          end: finalLineLength,
-          endLine: this._line,
-          tripleQuoted
-        };
-        callback(null, token);
-      } else if (tripleQuoted) {
-        token = { type, value, prefix, line, start, end: start + length, tripleQuoted };
-        callback(null, token);
-      } else
-        token = emitToken(type, value, prefix, line, start, lexicalLength || length);
-      this.previousToken = token;
-      this._previousMarker = type === "literal" && (this._previousMarker === "VERSION" || this._previousMarker === "@version") ? "version" : type;
-      pos = Math.min(pos + length, input2.length);
-      if (finalLineLength)
-        currentLineLength = input2.length - pos + finalLineLength;
-    }
-    function emitComment(value, line, start) {
-      callback(null, {
-        type: "comment",
-        value,
-        prefix: "",
-        line,
-        start,
-        end: start + value.length + 1
-      });
-    }
-    function emitToken(type, value, prefix, line, start, length) {
-      const token = { type, value, prefix, line, start, end: start + length };
-      callback(null, token);
-      return token;
-    }
-    function reportSyntaxError(self, input3, pos2) {
-      callback(self._syntaxError(execAt(nonWhitespace, input3, pos2)[0]));
-    }
-  }
-  // ### `_suspend` keeps the unconsumed input until more input arrives
-  _suspend(input2, pos, currentLineLength) {
-    this._linePosition = currentLineLength - (input2.length - pos);
-    return this._input = input2.slice(pos);
-  }
-  // ### `_matchN3Verb` matches an N3 verb unless the input is a longer prefixed name
-  _matchN3Verb(input2, pos, inputFinished) {
-    const verb = execAt(this._n3Verb, input2, pos);
-    if (!verb)
-      return null;
-    const next = input2[pos + verb[0].length];
-    if (next !== "-" && next !== "_" && (next < "0" || next > "9") && next !== "\u1680" && next !== "\uFEFF")
-      return verb;
-    if (skipPrefixedName(input2, pos, true) >= 0)
-      return null;
-    if (!inputFinished && skipPrefix(input2, pos) === input2.length)
-      return null;
-    return verb;
-  }
-  // ### `_unescape` replaces N3 escape codes by their corresponding characters,
-  // allowing only the fixed escape sequences from the given replacement table
-  _unescape(item, replacements) {
-    let backslash = item.indexOf("\\");
-    if (backslash < 0)
-      return item;
-    let result = "", start = 0;
-    while (backslash >= 0 && backslash + 1 < item.length) {
-      const escapedChar = item[backslash + 1];
-      let end = backslash + 2, replacement;
-      if (escapedChar === "u" || escapedChar === "U") {
-        end += escapedChar === "u" ? 4 : 8;
-        if (end > item.length)
-          return null;
-        let charCode = 0;
-        for (let i = backslash + 2; i < end; i++) {
-          let digit = item.charCodeAt(i);
-          if (digit >= 48 && digit <= 57)
-            digit -= 48;
-          else if (digit >= 65 && digit <= 70)
-            digit -= 65 - 10;
-          else if (digit >= 97 && digit <= 102)
-            digit -= 97 - 10;
-          else
-            return null;
-          charCode = charCode * 16 + digit;
-        }
-        if (!isValidCodePoint(charCode))
-          return null;
-        replacement = String.fromCodePoint(charCode);
-      } else {
-        if (!(escapedChar in replacements))
-          return null;
-        replacement = replacements[escapedChar];
-      }
-      result += item.slice(start, backslash) + replacement;
-      start = end;
-      backslash = item.indexOf("\\", start);
-    }
-    return result + item.slice(start);
-  }
-  // ### `_parseLiteral` parses a literal at the given position into an unescaped value
-  _parseLiteral(input2, pos) {
-    if (input2.length - pos >= 3) {
-      const quote = input2[pos];
-      const openingLength = input2[pos + 1] === quote && input2[pos + 2] === quote ? 3 : 1;
-      let opening = quote;
-      if (openingLength === 3)
-        opening = quote === '"' ? '"""' : "'''";
-      let closingPos = pos + Math.max(this._literalClosingPos, openingLength);
-      while ((closingPos = input2.indexOf(opening, closingPos)) > pos) {
-        let backslashCount = 0;
-        while (input2[closingPos - backslashCount - 1] === "\\")
-          backslashCount++;
-        if (backslashCount % 2 === 0) {
-          const raw2 = input2.substring(pos + openingLength, closingPos), lines = raw2.split(/\r\n|\r|\n/), lineCount = lines.length - 1;
-          const matchLength = closingPos - pos + openingLength;
-          if (openingLength === 1 && lineCount !== 0 || openingLength === 3 && this._lineMode)
-            break;
-          this._line += lineCount;
-          const finalLineLength = lineCount === 0 ? 0 : lines[lines.length - 1].length + openingLength;
-          return {
-            value: this._unescape(raw2, stringEscapeReplacements),
-            matchLength,
-            finalLineLength,
-            tripleQuoted: openingLength === 3
-          };
-        }
-        closingPos++;
-      }
-      this._literalClosingPos = input2.length - pos - openingLength + 1;
-    }
-    return { value: "", matchLength: 0, finalLineLength: 0, tripleQuoted: false };
-  }
-  // ### `_tryTokenizeToEnd` tokenizes as far as possible, reporting failures through the callback
-  _tryTokenizeToEnd(callback, inputFinished) {
-    let callbackError;
-    try {
-      this._tokenizeToEnd((error4, token) => {
-        try {
-          return callback(error4, token);
-        } catch (thrown) {
-          throw callbackError = thrown;
-        }
-      }, inputFinished);
-    } catch (error4) {
-      if (error4 === callbackError || !(error4 instanceof RangeError))
-        throw error4;
-      callback(this._syntaxError(null, `Token too long on line ${this._line}.`));
-    }
-  }
-  // ### `_syntaxError` creates a syntax error for the given issue
-  _syntaxError(issue, message2 = `Unexpected "${issue}" on line ${this._line}.`) {
-    this._input = null;
-    const err = new Error(message2);
-    err.context = {
-      token: void 0,
-      line: this._line,
-      previousToken: this.previousToken
-    };
-    return err;
-  }
-  // ### `_startTokenization` resets the lexer state for a new input
-  _startTokenization() {
-    this._line = 1;
-    this._linePosition = 0;
-    this._previousMarker = void 0;
-    this.previousToken = void 0;
-    this._literalClosingPos = 0;
-    this._input = void 0;
-    return this._tokenization = {};
-  }
-  // ### `_tokenizeString` synchronously emits the tokens of a complete string through the callback,
-  // so that the caller can consume each token without the lexer collecting them all first
-  _tokenizeString(input2, callback) {
-    this._startTokenization();
-    this._input = this._readStartingBom(input2);
-    this._tryTokenizeToEnd(callback, true);
-  }
-  // ### Strips off any starting UTF BOM mark.
-  _readStartingBom(input2) {
-    if (input2.startsWith("\uFEFF")) {
-      this._linePosition = 1;
-      return input2.slice(1);
-    }
-    return input2;
-  }
-  // ## Public methods
-  // ### `tokenize` starts the transformation of an N3 document into an array of tokens.
-  // The input can be a string or a stream.
-  // Token ranges use one-based lines and zero-based, end-exclusive UTF-16 columns.
-  // Separator whitespace counts towards the next token's start, outside either range.
-  // Multiline tokens also have endLine; their end column is relative to that line.
-  tokenize(input2, callback) {
-    const tokenization = this._startTokenization();
-    if (typeof input2 === "string") {
-      this._input = this._readStartingBom(input2);
-      if (typeof callback === "function")
-        queueMicrotask(() => {
-          if (this._tokenization === tokenization)
-            this._tryTokenizeToEnd(callback, true);
-        });
-      else {
-        const tokens = [];
-        let error4;
-        this._tryTokenizeToEnd((e, t) => e ? error4 = e : tokens.push(t), true);
-        if (error4) throw error4;
-        return tokens;
-      }
-    } else {
-      let decoder3, retryLength = 0;
-      if (typeof input2.setEncoding === "function")
-        input2.setEncoding("utf8");
-      input2.on("data", (data) => {
-        if (this._tokenization === tokenization && this._input !== null && data.length !== 0) {
-          if (typeof data !== "string") {
-            decoder3 = decoder3 || new TextDecoder("utf-8", { ignoreBOM: true });
-            if (!(data = decoder3.decode(data, { stream: true })))
-              return;
-          }
-          if (typeof this._input === "undefined")
-            this._input = this._readStartingBom(data);
-          else
-            this._input += data;
-          if (this._input.length >= retryLength) {
-            this._tryTokenizeToEnd(callback, false);
-            retryLength = this._input !== null && this._input.length > MIN_RESCAN_LENGTH ? 2 * this._input.length : 0;
-          }
-        }
-      });
-      input2.on("end", () => {
-        if (this._tokenization === tokenization && this._input !== null) {
-          const rest = decoder3 ? decoder3.decode() : "";
-          if (rest)
-            this._input = typeof this._input === "string" ? this._input + rest : rest;
-          if (typeof this._input === "string")
-            this._tryTokenizeToEnd(callback, true);
-        }
-      });
-      input2.on("error", (error4) => {
-        if (this._tokenization === tokenization)
-          callback(error4);
-      });
-    }
-  }
-};
-
-// node_modules/n3/src/N3DataFactory.js
-var { rdf, xsd: xsd2 } = IRIs_default;
-var DEFAULTGRAPH;
-var _blankNodeCounter = 0;
-var EMPTY_IRI_ID = "<>";
-var DataFactory = {
-  namedNode,
-  blankNode,
-  variable,
-  literal: literal2,
-  defaultGraph,
-  quad,
-  triple: quad,
-  fromTerm,
-  fromQuad
-};
-var N3DataFactory_default = DataFactory;
-var Term = class _Term {
-  constructor(id2) {
-    this.id = id2;
-  }
-  // ### The value of this term
-  get value() {
-    return this.id;
-  }
-  // ### Returns whether this object represents the same term as the other
-  equals(other) {
-    if (other instanceof _Term)
-      return this.id === other.id && this.termType === other.termType;
-    return !!other && this.termType === other.termType && this.value === other.value;
-  }
-  // ### Implement hashCode for Immutable.js, since we implement `equals`
-  // https://immutable-js.com/docs/v4.0.0/ValueObject/#hashCode()
-  hashCode() {
-    return 0;
-  }
-  // ### Returns a plain object representation of this term
-  toJSON() {
-    return {
-      termType: this.termType,
-      value: this.value
-    };
-  }
-};
-var NamedNode2 = class extends Term {
-  // ### Creates a named node
-  /**
-   * @deprecated Create named nodes through a data factory instead
-   * (`DataFactory.namedNode(iri)`), so that term validation can be applied;
-   * the constructor assumes an already-validated IRI.
-   */
-  constructor(iri) {
-    if (iri !== "")
-      super(iri);
-    else {
-      super(EMPTY_IRI_ID);
-      Object.defineProperty(this, "value", { value: "" });
-    }
-  }
-  // ### The term type of this term
-  get termType() {
-    return "NamedNode";
-  }
-};
-var Literal = class _Literal extends Term {
-  // ### Creates a literal
-  /**
-   * @deprecated Create literals through a data factory instead
-   * (`DataFactory.literal(value, languageOrDatatype)`), so that term
-   * validation can be applied; the constructor takes the internal
-   * id representation and assumes it is already valid.
-   */
-  constructor(id2) {
-    super(id2);
-  }
-  // ### The term type of this term
-  get termType() {
-    return "Literal";
-  }
-  // ### The text value of this literal
-  get value() {
-    return this.id.substring(1, this.id.lastIndexOf('"'));
-  }
-  // ### The language of this literal
-  get language() {
-    const id2 = this.id;
-    let atPos = id2.lastIndexOf('"') + 1;
-    const dirPos = id2.lastIndexOf("--");
-    return atPos < id2.length && id2[atPos++] === "@" ? (dirPos > atPos ? id2.substr(0, dirPos) : id2).substr(atPos).toLowerCase() : "";
-  }
-  // ### The direction of this literal
-  get direction() {
-    const id2 = this.id;
-    const endPos = id2.lastIndexOf('"');
-    const dirPos = id2[endPos + 1] === "@" ? id2.lastIndexOf("--") : -1;
-    return dirPos > endPos && dirPos + 2 < id2.length ? id2.substr(dirPos + 2).toLowerCase() : "";
-  }
-  // ### The datatype IRI of this literal
-  get datatype() {
-    return new NamedNode2(this.datatypeString);
-  }
-  // ### The datatype string of this literal
-  get datatypeString() {
-    const id2 = this.id, dtPos = id2.lastIndexOf('"') + 1;
-    const char = dtPos < id2.length ? id2[dtPos] : "";
-    return char === "^" ? id2.substr(dtPos + 2) : (
-      // If "@" follows, return rdf:langString or rdf:dirLangString; xsd:string otherwise
-      char !== "@" ? xsd2.string : id2.indexOf("--", dtPos) > 0 ? rdf.dirLangString : rdf.langString
-    );
-  }
-  // ### Returns whether this object represents the same term as the other
-  equals(other) {
-    if (other instanceof _Literal)
-      return this.id === other.id;
-    return !!other && !!other.datatype && this.termType === other.termType && this.value === other.value && this.language === other.language && (this.direction === other.direction || this.direction === "" && !other.direction) && this.datatype.value === other.datatype.value;
-  }
-  toJSON() {
-    return {
-      termType: this.termType,
-      value: this.value,
-      language: this.language,
-      direction: this.direction,
-      datatype: { termType: "NamedNode", value: this.datatypeString }
-    };
-  }
-};
-var BlankNode2 = class extends Term {
-  // ### Creates a blank node
-  /**
-   * @deprecated Create blank nodes through a data factory instead
-   * (`DataFactory.blankNode(name)`), so that term validation can be applied;
-   * the constructor assumes an already-validated name.
-   */
-  constructor(name) {
-    super(`_:${name}`);
-  }
-  // ### The term type of this term
-  get termType() {
-    return "BlankNode";
-  }
-  // ### The name of this blank node
-  get value() {
-    return this.id.substr(2);
-  }
-};
-var Variable = class extends Term {
-  // ### Creates a variable
-  /**
-   * @deprecated Create variables through a data factory instead
-   * (`DataFactory.variable(name)`), so that term validation can be applied;
-   * the constructor assumes an already-validated name.
-   */
-  constructor(name) {
-    super(`?${name}`);
-  }
-  // ### The term type of this term
-  get termType() {
-    return "Variable";
-  }
-  // ### The name of this variable
-  get value() {
-    return this.id.substr(1);
-  }
-};
-var DefaultGraph = class extends Term {
-  // ### Creates the default graph
-  /**
-   * @deprecated Obtain the default graph through a data factory instead
-   * (`DataFactory.defaultGraph()`).
-   */
-  constructor() {
-    super("");
-    return DEFAULTGRAPH || this;
-  }
-  // ### The term type of this term
-  get termType() {
-    return "DefaultGraph";
-  }
-  // ### Returns whether this object represents the same term as the other
-  equals(other) {
-    return this === other || !!other && this.termType === other.termType;
-  }
-};
-DEFAULTGRAPH = new DefaultGraph();
-var Quad = class extends Term {
-  // ### Creates a quad
-  /**
-   * @deprecated Create quads through a data factory instead
-   * (`DataFactory.quad(subject, predicate, object, graph)`), so that term
-   * validation can be applied; the constructor assumes already-validated terms.
-   */
-  constructor(subject, predicate, object, graph3) {
-    super("");
-    this._subject = subject;
-    this._predicate = predicate;
-    this._object = object;
-    this._graph = graph3 || DEFAULTGRAPH;
-  }
-  // ### The term type of this term
-  get termType() {
-    return "Quad";
-  }
-  get subject() {
-    return this._subject;
-  }
-  get predicate() {
-    return this._predicate;
-  }
-  get object() {
-    return this._object;
-  }
-  get graph() {
-    return this._graph;
-  }
-  // ### Returns a plain object representation of this quad
-  toJSON() {
-    return {
-      termType: this.termType,
-      subject: this._subject.toJSON(),
-      predicate: this._predicate.toJSON(),
-      object: this._object.toJSON(),
-      graph: this._graph.toJSON()
-    };
-  }
-  // ### Returns whether this object represents the same quad as the other
-  equals(other) {
-    return !!other && this._subject.equals(other.subject) && this._predicate.equals(other.predicate) && this._object.equals(other.object) && this._graph.equals(other.graph);
-  }
-};
-function namedNode(iri) {
-  return new NamedNode2(iri);
-}
-function blankNode(name) {
-  return new BlankNode2(name || `n3-${_blankNodeCounter++}`);
-}
-function literal2(value, languageOrDataType) {
-  if (typeof languageOrDataType === "string")
-    return new Literal(`"${value}"@${languageOrDataType.toLowerCase()}`);
-  if (languageOrDataType !== void 0 && !("termType" in languageOrDataType)) {
-    return new Literal(`"${value}"@${languageOrDataType.language.toLowerCase()}${languageOrDataType.direction ? `--${languageOrDataType.direction.toLowerCase()}` : ""}`);
-  }
-  let datatype = languageOrDataType ? languageOrDataType.value : "";
-  if (datatype === "") {
-    if (typeof value === "boolean")
-      datatype = xsd2.boolean;
-    else if (typeof value === "number") {
-      if (Number.isFinite(value))
-        datatype = Number.isInteger(value) && Math.abs(value) < 1e21 ? xsd2.integer : xsd2.double;
-      else {
-        datatype = xsd2.double;
-        if (!Number.isNaN(value))
-          value = value > 0 ? "INF" : "-INF";
-      }
-    } else if (typeof value === "bigint")
-      datatype = xsd2.integer;
-    else if (value instanceof Date && !Number.isNaN(value.getTime())) {
-      datatype = xsd2.dateTime;
-      value = value.toISOString();
-    }
-  }
-  return datatype === "" || datatype === xsd2.string ? new Literal(`"${value}"`) : new Literal(`"${value}"^^${datatype}`);
-}
-function variable(name) {
-  return new Variable(name);
-}
-function defaultGraph() {
-  return DEFAULTGRAPH;
-}
-function quad(subject, predicate, object, graph3) {
-  return new Quad(subject, predicate, object, graph3);
-}
-function fromTerm(term) {
-  if (term instanceof Term)
-    return term;
-  switch (term.termType) {
-    case "NamedNode":
-      return namedNode(term.value);
-    case "BlankNode":
-      return blankNode(term.value);
-    case "Variable":
-      return variable(term.value);
-    case "DefaultGraph":
-      return DEFAULTGRAPH;
-    case "Literal":
-      return literal2(term.value, !term.language ? term.datatype : term.direction ? { language: term.language, direction: term.direction } : term.language);
-    case "Quad":
-      return fromQuad(term);
-    default:
-      throw new Error(`Unexpected termType: ${term.termType}`);
-  }
-}
-function fromQuad(inQuad) {
-  if (inQuad instanceof Quad)
-    return inQuad;
-  if (inQuad.termType !== "Quad")
-    throw new Error(`Unexpected termType: ${inQuad.termType}`);
-  return quad(fromTerm(inQuad.subject), fromTerm(inQuad.predicate), fromTerm(inQuad.object), fromTerm(inQuad.graph));
-}
-
-// node_modules/n3/src/N3Parser.js
-var blankNodePrefix = 0;
-var dotSegments = /(^|\/)\.\.?($|[/#?])/;
-var pathDotSegments = /^[^?#]*(?:^|\/)\.\.?(?:$|[/#?])/;
-var N3Parser = class _N3Parser {
-  constructor(options) {
-    this._contextStack = [];
-    this._graph = null;
-    options = options || {};
-    this._setBase(options.baseIRI);
-    options.factory && initDataFactory(this, options.factory);
-    const format = typeof options.format === "string" ? options.format.match(/(?:^|\W)(\w*)$/)[1].toLowerCase() : "", isTurtle = /turtle/.test(format), isTriG = /trig/.test(format), isNTriples = /triple/.test(format), isNQuads = /quad/.test(format), isN3 = this._n3Mode = /n3/.test(format), isLineMode = isNTriples || isNQuads;
-    this._emitCurrent = this._emit;
-    if (isN3) {
-      this._createQuad = this._createQuadInDirection;
-      this._emit = this._emitInDirection;
-      this._emitCurrent = this._emitCurrentInDirection;
-    }
-    if (!(this._supportsNamedGraphs = !(isTurtle || isN3)))
-      this._readPredicateOrNamedGraph = this._readPredicate;
-    this._supportsQuads = !(isTurtle || isTriG || isNTriples || isN3);
-    this._isImpliedBy = options.isImpliedBy;
-    this._implicitEmptyPrefix = !!options.implicitEmptyPrefix;
-    this._emptyFormulaAsTrue = !!options.emptyFormulaAsTrue;
-    if (isLineMode)
-      this._resolveRelativeIRI = (iri) => {
-        return null;
-      };
-    this._blankNodePrefix = typeof options.blankNodePrefix !== "string" ? "" : options.blankNodePrefix.replace(/^(?!_:)/, "_:");
-    this._directives = null;
-    if (options.directives) {
-      this._directives = /* @__PURE__ */ Object.create(null);
-      for (const name of options.directives)
-        this._directives[`@${name.toLowerCase()}`] = this._directives[name.toUpperCase()] = name;
-    }
-    this._lexer = options.lexer || new N3Lexer({
-      lineMode: isLineMode,
-      n3: isN3,
-      isImpliedBy: this._isImpliedBy,
-      directives: options.directives
-    });
-    this._explicitQuantifiers = !!options.explicitQuantifiers;
-    this._formulaScopedBlankNodes = !!options.formulaScopedBlankNodes;
-    this._parseUnsupportedVersions = !!options.parseUnsupportedVersions;
-    this._version = options.version;
-    const maxTripleTermDepth = options.maxTripleTermDepth;
-    this._maxTripleTermDepth = maxTripleTermDepth === Infinity || Number.isInteger(maxTripleTermDepth) && maxTripleTermDepth >= 0 ? maxTripleTermDepth : 1024;
-  }
-  // ## Static class methods
-  // ### `_resetBlankNodePrefix` restarts blank node prefix identification
-  static _resetBlankNodePrefix() {
-    blankNodePrefix = 0;
-  }
-  // ## Private methods
-  // ### `_setBase` sets the base IRI to resolve relative IRIs
-  _setBase(baseIRI) {
-    if (!baseIRI) {
-      this._base = "";
-      this._basePath = "";
-      this._basePathHasDotSegments = false;
-    } else {
-      const fragmentPos = baseIRI.indexOf("#");
-      if (fragmentPos >= 0)
-        baseIRI = baseIRI.substr(0, fragmentPos);
-      this._base = baseIRI;
-      const queryPos = baseIRI.indexOf("?");
-      const path2 = queryPos < 0 ? baseIRI : baseIRI.substr(0, queryPos);
-      this._basePath = baseIRI.indexOf("/") < 0 ? baseIRI : path2.substr(0, path2.lastIndexOf("/") + 1);
-      const base = baseIRI;
-      baseIRI = baseIRI.match(/^(?:([a-z][a-z0-9+.-]*:))?(\/\/[^\/?#]*)?/i);
-      this._baseRoot = baseIRI[0];
-      this._baseScheme = baseIRI[1];
-      if (baseIRI[2] !== void 0 && (base.length === this._baseRoot.length || base[this._baseRoot.length] === "?"))
-        this._basePath = `${this._baseRoot}/`;
-      this._basePathHasDotSegments = dotSegments.test(this._basePath);
-    }
-  }
-  // ### `_enterTripleTerm` stores the current parsing context when entering a triple term,
-  // failing if triple terms nest deeper than the maximum depth
-  _enterTripleTerm(type, subject, predicate, token) {
-    if (this._tripleTermDepth >= this._maxTripleTermDepth) {
-      this._error(`Triple terms nested deeper than ${this._maxTripleTermDepth} level${this._maxTripleTermDepth === 1 ? "" : "s"}`, token);
-      return false;
-    }
-    this._tripleTermDepth++;
-    this._saveContext(type, this._graph, subject, predicate, null);
-    this._graph = null;
-    return true;
-  }
-  // ### `_saveContext` stores the current parsing context
-  // when entering a new scope (list, blank node, formula)
-  _saveContext(type, graph3, subject, predicate, object) {
-    if (!this._n3Mode) {
-      this._contextStack.push({ type, subject, predicate, object, graph: graph3 });
-      return;
-    }
-    const context = {
-      type,
-      subject,
-      predicate,
-      object,
-      graph: graph3,
-      inverse: this._inversePredicate,
-      expectOf: this._expectOf,
-      blankPrefix: this._prefixes._,
-      prefixChanges: this._prefixChanges,
-      quantifiedChanges: this._quantifiedChanges,
-      emptyFormula: this._emptyFormula
-    };
-    if (type === "formula") {
-      context.base = [
-        this._base,
-        this._basePath,
-        this._baseRoot,
-        this._baseScheme,
-        this._basePathHasDotSegments
-      ];
-      this._prefixChanges = [];
-    }
-    this._contextStack.push(context);
-    this._inversePredicate = false;
-    this._expectOf = false;
-    if (!this._formulaScopedBlankNodes || type === "formula") {
-      this._prefixes._ = this._graph ? `${this._graph.value}.` : ".";
-      this._quantifiedChanges = [];
-    }
-    if (type === "formula") {
-      this._subject = null;
-      this._emptyFormula = true;
-    }
-  }
-  // ### `_restoreContext` restores the parent context
-  // when leaving a scope (list, blank node, formula)
-  _restoreContext(type, token) {
-    const context = this._contextStack.pop();
-    if (!context || context.type !== type)
-      return this._error(`Unexpected ${token.type}`, token);
-    this._subject = context.subject;
-    this._predicate = context.predicate;
-    this._object = context.object;
-    this._graph = context.graph;
-    if (this._n3Mode) {
-      this._inversePredicate = context.inverse;
-      this._expectOf = context.expectOf;
-      if (type === "formula")
-        [
-          this._base,
-          this._basePath,
-          this._baseRoot,
-          this._baseScheme,
-          this._basePathHasDotSegments
-        ] = context.base;
-      if (this._prefixChanges !== context.prefixChanges) {
-        undoChanges(this._prefixes, this._prefixChanges);
-        this._prefixChanges = context.prefixChanges;
-      }
-      this._prefixes._ = context.blankPrefix;
-      if (this._quantifiedChanges !== context.quantifiedChanges) {
-        undoChanges(this._quantified, this._quantifiedChanges);
-        this._quantifiedChanges = context.quantifiedChanges;
-      }
-      this._emptyFormula = context.emptyFormula;
-    }
-  }
-  // ### `_readBeforeTopContext` is called once only at the start of parsing.
-  _readBeforeTopContext(token) {
-    if (this._version && !this._isValidVersion(this._version))
-      return this._error(`Detected unsupported version as media type parameter: "${this._version}"`, token);
-    return this._readInTopContext(token);
-  }
-  // ### `_readInTopContext` reads a token when in the top context
-  _readInTopContext(token) {
-    switch (token.type) {
-      // If an EOF token arrives in the top context, signal that we're done
-      case "eof":
-        if (this._graph !== null)
-          return this._error("Unclosed graph", token);
-        delete this._prefixes._;
-        return this._callback(null, null, this._prefixes);
-      // It could be a prefix declaration
-      case "PREFIX":
-        this._sparqlStyle = true;
-      case "@prefix":
-        return this._readPrefix;
-      // It could be a base declaration
-      case "BASE":
-        this._sparqlStyle = true;
-      case "@base":
-        return this._readBaseIRI;
-      // It could be a version declaration
-      case "VERSION":
-        this._sparqlStyle = true;
-      case "@version":
-        return this._readVersion;
-      // It could be a graph
-      case "{":
-        if (this._supportsNamedGraphs) {
-          this._graph = "";
-          this._subject = null;
-          return this._readSubject;
-        }
-      case "GRAPH":
-        if (this._supportsNamedGraphs)
-          return this._readNamedGraphLabel;
-      // Otherwise, the next token must be a subject, unless it is an additional directive
-      default:
-        if (this._directives !== null && token.type in this._directives && this._graph === null) {
-          this._sparqlStyle = token.type[0] !== "@";
-          this._directiveCallback(this._directives[token.type]);
-          return this._readDeclarationPunctuation;
-        }
-        return this._readSubject(token);
-    }
-  }
-  // ### `_readInFormulaContext` reads a token at the statement level of a formula
-  _readInFormulaContext(token) {
-    switch (token.type) {
-      case "PREFIX":
-        this._sparqlStyle = true;
-      case "@prefix":
-        return this._readPrefix;
-      case "BASE":
-        this._sparqlStyle = true;
-      case "@base":
-        return this._readBaseIRI;
-      default:
-        return this._readSubject(token);
-    }
-  }
-  // ### `_getStatementReader` returns the reader for the current statement scope
-  _getStatementReader() {
-    const context = this._contextStack[this._contextStack.length - 1];
-    return context && context.type === "formula" ? this._readInFormulaContext : this._readInTopContext;
-  }
-  // ### `_readEntity` reads an IRI, prefixed name, blank node, or variable
-  _readEntity(token, quantifier) {
-    let value;
-    switch (token.type) {
-      // Read a relative or absolute IRI
-      case "IRI":
-      case "typeIRI":
-        const iri = this._resolveIRI(token.value);
-        if (iri === null)
-          return this._error("Invalid IRI", token);
-        value = this._factory.namedNode(iri);
-        break;
-      // Read a prefixed name
-      case "type":
-      case "prefixed":
-        const prefix = this._prefixes[token.prefix];
-        if (prefix === void 0)
-          return this._error(`Undefined prefix "${token.prefix}:"`, token);
-        value = this._factory.namedNode(prefix + token.value);
-        break;
-      // Read a blank node
-      case "blank":
-        value = this._factory.blankNode(this._prefixes[token.prefix] + token.value);
-        break;
-      // Read a variable
-      case "var":
-        value = this._factory.variable(token.value.substr(1));
-        break;
-      // Everything else is not an entity
-      default:
-        return this._error(`Expected entity but got ${token.type}`, token);
-    }
-    if (!quantifier && this._n3Mode && value.id in this._quantified)
-      value = this._quantified[value.id];
-    return value;
-  }
-  // ### `_readList` starts reading a list in the subject, predicate, or object position
-  _readList(token, subject, predicate, object) {
-    const stack = this._contextStack, parent = stack.length && stack[stack.length - 1];
-    if (parent.type === "<<") {
-      return this._error("Unexpected list in reified triple", token);
-    }
-    this._saveContext("list", this._graph, subject, predicate, object);
-    this._subject = null;
-    return this._readListItem;
-  }
-  // ### `_readSubject` reads a quad's subject
-  _readSubject(token) {
-    this._predicate = null;
-    if (token.type !== "}")
-      this._emptyFormula = false;
-    switch (token.type) {
-      case "[":
-        this._saveContext(
-          "blank",
-          this._graph,
-          this._subject = this._factory.blankNode(),
-          null,
-          null
-        );
-        return this._readBlankNodeHead;
-      case "(":
-        return this._readList(token, this.RDF_NIL, null, null);
-      case "{":
-        if (!this._n3Mode)
-          return this._error("Unexpected graph", token);
-        this._saveContext(
-          "formula",
-          this._graph,
-          this._graph = this._factory.blankNode(),
-          null,
-          null
-        );
-        return this._readInFormulaContext;
-      case "}":
-        return this._readPunctuation(token);
-      case "@forSome":
-        if (!this._n3Mode)
-          return this._error('Unexpected "@forSome"', token);
-        this._subject = null;
-        this._predicate = this.N3_FORSOME;
-        this._quantifier = "blankNode";
-        return this._readQuantifierList;
-      case "@forAll":
-        if (!this._n3Mode)
-          return this._error('Unexpected "@forAll"', token);
-        this._subject = null;
-        this._predicate = this.N3_FORALL;
-        this._quantifier = "variable";
-        return this._readQuantifierList;
-      case "literal":
-        if (!this._n3Mode)
-          return this._error("Unexpected literal", token);
-        if (token.prefix.length === 0) {
-          this._literalValue = token.value;
-          return this._completeSubjectLiteral;
-        } else {
-          this._subject = this._factory.literal(token.value, this._factory.namedNode(token.prefix));
-          return this._getPathReader(this._readPredicateOrNamedGraph);
-        }
-      case "<<(":
-        if (!this._n3Mode)
-          return this._error("Disallowed triple term as subject", token);
-        return this._enterTripleTerm("<<(", null, null, token) && this._readSubject;
-      case "<<":
-        return this._enterTripleTerm("<<", null, null, token) && this._readSubject;
-      default:
-        if ((this._subject = this._readEntity(token)) === void 0)
-          return;
-        if (this._n3Mode)
-          return this._getPathReader(this._readPredicateOrNamedGraph);
-    }
-    return this._readPredicateOrNamedGraph;
-  }
-  // ### `_readPredicate` reads a quad's predicate
-  _readPredicate(token) {
-    const type = token.type;
-    let pathable = false;
-    switch (type) {
-      case "inverse":
-        this._inversePredicate = true;
-      case "abbreviation":
-        this._predicate = this.ABBREVIATIONS[token.value];
-        break;
-      case "has":
-        return this._readPredicateAfterVerb;
-      case "is":
-        this._inversePredicate = true;
-        this._expectOf = true;
-        return this._readPredicateAfterVerb;
-      case "inversePredicate":
-        this._inversePredicate = true;
-        return this._readPredicateAfterVerb;
-      case "|}":
-        this._subject = null;
-        return this._readAnnotationBlockPunctuation(token);
-      case ".":
-      case "]":
-      case "}":
-        if (this._predicate === null && !this._n3Mode)
-          return this._error(`Unexpected ${type}`, token);
-        this._subject = null;
-        return type === "]" ? this._readBlankNodeTail(token) : this._readPunctuation(token);
-      case ";":
-        return this._predicate !== null ? this._readPredicate : this._error("Expected predicate but got ;", token);
-      case "literal":
-        if (!this._n3Mode)
-          return this._error("Unexpected literal", token);
-        if (token.prefix.length === 0) {
-          this._literalValue = token.value;
-          return this._completePredicateLiteral;
-        } else
-          this._predicate = this._factory.literal(token.value, this._factory.namedNode(token.prefix));
-        pathable = true;
-        break;
-      case "(":
-        return this._n3Mode ? this._readList(token, this._subject, this.RDF_NIL, null) : this._error(`Expected entity but got ${type}`, token);
-      case "[":
-        if (this._n3Mode) {
-          this._saveContext(
-            "blank",
-            this._graph,
-            this._subject,
-            this._subject = this._factory.blankNode(),
-            null
-          );
-          return this._readBlankNodeHead;
-        }
-        return this._error("Disallowed blank node as predicate", token);
-      case "{":
-        if (this._n3Mode) {
-          this._saveContext(
-            "formula",
-            this._graph,
-            this._subject,
-            this._graph = this._factory.blankNode(),
-            null
-          );
-          return this._readSubject;
-        }
-        return this._readEntity(token);
-      case "blank":
-        if (!this._n3Mode)
-          return this._error("Disallowed blank node as predicate", token);
-      default:
-        if ((this._predicate = this._readEntity(token)) === void 0)
-          return;
-        pathable = this._n3Mode;
-    }
-    this._validAnnotation = true;
-    return pathable ? this._getPathReader(this._readObject, "predicate") : this._readObject;
-  }
-  // ### `_readPredicateAfterVerb` reads the predicate following `has` or `is`
-  _readPredicateAfterVerb(token) {
-    if (token.type === "has" || token.type === "is" || token.type === "of" || token.type === "inversePredicate")
-      return this._error(`Expected expression but got ${token.type}`, token);
-    return this._readPredicate(token);
-  }
-  // ### `_readObject` reads a quad's object
-  _readObject(token) {
-    if (this._expectOf) {
-      if (token.type !== "of")
-        return this._error(`Expected of but got ${token.type}`, token);
-      this._expectOf = false;
-      return this._readObject;
-    }
-    switch (token.type) {
-      case "literal":
-        if (token.prefix.length === 0) {
-          this._literalValue = token.value;
-          return this._readDataTypeOrLang;
-        } else {
-          this._object = this._factory.literal(token.value, this._factory.namedNode(token.prefix));
-          if (this._n3Mode)
-            return this._getPathReader(this._getContextEndReader());
-        }
-        break;
-      case "[":
-        this._saveContext(
-          "blank",
-          this._graph,
-          this._subject,
-          this._predicate,
-          this._subject = this._factory.blankNode()
-        );
-        return this._readBlankNodeHead;
-      case "(":
-        return this._readList(token, this._subject, this._predicate, this.RDF_NIL);
-      case "{":
-        if (!this._n3Mode)
-          return this._error("Unexpected graph", token);
-        this._saveContext(
-          "formula",
-          this._graph,
-          this._subject,
-          this._predicate,
-          this._graph = this._factory.blankNode()
-        );
-        return this._readInFormulaContext;
-      case "<<(":
-        return this._enterTripleTerm("<<(", this._subject, this._predicate, token) && this._readSubject;
-      case "<<":
-        return this._enterTripleTerm("<<", this._subject, this._predicate, token) && this._readSubject;
-      default:
-        if ((this._object = this._readEntity(token)) === void 0)
-          return;
-        if (this._n3Mode)
-          return this._getPathReader(this._getContextEndReader());
-    }
-    return this._getContextEndReader();
-  }
-  // ### `_readPredicateOrNamedGraph` reads a quad's predicate, or a named graph
-  _readPredicateOrNamedGraph(token) {
-    return token.type === "{" ? this._readGraph(token) : this._readPredicate(token);
-  }
-  // ### `_readGraph` reads a graph
-  _readGraph(token) {
-    if (token.type !== "{")
-      return this._error(`Expected graph but got ${token.type}`, token);
-    this._graph = this._subject, this._subject = null;
-    return this._readSubject;
-  }
-  // ### `_readBlankNodeHead` reads the head of a blank node
-  _readBlankNodeHead(token) {
-    if (token.type === "]") {
-      this._subject = null;
-      return this._readBlankNodeTail(token);
-    } else {
-      const stack = this._contextStack, parentParent = stack.length > 1 && stack[stack.length - 2];
-      if (parentParent.type === "<<") {
-        return this._error("Unexpected compound blank node expression in reified triple", token);
-      }
-      if (token.type === "id")
-        return this._readIriPropertyListId;
-      this._predicate = null;
-      return this._readPredicate(token);
-    }
-  }
-  // ### `_readIriPropertyListId` replaces a property list's blank node with its IRI
-  _readIriPropertyListId(token) {
-    const iri = this._readEntity(token);
-    if (iri === void 0)
-      return;
-    if (iri.termType !== "NamedNode")
-      return this._error(`Expected IRI after id but got ${token.type}`, token);
-    const placeholder = this._subject;
-    this._subject = iri;
-    const context = this._contextStack[this._contextStack.length - 1];
-    if (context.subject === placeholder)
-      context.subject = iri;
-    if (context.predicate === placeholder)
-      context.predicate = iri;
-    if (context.object === placeholder)
-      context.object = iri;
-    this._predicate = null;
-    return this._readIriPropertyListPredicate;
-  }
-  // ### `_readIriPropertyListPredicate` requires properties after an IRI property list ID
-  _readIriPropertyListPredicate(token) {
-    if (token.type === ";" || token.type === "]" || token.type === "." || token.type === "}")
-      return this._error(`Expected predicate but got ${token.type}`, token);
-    return this._readPredicate(token);
-  }
-  // ### `_readBlankNodeTail` reads the end of a blank node
-  _readBlankNodeTail(token) {
-    if (token.type !== "]")
-      return this._readBlankNodePunctuation(token);
-    if (this._subject !== null)
-      this._emitCurrent(this._subject, this._predicate, this._object, this._graph);
-    const empty = this._predicate === null;
-    this._restoreContext("blank", token);
-    if (this._object !== null)
-      return this._getContextEndReader();
-    else if (this._predicate !== null)
-      return this._getPathReader(this._readObject, "predicate");
-    else
-      return empty ? this._readPredicateOrNamedGraph : this._readPredicateAfterBlank;
-  }
-  // ### `_readPredicateAfterBlank` reads a predicate after an anonymous blank node
-  _readPredicateAfterBlank(token) {
-    switch (token.type) {
-      case ".":
-      case "}":
-        this._subject = null;
-        return this._readPunctuation(token);
-      default:
-        return this._readPredicate(token);
-    }
-  }
-  // ### `_readListItem` reads items from a list
-  _readListItem(token) {
-    let item = null, list2 = null, next = this._readListItem;
-    const previousList = this._subject, stack = this._contextStack, parent = stack[stack.length - 1];
-    switch (token.type) {
-      case "[":
-        this._saveContext(
-          "blank",
-          this._graph,
-          list2 = this._factory.blankNode(),
-          this.RDF_FIRST,
-          this._subject = item = this._factory.blankNode()
-        );
-        next = this._readBlankNodeHead;
-        break;
-      case "(":
-        this._saveContext(
-          "list",
-          this._graph,
-          list2 = this._factory.blankNode(),
-          this.RDF_FIRST,
-          this.RDF_NIL
-        );
-        this._subject = null;
-        break;
-      case ")":
-        this._restoreContext("list", token);
-        if (stack.length !== 0 && stack[stack.length - 1].type === "list") {
-          if (this._n3Mode) {
-            if (previousList !== null)
-              this._emit(previousList, this.RDF_REST, this.RDF_NIL, this._graph);
-            this._saveContext("item", this._graph, this._subject, this._predicate, this._object);
-            this._subject = this._object, this._predicate = null;
-            return this._getPathReader(this._readListItem);
-          }
-          this._emit(this._subject, this._predicate, this._object, this._graph);
-        }
-        if (this._predicate === null) {
-          next = this._n3Mode ? this._getPathReader(this._readPredicate) : this._readPredicate;
-          if (this._subject === this.RDF_NIL)
-            return next;
-        } else if (this._object === null) {
-          next = this._getPathReader(this._readObject, "predicate");
-          if (this._predicate === this.RDF_NIL)
-            return next;
-        } else {
-          next = this._getContextEndReader();
-          if (this._n3Mode)
-            next = this._getPathReader(next);
-          if (this._object === this.RDF_NIL)
-            return next;
-        }
-        list2 = this.RDF_NIL;
-        break;
-      case "literal":
-        if (token.prefix.length === 0) {
-          this._literalValue = token.value;
-          next = this._readListItemDataTypeOrLang;
-        } else {
-          item = this._factory.literal(token.value, this._factory.namedNode(token.prefix));
-          next = this._getContextEndReader();
-        }
-        break;
-      case "{":
-        if (!this._n3Mode)
-          return this._error("Unexpected graph", token);
-        list2 = this._factory.blankNode();
-        item = this._factory.blankNode();
-        if (previousList === null) {
-          if (parent.predicate === null)
-            parent.subject = list2;
-          else
-            parent.object = list2;
-        } else {
-          this._emit(previousList, this.RDF_REST, list2, this._graph);
-        }
-        this._emit(list2, this.RDF_FIRST, item, this._graph);
-        this._saveContext(
-          "formula",
-          this._graph,
-          list2,
-          this.RDF_FIRST,
-          this._graph = item
-        );
-        this._subject = null;
-        return this._readInFormulaContext;
-      case "<<(":
-      case "<<":
-        if (!this._enterTripleTerm(token.type, null, null, token))
-          return;
-        next = this._readSubject;
-        break;
-      default:
-        if ((item = this._readEntity(token)) === void 0)
-          return;
-    }
-    if (list2 === null)
-      this._subject = list2 = this._factory.blankNode();
-    if (token.type === "<<" || token.type === "<<(")
-      stack[stack.length - 1].subject = this._subject;
-    if (previousList === null) {
-      if (parent.predicate === null)
-        parent.subject = list2;
-      else if (parent.object === null)
-        parent.predicate = list2;
-      else
-        parent.object = list2;
-    } else {
-      this._emit(previousList, this.RDF_REST, list2, this._graph);
-    }
-    if (item !== null) {
-      if (this._n3Mode && (token.type === "IRI" || token.type === "prefixed" || token.type === "var" || token.type === "blank" || token.type === "literal")) {
-        this._saveContext("item", this._graph, list2, this.RDF_FIRST, item);
-        this._subject = item, this._predicate = null;
-        return this._getPathReader(this._readListItem);
-      }
-      this._emit(list2, this.RDF_FIRST, item, this._graph);
-    }
-    return next;
-  }
-  // ### `_readDataTypeOrLang` reads an _optional_ datatype or language
-  _readDataTypeOrLang(token) {
-    return this._completeObjectLiteral(token, false);
-  }
-  // ### `_readListItemDataTypeOrLang` reads an _optional_ datatype or language in a list
-  _readListItemDataTypeOrLang(token) {
-    return this._completeObjectLiteral(token, true);
-  }
-  // ### `_completeLiteral` completes a literal with an optional datatype or language
-  // Defers possible direction tags without allocating bound callbacks.
-  _completeLiteral(token, component2) {
-    let literal3, readCb = false;
-    switch (token.type) {
-      // Create a datatyped literal
-      case "type":
-      case "typeIRI":
-        const datatype = this._readEntity(token);
-        if (datatype === void 0) return;
-        if (datatype.value === IRIs_default.rdf.langString || datatype.value === IRIs_default.rdf.dirLangString) {
-          return this._error("Detected illegal (directional) languaged-tagged string with explicit datatype", token);
-        }
-        literal3 = this._factory.literal(this._literalValue, datatype);
-        token = null;
-        break;
-      // Create a language-tagged string
-      case "langcode":
-        if (token.value.split("-").some((t) => t.length > 8))
-          return this._error("Detected language tag with subtag longer than 8 characters", token);
-        literal3 = this._factory.literal(this._literalValue, token.value);
-        this._literalLanguage = token.value;
-        token = null;
-        this._literalComponent = component2;
-        readCb = true;
-        break;
-      // Create a simple string literal by default
-      default:
-        literal3 = this._factory.literal(this._literalValue);
-    }
-    return { token, literal: literal3, readCb };
-  }
-  // ### `_readDirCode` reads an optional directional language tag
-  _readDirCode(token) {
-    const component2 = this._literalComponent, listItem = this._literalListItem;
-    if (token.type === "dircode") {
-      const term = this._factory.literal(this._literalValue, { language: this._literalLanguage, direction: token.value });
-      if (component2 === "subject")
-        this._subject = term;
-      else if (component2 === "predicate")
-        this._predicate = term;
-      else
-        this._object = term;
-      this._literalLanguage = void 0;
-      token = null;
-    }
-    if (component2 === "subject" || component2 === "predicate") {
-      const next = component2 === "subject" ? this._readPredicateOrNamedGraph : this._readObject;
-      const reader = this._getPathEndReader(token, next, component2);
-      return reader || next.call(this, token);
-    }
-    return this._completeObjectLiteralPost(token, listItem);
-  }
-  // Completes a literal in subject or predicate position
-  _completeTermLiteral(token, component2) {
-    const completed = this._completeLiteral(token, component2);
-    if (!completed)
-      return;
-    let next;
-    if (component2 === "subject") {
-      this._subject = completed.literal;
-      next = this._readPredicateOrNamedGraph;
-    } else {
-      this._predicate = completed.literal;
-      this._validAnnotation = true;
-      next = this._readObject;
-    }
-    if (completed.readCb) {
-      this._literalListItem = false;
-      return this._readDirCode;
-    }
-    const reader = this._getPathEndReader(completed.token, next, component2);
-    if (reader)
-      return reader;
-    return next.call(this, completed.token);
-  }
-  // Completes a literal in subject position
-  _completeSubjectLiteral(token) {
-    return this._completeTermLiteral(token, "subject");
-  }
-  // Completes a literal in predicate position
-  _completePredicateLiteral(token) {
-    return this._completeTermLiteral(token, "predicate");
-  }
-  // Completes a literal in object position
-  _completeObjectLiteral(token, listItem) {
-    const completed = this._completeLiteral(token, "object");
-    if (!completed)
-      return;
-    this._object = completed.literal;
-    if (completed.readCb) {
-      this._literalListItem = listItem;
-      return this._readDirCode;
-    }
-    return this._completeObjectLiteralPost(completed.token, listItem);
-  }
-  _completeObjectLiteralPost(token, listItem) {
-    if (this._n3Mode && (token === null || token.type === "!" || token.type === "^")) {
-      if (listItem) {
-        this._saveContext("item", this._graph, this._subject, this.RDF_FIRST, this._object);
-        this._subject = this._object, this._predicate = null;
-        return this._getPathEndReader(token, this._readListItem);
-      }
-      return this._getPathEndReader(token, this._getContextEndReader());
-    }
-    if (listItem)
-      this._emit(this._subject, this.RDF_FIRST, this._object, this._graph);
-    if (token === null)
-      return this._getContextEndReader();
-    else {
-      this._readCallback = this._getContextEndReader();
-      return this._readCallback(token);
-    }
-  }
-  // ### `_readFormulaTail` reads the end of a formula
-  _readFormulaTail(token) {
-    if (token.type !== "}")
-      return this._readPunctuation(token);
-    if (this._subject !== null)
-      this._emitCurrent(this._subject, this._predicate, this._object, this._graph);
-    const formula2 = this._graph, empty = this._emptyFormula;
-    this._restoreContext("formula", token);
-    if (empty && this._emptyFormulaAsTrue) {
-      if (this._subject === formula2)
-        this._subject = this.N3_TRUE;
-      else if (this._predicate === formula2)
-        this._predicate = this.N3_TRUE;
-      else
-        this._object = this.N3_TRUE;
-    }
-    if (this._object !== null)
-      return this._getPathReader(this._getContextEndReader(), "object");
-    if (this._predicate !== null)
-      return this._getPathReader(this._readObject, "predicate");
-    return this._getPathReader(this._readPredicate, "subject");
-  }
-  // ### `_readPunctuation` reads punctuation between quads or quad parts
-  _readPunctuation(token) {
-    let next, graph3 = this._graph;
-    const subject = this._subject, inversePredicate = this._inversePredicate;
-    switch (token.type) {
-      // A closing brace ends a graph
-      case "}":
-        if (this._graph === null)
-          return this._error("Unexpected graph closing", token);
-        if (this._n3Mode)
-          return this._readFormulaTail(token);
-        this._graph = null;
-      // A dot just ends the statement, without sharing anything with the next
-      case ".":
-        this._subject = null;
-        this._tripleTerm = null;
-        next = this._getStatementReader();
-        if (inversePredicate) this._inversePredicate = false;
-        break;
-      // Semicolon means the subject is shared; predicate and object are different
-      case ";":
-        if (inversePredicate) this._inversePredicate = false;
-        next = this._readPredicate;
-        break;
-      // Comma means both the subject and predicate are shared; the object is different
-      case ",":
-        next = this._readObject;
-        break;
-      // A reifier or annotation block annotates the triple just read
-      case "~":
-      case "{|":
-        return this._readAnnotationStart(token);
-      // An annotation block can only be closed from within one
-      case "|}":
-        return this._error("Unexpected annotation syntax closing", token);
-      default:
-        if (this._supportsQuads && this._graph === null && (graph3 = this._readEntity(token)) !== void 0) {
-          next = this._readQuadPunctuation;
-          break;
-        }
-        return this._error(`Expected punctuation to follow "${this._object.id}"`, token);
-    }
-    if (subject !== null) {
-      const predicate = this._predicate, object = this._object;
-      this._emit(subject, predicate, object, graph3, inversePredicate);
-    }
-    return next;
-  }
-  // ### `_readBlankNodePunctuation` reads punctuation in a blank node
-  _readBlankNodePunctuation(token) {
-    let next, resetInversePredicate = false;
-    switch (token.type) {
-      // Semicolon means the subject is shared; predicate and object are different
-      case ";":
-        resetInversePredicate = this._inversePredicate;
-        next = this._readPredicate;
-        break;
-      // Comma means both the subject and predicate are shared; the object is different
-      case ",":
-        next = this._readObject;
-        break;
-      // Annotation syntax applies to the quad just read, exactly as it does
-      // outside of a blank node property list
-      case "~":
-      case "{|":
-        return this._readAnnotationStart(token);
-      case "|}":
-        return this._error("Unexpected annotation syntax closing", token);
-      default:
-        return this._error(`Expected punctuation to follow "${this._object.id}"`, token);
-    }
-    this._emitCurrent(this._subject, this._predicate, this._object, this._graph);
-    if (resetInversePredicate)
-      this._inversePredicate = false;
-    return next;
-  }
-  // ### `_readQuadPunctuation` reads punctuation after a quad
-  _readQuadPunctuation(token) {
-    if (token.type !== ".")
-      return this._error("Expected dot to follow quad", token);
-    return this._readInTopContext;
-  }
-  // ### `_readPrefix` reads the prefix of a prefix declaration
-  _readPrefix(token) {
-    if (token.type !== "prefix")
-      return this._error("Expected prefix to follow @prefix", token);
-    this._prefix = token.value;
-    return this._readPrefixIRI;
-  }
-  // ### `_readPrefixIRI` reads the IRI of a prefix declaration
-  _readPrefixIRI(token) {
-    if (token.type !== "IRI")
-      return this._error(`Expected IRI to follow prefix "${this._prefix}:"`, token);
-    const prefixNode = this._readEntity(token);
-    if (this._prefixChanges !== null)
-      this._prefixChanges.push(this._prefix, this._prefixes[this._prefix]);
-    this._prefixes[this._prefix] = prefixNode.value;
-    this._prefixCallback(this._prefix, prefixNode);
-    return this._readDeclarationPunctuation;
-  }
-  // ### `_readBaseIRI` reads the IRI of a base declaration
-  _readBaseIRI(token) {
-    const iri = token.type === "IRI" && this._resolveIRI(token.value);
-    if (!iri)
-      return this._error("Expected valid IRI to follow base declaration", token);
-    this._setBase(iri);
-    return this._readDeclarationPunctuation;
-  }
-  // ### `_isValidVersion` checks if the given version is valid for this parser to handle.
-  _isValidVersion(version) {
-    return this._parseUnsupportedVersions || _N3Parser.SUPPORTED_VERSIONS.includes(version);
-  }
-  // ### `_readVersion` reads version string declaration
-  _readVersion(token) {
-    if (token.type !== "literal")
-      return this._error("Expected literal to follow version declaration", token);
-    if (token.prefix !== "" || token.tripleQuoted)
-      return this._error("Version declarations must use single quotes", token);
-    this._versionCallback(token.value);
-    if (!this._isValidVersion(token.value))
-      return this._error(`Detected unsupported version: "${token.value}"`, token);
-    return this._readDeclarationPunctuation;
-  }
-  // ### `_readNamedGraphLabel` reads the label of a named graph
-  _readNamedGraphLabel(token) {
-    switch (token.type) {
-      case "IRI":
-      case "blank":
-      case "prefixed":
-        return this._readSubject(token), this._readGraph;
-      case "[":
-        return this._readNamedGraphBlankLabel;
-      default:
-        return this._error("Invalid graph label", token);
-    }
-  }
-  // ### `_readNamedGraphLabel` reads a blank node label of a named graph
-  _readNamedGraphBlankLabel(token) {
-    if (token.type !== "]")
-      return this._error("Invalid graph label", token);
-    this._subject = this._factory.blankNode();
-    return this._readGraph;
-  }
-  // ### `_readDeclarationPunctuation` reads the punctuation of a declaration
-  _readDeclarationPunctuation(token) {
-    if (this._sparqlStyle) {
-      this._sparqlStyle = false;
-      return this._getStatementReader().call(this, token);
-    }
-    if (token.type !== ".")
-      return this._error("Expected declaration to end with a dot", token);
-    return this._getStatementReader();
-  }
-  // Reads a list of quantified symbols from a @forSome or @forAll statement
-  _readQuantifierList(token) {
-    let entity;
-    switch (token.type) {
-      case "IRI":
-      case "prefixed":
-        if ((entity = this._readEntity(token, true)) !== void 0)
-          break;
-      default:
-        return this._error(`Unexpected ${token.type}`, token);
-    }
-    if (!this._explicitQuantifiers) {
-      if (this._quantifiedChanges !== null)
-        this._quantifiedChanges.push(entity.id, this._quantified[entity.id]);
-      this._quantified[entity.id] = this._factory[this._quantifier](this._factory.blankNode().value);
-    } else {
-      if (this._subject === null)
-        this._emit(
-          this._graph || this.DEFAULTGRAPH,
-          this._predicate,
-          this._subject = this._factory.blankNode(),
-          this.QUANTIFIERS_GRAPH
-        );
-      else
-        this._emit(
-          this._subject,
-          this.RDF_REST,
-          this._subject = this._factory.blankNode(),
-          this.QUANTIFIERS_GRAPH
-        );
-      this._emit(this._subject, this.RDF_FIRST, entity, this.QUANTIFIERS_GRAPH);
-    }
-    return this._readQuantifierPunctuation;
-  }
-  // Reads punctuation from a @forSome or @forAll statement
-  _readQuantifierPunctuation(token) {
-    if (token.type === ",")
-      return this._readQuantifierList;
-    else {
-      if (this._explicitQuantifiers) {
-        this._emit(this._subject, this.RDF_REST, this.RDF_NIL, this.QUANTIFIERS_GRAPH);
-        this._subject = null;
-      }
-      this._readCallback = this._getContextEndReader();
-      return this._readCallback(token);
-    }
-  }
-  // ### `_getPathReader` reads a potential path and then resumes with the given function
-  _getPathReader(afterPath, position) {
-    this._afterPath = afterPath;
-    this._pathPosition = position || (this._predicate === null ? "subject" : "object");
-    return this._readPath;
-  }
-  // ### `_getPathEndReader` continues reading after a term that might start a path,
-  // given the pending token that follows the term (or `null` if it was consumed)
-  _getPathEndReader(token, afterPath, position) {
-    if (token !== null && token.type !== "!" && token.type !== "^")
-      return null;
-    const reader = this._getPathReader(afterPath, position);
-    return token === null ? reader : reader.call(this, token);
-  }
-  // ### `_readPath` reads a potential path
-  _readPath(token) {
-    switch (token.type) {
-      // Forward path
-      case "!":
-        return this._readForwardPath;
-      // Backward path
-      case "^":
-        return this._readBackwardPath;
-      // Not a path; resume reading where we left off
-      default:
-        const afterPath = this._afterPath;
-        const stack = this._contextStack, parent = stack.length && stack[stack.length - 1];
-        if (parent && parent.type === "item") {
-          const item = this._subject;
-          this._restoreContext("item", token);
-          this._emit(this._subject, this.RDF_FIRST, item, this._graph);
-        }
-        this._afterPath = null;
-        this._pathPosition = null;
-        return afterPath.call(this, token);
-    }
-  }
-  // ### `_readForwardPath` reads a '!' path
-  _readForwardPath(token) {
-    let subject, predicate;
-    const object = this._factory.blankNode();
-    if ((predicate = this._readEntity(token)) === void 0)
-      return;
-    if (this._pathPosition === "subject")
-      subject = this._subject, this._subject = object;
-    else if (this._pathPosition === "predicate")
-      subject = this._predicate, this._predicate = object;
-    else
-      subject = this._object, this._object = object;
-    this._emit(subject, predicate, object, this._graph);
-    return this._readPath;
-  }
-  // ### `_readBackwardPath` reads a '^' path
-  _readBackwardPath(token) {
-    const subject = this._factory.blankNode();
-    let predicate, object;
-    if ((predicate = this._readEntity(token)) === void 0)
-      return;
-    if (this._pathPosition === "subject")
-      object = this._subject, this._subject = subject;
-    else if (this._pathPosition === "predicate")
-      object = this._predicate, this._predicate = subject;
-    else
-      object = this._object, this._object = subject;
-    this._emit(subject, predicate, object, this._graph);
-    return this._readPath;
-  }
-  // ### `_readTripleTermTail` reads the end of a triple term
-  _readTripleTermTail(token) {
-    if (token.type !== ")>>")
-      return this._error(`Expected )>> but got ${token.type}`, token);
-    const quad2 = this._createQuad(
-      this._subject,
-      this._predicate,
-      this._object,
-      this._graph,
-      this._inversePredicate
-    );
-    this._restoreContext("<<(", token);
-    this._tripleTermDepth--;
-    const stack = this._contextStack, parent = stack.length && stack[stack.length - 1];
-    if (parent && parent.type === "list") {
-      this._emit(this._subject, this.RDF_FIRST, quad2, this._graph);
-      return this._getContextEndReader();
-    }
-    if (this._subject === null) {
-      this._subject = quad2;
-      return this._readPredicate;
-    } else {
-      this._object = quad2;
-      return this._getContextEndReader();
-    }
-  }
-  // ### `_readReifiedTripleTailOrReifier` reads a reifier or the end of a nested reified triple
-  _readReifiedTripleTailOrReifier(token) {
-    if (token.type === "~") {
-      return this._readReifier;
-    }
-    return this._readReifiedTripleTail(token);
-  }
-  // ### `_readReifiedTripleTail` reads the end of a nested reified triple
-  _readReifiedTripleTail(token) {
-    if (token.type !== ">>")
-      return this._error(`Expected >> but got ${token.type}`, token);
-    this._tripleTerm = null;
-    const reifier = this._readTripleTerm();
-    this._restoreContext("<<", token);
-    this._tripleTermDepth--;
-    const stack = this._contextStack, parent = stack.length && stack[stack.length - 1];
-    if (parent && parent.type === "list") {
-      this._emit(this._subject, this.RDF_FIRST, reifier, this._graph);
-      return this._getContextEndReader();
-    } else if (this._subject === null) {
-      this._subject = reifier;
-      return this._readPredicateOrReifierTripleEnd;
-    } else {
-      this._object = reifier;
-      return this._getContextEndReader();
-    }
-  }
-  _readPredicateOrReifierTripleEnd(token) {
-    if (token.type === ".") {
-      this._subject = null;
-      return this._readPunctuation(token);
-    }
-    return this._readPredicate(token);
-  }
-  // ### `_readReifier` reads the triple term identifier after a tilde when in a reifying triple.
-  _readReifier(token) {
-    if (token.type === ">>")
-      return this._readReifiedTripleTail(token);
-    this._reifier = this._readEntity(token);
-    return this._readReifiedTripleTail;
-  }
-  // ### `_readAnnotationStart` reads the first reifier or annotation block after an object,
-  // which completes the annotated quad
-  _readAnnotationStart(token) {
-    this._emitCurrent(this._subject, this._predicate, this._object, this._graph);
-    this._tripleTerm = null;
-    return this._readAnnotation(token);
-  }
-  // ### `_readAnnotation` reads what follows an annotated quad:
-  // further reifiers or annotation blocks for that same quad, or punctuation
-  _readAnnotation(token) {
-    switch (token.type) {
-      case "~":
-        return this._readReifierInAnnotation;
-      case "{|":
-        return this._readAnnotationBlockHead(token);
-    }
-    this._tripleTerm = null;
-    switch (token.type) {
-      // The subject stays shared with the next predicate-object pair
-      case ";":
-        this._inversePredicate = false;
-        return this._readPredicate;
-      // The subject and predicate stay shared with the next object
-      case ",":
-        return this._readObject;
-      default:
-        this._subject = null;
-        return this._getContextEndReader().call(this, token);
-    }
-  }
-  // ### `_readReifierInAnnotation` reads the optional reifier after a tilde in annotation syntax
-  _readReifierInAnnotation(token) {
-    switch (token.type) {
-      case "IRI":
-      case "typeIRI":
-      case "type":
-      case "prefixed":
-      case "blank":
-      case "var":
-        this._reifier = this._readEntity(token);
-        return this._readAnnotationBlockOrReifier;
-    }
-    this._reifier = this._factory.blankNode();
-    return this._readAnnotationBlockOrReifier(token);
-  }
-  // ### `_readAnnotationBlockOrReifier` reads what follows a reifier:
-  // either an annotation block, which uses the reifier as its subject,
-  // or anything else, in which case the reifier stands alone
-  _readAnnotationBlockOrReifier(token) {
-    if (token.type === "{|")
-      return this._readAnnotationBlockHead(token);
-    this._readTripleTerm();
-    return this._readAnnotation(token);
-  }
-  // ### `_readAnnotationBlockHead` opens an annotation block,
-  // whose predicate-object pairs describe the reifier of the annotated quad
-  _readAnnotationBlockHead(token) {
-    const reifier = this._readTripleTerm();
-    this._saveContext("annotation", this._graph, this._subject, this._predicate, this._object);
-    this._contextStack[this._contextStack.length - 1].tripleTerm = this._tripleTerm;
-    this._subject = reifier;
-    this._predicate = this._object = this._tripleTerm = null;
-    this._inversePredicate = false;
-    this._validAnnotation = false;
-    return this._readPredicate;
-  }
-  // ### `_readAnnotationBlockPunctuation` reads punctuation inside an annotation block
-  _readAnnotationBlockPunctuation(token) {
-    const stack = this._contextStack;
-    if (token.type === "|}") {
-      if (!stack.length || stack[stack.length - 1].type !== "annotation")
-        return this._error("Unexpected annotation syntax closing", token);
-      if (!this._validAnnotation)
-        return this._error("Annotation block can not be empty", token);
-      if (this._subject !== null)
-        this._emitCurrent(this._subject, this._predicate, this._object, this._graph);
-      const { tripleTerm } = stack[stack.length - 1];
-      this._restoreContext("annotation", token);
-      this._tripleTerm = tripleTerm;
-      return this._readAnnotation;
-    }
-    return this._readBlankNodePunctuation(token);
-  }
-  _readTripleTerm() {
-    const stack = this._contextStack, parent = stack.length && stack[stack.length - 1];
-    const parentGraph = parent ? parent.graph : void 0;
-    const reifier = this._reifier || this._factory.blankNode();
-    this._reifier = null;
-    this._tripleTerm = this._tripleTerm || this._createQuad(
-      this._subject,
-      this._predicate,
-      this._object,
-      null,
-      this._inversePredicate
-    );
-    this._emit(reifier, this.RDF_REIFIES, this._tripleTerm, parentGraph || this._graph || this.DEFAULTGRAPH);
-    return reifier;
-  }
-  // ### `_getContextEndReader` gets the next reader function at the end of a context
-  _getContextEndReader() {
-    const contextStack = this._contextStack;
-    if (!contextStack.length)
-      return this._readPunctuation;
-    switch (contextStack[contextStack.length - 1].type) {
-      case "blank":
-        return this._readBlankNodeTail;
-      case "list":
-        return this._readListItem;
-      case "formula":
-        return this._readFormulaTail;
-      case "<<(":
-        return this._readTripleTermTail;
-      case "<<":
-        return this._readReifiedTripleTailOrReifier;
-      case "annotation":
-        return this._readAnnotationBlockPunctuation;
-    }
-  }
-  // ### `_createQuad` creates a quad
-  _createQuad(subject, predicate, object, graph3) {
-    return this._factory.quad(subject, predicate, object, graph3 || this.DEFAULTGRAPH);
-  }
-  // ### `_createQuadInDirection` creates a quad in the active predicate direction
-  _createQuadInDirection(subject, predicate, object, graph3, inversePredicate) {
-    return inversePredicate ? this._factory.quad(object, predicate, subject, graph3 || this.DEFAULTGRAPH) : this._factory.quad(subject, predicate, object, graph3 || this.DEFAULTGRAPH);
-  }
-  // ### `_emitInDirection` sends a quad in the active predicate direction
-  _emitInDirection(subject, predicate, object, graph3, inversePredicate) {
-    this._callback(null, this._createQuad(subject, predicate, object, graph3, inversePredicate));
-  }
-  // ### `_emitCurrentInDirection` sends a quad in the current predicate direction
-  _emitCurrentInDirection(subject, predicate, object, graph3) {
-    this._callback(null, this._createQuad(subject, predicate, object, graph3, this._inversePredicate));
-  }
-  // ### `_emit` sends a quad through the callback
-  _emit(subject, predicate, object, graph3) {
-    this._callback(null, this._factory.quad(subject, predicate, object, graph3 || this.DEFAULTGRAPH));
-  }
-  // ### `_error` emits an error message through the callback
-  _error(message2, token) {
-    const suffix = ` on line ${token.line}.`;
-    if (message2.length + suffix.length > 200)
-      message2 = `${message2.slice(0, 199 - suffix.length)}\u2026`;
-    const err = new Error(`${message2}${suffix}`);
-    err.context = {
-      token,
-      line: token.line,
-      previousToken: this._lexer.previousToken
-    };
-    this._callback(err);
-    this._callback = noop;
-  }
-  // ### `_resolveIRI` resolves an IRI against the base path
-  _resolveIRI(iri) {
-    return /^[a-z][a-z0-9+.-]*:/i.test(iri) ? iri : this._resolveRelativeIRI(iri);
-  }
-  // ### `_resolveRelativeIRI` resolves an IRI against the base path,
-  // assuming that a base path has been set and that the IRI is indeed relative
-  _resolveRelativeIRI(iri) {
-    if (!iri.length)
-      return this._base;
-    switch (iri[0]) {
-      // Resolve relative fragment IRIs against the base IRI
-      case "#":
-        return this._base + iri;
-      // Resolve relative query string IRIs by replacing the query string
-      case "?": {
-        const queryPos = this._base.indexOf("?");
-        return (queryPos < 0 ? this._base : this._base.substr(0, queryPos)) + iri;
-      }
-      // Resolve root-relative IRIs at the root of the base IRI
-      case "/":
-        if (iri[1] !== "/")
-          return this._baseRoot + this._removeDotSegments(iri);
-        return this._baseScheme ? this._removeDotSegments(this._baseScheme + iri) : this._removeDotSegments(`:${iri}`).substr(1);
-      // Resolve all other IRIs at the base IRI's path
-      default:
-        if (/^[^/:]*:/.test(iri))
-          return null;
-        return this._basePathHasDotSegments || pathDotSegments.test(iri) ? this._removeDotSegments(this._basePath + iri) : this._basePath + iri;
-    }
-  }
-  // ### `_removeDotSegments` resolves './' and '../' path segments in an IRI as per RFC3986
-  _removeDotSegments(iri) {
-    if (!dotSegments.test(iri))
-      return iri;
-    const length = iri.length;
-    let result = "", i = -1, pathStart = -1, segmentStart = 0, next = "/";
-    while (i < length) {
-      switch (next) {
-        // The path starts with the first slash after the authority
-        case ":":
-          if (pathStart < 0) {
-            if (iri[++i] === "/" && iri[++i] === "/")
-              while ((pathStart = i + 1) < length && iri[pathStart] !== "/" && iri[pathStart] !== "?" && iri[pathStart] !== "#")
-                i = pathStart;
-          }
-          break;
-        // Don't modify a query string or fragment
-        case "?":
-        case "#":
-          i = length;
-          break;
-        // Handle '/.' or '/..' path segments
-        case "/":
-          if (iri[i + 1] === ".") {
-            next = iri[++i + 1];
-            switch (next) {
-              // Remove a '/.' segment
-              case "/":
-                result += iri.substring(segmentStart, i - 1);
-                segmentStart = i + 1;
-                break;
-              // Remove a trailing '/.' segment
-              case void 0:
-              case "?":
-              case "#":
-                return result + iri.substring(segmentStart, i) + iri.substr(i + 1);
-              // Remove a '/..' segment
-              case ".":
-                next = iri[++i + 1];
-                if (next === void 0 || next === "/" || next === "?" || next === "#") {
-                  result += iri.substring(segmentStart, i - 2);
-                  if ((segmentStart = result.lastIndexOf("/")) >= pathStart)
-                    result = result.substr(0, segmentStart);
-                  if (next !== "/")
-                    return `${result}/${iri.substr(i + 1)}`;
-                  segmentStart = i + 1;
-                }
-            }
-          }
-      }
-      next = iri[++i];
-    }
-    return result + iri.substring(segmentStart);
-  }
-  // ## Public methods
-  // ### `parse` parses the N3 input and emits each parsed quad through the onQuad callback.
-  parse(input2, quadCallback, prefixCallback, versionCallback) {
-    let onQuad, onPrefix, onComment, onVersion, onDirective, onToken, onTokenEnd;
-    if (quadCallback && (quadCallback.onQuad || quadCallback.onPrefix || quadCallback.onComment || quadCallback.onVersion || quadCallback.onDirective || quadCallback.onToken || quadCallback.onTokenEnd)) {
-      onQuad = quadCallback.onQuad;
-      onPrefix = quadCallback.onPrefix;
-      onComment = quadCallback.onComment;
-      onVersion = quadCallback.onVersion;
-      onDirective = quadCallback.onDirective;
-      onToken = quadCallback.onToken;
-      onTokenEnd = quadCallback.onTokenEnd;
-    } else {
-      onQuad = quadCallback;
-      onPrefix = prefixCallback;
-      onVersion = versionCallback;
-    }
-    this._readCallback = this._readBeforeTopContext;
-    this._contextStack = [];
-    this._graph = this._subject = this._predicate = this._object = null;
-    this._tripleTerm = this._reifier = null;
-    this._sparqlStyle = false;
-    this._prefixes = /* @__PURE__ */ Object.create(null);
-    this._prefixes._ = this._blankNodePrefix ? this._blankNodePrefix.substr(2) : `b${blankNodePrefix++}_`;
-    if (this._n3Mode && this._implicitEmptyPrefix && this._base)
-      this._prefixes[""] = this._resolveIRI("#");
-    this._prefixCallback = onPrefix || noop;
-    this._versionCallback = onVersion || noop;
-    this._directiveCallback = onDirective || noop;
-    this._inversePredicate = false;
-    this._expectOf = false;
-    this._quantified = /* @__PURE__ */ Object.create(null);
-    this._prefixChanges = null;
-    this._quantifiedChanges = null;
-    this._emptyFormula = false;
-    this._tripleTermDepth = 0;
-    const readGrammarToken = (token) => {
-      return this._readCallback = this._readCallback(token);
-    };
-    let readToken = readGrammarToken;
-    if (onComment || this._lexer.comments) {
-      this._lexer.comments = true;
-      readToken = (token) => {
-        if (token.type !== "comment")
-          return readGrammarToken(token);
-        if (onComment) onComment(token.value);
-        return this._readCallback;
-      };
-    }
-    if (onToken || onTokenEnd) {
-      const consumeToken = readToken;
-      readToken = (token) => {
-        try {
-          try {
-            if (onToken) onToken(token);
-            return consumeToken(token);
-          } finally {
-            if (onTokenEnd) onTokenEnd(token);
-          }
-        } catch (error4) {
-          this._readCallback = null;
-          throw error4;
-        }
-      };
-    }
-    if (!onQuad) {
-      const quads = [];
-      let error4;
-      this._callback = (e, t) => {
-        e ? error4 = e : t && quads.push(t);
-      };
-      const lexer = this._lexer;
-      if (!onPrefix && !onVersion && !onDirective && !onComment && !onToken && !onTokenEnd && lexer.tokenize === N3Lexer.prototype.tokenize && typeof lexer._tokenizeString === "function") {
-        const base = [this._base, this._basePath, this._baseRoot, this._baseScheme];
-        lexer._tokenizeString(input2, (e, token) => {
-          if (e) {
-            [this._base, this._basePath, this._baseRoot, this._baseScheme] = base;
-            this._callback(e), this._callback = noop;
-          } else if (this._readCallback) readToken(token);
-        });
-      } else
-        lexer.tokenize(input2).every(readToken);
-      if (error4) throw error4;
-      return quads;
-    }
-    const processNextToken = (error4, token) => {
-      if (error4 !== null)
-        this._callback(error4), this._callback = noop;
-      else if (this._readCallback)
-        readToken(token);
-    };
-    this._callback = onQuad;
-    this._lexer.tokenize(input2, processNextToken);
-  }
-};
-function undoChanges(map2, changes) {
-  for (let i = changes.length - 2; i >= 0; i -= 2) {
-    if (changes[i + 1] === void 0)
-      delete map2[changes[i]];
-    else
-      map2[changes[i]] = changes[i + 1];
-  }
-}
-function noop() {
-}
-function initDataFactory(parser, factory) {
-  parser._factory = factory;
-  parser.DEFAULTGRAPH = factory.defaultGraph();
-  parser.RDF_FIRST = factory.namedNode(IRIs_default.rdf.first);
-  parser.RDF_REST = factory.namedNode(IRIs_default.rdf.rest);
-  parser.RDF_NIL = factory.namedNode(IRIs_default.rdf.nil);
-  parser.RDF_REIFIES = factory.namedNode(IRIs_default.rdf.reifies);
-  parser.N3_FORALL = factory.namedNode(IRIs_default.r.forAll);
-  parser.N3_FORSOME = factory.namedNode(IRIs_default.r.forSome);
-  parser.N3_TRUE = factory.literal("true", factory.namedNode(IRIs_default.xsd.boolean));
-  parser.ABBREVIATIONS = {
-    "a": factory.namedNode(IRIs_default.rdf.type),
-    "=": factory.namedNode(IRIs_default.owl.sameAs),
-    ">": factory.namedNode(IRIs_default.log.implies),
-    "<": factory.namedNode(IRIs_default.log.isImpliedBy)
+function literal2(value, datatype = XSD + "string", language = "") {
+  return {
+    termType: "Literal",
+    value,
+    datatype: namedNode(datatype),
+    language
   };
-  parser.QUANTIFIERS_GRAPH = factory.namedNode("urn:n3:quantifiers");
 }
-N3Parser.SUPPORTED_VERSIONS = [
-  "1.2",
-  "1.2-basic",
-  "1.1"
-];
-initDataFactory(N3Parser.prototype, N3DataFactory_default);
-
-// node_modules/n3/src/N3Util.js
-function isDefaultGraph(term) {
-  return !!term && term.termType === "DefaultGraph";
+function quad(subject, predicate, object) {
+  return { subject, predicate, object };
 }
-
-// node_modules/n3/src/Util.js
-function escapeRegex(regex) {
-  return regex.replace(/[.*+?^${}()|[\]\\/-]/g, "\\$&");
-}
-
-// node_modules/n3/src/BaseIRI.js
-var BASE_UNSUPPORTED = /^:?[^:?#]*(?:[?#]|$)|^file:|^[^:]*:\/*[^?#]+?\/(?:\.\.?(?:\/|$)|\/)/i;
-var SUFFIX_SUPPORTED = /^(?:(?!\.\.?(?:[/?#]|$))[^/?#]+(?:\/[^/?#]{3,})*\/?)?(?:[?#]|$)/;
-var CURRENT = "./";
-var PARENT = "../";
-var QUERY = "?";
-var FRAGMENT = "#";
-var BaseIRI = class _BaseIRI {
-  constructor(base) {
-    this.base = base;
-    this._baseLength = 0;
-    this._baseMatcher = null;
-    this._pathReplacements = new Array(base.length + 1);
+var TurtleParser = class {
+  #input;
+  #url;
+  #base;
+  #position = 0;
+  #blankNode = 0;
+  #quads = [];
+  #prefixes = /* @__PURE__ */ Object.create(null);
+  #blankNodes = /* @__PURE__ */ Object.create(null);
+  constructor(input2, url2) {
+    this.#input = input2;
+    this.#url = url2;
+    this.#base = url2;
+    this.#prefixes.rdf = "http://www.w3.org/1999/02/22-rdf-syntax-ns#";
+    this.#prefixes.xsd = XSD;
   }
-  static supports(base) {
-    return !BASE_UNSUPPORTED.test(base);
-  }
-  _getBaseMatcher() {
-    if (this._baseMatcher)
-      return this._baseMatcher;
-    if (!_BaseIRI.supports(this.base))
-      return this._baseMatcher = /.^/;
-    const scheme = /^[^:]*:\/*/.exec(this.base)[0];
-    const regexHead = ["^", escapeRegex(scheme)];
-    const regexTail = [];
-    const segments = [], segmenter = /[^/?#]*([/?#])/y;
-    let segment, query = 0, fragment = 0, last = segmenter.lastIndex = scheme.length;
-    while (!query && !fragment && (segment = segmenter.exec(this.base))) {
-      if (segment[1] === FRAGMENT)
-        fragment = segmenter.lastIndex - 1;
-      else {
-        regexHead.push(escapeRegex(segment[0]), "(?:");
-        regexTail.push(")?");
-        if (segment[1] !== QUERY)
-          segments.push(last = segmenter.lastIndex);
-        else {
-          query = last = segmenter.lastIndex;
-          fragment = this.base.indexOf(FRAGMENT, query);
-          this._pathReplacements[query] = QUERY;
-        }
+  parse() {
+    while (!this.done()) {
+      this.skip();
+      if (this.done()) {
+        break;
+      }
+      if (this.matchDirective()) {
+        this.parseDirective();
+      } else {
+        this.parseTriples();
       }
     }
-    for (let i = 0; i < segments.length; i++)
-      this._pathReplacements[segments[i]] = PARENT.repeat(segments.length - i - 1);
-    this._pathReplacements[segments[segments.length - 1]] = CURRENT;
-    this._baseLength = fragment > 0 ? fragment : this.base.length;
-    regexHead.push(
-      escapeRegex(this.base.substring(last, this._baseLength)),
-      query ? "(?:#|$)" : "(?:[?#]|$)"
-    );
-    return this._baseMatcher = new RegExp([...regexHead, ...regexTail].join(""));
-  }
-  toRelative(iri) {
-    const match = this._getBaseMatcher().exec(iri);
-    if (!match)
-      return iri;
-    const length = match[0].length;
-    if (length === this._baseLength && length === iri.length)
-      return "";
-    const parentPath = this._pathReplacements[length];
-    if (parentPath) {
-      const suffix = iri.substring(length);
-      if (parentPath !== QUERY && !SUFFIX_SUPPORTED.test(suffix))
-        return iri;
-      if (parentPath === CURRENT && /^[^?#]/.test(suffix) && (suffix.indexOf(":") < 0 || !/^[^/?#]*:/.test(suffix)))
-        return suffix;
-      return parentPath + suffix;
-    }
-    return iri.substring(length - 1);
-  }
-};
-
-// node_modules/n3/src/N3Writer.js
-var DEFAULTGRAPH2 = N3DataFactory_default.defaultGraph();
-var { rdf: rdf2, xsd: xsd3 } = IRIs_default;
-var { hasOwnProperty } = Object.prototype;
-var escape = /["\\\t\n\r\b\f\u0000-\u0019\ud800-\udbff]/;
-var escapeAll = /["\\\t\n\r\b\f\u0000-\u0019]|[\ud800-\udbff][\udc00-\udfff]/g;
-var canonicalEscape = /[^ !#-\[\]-~\u0080-\uFFFD]/;
-var canonicalEscapeAll = /[^ !#-\[\]-~\u0080-\uFFFD]/g;
-var escapedCharacters = {
-  "\\": "\\\\",
-  '"': '\\"',
-  "	": "\\t",
-  "\n": "\\n",
-  "\r": "\\r",
-  "\b": "\\b",
-  "\f": "\\f"
-};
-var invalidVersionLabel = /["\\\u0000-\u001f\u007f]|[\ud800-\udbff](?![\udc00-\udfff])|(?:^|[^\ud800-\udbff])[\udc00-\udfff]/;
-var localNameStart = "A-Za-z\\u00C0-\\u00D6\\u00D8-\\u00F6\\u00F8-\\u02FF\\u0370-\\u037D\\u037F-\\u1FFF\\u200C\\u200D\\u2070-\\u218F\\u2C00-\\u2FEF\\u3001-\\uD7FF\\uF900-\\uFDCF\\uFDF0-\\uFFFD_:0-9";
-var localNameChar = `${localNameStart}\\-\\u00B7\\u0300-\\u036F\\u203F\\u2040`;
-var percent = "%[0-9A-Fa-f]{2}";
-var localName = new RegExp(`^(?:(?:[${localNameStart}]|${percent})(?:(?:[${localNameChar}.]|${percent})*(?:[${localNameChar}]|${percent}))?)?$`);
-var SerializedTerm = class extends Term {
-  // Pretty-printed nodes are not equal to any other node
-  // (e.g., [] does not equal [])
-  equals(other) {
-    return other === this;
-  }
-};
-var N3Writer = class {
-  constructor(outputStream, options) {
-    this._prefixRegex = /$0^/;
-    this._hasPrefixes = false;
-    if (outputStream && typeof outputStream.write !== "function")
-      options = outputStream, outputStream = null;
-    options = options || {};
-    this._lists = options.lists;
-    if (!outputStream) {
-      let output = "";
-      this._outputStream = {
-        write(chunk, encoding, done) {
-          output += chunk;
-          done && done();
-        },
-        end: (done) => {
-          done && done(null, output);
-        }
-      };
-      this._endStream = true;
-    } else {
-      this._outputStream = outputStream;
-      this._endStream = options.end === void 0 ? true : !!options.end;
-    }
-    if (options.version && invalidVersionLabel.test(options.version))
-      throw new Error(`Invalid version label: ${JSON.stringify(options.version)}`);
-    this._subject = null;
-    if (!/triple|quad/i.test(options.format)) {
-      this._lineMode = false;
-      this._escape = escape, this._escapeAll = escapeAll, this._characterReplacer = characterReplacer;
-      this._graph = DEFAULTGRAPH2;
-      if (options.version)
-        this._write(`@version "${options.version}".
-`);
-      this._prefixIRIs = /* @__PURE__ */ Object.create(null);
-      this._prefixPatterns = /* @__PURE__ */ Object.create(null);
-      if (options.baseIRI) {
-        this._baseIri = new BaseIRI(options.baseIRI);
-        if (options.writeBase)
-          this._write(`@base <${options.baseIRI}>.
-`);
-      }
-      options.prefixes && this.addPrefixes(options.prefixes);
-    } else {
-      this._lineMode = true;
-      this._writeQuad = this._writeQuadLine;
-      this._escape = canonicalEscape, this._escapeAll = canonicalEscapeAll;
-      this._characterReplacer = canonicalCharacterReplacer;
-      if (options.version)
-        this._write(`VERSION "${options.version}"
-`);
-    }
-  }
-  // ## Private methods
-  // ### Whether the current graph is the default graph
-  get _inDefaultGraph() {
-    return DEFAULTGRAPH2.equals(this._graph);
-  }
-  // ### `_write` writes the argument to the output stream
-  _write(string, callback) {
-    this._outputStream.write(string, "utf8", callback);
-  }
-  // ### `_endStatement` finishes a pending statement and closes an open graph block
-  _endStatement() {
-    if (this._subject !== null) {
-      this._write(this._inDefaultGraph ? ".\n" : "\n}\n");
-      this._subject = null;
-      this._graph = DEFAULTGRAPH2;
-    }
-  }
-  // ### `_writeQuad` writes the quad to the output stream
-  _writeQuad(subject, predicate, object, graph3, done) {
-    try {
-      if (graph3 !== this._graph && (!graph3.equals(this._graph) || graph3.termType !== this._graph.termType)) {
-        this._write((this._subject === null ? "" : this._inDefaultGraph ? ".\n" : "\n}\n") + (DEFAULTGRAPH2.equals(graph3) ? "" : `${this._encodeIriOrBlank(graph3)} {
-`));
-        this._graph = graph3;
-        this._subject = null;
-      }
-      if (subject === this._subject || subject.equals(this._subject)) {
-        if (predicate === this._predicate || predicate.equals(this._predicate))
-          this._write(`, ${this._encodeObject(object)}`, done);
-        else
-          this._write(`;
-    ${this._encodePredicate(this._predicate = predicate)} ${this._encodeObject(object)}`, done);
-      } else
-        this._write(`${(this._subject === null ? "" : ".\n") + this._encodeSubject(this._subject = subject)} ${this._encodePredicate(this._predicate = predicate)} ${this._encodeObject(object)}`, done);
-    } catch (error4) {
-      done && done(error4);
-    }
-  }
-  // ### `_writeQuadLine` writes the quad to the output stream as a single line
-  _writeQuadLine(subject, predicate, object, graph3, done) {
-    delete this._prefixMatch;
-    this._write(this.quadToString(subject, predicate, object, graph3), done);
-  }
-  // ### `quadToString` serializes a quad as a string
-  quadToString(subject, predicate, object, graph3) {
-    return `${this._encodeSubject(subject)} ${predicate.termType === "Literal" ? this._encodeLiteral(predicate) : this._encodeIriOrBlank(predicate)} ${this._encodeObject(object)}${graph3 && !isDefaultGraph(graph3) ? ` ${this._encodeIriOrBlank(graph3)} .
-` : " .\n"}`;
-  }
-  // ### `quadsToString` serializes an array of quads as a string
-  quadsToString(quads) {
-    let quadsString = "";
-    for (const quad2 of quads)
-      quadsString += this.quadToString(quad2.subject, quad2.predicate, quad2.object, quad2.graph);
-    return quadsString;
-  }
-  // ### `_encodeSubject` represents a subject
-  _encodeSubject(entity) {
-    switch (entity.termType) {
-      case "Quad":
-        return this._encodeQuad(entity);
-      // Literal subjects are only valid in N3
-      case "Literal":
-        return this._encodeLiteral(entity);
-      default:
-        return this._encodeIriOrBlank(entity);
-    }
-  }
-  // ### `_encodeIriOrBlank` represents an IRI or blank node
-  _encodeIriOrBlank(entity) {
-    if (entity.termType !== "NamedNode") {
-      if (this._lists && hasOwnProperty.call(this._lists, entity.value))
-        entity = this.list(this._lists[entity.value]);
-      if (entity instanceof Term)
-        return entity.id;
-      return entity.termType === "Variable" ? `?${entity.value}` : `_:${entity.value}`;
-    }
-    let iri = entity.value;
-    if (this._baseIri) {
-      iri = this._baseIri.toRelative(iri);
-    }
-    if (this._escape.test(iri))
-      iri = iri.replace(this._escapeAll, this._characterReplacer);
-    const prefixMatch = this._hasPrefixes ? (this._prefixRegex || this._createPrefixRegex()).exec(iri) : null;
-    if (!prefixMatch)
-      return `<${iri}>`;
-    if (prefixMatch[1])
-      return this._prefixIRIs[prefixMatch[1]] + prefixMatch[2];
-    return localName.test(iri.slice(prefixMatch[0].length)) ? iri : `<${iri}>`;
-  }
-  // ### `_encodeLiteral` represents a literal
-  _encodeLiteral(literal3) {
-    let value = literal3.value;
-    if (this._escape.test(value))
-      value = value.replace(this._escapeAll, this._characterReplacer);
-    const language = literal3.language;
-    if (language) {
-      const literalDirection = literal3.direction;
-      const direction = literalDirection ? `--${literalDirection}` : "";
-      return `"${value}"@${language}${direction}`;
-    }
-    if (this._lineMode) {
-      if (literal3.datatype.value === xsd3.string)
-        return `"${value}"`;
-    } else {
-      switch (literal3.datatype.value) {
-        case xsd3.string:
-          return `"${value}"`;
-        case xsd3.boolean:
-          if (value === "true" || value === "false")
-            return value;
-          break;
-        case xsd3.integer:
-          if (/^[+-]?\d+$/.test(value))
-            return value;
-          break;
-        case xsd3.decimal:
-          if (/^[+-]?\d*\.\d+$/.test(value))
-            return value;
-          break;
-        case xsd3.double:
-          if (/^[+-]?(?:\d+\.\d*|\.?\d+)[eE][+-]?\d+$/.test(value))
-            return value;
-          break;
-      }
-    }
-    return `"${value}"^^${this._encodeIriOrBlank(literal3.datatype)}`;
-  }
-  // ### `_encodePredicate` represents a predicate
-  _encodePredicate(predicate) {
-    switch (predicate.termType) {
-      case "NamedNode":
-        return predicate.value === rdf2.type ? "a" : this._encodeIriOrBlank(predicate);
-      // Literal predicates are only valid in N3
-      case "Literal":
-        return this._encodeLiteral(predicate);
-      default:
-        return this._encodeIriOrBlank(predicate);
-    }
-  }
-  // ### `_encodeObject` represents an object
-  _encodeObject(object) {
-    switch (object.termType) {
-      case "Quad":
-        return this._encodeQuad(object);
-      case "Literal":
-        return this._encodeLiteral(object);
-      default:
-        return this._encodeIriOrBlank(object);
-    }
-  }
-  // ### `_encodeQuad` encodes an RDF-star quad
-  _encodeQuad({ subject, predicate, object, graph: graph3 }) {
-    const space = this._lineMode ? " " : "";
-    return `<<(${space}${this._encodeSubject(subject)} ${this._encodePredicate(predicate)} ${this._encodeObject(object)}${isDefaultGraph(graph3) ? "" : ` ${this._encodeIriOrBlank(graph3)}`}${space})>>`;
-  }
-  // ### `_blockedWrite` replaces `_write` after the writer has been closed
-  _blockedWrite() {
-    throw new Error("Cannot write because the writer has been closed.");
-  }
-  // ### `addQuad` adds the quad to the output stream
-  addQuad(subject, predicate, object, graph3, done) {
-    if (object === void 0)
-      this._writeQuad(subject.subject, subject.predicate, subject.object, subject.graph, predicate);
-    else if (typeof graph3 === "function")
-      this._writeQuad(subject, predicate, object, DEFAULTGRAPH2, graph3);
-    else
-      this._writeQuad(subject, predicate, object, graph3 || DEFAULTGRAPH2, done);
-  }
-  // ### `addQuads` adds the quads to the output stream
-  addQuads(quads) {
-    for (let i = 0; i < quads.length; i++)
-      this.addQuad(quads[i]);
-  }
-  // ### `addPrefix` adds the prefix to the output stream
-  addPrefix(prefix, iri, done) {
-    const prefixes3 = {};
-    prefixes3[prefix] = iri;
-    this.addPrefixes(prefixes3, done);
-  }
-  // ### `addPrefixes` adds the prefixes to the output stream
-  addPrefixes(prefixes3, done) {
-    if (!this._prefixIRIs)
-      return done && done();
-    let hasPrefixes = false;
-    for (let prefix in prefixes3) {
-      let iri = prefixes3[prefix];
-      if (typeof iri !== "string")
-        iri = iri.value;
-      hasPrefixes = true;
-      this._endStatement();
-      this._prefixIRIs[iri] = prefix += ":";
-      this._prefixPatterns[iri] = [escapeRegex(iri), escapeRegex(prefix)];
-      this._write(`@prefix ${prefix} <${iri}>.
-`);
-    }
-    if (hasPrefixes) {
-      this._hasPrefixes = true;
-      this._prefixRegex = null;
-    }
-    this._write(hasPrefixes ? "\n" : "", done);
-  }
-  // ### `_createPrefixRegex` creates the matcher for the current prefixes
-  _createPrefixRegex() {
-    let IRIlist = "", prefixList = "";
-    for (const prefixIRI in this._prefixPatterns) {
-      const [IRIpattern, prefixPattern2] = this._prefixPatterns[prefixIRI];
-      IRIlist += IRIlist ? `|${IRIpattern}` : IRIpattern;
-      prefixList += prefixList ? `|${prefixPattern2}` : prefixPattern2;
-    }
-    return this._prefixRegex = new RegExp(`^(${IRIlist})([_a-zA-Z0-9](?:\\.?[\\-_a-zA-Z0-9])*)$|^(?:${prefixList})`);
-  }
-  // ### `blank` creates a blank node with the given content
-  blank(predicate, object) {
-    let children = predicate, child, length;
-    if (predicate === void 0)
-      children = [];
-    else if (predicate.termType)
-      children = [{ predicate, object }];
-    else if (!("length" in predicate))
-      children = [predicate];
-    switch (length = children.length) {
-      // Generate an empty blank node
-      case 0:
-        return new SerializedTerm("[]");
-      // Generate a non-nested one-triple blank node
-      case 1:
-        child = children[0];
-        if (!(child.object instanceof SerializedTerm))
-          return new SerializedTerm(`[ ${this._encodePredicate(child.predicate)} ${this._encodeObject(child.object)} ]`);
-      // Generate a multi-triple or nested blank node
-      default:
-        let contents = "[";
-        for (let i = 0; i < length; i++) {
-          child = children[i];
-          if (child.predicate.equals(predicate))
-            contents += `, ${this._encodeObject(child.object)}`;
-          else {
-            contents += `${(i ? ";\n  " : "\n  ") + this._encodePredicate(child.predicate)} ${this._encodeObject(child.object)}`;
-            predicate = child.predicate;
-          }
-        }
-        return new SerializedTerm(`${contents}
-]`);
-    }
-  }
-  // ### `list` creates a list node with the given content
-  list(elements) {
-    const length = elements && elements.length || 0, contents = new Array(length);
-    for (let i = 0; i < length; i++)
-      contents[i] = this._encodeObject(elements[i]);
-    return new SerializedTerm(`(${contents.join(" ")})`);
-  }
-  // ### `end` signals the end of the output stream
-  end(done) {
-    this._endStatement();
-    this._write = this._blockedWrite;
-    let singleDone = done && ((error4, result) => {
-      singleDone = null, done(error4, result);
-    });
-    if (this._endStream) {
-      try {
-        return this._outputStream.end(singleDone);
-      } catch (error4) {
-      }
-    }
-    singleDone && singleDone();
-  }
-};
-function characterReplacer(character) {
-  let result = escapedCharacters[character];
-  if (result === void 0) {
-    if (character.length === 1) {
-      result = character.charCodeAt(0).toString(16);
-      result = "\\u0000".substr(0, 6 - result.length) + result;
-    } else {
-      result = ((character.charCodeAt(0) - 55296) * 1024 + character.charCodeAt(1) + 9216).toString(16);
-      result = "\\U00000000".substr(0, 10 - result.length) + result;
-    }
-  }
-  return result;
-}
-function canonicalCharacterReplacer(character) {
-  let result = escapedCharacters[character];
-  if (result === void 0) {
-    result = character.charCodeAt(0).toString(16).toUpperCase();
-    result = "\\u0000".substr(0, 6 - result.length) + result;
-  }
-  return result;
-}
-
-// node_modules/@muze-nl/oldm-n3/src/oldm-n3.mjs
-var solidNamespace = "http://www.w3.org/ns/solid/terms#";
-var rdfNamespace = "http://www.w3.org/1999/02/22-rdf-syntax-ns#";
-var n3Parser = (input2, uri, type) => {
-  const parser = new N3Parser({
-    baseIRI: uri,
-    blankNodePrefix: "",
-    format: type
-  });
-  let prefixes3 = /* @__PURE__ */ Object.create(null);
-  const quads = parser.parse(input2, null, (prefix, url2) => {
-    prefixes3[prefix] = url2.id;
-  });
-  return { quads, prefixes: prefixes3 };
-};
-var ResourceWriter = class extends N3Writer {
-  constructor(source2, options) {
-    super({ ...options, prefixes: {} });
-    this.usedPrefixes = /* @__PURE__ */ new Set();
-    this.relative = options.relative ?? true;
-    this.source = source2;
-    this.entries = Object.entries(options.prefixes);
-  }
-  _encodeIriOrBlank(term) {
-    if (term.termType != "NamedNode" || this._lineMode) return super._encodeIriOrBlank(term);
-    const iri = absoluteIRI(term.value);
-    const prefixed = turtlePrefixedIRI(iri, this.entries);
-    if (prefixed !== null) {
-      this.usedPrefixes.add(prefixed.slice(0, prefixed.indexOf(":")));
-      return prefixed;
-    }
-    return `<${this.relative ? this.source.relativeURI(iri) : iri}>`;
-  }
-  declarations() {
-    return this.entries.filter(([prefix]) => this.usedPrefixes.has(prefix)).map(([prefix, iri]) => `@prefix ${prefix}: <${iri}> .
-`).join("");
-  }
-};
-var n3Writer = (source2) => {
-  return new Promise((resolve, reject) => {
-    const prefixes3 = source2.prefixDeclarations("source");
-    const writer = new ResourceWriter(source2, { format: source2.mimetype, prefixes: prefixes3 });
-    const xsd4 = source2.prefixes.xsd;
-    const { quad: quad2, namedNode: namedNode2, literal: literal3, blankNode: blankNode2 } = N3DataFactory_default;
-    const blankNodes = /* @__PURE__ */ new Map();
-    const getClassPredicates = (subject) => {
-      const predicates = [];
-      let classNames = subject.a;
-      if (!classNames) {
-        return predicates;
-      }
-      if (!Array.isArray(classNames)) {
-        classNames = [classNames];
-      }
-      for (const name of classNames) {
-        predicates.push({
-          predicate: namedNode2(rdfType),
-          object: namedNode2(source2.fullURI(name))
-        });
-      }
-      return predicates;
+    return {
+      quads: this.#quads,
+      prefixes: this.#prefixes
     };
-    const writeProperties = (subjectNode, subject) => {
-      if (!subject) {
+  }
+  matchDirective() {
+    return this.startsWith("@prefix") || this.startsWith("@base") || this.startsWith("PREFIX") || this.startsWith("BASE");
+  }
+  parseDirective() {
+    if (this.consume("@prefix") || this.consume("PREFIX")) {
+      this.skip();
+      const prefix = this.readPrefixLabel();
+      this.skip();
+      const iri = this.readIRIReference();
+      this.#prefixes[prefix] = resolveNamespaceReference(iri, this.#base);
+      this.skip();
+      if (this.peek() == ".") {
+        this.#position++;
+      }
+      return;
+    }
+    if (this.consume("@base") || this.consume("BASE")) {
+      this.skip();
+      this.#base = this.resolveIRI(this.readIRIReference());
+      this.skip();
+      if (this.peek() == ".") {
+        this.#position++;
+      }
+      return;
+    }
+    this.error("Expected directive");
+  }
+  parseTriples() {
+    const subject = this.parseSubject();
+    this.skip();
+    this.parsePredicateObjectList(subject);
+    this.skip();
+    this.expect(".");
+  }
+  parsePredicateObjectList(subject) {
+    while (true) {
+      this.skip();
+      if (this.peek() == "]" || this.peek() == ".") {
         return;
       }
-      let preds = getPredicates(subject);
-      for (let pred of preds) {
-        if (!Array.isArray(pred.object)) {
-          pred.object = [pred.object];
-        }
-        for (let o of pred.object) {
-          writer.addQuad(quad2(
-            subjectNode,
-            pred.predicate,
-            o
-          ));
-        }
+      const predicate = this.parsePredicate();
+      this.skip();
+      this.parseObjectList(subject, predicate);
+      this.skip();
+      if (this.peek() != ";") {
+        return;
       }
-    };
-    const getPredicates = (object) => {
-      let preds = getClassPredicates(object);
-      Object.entries(object).forEach((entry) => {
-        const predicate = entry[0];
-        if (predicate == "id" || predicate == "a") {
+      while (this.peek() == ";") {
+        this.#position++;
+        this.skip();
+        if (this.peek() == "]" || this.peek() == ".") {
           return;
         }
-        let object2 = entry[1];
-        const fullPred = source2.fullURI(predicate);
-        let pred = {
-          predicate: namedNode2(fullPred)
-        };
-        if (object2 instanceof Collection) {
-          pred.object = getCollection(object2);
-        } else if (Array.isArray(object2)) {
-          pred.object = getArray(object2);
-        } else if (object2 instanceof NamedNode) {
-          pred.object = namedNode2(object2.id);
-        } else if (object2 instanceof BlankNode) {
-          pred.object = getBlankNode(object2);
-        } else if (isLiteral2(object2)) {
-          pred.object = getLiteral(object2);
-        } else {
-          console.log("oldm-ns: encountered unknown object", object2, predicate);
-        }
-        preds.push(pred);
-      });
-      return preds;
-    };
-    const getLiteral = (object) => {
-      const language = object?.language;
-      let type = source2.getType(object) || void 0;
-      if (language) {
-        type = language;
-      } else if (type) {
-        if (type == xsd4 + source2.context.separator + "string" || type == xsd4 + source2.context.separator + "number") {
-          type = void 0;
-        } else {
-          type = source2.fullURI(type);
-        }
-        type = namedNode2(type);
+        break;
       }
-      if (object instanceof String) {
-        object = "" + object;
-      } else if (object instanceof Number) {
-        object = +object;
+    }
+  }
+  parseObjectList(subject, predicate) {
+    while (true) {
+      const object = this.parseObject();
+      this.#quads.push(quad(subject, predicate, object));
+      this.skip();
+      if (this.peek() != ",") {
+        return;
       }
-      return literal3(object, type);
-    };
-    const isLiteral2 = (value) => {
-      return value instanceof String || value instanceof Number || typeof value == "boolean" || typeof value == "string" || typeof value == "number";
-    };
-    const getCollection = (object) => {
-      let list2 = [];
-      for (let value of object) {
-        if (isLiteral2(value)) {
-          list2.push(getLiteral(value));
-        } else if (value.id) {
-          list2.push(namedNode2(value.id));
-        } else {
-          list2.push(getBlankNode(value));
-        }
+      this.#position++;
+      this.skip();
+    }
+  }
+  parseSubject() {
+    this.skip();
+    const char = this.peek();
+    if (char == "[") {
+      return this.parseBlankNodePropertyList();
+    }
+    if (char == "(") {
+      return this.parseCollection();
+    }
+    return this.parseResource();
+  }
+  parsePredicate() {
+    if (this.tokenIs("a")) {
+      this.#position++;
+      return namedNode(rdfType);
+    }
+    return this.parseResource();
+  }
+  parseObject() {
+    this.skip();
+    const char = this.peek();
+    if (char == "[") {
+      return this.parseBlankNodePropertyList();
+    }
+    if (char == "(") {
+      return this.parseCollection();
+    }
+    if (char == "<" || char == "_" || this.looksLikePrefixedName()) {
+      return this.parseResource();
+    }
+    if (char == '"' || char == "'") {
+      return this.parseStringLiteral();
+    }
+    if (this.startsWith("true") && this.tokenEnds(4)) {
+      this.#position += 4;
+      return literal2("true", XSD + "boolean");
+    }
+    if (this.startsWith("false") && this.tokenEnds(5)) {
+      this.#position += 5;
+      return literal2("false", XSD + "boolean");
+    }
+    return this.parseNumericLiteral();
+  }
+  parseResource() {
+    this.skip();
+    if (this.peek() == "<") {
+      return namedNode(this.resolveIRI(this.readIRIReference()));
+    }
+    if (this.startsWith("_:")) {
+      return this.readBlankNodeLabel();
+    }
+    return namedNode(this.expandPrefixedName(this.readPrefixedName()));
+  }
+  parseBlankNodePropertyList() {
+    this.expect("[");
+    this.skip();
+    const node = this.newBlankNode();
+    if (this.peek() == "]") {
+      this.#position++;
+      return node;
+    }
+    this.parsePredicateObjectList(node);
+    this.skip();
+    this.expect("]");
+    return node;
+  }
+  parseCollection() {
+    this.expect("(");
+    this.skip();
+    if (this.peek() == ")") {
+      this.#position++;
+      return namedNode(RDF_NIL);
+    }
+    let firstNode = null;
+    let previousNode = null;
+    while (this.peek() != ")") {
+      const currentNode = this.newBlankNode();
+      if (previousNode) {
+        this.#quads.push(quad(previousNode, namedNode(RDF_REST), currentNode));
       }
-      return writer.list(list2);
-    };
-    const getBlankNode = (object) => {
-      if (!blankNodes.has(object)) {
-        const node = blankNode2();
-        blankNodes.set(object, node);
-        writeProperties(node, object);
+      const object = this.parseObject();
+      this.#quads.push(quad(currentNode, namedNode(RDF_FIRST), object));
+      firstNode ??= currentNode;
+      previousNode = currentNode;
+      this.skip();
+    }
+    this.expect(")");
+    this.#quads.push(quad(previousNode, namedNode(RDF_REST), namedNode(RDF_NIL)));
+    return firstNode;
+  }
+  parseStringLiteral() {
+    const value = this.readString();
+    this.skip();
+    if (this.peek() == "@") {
+      this.#position++;
+      return literal2(value, XSD + "string", this.readLanguageTag());
+    }
+    if (this.consume("^^")) {
+      this.skip();
+      const datatype = this.parseResource();
+      return literal2(value, datatype.id);
+    }
+    return literal2(value);
+  }
+  parseNumericLiteral() {
+    const rest = this.#input.slice(this.#position);
+    const match = rest.match(/^[+-]?(?:(?:[0-9]+\.[0-9]*|\.[0-9]+|[0-9]+)[eE][+-]?[0-9]+|[0-9]*\.[0-9]+|[0-9]+)/);
+    if (!match) {
+      this.error("Expected object");
+    }
+    const value = match[0];
+    this.#position += value.length;
+    let datatype = XSD + "integer";
+    if (/[eE]/.test(value)) {
+      datatype = XSD + "double";
+    } else if (value.includes(".")) {
+      datatype = XSD + "decimal";
+    }
+    return literal2(value, datatype);
+  }
+  readIRIReference() {
+    this.expect("<");
+    let result = "";
+    while (!this.done()) {
+      const char = this.next();
+      if (char == ">") {
+        return result;
       }
-      return blankNodes.get(object);
-    };
-    const getArray = (object) => {
-      let list2 = [];
-      for (const o of object) {
-        if (isLiteral2(o)) {
-          list2.push(getLiteral(o));
-        } else if (o instanceof NamedNode) {
-          list2.push(namedNode2(o.id));
-        } else if (o instanceof BlankNode) {
-          list2.push(getBlankNode(o));
-        } else if (o instanceof Collection) {
-          list2.push(getCollection(o));
-        }
-      }
-      return list2;
-    };
-    Object.entries(source2.subjects).forEach(([id2, subject]) => {
-      writeProperties(namedNode2(id2), subject);
-    });
-    writer.end((error4, result) => {
-      if (!error4) {
-        resolve(writer._lineMode ? result : `@base <${absoluteIRI(source2.baseURI)}> .
-` + writer.declarations() + result);
+      if (char == "\\") {
+        result += this.readEscape();
       } else {
-        reject(error4);
+        result += char;
       }
-    });
-  });
+    }
+    this.error("Unclosed IRI reference");
+  }
+  readString() {
+    const quote = this.next();
+    let triple = false;
+    if (this.peek() == quote && this.#input[this.#position + 1] == quote) {
+      triple = true;
+      this.#position += 2;
+    }
+    let result = "";
+    while (!this.done()) {
+      if (triple && this.peek() == quote && this.#input[this.#position + 1] == quote && this.#input[this.#position + 2] == quote) {
+        this.#position += 3;
+        return result;
+      }
+      const char = this.next();
+      if (!triple && char == quote) {
+        return result;
+      }
+      if (char == "\\") {
+        result += this.readEscape();
+      } else {
+        result += char;
+      }
+    }
+    this.error("Unclosed string literal");
+  }
+  readEscape() {
+    const char = this.next();
+    switch (char) {
+      case "t":
+        return "	";
+      case "b":
+        return "\b";
+      case "n":
+        return "\n";
+      case "r":
+        return "\r";
+      case "f":
+        return "\f";
+      case '"':
+        return '"';
+      case "'":
+        return "'";
+      case "\\":
+        return "\\";
+      case "u":
+        return String.fromCodePoint(parseInt(this.readChars(4), 16));
+      case "U":
+        return String.fromCodePoint(parseInt(this.readChars(8), 16));
+      default:
+        return char;
+    }
+  }
+  readPrefixLabel() {
+    const name = this.readName();
+    this.expect(":");
+    return name;
+  }
+  readPrefixedName() {
+    const prefix = this.readName();
+    this.expect(":");
+    const local2 = this.readLocalName();
+    return { prefix, local: local2 };
+  }
+  readBlankNodeLabel() {
+    this.expect("_");
+    this.expect(":");
+    const id2 = this.readName();
+    if (!id2) {
+      this.error("Expected blank node label");
+    }
+    this.#blankNodes[id2] ??= blankNode(id2);
+    return this.#blankNodes[id2];
+  }
+  readLanguageTag() {
+    const match = this.#input.slice(this.#position).match(/^[a-zA-Z]+(?:-[a-zA-Z0-9]+)*/);
+    if (!match) {
+      this.error("Expected language tag");
+    }
+    this.#position += match[0].length;
+    return match[0];
+  }
+  readName() {
+    const match = this.#input.slice(this.#position).match(/^[A-Za-z][A-Za-z0-9_-]*/);
+    if (!match) {
+      return "";
+    }
+    this.#position += match[0].length;
+    return match[0];
+  }
+  readLocalName() {
+    let local2 = "";
+    while (!this.done()) {
+      const char = this.peek();
+      if (char == "\\") {
+        this.#position++;
+        const escaped = this.next();
+        if (!escaped || !"_~.-!$&'()*+,;=/?#@%".includes(escaped)) this.error("Invalid local-name escape");
+        local2 += escaped;
+        continue;
+      }
+      if (/\s/.test(char) || [";", ",", "[", "]", "(", ")", "<", ">", '"', "'", "#"].includes(char)) break;
+      if (char == "." && (!this.#input[this.#position + 1] || /[\s;,\[\]()#]/.test(this.#input[this.#position + 1]))) break;
+      local2 += char;
+      this.#position++;
+    }
+    return local2;
+  }
+  readChars(length) {
+    const result = this.#input.slice(this.#position, this.#position + length);
+    if (result.length != length || !/^[0-9a-fA-F]+$/.test(result)) {
+      this.error("Invalid unicode escape");
+    }
+    this.#position += length;
+    return result;
+  }
+  expandPrefixedName({ prefix, local: local2 }) {
+    if (!(prefix in this.#prefixes)) {
+      this.error(`Unknown prefix: ${prefix}`);
+    }
+    return this.#prefixes[prefix] + local2;
+  }
+  resolveIRI(iri) {
+    return resolveIRIReference(iri, this.#base);
+  }
+  newBlankNode() {
+    return blankNode(`b${++this.#blankNode}`);
+  }
+  looksLikePrefixedName() {
+    const rest = this.#input.slice(this.#position);
+    return /^([A-Za-z][A-Za-z0-9_-]*)?:/.test(rest);
+  }
+  tokenIs(token) {
+    return this.startsWith(token) && this.tokenEnds(token.length);
+  }
+  tokenEnds(length) {
+    const next = this.#input[this.#position + length];
+    return !next || /[\s;,\.\[\]\(\)]/.test(next);
+  }
+  skip() {
+    while (!this.done()) {
+      const char = this.peek();
+      if (/\s/.test(char)) {
+        this.#position++;
+        continue;
+      }
+      if (char == "#") {
+        while (!this.done() && this.peek() != "\n" && this.peek() != "\r") {
+          this.#position++;
+        }
+        continue;
+      }
+      break;
+    }
+  }
+  startsWith(value) {
+    return this.#input.startsWith(value, this.#position);
+  }
+  consume(value) {
+    if (!this.startsWith(value)) {
+      return false;
+    }
+    this.#position += value.length;
+    return true;
+  }
+  expect(value) {
+    if (!this.consume(value)) {
+      this.error(`Expected ${value}`);
+    }
+  }
+  peek() {
+    return this.#input[this.#position];
+  }
+  next() {
+    return this.#input[this.#position++];
+  }
+  done() {
+    return this.#position >= this.#input.length;
+  }
+  error(message2) {
+    const line = this.#input.slice(0, this.#position).split(/\r\n|\r|\n/).length;
+    const lineStart = Math.max(this.#input.lastIndexOf("\n", this.#position - 1), this.#input.lastIndexOf("\r", this.#position - 1)) + 1;
+    const column = this.#position - lineStart + 1;
+    throw new SyntaxError(`${message2} at ${line}:${column}`);
+  }
 };
-var n3PatchWriter = async (source2) => {
+var turtleParser = (input2, uri) => new TurtleParser(input2, uri).parse();
+var turtleWriter = async (source2) => {
+  const writer = new TurtleWriter(source2);
+  return writer.write();
+};
+var TurtleWriter = class {
+  #source;
+  #prefixes;
+  #usedPrefixes = /* @__PURE__ */ new Set();
+  #blankNode = 0;
+  #blankNodeIds = /* @__PURE__ */ new WeakMap();
+  constructor(source2) {
+    this.#source = source2;
+    this.#prefixes = source2.prefixEntries("source");
+  }
+  write() {
+    const lines = [];
+    for (const [id2, subject] of Object.entries(this.#source.subjects)) {
+      const properties = this.getProperties(subject);
+      if (!properties.length) {
+        continue;
+      }
+      lines.push(`${this.resource(id2)} ${this.propertyList(properties)} .`);
+      lines.push("");
+    }
+    const declarations = [`@base <${absoluteIRI(this.#source.baseURI)}> .`];
+    for (const [prefix, iri] of this.#prefixes) {
+      if (this.#usedPrefixes.has(prefix)) {
+        declarations.push(`@prefix ${prefix}: <${this.escapeIRI(iri)}> .`);
+      }
+    }
+    return [...declarations, "", ...lines].join("\n").trim() + "\n";
+  }
+  getProperties(subject) {
+    const properties = [];
+    if (subject.a) {
+      properties.push(["a", this.values(subject.a).map((type) => this.resource(this.#source.fullURI(type)))]);
+    }
+    for (const [predicate, value] of Object.entries(subject)) {
+      if (predicate == "id" || predicate == "a") {
+        continue;
+      }
+      properties.push([
+        this.resource(this.#source.fullURI(predicate)),
+        this.values(value).map((item) => this.object(item))
+      ]);
+    }
+    return properties;
+  }
+  propertyList(properties) {
+    return properties.map(([predicate, objects]) => `${predicate} ${objects.join(", ")}`).join(" ;\n	");
+  }
+  object(value) {
+    if (value instanceof Collection) {
+      return `(${value.map((item) => this.object(item)).join(" ")})`;
+    }
+    if (value instanceof NamedNode) {
+      return this.resource(value.id);
+    }
+    if (value instanceof BlankNode) {
+      return this.blankNode(value);
+    }
+    return this.literal(value);
+  }
+  blankNode(value) {
+    const properties = this.getProperties(value);
+    if (!properties.length) {
+      return `_:${this.blankNodeID(value)}`;
+    }
+    return `[ ${this.propertyList(properties)} ]`;
+  }
+  literal(value) {
+    let raw2 = value;
+    if (value instanceof String) {
+      raw2 = String(value);
+    } else if (value instanceof Number) {
+      raw2 = String(Number(value));
+    } else if (typeof value == "boolean" || typeof value == "number") {
+      raw2 = String(value);
+    }
+    const quoted = `"${this.escapeString(String(raw2))}"`;
+    const language = value?.language;
+    if (language) {
+      return `${quoted}@${language}`;
+    }
+    const type = this.#source.getType(value);
+    if (!type || type == XSD + "string" || type == "xsd$string") {
+      return quoted;
+    }
+    return `${quoted}^^${this.resource(this.#source.fullURI(type))}`;
+  }
+  resource(id2) {
+    const prefixed = turtlePrefixedIRI(absoluteIRI(id2), this.#prefixes);
+    if (prefixed !== null) {
+      this.#usedPrefixes.add(prefixed.slice(0, prefixed.indexOf(":")));
+      return prefixed;
+    }
+    return `<${this.#source.relativeURI(id2)}>`;
+  }
+  values(value) {
+    if (Array.isArray(value) && !(value instanceof Collection)) {
+      return value;
+    }
+    return [value];
+  }
+  blankNodeID(node) {
+    if (!this.#blankNodeIds.has(node)) {
+      this.#blankNodeIds.set(node, `b${++this.#blankNode}`);
+    }
+    return this.#blankNodeIds.get(node);
+  }
+  escapeIRI(value) {
+    return String(value).replace(/\\/g, "\\\\").replace(/>/g, "\\>");
+  }
+  escapeString(value) {
+    return value.replace(/\\/g, "\\\\").replace(/"/g, '\\"').replace(/\n/g, "\\n").replace(/\r/g, "\\r").replace(/\t/g, "\\t");
+  }
+};
+var turtlePatchWriter = async (source2) => {
   if (source2.originalSource == null) {
     throw new Error("Cannot generate a patch without the original graph source");
   }
-  const currentSource = await n3Writer(source2);
-  const original = n3Parser(source2.originalSource, source2.url, source2.mimetype).quads;
-  const current = n3Parser(currentSource, source2.url, source2.mimetype).quads;
+  const currentSource = await turtleWriter(source2);
+  const original = turtleParser(source2.originalSource, source2.url).quads;
+  const current = turtleParser(currentSource, source2.url).quads;
   const patch = solidPatchChanges(original, current, {
-    quad: N3DataFactory_default.quad,
-    variable: N3DataFactory_default.variable,
-    blankNode: N3DataFactory_default.blankNode
+    quad,
+    variable,
+    blankNode
   });
   return serializePatch(source2, patch.inserts, patch.deletes, patch.where);
 };
@@ -8319,8 +5612,7 @@ function quadKey(quad2) {
   return [
     termKey(quad2.subject),
     termKey(quad2.predicate),
-    termKey(quad2.object),
-    termKey(quad2.graph)
+    termKey(quad2.object)
   ].join(" ");
 }
 function termKey(term) {
@@ -8332,10 +5624,10 @@ function termKey(term) {
       "Literal",
       term.value,
       term.language ?? "",
-      term.datatype?.value ?? term.datatype?.id ?? ""
+      term.datatype?.id ?? ""
     ].join("\0");
   }
-  return `${term.termType}\0${term.value ?? term.id ?? ""}`;
+  return `${term.termType}\0${term.id ?? ""}`;
 }
 function solidPatchChanges(original, current, factory) {
   const originalAnonymous = anonymousUnits(original);
@@ -8344,30 +5636,15 @@ function solidPatchChanges(original, current, factory) {
   const anonymousDeletes = [];
   const anonymousInserts = [];
   const where = [];
-  const originalTerms = /* @__PURE__ */ new Map();
-  const replacementTerms = /* @__PURE__ */ new Map();
   for (const unit of deletedUnits) {
     assertOwnedAnonymousUnit(unit, "delete");
-    const variableQuads = mapBlankNodes(
-      unit.quads,
-      (name) => factory.variable(name),
-      factory.quad,
-      "old",
-      originalTerms
-    );
+    const variableQuads = mapBlankNodes(unit.quads, (name) => factory.variable(name), factory.quad, "old");
     where.push(...variableQuads);
     anonymousDeletes.push(...variableQuads);
   }
   for (const unit of insertedUnits) {
     assertOwnedAnonymousUnit(unit, "insert");
-    const insertedQuads = mapBlankNodes(
-      unit.quads,
-      (name) => factory.blankNode(name),
-      factory.quad,
-      "insert",
-      replacementTerms
-    );
-    anonymousInserts.push(...insertedQuads);
+    anonymousInserts.push(...mapBlankNodes(unit.quads, (name) => factory.blankNode(name), factory.quad, "insert"));
   }
   const plainOriginal = original.filter((quad2) => !originalAnonymous.quadKeys.has(quadKey(quad2)));
   const plainCurrent = current.filter((quad2) => !currentAnonymous.quadKeys.has(quadKey(quad2)));
@@ -8521,7 +5798,8 @@ function assertOwnedAnonymousUnit(unit, operation) {
     }
   }
 }
-function mapBlankNodes(quads, createTerm, createQuad, prefix, terms) {
+function mapBlankNodes(quads, createTerm, createQuad, prefix) {
+  const terms = /* @__PURE__ */ new Map();
   const mapTerm = (term) => {
     if (!isBlankNode(term)) {
       return term;
@@ -8532,7 +5810,7 @@ function mapBlankNodes(quads, createTerm, createQuad, prefix, terms) {
     }
     return terms.get(id2);
   };
-  return quads.map((quad2) => createQuad(mapTerm(quad2.subject), quad2.predicate, mapTerm(quad2.object), quad2.graph));
+  return quads.map((quad2) => createQuad(mapTerm(quad2.subject), quad2.predicate, mapTerm(quad2.object)));
 }
 function assertPatchable(quads, operation) {
   const hasBlankNode = quads.some(
@@ -8546,90 +5824,107 @@ function isBlankNode(term) {
   return term?.termType == "BlankNode";
 }
 function termValue(term) {
-  return term?.value ?? term?.id ?? "";
+  return term?.id ?? term?.value ?? "";
 }
 function serializePatch(source2, inserts, deletes, where = []) {
   const prefixes3 = {
-    ...source2.prefixDeclarations("source")
+    ...source2.prefixDeclarations("source"),
+    solid: "http://www.w3.org/ns/solid/terms#"
   };
-  if (quadsUseNamespace([...where, ...deletes, ...inserts], rdfNamespace)) {
-    prefixes3.rdf ??= rdfNamespace;
-  }
-  prefixes3.solid = solidNamespace;
-  const writer = new ResourceWriter(source2, {
-    format: "text/turtle",
-    prefixes: prefixes3,
-    relative: false
-  });
-  writer.usedPrefixes.add("solid");
+  const usedPrefixes = /* @__PURE__ */ new Set(["solid"]);
   const predicates = [];
   if (where.length) {
-    predicates.push(`solid:where ${formula(writer, where)}`);
+    predicates.push(`solid:where ${formula(source2, where, usedPrefixes)}`);
   }
   if (deletes.length) {
-    predicates.push(`solid:deletes ${formula(writer, deletes)}`);
+    predicates.push(`solid:deletes ${formula(source2, deletes, usedPrefixes)}`);
   }
   if (inserts.length) {
-    predicates.push(`solid:inserts ${formula(writer, inserts)}`);
+    predicates.push(`solid:inserts ${formula(source2, inserts, usedPrefixes)}`);
   }
   let patch = `_:patch a solid:InsertDeletePatch`;
   if (predicates.length) {
     patch += ";\n	" + predicates.join(";\n	");
   }
-  return writer.declarations() + `
-${patch} .
-`;
+  const lines = Object.entries(prefixes3).filter(([prefix]) => usedPrefixes.has(prefix)).map(([prefix, iri]) => `@prefix ${prefix}: <${escapeIRI(iri)}> .`);
+  return [...lines, "", `${patch} .`].join("\n") + "\n";
 }
-function quadsUseNamespace(quads, namespace) {
-  return quads.some(
-    (quad2) => termUsesNamespace(quad2.subject, namespace) || termUsesNamespace(quad2.predicate, namespace) || termUsesNamespace(quad2.object, namespace)
-  );
-}
-function termUsesNamespace(term, namespace) {
-  return term?.termType == "NamedNode" && termValue(term).startsWith(namespace);
-}
-function formula(writer, quads) {
+function formula(source2, quads, usedPrefixes) {
   if (!quads.length) {
     return "{}";
   }
   const lines = quads.map((quad2) => `
-		${writer.quadToString(quad2.subject, quad2.predicate, quad2.object).trim()}`);
+		${quadToString(source2, quad2, usedPrefixes)}`);
   return `{${lines.join("")}
 	}`;
 }
+function quadToString(source2, quad2, usedPrefixes) {
+  return `${termToString(source2, quad2.subject, usedPrefixes)} ${quad2.predicate.id == rdfType ? "a" : termToString(source2, quad2.predicate, usedPrefixes)} ${termToString(source2, quad2.object, usedPrefixes)} .`;
+}
+function termToString(source2, term, usedPrefixes) {
+  if (term.termType == "Variable") {
+    return `?${term.id}`;
+  }
+  if (term.termType == "NamedNode") {
+    return resource(source2, term.id, usedPrefixes);
+  }
+  if (term.termType == "BlankNode") {
+    return `_:${term.id}`;
+  }
+  if (term.termType == "Literal") {
+    return literalToString(source2, term, usedPrefixes);
+  }
+  throw new Error(`Cannot serialize unknown RDF term type: ${term.termType}`);
+}
+function literalToString(source2, term, usedPrefixes) {
+  const quoted = `"${escapeString(String(term.value))}"`;
+  if (term.language) {
+    return `${quoted}@${term.language}`;
+  }
+  const datatype = term.datatype?.id;
+  if (datatype && datatype != XSD + "string") {
+    return `${quoted}^^${resource(source2, datatype, usedPrefixes)}`;
+  }
+  return quoted;
+}
+function resource(source2, id2, usedPrefixes) {
+  const prefixed = turtlePrefixedIRI(absoluteIRI(id2), source2.prefixEntries("source"));
+  if (prefixed !== null) {
+    usedPrefixes.add(prefixed.slice(0, prefixed.indexOf(":")));
+    return prefixed;
+  }
+  return `<${id2}>`;
+}
+function escapeIRI(value) {
+  return String(value).replace(/\\/g, "\\\\").replace(/>/g, "\\>");
+}
+function escapeString(value) {
+  return value.replace(/\\/g, "\\\\").replace(/"/g, '\\"').replace(/\n/g, "\\n").replace(/\r/g, "\\r").replace(/\t/g, "\\t");
+}
 
-// node_modules/@muze-nl/oldm/src/index.mjs
-var { default: _coreDefault, ...core } = oldm_exports;
-var oldm2 = {
-  context(options = {}) {
-    const {
-      parser = n3Parser,
-      writer = n3Writer,
-      patchWriter = n3PatchWriter,
-      ...contextOptions
-    } = options;
-    return oldm({
-      ...contextOptions,
-      parser,
-      writer,
-      patchWriter
-    });
-  },
+// src/oldm.js
+var { default: createContext, ...core } = oldm_exports;
+var oldm_default = {
   ...core,
-  ...oldm_n3_exports
+  context({
+    parser = turtleParser,
+    writer = turtleWriter,
+    patchWriter = turtlePatchWriter,
+    ...options
+  } = {}) {
+    return createContext({ ...options, parser, writer, patchWriter });
+  }
 };
-globalThis.oldm = oldm2;
-var src_default2 = oldm2;
 
 // node_modules/@muze-labs/solid-workspace/src/graphs.mjs
-var { BlankNode: BlankNode3, Collection: Collection2 } = src_default2;
+var { BlankNode: BlankNode2, Collection: Collection2 } = oldm_default;
 function emptyGraph({
-  context = src_default2.context(),
+  context = oldm_default.context(),
   url: url2 = `urn:uuid:${globalThis.crypto.randomUUID()}`,
   prefixes: prefixes3 = {},
   baseURI = url2.split("#")[0]
 } = {}) {
-  const graph3 = new src_default2.Graph([], url2, "text/turtle", prefixes3, context);
+  const graph3 = new oldm_default.Graph([], url2, "text/turtle", prefixes3, context);
   graph3.baseURI = baseURI;
   return graph3;
 }
@@ -8637,14 +5932,14 @@ function parseGraph(turtle, { url: url2, prefixes: prefixes3 = {}, baseURI } = {
   if (typeof turtle !== "string") {
     throw new TypeError("solid-workspace: expected Turtle text");
   }
-  const graph3 = src_default2.context({ prefixes: prefixes3 }).parse(turtle, url2, "text/turtle");
+  const graph3 = oldm_default.context({ prefixes: prefixes3 }).parse(turtle, url2, "text/turtle");
   if (baseURI !== void 0) {
     graph3.baseURI = baseURI;
   }
   return graph3;
 }
 function copyGraph(source2, options = {}) {
-  if (!(source2 instanceof src_default2.Graph)) {
+  if (!(source2 instanceof oldm_default.Graph)) {
     throw new TypeError("solid-workspace: expected an OLDM Graph");
   }
   const graph3 = emptyGraph({
@@ -8735,7 +6030,7 @@ function writeSubjectToGraph({
   if (copied.has(subject)) {
     return copied.get(subject);
   }
-  const node = id2 ? graph3.addNamedNode(id2) : new BlankNode3(graph3);
+  const node = id2 ? graph3.addNamedNode(id2) : new BlankNode2(graph3);
   copied.set(subject, node);
   for (const [predicate, value] of Object.entries(subject)) {
     if (predicate === "id") {
@@ -8753,7 +6048,7 @@ function writeSubjectToGraph({
 }
 function graphValueFromObjectValue({ graph: graph3, value, copied, replace = false }) {
   if (value instanceof String || value instanceof Number) {
-    return src_default2.literal(value);
+    return oldm_default.literal(value);
   }
   if (value instanceof Boolean) {
     return Object.assign(new Boolean(value.valueOf()), value);
@@ -8783,7 +6078,7 @@ function graphValueFromObjectValue({ graph: graph3, value, copied, replace = fal
     }));
   }
   if (isObject(value)) {
-    if (value.id || value instanceof BlankNode3) {
+    if (value.id || value instanceof BlankNode2) {
       return writeSubjectToGraph({ graph: graph3, subject: value, copied, replace });
     }
     throw new TypeError(
@@ -8796,11 +6091,11 @@ function graphValueFromObjectValue({ graph: graph3, value, copied, replace = fal
 // node_modules/@muze-labs/solid-workspace/src/replicas.mjs
 var modified = "http://purl.org/dc/terms/modified";
 var deleted = "https://purl.org/pdsinterop/link-metadata#deleted";
-function isDeleted(subject, context = subject.graph ?? src_default2.context()) {
+function isDeleted(subject, context = subject.graph ?? oldm_default.context()) {
   return Object.hasOwn(subject, deleted) || Object.hasOwn(subject, context.propertyName(deleted));
 }
 function markDeleted(subject, now2 = (/* @__PURE__ */ new Date()).toISOString()) {
-  const context = subject.graph ?? src_default2.context();
+  const context = subject.graph ?? oldm_default.context();
   const keys = /* @__PURE__ */ new Set([
     deleted,
     modified,
@@ -8894,7 +6189,7 @@ function editOwners(snapshots, predicates) {
           if (child?.id === "http://www.w3.org/1999/02/22-rdf-syntax-ns#nil") {
             continue;
           }
-          if (!(child instanceof src_default2.NamedNode)) {
+          if (!(child instanceof oldm_default.NamedNode)) {
             throw new TypeError("solid-workspace: owned links must reference named subjects");
           }
           const parent = owners.get(child.id);
@@ -9921,7 +7216,7 @@ var WorkspaceCollection = class {
   }
   list() {
     const className = this.descriptor.shape?.for;
-    return from(this.workspace.sourceSubjects(this.descriptor.sources)).where((object) => !isDeleted(object)).where((object) => !this.workspace.recordFor(object)?.deleted).where((object) => !className || src_default2.many(object.a).includes(className)).toArray();
+    return from(this.workspace.sourceSubjects(this.descriptor.sources)).where((object) => !isDeleted(object)).where((object) => !this.workspace.recordFor(object)?.deleted).where((object) => !className || oldm_default.many(object.a).includes(className)).toArray();
   }
   get(id2) {
     return this.list().find((object) => object.id === id2) ?? null;
@@ -9967,13 +7262,13 @@ var WorkspaceCollection = class {
   }
   saveAll() {
     const className = this.descriptor.shape?.for;
-    const subjects = this.workspace.sourceSubjects(this.descriptor.sources).filter((object) => !className || src_default2.many(object.a).includes(className));
+    const subjects = this.workspace.sourceSubjects(this.descriptor.sources).filter((object) => !className || oldm_default.many(object.a).includes(className));
     return this.workspace.saveAll(subjects);
   }
 };
 
 // node_modules/@muze-labs/solid-workspace/src/sources.mjs
-function resource(idOrOptions, options = {}) {
+function resource2(idOrOptions, options = {}) {
   let config = { ...idOrOptions };
   if (typeof idOrOptions === "string") {
     config = { ...options, id: idOrOptions };
@@ -10203,13 +7498,13 @@ function assertWorkspaceSource(descriptor, role = "source") {
     throw new TypeError(`solid-workspace: resource ${role} replica must be a source from a factory`);
   }
 }
-function resourceReplicaSource(descriptor, { resource: resource2, replica, syncTo } = {}) {
+function resourceReplicaSource(descriptor, { resource: resource3, replica, syncTo } = {}) {
   assertWorkspaceSource(descriptor, replica);
   return Object.freeze({
     ...descriptor,
-    baseURI: resource2.baseURI ?? descriptor.baseURI,
-    prefixes: resource2.prefixes ?? descriptor.prefixes,
-    logicalResource: resource2.id,
+    baseURI: resource3.baseURI ?? descriptor.baseURI,
+    prefixes: resource3.prefixes ?? descriptor.prefixes,
+    logicalResource: resource3.id,
     replica,
     syncTo: syncTo ?? descriptor.syncTo
   });
@@ -10451,7 +7746,7 @@ function sourceStatus(source2, status2 = {}) {
     state: status2.state ?? "idle",
     error: status2.error ?? null,
     syncPending: Boolean(status2.syncPending),
-    pendingFrom: src_default2.many(status2.pendingFrom)
+    pendingFrom: oldm_default.many(status2.pendingFrom)
   };
 }
 function workspaceState(status2) {
@@ -10541,8 +7836,8 @@ var WorkspaceStatus = class {
         state,
         syncPending: true,
         pendingFrom: [.../* @__PURE__ */ new Set([
-          ...src_default2.many(current.pendingFrom),
-          ...src_default2.many(from2)
+          ...oldm_default.many(current.pendingFrom),
+          ...oldm_default.many(from2)
         ])]
       });
     }
@@ -10592,7 +7887,7 @@ var SourceIO = class {
         ...source2.options,
         ...options.readOptions
       }));
-      if (response2 instanceof src_default2.Graph) {
+      if (response2 instanceof oldm_default.Graph) {
         return copyGraph(response2, { url: source2.url });
       }
       return parseGraph(response2, source2);
@@ -10720,11 +8015,11 @@ var ReplicaSync = class {
     this.state = state;
     this.operations = operations;
   }
-  open(resource2, options = {}) {
-    return this.operations.sequence(resource2.id, () => this.openReplica(resource2, options));
+  open(resource3, options = {}) {
+    return this.operations.sequence(resource3.id, () => this.openReplica(resource3, options));
   }
-  sync(resource2, options = {}) {
-    return this.operations.sequence(resource2.id, () => this.syncReplica(resource2, options));
+  sync(resource3, options = {}) {
+    return this.operations.sequence(resource3.id, () => this.syncReplica(resource3, options));
   }
   async openReplica(logicalResource, options) {
     const revision = this.operations.revision(logicalResource.id);
@@ -11005,7 +8300,7 @@ var SolidWorkspace = class {
   constructor(options = {}) {
     check(options, Object, "solid-workspace: workspace options must be an object", TypeError);
     this.#sources = new WorkspaceSources();
-    this.#graphs = new WorkingGraphs(options.context ?? src_default2.context(options));
+    this.#graphs = new WorkingGraphs(options.context ?? oldm_default.context(options));
     this.#state = new WorkspaceStatus();
     this.#io = new SourceIO(options.solid, this);
     const dependencies = {
@@ -11077,12 +8372,12 @@ var SolidWorkspace = class {
     this.#state.source(source2, this.status.sources[source2.id] ?? { state: "idle" });
   }
   addResource(part) {
-    const resource2 = this.#sources.addResource(part);
-    for (const source2 of resourceSources(resource2)) {
+    const resource3 = this.#sources.addResource(part);
+    for (const source2 of resourceSources(resource3)) {
       this.#acceptSource(source2);
     }
-    this.#state.resource(resource2);
-    return resource2;
+    this.#state.resource(resource3);
+    return resource3;
   }
   setClient(client2) {
     this.#io.solid = client2;
@@ -11133,8 +8428,8 @@ var SolidWorkspace = class {
     });
   }
   async openResource(resourceOrId, options = {}) {
-    const resource2 = this.#sources.resolveResource(resourceOrId);
-    await this.#replicas.open(resource2, options);
+    const resource3 = this.#sources.resolveResource(resourceOrId);
+    await this.#replicas.open(resource3, options);
     return this;
   }
   async load(options = {}) {
@@ -11195,8 +8490,8 @@ var SolidWorkspace = class {
   graph(sourceOrResource) {
     let source2;
     if (this.#sources.isResource(sourceOrResource)) {
-      const resource2 = this.#sources.resolveResource(sourceOrResource);
-      source2 = resource2.local ?? resource2.remote;
+      const resource3 = this.#sources.resolveResource(sourceOrResource);
+      source2 = resource3.local ?? resource3.remote;
     } else {
       source2 = this.#sources.resolveSource(sourceOrResource);
     }
@@ -11209,7 +8504,7 @@ var SolidWorkspace = class {
     return this.#graphs.recordFor(object);
   }
   sourceOf(...args) {
-    return src_default2.one(this.sourcesOf(...args), "first") ?? null;
+    return oldm_default.one(this.sourcesOf(...args), "first") ?? null;
   }
   sourcesOf(...args) {
     return this.#graphs.sourcesOf(...args);
@@ -11281,7 +8576,7 @@ function objectStoreExists(objectStoreNames, storeName) {
   if (typeof objectStoreNames?.contains === "function") {
     return objectStoreNames.contains(storeName);
   }
-  return src_default2.many(objectStoreNames).includes(storeName);
+  return oldm_default.many(objectStoreNames).includes(storeName);
 }
 
 // node_modules/@muze-labs/solid-workspace/src/local.mjs
@@ -11744,7 +9039,7 @@ function normalizeCollection(name, descriptor = {}, config = {}) {
   }
   if (isLocalFirstDescriptor(name, descriptor, config)) {
     const resourceId = descriptor.resourceId ?? descriptor.resource ?? descriptor.source ?? name;
-    const resource2 = resource(resourceId, {
+    const resource3 = resource2(resourceId, {
       scalarPredicates: descriptor.scalarPredicates ?? [],
       ownedPredicates: descriptor.ownedPredicates ?? [],
       baseURI: descriptor.baseURI,
@@ -11754,7 +9049,7 @@ function normalizeCollection(name, descriptor = {}, config = {}) {
     });
     return {
       source: null,
-      resource: resource2,
+      resource: resource3,
       collection: collection({
         ...descriptor,
         sources: descriptor.sources ?? [resourceId],
@@ -11839,7 +9134,7 @@ function remoteResourcePart(name, descriptor = {}, service) {
   if (!url2) {
     throw new TypeError(`simplysolid: connected resource ${name} needs a url, resourceUrl, or path`);
   }
-  return resource(resourceId, {
+  return resource2(resourceId, {
     remote: solid.resource(url2, {
       id: config.id ?? config.source ?? `${resourceId}:solid`,
       readOnly: Boolean(config.readOnly),
@@ -13567,7 +10862,7 @@ var annotationVocabulary = {
 
 // src/features/paragraph-note-stacks/cobalt-fragment-rdf.js
 var cobalt = annotationVocabulary.prefixes.cobalt;
-var rdf3 = annotationVocabulary.prefixes.rdf;
+var rdf = annotationVocabulary.prefixes.rdf;
 function writeCobaltFragment(fragment, { id: id2, htmlId, graph: graph3 } = {}) {
   validateFragment(fragment);
   if (typeof id2 !== "string" || !id2) {
@@ -13578,29 +10873,29 @@ function writeCobaltFragment(fragment, { id: id2, htmlId, graph: graph3 } = {}) 
   }
   const html2 = render(fragment);
   if (!graph3) {
-    graph3 = new src_default2.Graph(
+    graph3 = new oldm_default.Graph(
       [],
       id2,
       "text/turtle",
       annotationVocabulary.prefixes,
-      src_default2.context()
+      oldm_default.context()
     );
   }
   const node = graph3.addNamedNode(id2);
   const previous = field3(node, cobalt + "annotations");
   graph3.add(node, "a", annotationVocabulary.classes.cobaltFragment);
-  graph3.set(node, rdf3 + "value", src_default2.literal(fragment.text));
-  const annotations = new src_default2.Collection(graph3);
+  graph3.set(node, rdf + "value", oldm_default.literal(fragment.text));
+  const annotations = new oldm_default.Collection(graph3);
   for (const [index, annotation] of fragment.annotations.entries()) {
     const item = graph3.addNamedNode(`${id2}-${index}`);
     graph3.set(item, cobalt + "start", integerLiteral(annotation.range[0]));
     graph3.set(item, cobalt + "end", integerLiteral(annotation.range[1]));
-    graph3.set(item, cobalt + "tag", src_default2.literal(annotation.tag));
+    graph3.set(item, cobalt + "tag", oldm_default.literal(annotation.tag));
     graph3.set(item, cobalt + "order", integerLiteral(annotation.order));
     annotations.push(item);
   }
   const currentIds = new Set(annotations.map((item) => item.id));
-  if (previous instanceof src_default2.Collection) {
+  if (previous instanceof oldm_default.Collection) {
     for (const item of previous) {
       if (currentIds.has(item.id)) {
         continue;
@@ -13625,25 +10920,25 @@ function writeCobaltFragment(fragment, { id: id2, htmlId, graph: graph3 } = {}) 
   const body = graph3.addNamedNode(htmlId);
   graph3.add(body, "a", annotationVocabulary.classes.textualBody);
   graph3.set(body, annotationVocabulary.prefixes.dcterms + "format", "text/html");
-  graph3.set(body, rdf3 + "value", src_default2.literal(html2));
+  graph3.set(body, rdf + "value", oldm_default.literal(html2));
   graph3.set(node, annotationVocabulary.prefixes.dcterms + "hasFormat", body);
   return node;
 }
 function readCobaltFragment(node) {
-  if (!node || !src_default2.many(node.a).includes(
+  if (!node || !oldm_default.many(node.a).includes(
     annotationVocabulary.classes.cobaltFragment
   )) {
     throw new TypeError("cobalt-fragment-rdf: expected a Cobalt Fragment node");
   }
   let annotations = field3(node, cobalt + "annotations");
   if (annotations?.id === "http://www.w3.org/1999/02/22-rdf-syntax-ns#nil") {
-    annotations = new src_default2.Collection(node.graph);
+    annotations = new oldm_default.Collection(node.graph);
   }
-  if (!(annotations instanceof src_default2.Collection)) {
+  if (!(annotations instanceof oldm_default.Collection)) {
     throw new TypeError("cobalt-fragment-rdf: annotations must be a Collection");
   }
   const fragment = {
-    text: stringValue(field3(node, rdf3 + "value")),
+    text: stringValue(field3(node, rdf + "value")),
     annotations: Array.from(annotations, (item) => ({
       range: [
         numberValue(field3(item, cobalt + "start")),
@@ -13663,7 +10958,7 @@ function field3(node, predicate) {
   return node[node.graph.propertyName(predicate)];
 }
 function integerLiteral(value) {
-  return src_default2.literal(value, {
+  return oldm_default.literal(value, {
     type: "http://www.w3.org/2001/XMLSchema#integer"
   });
 }
@@ -13766,7 +11061,7 @@ var annotationModel = {
     return href.replace(/#.*/, "");
   },
   annotationAnchorId({ annotation }) {
-    const target = src_default2.one(annotation?.oa$hasTarget, "first");
+    const target = oldm_default.one(annotation?.oa$hasTarget, "first");
     const iri = typeof target === "string" ? target : target?.id;
     if (!iri || !iri.startsWith(`${this.currentDocumentIri({})}#`)) {
       return void 0;
@@ -13778,14 +11073,14 @@ var annotationModel = {
     }
   },
   annotationBody({ annotation }) {
-    return src_default2.one(annotation?.oa$hasBody, "first");
+    return oldm_default.one(annotation?.oa$hasBody, "first");
   },
   annotationBodyFragment({ annotation }) {
-    return readCobaltFragment(src_default2.one(annotation?.cobalt$fragment, "first"));
+    return readCobaltFragment(oldm_default.one(annotation?.cobalt$fragment, "first"));
   },
   updateAnnotationBody({ annotation, fragment, now: now2 = (/* @__PURE__ */ new Date()).toISOString() }) {
     const body = this.annotationBody({ annotation });
-    const storedFragment = src_default2.one(annotation?.cobalt$fragment, "first");
+    const storedFragment = oldm_default.one(annotation?.cobalt$fragment, "first");
     if (!body || !storedFragment) {
       throw new TypeError("annotation-model: annotation needs a body and Cobalt fragment");
     }
@@ -13825,11 +11120,11 @@ var annotationModel = {
     return note;
   },
   isOldmedAnnotation({ value }) {
-    return src_default2.many(value?.a).includes(this.vocabulary.classes.annotation);
+    return oldm_default.many(value?.a).includes(this.vocabulary.classes.annotation);
   },
   isMarginNoteAnnotation({ value }) {
     return Boolean(
-      this.isOldmedAnnotation({ value }) && this.annotationBody({ annotation: value }) && src_default2.many(src_default2.one(value.cobalt$fragment, "first")?.a).includes(this.vocabulary.classes.cobaltFragment) && this.annotationAnchorId({ annotation: value })
+      this.isOldmedAnnotation({ value }) && this.annotationBody({ annotation: value }) && oldm_default.many(oldm_default.one(value.cobalt$fragment, "first")?.a).includes(this.vocabulary.classes.cobaltFragment) && this.annotationAnchorId({ annotation: value })
     );
   },
   noteText({ fragment }) {
@@ -15327,7 +12622,7 @@ function errormw(options) {
 }
 
 // node_modules/@muze-nl/metro-middleware/src/index.mjs
-var src_default3 = {
+var src_default2 = {
   json: jsonmw,
   thrower: throwermw,
   getdata: getdatamw,
@@ -15393,7 +12688,7 @@ __export(src_exports4, {
   GraphTracer: () => GraphTracer,
   add: () => add,
   clear: () => clear,
-  default: () => src_default4,
+  default: () => src_default3,
   delete: () => remove,
   graph: () => graph2,
   group: () => group,
@@ -16384,7 +13679,7 @@ function group() {
     }
   };
 }
-var src_default4 = {
+var src_default3 = {
   add,
   delete: remove,
   remove,
@@ -16493,21 +13788,19 @@ var metro = Object.assign({}, src_exports3, {
   API,
   api,
   jsonApi,
-  mw: src_default3,
+  mw: src_default2,
   trace: src_exports4,
   hashParams: src_exports5,
   formdata
 });
-var src_default5 = metro;
+var src_default4 = metro;
 
 // node_modules/@muze-nl/metro-oldm/src/oldmmw.mjs
 function oldmmw(options) {
   options = Object.assign({
-    contentType: "text/turtle",
-    parser: src_default2.n3Parser,
-    writer: src_default2.n3Writer
+    contentType: "text/turtle"
   }, options);
-  const context = options.context ?? src_default2.context(options);
+  const context = options.context ?? oldm_default.context(options);
   async function oldmmw2(req, next) {
     if (!req.headers.get("Accept")) {
       req = req.with({
@@ -16546,7 +13839,7 @@ function oldmmw(options) {
       return await context.writer(req.data);
     } catch (error4) {
       let message2 = "oldmmw: could not write request data as " + req.headers.get("Content-Type") + " for " + req.url;
-      if (context.writer === src_default2.n3Writer) {
+      if (context.writer === oldm_default.context().writer) {
         message2 += "; the default writer expects an OLDM Graph";
       }
       throw linkedDataError(message2, error4, req);
@@ -16596,10 +13889,10 @@ function isPlainText2(contentType) {
 }
 
 // node_modules/@muze-nl/metro-oldm/src/index.mjs
-var src_default6 = oldmmw;
+var src_default5 = oldmmw;
 
 // node_modules/@muze-labs/metro-solid/src/client.mjs
-var vocabulary = src_default2.context();
+var vocabulary = oldm_default.context();
 function propertyValue(subject, iri) {
   const owner = subject?.graph ?? vocabulary;
   return subject?.[owner.propertyName(iri)];
@@ -16610,15 +13903,15 @@ function ensureSlash3(url2) {
   return String(url2).endsWith("/") ? String(url2) : `${url2}/`;
 }
 function ids(value) {
-  return from(src_default2.many(value)).select((item) => typeof item === "string" ? item : item?.id).where(Boolean).toArray();
+  return from(oldm_default.many(value)).select((item) => typeof item === "string" ? item : item?.id).where(Boolean).toArray();
 }
 function solidApi(base, methods) {
-  const linkedData = src_default6();
-  return new src_default5.API(src_default5.client(
+  const linkedData = src_default5();
+  return new src_default4.API(src_default4.client(
     base,
     linkedData,
-    src_default5.mw.thrower(),
-    src_default5.mw.getdata({
+    src_default4.mw.thrower(),
+    src_default4.mw.getdata({
       alwaysData: true,
       responseProperty: SOLID_RESPONSE
     })
@@ -16671,9 +13964,9 @@ function solidApi(base, methods) {
         headers
       });
       const response2 = result[SOLID_RESPONSE];
-      return from(src_default2.many(propertyValue(result?.primary, "http://www.w3.org/ns/ldp#contains"))).select((resource2) => {
-        const id2 = typeof resource2 === "string" ? resource2 : resource2?.id;
-        return { id: id2, url: id2, resource: resource2, response: response2 };
+      return from(oldm_default.many(propertyValue(result?.primary, "http://www.w3.org/ns/ldp#contains"))).select((resource3) => {
+        const id2 = typeof resource3 === "string" ? resource3 : resource3?.id;
+        return { id: id2, url: id2, resource: resource3, response: response2 };
       }).where((entry) => entry.id).toArray();
     },
     async discoverProfile(webId, options = {}) {
@@ -19748,7 +17041,7 @@ var oidc = {
   idToken,
   idTokenClaims
 };
-var src_default7 = oidc;
+var src_default6 = oidc;
 
 // node_modules/@muze-nl/metro-oauth2/src/oauth2.discovery.mjs
 var oauth2_discovery_exports = {};
@@ -19934,17 +17227,17 @@ var oauth2 = Object.assign({}, oauth2_exports, {
 function createSolidMetroClient(input2, options = {}) {
   const providedClient = options.metroClient ?? options.metro ?? options.client;
   let metroClient = providedClient ?? input2;
-  if (!(metroClient instanceof src_default5.Client)) {
-    metroClient = src_default5.client(metroClient);
+  if (!(metroClient instanceof src_default4.Client)) {
+    metroClient = src_default4.client(metroClient);
   }
   if (providedClient && options.configureMetro !== true) {
     return metroClient;
   }
-  if (options.oidc !== false && src_default7?.oidcmw && typeof metroClient?.with === "function") {
-    metroClient = metroClient.with(src_default7.oidcmw(options));
+  if (options.oidc !== false && src_default6?.oidcmw && typeof metroClient?.with === "function") {
+    metroClient = metroClient.with(src_default6.oidcmw(options));
   }
-  if (options.oldm !== false && typeof src_default6 === "function" && typeof metroClient?.with === "function") {
-    metroClient = metroClient.with(src_default6(options));
+  if (options.oldm !== false && typeof src_default5 === "function" && typeof metroClient?.with === "function") {
+    metroClient = metroClient.with(src_default5(options));
   }
   return metroClient;
 }
@@ -19970,7 +17263,7 @@ async function createSolidNotesConnection(options = {}) {
   const pageUrl = currentPageUrl(options.pageUrl);
   const discoverySolid = options.discoverySolid || options.solid || createDiscoverySolid({ webId, options });
   const profile = await discoverySolid.discoverWebId(webId);
-  const storageUrl2 = src_default2.one(profile?.storage, "first");
+  const storageUrl2 = oldm_default.one(profile?.storage, "first");
   if (!storageUrl2) {
     throw new Error(`No Solid storage root found in WebID profile: ${webId}`);
   }
@@ -20015,7 +17308,7 @@ function preferencesUrlForProfile({ profile, storageUrl: storageUrl2, options })
       source: "configured"
     };
   }
-  const context = src_default2.context({ prefixes: prefixes2 });
+  const context = oldm_default.context({ prefixes: prefixes2 });
   context.addGraph(profile.graph);
   const profilePreferencesUrl = firstId(context.get(profile.id)?.pim$preferencesFile);
   if (profilePreferencesUrl) {
@@ -20052,7 +17345,7 @@ async function loadMarginNotesRootFolder({ solid: solid2, preferencesUrl }) {
     if (isMissing(error4.cause)) return "";
     throw error4;
   }
-  const context = src_default2.context({ prefixes: prefixes2 });
+  const context = oldm_default.context({ prefixes: prefixes2 });
   context.addGraph(graph3);
   const subject = from(context.data).where((subject2) => firstId(subject2.mn$rootFolder))[0];
   return firstId(subject?.mn$rootFolder);
@@ -20191,7 +17484,7 @@ function ensureSlash4(url2) {
   return String(url2).endsWith("/") ? String(url2) : `${url2}/`;
 }
 function firstId(value) {
-  const item = src_default2.one(value, "first");
+  const item = oldm_default.one(value, "first");
   return typeof item === "string" ? item : item?.id || "";
 }
 function encodePathSegment(value) {
@@ -21031,8 +18324,8 @@ var paragraphNoteStacks = {
       },
       async syncNotesResource({ app: app2 }) {
         const notesService = app2.marginNotesRuntime.notesService;
-        const resource2 = notesService?.status.resources.notes;
-        if (!resource2?.remote) {
+        const resource3 = notesService?.status.resources.notes;
+        if (!resource3?.remote) {
           return null;
         }
         const status2 = await notesService.sync("notes");
@@ -21320,7 +18613,7 @@ function createSolidResourceStore(options = {}) {
         headers: { Accept: accept }
       }));
       if (isMissing2(response2)) return null;
-      if (response2 instanceof src_default2.Graph) {
+      if (response2 instanceof oldm_default.Graph) {
         return response2.write();
       }
       await ensureOk({ response: response2, operation: "load" });

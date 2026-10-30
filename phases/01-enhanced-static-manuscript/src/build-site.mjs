@@ -3,13 +3,13 @@ import { cp, mkdir, readFile, readdir, rm, writeFile } from "node:fs/promises"
 import path from "node:path"
 import { fileURLToPath } from "node:url"
 import { deflateRawSync } from "node:zlib"
+import { build as buildJavaScript } from "esbuild"
 
 const rootDir = path.resolve(fileURLToPath(new URL("../../../", import.meta.url)))
 const contentDir = path.join(rootDir, "content")
 const bookPath = path.join(contentDir, "book.json")
 const wizardsPath = path.join(contentDir, "wizards.json")
 const phaseDir = path.join(rootDir, "phases", "01-enhanced-static-manuscript")
-const exhibitPhaseDir = path.join(rootDir, "phases", "03-core-explorable-exhibits")
 const marginNotesDistDir = path.dirname(
   fileURLToPath(import.meta.resolve("margin-notes"))
 )
@@ -17,7 +17,7 @@ const siteDir = path.join(rootDir, "www")
 const siteChapterDir = path.join(siteDir, "chapters")
 const siteAssetDir = path.join(siteDir, "assets")
 const siteDataDir = path.join(siteDir, "data")
-const buildAssetVersion = await buildAssetRevision()
+let buildAssetVersion
 const epubFileName = "programming-for-wizards.epub"
 const epubPath = path.join(siteDir, epubFileName)
 const epubExternalImageAssets = new Map([
@@ -38,13 +38,6 @@ const epubExternalImageAssets = new Map([
     "assets/images/epub/metal-movable-type-small.jpg"
   ]
 ])
-const interactiveExhibits = new Set([
-  "same-problem-different-world",
-  "numbers-are-machines",
-  "html-chooses-a-tree",
-  "jaqt-extension-lab",
-  "knitted-castle-vs-lego-castle"
-])
 
 function createManifest(book) {
   return {
@@ -55,7 +48,7 @@ function createManifest(book) {
     features: {
       notes: "planned",
       solidNotes: "planned",
-      exhibitRuntime: true,
+      exhibitRuntime: false,
       readerSettings: true,
       mathRendering: true,
       staticFallbacks: true
@@ -80,6 +73,8 @@ async function main() {
   await mkdir(siteChapterDir, { recursive: true })
   await mkdir(siteAssetDir, { recursive: true })
   await mkdir(siteDataDir, { recursive: true })
+  await buildMarginNotesBundle()
+  buildAssetVersion = await buildAssetRevision()
 
   const book = await readBook()
   const chapters = await readChapters(book)
@@ -169,12 +164,6 @@ async function main() {
   )
 
   await cp(path.join(phaseDir, "assets"), siteAssetDir, { recursive: true })
-  await cp(
-    path.join(exhibitPhaseDir, "assets"),
-    path.join(siteAssetDir, "exhibits"),
-    { recursive: true }
-  )
-  await copyMarginNotesBundle()
 
   await buildEpub(book, cover, readingItems)
   await writePwaManifest(book)
@@ -183,19 +172,28 @@ async function main() {
   console.log(`Built ${readingItems.length} reading pages and EPUB into ${path.relative(rootDir, siteDir)}`)
 }
 
-async function copyMarginNotesBundle() {
+async function buildMarginNotesBundle() {
+  const bundleDir = path.join(siteAssetDir, "margin-notes")
   await cp(
     marginNotesDistDir,
-    path.join(siteAssetDir, "margin-notes"),
+    bundleDir,
     { recursive: true }
   )
+  await buildJavaScript({
+    entryPoints: [path.join(bundleDir, "index.js")],
+    outfile: path.join(bundleDir, "index.min.js"),
+    format: "esm",
+    platform: "browser",
+    minify: true,
+    sourcemap: true
+  })
 }
 
 async function buildAssetRevision() {
   const revision = createHash("sha1")
 
   await addFileToRevision(revision, path.join(phaseDir, "assets", "margin-notes-demo.js"))
-  await addFileToRevision(revision, path.join(marginNotesDistDir, "index.js"), { optional: true })
+  await addFileToRevision(revision, path.join(siteAssetDir, "margin-notes", "index.min.js"))
 
   return revision.digest("hex").slice(0, 10)
 }
@@ -935,7 +933,9 @@ async function writeServiceWorker() {
       file,
       url: `./${path.relative(siteDir, file).split(path.sep).join("/")}`
     }))
-    .filter(entry => entry.url !== "./sw.js")
+    .filter(entry => entry.url !== "./sw.js"
+      && !entry.url.endsWith(".map")
+      && entry.url !== "./assets/margin-notes/index.js")
     .sort((a, b) => a.url.localeCompare(b.url))
   const revision = createHash("sha1")
 
@@ -2322,7 +2322,7 @@ $$</div>
       chapter: this.chapter.id,
       title,
       url: `chapters/${this.chapter.id}.html#${id}`,
-      status: interactiveExhibits.has(exhibitId) ? "interactive" : "placeholder"
+      status: "placeholder"
     })
     this.addAnchor(id, "exhibit", title)
 
@@ -2588,13 +2588,14 @@ function pageShell({ title, book, currentId, chapters, main, pageKind }) {
   <script>
     (() => {
       const root = document.documentElement
+      root.dataset.theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light"
       root.dataset.readerRuntime = "active"
       if (root.dataset.pageKind === "chapter") root.dataset.readerBoot = "pending"
       if (window.location.hash === "#book-end") root.dataset.initialPagePosition = "pending"
       try {
         const settings = JSON.parse(localStorage.getItem("programming-for-wizards.reader-settings") || "{}")
         if (typeof settings.font === "string") root.dataset.font = settings.font
-        if (typeof settings.theme === "string") root.dataset.theme = settings.theme
+        if (["light", "dark", "contrast"].includes(settings.theme)) root.dataset.theme = settings.theme
         if (typeof settings.motion === "string") root.dataset.motion = settings.motion
         if (typeof settings.flow === "string") root.dataset.flow = settings.flow
         if (typeof settings.fontScale === "string") root.style.setProperty("--book-font-scale", settings.fontScale + "%")
@@ -2607,7 +2608,6 @@ function pageShell({ title, book, currentId, chapters, main, pageKind }) {
   <link rel="apple-touch-icon" href="${relativeRoot}assets/images/icons/programming-for-wizards-icon-192.png">
   <link rel="stylesheet" href="${relativeRoot}assets/book.css">
   <link rel="stylesheet" href="${relativeRoot}assets/margin-notes-demo.css">
-  <link rel="stylesheet" href="${relativeRoot}assets/exhibits/exhibits.css">
   <script>
     window.MathJax = {
       tex: {
@@ -2622,9 +2622,6 @@ function pageShell({ title, book, currentId, chapters, main, pageKind }) {
   </script>
   <script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
   <script defer src="${relativeRoot}assets/book.js"></script>
-  <script defer src="${relativeRoot}assets/exhibits/exhibit-kit.js"></script>
-  <script defer src="https://cdn.jsdelivr.net/gh/muze-labs/simplyflow@main/packages/simplyflow/dist/simply.flow.js"></script>
-  <script type="module" src="${relativeRoot}assets/exhibits/exhibits.js"></script>
   <script type="module" src="${relativeRoot}assets/margin-notes-demo.js?v=${buildAssetVersion}"></script>
 </head>
 <body>
@@ -2732,6 +2729,7 @@ function readerMargin(relativeRoot, readerToolsDefault) {
       </label>
       <label>Theme
         <select data-setting="theme">
+          <option value="auto">Browser default</option>
           <option value="light">Light</option>
           <option value="dark">Dark</option>
           <option value="contrast">Contrast</option>

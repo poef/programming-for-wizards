@@ -209,8 +209,8 @@ function checkManifestExpectations(book, chapters, manifest) {
     fail("Manifest should declare readerSettings: true")
   }
 
-  if (manifest.features?.exhibitRuntime !== true) {
-    fail("Manifest should declare exhibitRuntime: true")
+  if (manifest.features?.exhibitRuntime !== false) {
+    fail("Manifest should declare exhibitRuntime: false")
   }
 
   if (manifest.features?.mathRendering !== true) {
@@ -398,16 +398,12 @@ function checkHtmlPages(htmlByFile) {
       fail(`${relativeFile} should emit display math with $$ delimiters, not \[ delimiters`)
     }
 
-    if (!/<link\s+rel="stylesheet"\s+href="(?:\.\.\/)?assets\/exhibits\/exhibits\.css">/.test(html)) {
-      fail(`${relativeFile} is missing the exhibit stylesheet`)
+    if (/\b(?:src|href)="[^"]*assets\/exhibits\//.test(html)) {
+      fail(`${relativeFile} still loads retired exhibit assets`)
     }
 
-    if (!/<script\s+defer\s+src="(?:\.\.\/)?assets\/exhibits\/exhibit-kit\.js"><\/script>/.test(html)) {
-      fail(`${relativeFile} is missing the exhibit kit script`)
-    }
-
-    if (!/<script\s+type="module"\s+src="(?:\.\.\/)?assets\/exhibits\/exhibits\.js"><\/script>/.test(html)) {
-      fail(`${relativeFile} is missing the exhibit registry script`)
+    if (/<script\b[^>]*\bsrc="[^"]*simplyflow[^"]*"/.test(html)) {
+      fail(`${relativeFile} still loads the standalone SimplyFlow exhibit dependency`)
     }
 
     if (!/<script\s+type="module"\s+src="(?:\.\.\/)?assets\/margin-notes-demo\.js\?v=[a-f0-9]{10}"><\/script>/.test(html)) {
@@ -448,7 +444,7 @@ function checkHtmlPages(htmlByFile) {
     }
   }
 
-  notes.push(`${htmlByFile.size} generated HTML pages include reader controls and exhibit scripts`)
+  notes.push(`${htmlByFile.size} generated HTML pages include reader controls and margin notes without exhibit scripts`)
 }
 
 async function checkLocalLinks(htmlByFile, idsByFile) {

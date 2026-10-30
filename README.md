@@ -32,8 +32,18 @@ npm run build
 ```
 
 The margin-notes bundle comes from the installed `margin-notes` npm package.
-The build does not use a sibling checkout. Install dependencies after publishing
-the prepared margin-notes release.
+The book build uses esbuild to generate `www/assets/margin-notes/index.min.js`,
+which the reader loads by default. The original `index.js` and both source maps
+remain available for inspection and debugging. Only the minified bundle is
+precached for offline use; the original bundle and maps are fetched on demand.
+The build does not use a sibling checkout or require a new margin-notes release.
+
+The current manuscript has no interactive exhibits. The build omits their
+JavaScript, stylesheet and standalone SimplyFlow CDN dependency. Reader controls,
+MathJax for the manuscript's formulas, and margin notes remain enabled.
+
+The reader follows the browser's light/dark preference until a theme is chosen.
+Choose **Browser default** in the Theme control to resume following that preference.
 
 Open [www/index.html](www/index.html) after building.
 

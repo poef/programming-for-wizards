@@ -1,16 +1,7 @@
-const CACHE_NAME = "programming-for-wizards-519471cee6"
+const CACHE_NAME = "programming-for-wizards-6aba272bea"
 const PRECACHE_URLS = [
   "./assets/book.css",
   "./assets/book.js",
-  "./assets/exhibits/exhibit-kit.js",
-  "./assets/exhibits/exhibits.css",
-  "./assets/exhibits/exhibits.js",
-  "./assets/exhibits/exhibits/html-tree.js",
-  "./assets/exhibits/exhibits/jaqt.js",
-  "./assets/exhibits/exhibits/knitted-castle.js",
-  "./assets/exhibits/exhibits/numbers.js",
-  "./assets/exhibits/exhibits/same-problem.js",
-  "./assets/exhibits/exhibits/shared.js",
   "./assets/images/epub/abacus-6.png",
   "./assets/images/epub/metal-movable-type-small.jpg",
   "./assets/images/epub/metal-movable-type.jpg",
@@ -33,8 +24,7 @@ const PRECACHE_URLS = [
   "./assets/margin-notes-demo.css",
   "./assets/margin-notes-demo.js",
   "./assets/margin-notes-oauth-callback.html",
-  "./assets/margin-notes/index.js",
-  "./assets/margin-notes/index.js.map",
+  "./assets/margin-notes/index.min.js",
   "./chapters/01-this-is-not-a-programming-book.html",
   "./chapters/02-numbers-bigger-than-you-think.html",
   "./chapters/03-logic-the-truth-is-out-there.html",

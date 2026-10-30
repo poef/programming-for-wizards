@@ -11,6 +11,9 @@
     "serve": "node phases/01-enhanced-static-manuscript/src/serve-site.mjs"
   },
   "dependencies": {
-    "margin-notes": "^0.1.5"
+    "margin-notes": "^0.1.6"
+  },
+  "devDependencies": {
+    "esbuild": "^0.25.12"
   }
 }
