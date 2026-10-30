@@ -51,7 +51,7 @@ A minimal local note could look like this:
 {
     "id": "note-2026-07-01-001",
     "book": "programming-for-wizards",
-    "chapter": "05-the-web-as-address",
+    "chapter": "05-the-web-one-string-to-rule-them-all",
     "target": "p-05-url-small-door",
     "created": "2026-07-01T12:00:00Z",
     "updated": "2026-07-01T12:04:00Z",
@@ -118,7 +118,7 @@ A Solid-hosted edition should avoid server-side dependencies. The book should be
 
 ```text
 /index.html
-/chapters/05-the-web-as-address.html
+/chapters/05-the-web-one-string-to-rule-them-all.html
 /assets/book.css
 /assets/book.js
 /exhibits/html-chooses-a-tree/index.html
@@ -139,9 +139,9 @@ Example:
     "title": "Programming for Wizards",
     "chapters": [
         {
-            "id": "05-the-web-as-address",
+            "id": "05-the-web-one-string-to-rule-them-all",
             "title": "The Web as address: a spell for pointing anywhere",
-            "url": "chapters/05-the-web-as-address.html",
+            "url": "chapters/05-the-web-one-string-to-rule-them-all.html",
             "rule": "Wizard's fourth rule"
         }
     ],

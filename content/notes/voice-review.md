@@ -23,13 +23,13 @@ The revision history remains useful secondary evidence. Commits `8804c5f` and `c
 
 The twelve original findings are reassessed here so the corrections are explicit.
 
-1. **Chapter 10: repeated composition explanation. Retain as an editing suggestion; withdraw the cadence-based voice objection.** [Source, line 499](/home/auke/git/muze-labs/programming-for-wizards/content/chapters/10-code-exhibit-extending-javascript-with-jaqt.md:499)
+1. **Chapter 10: repeated composition explanation. Retain as an editing suggestion; withdraw the cadence-based voice objection.** [Source, line 499](/home/auke/git/muze-labs/programming-for-wizards/content/chapters/10-code-exhibit-growing-queries-inside-javascript.md:499)
 
    > Arrow functions did not need to be added. Imports did not need to be added. Tests did not need to be added.
 
    The older posts establish that repeated openings are compatible with your voice. What still warrants attention is that the next paragraph explains the same benefit again. Keep whichever explanation you prefer, or retain one concrete observation about the spread operator followed by the next paragraph. This is about duplicate work, not suspicious syntax.
 
-2. **Chapter 10: the wooden model and its shape. Retain as a stronger voice concern.** [Source, line 381](/home/auke/git/muze-labs/programming-for-wizards/content/chapters/10-code-exhibit-extending-javascript-with-jaqt.md:381)
+2. **Chapter 10: the wooden model and its shape. Retain as a stronger voice concern.** [Source, line 381](/home/auke/git/muze-labs/programming-for-wizards/content/chapters/10-code-exhibit-growing-queries-inside-javascript.md:381)
 
    > This is not JAQT. It is a small wooden model of the bridge.
    >
@@ -45,7 +45,7 @@ The twelve original findings are reassessed here so the corrections are explicit
 
    This final paragraph restates the previous paragraph's conclusion about studs and threads. Your reference posts do summarize and repeat, so repetition alone does not make it unlike you. I would still try ending one paragraph earlier: the reader has already understood the boundary, and the second ending explains the wizard's role again.
 
-4. **Chapter 12: the introductory recap and OOP overview. Downgrade to a pacing suggestion.** [Source, line 8](/home/auke/git/muze-labs/programming-for-wizards/content/chapters/12-objects-binding-data-behavior-and-time.md:8)
+4. **Chapter 12: the introductory recap and OOP overview. Downgrade to a pacing suggestion.** [Source, line 8](/home/auke/git/muze-labs/programming-for-wizards/content/chapters/12-boundaries-data-behavior-and-time.md:8)
 
    > In the previous chapter we looked at the knitted castle: the strange tendency of software to grow threads.
 
@@ -53,13 +53,13 @@ The twelve original findings are reassessed here so the corrections are explicit
 
    A shorter route to “Where should behavior live?” could still improve the pace. Starting from the order-cancellation problem would make it concrete sooner. That is an optional teaching decision, not a correction of authorship.
 
-5. **Chapter 12: the weather-report joke. Withdraw as a voice flag.** [Source, line 110](/home/auke/git/muze-labs/programming-for-wizards/content/chapters/12-objects-binding-data-behavior-and-time.md:110)
+5. **Chapter 12: the weather-report joke. Withdraw as a voice flag.** [Source, line 110](/home/auke/git/muze-labs/programming-for-wizards/content/chapters/12-boundaries-data-behavior-and-time.md:110)
 
    > Forget the frameworks, the annotations, and the containers with configuration files so large that they need their own weather report.
 
    The references show plenty of exaggeration and pointed commentary about unnecessary complexity. The joke may or may not be your favorite, but I do not have a sufficient basis for calling it unlike you. The earlier suggested bland replacement would risk removing personality.
 
-6. **Chapter 13: reassurance and personification. Retain as a possible voice concern.** [Source, line 148](/home/auke/git/muze-labs/programming-for-wizards/content/chapters/13-architecture-arches-pyramids-and-change.md:148)
+6. **Chapter 13: reassurance and personification. Retain as a possible voice concern.** [Source, line 148](/home/auke/git/muze-labs/programming-for-wizards/content/chapters/13-architecture-arches-and-change.md:148)
 
    > That is not a moral failure. It is what happens when you have to work before the future has finished introducing itself.
 
@@ -67,7 +67,7 @@ The twelve original findings are reassessed here so the corrections are explicit
 
    “You will be wrong. Try not to make it hurt” fits especially well with the 2012 argument that systems should accommodate our limitations.
 
-7. **Chapter 13: repeated manners jokes. Retain as a small editing suggestion.** [First occurrence, line 104](/home/auke/git/muze-labs/programming-for-wizards/content/chapters/13-architecture-arches-pyramids-and-change.md:104); [second, line 136](/home/auke/git/muze-labs/programming-for-wizards/content/chapters/13-architecture-arches-pyramids-and-change.md:136)
+7. **Chapter 13: repeated manners jokes. Retain as a small editing suggestion.** [First occurrence, line 104](/home/auke/git/muze-labs/programming-for-wizards/content/chapters/13-architecture-arches-and-change.md:104); [second, line 136](/home/auke/git/muze-labs/programming-for-wizards/content/chapters/13-architecture-arches-and-change.md:136)
 
    > Software history does not have these manners.
    >
@@ -75,27 +75,27 @@ The twelve original findings are reassessed here so the corrections are explicit
 
    Either joke fits. Their proximity may make the second less effective, but is not evidence of an alien narrator. My preference is to keep the first, where it answers the imagined software politely replacing its predecessor.
 
-8. **Chapter 15: commentary about the book's construction. Retain as a stronger voice concern.** [Source, line 192](/home/auke/git/muze-labs/programming-for-wizards/content/chapters/15-the-web-as-data.md:192)
+8. **Chapter 15: commentary about the book's construction. Retain as a stronger voice concern.** [Source, line 192](/home/auke/git/muze-labs/programming-for-wizards/content/chapters/15-the-web-as-data-things-should-have-addresses-too.md:192)
 
    > This is the URL chapter returning in another costume.
 
    You certainly guide readers and refer back to earlier examples. This particular sentence sounds like an editor describing the manuscript's architecture. It substitutes a costume metaphor for the actual connection, which the next sentence explains directly. I would cut it.
 
-   The contacts/calendar/photo example returns in the final section. That is a separate, ordinary opportunity to shorten the chapter while keeping its question about where data should live. [Source, line 254](/home/auke/git/muze-labs/programming-for-wizards/content/chapters/15-the-web-as-data.md:254)
+   The contacts/calendar/photo example returns in the final section. That is a separate, ordinary opportunity to shorten the chapter while keeping its question about where data should live. [Source, line 254](/home/auke/git/muze-labs/programming-for-wizards/content/chapters/15-the-web-as-data-things-should-have-addresses-too.md:254)
 
-9. **Chapter 16: an abstract maxim. Retain as a possible voice concern.** [Source, line 68](/home/auke/git/muze-labs/programming-for-wizards/content/chapters/16-the-web-as-home.md:68)
+9. **Chapter 16: an abstract maxim. Retain as a possible voice concern.** [Source, line 68](/home/auke/git/muze-labs/programming-for-wizards/content/chapters/16-the-web-as-home-who-owns-your-home-directory.md:68)
 
    > Sometimes moving the boundary changes the problem more than solving it ever could.
 
    The problem is its imprecision rather than its rhetorical shape. The diagrams demonstrate a concrete change in ownership. This sentence replaces that explanation with a comparison between changing and solving an unspecified problem. Your older abstractions generally retain an explicit technical consequence. Try removing it and moving directly to what the alternative arrangement requires.
 
-10. **Chapter 17: the emphatic privacy explanation. Withdraw as a voice flag.** [Source, line 55](/home/auke/git/muze-labs/programming-for-wizards/content/chapters/17-rule-zero-there-are-no-rules.md:55)
+10. **Chapter 17: the emphatic privacy explanation. Withdraw as a voice flag.** [Source, line 55](/home/auke/git/muze-labs/programming-for-wizards/content/chapters/17-epilogue-the-margin-you-have-been-using.md:55)
 
     > Not the whole notebook. Not every unfinished thought in the margin. One note, deliberately chosen.
 
     The reference posts use theatrical emphasis and short corrective beats. Here, the emphasis also serves a concrete purpose: specifying what is shared. It may repeat the preceding sentence, but it is compatible with your voice. I would not change it just to make it sound more human.
 
-11. **Chapter 17: the final thematic recap. Retain as an editing concern; narrow the voice claim.** [Source, line 90](/home/auke/git/muze-labs/programming-for-wizards/content/chapters/17-rule-zero-there-are-no-rules.md:90)
+11. **Chapter 17: the final thematic recap. Retain as an editing concern; narrow the voice claim.** [Source, line 90](/home/auke/git/muze-labs/programming-for-wizards/content/chapters/17-epilogue-the-margin-you-have-been-using.md:90)
 
     > This book has tried to show why notation matters, why programs grow languages, why assumptions become threads, and why boundaries decide how software can change.
 

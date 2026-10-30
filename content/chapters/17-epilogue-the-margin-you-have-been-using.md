@@ -5,13 +5,13 @@ tags: programming for wizards
 # Epilogue: the margin you have been using
 
 <!-- paragraph-id: p-epilogue-you-may-have-written-notes -->
-You may have written notes in the margins of this book.
+If you are reading the web version of this book, you may have written notes in its margins.
 
 <!-- paragraph-id: p-epilogue-to-the-reader-the-margin -->
 To the reader, the margin is simply part of the book. Underneath, it is provided by a small software component that can be included on any Web page.
 
 <!-- paragraph-id: p-epilogue-at-first-the-notes -->
-At first, the notes are stored in your browser. You do not need an account, and the book does not receive everything you write. A private observation stays private.
+At first, the notes are stored in your browser. You do not need an account, and the book receives nothing you write unless you choose to share it. A private observation stays private.
 
 <!-- paragraph-id: p-epilogue-browser-storage-is-useful -->
 Browser storage is useful, but it is not much of a home directory. The notes remain tied to one browser on one device. Clear the browser data and they disappear. Open the book somewhere else and the margin is empty.
@@ -29,7 +29,7 @@ Open the book on another device and they can still be there. Use the same compon
 Each passage in the book has a stable address. A note can say which passage it belongs to without becoming part of the book itself.
 
 <!-- paragraph-id: p-epilogue-solid-determines-where-the-note -->
-Solid determines where the note lives, which identity it belongs to, and which applications may read or change it. Linked data describes what the note means: who wrote it, which passage it annotates, when it was written, and whether it replies to another note.
+With Solid, you decide where the note lives, which identity it belongs to, and which applications may read or change it. Linked data describes what the note means: who wrote it, which passage it annotates, when it was written, and whether it replies to another note.
 
 <!-- paragraph-id: p-epilogue-if-you-have-connected -->
 If you have connected the margin to your pod, you were not only reading about this architecture.

@@ -272,7 +272,7 @@ function checkGeneratedRules(chapters, manifest, htmlByFile) {
 }
 
 function checkNestedListRendering(htmlByFile) {
-  const chapterFile = path.join(siteChapterDir, "06-the-web-as-document.html")
+  const chapterFile = path.join(siteChapterDir, "06-the-web-the-shape-of-words.html")
   const html = htmlByFile.get(chapterFile) ?? ""
   const expectedTree = /<ul><li>strong<ul><li>This is a strong<\/li><li>em<ul><li>and partially emphasized<\/li><\/ul><\/li><\/ul><\/li><li>em<ul><li>text<\/li><\/ul><\/li><\/ul>/
 
@@ -285,20 +285,22 @@ function checkNestedListRendering(htmlByFile) {
 }
 
 function checkSmartPunctuationRendering(htmlByFile) {
-  const chapterFile = path.join(siteChapterDir, "06-the-web-as-document.html")
+  const chapterFile = path.join(siteChapterDir, "06-the-web-the-shape-of-words.html")
   const html = htmlByFile.get(chapterFile) ?? ""
 
-  if (!html.includes("the meaning—the semantics—of a text")) {
+  const proseChapterFile = path.join(siteChapterDir, "07-the-web-waking-up-the-words.html")
+  const proseHtml = htmlByFile.get(proseChapterFile) ?? ""
+  if (!proseHtml.includes("It has become an interface—a keyboard")) {
     fail("Double hyphens in prose should render as em dashes")
     return
   }
 
-  if (!html.includes("SGML—Standard Generalized Markup Language")) {
+  if (!html.includes("SGML—the Standard Generalized Markup Language")) {
     fail("Double hyphens in link labels should render as em dashes")
     return
   }
 
-  const codeChapterFile = path.join(siteChapterDir, "08-programming-languages-are-for-humans.html")
+  const codeChapterFile = path.join(siteChapterDir, "08-teaching-machines-our-words.html")
   const codeHtml = htmlByFile.get(codeChapterFile) ?? ""
   if (!codeHtml.includes("*-----------------------")) {
     fail("Smart punctuation should not alter hyphen runs inside code blocks")

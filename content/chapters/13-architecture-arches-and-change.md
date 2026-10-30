@@ -84,10 +84,7 @@ A bad little language is still a bad little language, only with extra ceremony. 
 In STEPS, some of the repeated machinery became grammar or vocabulary. A distinction that previously required careful code could become a word. Something that took a page could become a sentence in a language designed for that problem.
 
 <!-- paragraph-id: p-13-changing-the-language-changed-the-amount-and-shape -->
-Changing the language changed the amount and shape of the software.
-
-<!-- paragraph-id: p-13-that-can-be-an-arch -->
-That can be an arch.
+Changing the language changed the amount and shape of the software. That can be an arch.
 
 <!-- paragraph-id: p-13-sometimes-it-is-just-a-private-dialect-with -->
 Sometimes it is just a private dialect with a README and a bad attitude. But when it works, the structure gets lighter because the right things have names.
