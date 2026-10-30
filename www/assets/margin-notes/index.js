@@ -1,1810 +1,10 @@
-var __create = Object.create;
 var __defProp = Object.defineProperty;
-var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
-var __getOwnPropNames = Object.getOwnPropertyNames;
-var __getProtoOf = Object.getPrototypeOf;
-var __hasOwnProp = Object.prototype.hasOwnProperty;
-var __commonJS = (cb, mod) => function __require() {
-  return mod || (0, cb[__getOwnPropNames(cb)[0]])((mod = { exports: {} }).exports, mod), mod.exports;
-};
 var __export = (target, all) => {
   for (var name in all)
     __defProp(target, name, { get: all[name], enumerable: true });
 };
-var __copyProps = (to, from3, except, desc3) => {
-  if (from3 && typeof from3 === "object" || typeof from3 === "function") {
-    for (let key of __getOwnPropNames(from3))
-      if (!__hasOwnProp.call(to, key) && key !== except)
-        __defProp(to, key, { get: () => from3[key], enumerable: !(desc3 = __getOwnPropDesc(from3, key)) || desc3.enumerable });
-  }
-  return to;
-};
-var __toESM = (mod, isNodeMode, target) => (target = mod != null ? __create(__getProtoOf(mod)) : {}, __copyProps(
-  // If the importer is in node compatibility mode or this is not an ESM
-  // file that has been converted to a CommonJS file using a Babel-
-  // compatible transform (i.e. "__esModule" has not been set), then set
-  // "default" to the CommonJS "module.exports" for node compatibility.
-  isNodeMode || !mod || !mod.__esModule ? __defProp(target, "default", { value: mod, enumerable: true }) : target,
-  mod
-));
 
-// ../../muze-nl/oldm/node_modules/base64-js/index.js
-var require_base64_js = __commonJS({
-  "../../muze-nl/oldm/node_modules/base64-js/index.js"(exports) {
-    "use strict";
-    exports.byteLength = byteLength;
-    exports.toByteArray = toByteArray;
-    exports.fromByteArray = fromByteArray;
-    var lookup = [];
-    var revLookup = [];
-    var Arr = typeof Uint8Array !== "undefined" ? Uint8Array : Array;
-    var code = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
-    for (i = 0, len = code.length; i < len; ++i) {
-      lookup[i] = code[i];
-      revLookup[code.charCodeAt(i)] = i;
-    }
-    var i;
-    var len;
-    revLookup["-".charCodeAt(0)] = 62;
-    revLookup["_".charCodeAt(0)] = 63;
-    function getLens(b64) {
-      var len2 = b64.length;
-      if (len2 % 4 > 0) {
-        throw new Error("Invalid string. Length must be a multiple of 4");
-      }
-      var validLen = b64.indexOf("=");
-      if (validLen === -1) validLen = len2;
-      var placeHoldersLen = validLen === len2 ? 0 : 4 - validLen % 4;
-      return [validLen, placeHoldersLen];
-    }
-    function byteLength(b64) {
-      var lens = getLens(b64);
-      var validLen = lens[0];
-      var placeHoldersLen = lens[1];
-      return (validLen + placeHoldersLen) * 3 / 4 - placeHoldersLen;
-    }
-    function _byteLength(b64, validLen, placeHoldersLen) {
-      return (validLen + placeHoldersLen) * 3 / 4 - placeHoldersLen;
-    }
-    function toByteArray(b64) {
-      var tmp;
-      var lens = getLens(b64);
-      var validLen = lens[0];
-      var placeHoldersLen = lens[1];
-      var arr = new Arr(_byteLength(b64, validLen, placeHoldersLen));
-      var curByte = 0;
-      var len2 = placeHoldersLen > 0 ? validLen - 4 : validLen;
-      var i2;
-      for (i2 = 0; i2 < len2; i2 += 4) {
-        tmp = revLookup[b64.charCodeAt(i2)] << 18 | revLookup[b64.charCodeAt(i2 + 1)] << 12 | revLookup[b64.charCodeAt(i2 + 2)] << 6 | revLookup[b64.charCodeAt(i2 + 3)];
-        arr[curByte++] = tmp >> 16 & 255;
-        arr[curByte++] = tmp >> 8 & 255;
-        arr[curByte++] = tmp & 255;
-      }
-      if (placeHoldersLen === 2) {
-        tmp = revLookup[b64.charCodeAt(i2)] << 2 | revLookup[b64.charCodeAt(i2 + 1)] >> 4;
-        arr[curByte++] = tmp & 255;
-      }
-      if (placeHoldersLen === 1) {
-        tmp = revLookup[b64.charCodeAt(i2)] << 10 | revLookup[b64.charCodeAt(i2 + 1)] << 4 | revLookup[b64.charCodeAt(i2 + 2)] >> 2;
-        arr[curByte++] = tmp >> 8 & 255;
-        arr[curByte++] = tmp & 255;
-      }
-      return arr;
-    }
-    function tripletToBase64(num) {
-      return lookup[num >> 18 & 63] + lookup[num >> 12 & 63] + lookup[num >> 6 & 63] + lookup[num & 63];
-    }
-    function encodeChunk(uint8, start, end) {
-      var tmp;
-      var output = [];
-      for (var i2 = start; i2 < end; i2 += 3) {
-        tmp = (uint8[i2] << 16 & 16711680) + (uint8[i2 + 1] << 8 & 65280) + (uint8[i2 + 2] & 255);
-        output.push(tripletToBase64(tmp));
-      }
-      return output.join("");
-    }
-    function fromByteArray(uint8) {
-      var tmp;
-      var len2 = uint8.length;
-      var extraBytes = len2 % 3;
-      var parts2 = [];
-      var maxChunkLength = 16383;
-      for (var i2 = 0, len22 = len2 - extraBytes; i2 < len22; i2 += maxChunkLength) {
-        parts2.push(encodeChunk(uint8, i2, i2 + maxChunkLength > len22 ? len22 : i2 + maxChunkLength));
-      }
-      if (extraBytes === 1) {
-        tmp = uint8[len2 - 1];
-        parts2.push(
-          lookup[tmp >> 2] + lookup[tmp << 4 & 63] + "=="
-        );
-      } else if (extraBytes === 2) {
-        tmp = (uint8[len2 - 2] << 8) + uint8[len2 - 1];
-        parts2.push(
-          lookup[tmp >> 10] + lookup[tmp >> 4 & 63] + lookup[tmp << 2 & 63] + "="
-        );
-      }
-      return parts2.join("");
-    }
-  }
-});
-
-// ../../muze-nl/oldm/node_modules/ieee754/index.js
-var require_ieee754 = __commonJS({
-  "../../muze-nl/oldm/node_modules/ieee754/index.js"(exports) {
-    exports.read = function(buffer, offset, isLE, mLen, nBytes) {
-      var e, m;
-      var eLen = nBytes * 8 - mLen - 1;
-      var eMax = (1 << eLen) - 1;
-      var eBias = eMax >> 1;
-      var nBits = -7;
-      var i = isLE ? nBytes - 1 : 0;
-      var d = isLE ? -1 : 1;
-      var s = buffer[offset + i];
-      i += d;
-      e = s & (1 << -nBits) - 1;
-      s >>= -nBits;
-      nBits += eLen;
-      for (; nBits > 0; e = e * 256 + buffer[offset + i], i += d, nBits -= 8) {
-      }
-      m = e & (1 << -nBits) - 1;
-      e >>= -nBits;
-      nBits += mLen;
-      for (; nBits > 0; m = m * 256 + buffer[offset + i], i += d, nBits -= 8) {
-      }
-      if (e === 0) {
-        e = 1 - eBias;
-      } else if (e === eMax) {
-        return m ? NaN : (s ? -1 : 1) * Infinity;
-      } else {
-        m = m + Math.pow(2, mLen);
-        e = e - eBias;
-      }
-      return (s ? -1 : 1) * m * Math.pow(2, e - mLen);
-    };
-    exports.write = function(buffer, value, offset, isLE, mLen, nBytes) {
-      var e, m, c;
-      var eLen = nBytes * 8 - mLen - 1;
-      var eMax = (1 << eLen) - 1;
-      var eBias = eMax >> 1;
-      var rt = mLen === 23 ? Math.pow(2, -24) - Math.pow(2, -77) : 0;
-      var i = isLE ? 0 : nBytes - 1;
-      var d = isLE ? 1 : -1;
-      var s = value < 0 || value === 0 && 1 / value < 0 ? 1 : 0;
-      value = Math.abs(value);
-      if (isNaN(value) || value === Infinity) {
-        m = isNaN(value) ? 1 : 0;
-        e = eMax;
-      } else {
-        e = Math.floor(Math.log(value) / Math.LN2);
-        if (value * (c = Math.pow(2, -e)) < 1) {
-          e--;
-          c *= 2;
-        }
-        if (e + eBias >= 1) {
-          value += rt / c;
-        } else {
-          value += rt * Math.pow(2, 1 - eBias);
-        }
-        if (value * c >= 2) {
-          e++;
-          c /= 2;
-        }
-        if (e + eBias >= eMax) {
-          m = 0;
-          e = eMax;
-        } else if (e + eBias >= 1) {
-          m = (value * c - 1) * Math.pow(2, mLen);
-          e = e + eBias;
-        } else {
-          m = value * Math.pow(2, eBias - 1) * Math.pow(2, mLen);
-          e = 0;
-        }
-      }
-      for (; mLen >= 8; buffer[offset + i] = m & 255, i += d, m /= 256, mLen -= 8) {
-      }
-      e = e << mLen | m;
-      eLen += mLen;
-      for (; eLen > 0; buffer[offset + i] = e & 255, i += d, e /= 256, eLen -= 8) {
-      }
-      buffer[offset + i - d] |= s * 128;
-    };
-  }
-});
-
-// ../../muze-nl/oldm/node_modules/buffer/index.js
-var require_buffer = __commonJS({
-  "../../muze-nl/oldm/node_modules/buffer/index.js"(exports) {
-    "use strict";
-    var base64 = require_base64_js();
-    var ieee754 = require_ieee754();
-    var customInspectSymbol = typeof Symbol === "function" && typeof Symbol["for"] === "function" ? Symbol["for"]("nodejs.util.inspect.custom") : null;
-    exports.Buffer = Buffer3;
-    exports.SlowBuffer = SlowBuffer;
-    exports.INSPECT_MAX_BYTES = 50;
-    var K_MAX_LENGTH = 2147483647;
-    exports.kMaxLength = K_MAX_LENGTH;
-    Buffer3.TYPED_ARRAY_SUPPORT = typedArraySupport();
-    if (!Buffer3.TYPED_ARRAY_SUPPORT && typeof console !== "undefined" && typeof console.error === "function") {
-      console.error(
-        "This browser lacks typed array (Uint8Array) support which is required by `buffer` v5.x. Use `buffer` v4.x if you require old browser support."
-      );
-    }
-    function typedArraySupport() {
-      try {
-        const arr = new Uint8Array(1);
-        const proto = { foo: function() {
-          return 42;
-        } };
-        Object.setPrototypeOf(proto, Uint8Array.prototype);
-        Object.setPrototypeOf(arr, proto);
-        return arr.foo() === 42;
-      } catch (e) {
-        return false;
-      }
-    }
-    Object.defineProperty(Buffer3.prototype, "parent", {
-      enumerable: true,
-      get: function() {
-        if (!Buffer3.isBuffer(this)) return void 0;
-        return this.buffer;
-      }
-    });
-    Object.defineProperty(Buffer3.prototype, "offset", {
-      enumerable: true,
-      get: function() {
-        if (!Buffer3.isBuffer(this)) return void 0;
-        return this.byteOffset;
-      }
-    });
-    function createBuffer(length) {
-      if (length > K_MAX_LENGTH) {
-        throw new RangeError('The value "' + length + '" is invalid for option "size"');
-      }
-      const buf2 = new Uint8Array(length);
-      Object.setPrototypeOf(buf2, Buffer3.prototype);
-      return buf2;
-    }
-    function Buffer3(arg, encodingOrOffset, length) {
-      if (typeof arg === "number") {
-        if (typeof encodingOrOffset === "string") {
-          throw new TypeError(
-            'The "string" argument must be of type string. Received type number'
-          );
-        }
-        return allocUnsafe(arg);
-      }
-      return from3(arg, encodingOrOffset, length);
-    }
-    Buffer3.poolSize = 8192;
-    function from3(value, encodingOrOffset, length) {
-      if (typeof value === "string") {
-        return fromString(value, encodingOrOffset);
-      }
-      if (ArrayBuffer.isView(value)) {
-        return fromArrayView(value);
-      }
-      if (value == null) {
-        throw new TypeError(
-          "The first argument must be one of type string, Buffer, ArrayBuffer, Array, or Array-like Object. Received type " + typeof value
-        );
-      }
-      if (isInstance(value, ArrayBuffer) || value && isInstance(value.buffer, ArrayBuffer)) {
-        return fromArrayBuffer(value, encodingOrOffset, length);
-      }
-      if (typeof SharedArrayBuffer !== "undefined" && (isInstance(value, SharedArrayBuffer) || value && isInstance(value.buffer, SharedArrayBuffer))) {
-        return fromArrayBuffer(value, encodingOrOffset, length);
-      }
-      if (typeof value === "number") {
-        throw new TypeError(
-          'The "value" argument must not be of type number. Received type number'
-        );
-      }
-      const valueOf = value.valueOf && value.valueOf();
-      if (valueOf != null && valueOf !== value) {
-        return Buffer3.from(valueOf, encodingOrOffset, length);
-      }
-      const b = fromObject(value);
-      if (b) return b;
-      if (typeof Symbol !== "undefined" && Symbol.toPrimitive != null && typeof value[Symbol.toPrimitive] === "function") {
-        return Buffer3.from(value[Symbol.toPrimitive]("string"), encodingOrOffset, length);
-      }
-      throw new TypeError(
-        "The first argument must be one of type string, Buffer, ArrayBuffer, Array, or Array-like Object. Received type " + typeof value
-      );
-    }
-    Buffer3.from = function(value, encodingOrOffset, length) {
-      return from3(value, encodingOrOffset, length);
-    };
-    Object.setPrototypeOf(Buffer3.prototype, Uint8Array.prototype);
-    Object.setPrototypeOf(Buffer3, Uint8Array);
-    function assertSize(size) {
-      if (typeof size !== "number") {
-        throw new TypeError('"size" argument must be of type number');
-      } else if (size < 0) {
-        throw new RangeError('The value "' + size + '" is invalid for option "size"');
-      }
-    }
-    function alloc(size, fill, encoding) {
-      assertSize(size);
-      if (size <= 0) {
-        return createBuffer(size);
-      }
-      if (fill !== void 0) {
-        return typeof encoding === "string" ? createBuffer(size).fill(fill, encoding) : createBuffer(size).fill(fill);
-      }
-      return createBuffer(size);
-    }
-    Buffer3.alloc = function(size, fill, encoding) {
-      return alloc(size, fill, encoding);
-    };
-    function allocUnsafe(size) {
-      assertSize(size);
-      return createBuffer(size < 0 ? 0 : checked(size) | 0);
-    }
-    Buffer3.allocUnsafe = function(size) {
-      return allocUnsafe(size);
-    };
-    Buffer3.allocUnsafeSlow = function(size) {
-      return allocUnsafe(size);
-    };
-    function fromString(string, encoding) {
-      if (typeof encoding !== "string" || encoding === "") {
-        encoding = "utf8";
-      }
-      if (!Buffer3.isEncoding(encoding)) {
-        throw new TypeError("Unknown encoding: " + encoding);
-      }
-      const length = byteLength(string, encoding) | 0;
-      let buf2 = createBuffer(length);
-      const actual = buf2.write(string, encoding);
-      if (actual !== length) {
-        buf2 = buf2.slice(0, actual);
-      }
-      return buf2;
-    }
-    function fromArrayLike(array) {
-      const length = array.length < 0 ? 0 : checked(array.length) | 0;
-      const buf2 = createBuffer(length);
-      for (let i = 0; i < length; i += 1) {
-        buf2[i] = array[i] & 255;
-      }
-      return buf2;
-    }
-    function fromArrayView(arrayView) {
-      if (isInstance(arrayView, Uint8Array)) {
-        const copy = new Uint8Array(arrayView);
-        return fromArrayBuffer(copy.buffer, copy.byteOffset, copy.byteLength);
-      }
-      return fromArrayLike(arrayView);
-    }
-    function fromArrayBuffer(array, byteOffset, length) {
-      if (byteOffset < 0 || array.byteLength < byteOffset) {
-        throw new RangeError('"offset" is outside of buffer bounds');
-      }
-      if (array.byteLength < byteOffset + (length || 0)) {
-        throw new RangeError('"length" is outside of buffer bounds');
-      }
-      let buf2;
-      if (byteOffset === void 0 && length === void 0) {
-        buf2 = new Uint8Array(array);
-      } else if (length === void 0) {
-        buf2 = new Uint8Array(array, byteOffset);
-      } else {
-        buf2 = new Uint8Array(array, byteOffset, length);
-      }
-      Object.setPrototypeOf(buf2, Buffer3.prototype);
-      return buf2;
-    }
-    function fromObject(obj) {
-      if (Buffer3.isBuffer(obj)) {
-        const len = checked(obj.length) | 0;
-        const buf2 = createBuffer(len);
-        if (buf2.length === 0) {
-          return buf2;
-        }
-        obj.copy(buf2, 0, 0, len);
-        return buf2;
-      }
-      if (obj.length !== void 0) {
-        if (typeof obj.length !== "number" || numberIsNaN(obj.length)) {
-          return createBuffer(0);
-        }
-        return fromArrayLike(obj);
-      }
-      if (obj.type === "Buffer" && Array.isArray(obj.data)) {
-        return fromArrayLike(obj.data);
-      }
-    }
-    function checked(length) {
-      if (length >= K_MAX_LENGTH) {
-        throw new RangeError("Attempt to allocate Buffer larger than maximum size: 0x" + K_MAX_LENGTH.toString(16) + " bytes");
-      }
-      return length | 0;
-    }
-    function SlowBuffer(length) {
-      if (+length != length) {
-        length = 0;
-      }
-      return Buffer3.alloc(+length);
-    }
-    Buffer3.isBuffer = function isBuffer(b) {
-      return b != null && b._isBuffer === true && b !== Buffer3.prototype;
-    };
-    Buffer3.compare = function compare(a, b) {
-      if (isInstance(a, Uint8Array)) a = Buffer3.from(a, a.offset, a.byteLength);
-      if (isInstance(b, Uint8Array)) b = Buffer3.from(b, b.offset, b.byteLength);
-      if (!Buffer3.isBuffer(a) || !Buffer3.isBuffer(b)) {
-        throw new TypeError(
-          'The "buf1", "buf2" arguments must be one of type Buffer or Uint8Array'
-        );
-      }
-      if (a === b) return 0;
-      let x = a.length;
-      let y = b.length;
-      for (let i = 0, len = Math.min(x, y); i < len; ++i) {
-        if (a[i] !== b[i]) {
-          x = a[i];
-          y = b[i];
-          break;
-        }
-      }
-      if (x < y) return -1;
-      if (y < x) return 1;
-      return 0;
-    };
-    Buffer3.isEncoding = function isEncoding(encoding) {
-      switch (String(encoding).toLowerCase()) {
-        case "hex":
-        case "utf8":
-        case "utf-8":
-        case "ascii":
-        case "latin1":
-        case "binary":
-        case "base64":
-        case "ucs2":
-        case "ucs-2":
-        case "utf16le":
-        case "utf-16le":
-          return true;
-        default:
-          return false;
-      }
-    };
-    Buffer3.concat = function concat(list2, length) {
-      if (!Array.isArray(list2)) {
-        throw new TypeError('"list" argument must be an Array of Buffers');
-      }
-      if (list2.length === 0) {
-        return Buffer3.alloc(0);
-      }
-      let i;
-      if (length === void 0) {
-        length = 0;
-        for (i = 0; i < list2.length; ++i) {
-          length += list2[i].length;
-        }
-      }
-      const buffer = Buffer3.allocUnsafe(length);
-      let pos = 0;
-      for (i = 0; i < list2.length; ++i) {
-        let buf2 = list2[i];
-        if (isInstance(buf2, Uint8Array)) {
-          if (pos + buf2.length > buffer.length) {
-            if (!Buffer3.isBuffer(buf2)) buf2 = Buffer3.from(buf2);
-            buf2.copy(buffer, pos);
-          } else {
-            Uint8Array.prototype.set.call(
-              buffer,
-              buf2,
-              pos
-            );
-          }
-        } else if (!Buffer3.isBuffer(buf2)) {
-          throw new TypeError('"list" argument must be an Array of Buffers');
-        } else {
-          buf2.copy(buffer, pos);
-        }
-        pos += buf2.length;
-      }
-      return buffer;
-    };
-    function byteLength(string, encoding) {
-      if (Buffer3.isBuffer(string)) {
-        return string.length;
-      }
-      if (ArrayBuffer.isView(string) || isInstance(string, ArrayBuffer)) {
-        return string.byteLength;
-      }
-      if (typeof string !== "string") {
-        throw new TypeError(
-          'The "string" argument must be one of type string, Buffer, or ArrayBuffer. Received type ' + typeof string
-        );
-      }
-      const len = string.length;
-      const mustMatch = arguments.length > 2 && arguments[2] === true;
-      if (!mustMatch && len === 0) return 0;
-      let loweredCase = false;
-      for (; ; ) {
-        switch (encoding) {
-          case "ascii":
-          case "latin1":
-          case "binary":
-            return len;
-          case "utf8":
-          case "utf-8":
-            return utf8ToBytes(string).length;
-          case "ucs2":
-          case "ucs-2":
-          case "utf16le":
-          case "utf-16le":
-            return len * 2;
-          case "hex":
-            return len >>> 1;
-          case "base64":
-            return base64ToBytes(string).length;
-          default:
-            if (loweredCase) {
-              return mustMatch ? -1 : utf8ToBytes(string).length;
-            }
-            encoding = ("" + encoding).toLowerCase();
-            loweredCase = true;
-        }
-      }
-    }
-    Buffer3.byteLength = byteLength;
-    function slowToString(encoding, start, end) {
-      let loweredCase = false;
-      if (start === void 0 || start < 0) {
-        start = 0;
-      }
-      if (start > this.length) {
-        return "";
-      }
-      if (end === void 0 || end > this.length) {
-        end = this.length;
-      }
-      if (end <= 0) {
-        return "";
-      }
-      end >>>= 0;
-      start >>>= 0;
-      if (end <= start) {
-        return "";
-      }
-      if (!encoding) encoding = "utf8";
-      while (true) {
-        switch (encoding) {
-          case "hex":
-            return hexSlice(this, start, end);
-          case "utf8":
-          case "utf-8":
-            return utf8Slice(this, start, end);
-          case "ascii":
-            return asciiSlice(this, start, end);
-          case "latin1":
-          case "binary":
-            return latin1Slice(this, start, end);
-          case "base64":
-            return base64Slice(this, start, end);
-          case "ucs2":
-          case "ucs-2":
-          case "utf16le":
-          case "utf-16le":
-            return utf16leSlice(this, start, end);
-          default:
-            if (loweredCase) throw new TypeError("Unknown encoding: " + encoding);
-            encoding = (encoding + "").toLowerCase();
-            loweredCase = true;
-        }
-      }
-    }
-    Buffer3.prototype._isBuffer = true;
-    function swap(b, n, m) {
-      const i = b[n];
-      b[n] = b[m];
-      b[m] = i;
-    }
-    Buffer3.prototype.swap16 = function swap16() {
-      const len = this.length;
-      if (len % 2 !== 0) {
-        throw new RangeError("Buffer size must be a multiple of 16-bits");
-      }
-      for (let i = 0; i < len; i += 2) {
-        swap(this, i, i + 1);
-      }
-      return this;
-    };
-    Buffer3.prototype.swap32 = function swap32() {
-      const len = this.length;
-      if (len % 4 !== 0) {
-        throw new RangeError("Buffer size must be a multiple of 32-bits");
-      }
-      for (let i = 0; i < len; i += 4) {
-        swap(this, i, i + 3);
-        swap(this, i + 1, i + 2);
-      }
-      return this;
-    };
-    Buffer3.prototype.swap64 = function swap64() {
-      const len = this.length;
-      if (len % 8 !== 0) {
-        throw new RangeError("Buffer size must be a multiple of 64-bits");
-      }
-      for (let i = 0; i < len; i += 8) {
-        swap(this, i, i + 7);
-        swap(this, i + 1, i + 6);
-        swap(this, i + 2, i + 5);
-        swap(this, i + 3, i + 4);
-      }
-      return this;
-    };
-    Buffer3.prototype.toString = function toString() {
-      const length = this.length;
-      if (length === 0) return "";
-      if (arguments.length === 0) return utf8Slice(this, 0, length);
-      return slowToString.apply(this, arguments);
-    };
-    Buffer3.prototype.toLocaleString = Buffer3.prototype.toString;
-    Buffer3.prototype.equals = function equals(b) {
-      if (!Buffer3.isBuffer(b)) throw new TypeError("Argument must be a Buffer");
-      if (this === b) return true;
-      return Buffer3.compare(this, b) === 0;
-    };
-    Buffer3.prototype.inspect = function inspect() {
-      let str = "";
-      const max = exports.INSPECT_MAX_BYTES;
-      str = this.toString("hex", 0, max).replace(/(.{2})/g, "$1 ").trim();
-      if (this.length > max) str += " ... ";
-      return "<Buffer " + str + ">";
-    };
-    if (customInspectSymbol) {
-      Buffer3.prototype[customInspectSymbol] = Buffer3.prototype.inspect;
-    }
-    Buffer3.prototype.compare = function compare(target, start, end, thisStart, thisEnd) {
-      if (isInstance(target, Uint8Array)) {
-        target = Buffer3.from(target, target.offset, target.byteLength);
-      }
-      if (!Buffer3.isBuffer(target)) {
-        throw new TypeError(
-          'The "target" argument must be one of type Buffer or Uint8Array. Received type ' + typeof target
-        );
-      }
-      if (start === void 0) {
-        start = 0;
-      }
-      if (end === void 0) {
-        end = target ? target.length : 0;
-      }
-      if (thisStart === void 0) {
-        thisStart = 0;
-      }
-      if (thisEnd === void 0) {
-        thisEnd = this.length;
-      }
-      if (start < 0 || end > target.length || thisStart < 0 || thisEnd > this.length) {
-        throw new RangeError("out of range index");
-      }
-      if (thisStart >= thisEnd && start >= end) {
-        return 0;
-      }
-      if (thisStart >= thisEnd) {
-        return -1;
-      }
-      if (start >= end) {
-        return 1;
-      }
-      start >>>= 0;
-      end >>>= 0;
-      thisStart >>>= 0;
-      thisEnd >>>= 0;
-      if (this === target) return 0;
-      let x = thisEnd - thisStart;
-      let y = end - start;
-      const len = Math.min(x, y);
-      const thisCopy = this.slice(thisStart, thisEnd);
-      const targetCopy = target.slice(start, end);
-      for (let i = 0; i < len; ++i) {
-        if (thisCopy[i] !== targetCopy[i]) {
-          x = thisCopy[i];
-          y = targetCopy[i];
-          break;
-        }
-      }
-      if (x < y) return -1;
-      if (y < x) return 1;
-      return 0;
-    };
-    function bidirectionalIndexOf(buffer, val, byteOffset, encoding, dir) {
-      if (buffer.length === 0) return -1;
-      if (typeof byteOffset === "string") {
-        encoding = byteOffset;
-        byteOffset = 0;
-      } else if (byteOffset > 2147483647) {
-        byteOffset = 2147483647;
-      } else if (byteOffset < -2147483648) {
-        byteOffset = -2147483648;
-      }
-      byteOffset = +byteOffset;
-      if (numberIsNaN(byteOffset)) {
-        byteOffset = dir ? 0 : buffer.length - 1;
-      }
-      if (byteOffset < 0) byteOffset = buffer.length + byteOffset;
-      if (byteOffset >= buffer.length) {
-        if (dir) return -1;
-        else byteOffset = buffer.length - 1;
-      } else if (byteOffset < 0) {
-        if (dir) byteOffset = 0;
-        else return -1;
-      }
-      if (typeof val === "string") {
-        val = Buffer3.from(val, encoding);
-      }
-      if (Buffer3.isBuffer(val)) {
-        if (val.length === 0) {
-          return -1;
-        }
-        return arrayIndexOf(buffer, val, byteOffset, encoding, dir);
-      } else if (typeof val === "number") {
-        val = val & 255;
-        if (typeof Uint8Array.prototype.indexOf === "function") {
-          if (dir) {
-            return Uint8Array.prototype.indexOf.call(buffer, val, byteOffset);
-          } else {
-            return Uint8Array.prototype.lastIndexOf.call(buffer, val, byteOffset);
-          }
-        }
-        return arrayIndexOf(buffer, [val], byteOffset, encoding, dir);
-      }
-      throw new TypeError("val must be string, number or Buffer");
-    }
-    function arrayIndexOf(arr, val, byteOffset, encoding, dir) {
-      let indexSize = 1;
-      let arrLength = arr.length;
-      let valLength = val.length;
-      if (encoding !== void 0) {
-        encoding = String(encoding).toLowerCase();
-        if (encoding === "ucs2" || encoding === "ucs-2" || encoding === "utf16le" || encoding === "utf-16le") {
-          if (arr.length < 2 || val.length < 2) {
-            return -1;
-          }
-          indexSize = 2;
-          arrLength /= 2;
-          valLength /= 2;
-          byteOffset /= 2;
-        }
-      }
-      function read(buf2, i2) {
-        if (indexSize === 1) {
-          return buf2[i2];
-        } else {
-          return buf2.readUInt16BE(i2 * indexSize);
-        }
-      }
-      let i;
-      if (dir) {
-        let foundIndex = -1;
-        for (i = byteOffset; i < arrLength; i++) {
-          if (read(arr, i) === read(val, foundIndex === -1 ? 0 : i - foundIndex)) {
-            if (foundIndex === -1) foundIndex = i;
-            if (i - foundIndex + 1 === valLength) return foundIndex * indexSize;
-          } else {
-            if (foundIndex !== -1) i -= i - foundIndex;
-            foundIndex = -1;
-          }
-        }
-      } else {
-        if (byteOffset + valLength > arrLength) byteOffset = arrLength - valLength;
-        for (i = byteOffset; i >= 0; i--) {
-          let found = true;
-          for (let j = 0; j < valLength; j++) {
-            if (read(arr, i + j) !== read(val, j)) {
-              found = false;
-              break;
-            }
-          }
-          if (found) return i;
-        }
-      }
-      return -1;
-    }
-    Buffer3.prototype.includes = function includes2(val, byteOffset, encoding) {
-      return this.indexOf(val, byteOffset, encoding) !== -1;
-    };
-    Buffer3.prototype.indexOf = function indexOf(val, byteOffset, encoding) {
-      return bidirectionalIndexOf(this, val, byteOffset, encoding, true);
-    };
-    Buffer3.prototype.lastIndexOf = function lastIndexOf(val, byteOffset, encoding) {
-      return bidirectionalIndexOf(this, val, byteOffset, encoding, false);
-    };
-    function hexWrite(buf2, string, offset, length) {
-      offset = Number(offset) || 0;
-      const remaining = buf2.length - offset;
-      if (!length) {
-        length = remaining;
-      } else {
-        length = Number(length);
-        if (length > remaining) {
-          length = remaining;
-        }
-      }
-      const strLen = string.length;
-      if (length > strLen / 2) {
-        length = strLen / 2;
-      }
-      let i;
-      for (i = 0; i < length; ++i) {
-        const parsed = parseInt(string.substr(i * 2, 2), 16);
-        if (numberIsNaN(parsed)) return i;
-        buf2[offset + i] = parsed;
-      }
-      return i;
-    }
-    function utf8Write(buf2, string, offset, length) {
-      return blitBuffer(utf8ToBytes(string, buf2.length - offset), buf2, offset, length);
-    }
-    function asciiWrite(buf2, string, offset, length) {
-      return blitBuffer(asciiToBytes(string), buf2, offset, length);
-    }
-    function base64Write(buf2, string, offset, length) {
-      return blitBuffer(base64ToBytes(string), buf2, offset, length);
-    }
-    function ucs2Write(buf2, string, offset, length) {
-      return blitBuffer(utf16leToBytes(string, buf2.length - offset), buf2, offset, length);
-    }
-    Buffer3.prototype.write = function write(string, offset, length, encoding) {
-      if (offset === void 0) {
-        encoding = "utf8";
-        length = this.length;
-        offset = 0;
-      } else if (length === void 0 && typeof offset === "string") {
-        encoding = offset;
-        length = this.length;
-        offset = 0;
-      } else if (isFinite(offset)) {
-        offset = offset >>> 0;
-        if (isFinite(length)) {
-          length = length >>> 0;
-          if (encoding === void 0) encoding = "utf8";
-        } else {
-          encoding = length;
-          length = void 0;
-        }
-      } else {
-        throw new Error(
-          "Buffer.write(string, encoding, offset[, length]) is no longer supported"
-        );
-      }
-      const remaining = this.length - offset;
-      if (length === void 0 || length > remaining) length = remaining;
-      if (string.length > 0 && (length < 0 || offset < 0) || offset > this.length) {
-        throw new RangeError("Attempt to write outside buffer bounds");
-      }
-      if (!encoding) encoding = "utf8";
-      let loweredCase = false;
-      for (; ; ) {
-        switch (encoding) {
-          case "hex":
-            return hexWrite(this, string, offset, length);
-          case "utf8":
-          case "utf-8":
-            return utf8Write(this, string, offset, length);
-          case "ascii":
-          case "latin1":
-          case "binary":
-            return asciiWrite(this, string, offset, length);
-          case "base64":
-            return base64Write(this, string, offset, length);
-          case "ucs2":
-          case "ucs-2":
-          case "utf16le":
-          case "utf-16le":
-            return ucs2Write(this, string, offset, length);
-          default:
-            if (loweredCase) throw new TypeError("Unknown encoding: " + encoding);
-            encoding = ("" + encoding).toLowerCase();
-            loweredCase = true;
-        }
-      }
-    };
-    Buffer3.prototype.toJSON = function toJSON() {
-      return {
-        type: "Buffer",
-        data: Array.prototype.slice.call(this._arr || this, 0)
-      };
-    };
-    function base64Slice(buf2, start, end) {
-      if (start === 0 && end === buf2.length) {
-        return base64.fromByteArray(buf2);
-      } else {
-        return base64.fromByteArray(buf2.slice(start, end));
-      }
-    }
-    function utf8Slice(buf2, start, end) {
-      end = Math.min(buf2.length, end);
-      const res = [];
-      let i = start;
-      while (i < end) {
-        const firstByte = buf2[i];
-        let codePoint = null;
-        let bytesPerSequence = firstByte > 239 ? 4 : firstByte > 223 ? 3 : firstByte > 191 ? 2 : 1;
-        if (i + bytesPerSequence <= end) {
-          let secondByte, thirdByte, fourthByte, tempCodePoint;
-          switch (bytesPerSequence) {
-            case 1:
-              if (firstByte < 128) {
-                codePoint = firstByte;
-              }
-              break;
-            case 2:
-              secondByte = buf2[i + 1];
-              if ((secondByte & 192) === 128) {
-                tempCodePoint = (firstByte & 31) << 6 | secondByte & 63;
-                if (tempCodePoint > 127) {
-                  codePoint = tempCodePoint;
-                }
-              }
-              break;
-            case 3:
-              secondByte = buf2[i + 1];
-              thirdByte = buf2[i + 2];
-              if ((secondByte & 192) === 128 && (thirdByte & 192) === 128) {
-                tempCodePoint = (firstByte & 15) << 12 | (secondByte & 63) << 6 | thirdByte & 63;
-                if (tempCodePoint > 2047 && (tempCodePoint < 55296 || tempCodePoint > 57343)) {
-                  codePoint = tempCodePoint;
-                }
-              }
-              break;
-            case 4:
-              secondByte = buf2[i + 1];
-              thirdByte = buf2[i + 2];
-              fourthByte = buf2[i + 3];
-              if ((secondByte & 192) === 128 && (thirdByte & 192) === 128 && (fourthByte & 192) === 128) {
-                tempCodePoint = (firstByte & 15) << 18 | (secondByte & 63) << 12 | (thirdByte & 63) << 6 | fourthByte & 63;
-                if (tempCodePoint > 65535 && tempCodePoint < 1114112) {
-                  codePoint = tempCodePoint;
-                }
-              }
-          }
-        }
-        if (codePoint === null) {
-          codePoint = 65533;
-          bytesPerSequence = 1;
-        } else if (codePoint > 65535) {
-          codePoint -= 65536;
-          res.push(codePoint >>> 10 & 1023 | 55296);
-          codePoint = 56320 | codePoint & 1023;
-        }
-        res.push(codePoint);
-        i += bytesPerSequence;
-      }
-      return decodeCodePointsArray(res);
-    }
-    var MAX_ARGUMENTS_LENGTH = 4096;
-    function decodeCodePointsArray(codePoints) {
-      const len = codePoints.length;
-      if (len <= MAX_ARGUMENTS_LENGTH) {
-        return String.fromCharCode.apply(String, codePoints);
-      }
-      let res = "";
-      let i = 0;
-      while (i < len) {
-        res += String.fromCharCode.apply(
-          String,
-          codePoints.slice(i, i += MAX_ARGUMENTS_LENGTH)
-        );
-      }
-      return res;
-    }
-    function asciiSlice(buf2, start, end) {
-      let ret = "";
-      end = Math.min(buf2.length, end);
-      for (let i = start; i < end; ++i) {
-        ret += String.fromCharCode(buf2[i] & 127);
-      }
-      return ret;
-    }
-    function latin1Slice(buf2, start, end) {
-      let ret = "";
-      end = Math.min(buf2.length, end);
-      for (let i = start; i < end; ++i) {
-        ret += String.fromCharCode(buf2[i]);
-      }
-      return ret;
-    }
-    function hexSlice(buf2, start, end) {
-      const len = buf2.length;
-      if (!start || start < 0) start = 0;
-      if (!end || end < 0 || end > len) end = len;
-      let out = "";
-      for (let i = start; i < end; ++i) {
-        out += hexSliceLookupTable[buf2[i]];
-      }
-      return out;
-    }
-    function utf16leSlice(buf2, start, end) {
-      const bytes = buf2.slice(start, end);
-      let res = "";
-      for (let i = 0; i < bytes.length - 1; i += 2) {
-        res += String.fromCharCode(bytes[i] + bytes[i + 1] * 256);
-      }
-      return res;
-    }
-    Buffer3.prototype.slice = function slice(start, end) {
-      const len = this.length;
-      start = ~~start;
-      end = end === void 0 ? len : ~~end;
-      if (start < 0) {
-        start += len;
-        if (start < 0) start = 0;
-      } else if (start > len) {
-        start = len;
-      }
-      if (end < 0) {
-        end += len;
-        if (end < 0) end = 0;
-      } else if (end > len) {
-        end = len;
-      }
-      if (end < start) end = start;
-      const newBuf = this.subarray(start, end);
-      Object.setPrototypeOf(newBuf, Buffer3.prototype);
-      return newBuf;
-    };
-    function checkOffset(offset, ext, length) {
-      if (offset % 1 !== 0 || offset < 0) throw new RangeError("offset is not uint");
-      if (offset + ext > length) throw new RangeError("Trying to access beyond buffer length");
-    }
-    Buffer3.prototype.readUintLE = Buffer3.prototype.readUIntLE = function readUIntLE(offset, byteLength2, noAssert) {
-      offset = offset >>> 0;
-      byteLength2 = byteLength2 >>> 0;
-      if (!noAssert) checkOffset(offset, byteLength2, this.length);
-      let val = this[offset];
-      let mul = 1;
-      let i = 0;
-      while (++i < byteLength2 && (mul *= 256)) {
-        val += this[offset + i] * mul;
-      }
-      return val;
-    };
-    Buffer3.prototype.readUintBE = Buffer3.prototype.readUIntBE = function readUIntBE(offset, byteLength2, noAssert) {
-      offset = offset >>> 0;
-      byteLength2 = byteLength2 >>> 0;
-      if (!noAssert) {
-        checkOffset(offset, byteLength2, this.length);
-      }
-      let val = this[offset + --byteLength2];
-      let mul = 1;
-      while (byteLength2 > 0 && (mul *= 256)) {
-        val += this[offset + --byteLength2] * mul;
-      }
-      return val;
-    };
-    Buffer3.prototype.readUint8 = Buffer3.prototype.readUInt8 = function readUInt8(offset, noAssert) {
-      offset = offset >>> 0;
-      if (!noAssert) checkOffset(offset, 1, this.length);
-      return this[offset];
-    };
-    Buffer3.prototype.readUint16LE = Buffer3.prototype.readUInt16LE = function readUInt16LE(offset, noAssert) {
-      offset = offset >>> 0;
-      if (!noAssert) checkOffset(offset, 2, this.length);
-      return this[offset] | this[offset + 1] << 8;
-    };
-    Buffer3.prototype.readUint16BE = Buffer3.prototype.readUInt16BE = function readUInt16BE(offset, noAssert) {
-      offset = offset >>> 0;
-      if (!noAssert) checkOffset(offset, 2, this.length);
-      return this[offset] << 8 | this[offset + 1];
-    };
-    Buffer3.prototype.readUint32LE = Buffer3.prototype.readUInt32LE = function readUInt32LE(offset, noAssert) {
-      offset = offset >>> 0;
-      if (!noAssert) checkOffset(offset, 4, this.length);
-      return (this[offset] | this[offset + 1] << 8 | this[offset + 2] << 16) + this[offset + 3] * 16777216;
-    };
-    Buffer3.prototype.readUint32BE = Buffer3.prototype.readUInt32BE = function readUInt32BE(offset, noAssert) {
-      offset = offset >>> 0;
-      if (!noAssert) checkOffset(offset, 4, this.length);
-      return this[offset] * 16777216 + (this[offset + 1] << 16 | this[offset + 2] << 8 | this[offset + 3]);
-    };
-    Buffer3.prototype.readBigUInt64LE = defineBigIntMethod(function readBigUInt64LE(offset) {
-      offset = offset >>> 0;
-      validateNumber(offset, "offset");
-      const first2 = this[offset];
-      const last = this[offset + 7];
-      if (first2 === void 0 || last === void 0) {
-        boundsError(offset, this.length - 8);
-      }
-      const lo = first2 + this[++offset] * 2 ** 8 + this[++offset] * 2 ** 16 + this[++offset] * 2 ** 24;
-      const hi = this[++offset] + this[++offset] * 2 ** 8 + this[++offset] * 2 ** 16 + last * 2 ** 24;
-      return BigInt(lo) + (BigInt(hi) << BigInt(32));
-    });
-    Buffer3.prototype.readBigUInt64BE = defineBigIntMethod(function readBigUInt64BE(offset) {
-      offset = offset >>> 0;
-      validateNumber(offset, "offset");
-      const first2 = this[offset];
-      const last = this[offset + 7];
-      if (first2 === void 0 || last === void 0) {
-        boundsError(offset, this.length - 8);
-      }
-      const hi = first2 * 2 ** 24 + this[++offset] * 2 ** 16 + this[++offset] * 2 ** 8 + this[++offset];
-      const lo = this[++offset] * 2 ** 24 + this[++offset] * 2 ** 16 + this[++offset] * 2 ** 8 + last;
-      return (BigInt(hi) << BigInt(32)) + BigInt(lo);
-    });
-    Buffer3.prototype.readIntLE = function readIntLE(offset, byteLength2, noAssert) {
-      offset = offset >>> 0;
-      byteLength2 = byteLength2 >>> 0;
-      if (!noAssert) checkOffset(offset, byteLength2, this.length);
-      let val = this[offset];
-      let mul = 1;
-      let i = 0;
-      while (++i < byteLength2 && (mul *= 256)) {
-        val += this[offset + i] * mul;
-      }
-      mul *= 128;
-      if (val >= mul) val -= Math.pow(2, 8 * byteLength2);
-      return val;
-    };
-    Buffer3.prototype.readIntBE = function readIntBE(offset, byteLength2, noAssert) {
-      offset = offset >>> 0;
-      byteLength2 = byteLength2 >>> 0;
-      if (!noAssert) checkOffset(offset, byteLength2, this.length);
-      let i = byteLength2;
-      let mul = 1;
-      let val = this[offset + --i];
-      while (i > 0 && (mul *= 256)) {
-        val += this[offset + --i] * mul;
-      }
-      mul *= 128;
-      if (val >= mul) val -= Math.pow(2, 8 * byteLength2);
-      return val;
-    };
-    Buffer3.prototype.readInt8 = function readInt8(offset, noAssert) {
-      offset = offset >>> 0;
-      if (!noAssert) checkOffset(offset, 1, this.length);
-      if (!(this[offset] & 128)) return this[offset];
-      return (255 - this[offset] + 1) * -1;
-    };
-    Buffer3.prototype.readInt16LE = function readInt16LE(offset, noAssert) {
-      offset = offset >>> 0;
-      if (!noAssert) checkOffset(offset, 2, this.length);
-      const val = this[offset] | this[offset + 1] << 8;
-      return val & 32768 ? val | 4294901760 : val;
-    };
-    Buffer3.prototype.readInt16BE = function readInt16BE(offset, noAssert) {
-      offset = offset >>> 0;
-      if (!noAssert) checkOffset(offset, 2, this.length);
-      const val = this[offset + 1] | this[offset] << 8;
-      return val & 32768 ? val | 4294901760 : val;
-    };
-    Buffer3.prototype.readInt32LE = function readInt32LE(offset, noAssert) {
-      offset = offset >>> 0;
-      if (!noAssert) checkOffset(offset, 4, this.length);
-      return this[offset] | this[offset + 1] << 8 | this[offset + 2] << 16 | this[offset + 3] << 24;
-    };
-    Buffer3.prototype.readInt32BE = function readInt32BE(offset, noAssert) {
-      offset = offset >>> 0;
-      if (!noAssert) checkOffset(offset, 4, this.length);
-      return this[offset] << 24 | this[offset + 1] << 16 | this[offset + 2] << 8 | this[offset + 3];
-    };
-    Buffer3.prototype.readBigInt64LE = defineBigIntMethod(function readBigInt64LE(offset) {
-      offset = offset >>> 0;
-      validateNumber(offset, "offset");
-      const first2 = this[offset];
-      const last = this[offset + 7];
-      if (first2 === void 0 || last === void 0) {
-        boundsError(offset, this.length - 8);
-      }
-      const val = this[offset + 4] + this[offset + 5] * 2 ** 8 + this[offset + 6] * 2 ** 16 + (last << 24);
-      return (BigInt(val) << BigInt(32)) + BigInt(first2 + this[++offset] * 2 ** 8 + this[++offset] * 2 ** 16 + this[++offset] * 2 ** 24);
-    });
-    Buffer3.prototype.readBigInt64BE = defineBigIntMethod(function readBigInt64BE(offset) {
-      offset = offset >>> 0;
-      validateNumber(offset, "offset");
-      const first2 = this[offset];
-      const last = this[offset + 7];
-      if (first2 === void 0 || last === void 0) {
-        boundsError(offset, this.length - 8);
-      }
-      const val = (first2 << 24) + // Overflow
-      this[++offset] * 2 ** 16 + this[++offset] * 2 ** 8 + this[++offset];
-      return (BigInt(val) << BigInt(32)) + BigInt(this[++offset] * 2 ** 24 + this[++offset] * 2 ** 16 + this[++offset] * 2 ** 8 + last);
-    });
-    Buffer3.prototype.readFloatLE = function readFloatLE(offset, noAssert) {
-      offset = offset >>> 0;
-      if (!noAssert) checkOffset(offset, 4, this.length);
-      return ieee754.read(this, offset, true, 23, 4);
-    };
-    Buffer3.prototype.readFloatBE = function readFloatBE(offset, noAssert) {
-      offset = offset >>> 0;
-      if (!noAssert) checkOffset(offset, 4, this.length);
-      return ieee754.read(this, offset, false, 23, 4);
-    };
-    Buffer3.prototype.readDoubleLE = function readDoubleLE(offset, noAssert) {
-      offset = offset >>> 0;
-      if (!noAssert) checkOffset(offset, 8, this.length);
-      return ieee754.read(this, offset, true, 52, 8);
-    };
-    Buffer3.prototype.readDoubleBE = function readDoubleBE(offset, noAssert) {
-      offset = offset >>> 0;
-      if (!noAssert) checkOffset(offset, 8, this.length);
-      return ieee754.read(this, offset, false, 52, 8);
-    };
-    function checkInt(buf2, value, offset, ext, max, min) {
-      if (!Buffer3.isBuffer(buf2)) throw new TypeError('"buffer" argument must be a Buffer instance');
-      if (value > max || value < min) throw new RangeError('"value" argument is out of bounds');
-      if (offset + ext > buf2.length) throw new RangeError("Index out of range");
-    }
-    Buffer3.prototype.writeUintLE = Buffer3.prototype.writeUIntLE = function writeUIntLE(value, offset, byteLength2, noAssert) {
-      value = +value;
-      offset = offset >>> 0;
-      byteLength2 = byteLength2 >>> 0;
-      if (!noAssert) {
-        const maxBytes = Math.pow(2, 8 * byteLength2) - 1;
-        checkInt(this, value, offset, byteLength2, maxBytes, 0);
-      }
-      let mul = 1;
-      let i = 0;
-      this[offset] = value & 255;
-      while (++i < byteLength2 && (mul *= 256)) {
-        this[offset + i] = value / mul & 255;
-      }
-      return offset + byteLength2;
-    };
-    Buffer3.prototype.writeUintBE = Buffer3.prototype.writeUIntBE = function writeUIntBE(value, offset, byteLength2, noAssert) {
-      value = +value;
-      offset = offset >>> 0;
-      byteLength2 = byteLength2 >>> 0;
-      if (!noAssert) {
-        const maxBytes = Math.pow(2, 8 * byteLength2) - 1;
-        checkInt(this, value, offset, byteLength2, maxBytes, 0);
-      }
-      let i = byteLength2 - 1;
-      let mul = 1;
-      this[offset + i] = value & 255;
-      while (--i >= 0 && (mul *= 256)) {
-        this[offset + i] = value / mul & 255;
-      }
-      return offset + byteLength2;
-    };
-    Buffer3.prototype.writeUint8 = Buffer3.prototype.writeUInt8 = function writeUInt8(value, offset, noAssert) {
-      value = +value;
-      offset = offset >>> 0;
-      if (!noAssert) checkInt(this, value, offset, 1, 255, 0);
-      this[offset] = value & 255;
-      return offset + 1;
-    };
-    Buffer3.prototype.writeUint16LE = Buffer3.prototype.writeUInt16LE = function writeUInt16LE(value, offset, noAssert) {
-      value = +value;
-      offset = offset >>> 0;
-      if (!noAssert) checkInt(this, value, offset, 2, 65535, 0);
-      this[offset] = value & 255;
-      this[offset + 1] = value >>> 8;
-      return offset + 2;
-    };
-    Buffer3.prototype.writeUint16BE = Buffer3.prototype.writeUInt16BE = function writeUInt16BE(value, offset, noAssert) {
-      value = +value;
-      offset = offset >>> 0;
-      if (!noAssert) checkInt(this, value, offset, 2, 65535, 0);
-      this[offset] = value >>> 8;
-      this[offset + 1] = value & 255;
-      return offset + 2;
-    };
-    Buffer3.prototype.writeUint32LE = Buffer3.prototype.writeUInt32LE = function writeUInt32LE(value, offset, noAssert) {
-      value = +value;
-      offset = offset >>> 0;
-      if (!noAssert) checkInt(this, value, offset, 4, 4294967295, 0);
-      this[offset + 3] = value >>> 24;
-      this[offset + 2] = value >>> 16;
-      this[offset + 1] = value >>> 8;
-      this[offset] = value & 255;
-      return offset + 4;
-    };
-    Buffer3.prototype.writeUint32BE = Buffer3.prototype.writeUInt32BE = function writeUInt32BE(value, offset, noAssert) {
-      value = +value;
-      offset = offset >>> 0;
-      if (!noAssert) checkInt(this, value, offset, 4, 4294967295, 0);
-      this[offset] = value >>> 24;
-      this[offset + 1] = value >>> 16;
-      this[offset + 2] = value >>> 8;
-      this[offset + 3] = value & 255;
-      return offset + 4;
-    };
-    function wrtBigUInt64LE(buf2, value, offset, min, max) {
-      checkIntBI(value, min, max, buf2, offset, 7);
-      let lo = Number(value & BigInt(4294967295));
-      buf2[offset++] = lo;
-      lo = lo >> 8;
-      buf2[offset++] = lo;
-      lo = lo >> 8;
-      buf2[offset++] = lo;
-      lo = lo >> 8;
-      buf2[offset++] = lo;
-      let hi = Number(value >> BigInt(32) & BigInt(4294967295));
-      buf2[offset++] = hi;
-      hi = hi >> 8;
-      buf2[offset++] = hi;
-      hi = hi >> 8;
-      buf2[offset++] = hi;
-      hi = hi >> 8;
-      buf2[offset++] = hi;
-      return offset;
-    }
-    function wrtBigUInt64BE(buf2, value, offset, min, max) {
-      checkIntBI(value, min, max, buf2, offset, 7);
-      let lo = Number(value & BigInt(4294967295));
-      buf2[offset + 7] = lo;
-      lo = lo >> 8;
-      buf2[offset + 6] = lo;
-      lo = lo >> 8;
-      buf2[offset + 5] = lo;
-      lo = lo >> 8;
-      buf2[offset + 4] = lo;
-      let hi = Number(value >> BigInt(32) & BigInt(4294967295));
-      buf2[offset + 3] = hi;
-      hi = hi >> 8;
-      buf2[offset + 2] = hi;
-      hi = hi >> 8;
-      buf2[offset + 1] = hi;
-      hi = hi >> 8;
-      buf2[offset] = hi;
-      return offset + 8;
-    }
-    Buffer3.prototype.writeBigUInt64LE = defineBigIntMethod(function writeBigUInt64LE(value, offset = 0) {
-      return wrtBigUInt64LE(this, value, offset, BigInt(0), BigInt("0xffffffffffffffff"));
-    });
-    Buffer3.prototype.writeBigUInt64BE = defineBigIntMethod(function writeBigUInt64BE(value, offset = 0) {
-      return wrtBigUInt64BE(this, value, offset, BigInt(0), BigInt("0xffffffffffffffff"));
-    });
-    Buffer3.prototype.writeIntLE = function writeIntLE(value, offset, byteLength2, noAssert) {
-      value = +value;
-      offset = offset >>> 0;
-      if (!noAssert) {
-        const limit = Math.pow(2, 8 * byteLength2 - 1);
-        checkInt(this, value, offset, byteLength2, limit - 1, -limit);
-      }
-      let i = 0;
-      let mul = 1;
-      let sub = 0;
-      this[offset] = value & 255;
-      while (++i < byteLength2 && (mul *= 256)) {
-        if (value < 0 && sub === 0 && this[offset + i - 1] !== 0) {
-          sub = 1;
-        }
-        this[offset + i] = (value / mul >> 0) - sub & 255;
-      }
-      return offset + byteLength2;
-    };
-    Buffer3.prototype.writeIntBE = function writeIntBE(value, offset, byteLength2, noAssert) {
-      value = +value;
-      offset = offset >>> 0;
-      if (!noAssert) {
-        const limit = Math.pow(2, 8 * byteLength2 - 1);
-        checkInt(this, value, offset, byteLength2, limit - 1, -limit);
-      }
-      let i = byteLength2 - 1;
-      let mul = 1;
-      let sub = 0;
-      this[offset + i] = value & 255;
-      while (--i >= 0 && (mul *= 256)) {
-        if (value < 0 && sub === 0 && this[offset + i + 1] !== 0) {
-          sub = 1;
-        }
-        this[offset + i] = (value / mul >> 0) - sub & 255;
-      }
-      return offset + byteLength2;
-    };
-    Buffer3.prototype.writeInt8 = function writeInt8(value, offset, noAssert) {
-      value = +value;
-      offset = offset >>> 0;
-      if (!noAssert) checkInt(this, value, offset, 1, 127, -128);
-      if (value < 0) value = 255 + value + 1;
-      this[offset] = value & 255;
-      return offset + 1;
-    };
-    Buffer3.prototype.writeInt16LE = function writeInt16LE(value, offset, noAssert) {
-      value = +value;
-      offset = offset >>> 0;
-      if (!noAssert) checkInt(this, value, offset, 2, 32767, -32768);
-      this[offset] = value & 255;
-      this[offset + 1] = value >>> 8;
-      return offset + 2;
-    };
-    Buffer3.prototype.writeInt16BE = function writeInt16BE(value, offset, noAssert) {
-      value = +value;
-      offset = offset >>> 0;
-      if (!noAssert) checkInt(this, value, offset, 2, 32767, -32768);
-      this[offset] = value >>> 8;
-      this[offset + 1] = value & 255;
-      return offset + 2;
-    };
-    Buffer3.prototype.writeInt32LE = function writeInt32LE(value, offset, noAssert) {
-      value = +value;
-      offset = offset >>> 0;
-      if (!noAssert) checkInt(this, value, offset, 4, 2147483647, -2147483648);
-      this[offset] = value & 255;
-      this[offset + 1] = value >>> 8;
-      this[offset + 2] = value >>> 16;
-      this[offset + 3] = value >>> 24;
-      return offset + 4;
-    };
-    Buffer3.prototype.writeInt32BE = function writeInt32BE(value, offset, noAssert) {
-      value = +value;
-      offset = offset >>> 0;
-      if (!noAssert) checkInt(this, value, offset, 4, 2147483647, -2147483648);
-      if (value < 0) value = 4294967295 + value + 1;
-      this[offset] = value >>> 24;
-      this[offset + 1] = value >>> 16;
-      this[offset + 2] = value >>> 8;
-      this[offset + 3] = value & 255;
-      return offset + 4;
-    };
-    Buffer3.prototype.writeBigInt64LE = defineBigIntMethod(function writeBigInt64LE(value, offset = 0) {
-      return wrtBigUInt64LE(this, value, offset, -BigInt("0x8000000000000000"), BigInt("0x7fffffffffffffff"));
-    });
-    Buffer3.prototype.writeBigInt64BE = defineBigIntMethod(function writeBigInt64BE(value, offset = 0) {
-      return wrtBigUInt64BE(this, value, offset, -BigInt("0x8000000000000000"), BigInt("0x7fffffffffffffff"));
-    });
-    function checkIEEE754(buf2, value, offset, ext, max, min) {
-      if (offset + ext > buf2.length) throw new RangeError("Index out of range");
-      if (offset < 0) throw new RangeError("Index out of range");
-    }
-    function writeFloat(buf2, value, offset, littleEndian, noAssert) {
-      value = +value;
-      offset = offset >>> 0;
-      if (!noAssert) {
-        checkIEEE754(buf2, value, offset, 4, 34028234663852886e22, -34028234663852886e22);
-      }
-      ieee754.write(buf2, value, offset, littleEndian, 23, 4);
-      return offset + 4;
-    }
-    Buffer3.prototype.writeFloatLE = function writeFloatLE(value, offset, noAssert) {
-      return writeFloat(this, value, offset, true, noAssert);
-    };
-    Buffer3.prototype.writeFloatBE = function writeFloatBE(value, offset, noAssert) {
-      return writeFloat(this, value, offset, false, noAssert);
-    };
-    function writeDouble(buf2, value, offset, littleEndian, noAssert) {
-      value = +value;
-      offset = offset >>> 0;
-      if (!noAssert) {
-        checkIEEE754(buf2, value, offset, 8, 17976931348623157e292, -17976931348623157e292);
-      }
-      ieee754.write(buf2, value, offset, littleEndian, 52, 8);
-      return offset + 8;
-    }
-    Buffer3.prototype.writeDoubleLE = function writeDoubleLE(value, offset, noAssert) {
-      return writeDouble(this, value, offset, true, noAssert);
-    };
-    Buffer3.prototype.writeDoubleBE = function writeDoubleBE(value, offset, noAssert) {
-      return writeDouble(this, value, offset, false, noAssert);
-    };
-    Buffer3.prototype.copy = function copy(target, targetStart, start, end) {
-      if (!Buffer3.isBuffer(target)) throw new TypeError("argument should be a Buffer");
-      if (!start) start = 0;
-      if (!end && end !== 0) end = this.length;
-      if (targetStart >= target.length) targetStart = target.length;
-      if (!targetStart) targetStart = 0;
-      if (end > 0 && end < start) end = start;
-      if (end === start) return 0;
-      if (target.length === 0 || this.length === 0) return 0;
-      if (targetStart < 0) {
-        throw new RangeError("targetStart out of bounds");
-      }
-      if (start < 0 || start >= this.length) throw new RangeError("Index out of range");
-      if (end < 0) throw new RangeError("sourceEnd out of bounds");
-      if (end > this.length) end = this.length;
-      if (target.length - targetStart < end - start) {
-        end = target.length - targetStart + start;
-      }
-      const len = end - start;
-      if (this === target && typeof Uint8Array.prototype.copyWithin === "function") {
-        this.copyWithin(targetStart, start, end);
-      } else {
-        Uint8Array.prototype.set.call(
-          target,
-          this.subarray(start, end),
-          targetStart
-        );
-      }
-      return len;
-    };
-    Buffer3.prototype.fill = function fill(val, start, end, encoding) {
-      if (typeof val === "string") {
-        if (typeof start === "string") {
-          encoding = start;
-          start = 0;
-          end = this.length;
-        } else if (typeof end === "string") {
-          encoding = end;
-          end = this.length;
-        }
-        if (encoding !== void 0 && typeof encoding !== "string") {
-          throw new TypeError("encoding must be a string");
-        }
-        if (typeof encoding === "string" && !Buffer3.isEncoding(encoding)) {
-          throw new TypeError("Unknown encoding: " + encoding);
-        }
-        if (val.length === 1) {
-          const code = val.charCodeAt(0);
-          if (encoding === "utf8" && code < 128 || encoding === "latin1") {
-            val = code;
-          }
-        }
-      } else if (typeof val === "number") {
-        val = val & 255;
-      } else if (typeof val === "boolean") {
-        val = Number(val);
-      }
-      if (start < 0 || this.length < start || this.length < end) {
-        throw new RangeError("Out of range index");
-      }
-      if (end <= start) {
-        return this;
-      }
-      start = start >>> 0;
-      end = end === void 0 ? this.length : end >>> 0;
-      if (!val) val = 0;
-      let i;
-      if (typeof val === "number") {
-        for (i = start; i < end; ++i) {
-          this[i] = val;
-        }
-      } else {
-        const bytes = Buffer3.isBuffer(val) ? val : Buffer3.from(val, encoding);
-        const len = bytes.length;
-        if (len === 0) {
-          throw new TypeError('The value "' + val + '" is invalid for argument "value"');
-        }
-        for (i = 0; i < end - start; ++i) {
-          this[i + start] = bytes[i % len];
-        }
-      }
-      return this;
-    };
-    var errors = {};
-    function E(sym, getMessage, Base) {
-      errors[sym] = class NodeError extends Base {
-        constructor() {
-          super();
-          Object.defineProperty(this, "message", {
-            value: getMessage.apply(this, arguments),
-            writable: true,
-            configurable: true
-          });
-          this.name = `${this.name} [${sym}]`;
-          this.stack;
-          delete this.name;
-        }
-        get code() {
-          return sym;
-        }
-        set code(value) {
-          Object.defineProperty(this, "code", {
-            configurable: true,
-            enumerable: true,
-            value,
-            writable: true
-          });
-        }
-        toString() {
-          return `${this.name} [${sym}]: ${this.message}`;
-        }
-      };
-    }
-    E(
-      "ERR_BUFFER_OUT_OF_BOUNDS",
-      function(name) {
-        if (name) {
-          return `${name} is outside of buffer bounds`;
-        }
-        return "Attempt to access memory outside buffer bounds";
-      },
-      RangeError
-    );
-    E(
-      "ERR_INVALID_ARG_TYPE",
-      function(name, actual) {
-        return `The "${name}" argument must be of type number. Received type ${typeof actual}`;
-      },
-      TypeError
-    );
-    E(
-      "ERR_OUT_OF_RANGE",
-      function(str, range, input2) {
-        let msg = `The value of "${str}" is out of range.`;
-        let received = input2;
-        if (Number.isInteger(input2) && Math.abs(input2) > 2 ** 32) {
-          received = addNumericalSeparator(String(input2));
-        } else if (typeof input2 === "bigint") {
-          received = String(input2);
-          if (input2 > BigInt(2) ** BigInt(32) || input2 < -(BigInt(2) ** BigInt(32))) {
-            received = addNumericalSeparator(received);
-          }
-          received += "n";
-        }
-        msg += ` It must be ${range}. Received ${received}`;
-        return msg;
-      },
-      RangeError
-    );
-    function addNumericalSeparator(val) {
-      let res = "";
-      let i = val.length;
-      const start = val[0] === "-" ? 1 : 0;
-      for (; i >= start + 4; i -= 3) {
-        res = `_${val.slice(i - 3, i)}${res}`;
-      }
-      return `${val.slice(0, i)}${res}`;
-    }
-    function checkBounds(buf2, offset, byteLength2) {
-      validateNumber(offset, "offset");
-      if (buf2[offset] === void 0 || buf2[offset + byteLength2] === void 0) {
-        boundsError(offset, buf2.length - (byteLength2 + 1));
-      }
-    }
-    function checkIntBI(value, min, max, buf2, offset, byteLength2) {
-      if (value > max || value < min) {
-        const n = typeof min === "bigint" ? "n" : "";
-        let range;
-        if (byteLength2 > 3) {
-          if (min === 0 || min === BigInt(0)) {
-            range = `>= 0${n} and < 2${n} ** ${(byteLength2 + 1) * 8}${n}`;
-          } else {
-            range = `>= -(2${n} ** ${(byteLength2 + 1) * 8 - 1}${n}) and < 2 ** ${(byteLength2 + 1) * 8 - 1}${n}`;
-          }
-        } else {
-          range = `>= ${min}${n} and <= ${max}${n}`;
-        }
-        throw new errors.ERR_OUT_OF_RANGE("value", range, value);
-      }
-      checkBounds(buf2, offset, byteLength2);
-    }
-    function validateNumber(value, name) {
-      if (typeof value !== "number") {
-        throw new errors.ERR_INVALID_ARG_TYPE(name, "number", value);
-      }
-    }
-    function boundsError(value, length, type) {
-      if (Math.floor(value) !== value) {
-        validateNumber(value, type);
-        throw new errors.ERR_OUT_OF_RANGE(type || "offset", "an integer", value);
-      }
-      if (length < 0) {
-        throw new errors.ERR_BUFFER_OUT_OF_BOUNDS();
-      }
-      throw new errors.ERR_OUT_OF_RANGE(
-        type || "offset",
-        `>= ${type ? 1 : 0} and <= ${length}`,
-        value
-      );
-    }
-    var INVALID_BASE64_RE = /[^+/0-9A-Za-z-_]/g;
-    function base64clean(str) {
-      str = str.split("=")[0];
-      str = str.trim().replace(INVALID_BASE64_RE, "");
-      if (str.length < 2) return "";
-      while (str.length % 4 !== 0) {
-        str = str + "=";
-      }
-      return str;
-    }
-    function utf8ToBytes(string, units) {
-      units = units || Infinity;
-      let codePoint;
-      const length = string.length;
-      let leadSurrogate = null;
-      const bytes = [];
-      for (let i = 0; i < length; ++i) {
-        codePoint = string.charCodeAt(i);
-        if (codePoint > 55295 && codePoint < 57344) {
-          if (!leadSurrogate) {
-            if (codePoint > 56319) {
-              if ((units -= 3) > -1) bytes.push(239, 191, 189);
-              continue;
-            } else if (i + 1 === length) {
-              if ((units -= 3) > -1) bytes.push(239, 191, 189);
-              continue;
-            }
-            leadSurrogate = codePoint;
-            continue;
-          }
-          if (codePoint < 56320) {
-            if ((units -= 3) > -1) bytes.push(239, 191, 189);
-            leadSurrogate = codePoint;
-            continue;
-          }
-          codePoint = (leadSurrogate - 55296 << 10 | codePoint - 56320) + 65536;
-        } else if (leadSurrogate) {
-          if ((units -= 3) > -1) bytes.push(239, 191, 189);
-        }
-        leadSurrogate = null;
-        if (codePoint < 128) {
-          if ((units -= 1) < 0) break;
-          bytes.push(codePoint);
-        } else if (codePoint < 2048) {
-          if ((units -= 2) < 0) break;
-          bytes.push(
-            codePoint >> 6 | 192,
-            codePoint & 63 | 128
-          );
-        } else if (codePoint < 65536) {
-          if ((units -= 3) < 0) break;
-          bytes.push(
-            codePoint >> 12 | 224,
-            codePoint >> 6 & 63 | 128,
-            codePoint & 63 | 128
-          );
-        } else if (codePoint < 1114112) {
-          if ((units -= 4) < 0) break;
-          bytes.push(
-            codePoint >> 18 | 240,
-            codePoint >> 12 & 63 | 128,
-            codePoint >> 6 & 63 | 128,
-            codePoint & 63 | 128
-          );
-        } else {
-          throw new Error("Invalid code point");
-        }
-      }
-      return bytes;
-    }
-    function asciiToBytes(str) {
-      const byteArray = [];
-      for (let i = 0; i < str.length; ++i) {
-        byteArray.push(str.charCodeAt(i) & 255);
-      }
-      return byteArray;
-    }
-    function utf16leToBytes(str, units) {
-      let c, hi, lo;
-      const byteArray = [];
-      for (let i = 0; i < str.length; ++i) {
-        if ((units -= 2) < 0) break;
-        c = str.charCodeAt(i);
-        hi = c >> 8;
-        lo = c % 256;
-        byteArray.push(lo);
-        byteArray.push(hi);
-      }
-      return byteArray;
-    }
-    function base64ToBytes(str) {
-      return base64.toByteArray(base64clean(str));
-    }
-    function blitBuffer(src, dst, offset, length) {
-      let i;
-      for (i = 0; i < length; ++i) {
-        if (i + offset >= dst.length || i >= src.length) break;
-        dst[i + offset] = src[i];
-      }
-      return i;
-    }
-    function isInstance(obj, type) {
-      return obj instanceof type || obj != null && obj.constructor != null && obj.constructor.name != null && obj.constructor.name === type.name;
-    }
-    function numberIsNaN(obj) {
-      return obj !== obj;
-    }
-    var hexSliceLookupTable = (function() {
-      const alphabet = "0123456789abcdef";
-      const table = new Array(256);
-      for (let i = 0; i < 16; ++i) {
-        const i16 = i * 16;
-        for (let j = 0; j < 16; ++j) {
-          table[i16 + j] = alphabet[i] + alphabet[j];
-        }
-      }
-      return table;
-    })();
-    function defineBigIntMethod(fn) {
-      return typeof BigInt === "undefined" ? BufferBigIntNotDefined : fn;
-    }
-    function BufferBigIntNotDefined() {
-      throw new Error("BigInt not supported");
-    }
-  }
-});
-
-// ../simplyflow/packages/state/src/index.mjs
+// node_modules/@muze-labs/simplyflow-state/src/index.mjs
 var src_exports = {};
 __export(src_exports, {
   addTracer: () => addTracer,
@@ -1828,7 +28,7 @@ __export(src_exports, {
   untracked: () => untracked
 });
 
-// ../simplyflow/packages/state/src/symbols.mjs
+// node_modules/@muze-labs/simplyflow-state/src/symbols.mjs
 var DEP = {
   ITERATE: Symbol.for("@simplyedit/simplyflow.iterate"),
   XRAY: Symbol.for("@simplyedit/simplyflow.xRay"),
@@ -1839,7 +39,7 @@ var DEP = {
   SIZE: "size"
 };
 
-// ../simplyflow/packages/state/src/index.mjs
+// node_modules/@muze-labs/simplyflow-state/src/index.mjs
 var MAP_READS_KEY = /* @__PURE__ */ new Set(["get", "has"]);
 var MAP_READS_ITERATION = /* @__PURE__ */ new Set(["keys", "values", "entries", "forEach", Symbol.iterator]);
 var MAP_WRITES = /* @__PURE__ */ new Set(["set", "delete", "clear"]);
@@ -1877,16 +77,16 @@ function bindMethod(target, receiver, value) {
   return value.bind(receiver);
 }
 function collectRemovedArrayValues(target, nextLength) {
-  const values2 = /* @__PURE__ */ new Map();
+  const values3 = /* @__PURE__ */ new Map();
   if (!Array.isArray(target) || nextLength >= target.length) {
-    return values2;
+    return values3;
   }
   for (let index = nextLength; index < target.length; index++) {
     if (Object.hasOwn(target, index)) {
-      values2.set(index, target[index]);
+      values3.set(index, target[index]);
     }
   }
-  return values2;
+  return values3;
 }
 function addArrayLengthChanges(context, target, oldLength, removedValues = /* @__PURE__ */ new Map()) {
   if (!Array.isArray(target) || oldLength === target.length) {
@@ -2006,6 +206,8 @@ var signalHandler = {
   get(target, property, receiver) {
     const value = readTarget(target, property);
     notifyGet(receiver, property);
+    const descriptor = Object.getOwnPropertyDescriptor(target, property);
+    if (descriptor?.configurable === false && (Object.hasOwn(descriptor, "value") && descriptor.writable === false || Object.hasOwn(descriptor, "get") && descriptor.get === void 0)) return value;
     if (typeof value === "function") {
       if (Array.isArray(target)) {
         return wrapArrayMethod(target, property, receiver, value);
@@ -2620,7 +822,7 @@ function cannotClone(value, path2) {
     `simplyflow/state: clone() cannot clone ${typeName(value)} at ${path2}; add a toClone() method for custom objects`
   );
 }
-function cloneDescriptorProperties(source2, result, cloneValue2, skip = () => false) {
+function cloneDescriptorProperties(source2, result, cloneValue, skip = () => false) {
   const descriptors = Object.getOwnPropertyDescriptors(source2);
   for (const key of Reflect.ownKeys(descriptors)) {
     if (skip(key)) {
@@ -2631,7 +833,7 @@ function cloneDescriptorProperties(source2, result, cloneValue2, skip = () => fa
     if (!Object.hasOwn(descriptor, "value")) {
       cannotClone(source2, String(key));
     }
-    descriptor.value = cloneValue2(descriptor.value, String(key));
+    descriptor.value = cloneValue(descriptor.value, String(key));
   }
   Object.defineProperties(result, descriptors);
   return result;
@@ -2644,7 +846,7 @@ function cloneSharedArrayBuffer(value) {
   new Uint8Array(result).set(new Uint8Array(value));
   return result;
 }
-function cloneErrorObject(value, cloneValue2, path2) {
+function cloneErrorObject(value, cloneValue, path2) {
   const standardErrors = /* @__PURE__ */ new Set([
     Error,
     EvalError,
@@ -2658,9 +860,9 @@ function cloneErrorObject(value, cloneValue2, path2) {
   if (!standardErrors.has(value.constructor)) {
     cannotClone(value, path2);
   }
-  const options = Object.hasOwn(value, "cause") ? { cause: cloneValue2(value.cause, "cause") } : void 0;
+  const options = Object.hasOwn(value, "cause") ? { cause: cloneValue(value.cause, "cause") } : void 0;
   if (typeof AggregateError !== "undefined" && value instanceof AggregateError) {
-    const errors = Array.from(value.errors || [], (error4, index) => cloneValue2(error4, `errors.${index}`));
+    const errors = Array.from(value.errors || [], (error4, index) => cloneValue(error4, `errors.${index}`));
     return new AggregateError(errors, value.message, options);
   }
   return new value.constructor(value.message, options);
@@ -2669,9 +871,9 @@ function clone(value, options) {
   const { deep } = cloneOptions(options);
   const seen = /* @__PURE__ */ new Map();
   function cloneChild(value2, path2) {
-    return deep ? cloneValue2(value2, path2) : raw(value2);
+    return deep ? cloneValue(value2, path2) : raw(value2);
   }
-  function cloneValue2(value2, path2 = "value") {
+  function cloneValue(value2, path2 = "value") {
     const source2 = raw(value2);
     if (!isObjectLike(source2)) {
       return source2;
@@ -2778,10 +980,10 @@ function clone(value, options) {
     }
     cannotClone(source2, path2);
   }
-  return cloneValue2(value);
+  return cloneValue(value);
 }
 
-// ../simplyflow/packages/bind/src/dom.mjs
+// node_modules/@muze-labs/simplyflow-bind/src/dom.mjs
 var dom_exports = {};
 __export(dom_exports, {
   findAttribute: () => findAttribute,
@@ -2790,7 +992,7 @@ __export(dom_exports, {
   trackDomList: () => trackDomList
 });
 
-// ../simplyflow/packages/bind/src/render.mjs
+// node_modules/@muze-labs/simplyflow-bind/src/render.mjs
 function writesFromDom(binding, context) {
   return binding.options.twoway || context.edit;
 }
@@ -3106,11 +1308,11 @@ function checkboxIsChecked(el, value) {
 function checkboxEditValue(el, currentValue) {
   if (Array.isArray(currentValue)) {
     const value = el.value;
-    const values2 = currentValue.filter((item) => !matchValue(item, value));
+    const values3 = currentValue.filter((item) => !matchValue(item, value));
     if (el.checked) {
-      values2.push(value);
+      values3.push(value);
     }
-    return values2;
+    return values3;
   }
   if (typeof currentValue === "boolean") {
     return el.checked;
@@ -3289,7 +1491,7 @@ function matchValue(a, b) {
   return false;
 }
 
-// ../simplyflow/packages/bind/src/dom.mjs
+// node_modules/@muze-labs/simplyflow-bind/src/dom.mjs
 var domSignals = /* @__PURE__ */ new WeakMap();
 var observers = /* @__PURE__ */ new WeakMap();
 var domSignalHandler = {
@@ -3497,7 +1699,7 @@ function findAttribute(el, attr) {
   return el.closest("[" + attr + "]")?.getAttribute(attr);
 }
 
-// ../simplyflow/packages/bind/src/transformers.mjs
+// node_modules/@muze-labs/simplyflow-bind/src/transformers.mjs
 var escape_html = {
   render(context, next) {
     if (typeof context.value !== "string") {
@@ -3603,7 +1805,7 @@ function readAttributes(element2, names) {
   return data;
 }
 
-// ../simplyflow/packages/bind/src/index.mjs
+// node_modules/@muze-labs/simplyflow-bind/src/index.mjs
 var SimplyBind = class {
   /**
    * @param Object options - a set of options for this instance, options may include:
@@ -4050,7 +2252,7 @@ function getValueByPath(root, path2) {
   return curr;
 }
 
-// ../simplyflow/packages/model/src/index.mjs
+// node_modules/@muze-labs/simplyflow-model/src/index.mjs
 var SimplyFlowModel = class {
   /**
    * Creates a new datamodel, with a state property that contains
@@ -4273,7 +2475,7 @@ function scroll(options) {
   };
 }
 
-// ../simplyflow/packages/simplyflow/src/render.mjs
+// node_modules/@muze-labs/simplyflow/src/render.mjs
 var SimplyRender = class extends HTMLElement {
   constructor() {
     super();
@@ -4322,7 +2524,7 @@ if (!customElements.get("simply-render")) {
   customElements.define("simply-render", SimplyRender);
 }
 
-// ../simplyflow/packages/app/src/suggest.mjs
+// node_modules/@muze-labs/simplyflow-app/src/suggest.mjs
 function closest(name, options, { maxDistance = 2, minLength = 4 } = {}) {
   if (name.length < minLength) {
     return;
@@ -4343,7 +2545,7 @@ function editDistance(a, b, maxDistance = 2) {
   if (Math.abs(a.length - b.length) > maxDistance) {
     return tooFar;
   }
-  const previous = Array.from({ length: b.length + 1 }, (_3, index) => index);
+  const previous = Array.from({ length: b.length + 1 }, (_2, index) => index);
   const current = new Array(b.length + 1);
   for (let ai = 1; ai <= a.length; ai++) {
     current[0] = ai;
@@ -4360,7 +2562,7 @@ function editDistance(a, b, maxDistance = 2) {
   return previous[b.length];
 }
 
-// ../simplyflow/packages/app/src/route.mjs
+// node_modules/@muze-labs/simplyflow-app/src/route.mjs
 function routes(options) {
   return new SimplyRoute(options);
 }
@@ -4705,7 +2907,7 @@ function parseRoutes(routes2, routeInfo, exact = false) {
   return routeInfo;
 }
 
-// ../simplyflow/packages/app/src/path.mjs
+// node_modules/@muze-labs/simplyflow-app/src/path.mjs
 var path = {
   get(dataset, pointer) {
     if (typeof pointer !== "string") {
@@ -4753,7 +2955,7 @@ var path = {
 };
 var path_default = path;
 
-// ../simplyflow/packages/app/src/command.mjs
+// node_modules/@muze-labs/simplyflow-app/src/command.mjs
 var commandState = /* @__PURE__ */ new WeakMap();
 var COMMAND_OPTIONS = [
   "commands",
@@ -4865,13 +3067,13 @@ var defaultHandlers = [
         return configuredValue.value;
       }
       if (el.tagName === "SELECT" && el.multiple) {
-        let values2 = [];
+        let values3 = [];
         for (let option of el.options) {
           if (option.selected) {
-            values2.push(option.value);
+            values3.push(option.value);
           }
         }
-        return values2;
+        return values3;
       }
       return el.value;
     },
@@ -4952,7 +3154,7 @@ function commandNames(commands2) {
   });
 }
 
-// ../simplyflow/packages/app/src/action.mjs
+// node_modules/@muze-labs/simplyflow-app/src/action.mjs
 var warnedUnknownActions = /* @__PURE__ */ new WeakMap();
 function actions(options) {
   if (options.app) {
@@ -5007,7 +3209,7 @@ function warnUnknownAction(actions2, property) {
   console.warn(`simplyflow/action: unknown action "${property}"${suffix}`);
 }
 
-// ../simplyflow/packages/app/src/shortcut.mjs
+// node_modules/@muze-labs/simplyflow-app/src/shortcut.mjs
 var shortcutState = /* @__PURE__ */ new WeakMap();
 var accesskeyState = /* @__PURE__ */ new WeakMap();
 var KEY = Object.freeze({
@@ -5137,7 +3339,7 @@ function destroyAccesskeys(accesskeyApi) {
   accesskeyState.delete(accesskeyApi);
 }
 
-// ../simplyflow/packages/app/src/behavior.mjs
+// node_modules/@muze-labs/simplyflow-app/src/behavior.mjs
 var BEHAVIOR_SELECTOR = "[data-simply-behavior]";
 var SimplyBehaviors = class {
   constructor(options = {}) {
@@ -5234,7 +3436,7 @@ function behaviorNodes(root) {
   return nodes;
 }
 
-// ../simplyflow/packages/app/src/include.mjs
+// node_modules/@muze-labs/simplyflow-app/src/include.mjs
 function throttle(callbackFunction, intervalTime) {
   let eventId = 0;
   return function throttledCallback(...params) {
@@ -5256,11 +3458,11 @@ var runWhenIdle = (() => {
   return globalThis.requestAnimationFrame || ((callback) => globalThis.setTimeout(callback, 0));
 })();
 function rebaseHref(relative, base, cacheBuster) {
-  const url3 = new URL(relative, base);
+  const url2 = new URL(relative, base);
   if (cacheBuster) {
-    url3.searchParams.set("cb", cacheBuster);
+    url2.searchParams.set("cb", cacheBuster);
   }
-  return url3.href;
+  return url2.href;
 }
 function cloneScript(script, base, cacheBuster) {
   const clone2 = globalThis.document.createElement("script");
@@ -5387,13 +3589,13 @@ var SimplyIncludes = class {
         continue;
       }
       try {
-        const response3 = await fetch(link.href);
-        if (!response3.ok) {
-          console.warn(`simplyflow/include: failed to load "${link.href}" (${response3.status})`);
+        const response2 = await fetch(link.href);
+        if (!response2.ok) {
+          console.warn(`simplyflow/include: failed to load "${link.href}" (${response2.status})`);
           link.rel = "simply-include-error";
           continue;
         }
-        const html2 = await response3.text();
+        const html2 = await response2.text();
         if (this.destroyed || !link.parentNode) {
           continue;
         }
@@ -5432,7 +3634,7 @@ var include = {
   links: (links) => defaultInclude().includeLinks(Array.from(links))
 };
 
-// ../simplyflow/packages/app/src/index.mjs
+// node_modules/@muze-labs/simplyflow-app/src/index.mjs
 var APP_OPTIONS = [
   "container",
   "data",
@@ -5674,18 +3876,18 @@ function mergeComponents(options, components) {
   }
 }
 
-// ../simplyflow/packages/app/src/highlight.mjs
-function html(strings, ...values2) {
-  const outputArray = values2.map(
+// node_modules/@muze-labs/simplyflow-app/src/highlight.mjs
+function html(strings, ...values3) {
+  const outputArray = values3.map(
     (value, index) => `${strings[index]}${value}`
   );
   return outputArray.join("") + strings[strings.length - 1];
 }
-function css(strings, ...values2) {
-  return html(strings, ...values2);
+function css(strings, ...values3) {
+  return html(strings, ...values3);
 }
 
-// ../simplyflow/packages/simplyflow/src/index.mjs
+// node_modules/@muze-labs/simplyflow/src/index.mjs
 if (!globalThis.simply) {
   globalThis.simply = {};
 }
@@ -5728,7 +3930,7 @@ Object.assign(globalThis.simply, {
 delete globalThis.simply.advanced;
 var src_default = globalThis.simply;
 
-// ../../muze-nl/oldm/packages/oldm-core/src/oldm.mjs
+// node_modules/@muze-nl/oldm-core/src/oldm.mjs
 var oldm_exports = {};
 __export(oldm_exports, {
   BlankNode: () => BlankNode,
@@ -5746,7 +3948,7 @@ __export(oldm_exports, {
   rdfType: () => rdfType
 });
 
-// ../../muze-nl/oldm/packages/oldm-core/src/iri.mjs
+// node_modules/@muze-nl/oldm-core/src/iri.mjs
 var ucschar = "\\u00A0-\\uD7FF\\uF900-\\uFDCF\\uFDF0-\\uFFEF\\u{10000}-\\u{1FFFD}\\u{20000}-\\u{2FFFD}\\u{30000}-\\u{3FFFD}\\u{40000}-\\u{4FFFD}\\u{50000}-\\u{5FFFD}\\u{60000}-\\u{6FFFD}\\u{70000}-\\u{7FFFD}\\u{80000}-\\u{8FFFD}\\u{90000}-\\u{9FFFD}\\u{A0000}-\\u{AFFFD}\\u{B0000}-\\u{BFFFD}\\u{C0000}-\\u{CFFFD}\\u{D0000}-\\u{DFFFD}\\u{E1000}-\\u{EFFFD}";
 var iprivate = "\\uE000-\\uF8FF\\u{F0000}-\\u{FFFFD}\\u{100000}-\\u{10FFFD}";
 var nameChars = `a-zA-Z0-9._~!$&'()*+,;=\\-${ucschar}`;
@@ -5756,7 +3958,7 @@ var queryPattern = component(":@/?" + iprivate);
 var fragmentPattern = component(":@/?");
 var userPattern = component(":");
 var hostPattern = component("");
-function parts(value, requireAbsolute = false) {
+function parts(value, requireAbsolute = false, requireHTTPHost = true) {
   if (typeof value != "string") throw new TypeError("Expected an IRI string");
   if (/[\u0000-\u0020\u007F-\u009F]/.test(value)) throw new TypeError(`Invalid IRI: ${value}`);
   const match = /^(?:([a-z][a-z0-9+.-]*):)?(?:\/\/([^/?#]*))?([^?#]*)(\?[^#]*)?(#.*)?$/is.exec(value);
@@ -5780,8 +3982,8 @@ function parts(value, requireAbsolute = false) {
         }
       }
     } else if (!hostPattern.test(match2[1])) throw new TypeError(`Invalid IRI host: ${value}`);
-    if (/^https?$/i.test(scheme) && !match2[1]) throw new TypeError(`Missing HTTP host: ${value}`);
-  } else if (/^https?$/i.test(scheme)) throw new TypeError(`Missing HTTP authority: ${value}`);
+    if (requireHTTPHost && /^https?$/i.test(scheme) && !match2[1]) throw new TypeError(`Missing HTTP host: ${value}`);
+  } else if (requireHTTPHost && /^https?$/i.test(scheme)) throw new TypeError(`Missing HTTP authority: ${value}`);
   return { scheme, authority, path: path2, query, fragment };
 }
 var validatedIRIs = /* @__PURE__ */ new Set();
@@ -5819,8 +4021,18 @@ function removeDotSegments(path2) {
   }
   return output;
 }
+function namespaceIRI(value) {
+  parts(value, true, false);
+  return value;
+}
+function resolveNamespaceReference(value, base) {
+  return resolveReference(value, base, namespaceIRI);
+}
 function resolveIRIReference(value, base) {
-  if (typeof value == "string" && /^[a-z][a-z0-9+.-]*:/i.test(value)) return absoluteIRI(value);
+  return resolveReference(value, base, absoluteIRI);
+}
+function resolveReference(value, base, validate) {
+  if (typeof value == "string" && /^[a-z][a-z0-9+.-]*:/i.test(value)) return validate(value);
   const ref = parts(value);
   if (base == null) throw new TypeError(`Cannot resolve a relative IRI without a base: ${value}`);
   const target = parts(base, true);
@@ -5839,7 +4051,7 @@ function resolveIRIReference(value, base) {
     target.query = ref.query;
   }
   target.fragment = ref.fragment;
-  return absoluteIRI(join(target));
+  return validate(join(target));
 }
 function expandIRI(value, namespaceFor, separator, base) {
   value = value?.id ?? value;
@@ -5848,7 +4060,7 @@ function expandIRI(value, namespaceFor, separator, base) {
   if (index >= 0) {
     const prefix = value.slice(0, index);
     const namespace = namespaceFor(prefix);
-    if (namespace !== void 0) return absoluteIRI(absoluteIRI(namespace) + value.slice(index + separator.length));
+    if (namespace !== void 0) return absoluteIRI(namespaceIRI(namespace) + value.slice(index + separator.length));
     if (separator != ":" && !/[:/?#]/.test(prefix)) throw new TypeError(`Unknown prefix: ${prefix}`);
   }
   return resolveIRIReference(value, base);
@@ -5858,7 +4070,7 @@ function shortenIRI(value, entries, separator, canonicalize = (value2) => value2
   for (const [prefix, iri] of entries) {
     const namespace = canonicalize(iri);
     if (value.startsWith(namespace)) {
-      absoluteIRI(iri);
+      namespaceIRI(iri);
       return prefix + separator + value.slice(namespace.length);
     }
   }
@@ -5877,11 +4089,11 @@ function relativeIRI(value, base, separator = "$") {
   }
   if (origin.authority !== void 0 || origin.path.startsWith("/")) {
     const directory = origin.authority !== void 0 && !origin.path ? "/" : origin.path.slice(0, origin.path.lastIndexOf("/") + 1);
-    const from3 = directory.split("/").slice(0, -1);
+    const from2 = directory.split("/").slice(0, -1);
     const to = target.path.split("/");
     let common = 0;
-    while (common < from3.length && common < to.length - 1 && from3[common] == to[common]) common++;
-    let path2 = "../".repeat(from3.length - common) + to.slice(common).join("/");
+    while (common < from2.length && common < to.length - 1 && from2[common] == to[common]) common++;
+    let path2 = "../".repeat(from2.length - common) + to.slice(common).join("/");
     if (!path2 || path2.startsWith("/") || path2.split("/")[0].includes(":") || path2.split("/")[0].includes(separator)) path2 = "./" + path2;
     candidates.push(path2 + suffix);
     if (target.path.startsWith("/") && !target.path.startsWith("//")) candidates.push(target.path + suffix);
@@ -5922,7 +4134,7 @@ function turtlePrefixedIRI(value, entries) {
   return null;
 }
 
-// ../../muze-nl/oldm/packages/oldm-core/src/oldm.mjs
+// node_modules/@muze-nl/oldm-core/src/oldm.mjs
 function* orderedPrefixes(context) {
   for (const prefix of context.prefixOrder) {
     yield [prefix, context.prefixes[prefix]];
@@ -5976,32 +4188,32 @@ function literal(value, options = {}) {
   }
   return result;
 }
-function one(values2, whichOne = "last") {
-  let result = values2;
-  if (Array.isArray(values2)) {
+function one(values3, whichOne = "last") {
+  let result = values3;
+  if (Array.isArray(values3)) {
     if (whichOne == "last") {
-      result = values2[values2.length - 1];
+      result = values3[values3.length - 1];
     } else if (whichOne == "first") {
-      result = values2[0];
+      result = values3[0];
     } else if (typeof whichOne == "function") {
-      result = whichOne(values2);
+      result = whichOne(values3);
     } else {
       throw new Error("Unknown value for whichOne parameter");
     }
   }
   return result;
 }
-function many(values2) {
-  if (Array.isArray(values2)) {
-    return values2;
+function many(values3) {
+  if (Array.isArray(values3)) {
+    return values3;
   }
-  if (values2 == null) {
+  if (values3 == null) {
     return [];
   }
-  return [values2];
+  return [values3];
 }
-function first(...values2) {
-  for (const value of values2) {
+function first(...values3) {
+  for (const value of values3) {
     if (value !== null && value !== void 0) {
       return value;
     }
@@ -6050,7 +4262,7 @@ function sameValue(left, right) {
     return left.length == right.length && left.every((item, index) => sameValue(item, right[index]));
   }
   if (isLiteral(left) && isLiteral(right)) {
-    return String(left) == String(right) && left?.type == right?.type && left?.language == right?.language;
+    return String(left) == String(right) && left?.type == right?.type && (left?.language ?? "") == (right?.language ?? "");
   }
   return false;
 }
@@ -6141,19 +4353,19 @@ var Context = class {
       }
     });
   }
-  parse(input2, url3, type) {
-    const { quads, prefixes: prefixes3 } = this.parser(input2, url3, type);
+  parse(input2, url2, type) {
+    const { quads, prefixes: prefixes3 } = this.parser(input2, url2, type);
     if (prefixes3) {
       for (let prefix in prefixes3) {
         let prefixURL = prefixes3[prefix];
-        prefixURL = resolveIRIReference(prefixURL, url3);
+        prefixURL = resolveNamespaceReference(prefixURL, url2);
         if (!this.prefixes[prefix]) {
           this.prefixes[prefix] = prefixURL;
           this.prefixOrder.push(prefix);
         }
       }
     }
-    return this.addGraph(new Graph(quads, url3, type, prefixes3, this, input2));
+    return this.addGraph(new Graph(quads, url2, type, prefixes3, this, input2));
   }
   addGraph(graph3) {
     if (!graph3?.url) {
@@ -6171,8 +4383,8 @@ var Context = class {
     this.graphsByUrl[graph3.url] = graph3;
     return graph3;
   }
-  graph(url3) {
-    return this.graphsByUrl[this.fullURI(url3)];
+  graph(url2) {
+    return this.graphsByUrl[this.fullURI(url2)];
   }
   set(subject, predicate, value, options = {}) {
     return this.resolveGraph(subject, options).set(subject, predicate, value, { prefixPreference: "context" });
@@ -6235,9 +4447,9 @@ var Context = class {
   }
   documentURL(id2) {
     try {
-      const url3 = new URL(id2);
-      url3.hash = "";
-      return url3.href;
+      const url2 = new URL(id2);
+      url2.hash = "";
+      return url2.href;
     } catch (err) {
       return id2;
     }
@@ -6411,10 +4623,10 @@ var Context = class {
 };
 var Graph = class {
   #blankNodes = /* @__PURE__ */ Object.create(null);
-  constructor(quads, url3, mimetype, prefixes3, context, originalSource = null) {
+  constructor(quads, url2, mimetype, prefixes3, context, originalSource = null) {
     this.mimetype = mimetype;
-    this.url = url3;
-    this.baseURI = url3.split("#")[0];
+    this.url = url2;
+    this.baseURI = url2.split("#")[0];
     this.prefixes = prefixes3;
     this.context = context;
     this.originalSource = originalSource;
@@ -6432,8 +4644,8 @@ var Graph = class {
       }
       subject.addPredicate(quad2.predicate.id, quad2.object);
     }
-    if (this.subjects[url3]) {
-      this.primary = this.subjects[url3];
+    if (this.subjects[url2]) {
+      this.primary = this.subjects[url2];
     } else {
       this.primary = null;
     }
@@ -6799,7 +5011,7 @@ var Collection = class extends Array {
   }
 };
 
-// ../../muze-nl/oldm/packages/oldm-n3/src/oldm-n3.mjs
+// node_modules/@muze-nl/oldm-n3/src/oldm-n3.mjs
 var oldm_n3_exports = {};
 __export(oldm_n3_exports, {
   n3Parser: () => n3Parser,
@@ -6807,10 +5019,7 @@ __export(oldm_n3_exports, {
   n3Writer: () => n3Writer
 });
 
-// ../../muze-nl/oldm/node_modules/n3/src/N3Lexer.js
-var import_buffer = __toESM(require_buffer());
-
-// ../../muze-nl/oldm/node_modules/n3/src/IRIs.js
+// node_modules/n3/src/IRIs.js
 var RDF = "http://www.w3.org/1999/02/22-rdf-syntax-ns#";
 var XSD = "http://www.w3.org/2001/XMLSchema#";
 var SWAP = "http://www.w3.org/2000/10/swap/";
@@ -6818,6 +5027,7 @@ var IRIs_default = {
   xsd: {
     decimal: `${XSD}decimal`,
     boolean: `${XSD}boolean`,
+    dateTime: `${XSD}dateTime`,
     double: `${XSD}double`,
     integer: `${XSD}integer`,
     string: `${XSD}string`
@@ -6844,10 +5054,38 @@ var IRIs_default = {
   }
 };
 
-// ../../muze-nl/oldm/node_modules/n3/src/N3Lexer.js
+// node_modules/n3/src/N3Lexer.js
 var { xsd } = IRIs_default;
-var escapeSequence = /\\u([a-fA-F0-9]{4})|\\U([a-fA-F0-9]{8})|\\([^])/g;
-var escapeReplacements = {
+var SPACE = 32;
+var TAB = 9;
+var LF = 10;
+var CR = 13;
+var HASH = 35;
+var DOT = 46;
+var COLON = 58;
+var ZERO = 48;
+var NINE = 57;
+var PERCENT = 37;
+var BACKSLASH = 92;
+function isWhitespace(charCode) {
+  return charCode === SPACE || charCode >= TAB && charCode <= CR || charCode >= 160 && (charCode === 160 || charCode === 5760 || charCode >= 8192 && charCode <= 8202 || charCode === 8232 || charCode === 8233 || charCode === 8239 || charCode === 8287 || charCode === 12288 || charCode === 65279);
+}
+var asciiDelimiters = new Uint8Array(128);
+for (const char of `,;!^#()[]{}"'<> 	
+\v\f\r`)
+  asciiDelimiters[char.charCodeAt(0)] = 1;
+function isDelimiter(charCode) {
+  return charCode < 128 ? asciiDelimiters[charCode] === 1 : isWhitespace(charCode);
+}
+function canEndName(input2, pos, inputFinished) {
+  let charCode = input2.charCodeAt(pos);
+  if (charCode === DOT)
+    charCode = input2.charCodeAt(++pos);
+  if (pos >= input2.length)
+    return inputFinished;
+  return isDelimiter(charCode);
+}
+var stringEscapeReplacements = {
   "\\": "\\",
   "'": "'",
   '"': '"',
@@ -6855,7 +5093,9 @@ var escapeReplacements = {
   "r": "\r",
   "t": "	",
   "f": "\f",
-  "b": "\b",
+  "b": "\b"
+};
+var localNameEscapeReplacements = {
   "_": "_",
   "~": "~",
   ".": ".",
@@ -6863,6 +5103,7 @@ var escapeReplacements = {
   "!": "!",
   "$": "$",
   "&": "&",
+  "'": "'",
   "(": "(",
   ")": ")",
   "*": "*",
@@ -6877,43 +5118,122 @@ var escapeReplacements = {
   "%": "%"
 };
 var illegalIriChars = /[\x00-\x20<>\\"\{\}\|\^\`]/;
-function isSurrogateCodePoint(charCode) {
-  return charCode >= 55296 && charCode <= 57343;
+var PREFIX_START = 1;
+var LOCAL_START = 2;
+var NAME_CHAR = 4;
+var LOCAL_CHAR = 8;
+var LOCAL_ESCAPE = 16;
+var asciiNameClasses = new Uint8Array(128);
+for (let charCode = 0; charCode < 128; charCode++) {
+  const char = String.fromCharCode(charCode);
+  const letter = char >= "A" && char <= "Z" || char >= "a" && char <= "z";
+  const nameChar = letter || char === "_" || char === "-" || char >= "0" && char <= "9";
+  asciiNameClasses[charCode] = (letter ? PREFIX_START : 0) | (nameChar && char !== "-" || char === ":" ? LOCAL_START : 0) | (nameChar ? NAME_CHAR : 0) | (nameChar || char === ":" ? LOCAL_CHAR : 0) | (char in localNameEscapeReplacements ? LOCAL_ESCAPE : 0);
+}
+function nameCharLength(input2, pos, charClass) {
+  const charCode = input2.charCodeAt(pos);
+  if (charCode < 128)
+    return (asciiNameClasses[charCode] & charClass) !== 0 ? 1 : 0;
+  if (charCode >= 55296 && charCode <= 56191) {
+    const low = input2.charCodeAt(pos + 1);
+    return low >= 56320 && low <= 57343 ? 2 : 0;
+  }
+  if (charClass >= NAME_CHAR && (charCode === 183 || charCode >= 768 && charCode <= 879 || charCode === 8255 || charCode === 8256))
+    return 1;
+  return charCode >= 192 && charCode <= 8191 && charCode !== 215 && charCode !== 247 && (charCode < 768 || charCode >= 880 && charCode !== 894) || charCode >= 8204 && charCode <= 8205 || charCode >= 8304 && charCode <= 8591 || charCode >= 11264 && charCode <= 12271 || charCode >= 12289 && charCode <= 55295 || charCode >= 63744 && charCode <= 64975 || charCode >= 65008 && charCode <= 65533 ? 1 : 0;
+}
+function isLocalEscape(charCode) {
+  return charCode < 128 && (asciiNameClasses[charCode] & LOCAL_ESCAPE) !== 0;
+}
+function isHexDigit(charCode) {
+  return charCode >= ZERO && charCode <= NINE || charCode >= 65 && charCode <= 70 || charCode >= 97 && charCode <= 102;
+}
+function skipPrefix(input2, pos) {
+  let length = nameCharLength(input2, pos, PREFIX_START);
+  while (length !== 0) {
+    pos += length;
+    const next = input2.charCodeAt(pos) === DOT ? pos + 1 : pos;
+    const charCode = input2.charCodeAt(next);
+    length = charCode < 128 ? (asciiNameClasses[charCode] & NAME_CHAR) !== 0 ? 1 : 0 : nameCharLength(input2, next, NAME_CHAR);
+    if (length !== 0)
+      pos = next;
+  }
+  return pos;
+}
+function skipLocalName(input2, pos) {
+  let end = pos, charClass = LOCAL_START;
+  while (true) {
+    const charCode = input2.charCodeAt(pos);
+    let length = charCode < 128 ? (asciiNameClasses[charCode] & charClass) !== 0 ? 1 : 0 : nameCharLength(input2, pos, charClass);
+    if (length === 0 && charCode === PERCENT && isHexDigit(input2.charCodeAt(pos + 1)) && isHexDigit(input2.charCodeAt(pos + 2)))
+      length = 3;
+    else if (length === 0 && charCode === BACKSLASH && isLocalEscape(input2.charCodeAt(pos + 1)))
+      length = 2;
+    if (length !== 0) {
+      end = pos += length;
+      charClass = LOCAL_CHAR;
+    } else if (charCode === DOT && charClass === LOCAL_CHAR)
+      pos++;
+    else
+      return end;
+  }
+}
+function skipPrefixedName(input2, pos, inputFinished) {
+  const colon = skipPrefix(input2, pos);
+  if (input2.charCodeAt(colon) !== COLON)
+    return -1;
+  const end = skipLocalName(input2, colon + 1);
+  return canEndName(input2, end, inputFinished) ? end : -1;
+}
+function isValidCodePoint(charCode) {
+  return charCode <= 1114111 && (charCode < 55296 || charCode > 57343);
 }
 var lineModeRegExps = {
   _iri: true,
   _unescapedIri: true,
   _simpleQuotedString: true,
   _langcode: true,
-  _dircode: true,
   _blank: true,
-  _newline: true,
-  _comment: true,
-  _whitespace: true,
-  _endOfFile: true
+  _commentLine: true,
+  _whitespace: true
 };
 var invalidRegExp = /$0^/;
+var nonWhitespace = /\S*/y;
+function execAt(regExp, input2, pos) {
+  regExp.lastIndex = pos;
+  return regExp.exec(input2);
+}
+function testAt(regExp, input2, pos) {
+  regExp.lastIndex = pos;
+  return regExp.test(input2);
+}
+function execAtEnd(regExp, input2, pos) {
+  regExp.lastIndex = 0;
+  return regExp.exec(`${input2.slice(pos)} `);
+}
+function isSeparatorCode(code) {
+  return code === SPACE || code === TAB || code === LF || code === CR || code === HASH;
+}
+var reservedWords = /^(?:prefix|base|version|graph|forsome|forall|iri|a|true|false|has|is|of|id)$/i;
+var MIN_RESCAN_LENGTH = 1024;
 var N3Lexer = class {
   constructor(options) {
-    this._iri = /^<((?:[^ <>{}\\]|\\[uU])+)>[ \t]*/;
-    this._unescapedIri = /^<([^\x00-\x20<>\\"\{\}\|\^\`]*)>[ \t]*/;
-    this._simpleQuotedString = /^"([^"\\\r\n]*)"(?=[^"])/;
-    this._simpleApostropheString = /^'([^'\\\r\n]*)'(?=[^'])/;
-    this._langcode = /^@([a-z]+(?:-[a-z0-9]+)*)(?=[^a-z0-9])/i;
-    this._dircode = /^--(ltr)|(rtl)/;
-    this._prefix = /^((?:[A-Za-z\xc0-\xd6\xd8-\xf6\xf8-\u02ff\u0370-\u037d\u037f-\u1fff\u200c\u200d\u2070-\u218f\u2c00-\u2fef\u3001-\ud7ff\uf900-\ufdcf\ufdf0-\ufffd]|[\ud800-\udb7f][\udc00-\udfff])(?:\.?[\-0-9A-Z_a-z\xb7\xc0-\xd6\xd8-\xf6\xf8-\u037d\u037f-\u1fff\u200c\u200d\u203f\u2040\u2070-\u218f\u2c00-\u2fef\u3001-\ud7ff\uf900-\ufdcf\ufdf0-\ufffd]|[\ud800-\udb7f][\udc00-\udfff])*)?:(?=[#\s<])/;
-    this._prefixed = /^((?:[A-Za-z\xc0-\xd6\xd8-\xf6\xf8-\u02ff\u0370-\u037d\u037f-\u1fff\u200c\u200d\u2070-\u218f\u2c00-\u2fef\u3001-\ud7ff\uf900-\ufdcf\ufdf0-\ufffd]|[\ud800-\udb7f][\udc00-\udfff])(?:\.?[\-0-9A-Z_a-z\xb7\xc0-\xd6\xd8-\xf6\xf8-\u037d\u037f-\u1fff\u200c\u200d\u203f\u2040\u2070-\u218f\u2c00-\u2fef\u3001-\ud7ff\uf900-\ufdcf\ufdf0-\ufffd]|[\ud800-\udb7f][\udc00-\udfff])*)?:((?:(?:[0-:A-Z_a-z\xc0-\xd6\xd8-\xf6\xf8-\u02ff\u0370-\u037d\u037f-\u1fff\u200c\u200d\u2070-\u218f\u2c00-\u2fef\u3001-\ud7ff\uf900-\ufdcf\ufdf0-\ufffd]|[\ud800-\udb7f][\udc00-\udfff]|%[0-9a-fA-F]{2}|\\[!#-\/;=?\-@_~])(?:(?:[\.\-0-:A-Z_a-z\xb7\xc0-\xd6\xd8-\xf6\xf8-\u037d\u037f-\u1fff\u200c\u200d\u203f\u2040\u2070-\u218f\u2c00-\u2fef\u3001-\ud7ff\uf900-\ufdcf\ufdf0-\ufffd]|[\ud800-\udb7f][\udc00-\udfff]|%[0-9a-fA-F]{2}|\\[!#-\/;=?\-@_~])*(?:[\-0-:A-Z_a-z\xb7\xc0-\xd6\xd8-\xf6\xf8-\u037d\u037f-\u1fff\u200c\u200d\u203f\u2040\u2070-\u218f\u2c00-\u2fef\u3001-\ud7ff\uf900-\ufdcf\ufdf0-\ufffd]|[\ud800-\udb7f][\udc00-\udfff]|%[0-9a-fA-F]{2}|\\[!#-\/;=?\-@_~]))?)?)(?:[ \t]+|(?=\.?[,;!\^\s#()\[\]\{\}"'<>]))/;
-    this._variable = /^\?(?:(?:[A-Z_a-z\xc0-\xd6\xd8-\xf6\xf8-\u02ff\u0370-\u037d\u037f-\u1fff\u200c\u200d\u2070-\u218f\u2c00-\u2fef\u3001-\ud7ff\uf900-\ufdcf\ufdf0-\ufffd]|[\ud800-\udb7f][\udc00-\udfff])(?:[\-0-:A-Z_a-z\xb7\xc0-\xd6\xd8-\xf6\xf8-\u037d\u037f-\u1fff\u200c\u200d\u203f\u2040\u2070-\u218f\u2c00-\u2fef\u3001-\ud7ff\uf900-\ufdcf\ufdf0-\ufffd]|[\ud800-\udb7f][\udc00-\udfff])*)(?=[.,;!\^\s#()\[\]\{\}"'<>])/;
-    this._blank = /^_:((?:[0-9A-Z_a-z\xc0-\xd6\xd8-\xf6\xf8-\u02ff\u0370-\u037d\u037f-\u1fff\u200c\u200d\u2070-\u218f\u2c00-\u2fef\u3001-\ud7ff\uf900-\ufdcf\ufdf0-\ufffd]|[\ud800-\udb7f][\udc00-\udfff])(?:\.?[\-0-9A-Z_a-z\xb7\xc0-\xd6\xd8-\xf6\xf8-\u037d\u037f-\u1fff\u200c\u200d\u203f\u2040\u2070-\u218f\u2c00-\u2fef\u3001-\ud7ff\uf900-\ufdcf\ufdf0-\ufffd]|[\ud800-\udb7f][\udc00-\udfff])*)(?:[ \t]+|(?=\.?[,;:\s#()\[\]\{\}"'<>]))/;
-    this._number = /^[\-+]?(?:(\d+\.\d*|\.?\d+)[eE][\-+]?|\d*(\.)?)\d+(?=\.?[,;:\s#()\[\]\{\}"'<>])/;
-    this._boolean = /^(?:true|false)(?=[.,;\s#()\[\]\{\}"'<>])/;
-    this._atKeyword = /^@[a-z]+(?=[\s#<:])/i;
-    this._keyword = /^(?:PREFIX|BASE|VERSION|GRAPH)(?=[\s#<])/i;
-    this._shortPredicates = /^a(?=[\s#()\[\]\{\}"'<>])/;
-    this._newline = /^[ \t]*(?:#[^\n\r]*)?(?:\r\n|\n|\r)[ \t]*/;
-    this._comment = /#([^\n\r]*)/;
-    this._whitespace = /^[ \t]+/;
-    this._endOfFile = /^(?:#[^\n\r]*)?$/;
+    this._iri = /<((?:[^ <>{}\\]|\\[uU])+)>[ \t]*/y;
+    this._unescapedIri = /<([^\x00-\x20<>\\"\{\}\|\^\`]*)>[ \t]*/y;
+    this._simpleQuotedString = /"([^"\\\r\n]*)"(?=[^"])/y;
+    this._simpleApostropheString = /'([^'\\\r\n]*)'(?=[^'])/y;
+    this._langcode = /@([a-z]+(?:-[a-z0-9]+)*)(?=[^a-z0-9])/iy;
+    this._variable = /\?(?:(?:[A-Z_a-z\xc0-\xd6\xd8-\xf6\xf8-\u02ff\u0370-\u037d\u037f-\u1fff\u200c\u200d\u2070-\u218f\u2c00-\u2fef\u3001-\ud7ff\uf900-\ufdcf\ufdf0-\ufffd]|[\ud800-\udb7f][\udc00-\udfff])(?:[\-0-9:A-Z_a-z\xb7\xc0-\xd6\xd8-\xf6\xf8-\u037d\u037f-\u1fff\u200c\u200d\u203f\u2040\u2070-\u218f\u2c00-\u2fef\u3001-\ud7ff\uf900-\ufdcf\ufdf0-\ufffd]|[\ud800-\udb7f][\udc00-\udfff])*)(?=[.,;!\^\s#()\[\]\{\}"'<>])/y;
+    this._blank = /_:((?:[0-9A-Z_a-z\xc0-\xd6\xd8-\xf6\xf8-\u02ff\u0370-\u037d\u037f-\u1fff\u200c\u200d\u2070-\u218f\u2c00-\u2fef\u3001-\ud7ff\uf900-\ufdcf\ufdf0-\ufffd]|[\ud800-\udb7f][\udc00-\udfff])(?:\.?[\-0-9A-Z_a-z\xb7\xc0-\xd6\xd8-\xf6\xf8-\u037d\u037f-\u1fff\u200c\u200d\u203f\u2040\u2070-\u218f\u2c00-\u2fef\u3001-\ud7ff\uf900-\ufdcf\ufdf0-\ufffd]|[\ud800-\udb7f][\udc00-\udfff])*)(?:[ \t]+|(?=\.?[,;:!\^\s#()\[\]\{\}"'<>]))/y;
+    this._number = /[\-+]?(?:(\d+\.\d*|\.?\d+)[eE][\-+]?\d+|(?=\.?\d)\d*(?:(\.)\d+)?)(?=\.?[,;:!\^\s#()\[\]\{\}"'<>])/y;
+    this._boolean = /(?:true|false)(?=[.,;!\^\s#()\[\]\{\}"'<>])/y;
+    this._atKeyword = /@[a-z]+(?=[\s#<:"'.])/iy;
+    this._keyword = /(?:PREFIX|BASE|VERSION|GRAPH)(?=[\s#<"'])/iy;
+    this._n3Verb = /(?:has|is|of)(?=[\s#()\[\]\{\}"'<>?_+\-0-9])/y;
+    this._n3Id = /id(?=[\s#<])/y;
+    this._shortPredicates = /a(?=[\s#()\[\]\{\}"'<>])/y;
+    this._commentLine = /[ \t]*#([^\n\r]*)(?:\r\n|\n|\r)([ \t]*)/y;
+    this._whitespace = /[ \t]+/y;
     options = options || {};
     this._isImpliedBy = options.isImpliedBy;
     if (this._lineMode = !!options.lineMode) {
@@ -6922,8 +5242,19 @@ var N3Lexer = class {
         if (!(key in lineModeRegExps) && this[key] instanceof RegExp)
           this[key] = invalidRegExp;
       }
+      this._keyword = /VERSION(?=[\s#<"])/y;
     } else {
       this._n3Mode = options.n3 !== false;
+    }
+    this._directive = null;
+    if (options.directives && options.directives.length !== 0) {
+      for (const name of options.directives) {
+        if (!/^[a-z]+$/i.test(name) || reservedWords.test(name))
+          throw new Error(`Invalid directive name: "${name}"`);
+      }
+      this._directive = new RegExp(`(?:${options.directives.join("|")})(?=[\\s#<])`, "iy");
+      this._directiveMaxLength = Math.max(...options.directives.map((name) => name.length));
+      this._directiveStarts = options.directives.map((name) => name[0].toLowerCase() + name[0].toUpperCase()).join("");
     }
     this.comments = !!options.comments;
     this._literalClosingPos = 0;
@@ -6931,38 +5262,79 @@ var N3Lexer = class {
   // ## Private methods
   // ### `_tokenizeToEnd` tokenizes as for as possible, emitting tokens through the callback
   _tokenizeToEnd(callback, inputFinished) {
-    let input2 = this._input;
-    let currentLineLength = input2.length;
+    const input2 = this._input;
+    let pos = 0;
+    let currentLineLength = this._linePosition + input2.length;
     while (true) {
-      let whiteSpaceMatch, comment;
-      while (whiteSpaceMatch = this._newline.exec(input2)) {
-        if (this.comments && (comment = this._comment.exec(whiteSpaceMatch[0])))
-          emitToken("comment", comment[1], "", this._line, whiteSpaceMatch[0].length);
-        input2 = input2.substr(whiteSpaceMatch[0].length, input2.length);
-        currentLineLength = input2.length;
-        this._line++;
-      }
-      if (!whiteSpaceMatch && (whiteSpaceMatch = this._whitespace.exec(input2)))
-        input2 = input2.substr(whiteSpaceMatch[0].length, input2.length);
-      if (this._endOfFile.test(input2)) {
-        if (inputFinished) {
-          if (this.comments && (comment = this._comment.exec(input2)))
-            emitToken("comment", comment[1], "", this._line, input2.length);
-          input2 = null;
-          emitToken("eof", "", "", this._line, 0);
+      while (true) {
+        let charCode = input2.charCodeAt(pos), separatorLength = 0;
+        if (charCode === SPACE || charCode === TAB) {
+          const next = input2.charCodeAt(pos + 1);
+          separatorLength = next === SPACE || next === TAB ? execAt(this._whitespace, input2, pos)[0].length : 1;
+          charCode = input2.charCodeAt(pos + separatorLength);
         }
-        return this._input = input2;
+        if (charCode === HASH) {
+          const comment = execAt(this._commentLine, input2, pos);
+          if (comment) {
+            const commentLength = comment[0].length;
+            if (!inputFinished && pos + commentLength === input2.length && input2.charCodeAt(input2.length - 1) === CR)
+              return this._suspend(input2, pos, currentLineLength);
+            if (this.comments)
+              emitComment(comment[1], this._line, currentLineLength - (input2.length - pos) + separatorLength);
+            pos += commentLength;
+            currentLineLength = input2.length - pos + comment[2].length;
+            this._line++;
+          } else {
+            pos += separatorLength;
+            if (!inputFinished)
+              return this._suspend(input2, pos, currentLineLength);
+            if (this.comments)
+              emitComment(input2.slice(pos + 1), this._line, currentLineLength - (input2.length - pos));
+            pos = input2.length;
+            break;
+          }
+        } else if (charCode === LF || charCode === CR) {
+          if (!inputFinished && charCode === CR && pos + separatorLength + 1 === input2.length)
+            return this._suspend(input2, pos, currentLineLength);
+          separatorLength += charCode === CR && input2.charCodeAt(pos + separatorLength + 1) === LF ? 2 : 1;
+          let indentationLength = 0;
+          const next = input2.charCodeAt(pos + separatorLength);
+          if (next === SPACE || next === TAB) {
+            const following = input2.charCodeAt(pos + separatorLength + 1);
+            indentationLength = following === SPACE || following === TAB ? execAt(this._whitespace, input2, pos + separatorLength)[0].length : 1;
+          }
+          pos += separatorLength + indentationLength;
+          currentLineLength = input2.length - pos + indentationLength;
+          this._line++;
+        } else {
+          pos += separatorLength;
+          break;
+        }
       }
-      const line = this._line, firstChar = input2[0];
-      let type = "", value = "", prefix = "", match = null, matchLength = 0, inconclusive = false;
+      if (pos >= input2.length) {
+        if (inputFinished && this._previousMarker === "^^")
+          return reportSyntaxError(this, input2, pos);
+        this._linePosition = currentLineLength;
+        if (inputFinished) {
+          emitToken("eof", "", "", this._line, currentLineLength, 0);
+          return this._input = null;
+        }
+        return this._input = "";
+      }
+      const line = this._line, firstChar = input2[pos];
+      let type = "", value = "", prefix = "", match = null, matchLength = 0, lexicalLength = 0, finalLineLength = 0, inconclusive = false, tripleQuoted = false;
       switch (firstChar) {
         case "^":
-          if (input2.length < 3)
+          if (this._previousMarker === "^^")
+            return reportSyntaxError(this, input2, pos);
+          if (input2.length - pos < 3)
             break;
-          else if (input2[1] === "^") {
+          else if (input2[pos + 1] === "^") {
             this._previousMarker = "^^";
-            input2 = input2.substr(2);
-            if (input2[0] !== "<") {
+            pos += 2;
+            if (input2[pos] !== "<") {
+              if (isSeparatorCode(input2.charCodeAt(pos)))
+                continue;
               inconclusive = true;
               break;
             }
@@ -6975,38 +5347,43 @@ var N3Lexer = class {
           }
         // Fall through in case the type is an IRI
         case "<":
-          if (match = this._unescapedIri.exec(input2))
+          if (match = execAt(this._unescapedIri, input2, pos)) {
             type = "IRI", value = match[1];
-          else if (match = this._iri.exec(input2)) {
-            value = this._unescape(match[1]);
+            lexicalLength = match[1].length + 2;
+          } else if (match = execAt(this._iri, input2, pos)) {
+            value = this._unescape(match[1], stringEscapeReplacements);
             if (value === null || illegalIriChars.test(value))
-              return reportSyntaxError(this);
+              return reportSyntaxError(this, input2, pos);
             type = "IRI";
-          } else if (input2.length > 2 && input2[1] === "<" && input2[2] === "(")
+            lexicalLength = match[1].length + 2;
+          } else if (input2.length - pos > 2 && input2[pos + 1] === "<" && input2[pos + 2] === "(")
             type = "<<(", matchLength = 3;
-          else if (!this._lineMode && input2.length > (inputFinished ? 1 : 2) && input2[1] === "<")
+          else if (!this._lineMode && input2.length - pos > (inputFinished ? 1 : 2) && input2[pos + 1] === "<")
             type = "<<", matchLength = 2;
-          else if (this._n3Mode && input2.length > 1 && input2[1] === "=") {
+          else if (this._n3Mode && input2.length - pos > 1 && input2[pos + 1] === "=") {
             matchLength = 2;
             if (this._isImpliedBy) type = "abbreviation", value = "<";
             else type = "inverse", value = ">";
-          }
+          } else if (this._n3Mode && input2.length - pos > 1 && input2[pos + 1] === "-")
+            type = "inversePredicate", matchLength = 2;
           break;
         case ">":
-          if (input2.length > 1 && input2[1] === ">")
+          if (input2.length - pos > 1 && input2[pos + 1] === ">")
             type = ">>", matchLength = 2;
           break;
         case "_":
-          if ((match = this._blank.exec(input2)) || inputFinished && (match = this._blank.exec(`${input2} `)))
+          if ((match = execAt(this._blank, input2, pos)) || inputFinished && (match = execAtEnd(this._blank, input2, pos))) {
             type = "blank", prefix = "_", value = match[1];
+            lexicalLength = match[1].length + 2;
+          }
           break;
         case '"':
-          if (match = this._simpleQuotedString.exec(input2))
+          if (match = execAt(this._simpleQuotedString, input2, pos))
             value = match[1];
           else {
-            ({ value, matchLength } = this._parseLiteral(input2));
+            ({ value, matchLength, finalLineLength, tripleQuoted } = this._parseLiteral(input2, pos));
             if (value === null)
-              return reportSyntaxError(this);
+              return reportSyntaxError(this, input2, pos);
           }
           if (match !== null || matchLength !== 0) {
             type = "literal";
@@ -7015,12 +5392,12 @@ var N3Lexer = class {
           break;
         case "'":
           if (!this._lineMode) {
-            if (match = this._simpleApostropheString.exec(input2))
+            if (match = execAt(this._simpleApostropheString, input2, pos))
               value = match[1];
             else {
-              ({ value, matchLength } = this._parseLiteral(input2));
+              ({ value, matchLength, finalLineLength, tripleQuoted } = this._parseLiteral(input2, pos));
               if (value === null)
-                return reportSyntaxError(this);
+                return reportSyntaxError(this, input2, pos);
             }
             if (match !== null || matchLength !== 0) {
               type = "literal";
@@ -7029,17 +5406,21 @@ var N3Lexer = class {
           }
           break;
         case "?":
-          if (this._n3Mode && (match = this._variable.exec(input2)))
+          if (this._n3Mode && (match = execAt(this._variable, input2, pos)))
             type = "var", value = match[0];
           break;
         case "@":
-          if (this._previousMarker === "literal" && (match = this._langcode.exec(input2)) && match[1] !== "version")
-            type = "langcode", value = match[1];
-          else if (match = this._atKeyword.exec(input2))
+          if (this._previousMarker === "literal" && (match = execAt(this._langcode, input2, pos)) && match[1] !== "version") {
+            const end = pos + match[0].length;
+            if (!inputFinished && input2[end] === "-" && input2[end + 1] !== "-")
+              match = null;
+            else
+              type = "langcode", value = match[1];
+          } else if (match = execAt(this._atKeyword, input2, pos))
             type = match[0];
           break;
         case ".":
-          if (input2.length === 1 ? inputFinished : input2[1] < "0" || input2[1] > "9") {
+          if (input2.length - pos === 1 ? inputFinished : input2[pos + 1] < "0" || input2[pos + 1] > "9") {
             type = ".";
             matchLength = 1;
             break;
@@ -7057,12 +5438,16 @@ var N3Lexer = class {
         case "9":
         case "+":
         case "-":
-          if (input2[1] === "-") {
-            if (this._previousMarker === "langcode" && (match = this._dircode.exec(input2)))
-              type = "dircode", matchLength = 2, value = match[1] || match[2], matchLength = value.length + 2;
+          if (input2[pos + 1] === "-") {
+            if (this._previousMarker === "langcode") {
+              if (input2.startsWith("--ltr", pos))
+                type = "dircode", value = "ltr", matchLength = 5;
+              else if (input2.startsWith("--rtl", pos))
+                type = "dircode", value = "rtl", matchLength = 5;
+            }
             break;
           }
-          if (match = this._number.exec(input2) || inputFinished && (match = this._number.exec(`${input2} `))) {
+          if (match = execAt(this._number, input2, pos) || inputFinished && (match = execAtEnd(this._number, input2, pos))) {
             type = "literal", value = match[0];
             prefix = typeof match[1] === "string" ? xsd.double : typeof match[2] === "string" ? xsd.decimal : xsd.integer;
           }
@@ -7075,28 +5460,43 @@ var N3Lexer = class {
         case "g":
         case "V":
         case "v":
-          if (match = this._keyword.exec(input2))
+          if (match = execAt(this._keyword, input2, pos))
             type = match[0].toUpperCase();
           else
             inconclusive = true;
           break;
         case "f":
         case "t":
-          if (match = this._boolean.exec(input2))
-            type = "literal", value = match[0], prefix = xsd.boolean;
+          if (testAt(this._boolean, input2, pos))
+            type = "literal", value = firstChar === "t" ? "true" : "false", prefix = xsd.boolean, matchLength = value.length;
           else
             inconclusive = true;
           break;
         case "a":
-          if (match = this._shortPredicates.exec(input2))
-            type = "abbreviation", value = "a";
+          if (testAt(this._shortPredicates, input2, pos))
+            type = "abbreviation", value = "a", matchLength = 1;
+          else
+            inconclusive = true;
+          break;
+        case "h":
+        case "o":
+          if (this._n3Mode && (match = this._matchN3Verb(input2, pos, inputFinished)))
+            type = match[0];
+          else
+            inconclusive = true;
+          break;
+        case "i":
+          if (this._n3Mode && testAt(this._n3Id, input2, pos))
+            type = "id", matchLength = 2;
+          else if (this._n3Mode && (match = this._matchN3Verb(input2, pos, inputFinished)))
+            type = match[0];
           else
             inconclusive = true;
           break;
         case "=":
-          if (this._n3Mode && input2.length > 1) {
+          if (this._n3Mode && input2.length - pos > 1) {
             type = "abbreviation";
-            if (input2[1] !== ">")
+            if (input2[pos + 1] !== ">")
               matchLength = 1, value = "=";
             else
               matchLength = 2, value = ">";
@@ -7106,10 +5506,10 @@ var N3Lexer = class {
           if (!this._n3Mode)
             break;
         case ")":
-          if (!inputFinished && (input2.length === 1 || input2.length === 2 && input2[1] === ">")) {
+          if (!inputFinished && (input2.length - pos === 1 || input2.length - pos === 2 && input2[pos + 1] === ">")) {
             break;
           }
-          if (input2.length > 2 && input2[1] === ">" && input2[2] === ">") {
+          if (input2.length - pos > 2 && input2[pos + 1] === ">" && input2[pos + 2] === ">") {
             type = ")>>", matchLength = 3;
             break;
           }
@@ -7126,25 +5526,33 @@ var N3Lexer = class {
           }
           break;
         case "{":
-          if (!this._lineMode && input2.length >= 2) {
-            if (input2[1] === "|")
+          if (!this._lineMode && input2.length - pos >= 2) {
+            if (input2[pos + 1] === "|")
               type = "{|", matchLength = 2;
             else
               type = firstChar, matchLength = 1;
           }
           break;
         case "|":
-          if (input2.length >= 2 && input2[1] === "}")
+          if (input2.length - pos >= 2 && input2[pos + 1] === "}")
             type = "|}", matchLength = 2;
           break;
         default:
           inconclusive = true;
       }
       if (inconclusive) {
-        if ((this._previousMarker === "@prefix" || this._previousMarker === "PREFIX") && (match = this._prefix.exec(input2)))
-          type = "prefix", value = match[1] || "";
-        else if ((match = this._prefixed.exec(input2)) || inputFinished && (match = this._prefixed.exec(`${input2} `)))
-          type = "prefixed", prefix = match[1] || "", value = this._unescape(match[2]);
+        let end;
+        if ((this._previousMarker === "@prefix" || this._previousMarker === "PREFIX") && input2.charCodeAt(end = skipPrefix(input2, pos)) === COLON && end + 1 < input2.length && (input2[end + 1] === "#" || input2[end + 1] === "<" || isWhitespace(input2.charCodeAt(end + 1)))) {
+          type = "prefix", value = input2.slice(pos, end);
+          matchLength = end + 1 - pos;
+        } else if (this._directive !== null && this._directiveStarts.includes(firstChar) && ((match = execAt(this._directive, input2, pos)) || inputFinished && input2.length - pos <= this._directiveMaxLength && (match = execAtEnd(this._directive, input2, pos))))
+          type = match[0].toUpperCase();
+        else if (!this._lineMode && (end = skipPrefixedName(input2, pos, inputFinished)) >= 0) {
+          const colon = input2.indexOf(":", pos);
+          type = "prefixed", prefix = input2.slice(pos, colon);
+          value = this._unescape(input2.slice(colon + 1, end), localNameEscapeReplacements);
+          matchLength = end - pos;
+        }
       }
       if (this._previousMarker === "^^") {
         switch (type) {
@@ -7159,84 +5567,170 @@ var N3Lexer = class {
         }
       }
       if (!type) {
-        if (inputFinished || !/^'''|^"""/.test(input2) && /\n|\r/.test(input2))
-          return reportSyntaxError(this);
+        if (inputFinished || !input2.startsWith("'''", pos) && !input2.startsWith('"""', pos) && /\n|\r/.test(input2.slice(pos)))
+          return reportSyntaxError(this, input2, pos);
         else
-          return this._input = input2;
+          return this._suspend(input2, pos, currentLineLength);
       }
       const length = matchLength || match[0].length;
-      const token = emitToken(type, value, prefix, line, length);
+      const start = currentLineLength - (input2.length - pos);
+      let token;
+      if (finalLineLength) {
+        token = {
+          type,
+          value,
+          prefix,
+          line,
+          start,
+          end: finalLineLength,
+          endLine: this._line,
+          tripleQuoted
+        };
+        callback(null, token);
+      } else if (tripleQuoted) {
+        token = { type, value, prefix, line, start, end: start + length, tripleQuoted };
+        callback(null, token);
+      } else
+        token = emitToken(type, value, prefix, line, start, lexicalLength || length);
       this.previousToken = token;
-      this._previousMarker = type;
-      input2 = input2.substr(length, input2.length);
+      this._previousMarker = type === "literal" && (this._previousMarker === "VERSION" || this._previousMarker === "@version") ? "version" : type;
+      pos = Math.min(pos + length, input2.length);
+      if (finalLineLength)
+        currentLineLength = input2.length - pos + finalLineLength;
     }
-    function emitToken(type, value, prefix, line, length) {
-      const start = input2 ? currentLineLength - input2.length : currentLineLength;
-      const end = start + length;
-      const token = { type, value, prefix, line, start, end };
+    function emitComment(value, line, start) {
+      callback(null, {
+        type: "comment",
+        value,
+        prefix: "",
+        line,
+        start,
+        end: start + value.length + 1
+      });
+    }
+    function emitToken(type, value, prefix, line, start, length) {
+      const token = { type, value, prefix, line, start, end: start + length };
       callback(null, token);
       return token;
     }
-    function reportSyntaxError(self) {
-      callback(self._syntaxError(/^\S*/.exec(input2)[0]));
+    function reportSyntaxError(self, input3, pos2) {
+      callback(self._syntaxError(execAt(nonWhitespace, input3, pos2)[0]));
     }
   }
-  // ### `_unescape` replaces N3 escape codes by their corresponding characters
-  _unescape(item) {
-    let invalid = false;
-    const replaced = item.replace(escapeSequence, (sequence, unicode4, unicode8, escapedChar) => {
-      if (typeof unicode4 === "string") {
-        const charCode = Number.parseInt(unicode4, 16);
-        if (isSurrogateCodePoint(charCode)) {
-          invalid = true;
-          return "";
-        }
-        return String.fromCharCode(charCode);
-      }
-      if (typeof unicode8 === "string") {
-        let charCode = Number.parseInt(unicode8, 16);
-        if (isSurrogateCodePoint(charCode)) {
-          invalid = true;
-          return "";
-        }
-        return charCode <= 65535 ? String.fromCharCode(Number.parseInt(unicode8, 16)) : String.fromCharCode(55296 + ((charCode -= 65536) >> 10), 56320 + (charCode & 1023));
-      }
-      if (escapedChar in escapeReplacements)
-        return escapeReplacements[escapedChar];
-      invalid = true;
-      return "";
-    });
-    return invalid ? null : replaced;
+  // ### `_suspend` keeps the unconsumed input until more input arrives
+  _suspend(input2, pos, currentLineLength) {
+    this._linePosition = currentLineLength - (input2.length - pos);
+    return this._input = input2.slice(pos);
   }
-  // ### `_parseLiteral` parses a literal into an unescaped value
-  _parseLiteral(input2) {
-    if (input2.length >= 3) {
-      const opening = input2.match(/^(?:"""|"|'''|'|)/)[0];
-      const openingLength = opening.length;
-      let closingPos = Math.max(this._literalClosingPos, openingLength);
-      while ((closingPos = input2.indexOf(opening, closingPos)) > 0) {
+  // ### `_matchN3Verb` matches an N3 verb unless the input is a longer prefixed name
+  _matchN3Verb(input2, pos, inputFinished) {
+    const verb = execAt(this._n3Verb, input2, pos);
+    if (!verb)
+      return null;
+    const next = input2[pos + verb[0].length];
+    if (next !== "-" && next !== "_" && (next < "0" || next > "9") && next !== "\u1680" && next !== "\uFEFF")
+      return verb;
+    if (skipPrefixedName(input2, pos, true) >= 0)
+      return null;
+    if (!inputFinished && skipPrefix(input2, pos) === input2.length)
+      return null;
+    return verb;
+  }
+  // ### `_unescape` replaces N3 escape codes by their corresponding characters,
+  // allowing only the fixed escape sequences from the given replacement table
+  _unescape(item, replacements) {
+    let backslash = item.indexOf("\\");
+    if (backslash < 0)
+      return item;
+    let result = "", start = 0;
+    while (backslash >= 0 && backslash + 1 < item.length) {
+      const escapedChar = item[backslash + 1];
+      let end = backslash + 2, replacement;
+      if (escapedChar === "u" || escapedChar === "U") {
+        end += escapedChar === "u" ? 4 : 8;
+        if (end > item.length)
+          return null;
+        let charCode = 0;
+        for (let i = backslash + 2; i < end; i++) {
+          let digit = item.charCodeAt(i);
+          if (digit >= 48 && digit <= 57)
+            digit -= 48;
+          else if (digit >= 65 && digit <= 70)
+            digit -= 65 - 10;
+          else if (digit >= 97 && digit <= 102)
+            digit -= 97 - 10;
+          else
+            return null;
+          charCode = charCode * 16 + digit;
+        }
+        if (!isValidCodePoint(charCode))
+          return null;
+        replacement = String.fromCodePoint(charCode);
+      } else {
+        if (!(escapedChar in replacements))
+          return null;
+        replacement = replacements[escapedChar];
+      }
+      result += item.slice(start, backslash) + replacement;
+      start = end;
+      backslash = item.indexOf("\\", start);
+    }
+    return result + item.slice(start);
+  }
+  // ### `_parseLiteral` parses a literal at the given position into an unescaped value
+  _parseLiteral(input2, pos) {
+    if (input2.length - pos >= 3) {
+      const quote = input2[pos];
+      const openingLength = input2[pos + 1] === quote && input2[pos + 2] === quote ? 3 : 1;
+      let opening = quote;
+      if (openingLength === 3)
+        opening = quote === '"' ? '"""' : "'''";
+      let closingPos = pos + Math.max(this._literalClosingPos, openingLength);
+      while ((closingPos = input2.indexOf(opening, closingPos)) > pos) {
         let backslashCount = 0;
         while (input2[closingPos - backslashCount - 1] === "\\")
           backslashCount++;
         if (backslashCount % 2 === 0) {
-          const raw2 = input2.substring(openingLength, closingPos);
-          const lines = raw2.split(/\r\n|\r|\n/).length - 1;
-          const matchLength = closingPos + openingLength;
-          if (openingLength === 1 && lines !== 0 || openingLength === 3 && this._lineMode)
+          const raw2 = input2.substring(pos + openingLength, closingPos), lines = raw2.split(/\r\n|\r|\n/), lineCount = lines.length - 1;
+          const matchLength = closingPos - pos + openingLength;
+          if (openingLength === 1 && lineCount !== 0 || openingLength === 3 && this._lineMode)
             break;
-          this._line += lines;
-          return { value: this._unescape(raw2), matchLength };
+          this._line += lineCount;
+          const finalLineLength = lineCount === 0 ? 0 : lines[lines.length - 1].length + openingLength;
+          return {
+            value: this._unescape(raw2, stringEscapeReplacements),
+            matchLength,
+            finalLineLength,
+            tripleQuoted: openingLength === 3
+          };
         }
         closingPos++;
       }
-      this._literalClosingPos = input2.length - openingLength + 1;
+      this._literalClosingPos = input2.length - pos - openingLength + 1;
     }
-    return { value: "", matchLength: 0 };
+    return { value: "", matchLength: 0, finalLineLength: 0, tripleQuoted: false };
+  }
+  // ### `_tryTokenizeToEnd` tokenizes as far as possible, reporting failures through the callback
+  _tryTokenizeToEnd(callback, inputFinished) {
+    let callbackError;
+    try {
+      this._tokenizeToEnd((error4, token) => {
+        try {
+          return callback(error4, token);
+        } catch (thrown) {
+          throw callbackError = thrown;
+        }
+      }, inputFinished);
+    } catch (error4) {
+      if (error4 === callbackError || !(error4 instanceof RangeError))
+        throw error4;
+      callback(this._syntaxError(null, `Token too long on line ${this._line}.`));
+    }
   }
   // ### `_syntaxError` creates a syntax error for the given issue
-  _syntaxError(issue) {
+  _syntaxError(issue, message2 = `Unexpected "${issue}" on line ${this._line}.`) {
     this._input = null;
-    const err = new Error(`Unexpected "${issue}" on line ${this._line}.`);
+    const err = new Error(message2);
     err.context = {
       token: void 0,
       line: this._line,
@@ -7244,60 +5738,96 @@ var N3Lexer = class {
     };
     return err;
   }
+  // ### `_startTokenization` resets the lexer state for a new input
+  _startTokenization() {
+    this._line = 1;
+    this._linePosition = 0;
+    this._previousMarker = void 0;
+    this.previousToken = void 0;
+    this._literalClosingPos = 0;
+    this._input = void 0;
+    return this._tokenization = {};
+  }
+  // ### `_tokenizeString` synchronously emits the tokens of a complete string through the callback,
+  // so that the caller can consume each token without the lexer collecting them all first
+  _tokenizeString(input2, callback) {
+    this._startTokenization();
+    this._input = this._readStartingBom(input2);
+    this._tryTokenizeToEnd(callback, true);
+  }
   // ### Strips off any starting UTF BOM mark.
   _readStartingBom(input2) {
-    return input2.startsWith("\uFEFF") ? input2.substr(1) : input2;
+    if (input2.startsWith("\uFEFF")) {
+      this._linePosition = 1;
+      return input2.slice(1);
+    }
+    return input2;
   }
   // ## Public methods
   // ### `tokenize` starts the transformation of an N3 document into an array of tokens.
   // The input can be a string or a stream.
+  // Token ranges use one-based lines and zero-based, end-exclusive UTF-16 columns.
+  // Separator whitespace counts towards the next token's start, outside either range.
+  // Multiline tokens also have endLine; their end column is relative to that line.
   tokenize(input2, callback) {
-    this._line = 1;
+    const tokenization = this._startTokenization();
     if (typeof input2 === "string") {
       this._input = this._readStartingBom(input2);
       if (typeof callback === "function")
-        queueMicrotask(() => this._tokenizeToEnd(callback, true));
+        queueMicrotask(() => {
+          if (this._tokenization === tokenization)
+            this._tryTokenizeToEnd(callback, true);
+        });
       else {
         const tokens = [];
         let error4;
-        this._tokenizeToEnd((e, t) => e ? error4 = e : tokens.push(t), true);
+        this._tryTokenizeToEnd((e, t) => e ? error4 = e : tokens.push(t), true);
         if (error4) throw error4;
         return tokens;
       }
     } else {
-      this._pendingBuffer = null;
+      let decoder3, retryLength = 0;
       if (typeof input2.setEncoding === "function")
         input2.setEncoding("utf8");
       input2.on("data", (data) => {
-        if (this._input !== null && data.length !== 0) {
-          if (this._pendingBuffer) {
-            data = import_buffer.Buffer.concat([this._pendingBuffer, data]);
-            this._pendingBuffer = null;
+        if (this._tokenization === tokenization && this._input !== null && data.length !== 0) {
+          if (typeof data !== "string") {
+            decoder3 = decoder3 || new TextDecoder("utf-8", { ignoreBOM: true });
+            if (!(data = decoder3.decode(data, { stream: true })))
+              return;
           }
-          if (data[data.length - 1] & 128) {
-            this._pendingBuffer = data;
-          } else {
-            if (typeof this._input === "undefined")
-              this._input = this._readStartingBom(typeof data === "string" ? data : data.toString());
-            else
-              this._input += data;
-            this._tokenizeToEnd(callback, false);
+          if (typeof this._input === "undefined")
+            this._input = this._readStartingBom(data);
+          else
+            this._input += data;
+          if (this._input.length >= retryLength) {
+            this._tryTokenizeToEnd(callback, false);
+            retryLength = this._input !== null && this._input.length > MIN_RESCAN_LENGTH ? 2 * this._input.length : 0;
           }
         }
       });
       input2.on("end", () => {
-        if (typeof this._input === "string")
-          this._tokenizeToEnd(callback, true);
+        if (this._tokenization === tokenization && this._input !== null) {
+          const rest = decoder3 ? decoder3.decode() : "";
+          if (rest)
+            this._input = typeof this._input === "string" ? this._input + rest : rest;
+          if (typeof this._input === "string")
+            this._tryTokenizeToEnd(callback, true);
+        }
       });
-      input2.on("error", callback);
+      input2.on("error", (error4) => {
+        if (this._tokenization === tokenization)
+          callback(error4);
+      });
     }
   }
 };
 
-// ../../muze-nl/oldm/node_modules/n3/src/N3DataFactory.js
+// node_modules/n3/src/N3DataFactory.js
 var { rdf, xsd: xsd2 } = IRIs_default;
 var DEFAULTGRAPH;
 var _blankNodeCounter = 0;
+var EMPTY_IRI_ID = "<>";
 var DataFactory = {
   namedNode,
   blankNode,
@@ -7321,7 +5851,7 @@ var Term = class _Term {
   // ### Returns whether this object represents the same term as the other
   equals(other) {
     if (other instanceof _Term)
-      return this.id === other.id;
+      return this.id === other.id && this.termType === other.termType;
     return !!other && this.termType === other.termType && this.value === other.value;
   }
   // ### Implement hashCode for Immutable.js, since we implement `equals`
@@ -7338,12 +5868,36 @@ var Term = class _Term {
   }
 };
 var NamedNode2 = class extends Term {
+  // ### Creates a named node
+  /**
+   * @deprecated Create named nodes through a data factory instead
+   * (`DataFactory.namedNode(iri)`), so that term validation can be applied;
+   * the constructor assumes an already-validated IRI.
+   */
+  constructor(iri) {
+    if (iri !== "")
+      super(iri);
+    else {
+      super(EMPTY_IRI_ID);
+      Object.defineProperty(this, "value", { value: "" });
+    }
+  }
   // ### The term type of this term
   get termType() {
     return "NamedNode";
   }
 };
 var Literal = class _Literal extends Term {
+  // ### Creates a literal
+  /**
+   * @deprecated Create literals through a data factory instead
+   * (`DataFactory.literal(value, languageOrDatatype)`), so that term
+   * validation can be applied; the constructor takes the internal
+   * id representation and assumes it is already valid.
+   */
+  constructor(id2) {
+    super(id2);
+  }
   // ### The term type of this term
   get termType() {
     return "Literal";
@@ -7363,7 +5917,7 @@ var Literal = class _Literal extends Term {
   get direction() {
     const id2 = this.id;
     const endPos = id2.lastIndexOf('"');
-    const dirPos = id2.lastIndexOf("--");
+    const dirPos = id2[endPos + 1] === "@" ? id2.lastIndexOf("--") : -1;
     return dirPos > endPos && dirPos + 2 < id2.length ? id2.substr(dirPos + 2).toLowerCase() : "";
   }
   // ### The datatype IRI of this literal
@@ -7396,6 +5950,12 @@ var Literal = class _Literal extends Term {
   }
 };
 var BlankNode2 = class extends Term {
+  // ### Creates a blank node
+  /**
+   * @deprecated Create blank nodes through a data factory instead
+   * (`DataFactory.blankNode(name)`), so that term validation can be applied;
+   * the constructor assumes an already-validated name.
+   */
   constructor(name) {
     super(`_:${name}`);
   }
@@ -7409,6 +5969,12 @@ var BlankNode2 = class extends Term {
   }
 };
 var Variable = class extends Term {
+  // ### Creates a variable
+  /**
+   * @deprecated Create variables through a data factory instead
+   * (`DataFactory.variable(name)`), so that term validation can be applied;
+   * the constructor assumes an already-validated name.
+   */
   constructor(name) {
     super(`?${name}`);
   }
@@ -7422,6 +5988,11 @@ var Variable = class extends Term {
   }
 };
 var DefaultGraph = class extends Term {
+  // ### Creates the default graph
+  /**
+   * @deprecated Obtain the default graph through a data factory instead
+   * (`DataFactory.defaultGraph()`).
+   */
   constructor() {
     super("");
     return DEFAULTGRAPH || this;
@@ -7437,6 +6008,12 @@ var DefaultGraph = class extends Term {
 };
 DEFAULTGRAPH = new DefaultGraph();
 var Quad = class extends Term {
+  // ### Creates a quad
+  /**
+   * @deprecated Create quads through a data factory instead
+   * (`DataFactory.quad(subject, predicate, object, graph)`), so that term
+   * validation can be applied; the constructor assumes already-validated terms.
+   */
   constructor(subject, predicate, object, graph3) {
     super("");
     this._subject = subject;
@@ -7493,12 +6070,17 @@ function literal2(value, languageOrDataType) {
       datatype = xsd2.boolean;
     else if (typeof value === "number") {
       if (Number.isFinite(value))
-        datatype = Number.isInteger(value) ? xsd2.integer : xsd2.double;
+        datatype = Number.isInteger(value) && Math.abs(value) < 1e21 ? xsd2.integer : xsd2.double;
       else {
         datatype = xsd2.double;
         if (!Number.isNaN(value))
           value = value > 0 ? "INF" : "-INF";
       }
+    } else if (typeof value === "bigint")
+      datatype = xsd2.integer;
+    else if (value instanceof Date && !Number.isNaN(value.getTime())) {
+      datatype = xsd2.dateTime;
+      value = value.toISOString();
     }
   }
   return datatype === "" || datatype === xsd2.string ? new Literal(`"${value}"`) : new Literal(`"${value}"^^${datatype}`);
@@ -7525,7 +6107,7 @@ function fromTerm(term) {
     case "DefaultGraph":
       return DEFAULTGRAPH;
     case "Literal":
-      return literal2(term.value, term.language || term.datatype);
+      return literal2(term.value, !term.language ? term.datatype : term.direction ? { language: term.language, direction: term.direction } : term.language);
     case "Quad":
       return fromQuad(term);
     default:
@@ -7540,8 +6122,10 @@ function fromQuad(inQuad) {
   return quad(fromTerm(inQuad.subject), fromTerm(inQuad.predicate), fromTerm(inQuad.object), fromTerm(inQuad.graph));
 }
 
-// ../../muze-nl/oldm/node_modules/n3/src/N3Parser.js
+// node_modules/n3/src/N3Parser.js
 var blankNodePrefix = 0;
+var dotSegments = /(^|\/)\.\.?($|[/#?])/;
+var pathDotSegments = /^[^?#]*(?:^|\/)\.\.?(?:$|[/#?])/;
 var N3Parser = class _N3Parser {
   constructor(options) {
     this._contextStack = [];
@@ -7549,20 +6133,42 @@ var N3Parser = class _N3Parser {
     options = options || {};
     this._setBase(options.baseIRI);
     options.factory && initDataFactory(this, options.factory);
-    const format = typeof options.format === "string" ? options.format.match(/\w*$/)[0].toLowerCase() : "", isTurtle = /turtle/.test(format), isTriG = /trig/.test(format), isNTriples = /triple/.test(format), isNQuads = /quad/.test(format), isN3 = this._n3Mode = /n3/.test(format), isLineMode = isNTriples || isNQuads;
+    const format = typeof options.format === "string" ? options.format.match(/(?:^|\W)(\w*)$/)[1].toLowerCase() : "", isTurtle = /turtle/.test(format), isTriG = /trig/.test(format), isNTriples = /triple/.test(format), isNQuads = /quad/.test(format), isN3 = this._n3Mode = /n3/.test(format), isLineMode = isNTriples || isNQuads;
+    this._emitCurrent = this._emit;
+    if (isN3) {
+      this._createQuad = this._createQuadInDirection;
+      this._emit = this._emitInDirection;
+      this._emitCurrent = this._emitCurrentInDirection;
+    }
     if (!(this._supportsNamedGraphs = !(isTurtle || isN3)))
       this._readPredicateOrNamedGraph = this._readPredicate;
     this._supportsQuads = !(isTurtle || isTriG || isNTriples || isN3);
     this._isImpliedBy = options.isImpliedBy;
+    this._implicitEmptyPrefix = !!options.implicitEmptyPrefix;
+    this._emptyFormulaAsTrue = !!options.emptyFormulaAsTrue;
     if (isLineMode)
       this._resolveRelativeIRI = (iri) => {
         return null;
       };
     this._blankNodePrefix = typeof options.blankNodePrefix !== "string" ? "" : options.blankNodePrefix.replace(/^(?!_:)/, "_:");
-    this._lexer = options.lexer || new N3Lexer({ lineMode: isLineMode, n3: isN3, isImpliedBy: this._isImpliedBy });
+    this._directives = null;
+    if (options.directives) {
+      this._directives = /* @__PURE__ */ Object.create(null);
+      for (const name of options.directives)
+        this._directives[`@${name.toLowerCase()}`] = this._directives[name.toUpperCase()] = name;
+    }
+    this._lexer = options.lexer || new N3Lexer({
+      lineMode: isLineMode,
+      n3: isN3,
+      isImpliedBy: this._isImpliedBy,
+      directives: options.directives
+    });
     this._explicitQuantifiers = !!options.explicitQuantifiers;
+    this._formulaScopedBlankNodes = !!options.formulaScopedBlankNodes;
     this._parseUnsupportedVersions = !!options.parseUnsupportedVersions;
     this._version = options.version;
+    const maxTripleTermDepth = options.maxTripleTermDepth;
+    this._maxTripleTermDepth = maxTripleTermDepth === Infinity || Number.isInteger(maxTripleTermDepth) && maxTripleTermDepth >= 0 ? maxTripleTermDepth : 1024;
   }
   // ## Static class methods
   // ### `_resetBlankNodePrefix` restarts blank node prefix identification
@@ -7575,35 +6181,76 @@ var N3Parser = class _N3Parser {
     if (!baseIRI) {
       this._base = "";
       this._basePath = "";
+      this._basePathHasDotSegments = false;
     } else {
       const fragmentPos = baseIRI.indexOf("#");
       if (fragmentPos >= 0)
         baseIRI = baseIRI.substr(0, fragmentPos);
       this._base = baseIRI;
-      this._basePath = baseIRI.indexOf("/") < 0 ? baseIRI : baseIRI.replace(/[^\/?]*(?:\?.*)?$/, "");
-      baseIRI = baseIRI.match(/^(?:([a-z][a-z0-9+.-]*:))?(?:\/\/[^\/]*)?/i);
+      const queryPos = baseIRI.indexOf("?");
+      const path2 = queryPos < 0 ? baseIRI : baseIRI.substr(0, queryPos);
+      this._basePath = baseIRI.indexOf("/") < 0 ? baseIRI : path2.substr(0, path2.lastIndexOf("/") + 1);
+      const base = baseIRI;
+      baseIRI = baseIRI.match(/^(?:([a-z][a-z0-9+.-]*:))?(\/\/[^\/?#]*)?/i);
       this._baseRoot = baseIRI[0];
       this._baseScheme = baseIRI[1];
+      if (baseIRI[2] !== void 0 && (base.length === this._baseRoot.length || base[this._baseRoot.length] === "?"))
+        this._basePath = `${this._baseRoot}/`;
+      this._basePathHasDotSegments = dotSegments.test(this._basePath);
     }
+  }
+  // ### `_enterTripleTerm` stores the current parsing context when entering a triple term,
+  // failing if triple terms nest deeper than the maximum depth
+  _enterTripleTerm(type, subject, predicate, token) {
+    if (this._tripleTermDepth >= this._maxTripleTermDepth) {
+      this._error(`Triple terms nested deeper than ${this._maxTripleTermDepth} level${this._maxTripleTermDepth === 1 ? "" : "s"}`, token);
+      return false;
+    }
+    this._tripleTermDepth++;
+    this._saveContext(type, this._graph, subject, predicate, null);
+    this._graph = null;
+    return true;
   }
   // ### `_saveContext` stores the current parsing context
   // when entering a new scope (list, blank node, formula)
   _saveContext(type, graph3, subject, predicate, object) {
-    const n3Mode = this._n3Mode;
-    this._contextStack.push({
+    if (!this._n3Mode) {
+      this._contextStack.push({ type, subject, predicate, object, graph: graph3 });
+      return;
+    }
+    const context = {
       type,
       subject,
       predicate,
       object,
       graph: graph3,
-      inverse: n3Mode ? this._inversePredicate : false,
-      blankPrefix: n3Mode ? this._prefixes._ : "",
-      quantified: n3Mode ? this._quantified : null
-    });
-    if (n3Mode) {
-      this._inversePredicate = false;
+      inverse: this._inversePredicate,
+      expectOf: this._expectOf,
+      blankPrefix: this._prefixes._,
+      prefixChanges: this._prefixChanges,
+      quantifiedChanges: this._quantifiedChanges,
+      emptyFormula: this._emptyFormula
+    };
+    if (type === "formula") {
+      context.base = [
+        this._base,
+        this._basePath,
+        this._baseRoot,
+        this._baseScheme,
+        this._basePathHasDotSegments
+      ];
+      this._prefixChanges = [];
+    }
+    this._contextStack.push(context);
+    this._inversePredicate = false;
+    this._expectOf = false;
+    if (!this._formulaScopedBlankNodes || type === "formula") {
       this._prefixes._ = this._graph ? `${this._graph.value}.` : ".";
-      this._quantified = Object.create(this._quantified);
+      this._quantifiedChanges = [];
+    }
+    if (type === "formula") {
+      this._subject = null;
+      this._emptyFormula = true;
     }
   }
   // ### `_restoreContext` restores the parent context
@@ -7618,8 +6265,25 @@ var N3Parser = class _N3Parser {
     this._graph = context.graph;
     if (this._n3Mode) {
       this._inversePredicate = context.inverse;
+      this._expectOf = context.expectOf;
+      if (type === "formula")
+        [
+          this._base,
+          this._basePath,
+          this._baseRoot,
+          this._baseScheme,
+          this._basePathHasDotSegments
+        ] = context.base;
+      if (this._prefixChanges !== context.prefixChanges) {
+        undoChanges(this._prefixes, this._prefixChanges);
+        this._prefixChanges = context.prefixChanges;
+      }
       this._prefixes._ = context.blankPrefix;
-      this._quantified = context.quantified;
+      if (this._quantifiedChanges !== context.quantifiedChanges) {
+        undoChanges(this._quantified, this._quantifiedChanges);
+        this._quantifiedChanges = context.quantifiedChanges;
+      }
+      this._emptyFormula = context.emptyFormula;
     }
   }
   // ### `_readBeforeTopContext` is called once only at the start of parsing.
@@ -7662,10 +6326,35 @@ var N3Parser = class _N3Parser {
       case "GRAPH":
         if (this._supportsNamedGraphs)
           return this._readNamedGraphLabel;
-      // Otherwise, the next token must be a subject
+      // Otherwise, the next token must be a subject, unless it is an additional directive
+      default:
+        if (this._directives !== null && token.type in this._directives && this._graph === null) {
+          this._sparqlStyle = token.type[0] !== "@";
+          this._directiveCallback(this._directives[token.type]);
+          return this._readDeclarationPunctuation;
+        }
+        return this._readSubject(token);
+    }
+  }
+  // ### `_readInFormulaContext` reads a token at the statement level of a formula
+  _readInFormulaContext(token) {
+    switch (token.type) {
+      case "PREFIX":
+        this._sparqlStyle = true;
+      case "@prefix":
+        return this._readPrefix;
+      case "BASE":
+        this._sparqlStyle = true;
+      case "@base":
+        return this._readBaseIRI;
       default:
         return this._readSubject(token);
     }
+  }
+  // ### `_getStatementReader` returns the reader for the current statement scope
+  _getStatementReader() {
+    const context = this._contextStack[this._contextStack.length - 1];
+    return context && context.type === "formula" ? this._readInFormulaContext : this._readInTopContext;
   }
   // ### `_readEntity` reads an IRI, prefixed name, blank node, or variable
   _readEntity(token, quantifier) {
@@ -7703,9 +6392,21 @@ var N3Parser = class _N3Parser {
       value = this._quantified[value.id];
     return value;
   }
+  // ### `_readList` starts reading a list in the subject, predicate, or object position
+  _readList(token, subject, predicate, object) {
+    const stack = this._contextStack, parent = stack.length && stack[stack.length - 1];
+    if (parent.type === "<<") {
+      return this._error("Unexpected list in reified triple", token);
+    }
+    this._saveContext("list", this._graph, subject, predicate, object);
+    this._subject = null;
+    return this._readListItem;
+  }
   // ### `_readSubject` reads a quad's subject
   _readSubject(token) {
     this._predicate = null;
+    if (token.type !== "}")
+      this._emptyFormula = false;
     switch (token.type) {
       case "[":
         this._saveContext(
@@ -7717,13 +6418,7 @@ var N3Parser = class _N3Parser {
         );
         return this._readBlankNodeHead;
       case "(":
-        const stack = this._contextStack, parent = stack.length && stack[stack.length - 1];
-        if (parent.type === "<<") {
-          return this._error("Unexpected list in reified triple", token);
-        }
-        this._saveContext("list", this._graph, this.RDF_NIL, null, null);
-        this._subject = null;
-        return this._readListItem;
+        return this._readList(token, this.RDF_NIL, null, null);
       case "{":
         if (!this._n3Mode)
           return this._error("Unexpected graph", token);
@@ -7734,7 +6429,7 @@ var N3Parser = class _N3Parser {
           null,
           null
         );
-        return this._readSubject;
+        return this._readInFormulaContext;
       case "}":
         return this._readPunctuation(token);
       case "@forSome":
@@ -7757,19 +6452,16 @@ var N3Parser = class _N3Parser {
         if (token.prefix.length === 0) {
           this._literalValue = token.value;
           return this._completeSubjectLiteral;
-        } else
+        } else {
           this._subject = this._factory.literal(token.value, this._factory.namedNode(token.prefix));
-        break;
+          return this._getPathReader(this._readPredicateOrNamedGraph);
+        }
       case "<<(":
         if (!this._n3Mode)
           return this._error("Disallowed triple term as subject", token);
-        this._saveContext("<<(", this._graph, null, null, null);
-        this._graph = null;
-        return this._readSubject;
+        return this._enterTripleTerm("<<(", null, null, token) && this._readSubject;
       case "<<":
-        this._saveContext("<<", this._graph, null, null, null);
-        this._graph = null;
-        return this._readSubject;
+        return this._enterTripleTerm("<<", null, null, token) && this._readSubject;
       default:
         if ((this._subject = this._readEntity(token)) === void 0)
           return;
@@ -7781,22 +6473,46 @@ var N3Parser = class _N3Parser {
   // ### `_readPredicate` reads a quad's predicate
   _readPredicate(token) {
     const type = token.type;
+    let pathable = false;
     switch (type) {
       case "inverse":
         this._inversePredicate = true;
       case "abbreviation":
         this._predicate = this.ABBREVIATIONS[token.value];
         break;
+      case "has":
+        return this._readPredicateAfterVerb;
+      case "is":
+        this._inversePredicate = true;
+        this._expectOf = true;
+        return this._readPredicateAfterVerb;
+      case "inversePredicate":
+        this._inversePredicate = true;
+        return this._readPredicateAfterVerb;
+      case "|}":
+        this._subject = null;
+        return this._readAnnotationBlockPunctuation(token);
       case ".":
       case "]":
       case "}":
-      case "|}":
-        if (this._predicate === null)
+        if (this._predicate === null && !this._n3Mode)
           return this._error(`Unexpected ${type}`, token);
         this._subject = null;
         return type === "]" ? this._readBlankNodeTail(token) : this._readPunctuation(token);
       case ";":
         return this._predicate !== null ? this._readPredicate : this._error("Expected predicate but got ;", token);
+      case "literal":
+        if (!this._n3Mode)
+          return this._error("Unexpected literal", token);
+        if (token.prefix.length === 0) {
+          this._literalValue = token.value;
+          return this._completePredicateLiteral;
+        } else
+          this._predicate = this._factory.literal(token.value, this._factory.namedNode(token.prefix));
+        pathable = true;
+        break;
+      case "(":
+        return this._n3Mode ? this._readList(token, this._subject, this.RDF_NIL, null) : this._error(`Expected entity but got ${type}`, token);
       case "[":
         if (this._n3Mode) {
           this._saveContext(
@@ -7808,25 +6524,54 @@ var N3Parser = class _N3Parser {
           );
           return this._readBlankNodeHead;
         }
+        return this._error("Disallowed blank node as predicate", token);
+      case "{":
+        if (this._n3Mode) {
+          this._saveContext(
+            "formula",
+            this._graph,
+            this._subject,
+            this._graph = this._factory.blankNode(),
+            null
+          );
+          return this._readSubject;
+        }
+        return this._readEntity(token);
       case "blank":
         if (!this._n3Mode)
           return this._error("Disallowed blank node as predicate", token);
       default:
         if ((this._predicate = this._readEntity(token)) === void 0)
           return;
+        pathable = this._n3Mode;
     }
     this._validAnnotation = true;
-    return this._readObject;
+    return pathable ? this._getPathReader(this._readObject, "predicate") : this._readObject;
+  }
+  // ### `_readPredicateAfterVerb` reads the predicate following `has` or `is`
+  _readPredicateAfterVerb(token) {
+    if (token.type === "has" || token.type === "is" || token.type === "of" || token.type === "inversePredicate")
+      return this._error(`Expected expression but got ${token.type}`, token);
+    return this._readPredicate(token);
   }
   // ### `_readObject` reads a quad's object
   _readObject(token) {
+    if (this._expectOf) {
+      if (token.type !== "of")
+        return this._error(`Expected of but got ${token.type}`, token);
+      this._expectOf = false;
+      return this._readObject;
+    }
     switch (token.type) {
       case "literal":
         if (token.prefix.length === 0) {
           this._literalValue = token.value;
           return this._readDataTypeOrLang;
-        } else
+        } else {
           this._object = this._factory.literal(token.value, this._factory.namedNode(token.prefix));
+          if (this._n3Mode)
+            return this._getPathReader(this._getContextEndReader());
+        }
         break;
       case "[":
         this._saveContext(
@@ -7838,13 +6583,7 @@ var N3Parser = class _N3Parser {
         );
         return this._readBlankNodeHead;
       case "(":
-        const stack = this._contextStack, parent = stack.length && stack[stack.length - 1];
-        if (parent.type === "<<") {
-          return this._error("Unexpected list in reified triple", token);
-        }
-        this._saveContext("list", this._graph, this._subject, this._predicate, this.RDF_NIL);
-        this._subject = null;
-        return this._readListItem;
+        return this._readList(token, this._subject, this._predicate, this.RDF_NIL);
       case "{":
         if (!this._n3Mode)
           return this._error("Unexpected graph", token);
@@ -7855,15 +6594,11 @@ var N3Parser = class _N3Parser {
           this._predicate,
           this._graph = this._factory.blankNode()
         );
-        return this._readSubject;
+        return this._readInFormulaContext;
       case "<<(":
-        this._saveContext("<<(", this._graph, this._subject, this._predicate, null);
-        this._graph = null;
-        return this._readSubject;
+        return this._enterTripleTerm("<<(", this._subject, this._predicate, token) && this._readSubject;
       case "<<":
-        this._saveContext("<<", this._graph, this._subject, this._predicate, null);
-        this._graph = null;
-        return this._readSubject;
+        return this._enterTripleTerm("<<", this._subject, this._predicate, token) && this._readSubject;
       default:
         if ((this._object = this._readEntity(token)) === void 0)
           return;
@@ -7893,22 +6628,49 @@ var N3Parser = class _N3Parser {
       if (parentParent.type === "<<") {
         return this._error("Unexpected compound blank node expression in reified triple", token);
       }
+      if (token.type === "id")
+        return this._readIriPropertyListId;
       this._predicate = null;
       return this._readPredicate(token);
     }
+  }
+  // ### `_readIriPropertyListId` replaces a property list's blank node with its IRI
+  _readIriPropertyListId(token) {
+    const iri = this._readEntity(token);
+    if (iri === void 0)
+      return;
+    if (iri.termType !== "NamedNode")
+      return this._error(`Expected IRI after id but got ${token.type}`, token);
+    const placeholder = this._subject;
+    this._subject = iri;
+    const context = this._contextStack[this._contextStack.length - 1];
+    if (context.subject === placeholder)
+      context.subject = iri;
+    if (context.predicate === placeholder)
+      context.predicate = iri;
+    if (context.object === placeholder)
+      context.object = iri;
+    this._predicate = null;
+    return this._readIriPropertyListPredicate;
+  }
+  // ### `_readIriPropertyListPredicate` requires properties after an IRI property list ID
+  _readIriPropertyListPredicate(token) {
+    if (token.type === ";" || token.type === "]" || token.type === "." || token.type === "}")
+      return this._error(`Expected predicate but got ${token.type}`, token);
+    return this._readPredicate(token);
   }
   // ### `_readBlankNodeTail` reads the end of a blank node
   _readBlankNodeTail(token) {
     if (token.type !== "]")
       return this._readBlankNodePunctuation(token);
     if (this._subject !== null)
-      this._emit(this._subject, this._predicate, this._object, this._graph);
+      this._emitCurrent(this._subject, this._predicate, this._object, this._graph);
     const empty = this._predicate === null;
     this._restoreContext("blank", token);
     if (this._object !== null)
       return this._getContextEndReader();
     else if (this._predicate !== null)
-      return this._readObject;
+      return this._getPathReader(this._readObject, "predicate");
     else
       return empty ? this._readPredicateOrNamedGraph : this._readPredicateAfterBlank;
   }
@@ -7950,14 +6712,28 @@ var N3Parser = class _N3Parser {
         break;
       case ")":
         this._restoreContext("list", token);
-        if (stack.length !== 0 && stack[stack.length - 1].type === "list")
+        if (stack.length !== 0 && stack[stack.length - 1].type === "list") {
+          if (this._n3Mode) {
+            if (previousList !== null)
+              this._emit(previousList, this.RDF_REST, this.RDF_NIL, this._graph);
+            this._saveContext("item", this._graph, this._subject, this._predicate, this._object);
+            this._subject = this._object, this._predicate = null;
+            return this._getPathReader(this._readListItem);
+          }
           this._emit(this._subject, this._predicate, this._object, this._graph);
+        }
         if (this._predicate === null) {
-          next = this._readPredicate;
+          next = this._n3Mode ? this._getPathReader(this._readPredicate) : this._readPredicate;
           if (this._subject === this.RDF_NIL)
+            return next;
+        } else if (this._object === null) {
+          next = this._getPathReader(this._readObject, "predicate");
+          if (this._predicate === this.RDF_NIL)
             return next;
         } else {
           next = this._getContextEndReader();
+          if (this._n3Mode)
+            next = this._getPathReader(next);
           if (this._object === this.RDF_NIL)
             return next;
         }
@@ -7975,17 +6751,30 @@ var N3Parser = class _N3Parser {
       case "{":
         if (!this._n3Mode)
           return this._error("Unexpected graph", token);
+        list2 = this._factory.blankNode();
+        item = this._factory.blankNode();
+        if (previousList === null) {
+          if (parent.predicate === null)
+            parent.subject = list2;
+          else
+            parent.object = list2;
+        } else {
+          this._emit(previousList, this.RDF_REST, list2, this._graph);
+        }
+        this._emit(list2, this.RDF_FIRST, item, this._graph);
         this._saveContext(
           "formula",
           this._graph,
-          this._subject,
-          this._predicate,
-          this._graph = this._factory.blankNode()
+          list2,
+          this.RDF_FIRST,
+          this._graph = item
         );
-        return this._readSubject;
+        this._subject = null;
+        return this._readInFormulaContext;
+      case "<<(":
       case "<<":
-        this._saveContext("<<", this._graph, null, null, null);
-        this._graph = null;
+        if (!this._enterTripleTerm(token.type, null, null, token))
+          return;
         next = this._readSubject;
         break;
       default:
@@ -7994,18 +6783,20 @@ var N3Parser = class _N3Parser {
     }
     if (list2 === null)
       this._subject = list2 = this._factory.blankNode();
-    if (token.type === "<<")
+    if (token.type === "<<" || token.type === "<<(")
       stack[stack.length - 1].subject = this._subject;
     if (previousList === null) {
       if (parent.predicate === null)
         parent.subject = list2;
+      else if (parent.object === null)
+        parent.predicate = list2;
       else
         parent.object = list2;
     } else {
       this._emit(previousList, this.RDF_REST, list2, this._graph);
     }
     if (item !== null) {
-      if (this._n3Mode && (token.type === "IRI" || token.type === "prefixed")) {
+      if (this._n3Mode && (token.type === "IRI" || token.type === "prefixed" || token.type === "var" || token.type === "blank" || token.type === "literal")) {
         this._saveContext("item", this._graph, list2, this.RDF_FIRST, item);
         this._subject = item, this._predicate = null;
         return this._getPathReader(this._readListItem);
@@ -8023,9 +6814,9 @@ var N3Parser = class _N3Parser {
     return this._completeObjectLiteral(token, true);
   }
   // ### `_completeLiteral` completes a literal with an optional datatype or language
+  // Defers possible direction tags without allocating bound callbacks.
   _completeLiteral(token, component2) {
-    let literal3 = this._factory.literal(this._literalValue);
-    let readCb;
+    let literal3, readCb = false;
     switch (token.type) {
       // Create a datatyped literal
       case "type":
@@ -8045,32 +6836,66 @@ var N3Parser = class _N3Parser {
         literal3 = this._factory.literal(this._literalValue, token.value);
         this._literalLanguage = token.value;
         token = null;
-        readCb = this._readDirCode.bind(this, component2);
+        this._literalComponent = component2;
+        readCb = true;
         break;
+      // Create a simple string literal by default
+      default:
+        literal3 = this._factory.literal(this._literalValue);
     }
     return { token, literal: literal3, readCb };
   }
-  _readDirCode(component2, listItem, token) {
+  // ### `_readDirCode` reads an optional directional language tag
+  _readDirCode(token) {
+    const component2 = this._literalComponent, listItem = this._literalListItem;
     if (token.type === "dircode") {
       const term = this._factory.literal(this._literalValue, { language: this._literalLanguage, direction: token.value });
       if (component2 === "subject")
         this._subject = term;
+      else if (component2 === "predicate")
+        this._predicate = term;
       else
         this._object = term;
       this._literalLanguage = void 0;
       token = null;
     }
-    if (component2 === "subject")
-      return token === null ? this._readPredicateOrNamedGraph : this._readPredicateOrNamedGraph(token);
+    if (component2 === "subject" || component2 === "predicate") {
+      const next = component2 === "subject" ? this._readPredicateOrNamedGraph : this._readObject;
+      const reader = this._getPathEndReader(token, next, component2);
+      return reader || next.call(this, token);
+    }
     return this._completeObjectLiteralPost(token, listItem);
+  }
+  // Completes a literal in subject or predicate position
+  _completeTermLiteral(token, component2) {
+    const completed = this._completeLiteral(token, component2);
+    if (!completed)
+      return;
+    let next;
+    if (component2 === "subject") {
+      this._subject = completed.literal;
+      next = this._readPredicateOrNamedGraph;
+    } else {
+      this._predicate = completed.literal;
+      this._validAnnotation = true;
+      next = this._readObject;
+    }
+    if (completed.readCb) {
+      this._literalListItem = false;
+      return this._readDirCode;
+    }
+    const reader = this._getPathEndReader(completed.token, next, component2);
+    if (reader)
+      return reader;
+    return next.call(this, completed.token);
   }
   // Completes a literal in subject position
   _completeSubjectLiteral(token) {
-    const completed = this._completeLiteral(token, "subject");
-    this._subject = completed.literal;
-    if (completed.readCb)
-      return completed.readCb.bind(this, false);
-    return this._readPredicateOrNamedGraph;
+    return this._completeTermLiteral(token, "subject");
+  }
+  // Completes a literal in predicate position
+  _completePredicateLiteral(token) {
+    return this._completeTermLiteral(token, "predicate");
   }
   // Completes a literal in object position
   _completeObjectLiteral(token, listItem) {
@@ -8078,11 +6903,21 @@ var N3Parser = class _N3Parser {
     if (!completed)
       return;
     this._object = completed.literal;
-    if (completed.readCb)
-      return completed.readCb.bind(this, listItem);
+    if (completed.readCb) {
+      this._literalListItem = listItem;
+      return this._readDirCode;
+    }
     return this._completeObjectLiteralPost(completed.token, listItem);
   }
   _completeObjectLiteralPost(token, listItem) {
+    if (this._n3Mode && (token === null || token.type === "!" || token.type === "^")) {
+      if (listItem) {
+        this._saveContext("item", this._graph, this._subject, this.RDF_FIRST, this._object);
+        this._subject = this._object, this._predicate = null;
+        return this._getPathEndReader(token, this._readListItem);
+      }
+      return this._getPathEndReader(token, this._getContextEndReader());
+    }
     if (listItem)
       this._emit(this._subject, this.RDF_FIRST, this._object, this._graph);
     if (token === null)
@@ -8097,13 +6932,26 @@ var N3Parser = class _N3Parser {
     if (token.type !== "}")
       return this._readPunctuation(token);
     if (this._subject !== null)
-      this._emit(this._subject, this._predicate, this._object, this._graph);
+      this._emitCurrent(this._subject, this._predicate, this._object, this._graph);
+    const formula2 = this._graph, empty = this._emptyFormula;
     this._restoreContext("formula", token);
-    return this._object === null ? this._readPredicate : this._getContextEndReader();
+    if (empty && this._emptyFormulaAsTrue) {
+      if (this._subject === formula2)
+        this._subject = this.N3_TRUE;
+      else if (this._predicate === formula2)
+        this._predicate = this.N3_TRUE;
+      else
+        this._object = this.N3_TRUE;
+    }
+    if (this._object !== null)
+      return this._getPathReader(this._getContextEndReader(), "object");
+    if (this._predicate !== null)
+      return this._getPathReader(this._readObject, "predicate");
+    return this._getPathReader(this._readPredicate, "subject");
   }
   // ### `_readPunctuation` reads punctuation between quads or quad parts
   _readPunctuation(token) {
-    let next, graph3 = this._graph, startingAnnotation = false;
+    let next, graph3 = this._graph;
     const subject = this._subject, inversePredicate = this._inversePredicate;
     switch (token.type) {
       // A closing brace ends a graph
@@ -8117,39 +6965,25 @@ var N3Parser = class _N3Parser {
       case ".":
         this._subject = null;
         this._tripleTerm = null;
-        next = this._contextStack.length ? this._readSubject : this._readInTopContext;
+        next = this._getStatementReader();
         if (inversePredicate) this._inversePredicate = false;
         break;
       // Semicolon means the subject is shared; predicate and object are different
       case ";":
+        if (inversePredicate) this._inversePredicate = false;
         next = this._readPredicate;
         break;
       // Comma means both the subject and predicate are shared; the object is different
       case ",":
         next = this._readObject;
         break;
-      // ~ is allowed in the annotation syntax
+      // A reifier or annotation block annotates the triple just read
       case "~":
-        next = this._readReifierInAnnotation;
-        startingAnnotation = true;
-        break;
-      // {| means that the current triple is annotated with predicate-object pairs.
       case "{|":
-        this._subject = this._readTripleTerm();
-        this._validAnnotation = false;
-        startingAnnotation = true;
-        next = this._readPredicate;
-        break;
-      // |} means that the current reified triple in annotation syntax is finalized.
+        return this._readAnnotationStart(token);
+      // An annotation block can only be closed from within one
       case "|}":
-        if (!this._annotation)
-          return this._error("Unexpected annotation syntax closing", token);
-        if (!this._validAnnotation)
-          return this._error("Annotation block can not be empty", token);
-        this._subject = null;
-        this._annotation = false;
-        next = this._readPunctuation;
-        break;
+        return this._error("Unexpected annotation syntax closing", token);
       default:
         if (this._supportsQuads && this._graph === null && (graph3 = this._readEntity(token)) !== void 0) {
           next = this._readQuadPunctuation;
@@ -8157,34 +6991,38 @@ var N3Parser = class _N3Parser {
         }
         return this._error(`Expected punctuation to follow "${this._object.id}"`, token);
     }
-    if (subject !== null && (!startingAnnotation || startingAnnotation && !this._annotation)) {
+    if (subject !== null) {
       const predicate = this._predicate, object = this._object;
-      if (!inversePredicate)
-        this._emit(subject, predicate, object, graph3);
-      else
-        this._emit(object, predicate, subject, graph3);
-    }
-    if (startingAnnotation) {
-      this._annotation = true;
+      this._emit(subject, predicate, object, graph3, inversePredicate);
     }
     return next;
   }
   // ### `_readBlankNodePunctuation` reads punctuation in a blank node
   _readBlankNodePunctuation(token) {
-    let next;
+    let next, resetInversePredicate = false;
     switch (token.type) {
       // Semicolon means the subject is shared; predicate and object are different
       case ";":
+        resetInversePredicate = this._inversePredicate;
         next = this._readPredicate;
         break;
       // Comma means both the subject and predicate are shared; the object is different
       case ",":
         next = this._readObject;
         break;
+      // Annotation syntax applies to the quad just read, exactly as it does
+      // outside of a blank node property list
+      case "~":
+      case "{|":
+        return this._readAnnotationStart(token);
+      case "|}":
+        return this._error("Unexpected annotation syntax closing", token);
       default:
         return this._error(`Expected punctuation to follow "${this._object.id}"`, token);
     }
-    this._emit(this._subject, this._predicate, this._object, this._graph);
+    this._emitCurrent(this._subject, this._predicate, this._object, this._graph);
+    if (resetInversePredicate)
+      this._inversePredicate = false;
     return next;
   }
   // ### `_readQuadPunctuation` reads punctuation after a quad
@@ -8205,6 +7043,8 @@ var N3Parser = class _N3Parser {
     if (token.type !== "IRI")
       return this._error(`Expected IRI to follow prefix "${this._prefix}:"`, token);
     const prefixNode = this._readEntity(token);
+    if (this._prefixChanges !== null)
+      this._prefixChanges.push(this._prefix, this._prefixes[this._prefix]);
     this._prefixes[this._prefix] = prefixNode.value;
     this._prefixCallback(this._prefix, prefixNode);
     return this._readDeclarationPunctuation;
@@ -8225,7 +7065,7 @@ var N3Parser = class _N3Parser {
   _readVersion(token) {
     if (token.type !== "literal")
       return this._error("Expected literal to follow version declaration", token);
-    if (token.end - token.start !== token.value.length + 2)
+    if (token.prefix !== "" || token.tripleQuoted)
       return this._error("Version declarations must use single quotes", token);
     this._versionCallback(token.value);
     if (!this._isValidVersion(token.value))
@@ -8256,11 +7096,11 @@ var N3Parser = class _N3Parser {
   _readDeclarationPunctuation(token) {
     if (this._sparqlStyle) {
       this._sparqlStyle = false;
-      return this._readInTopContext(token);
+      return this._getStatementReader().call(this, token);
     }
     if (token.type !== ".")
       return this._error("Expected declaration to end with a dot", token);
-    return this._readInTopContext;
+    return this._getStatementReader();
   }
   // Reads a list of quantified symbols from a @forSome or @forAll statement
   _readQuantifierList(token) {
@@ -8273,9 +7113,11 @@ var N3Parser = class _N3Parser {
       default:
         return this._error(`Unexpected ${token.type}`, token);
     }
-    if (!this._explicitQuantifiers)
+    if (!this._explicitQuantifiers) {
+      if (this._quantifiedChanges !== null)
+        this._quantifiedChanges.push(entity.id, this._quantified[entity.id]);
       this._quantified[entity.id] = this._factory[this._quantifier](this._factory.blankNode().value);
-    else {
+    } else {
       if (this._subject === null)
         this._emit(
           this._graph || this.DEFAULTGRAPH,
@@ -8308,9 +7150,18 @@ var N3Parser = class _N3Parser {
     }
   }
   // ### `_getPathReader` reads a potential path and then resumes with the given function
-  _getPathReader(afterPath) {
+  _getPathReader(afterPath, position) {
     this._afterPath = afterPath;
+    this._pathPosition = position || (this._predicate === null ? "subject" : "object");
     return this._readPath;
+  }
+  // ### `_getPathEndReader` continues reading after a term that might start a path,
+  // given the pending token that follows the term (or `null` if it was consumed)
+  _getPathEndReader(token, afterPath, position) {
+    if (token !== null && token.type !== "!" && token.type !== "^")
+      return null;
+    const reader = this._getPathReader(afterPath, position);
+    return token === null ? reader : reader.call(this, token);
   }
   // ### `_readPath` reads a potential path
   _readPath(token) {
@@ -8323,13 +7174,16 @@ var N3Parser = class _N3Parser {
         return this._readBackwardPath;
       // Not a path; resume reading where we left off
       default:
+        const afterPath = this._afterPath;
         const stack = this._contextStack, parent = stack.length && stack[stack.length - 1];
         if (parent && parent.type === "item") {
           const item = this._subject;
           this._restoreContext("item", token);
           this._emit(this._subject, this.RDF_FIRST, item, this._graph);
         }
-        return this._afterPath(token);
+        this._afterPath = null;
+        this._pathPosition = null;
+        return afterPath.call(this, token);
     }
   }
   // ### `_readForwardPath` reads a '!' path
@@ -8338,8 +7192,10 @@ var N3Parser = class _N3Parser {
     const object = this._factory.blankNode();
     if ((predicate = this._readEntity(token)) === void 0)
       return;
-    if (this._predicate === null)
+    if (this._pathPosition === "subject")
       subject = this._subject, this._subject = object;
+    else if (this._pathPosition === "predicate")
+      subject = this._predicate, this._predicate = object;
     else
       subject = this._object, this._object = object;
     this._emit(subject, predicate, object, this._graph);
@@ -8351,8 +7207,10 @@ var N3Parser = class _N3Parser {
     let predicate, object;
     if ((predicate = this._readEntity(token)) === void 0)
       return;
-    if (this._predicate === null)
+    if (this._pathPosition === "subject")
       object = this._subject, this._subject = subject;
+    else if (this._pathPosition === "predicate")
+      object = this._predicate, this._predicate = subject;
     else
       object = this._object, this._object = subject;
     this._emit(subject, predicate, object, this._graph);
@@ -8362,13 +7220,20 @@ var N3Parser = class _N3Parser {
   _readTripleTermTail(token) {
     if (token.type !== ")>>")
       return this._error(`Expected )>> but got ${token.type}`, token);
-    const quad2 = this._factory.quad(
+    const quad2 = this._createQuad(
       this._subject,
       this._predicate,
       this._object,
-      this._graph || this.DEFAULTGRAPH
+      this._graph,
+      this._inversePredicate
     );
     this._restoreContext("<<(", token);
+    this._tripleTermDepth--;
+    const stack = this._contextStack, parent = stack.length && stack[stack.length - 1];
+    if (parent && parent.type === "list") {
+      this._emit(this._subject, this.RDF_FIRST, quad2, this._graph);
+      return this._getContextEndReader();
+    }
     if (this._subject === null) {
       this._subject = quad2;
       return this._readPredicate;
@@ -8391,6 +7256,7 @@ var N3Parser = class _N3Parser {
     this._tripleTerm = null;
     const reifier = this._readTripleTerm();
     this._restoreContext("<<", token);
+    this._tripleTermDepth--;
     const stack = this._contextStack, parent = stack.length && stack[stack.length - 1];
     if (parent && parent.type === "list") {
       this._emit(this._subject, this.RDF_FIRST, reifier, this._graph);
@@ -8412,26 +7278,107 @@ var N3Parser = class _N3Parser {
   }
   // ### `_readReifier` reads the triple term identifier after a tilde when in a reifying triple.
   _readReifier(token) {
+    if (token.type === ">>")
+      return this._readReifiedTripleTail(token);
     this._reifier = this._readEntity(token);
     return this._readReifiedTripleTail;
   }
-  // ### `_readReifier` reads the optional triple term identifier after a tilde when in annotation syntax.
-  _readReifierInAnnotation(token) {
-    if (token.type === "IRI" || token.type === "typeIRI" || token.type === "type" || token.type === "prefixed" || token.type === "blank" || token.type === "var") {
-      this._reifier = this._readEntity(token);
-      return this._readPunctuation;
+  // ### `_readAnnotationStart` reads the first reifier or annotation block after an object,
+  // which completes the annotated quad
+  _readAnnotationStart(token) {
+    this._emitCurrent(this._subject, this._predicate, this._object, this._graph);
+    this._tripleTerm = null;
+    return this._readAnnotation(token);
+  }
+  // ### `_readAnnotation` reads what follows an annotated quad:
+  // further reifiers or annotation blocks for that same quad, or punctuation
+  _readAnnotation(token) {
+    switch (token.type) {
+      case "~":
+        return this._readReifierInAnnotation;
+      case "{|":
+        return this._readAnnotationBlockHead(token);
     }
+    this._tripleTerm = null;
+    switch (token.type) {
+      // The subject stays shared with the next predicate-object pair
+      case ";":
+        this._inversePredicate = false;
+        return this._readPredicate;
+      // The subject and predicate stay shared with the next object
+      case ",":
+        return this._readObject;
+      default:
+        this._subject = null;
+        return this._getContextEndReader().call(this, token);
+    }
+  }
+  // ### `_readReifierInAnnotation` reads the optional reifier after a tilde in annotation syntax
+  _readReifierInAnnotation(token) {
+    switch (token.type) {
+      case "IRI":
+      case "typeIRI":
+      case "type":
+      case "prefixed":
+      case "blank":
+      case "var":
+        this._reifier = this._readEntity(token);
+        return this._readAnnotationBlockOrReifier;
+    }
+    this._reifier = this._factory.blankNode();
+    return this._readAnnotationBlockOrReifier(token);
+  }
+  // ### `_readAnnotationBlockOrReifier` reads what follows a reifier:
+  // either an annotation block, which uses the reifier as its subject,
+  // or anything else, in which case the reifier stands alone
+  _readAnnotationBlockOrReifier(token) {
+    if (token.type === "{|")
+      return this._readAnnotationBlockHead(token);
     this._readTripleTerm();
-    this._subject = null;
-    return this._readPunctuation(token);
+    return this._readAnnotation(token);
+  }
+  // ### `_readAnnotationBlockHead` opens an annotation block,
+  // whose predicate-object pairs describe the reifier of the annotated quad
+  _readAnnotationBlockHead(token) {
+    const reifier = this._readTripleTerm();
+    this._saveContext("annotation", this._graph, this._subject, this._predicate, this._object);
+    this._contextStack[this._contextStack.length - 1].tripleTerm = this._tripleTerm;
+    this._subject = reifier;
+    this._predicate = this._object = this._tripleTerm = null;
+    this._inversePredicate = false;
+    this._validAnnotation = false;
+    return this._readPredicate;
+  }
+  // ### `_readAnnotationBlockPunctuation` reads punctuation inside an annotation block
+  _readAnnotationBlockPunctuation(token) {
+    const stack = this._contextStack;
+    if (token.type === "|}") {
+      if (!stack.length || stack[stack.length - 1].type !== "annotation")
+        return this._error("Unexpected annotation syntax closing", token);
+      if (!this._validAnnotation)
+        return this._error("Annotation block can not be empty", token);
+      if (this._subject !== null)
+        this._emitCurrent(this._subject, this._predicate, this._object, this._graph);
+      const { tripleTerm } = stack[stack.length - 1];
+      this._restoreContext("annotation", token);
+      this._tripleTerm = tripleTerm;
+      return this._readAnnotation;
+    }
+    return this._readBlankNodePunctuation(token);
   }
   _readTripleTerm() {
     const stack = this._contextStack, parent = stack.length && stack[stack.length - 1];
     const parentGraph = parent ? parent.graph : void 0;
     const reifier = this._reifier || this._factory.blankNode();
     this._reifier = null;
-    this._tripleTerm = this._tripleTerm || this._factory.quad(this._subject, this._predicate, this._object);
-    this._emit(reifier, this.RDF_REIFIES, this._tripleTerm, parentGraph || this.DEFAULTGRAPH);
+    this._tripleTerm = this._tripleTerm || this._createQuad(
+      this._subject,
+      this._predicate,
+      this._object,
+      null,
+      this._inversePredicate
+    );
+    this._emit(reifier, this.RDF_REIFIES, this._tripleTerm, parentGraph || this._graph || this.DEFAULTGRAPH);
     return reifier;
   }
   // ### `_getContextEndReader` gets the next reader function at the end of a context
@@ -8450,15 +7397,36 @@ var N3Parser = class _N3Parser {
         return this._readTripleTermTail;
       case "<<":
         return this._readReifiedTripleTailOrReifier;
+      case "annotation":
+        return this._readAnnotationBlockPunctuation;
     }
+  }
+  // ### `_createQuad` creates a quad
+  _createQuad(subject, predicate, object, graph3) {
+    return this._factory.quad(subject, predicate, object, graph3 || this.DEFAULTGRAPH);
+  }
+  // ### `_createQuadInDirection` creates a quad in the active predicate direction
+  _createQuadInDirection(subject, predicate, object, graph3, inversePredicate) {
+    return inversePredicate ? this._factory.quad(object, predicate, subject, graph3 || this.DEFAULTGRAPH) : this._factory.quad(subject, predicate, object, graph3 || this.DEFAULTGRAPH);
+  }
+  // ### `_emitInDirection` sends a quad in the active predicate direction
+  _emitInDirection(subject, predicate, object, graph3, inversePredicate) {
+    this._callback(null, this._createQuad(subject, predicate, object, graph3, inversePredicate));
+  }
+  // ### `_emitCurrentInDirection` sends a quad in the current predicate direction
+  _emitCurrentInDirection(subject, predicate, object, graph3) {
+    this._callback(null, this._createQuad(subject, predicate, object, graph3, this._inversePredicate));
   }
   // ### `_emit` sends a quad through the callback
   _emit(subject, predicate, object, graph3) {
     this._callback(null, this._factory.quad(subject, predicate, object, graph3 || this.DEFAULTGRAPH));
   }
   // ### `_error` emits an error message through the callback
-  _error(message, token) {
-    const err = new Error(`${message} on line ${token.line}.`);
+  _error(message2, token) {
+    const suffix = ` on line ${token.line}.`;
+    if (message2.length + suffix.length > 200)
+      message2 = `${message2.slice(0, 199 - suffix.length)}\u2026`;
+    const err = new Error(`${message2}${suffix}`);
     err.context = {
       token,
       line: token.line,
@@ -8481,19 +7449,25 @@ var N3Parser = class _N3Parser {
       case "#":
         return this._base + iri;
       // Resolve relative query string IRIs by replacing the query string
-      case "?":
-        return this._base.replace(/(?:\?.*)?$/, iri);
+      case "?": {
+        const queryPos = this._base.indexOf("?");
+        return (queryPos < 0 ? this._base : this._base.substr(0, queryPos)) + iri;
+      }
       // Resolve root-relative IRIs at the root of the base IRI
       case "/":
-        return (iri[1] === "/" ? this._baseScheme : this._baseRoot) + this._removeDotSegments(iri);
+        if (iri[1] !== "/")
+          return this._baseRoot + this._removeDotSegments(iri);
+        return this._baseScheme ? this._removeDotSegments(this._baseScheme + iri) : this._removeDotSegments(`:${iri}`).substr(1);
       // Resolve all other IRIs at the base IRI's path
       default:
-        return /^[^/:]*:/.test(iri) ? null : this._removeDotSegments(this._basePath + iri);
+        if (/^[^/:]*:/.test(iri))
+          return null;
+        return this._basePathHasDotSegments || pathDotSegments.test(iri) ? this._removeDotSegments(this._basePath + iri) : this._basePath + iri;
     }
   }
   // ### `_removeDotSegments` resolves './' and '../' path segments in an IRI as per RFC3986
   _removeDotSegments(iri) {
-    if (!/(^|\/)\.\.?($|[/#?])/.test(iri))
+    if (!dotSegments.test(iri))
       return iri;
     const length = iri.length;
     let result = "", i = -1, pathStart = -1, segmentStart = 0, next = "/";
@@ -8503,7 +7477,7 @@ var N3Parser = class _N3Parser {
         case ":":
           if (pathStart < 0) {
             if (iri[++i] === "/" && iri[++i] === "/")
-              while ((pathStart = i + 1) < length && iri[pathStart] !== "/")
+              while ((pathStart = i + 1) < length && iri[pathStart] !== "/" && iri[pathStart] !== "?" && iri[pathStart] !== "#")
                 i = pathStart;
           }
           break;
@@ -8548,60 +7522,106 @@ var N3Parser = class _N3Parser {
   // ## Public methods
   // ### `parse` parses the N3 input and emits each parsed quad through the onQuad callback.
   parse(input2, quadCallback, prefixCallback, versionCallback) {
-    let onQuad, onPrefix, onComment, onVersion;
-    if (quadCallback && (quadCallback.onQuad || quadCallback.onPrefix || quadCallback.onComment || quadCallback.onVersion)) {
+    let onQuad, onPrefix, onComment, onVersion, onDirective, onToken, onTokenEnd;
+    if (quadCallback && (quadCallback.onQuad || quadCallback.onPrefix || quadCallback.onComment || quadCallback.onVersion || quadCallback.onDirective || quadCallback.onToken || quadCallback.onTokenEnd)) {
       onQuad = quadCallback.onQuad;
       onPrefix = quadCallback.onPrefix;
       onComment = quadCallback.onComment;
       onVersion = quadCallback.onVersion;
+      onDirective = quadCallback.onDirective;
+      onToken = quadCallback.onToken;
+      onTokenEnd = quadCallback.onTokenEnd;
     } else {
       onQuad = quadCallback;
       onPrefix = prefixCallback;
       onVersion = versionCallback;
     }
     this._readCallback = this._readBeforeTopContext;
+    this._contextStack = [];
+    this._graph = this._subject = this._predicate = this._object = null;
+    this._tripleTerm = this._reifier = null;
     this._sparqlStyle = false;
     this._prefixes = /* @__PURE__ */ Object.create(null);
     this._prefixes._ = this._blankNodePrefix ? this._blankNodePrefix.substr(2) : `b${blankNodePrefix++}_`;
+    if (this._n3Mode && this._implicitEmptyPrefix && this._base)
+      this._prefixes[""] = this._resolveIRI("#");
     this._prefixCallback = onPrefix || noop;
     this._versionCallback = onVersion || noop;
+    this._directiveCallback = onDirective || noop;
     this._inversePredicate = false;
+    this._expectOf = false;
     this._quantified = /* @__PURE__ */ Object.create(null);
+    this._prefixChanges = null;
+    this._quantifiedChanges = null;
+    this._emptyFormula = false;
+    this._tripleTermDepth = 0;
+    const readGrammarToken = (token) => {
+      return this._readCallback = this._readCallback(token);
+    };
+    let readToken = readGrammarToken;
+    if (onComment || this._lexer.comments) {
+      this._lexer.comments = true;
+      readToken = (token) => {
+        if (token.type !== "comment")
+          return readGrammarToken(token);
+        if (onComment) onComment(token.value);
+        return this._readCallback;
+      };
+    }
+    if (onToken || onTokenEnd) {
+      const consumeToken = readToken;
+      readToken = (token) => {
+        try {
+          try {
+            if (onToken) onToken(token);
+            return consumeToken(token);
+          } finally {
+            if (onTokenEnd) onTokenEnd(token);
+          }
+        } catch (error4) {
+          this._readCallback = null;
+          throw error4;
+        }
+      };
+    }
     if (!onQuad) {
       const quads = [];
       let error4;
       this._callback = (e, t) => {
         e ? error4 = e : t && quads.push(t);
       };
-      this._lexer.tokenize(input2).every((token) => {
-        return this._readCallback = this._readCallback(token);
-      });
+      const lexer = this._lexer;
+      if (!onPrefix && !onVersion && !onDirective && !onComment && !onToken && !onTokenEnd && lexer.tokenize === N3Lexer.prototype.tokenize && typeof lexer._tokenizeString === "function") {
+        const base = [this._base, this._basePath, this._baseRoot, this._baseScheme];
+        lexer._tokenizeString(input2, (e, token) => {
+          if (e) {
+            [this._base, this._basePath, this._baseRoot, this._baseScheme] = base;
+            this._callback(e), this._callback = noop;
+          } else if (this._readCallback) readToken(token);
+        });
+      } else
+        lexer.tokenize(input2).every(readToken);
       if (error4) throw error4;
       return quads;
     }
-    let processNextToken = (error4, token) => {
+    const processNextToken = (error4, token) => {
       if (error4 !== null)
         this._callback(error4), this._callback = noop;
       else if (this._readCallback)
-        this._readCallback = this._readCallback(token);
+        readToken(token);
     };
-    if (onComment) {
-      this._lexer.comments = true;
-      processNextToken = (error4, token) => {
-        if (error4 !== null)
-          this._callback(error4), this._callback = noop;
-        else if (this._readCallback) {
-          if (token.type === "comment")
-            onComment(token.value);
-          else
-            this._readCallback = this._readCallback(token);
-        }
-      };
-    }
     this._callback = onQuad;
     this._lexer.tokenize(input2, processNextToken);
   }
 };
+function undoChanges(map2, changes) {
+  for (let i = changes.length - 2; i >= 0; i -= 2) {
+    if (changes[i + 1] === void 0)
+      delete map2[changes[i]];
+    else
+      map2[changes[i]] = changes[i + 1];
+  }
+}
 function noop() {
 }
 function initDataFactory(parser, factory) {
@@ -8613,6 +7633,7 @@ function initDataFactory(parser, factory) {
   parser.RDF_REIFIES = factory.namedNode(IRIs_default.rdf.reifies);
   parser.N3_FORALL = factory.namedNode(IRIs_default.r.forAll);
   parser.N3_FORSOME = factory.namedNode(IRIs_default.r.forSome);
+  parser.N3_TRUE = factory.literal("true", factory.namedNode(IRIs_default.xsd.boolean));
   parser.ABBREVIATIONS = {
     "a": factory.namedNode(IRIs_default.rdf.type),
     "=": factory.namedNode(IRIs_default.owl.sameAs),
@@ -8628,19 +7649,19 @@ N3Parser.SUPPORTED_VERSIONS = [
 ];
 initDataFactory(N3Parser.prototype, N3DataFactory_default);
 
-// ../../muze-nl/oldm/node_modules/n3/src/N3Util.js
+// node_modules/n3/src/N3Util.js
 function isDefaultGraph(term) {
   return !!term && term.termType === "DefaultGraph";
 }
 
-// ../../muze-nl/oldm/node_modules/n3/src/Util.js
+// node_modules/n3/src/Util.js
 function escapeRegex(regex) {
-  return regex.replace(/[\]\/\(\)\*\+\?\.\\\$]/g, "\\$&");
+  return regex.replace(/[.*+?^${}()|[\]\\/-]/g, "\\$&");
 }
 
-// ../../muze-nl/oldm/node_modules/n3/src/BaseIRI.js
+// node_modules/n3/src/BaseIRI.js
 var BASE_UNSUPPORTED = /^:?[^:?#]*(?:[?#]|$)|^file:|^[^:]*:\/*[^?#]+?\/(?:\.\.?(?:\/|$)|\/)/i;
-var SUFFIX_SUPPORTED = /^(?:(?:[^/?#]{3,}|\.?[^/?#.]\.?)(?:\/[^/?#]{3,}|\.?[^/?#.]\.?)*\/?)?(?:[?#]|$)/;
+var SUFFIX_SUPPORTED = /^(?:(?!\.\.?(?:[/?#]|$))[^/?#]+(?:\/[^/?#]{3,})*\/?)?(?:[?#]|$)/;
 var CURRENT = "./";
 var PARENT = "../";
 var QUERY = "?";
@@ -8702,7 +7723,7 @@ var BaseIRI = class _BaseIRI {
       const suffix = iri.substring(length);
       if (parentPath !== QUERY && !SUFFIX_SUPPORTED.test(suffix))
         return iri;
-      if (parentPath === CURRENT && /^[^?#]/.test(suffix))
+      if (parentPath === CURRENT && /^[^?#]/.test(suffix) && (suffix.indexOf(":") < 0 || !/^[^/?#]*:/.test(suffix)))
         return suffix;
       return parentPath + suffix;
     }
@@ -8710,11 +7731,14 @@ var BaseIRI = class _BaseIRI {
   }
 };
 
-// ../../muze-nl/oldm/node_modules/n3/src/N3Writer.js
+// node_modules/n3/src/N3Writer.js
 var DEFAULTGRAPH2 = N3DataFactory_default.defaultGraph();
 var { rdf: rdf2, xsd: xsd3 } = IRIs_default;
+var { hasOwnProperty } = Object.prototype;
 var escape = /["\\\t\n\r\b\f\u0000-\u0019\ud800-\udbff]/;
 var escapeAll = /["\\\t\n\r\b\f\u0000-\u0019]|[\ud800-\udbff][\udc00-\udfff]/g;
+var canonicalEscape = /[^ !#-\[\]-~\u0080-\uFFFD]/;
+var canonicalEscapeAll = /[^ !#-\[\]-~\u0080-\uFFFD]/g;
 var escapedCharacters = {
   "\\": "\\\\",
   '"': '\\"',
@@ -8724,6 +7748,11 @@ var escapedCharacters = {
   "\b": "\\b",
   "\f": "\\f"
 };
+var invalidVersionLabel = /["\\\u0000-\u001f\u007f]|[\ud800-\udbff](?![\udc00-\udfff])|(?:^|[^\ud800-\udbff])[\udc00-\udfff]/;
+var localNameStart = "A-Za-z\\u00C0-\\u00D6\\u00D8-\\u00F6\\u00F8-\\u02FF\\u0370-\\u037D\\u037F-\\u1FFF\\u200C\\u200D\\u2070-\\u218F\\u2C00-\\u2FEF\\u3001-\\uD7FF\\uF900-\\uFDCF\\uFDF0-\\uFFFD_:0-9";
+var localNameChar = `${localNameStart}\\-\\u00B7\\u0300-\\u036F\\u203F\\u2040`;
+var percent = "%[0-9A-Fa-f]{2}";
+var localName = new RegExp(`^(?:(?:[${localNameStart}]|${percent})(?:(?:[${localNameChar}.]|${percent})*(?:[${localNameChar}]|${percent}))?)?$`);
 var SerializedTerm = class extends Term {
   // Pretty-printed nodes are not equal to any other node
   // (e.g., [] does not equal [])
@@ -8734,6 +7763,7 @@ var SerializedTerm = class extends Term {
 var N3Writer = class {
   constructor(outputStream, options) {
     this._prefixRegex = /$0^/;
+    this._hasPrefixes = false;
     if (outputStream && typeof outputStream.write !== "function")
       options = outputStream, outputStream = null;
     options = options || {};
@@ -8754,18 +7784,33 @@ var N3Writer = class {
       this._outputStream = outputStream;
       this._endStream = options.end === void 0 ? true : !!options.end;
     }
+    if (options.version && invalidVersionLabel.test(options.version))
+      throw new Error(`Invalid version label: ${JSON.stringify(options.version)}`);
     this._subject = null;
     if (!/triple|quad/i.test(options.format)) {
       this._lineMode = false;
+      this._escape = escape, this._escapeAll = escapeAll, this._characterReplacer = characterReplacer;
       this._graph = DEFAULTGRAPH2;
+      if (options.version)
+        this._write(`@version "${options.version}".
+`);
       this._prefixIRIs = /* @__PURE__ */ Object.create(null);
-      options.prefixes && this.addPrefixes(options.prefixes);
+      this._prefixPatterns = /* @__PURE__ */ Object.create(null);
       if (options.baseIRI) {
         this._baseIri = new BaseIRI(options.baseIRI);
+        if (options.writeBase)
+          this._write(`@base <${options.baseIRI}>.
+`);
       }
+      options.prefixes && this.addPrefixes(options.prefixes);
     } else {
       this._lineMode = true;
       this._writeQuad = this._writeQuadLine;
+      this._escape = canonicalEscape, this._escapeAll = canonicalEscapeAll;
+      this._characterReplacer = canonicalCharacterReplacer;
+      if (options.version)
+        this._write(`VERSION "${options.version}"
+`);
     }
   }
   // ## Private methods
@@ -8777,17 +7822,25 @@ var N3Writer = class {
   _write(string, callback) {
     this._outputStream.write(string, "utf8", callback);
   }
+  // ### `_endStatement` finishes a pending statement and closes an open graph block
+  _endStatement() {
+    if (this._subject !== null) {
+      this._write(this._inDefaultGraph ? ".\n" : "\n}\n");
+      this._subject = null;
+      this._graph = DEFAULTGRAPH2;
+    }
+  }
   // ### `_writeQuad` writes the quad to the output stream
   _writeQuad(subject, predicate, object, graph3, done) {
     try {
-      if (!graph3.equals(this._graph)) {
+      if (graph3 !== this._graph && (!graph3.equals(this._graph) || graph3.termType !== this._graph.termType)) {
         this._write((this._subject === null ? "" : this._inDefaultGraph ? ".\n" : "\n}\n") + (DEFAULTGRAPH2.equals(graph3) ? "" : `${this._encodeIriOrBlank(graph3)} {
 `));
         this._graph = graph3;
         this._subject = null;
       }
-      if (subject.equals(this._subject)) {
-        if (predicate.equals(this._predicate))
+      if (subject === this._subject || subject.equals(this._subject)) {
+        if (predicate === this._predicate || predicate.equals(this._predicate))
           this._write(`, ${this._encodeObject(object)}`, done);
         else
           this._write(`;
@@ -8805,7 +7858,7 @@ var N3Writer = class {
   }
   // ### `quadToString` serializes a quad as a string
   quadToString(subject, predicate, object, graph3) {
-    return `${this._encodeSubject(subject)} ${this._encodeIriOrBlank(predicate)} ${this._encodeObject(object)}${graph3 && graph3.value ? ` ${this._encodeIriOrBlank(graph3)} .
+    return `${this._encodeSubject(subject)} ${predicate.termType === "Literal" ? this._encodeLiteral(predicate) : this._encodeIriOrBlank(predicate)} ${this._encodeObject(object)}${graph3 && !isDefaultGraph(graph3) ? ` ${this._encodeIriOrBlank(graph3)} .
 ` : " .\n"}`;
   }
   // ### `quadsToString` serializes an array of quads as a string
@@ -8817,32 +7870,49 @@ var N3Writer = class {
   }
   // ### `_encodeSubject` represents a subject
   _encodeSubject(entity) {
-    return entity.termType === "Quad" ? this._encodeQuad(entity) : this._encodeIriOrBlank(entity);
+    switch (entity.termType) {
+      case "Quad":
+        return this._encodeQuad(entity);
+      // Literal subjects are only valid in N3
+      case "Literal":
+        return this._encodeLiteral(entity);
+      default:
+        return this._encodeIriOrBlank(entity);
+    }
   }
   // ### `_encodeIriOrBlank` represents an IRI or blank node
   _encodeIriOrBlank(entity) {
     if (entity.termType !== "NamedNode") {
-      if (this._lists && entity.value in this._lists)
+      if (this._lists && hasOwnProperty.call(this._lists, entity.value))
         entity = this.list(this._lists[entity.value]);
-      return "id" in entity ? entity.id : `_:${entity.value}`;
+      if (entity instanceof Term)
+        return entity.id;
+      return entity.termType === "Variable" ? `?${entity.value}` : `_:${entity.value}`;
     }
     let iri = entity.value;
     if (this._baseIri) {
       iri = this._baseIri.toRelative(iri);
     }
-    if (escape.test(iri))
-      iri = iri.replace(escapeAll, characterReplacer);
-    const prefixMatch = this._prefixRegex.exec(iri);
-    return !prefixMatch ? `<${iri}>` : !prefixMatch[1] ? iri : this._prefixIRIs[prefixMatch[1]] + prefixMatch[2];
+    if (this._escape.test(iri))
+      iri = iri.replace(this._escapeAll, this._characterReplacer);
+    const prefixMatch = this._hasPrefixes ? (this._prefixRegex || this._createPrefixRegex()).exec(iri) : null;
+    if (!prefixMatch)
+      return `<${iri}>`;
+    if (prefixMatch[1])
+      return this._prefixIRIs[prefixMatch[1]] + prefixMatch[2];
+    return localName.test(iri.slice(prefixMatch[0].length)) ? iri : `<${iri}>`;
   }
   // ### `_encodeLiteral` represents a literal
   _encodeLiteral(literal3) {
     let value = literal3.value;
-    if (escape.test(value))
-      value = value.replace(escapeAll, characterReplacer);
-    const direction = literal3.direction ? `--${literal3.direction}` : "";
-    if (literal3.language)
-      return `"${value}"@${literal3.language}${direction}`;
+    if (this._escape.test(value))
+      value = value.replace(this._escapeAll, this._characterReplacer);
+    const language = literal3.language;
+    if (language) {
+      const literalDirection = literal3.direction;
+      const direction = literalDirection ? `--${literalDirection}` : "";
+      return `"${value}"@${language}${direction}`;
+    }
     if (this._lineMode) {
       if (literal3.datatype.value === xsd3.string)
         return `"${value}"`;
@@ -8872,7 +7942,15 @@ var N3Writer = class {
   }
   // ### `_encodePredicate` represents a predicate
   _encodePredicate(predicate) {
-    return predicate.value === rdf2.type ? "a" : this._encodeIriOrBlank(predicate);
+    switch (predicate.termType) {
+      case "NamedNode":
+        return predicate.value === rdf2.type ? "a" : this._encodeIriOrBlank(predicate);
+      // Literal predicates are only valid in N3
+      case "Literal":
+        return this._encodeLiteral(predicate);
+      default:
+        return this._encodeIriOrBlank(predicate);
+    }
   }
   // ### `_encodeObject` represents an object
   _encodeObject(object) {
@@ -8887,7 +7965,8 @@ var N3Writer = class {
   }
   // ### `_encodeQuad` encodes an RDF-star quad
   _encodeQuad({ subject, predicate, object, graph: graph3 }) {
-    return `<<(${this._encodeSubject(subject)} ${this._encodePredicate(predicate)} ${this._encodeObject(object)}${isDefaultGraph(graph3) ? "" : ` ${this._encodeIriOrBlank(graph3)}`})>>`;
+    const space = this._lineMode ? " " : "";
+    return `<<(${space}${this._encodeSubject(subject)} ${this._encodePredicate(predicate)} ${this._encodeObject(object)}${isDefaultGraph(graph3) ? "" : ` ${this._encodeIriOrBlank(graph3)}`}${space})>>`;
   }
   // ### `_blockedWrite` replaces `_write` after the writer has been closed
   _blockedWrite() {
@@ -8923,24 +8002,27 @@ var N3Writer = class {
       if (typeof iri !== "string")
         iri = iri.value;
       hasPrefixes = true;
-      if (this._subject !== null) {
-        this._write(this._inDefaultGraph ? ".\n" : "\n}\n");
-        this._subject = null, this._graph = "";
-      }
+      this._endStatement();
       this._prefixIRIs[iri] = prefix += ":";
+      this._prefixPatterns[iri] = [escapeRegex(iri), escapeRegex(prefix)];
       this._write(`@prefix ${prefix} <${iri}>.
 `);
     }
     if (hasPrefixes) {
-      let IRIlist = "", prefixList = "";
-      for (const prefixIRI in this._prefixIRIs) {
-        IRIlist += IRIlist ? `|${prefixIRI}` : prefixIRI;
-        prefixList += (prefixList ? "|" : "") + this._prefixIRIs[prefixIRI];
-      }
-      IRIlist = escapeRegex(IRIlist, /[\]\/\(\)\*\+\?\.\\\$]/g, "\\$&");
-      this._prefixRegex = new RegExp(`^(?:${prefixList})[^/]*$|^(${IRIlist})([_a-zA-Z0-9][\\-_a-zA-Z0-9]*)$`);
+      this._hasPrefixes = true;
+      this._prefixRegex = null;
     }
     this._write(hasPrefixes ? "\n" : "", done);
+  }
+  // ### `_createPrefixRegex` creates the matcher for the current prefixes
+  _createPrefixRegex() {
+    let IRIlist = "", prefixList = "";
+    for (const prefixIRI in this._prefixPatterns) {
+      const [IRIpattern, prefixPattern2] = this._prefixPatterns[prefixIRI];
+      IRIlist += IRIlist ? `|${IRIpattern}` : IRIpattern;
+      prefixList += prefixList ? `|${prefixPattern2}` : prefixPattern2;
+    }
+    return this._prefixRegex = new RegExp(`^(${IRIlist})([_a-zA-Z0-9](?:\\.?[\\-_a-zA-Z0-9])*)$|^(?:${prefixList})`);
   }
   // ### `blank` creates a blank node with the given content
   blank(predicate, object) {
@@ -8985,10 +8067,7 @@ var N3Writer = class {
   }
   // ### `end` signals the end of the output stream
   end(done) {
-    if (this._subject !== null) {
-      this._write(this._inDefaultGraph ? ".\n" : "\n}\n");
-      this._subject = null;
-    }
+    this._endStatement();
     this._write = this._blockedWrite;
     let singleDone = done && ((error4, result) => {
       singleDone = null, done(error4, result);
@@ -9015,8 +8094,16 @@ function characterReplacer(character) {
   }
   return result;
 }
+function canonicalCharacterReplacer(character) {
+  let result = escapedCharacters[character];
+  if (result === void 0) {
+    result = character.charCodeAt(0).toString(16).toUpperCase();
+    result = "\\u0000".substr(0, 6 - result.length) + result;
+  }
+  return result;
+}
 
-// ../../muze-nl/oldm/packages/oldm-n3/src/oldm-n3.mjs
+// node_modules/@muze-nl/oldm-n3/src/oldm-n3.mjs
 var solidNamespace = "http://www.w3.org/ns/solid/terms#";
 var rdfNamespace = "http://www.w3.org/1999/02/22-rdf-syntax-ns#";
 var n3Parser = (input2, uri, type) => {
@@ -9026,21 +8113,32 @@ var n3Parser = (input2, uri, type) => {
     format: type
   });
   let prefixes3 = /* @__PURE__ */ Object.create(null);
-  const quads = parser.parse(input2, null, (prefix, url3) => {
-    prefixes3[prefix] = url3.id;
+  const quads = parser.parse(input2, null, (prefix, url2) => {
+    prefixes3[prefix] = url2.id;
   });
   return { quads, prefixes: prefixes3 };
 };
 var ResourceWriter = class extends N3Writer {
   constructor(source2, options) {
-    super(options);
+    super({ ...options, prefixes: {} });
+    this.usedPrefixes = /* @__PURE__ */ new Set();
+    this.relative = options.relative ?? true;
     this.source = source2;
     this.entries = Object.entries(options.prefixes);
   }
   _encodeIriOrBlank(term) {
     if (term.termType != "NamedNode" || this._lineMode) return super._encodeIriOrBlank(term);
     const iri = absoluteIRI(term.value);
-    return turtlePrefixedIRI(iri, this.entries) ?? `<${this.source.relativeURI(iri)}>`;
+    const prefixed = turtlePrefixedIRI(iri, this.entries);
+    if (prefixed !== null) {
+      this.usedPrefixes.add(prefixed.slice(0, prefixed.indexOf(":")));
+      return prefixed;
+    }
+    return `<${this.relative ? this.source.relativeURI(iri) : iri}>`;
+  }
+  declarations() {
+    return this.entries.filter(([prefix]) => this.usedPrefixes.has(prefix)).map(([prefix, iri]) => `@prefix ${prefix}: <${iri}> .
+`).join("");
   }
 };
 var n3Writer = (source2) => {
@@ -9177,9 +8275,9 @@ var n3Writer = (source2) => {
       writeProperties(namedNode2(id2), subject);
     });
     writer.end((error4, result) => {
-      if (result) {
+      if (!error4) {
         resolve(writer._lineMode ? result : `@base <${absoluteIRI(source2.baseURI)}> .
-` + result);
+` + writer.declarations() + result);
       } else {
         reject(error4);
       }
@@ -9458,17 +8556,12 @@ function serializePatch(source2, inserts, deletes, where = []) {
     prefixes3.rdf ??= rdfNamespace;
   }
   prefixes3.solid = solidNamespace;
-  const writer = new N3Writer({
+  const writer = new ResourceWriter(source2, {
     format: "text/turtle",
-    prefixes: prefixes3
+    prefixes: prefixes3,
+    relative: false
   });
-  const lines = [];
-  for (const [prefix, iri] of Object.entries(prefixes3)) {
-    lines.push(`@prefix ${prefix}: <${iri}> .`);
-  }
-  if (lines.length) {
-    lines.push("");
-  }
+  writer.usedPrefixes.add("solid");
   const predicates = [];
   if (where.length) {
     predicates.push(`solid:where ${formula(writer, where)}`);
@@ -9483,8 +8576,9 @@ function serializePatch(source2, inserts, deletes, where = []) {
   if (predicates.length) {
     patch += ";\n	" + predicates.join(";\n	");
   }
-  lines.push(`${patch} .`);
-  return lines.join("\n") + "\n";
+  return writer.declarations() + `
+${patch} .
+`;
 }
 function quadsUseNamespace(quads, namespace) {
   return quads.some(
@@ -9504,7 +8598,7 @@ function formula(writer, quads) {
 	}`;
 }
 
-// ../../muze-nl/oldm/packages/oldm/src/index.mjs
+// node_modules/@muze-nl/oldm/src/index.mjs
 var { default: _coreDefault, ...core } = oldm_exports;
 var oldm2 = {
   context(options = {}) {
@@ -9527,8 +8621,339 @@ var oldm2 = {
 globalThis.oldm = oldm2;
 var src_default2 = oldm2;
 
-// ../../muze-nl/jaqt/src/jaqt.mjs
-function isPrimitiveWrapper(data) {
+// node_modules/@muze-labs/solid-workspace/src/graphs.mjs
+var { BlankNode: BlankNode3, Collection: Collection2 } = src_default2;
+function emptyGraph({
+  context = src_default2.context(),
+  url: url2 = `urn:uuid:${globalThis.crypto.randomUUID()}`,
+  prefixes: prefixes3 = {},
+  baseURI = url2.split("#")[0]
+} = {}) {
+  const graph3 = new src_default2.Graph([], url2, "text/turtle", prefixes3, context);
+  graph3.baseURI = baseURI;
+  return graph3;
+}
+function parseGraph(turtle, { url: url2, prefixes: prefixes3 = {}, baseURI } = {}) {
+  if (typeof turtle !== "string") {
+    throw new TypeError("solid-workspace: expected Turtle text");
+  }
+  const graph3 = src_default2.context({ prefixes: prefixes3 }).parse(turtle, url2, "text/turtle");
+  if (baseURI !== void 0) {
+    graph3.baseURI = baseURI;
+  }
+  return graph3;
+}
+function copyGraph(source2, options = {}) {
+  if (!(source2 instanceof src_default2.Graph)) {
+    throw new TypeError("solid-workspace: expected an OLDM Graph");
+  }
+  const graph3 = emptyGraph({
+    url: source2.url,
+    prefixes: source2.prefixDeclarations(),
+    ...options,
+    baseURI: options.baseURI ?? source2.baseURI
+  });
+  importGraph(graph3, source2);
+  return graph3;
+}
+function mergeGraphs(sources, { baseURI = sources[0]?.baseURI, prefixes: preferredPrefixes = {} } = {}) {
+  const prefixes3 = {};
+  for (const source2 of sources) {
+    for (const [prefix, iri] of Object.entries(source2.prefixDeclarations())) {
+      if (!Object.hasOwn(prefixes3, prefix)) {
+        prefixes3[prefix] = iri;
+      }
+    }
+  }
+  Object.assign(prefixes3, preferredPrefixes);
+  const graph3 = emptyGraph({ prefixes: prefixes3, baseURI });
+  for (const source2 of sources) {
+    importGraph(graph3, source2);
+  }
+  return graph3;
+}
+function importGraph(graph3, source2) {
+  const copied = /* @__PURE__ */ new WeakMap();
+  for (const subject of source2.data) {
+    writeSubjectToGraph({ graph: graph3, subject, copied });
+  }
+}
+function isObject(value) {
+  return Boolean(value && typeof value === "object" && !Array.isArray(value) && !isPrimitiveWrapper(value));
+}
+function valueKey(value) {
+  if (value instanceof Collection2) return `list:${JSON.stringify(sortObject(value))}`;
+  if (isPrimitiveWrapper(value)) {
+    return `literal:${JSON.stringify(sortObject(primitiveWrapperData(value)))}`;
+  }
+  if (isObject(value)) {
+    return value.id ? `id:${value.id}` : `json:${JSON.stringify(sortObject(value))}`;
+  }
+  if (typeof value === "string" || typeof value === "number" || typeof value === "boolean") {
+    return `literal:${JSON.stringify({ value })}`;
+  }
+  return `${typeof value}:${String(value)}`;
+}
+function sortObject(value, seen = /* @__PURE__ */ new Map()) {
+  if (isPrimitiveWrapper(value)) return { literal: primitiveWrapperData(value) };
+  if (!value || typeof value !== "object") return value;
+  if (seen.has(value)) return { reference: seen.get(value) };
+  seen.set(value, value.id ?? seen.size);
+  if (Array.isArray(value)) {
+    const items = Array.from(value, (item) => sortObject(item, seen));
+    return value instanceof Collection2 ? { list: items } : items;
+  }
+  return Object.fromEntries(Object.entries(value).sort(([left], [right]) => left.localeCompare(right)).map(([key, item]) => [key, sortObject(item, seen)]));
+}
+function isPrimitiveWrapper(value) {
+  return value instanceof String || value instanceof Number || value instanceof Boolean;
+}
+function primitiveWrapperData(value) {
+  const data = {
+    value: value.type ? String(value) : value.valueOf()
+  };
+  for (const [key, item] of Object.entries(value)) {
+    if (!/^\d+$/.test(key)) {
+      if (key === "language" && !item) {
+        continue;
+      }
+      if (value instanceof String && key === "type" && item === "http://www.w3.org/2001/XMLSchema#string") {
+        continue;
+      }
+      data[key] = item;
+    }
+  }
+  return data;
+}
+function writeSubjectToGraph({
+  graph: graph3,
+  subject,
+  id: id2 = subject.id,
+  copied = /* @__PURE__ */ new WeakMap(),
+  replace = false
+}) {
+  if (copied.has(subject)) {
+    return copied.get(subject);
+  }
+  const node = id2 ? graph3.addNamedNode(id2) : new BlankNode3(graph3);
+  copied.set(subject, node);
+  for (const [predicate, value] of Object.entries(subject)) {
+    if (predicate === "id") {
+      continue;
+    }
+    const name = predicate === "a" ? "a" : subject.graph?.fullURI(predicate) ?? predicate;
+    const imported = graphValueFromObjectValue({ graph: graph3, value, copied, replace });
+    if (replace || Array.isArray(value) && value.length === 0) {
+      graph3.set(node, name, imported);
+    } else {
+      graph3.add(node, name, imported);
+    }
+  }
+  return node;
+}
+function graphValueFromObjectValue({ graph: graph3, value, copied, replace = false }) {
+  if (value instanceof String || value instanceof Number) {
+    return src_default2.literal(value);
+  }
+  if (value instanceof Boolean) {
+    return Object.assign(new Boolean(value.valueOf()), value);
+  }
+  if (value instanceof Collection2) {
+    if (copied.has(value)) {
+      return copied.get(value);
+    }
+    const list2 = new Collection2(graph3);
+    copied.set(value, list2);
+    for (const item of value) {
+      list2.push(graphValueFromObjectValue({
+        graph: graph3,
+        value: item,
+        copied,
+        replace
+      }));
+    }
+    return list2;
+  }
+  if (Array.isArray(value)) {
+    return value.map((item) => graphValueFromObjectValue({
+      graph: graph3,
+      value: item,
+      copied,
+      replace
+    }));
+  }
+  if (isObject(value)) {
+    if (value.id || value instanceof BlankNode3) {
+      return writeSubjectToGraph({ graph: graph3, subject: value, copied, replace });
+    }
+    throw new TypeError(
+      "solid-workspace: RDF objects need an id or an OLDM BlankNode; encode application literals explicitly"
+    );
+  }
+  return value;
+}
+
+// node_modules/@muze-labs/solid-workspace/src/replicas.mjs
+var modified = "http://purl.org/dc/terms/modified";
+var deleted = "https://purl.org/pdsinterop/link-metadata#deleted";
+function isDeleted(subject, context = subject.graph ?? src_default2.context()) {
+  return Object.hasOwn(subject, deleted) || Object.hasOwn(subject, context.propertyName(deleted));
+}
+function markDeleted(subject, now2 = (/* @__PURE__ */ new Date()).toISOString()) {
+  const context = subject.graph ?? src_default2.context();
+  const keys = /* @__PURE__ */ new Set([
+    deleted,
+    modified,
+    context.propertyName(deleted),
+    context.propertyName(modified)
+  ]);
+  const previous = Object.entries(subject).filter(([key]) => keys.has(key));
+  function clear3() {
+    for (const key of Object.keys(subject)) {
+      if (keys.has(key)) {
+        delete subject[key];
+      }
+    }
+  }
+  clear3();
+  subject[context.propertyName(deleted)] = "Deleted by the user";
+  subject[context.propertyName(modified)] = now2;
+  return () => {
+    clear3();
+    for (const [key, value] of previous) {
+      subject[key] = value;
+    }
+  };
+}
+function mergeReplicas(graphs, {
+  scalarPredicates = [],
+  ownedPredicates = [],
+  baseURI,
+  prefixes: prefixes3
+} = {}) {
+  const copies = graphs.map((graph3) => copyGraph(graph3));
+  const snapshots = copies.map((context) => {
+    const subjects = /* @__PURE__ */ new Map();
+    visit(context.subjects, (subject) => {
+      if (subject.id) {
+        subjects.set(subject.id, { subject, context });
+      }
+    });
+    return subjects;
+  });
+  const owners = editOwners(snapshots, ownedPredicates);
+  const versions = /* @__PURE__ */ new Map();
+  for (const subjects of snapshots) {
+    const groups = /* @__PURE__ */ new Map();
+    for (const [id2, candidate] of subjects) {
+      const root = editRoot(id2, owners);
+      if (!groups.has(root)) {
+        groups.set(root, /* @__PURE__ */ new Map());
+      }
+      groups.get(root).set(id2, candidate);
+    }
+    for (const [root, members] of groups) {
+      const candidates = versions.get(root) ?? [];
+      candidates.push({ root: subjects.get(root), members });
+      versions.set(root, candidates);
+    }
+  }
+  const scalars = /* @__PURE__ */ new Set([modified, deleted, ...scalarPredicates]);
+  for (const candidates of versions.values()) {
+    const dated = candidates.filter((candidate) => timestamp(candidate.root) != null);
+    if (dated.length === 0) {
+      continue;
+    }
+    dated.sort((left, right) => timestamp(left.root) - timestamp(right.root) || Number(isDeleted(left.root.subject, left.root.context)) - Number(isDeleted(right.root.subject, right.root.context)) || revisionKey(left, scalars).localeCompare(revisionKey(right, scalars)));
+    const winner = dated.at(-1);
+    const selected = new Map([...winner.members].map(([id2, member]) => [
+      id2,
+      Object.entries(member.subject).map(([key, value]) => [predicateIRI(key, member), value]).filter(([iri]) => scalars.has(iri))
+    ]));
+    for (const candidate of candidates) {
+      for (const [id2, member] of candidate.members) {
+        for (const key of Object.keys(member.subject)) {
+          if (scalars.has(predicateIRI(key, member))) {
+            delete member.subject[key];
+          }
+        }
+        for (const [iri, value] of selected.get(id2) ?? []) {
+          member.subject[member.context.propertyName(iri)] = value;
+        }
+      }
+    }
+  }
+  return mergeGraphs(copies, { baseURI, prefixes: prefixes3 });
+}
+function editOwners(snapshots, predicates) {
+  const owners = /* @__PURE__ */ new Map();
+  for (const subjects of snapshots) {
+    for (const [id2, candidate] of subjects) {
+      for (const predicate of predicates) {
+        for (const child of values2(field2(candidate, predicate))) {
+          if (child?.id === "http://www.w3.org/1999/02/22-rdf-syntax-ns#nil") {
+            continue;
+          }
+          if (!(child instanceof src_default2.NamedNode)) {
+            throw new TypeError("solid-workspace: owned links must reference named subjects");
+          }
+          const parent = owners.get(child.id);
+          if (parent && parent !== id2) {
+            throw new Error(`solid-workspace: multiple owners for ${child.id}`);
+          }
+          owners.set(child.id, id2);
+        }
+      }
+    }
+  }
+  return owners;
+}
+function editRoot(id2, owners) {
+  const visited = /* @__PURE__ */ new Set();
+  while (owners.has(id2)) {
+    if (visited.has(id2)) {
+      throw new Error(`solid-workspace: ownership cycle at ${id2}`);
+    }
+    visited.add(id2);
+    id2 = owners.get(id2);
+  }
+  return id2;
+}
+function revisionKey(candidate, scalars) {
+  return JSON.stringify([...candidate.members].sort(([a], [b]) => a.localeCompare(b)).map(([id2, member]) => [id2, scalarKey(member, scalars)]));
+}
+function values2(value) {
+  return Array.isArray(value) ? value : value == null ? [] : [value];
+}
+function predicateIRI(key, { context }) {
+  if (key === "id") return key;
+  return key === "a" ? "http://www.w3.org/1999/02/22-rdf-syntax-ns#type" : context.fullURI(key);
+}
+function field2(candidate, iri) {
+  if (!candidate) {
+    return void 0;
+  }
+  return Object.entries(candidate.subject).find(([key]) => predicateIRI(key, candidate) === iri)?.[1];
+}
+function timestamp(candidate) {
+  const times = values2(field2(candidate, modified)).map((value) => Date.parse(String(value))).filter(Number.isFinite);
+  return times.length ? Math.max(...times) : null;
+}
+function scalarKey(candidate, scalars) {
+  return JSON.stringify([...scalars].sort().map((iri) => {
+    const value = field2(candidate, iri);
+    return valueKey(value);
+  }));
+}
+function visit(value, fn, seen = /* @__PURE__ */ new WeakSet()) {
+  if (!value || typeof value !== "object" || value instanceof String || value instanceof Number || value instanceof Boolean || seen.has(value)) return;
+  seen.add(value);
+  fn(value);
+  for (const item of Object.values(value)) visit(item, fn, seen);
+}
+
+// node_modules/@muze-nl/jaqt/src/jaqt.mjs
+function isPrimitiveWrapper2(data) {
   return [String, Boolean, Number, BigInt].includes(data?.constructor);
 }
 function getSelectFn(filter2) {
@@ -9546,7 +8971,7 @@ function getSelectFn(filter2) {
           };
         }
       });
-    } else if (!isPrimitiveWrapper(filterValue)) {
+    } else if (!isPrimitiveWrapper2(filterValue)) {
       fns.push((data) => {
         if (filterKey == "_") {
           return from(data[filterKey]).select(filterValue);
@@ -9587,7 +9012,7 @@ function getMatchFn(pattern) {
     fns.push((data) => pattern.test(data));
   } else if (pattern instanceof Function) {
     fns.push((data) => pattern(data));
-  } else if (!isPrimitiveWrapper(pattern)) {
+  } else if (!isPrimitiveWrapper2(pattern)) {
     let patternMatches = {};
     for (const [wKey, wVal] of Object.entries(pattern)) {
       patternMatches[wKey] = getMatchFn(wVal);
@@ -9596,7 +9021,7 @@ function getMatchFn(pattern) {
       if (Array.isArray(data)) {
         return data.filter((element2) => matchFn(element2)).length > 0;
       }
-      if (isPrimitiveWrapper(data)) {
+      if (isPrimitiveWrapper2(data)) {
         return false;
       }
       for (let wKey in patternMatches) {
@@ -9641,7 +9066,7 @@ function getSortFn(pattern) {
       fns.push((a, b) => a[key] > b[key] ? 1 : a[key] < b[key] ? -1 : 0);
     } else if (compare === desc) {
       fns.push((a, b) => a[key] < b[key] ? 1 : a[key] > b[key] ? -1 : 0);
-    } else if (!isPrimitiveWrapper(compare)) {
+    } else if (!isPrimitiveWrapper2(compare)) {
       let subFn = getSortFn(compare);
       fns.push((a, b) => subFn(a[key], b[key]));
     } else {
@@ -9668,7 +9093,7 @@ function getAggregateFn(filter2) {
   } else for (const [filterKey, filterValue] of Object.entries(filter2)) {
     if (filterValue instanceof Function) {
       fns.push((a, o, i, l) => {
-        if (isPrimitiveWrapper(a)) {
+        if (isPrimitiveWrapper2(a)) {
           a = {};
         }
         if (o.reduce) {
@@ -9678,9 +9103,9 @@ function getAggregateFn(filter2) {
         }
         return a;
       });
-    } else if (!isPrimitiveWrapper(filterValue)) {
+    } else if (!isPrimitiveWrapper2(filterValue)) {
       fns.push((a, o) => {
-        if (isPrimitiveWrapper(a)) {
+        if (isPrimitiveWrapper2(a)) {
           a = {};
         }
         a[filterKey] = from(o[filterKey]).reduce(filterValue, []);
@@ -9688,7 +9113,7 @@ function getAggregateFn(filter2) {
       });
     } else {
       fns.push((a) => {
-        if (isPrimitiveWrapper(a)) {
+        if (isPrimitiveWrapper2(a)) {
           a = {};
         }
         a[filterKey] = filterValue;
@@ -9743,13 +9168,6 @@ function groupBy(data, pointerFunctions) {
   }
   return groups;
 }
-function matchIf(test, pattern) {
-  if (!test) {
-    return () => true;
-  }
-  let matchFn = getMatchFn(pattern);
-  return (data) => matchFn(data);
-}
 function anyOf(...patterns) {
   let matchFns = patterns.map((pattern) => getMatchFn(pattern));
   return (data) => matchFns.some((fn) => fn(data));
@@ -9803,7 +9221,7 @@ var DataProxyHandler = {
             let temp = target.reduce(aggregateFn, initial);
             if (Array.isArray(temp)) {
               return new Proxy(temp, DataProxyHandler);
-            } else if (!isPrimitiveWrapper(temp)) {
+            } else if (!isPrimitiveWrapper2(temp)) {
               return new Proxy(temp, GroupByProxyHandler);
             } else {
               return temp;
@@ -9874,7 +9292,7 @@ var GroupByProxyHandler = {
               let temp = target[group2].reduce(aggregateFn, initial);
               if (Array.isArray(temp)) {
                 result2[group2] = new Proxy(temp, DataProxyHandler);
-              } else if (!isPrimitiveWrapper(temp)) {
+              } else if (!isPrimitiveWrapper2(temp)) {
                 result2[group2] = new Proxy(temp, GroupByProxyHandler);
               } else {
                 result2[group2] = temp;
@@ -9996,7 +9414,7 @@ var pointerHandler = (path2) => {
 };
 var _ = new Proxy(getPointerFn(), pointerHandler());
 
-// ../../muze-nl/assert/src/assert-core.mjs
+// node_modules/@muze-nl/assert/src/assert-core.mjs
 var assert_core_exports = {};
 __export(assert_core_exports, {
   Optional: () => Optional,
@@ -10149,35 +9567,35 @@ function describeExpected(value) {
 function describeOneOf(patterns) {
   return patterns.map(describeExpected).join(", ");
 }
-function conciseMessage(message, actual, expected) {
-  if (message == "data and pattern are not equal") {
+function conciseMessage(message2, actual, expected) {
+  if (message2 == "data and pattern are not equal") {
     return `expected ${formatValue(expected)}, found ${formatValue(actual)}`;
   }
-  if (message == "data does not match pattern" || /^data\[\d+\] does not match pattern$/.test(message)) {
+  if (message2 == "data does not match pattern" || /^data\[\d+\] does not match pattern$/.test(message2)) {
     return `expected ${describeExpected(expected)}, found ${formatValue(actual)}`;
   }
-  if (message == "data is undefined, should match pattern") {
+  if (message2 == "data is undefined, should match pattern") {
     return `missing; expected ${describeExpected(expected)}`;
   }
-  if (message == "data is required") {
+  if (message2 == "data is required") {
     return "required";
   }
-  if (message == "data is an empty string, which is not allowed") {
+  if (message2 == "data is an empty string, which is not allowed") {
     return "empty string is not allowed";
   }
-  if (message == "data is not an object, pattern is") {
+  if (message2 == "data is not an object, pattern is") {
     return "data is not an object";
   }
-  if (message == "data is not an instanceof pattern") {
+  if (message2 == "data is not an instanceof pattern") {
     return `expected instance of ${describeExpected(expected)}, found ${formatValue(actual)}`;
   }
-  if (message == "data does not match oneOf patterns" || message == "data does not match anyOf patterns") {
+  if (message2 == "data does not match oneOf patterns" || message2 == "data does not match anyOf patterns") {
     return `expected one of ${describeOneOf(expected)}, found ${formatValue(actual)}`;
   }
-  if (message == "data matches pattern, when required not to") {
+  if (message2 == "data matches pattern, when required not to") {
     return `must not match ${describeExpected(expected)}`;
   }
-  return message;
+  return message2;
 }
 function formatIssue(issue, options = {}) {
   if (!issue || typeof issue != "object") {
@@ -10187,12 +9605,12 @@ function formatIssue(issue, options = {}) {
   let indent = options.indent ?? "";
   return `${indent}${path2}: ${issue.message}`;
 }
-function formatIssues(issues3, options = {}) {
-  if (!issues3) {
+function formatIssues(issues4, options = {}) {
+  if (!issues4) {
     return false;
   }
   let indent = options.indent ?? "  - ";
-  return (Array.isArray(issues3) ? issues3 : [issues3]).map((issue) => formatIssue(issue, { ...options, indent }));
+  return (Array.isArray(issues4) ? issues4 : [issues4]).map((issue) => formatIssue(issue, { ...options, indent }));
 }
 function issueFromProblem(problem) {
   if (!problem || typeof problem != "object") {
@@ -10208,11 +9626,11 @@ function issueFromProblem(problem) {
   let pathString = pathToString(path2);
   let actual = problem.actual ?? problem.found;
   let expected = describeExpected(problem.expected);
-  let message = conciseMessage(problem.message, actual, problem.expected);
+  let message2 = conciseMessage(problem.message, actual, problem.expected);
   return {
     path: path2,
     pathString,
-    message,
+    message: message2,
     expected,
     actual
   };
@@ -10237,10 +9655,10 @@ function problemsToIssues(problems) {
   }
   return result;
 }
-function assertionError(source2, problems, message = "Assertions failed", ErrorType = Error) {
+function assertionError(source2, problems, message2 = "Assertions failed", ErrorType = Error) {
   let assertionIssues = problemsToIssues(problems);
   let formattedIssues = formatIssues(assertionIssues);
-  return new ErrorType(message + ":\n" + formattedIssues.join("\n"), {
+  return new ErrorType(message2 + ":\n" + formattedIssues.join("\n"), {
     cause: { problems, issues: assertionIssues, source: source2 }
   });
 }
@@ -10254,10 +9672,10 @@ function assert(source2, test) {
     }
   }
 }
-function check(source2, test, message = "Assertions failed", ErrorType = Error) {
+function check(source2, test, message2 = "Assertions failed", ErrorType = Error) {
   let problems = fails(source2, test);
   if (problems) {
-    throw assertionError(source2, problems, message, ErrorType);
+    throw assertionError(source2, problems, message2, ErrorType);
   }
 }
 function Optional(pattern) {
@@ -10329,9 +9747,9 @@ function validURL(data, root, path2) {
     if (data instanceof URL) {
       data = data.href;
     }
-    let url3 = new URL(data);
-    if (url3.href != data) {
-      if (!(url3.href + "/" == data || url3.href == data + "/")) {
+    let url2 = new URL(data);
+    if (url2.href != data) {
+      if (!(url2.href + "/" == data || url2.href == data + "/")) {
         return error("data is not a valid url", data, "validURL", path2);
       }
     }
@@ -10464,13 +9882,13 @@ function fails(data, pattern, root, path2 = "") {
   }
   return false;
 }
-function error(message, found, expected, path2 = "", problems) {
+function error(message2, found, expected, path2 = "", problems) {
   let pathParts = pathToArray(path2);
   let result = {
     path: path2,
     pathString: pathToString(pathParts),
     pathParts,
-    message,
+    message: message2,
     found,
     expected
   };
@@ -10479,14 +9897,14 @@ function error(message, found, expected, path2 = "", problems) {
   }
   return result;
 }
-function warn(message, data, pattern, path2) {
-  console.warn("\u{1F170}\uFE0F  Assert: " + path2, message, pattern, data);
+function warn(message2, data, pattern, path2) {
+  console.warn("\u{1F170}\uFE0F  Assert: " + path2, message2, pattern, data);
 }
 
-// ../../muze-nl/assert/src/assert.mjs
+// node_modules/@muze-nl/assert/src/assert.mjs
 globalThis.assert = { ...assert_core_exports };
 
-// ../solid-tools/packages/solid-workspace/src/collection.mjs
+// node_modules/@muze-labs/solid-workspace/src/collection.mjs
 function collection(options = {}) {
   return {
     kind: "collection",
@@ -10502,16 +9920,11 @@ var WorkspaceCollection = class {
     this.descriptor = descriptor;
   }
   list() {
-    const sourceIds = src_default2.many(this.descriptor.sources).map((source2) => this.workspace.sourcePatterns.get(source2) ?? source2);
     const className = this.descriptor.shape?.for;
-    return from(this.workspace.records).where({
-      deleted: false,
-      sourceId: matchIf(sourceIds.length > 0, sourceIds),
-      object: matchIf(className, { a: className })
-    }).select((record) => record.object).toArray();
+    return from(this.workspace.sourceSubjects(this.descriptor.sources)).where((object) => !isDeleted(object)).where((object) => !this.workspace.recordFor(object)?.deleted).where((object) => !className || src_default2.many(object.a).includes(className)).toArray();
   }
   get(id2) {
-    return this.list().find((object) => object.id === id2 || object["@id"] === id2) ?? null;
+    return this.list().find((object) => object.id === id2) ?? null;
   }
   async create(object = {}, options = {}) {
     const createIn = options.createIn ?? this.descriptor.createIn;
@@ -10533,8 +9946,18 @@ var WorkspaceCollection = class {
     });
   }
   update(object, changes = {}) {
-    Object.assign(object, changes);
-    return object;
+    if (changes.id != null && changes.id !== object.id) {
+      throw new Error("solid-workspace: an update cannot change subject identity");
+    }
+    if (!this.workspace.recordFor(object)) {
+      throw new Error("solid-workspace: cannot update a detached subject");
+    }
+    return writeSubjectToGraph({
+      graph: object.graph,
+      subject: changes,
+      id: object.id,
+      replace: true
+    });
   }
   delete(object, options = {}) {
     return this.workspace.delete(object, options);
@@ -10543,279 +9966,466 @@ var WorkspaceCollection = class {
     return this.workspace.save(object, options);
   }
   saveAll() {
-    const sourceIds = src_default2.many(this.descriptor.sources).map((source2) => this.workspace.sourcePatterns.get(source2) ?? source2);
     const className = this.descriptor.shape?.for;
-    return this.workspace.saveAll(from(this.workspace.records).where({
-      sourceId: matchIf(sourceIds.length > 0, sourceIds),
-      object: matchIf(className, { a: className })
-    }).toArray());
+    const subjects = this.workspace.sourceSubjects(this.descriptor.sources).filter((object) => !className || src_default2.many(object.a).includes(className));
+    return this.workspace.saveAll(subjects);
   }
 };
 
-// ../solid-tools/packages/solid-workspace/src/graph-document.mjs
-function mergeGraphDocuments(documents = [], options = {}) {
-  check(documents, Array, "solid-workspace: graph documents must be an array", TypeError);
-  const base = graphDocumentFrom(documents[0]);
-  const merged = {
-    format: options.format ?? base.format,
-    version: options.version ?? base.version,
-    prefixes: {},
-    subjects: {}
-  };
-  const subjectsById = /* @__PURE__ */ new Map();
-  for (const document2 of documents.map(graphDocumentFrom)) {
-    Object.assign(merged.prefixes, document2.prefixes);
-    for (const subject of document2.data) {
-      if (!subject?.id) continue;
-      const current = subjectsById.get(subject.id);
-      if (!current) {
-        const clone2 = cloneValue(subject);
-        subjectsById.set(subject.id, clone2);
-        merged.subjects[clone2.id] = clone2;
-        continue;
+// node_modules/@muze-labs/solid-workspace/src/sources.mjs
+function resource(idOrOptions, options = {}) {
+  let config = { ...idOrOptions };
+  if (typeof idOrOptions === "string") {
+    config = { ...options, id: idOrOptions };
+  }
+  if (!config.id) {
+    throw new TypeError("solid-workspace: resource id is required");
+  }
+  if (!config.local && !config.remote) {
+    throw new TypeError("solid-workspace: resource() needs a local or remote replica");
+  }
+  if (config.local) {
+    assertWorkspaceSource(config.local, "local");
+  }
+  if (config.remote) {
+    assertWorkspaceSource(config.remote, "remote");
+  }
+  return Object.freeze({
+    ...config,
+    workspacePart: "resource",
+    type: config.type ?? "replicated-resource",
+    id: String(config.id)
+  });
+}
+var solid = {
+  resource(url2, options = {}) {
+    return source("resource", url2, {
+      type: "solid-resource",
+      ...options
+    });
+  },
+  container(url2, options = {}) {
+    return source("container", ensureSlash(url2), {
+      type: "solid-container",
+      ...options
+    });
+  },
+  client(client2, options = {}) {
+    if (!client2) {
+      throw new TypeError("solid-workspace: solid client is required");
+    }
+    return Object.freeze({
+      ...options,
+      workspacePart: "client",
+      type: options.type ?? "solid-api-client",
+      client: client2
+    });
+  }
+};
+var graph = {
+  resource(options = {}) {
+    return graphResource(options);
+  }
+};
+var WorkspaceSources = class {
+  #sourceById;
+  #resourceById;
+  #sourcePatterns;
+  constructor() {
+    this.sources = [];
+    this.resources = [];
+    this.#sourceById = /* @__PURE__ */ new Map();
+    this.#resourceById = /* @__PURE__ */ new Map();
+    this.#sourcePatterns = /* @__PURE__ */ new Map();
+  }
+  add(sourceOrSources) {
+    const selected = Array.isArray(sourceOrSources) ? sourceOrSources : [sourceOrSources];
+    const sources = normalizeSources(selected);
+    for (const source2 of sources) {
+      const index = this.sources.findIndex((item) => item.id === source2.id);
+      if (index >= 0) {
+        this.sources[index] = source2;
+      } else {
+        this.sources.push(source2);
       }
-      mergeSubject(current, subject);
+      this.#sourceById.set(source2.id, source2);
+      this.#sourcePatterns.set(source2.id, source2.id);
     }
+    return sources;
   }
-  const target = {
-    ...merged,
-    changed: !graphDocumentsEqual(base, merged)
-  };
-  if (Object.keys(target.prefixes).length === 0) {
-    delete target.prefixes;
-  }
-  if (target.format == null) delete target.format;
-  if (target.version == null) delete target.version;
-  return withData(target);
-}
-function graphDocumentFrom(value, options = {}) {
-  if (!value) {
-    return withData({
-      format: null,
-      version: null,
-      prefixes: {},
-      subjects: {}
-    });
-  }
-  if (typeof value === "string" || value instanceof String) {
-    return graphDocumentFromTurtle(value, options);
-  }
-  if (Array.isArray(value)) {
-    return withData({
-      format: null,
-      version: null,
-      prefixes: {},
-      subjects: subjectsFromArray(value)
-    });
-  }
-  let subjects = {};
-  if (Array.isArray(value.subjects)) {
-    throw new TypeError("solid-workspace: graph document subjects must be an object map");
-  }
-  if (value.subjects && typeof value.subjects === "object") {
-    subjects = value.subjects;
-  }
-  if (Object.hasOwn(value, "format") || Object.hasOwn(value, "version") || Object.hasOwn(value, "prefixes") || Object.hasOwn(value, "subjects")) {
-    return withData({
-      format: value.format ?? null,
-      version: value.version ?? null,
-      prefixes: value.prefixes ?? {},
-      subjects
-    });
-  }
-  return withData({
-    format: null,
-    version: null,
-    prefixes: {},
-    subjects
-  });
-}
-function cloneGraphDocument(document2) {
-  const graphDocument = graphDocumentFrom(document2);
-  return withData({
-    ...graphDocument,
-    prefixes: cloneValue(graphDocument.prefixes),
-    subjects: cloneValue(graphDocument.subjects)
-  });
-}
-function graphDocumentFromTurtle(turtle, options = {}) {
-  const context = src_default2.context({
-    defaultGraph: options.url,
-    prefixes: options.prefixes ?? {}
-  });
-  const document2 = graphDocumentFrom(context.parse(String(turtle), options.url, "text/turtle"));
-  return withData({
-    ...document2,
-    subjects: subjectsFromArray(
-      document2.data.filter((subject) => Object.keys(subject).length > 1)
-    )
-  });
-}
-async function graphDocumentToTurtle(document2, options = {}) {
-  const graphDocument = graphDocumentFrom(document2);
-  const context = src_default2.context({
-    defaultGraph: options.url,
-    prefixes: {
-      ...graphDocument.prefixes,
-      ...options.prefixes
+  addResource(part) {
+    if (part?.workspacePart !== "resource") {
+      throw new TypeError("solid-workspace: addResource() expects a resource() workspace part");
     }
-  });
-  const graph3 = context.parse("", options.url, "text/turtle");
-  for (const subject of graphDocument.data) {
-    writeSubjectToGraph({ graph: graph3, subject });
-  }
-  return graph3.write();
-}
-function cloneValue(value) {
-  if (Array.isArray(value)) {
-    return value.map(cloneValue);
-  }
-  if (isPrimitiveWrapper2(value)) {
-    return clonePrimitiveWrapper(value);
-  }
-  if (isObject(value)) {
-    return Object.fromEntries(
-      Object.entries(value).map(([key, item]) => [key, cloneValue(item)])
-    );
-  }
-  return value;
-}
-function isObject(value) {
-  return Boolean(value && typeof value === "object" && !Array.isArray(value) && !isPrimitiveWrapper2(value));
-}
-function mergeSubject(target, incoming) {
-  for (const [predicate, value] of Object.entries(incoming)) {
-    if (predicate === "id") continue;
-    if (!Object.hasOwn(target, predicate)) {
-      target[predicate] = cloneValue(value);
-      continue;
+    const existing = this.#resourceById.get(part.id);
+    let current = {
+      id: part.id,
+      type: part.type ?? "replicated-resource",
+      local: null,
+      remote: null
+    };
+    if (existing) {
+      current = { ...existing };
     }
-    target[predicate] = mergeValues(target[predicate], value);
-  }
-  return target;
-}
-function mergeValues(left, right) {
-  if (valueEquals(left, right)) {
-    return left;
-  }
-  if (isObject(left) && isObject(right) && left.id && left.id === right.id) {
-    return mergeSubject(left, right);
-  }
-  const values2 = [];
-  for (const item of [...arrayValues(left), ...arrayValues(right)]) {
-    if (!values2.some((existing) => valueEquals(existing, item))) {
-      values2.push(cloneValue(item));
+    current.baseURI = part.baseURI ?? current.baseURI;
+    current.prefixes = part.prefixes ?? current.prefixes;
+    current.scalarPredicates = part.scalarPredicates ?? current.scalarPredicates ?? [];
+    current.ownedPredicates = part.ownedPredicates ?? current.ownedPredicates ?? [];
+    let remoteSource = current.remote;
+    if (part.remote) {
+      remoteSource = resourceReplicaSource(part.remote, {
+        resource: current,
+        replica: "remote"
+      });
     }
-  }
-  return values2.length === 1 ? values2[0] : values2;
-}
-function arrayValues(value) {
-  return Array.isArray(value) ? value : [value];
-}
-function valueEquals(left, right) {
-  return valueKey(left) === valueKey(right);
-}
-function valueKey(value) {
-  if (isPrimitiveWrapper2(value)) {
-    return `literal:${JSON.stringify(sortObject(primitiveWrapperData(value)))}`;
-  }
-  if (isObject(value)) {
-    return value.id ? `id:${value.id}` : `json:${JSON.stringify(sortObject(value))}`;
-  }
-  if (typeof value === "string" || typeof value === "number" || typeof value === "boolean") {
-    return `literal:${JSON.stringify({ value })}`;
-  }
-  return `${typeof value}:${String(value)}`;
-}
-function sortObject(value) {
-  if (Array.isArray(value)) {
-    return value.map(sortObject);
-  }
-  if (!isObject(value)) {
-    return value;
-  }
-  return Object.fromEntries(
-    Object.entries(value).sort(([left], [right]) => left.localeCompare(right)).map(([key, item]) => [key, sortObject(item)])
-  );
-}
-function isPrimitiveWrapper2(value) {
-  return value instanceof String || value instanceof Number || value instanceof Boolean;
-}
-function clonePrimitiveWrapper(value) {
-  const clone2 = new value.constructor(value.valueOf());
-  for (const [key, item] of Object.entries(value)) {
-    if (!/^\d+$/.test(key)) {
-      clone2[key] = cloneValue(item);
+    let localSource = current.local;
+    if (part.local) {
+      localSource = resourceReplicaSource(part.local, {
+        resource: current,
+        replica: "local",
+        syncTo: remoteSource?.id
+      });
+    } else if (current.local && remoteSource) {
+      localSource = resourceReplicaSource(current.local, {
+        resource: current,
+        replica: "local",
+        syncTo: remoteSource.id
+      });
     }
+    if (localSource) {
+      current.local = this.add(localSource)[0];
+    }
+    if (remoteSource) {
+      current.remote = this.add(remoteSource)[0];
+    }
+    const index = this.resources.findIndex((item) => item.id === current.id);
+    if (index >= 0) {
+      this.resources[index] = current;
+    } else {
+      this.resources.push(current);
+    }
+    this.#resourceById.set(current.id, current);
+    this.#sourcePatterns.set(current.id, (current.local ?? current.remote).id);
+    return current;
   }
-  return clone2;
-}
-function primitiveWrapperData(value) {
-  const data = {
-    value: value.valueOf()
-  };
-  for (const [key, item] of Object.entries(value)) {
-    if (!/^\d+$/.test(key)) {
-      if (value instanceof String && key === "type" && item === "http://www.w3.org/2001/XMLSchema#string") {
-        continue;
+  isResource(value) {
+    return Boolean(value?.workspacePart === "resource" || typeof value === "string" && this.#resourceById.has(value));
+  }
+  sourceIds(sources) {
+    return new Set(sources.map((source2) => this.#sourcePatterns.get(source2?.id ?? source2) ?? source2?.id ?? source2));
+  }
+  resolveSources(sources = this.sources) {
+    const selected = Array.isArray(sources) ? sources : [sources];
+    return selected.map((source2) => this.resolveSource(source2));
+  }
+  resolveSource(sourceOrId) {
+    if (!sourceOrId) {
+      throw new TypeError("solid-workspace: source is required");
+    }
+    if (typeof sourceOrId === "string") {
+      const descriptor = this.#sourceById.get(sourceOrId);
+      if (!descriptor) {
+        throw new Error(`solid-workspace: unknown source ${sourceOrId}`);
       }
-      data[key] = item;
+      return descriptor;
     }
+    return sourceOrId;
   }
-  return data;
-}
-function graphDocumentsEqual(left, right) {
-  return JSON.stringify(sortObject(graphDocumentComparable(left))) === JSON.stringify(sortObject(graphDocumentComparable(right)));
-}
-function graphDocumentComparable(document2) {
-  return {
-    format: document2.format ?? null,
-    version: document2.version ?? null,
-    prefixes: document2.prefixes ?? {},
-    subjects: Object.values(document2.subjects ?? {})
-  };
-}
-function withData(document2) {
-  Object.defineProperty(document2, "data", {
-    get() {
-      return Object.values(this.subjects);
-    },
-    enumerable: false
+  resolveResource(resourceOrId) {
+    if (!resourceOrId) {
+      throw new TypeError("solid-workspace: resource is required");
+    }
+    if (typeof resourceOrId === "string") {
+      const logicalResource = this.#resourceById.get(resourceOrId);
+      if (!logicalResource) {
+        throw new Error(`solid-workspace: unknown resource ${resourceOrId}`);
+      }
+      return logicalResource;
+    }
+    if (resourceOrId.workspacePart === "resource") {
+      return this.#resourceById.get(resourceOrId.id) ?? resourceOrId;
+    }
+    return resourceOrId;
+  }
+  resolveCreateSource(sourceOrResourceOrId) {
+    if (this.isResource(sourceOrResourceOrId)) {
+      const logicalResource = this.resolveResource(sourceOrResourceOrId);
+      if (!logicalResource.local) {
+        throw new Error(`solid-workspace: resource ${logicalResource.id} needs a local replica for local-first writes`);
+      }
+      return logicalResource.local;
+    }
+    return this.resolveSource(sourceOrResourceOrId);
+  }
+};
+function graphResource(options = {}) {
+  check(options, Object, "solid-workspace: graph resource options must be an object", TypeError);
+  if (!options.id) {
+    throw new TypeError("solid-workspace: graph resource id is required");
+  }
+  if (!options.url) {
+    throw new TypeError("solid-workspace: graph resource url is required");
+  }
+  if (typeof options.load !== "function") {
+    throw new TypeError("solid-workspace: graph resource load() is required");
+  }
+  return Object.freeze({
+    ...options,
+    workspacePart: "source",
+    kind: "resource",
+    type: options.type ?? "graph-resource",
+    readOnly: Boolean(options.readOnly),
+    shape: options.shape ?? null,
+    options: options.options ?? {},
+    writeOptions: options.writeOptions,
+    id: options.id,
+    url: String(options.url)
   });
-  return document2;
 }
-function subjectsFromArray(subjects) {
-  const result = {};
-  for (const subject of subjects) {
-    if (subject?.id) {
-      result[subject.id] = subject;
-    }
+function source(kind, url2, options) {
+  if (!url2) {
+    throw new TypeError("solid-workspace: source url is required");
   }
-  return result;
+  return Object.freeze({
+    ...options,
+    workspacePart: "source",
+    kind,
+    type: options.type ?? kind,
+    id: options.id ?? String(url2),
+    url: String(url2),
+    readOnly: Boolean(options.readOnly),
+    shape: options.shape ?? null,
+    options: options.options ?? {}
+  });
 }
-function writeSubjectToGraph({ graph: graph3, subject }) {
-  if (!subject?.id) return null;
-  for (const [predicate, value] of Object.entries(subject)) {
-    if (predicate === "id") continue;
-    graph3.set(subject.id, predicate, graphValueFromObjectValue({ graph: graph3, value }));
+function assertWorkspaceSource(descriptor, role = "source") {
+  if (descriptor?.workspacePart !== "source") {
+    throw new TypeError(`solid-workspace: resource ${role} replica must be a source from a factory`);
   }
-  return subject.id;
 }
-function graphValueFromObjectValue({ graph: graph3, value }) {
-  if (Array.isArray(value)) {
-    return value.map((item) => graphValueFromObjectValue({ graph: graph3, value: item }));
-  }
-  if (isObject(value)) {
-    if (value.id) {
-      writeSubjectToGraph({ graph: graph3, subject: value });
-      return value.id;
-    }
-    return JSON.stringify(value);
-  }
-  return value;
+function resourceReplicaSource(descriptor, { resource: resource2, replica, syncTo } = {}) {
+  assertWorkspaceSource(descriptor, replica);
+  return Object.freeze({
+    ...descriptor,
+    baseURI: resource2.baseURI ?? descriptor.baseURI,
+    prefixes: resource2.prefixes ?? descriptor.prefixes,
+    logicalResource: resource2.id,
+    replica,
+    syncTo: syncTo ?? descriptor.syncTo
+  });
+}
+function normalizeSources(sources) {
+  check(sources, Array, "solid-workspace: sources must be an array", TypeError);
+  return sources.map((descriptor) => {
+    check(descriptor, {
+      kind: oneOf("resource", "container")
+    }, "solid-workspace: sources must be solid.resource() or solid.container() descriptors", TypeError);
+    return descriptor;
+  });
+}
+function ensureSlash(url2) {
+  return String(url2).endsWith("/") ? String(url2) : `${url2}/`;
+}
+function resourceSources(logicalResource) {
+  return [logicalResource.local, logicalResource.remote].filter(Boolean);
+}
+function recordSourceId(record) {
+  return record.source?.parent?.id ?? record.source?.id ?? null;
 }
 
-// ../solid-tools/packages/solid-workspace/src/status.mjs
+// node_modules/@muze-labs/solid-workspace/src/working-graphs.mjs
+var WorkingGraphs = class {
+  #graphSources;
+  #records;
+  #objects;
+  constructor(context) {
+    this.context = context;
+    this.#graphSources = /* @__PURE__ */ new Map();
+    this.#records = [];
+    this.#objects = /* @__PURE__ */ new WeakMap();
+  }
+  graph(source2) {
+    return this.context.graph(source2.url) ?? null;
+  }
+  snapshot(url2) {
+    return copyGraph(this.context.graph(url2));
+  }
+  replaceSource(descriptor) {
+    for (const [url2, owner] of this.#graphSources) {
+      if (recordSourceId({ source: owner }) === descriptor.id) {
+        const source2 = owner.parent ? { ...owner, parent: descriptor, readOnly: descriptor.readOnly } : descriptor;
+        this.#graphSources.set(url2, source2);
+      }
+    }
+    for (const record of this.#records) {
+      const source2 = this.#graphSources.get(record.sourceUrl);
+      if (source2) {
+        record.source = source2;
+        record.sourceId = recordSourceId(record);
+        record.readOnly = Boolean(source2.readOnly);
+      }
+    }
+  }
+  installGraph(source2, snapshot) {
+    const options = {
+      context: this.context,
+      url: source2.url,
+      baseURI: source2.baseURI,
+      prefixes: { ...snapshot?.prefixDeclarations(), ...source2.prefixes }
+    };
+    const graph3 = snapshot ? copyGraph(snapshot, options) : emptyGraph({
+      ...options,
+      prefixes: source2.prefixes
+    });
+    this.context.addGraph(graph3);
+    this.#graphSources.set(graph3.url, source2);
+    this.refreshGraphRecords(graph3, source2);
+    return graph3;
+  }
+  refreshGraphRecords(graph3, source2) {
+    const retained = new Map(this.#records.filter((record) => record.sourceUrl === graph3.url).map((record) => [record.object, record]));
+    this.#records = this.#records.filter((record) => record.sourceUrl !== graph3.url);
+    this.#objects = /* @__PURE__ */ new WeakMap();
+    for (const record of this.#records) {
+      this.#objects.set(record.object, record);
+    }
+    for (const object of graph3.data) {
+      if (Object.keys(object).length > 1) {
+        const record = retained.get(object);
+        if (record) {
+          record.source = source2;
+          this.#records.push(record);
+          this.#objects.set(object, record);
+        } else {
+          this.track(object, {
+            source: source2,
+            sourceUrl: graph3.url,
+            data: graph3,
+            status: "loaded"
+          });
+        }
+      }
+    }
+  }
+  clearSourceGraphs(source2) {
+    for (const [url2, owner] of this.#graphSources) {
+      if (recordSourceId({ source: owner }) === source2.id) {
+        this.installGraph(owner, null);
+        this.#graphSources.delete(url2);
+      }
+    }
+  }
+  recordFor(object) {
+    const graph3 = object?.graph;
+    if (!graph3 || this.context.graph(graph3.url) !== graph3) {
+      return null;
+    }
+    const source2 = this.#graphSources.get(graph3.url);
+    if (!source2 || graph3.get(object.id) !== object) {
+      return null;
+    }
+    return this.#objects.get(object) ?? this.track(object, {
+      source: source2,
+      sourceUrl: graph3.url,
+      data: graph3,
+      status: "loaded"
+    });
+  }
+  track(object, options = {}) {
+    check(object, Object, "solid-workspace: can only track object values", TypeError);
+    const record = {
+      object,
+      source: options.source ?? null,
+      sourceId: recordSourceId(options),
+      sourceUrl: options.sourceUrl ?? options.source?.url ?? object.id ?? null,
+      data: options.data ?? null,
+      response: options.response ?? null,
+      status: options.status ?? "loaded",
+      readOnly: Boolean(options.readOnly ?? options.source?.readOnly),
+      created: Boolean(options.created),
+      deleted: Boolean(options.deleted),
+      error: null
+    };
+    this.#records.push(record);
+    this.#objects.set(object, record);
+    return record;
+  }
+  sourcesOf(object, predicate, value) {
+    let graphs;
+    if (arguments.length < 3) {
+      graphs = this.context.sources(object, predicate);
+    } else {
+      graphs = this.context.sources(object, predicate, value);
+    }
+    return graphs.map((graph3) => ({
+      sourceUrl: graph3.url,
+      source: this.#graphSources.get(graph3.url) ?? null,
+      record: this.#records.find((record) => record.sourceUrl === graph3.url && record.object.id === object.id) ?? null
+    }));
+  }
+  subjects(ids2) {
+    const subjects = [];
+    for (const [url2, source2] of this.#graphSources) {
+      if (ids2.size === 0 || ids2.has(recordSourceId({ source: source2 }))) {
+        const graph3 = this.context.graph(url2);
+        for (const object of graph3.data) {
+          if (Object.keys(object).length > 1) {
+            subjects.push(object);
+          }
+        }
+      }
+    }
+    return subjects;
+  }
+  create(descriptor, object) {
+    let source2 = descriptor;
+    if (descriptor.kind === "container") {
+      source2 = {
+        ...descriptor,
+        kind: "resource",
+        url: `urn:solid-workspace:new:${globalThis.crypto.randomUUID()}`,
+        parent: descriptor,
+        createContainer: descriptor.url
+      };
+    }
+    let graph3 = this.context.graph(source2.url);
+    if (!graph3) {
+      graph3 = this.installGraph(source2, null);
+    }
+    const node = writeSubjectToGraph({
+      graph: graph3,
+      subject: object,
+      id: object.id ?? `urn:uuid:${globalThis.crypto.randomUUID()}`
+    });
+    this.refreshGraphRecords(graph3, source2);
+    const record = this.#objects.get(node) ?? this.track(node, {
+      source: source2,
+      sourceUrl: graph3.url,
+      data: graph3
+    });
+    record.status = "new";
+    record.created = true;
+    return node;
+  }
+  relocate(record, location) {
+    const previous = record.source;
+    const source2 = { ...previous, url: location };
+    delete source2.createContainer;
+    const graph3 = this.context.graph(previous.url);
+    this.installGraph(previous, null);
+    this.#graphSources.delete(previous.url);
+    graph3.url = source2.url;
+    graph3.baseURI = source2.url.split("#")[0];
+    this.context.addGraph(graph3);
+    this.#graphSources.set(source2.url, source2);
+    record.source = source2;
+    record.sourceUrl = source2.url;
+    this.#records.push(record);
+    this.#objects.set(record.object, record);
+  }
+};
+
+// node_modules/@muze-labs/solid-workspace/src/status.mjs
 function updateRecordStatus(record, status2) {
   record.status = status2.status;
   record.error = status2.error ?? null;
@@ -10844,8 +10454,8 @@ function sourceStatus(source2, status2 = {}) {
     pendingFrom: src_default2.many(status2.pendingFrom)
   };
 }
-function workspaceState(currentWorkspace) {
-  const states = Object.values(currentWorkspace.status.sources).map((status2) => status2.state);
+function workspaceState(status2) {
+  const states = Object.values(status2.sources).map((status3) => status3.state);
   if (states.length === 0) {
     return "idle";
   }
@@ -10857,8 +10467,8 @@ function workspaceState(currentWorkspace) {
   }
   return "error";
 }
-function resourceState(currentWorkspace, logicalResource) {
-  const states = resourceSources(logicalResource).map((source2) => currentWorkspace.status.sources[source2.id]?.state).filter(Boolean);
+function resourceState(status2, logicalResource) {
+  const states = resourceSources(logicalResource).map((source2) => status2.sources[source2.id]?.state).filter(Boolean);
   if (states.length === 0) {
     return "idle";
   }
@@ -10886,851 +10496,65 @@ function sourceFailureState(error4) {
 function errorStatus(error4) {
   return error4?.cause?.status;
 }
-function resourceSources(logicalResource) {
-  return [logicalResource.local, logicalResource.remote].filter(Boolean);
-}
-
-// ../solid-tools/packages/solid-workspace/src/workspace.mjs
-function workspace(options = {}) {
-  return new SolidWorkspace(options);
-}
-function resource(idOrOptions, options = {}) {
-  let config = { ...idOrOptions };
-  if (typeof idOrOptions === "string") {
-    config = { ...options, id: idOrOptions };
+var WorkspaceStatus = class {
+  constructor() {
+    this.value = { state: "idle", error: null, sources: {}, resources: {} };
   }
-  if (!config.id) {
-    throw new TypeError("solid-workspace: resource id is required");
-  }
-  if (!config.local && !config.remote) {
-    throw new TypeError("solid-workspace: resource() needs a local or remote replica");
-  }
-  if (config.local) {
-    assertWorkspaceSource(config.local, "local");
-  }
-  if (config.remote) {
-    assertWorkspaceSource(config.remote, "remote");
-  }
-  return Object.freeze({
-    ...config,
-    workspacePart: "resource",
-    type: config.type ?? "replicated-resource",
-    id: String(config.id)
-  });
-}
-var solid = {
-  resource(url3, options = {}) {
-    return source("resource", url3, {
-      type: "solid-resource",
-      ...options
-    });
-  },
-  container(url3, options = {}) {
-    return source("container", ensureSlash(url3), {
-      type: "solid-container",
-      ...options
-    });
-  },
-  client(client3, options = {}) {
-    if (!client3) {
-      throw new TypeError("solid-workspace: solid client is required");
+  source(descriptor, status2 = {}) {
+    const source2 = descriptor?.parent ?? descriptor;
+    if (!source2?.id) {
+      return null;
     }
-    return Object.freeze({
-      ...options,
-      workspacePart: "client",
-      type: options.type ?? "solid-api-client",
-      client: client3
+    const current = this.value?.sources?.[source2.id] ?? {};
+    const next = sourceStatus(source2, {
+      ...current,
+      ...status2
     });
+    this.value.sources[source2.id] = next;
+    return next;
   }
-};
-var SolidWorkspace = class {
-  constructor(options = {}) {
-    check(options, Object, "solid-workspace: workspace options must be an object", TypeError);
-    const client3 = options.solid ?? options.solidApi ?? options.client;
-    this.solid = client3;
-    this.sources = [];
-    this.sourceById = /* @__PURE__ */ new Map();
-    this.resources = [];
-    this.resourceById = /* @__PURE__ */ new Map();
-    this.sourcePatterns = /* @__PURE__ */ new Map();
-    this.status = {
-      state: "idle",
-      error: null,
-      sources: {},
-      resources: {}
+  resource(logicalResource, status2 = {}) {
+    if (!logicalResource?.id) {
+      return null;
+    }
+    const current = this.value?.resources?.[logicalResource.id] ?? {};
+    const next = {
+      id: logicalResource.id,
+      type: logicalResource.type ?? "replicated-resource",
+      local: logicalResource.local?.id ?? null,
+      remote: logicalResource.remote?.id ?? null,
+      state: status2.state ?? current.state ?? "idle",
+      error: Object.hasOwn(status2, "error") ? status2.error : current.error ?? null
     };
-    this.records = [];
-    this.objects = /* @__PURE__ */ new WeakMap();
-    if (options.sources) {
-      this.addSource(options.sources);
-    }
-    if (options.resources) {
-      this.add(options.resources);
-    }
-    this.collections = Object.fromEntries(
-      Object.entries(options.collections ?? {}).map(([name, descriptor]) => [
-        name,
-        new WorkspaceCollection(this, name, descriptor)
-      ])
-    );
+    this.value.resources[logicalResource.id] = next;
+    return next;
   }
-  add(part) {
-    if (Array.isArray(part)) {
-      for (const item of part) {
-        this.add(item);
-      }
-      return this;
-    }
-    if (part?.workspacePart === "source") {
-      this.addSource(part);
-      return this;
-    }
-    if (part?.workspacePart === "resource") {
-      this.addResource(part);
-      return this;
-    }
-    if (part?.workspacePart === "client") {
-      this.setClient(part.client);
-      return this;
-    }
-    throw new TypeError("solid-workspace: add() expects a workspace part from a factory");
-  }
-  addSource(sourceOrSources) {
-    const sources = normalizeSources(Array.isArray(sourceOrSources) ? sourceOrSources : [sourceOrSources]);
-    for (const descriptor of sources) {
-      const existing = this.sources.findIndex((source2) => source2.id === descriptor.id);
-      if (existing >= 0) {
-        this.sources[existing] = descriptor;
-      } else {
-        this.sources.push(descriptor);
-      }
-      this.sourceById.set(descriptor.id, descriptor);
-      this.sourcePatterns.set(descriptor.id, descriptor.id);
-      this.setSourceStatus(descriptor, this.status.sources[descriptor.id] ?? { state: "idle" });
-      for (const record of this.records) {
-        const source2 = record.source?.parent ?? record.source;
-        if (source2?.id === descriptor.id) {
-          record.source = descriptor;
-          record.sourceId = recordSourceId(record);
-        }
-      }
-    }
-    return sources.length === 1 ? sources[0] : sources;
-  }
-  addResource(part) {
-    if (part?.workspacePart !== "resource") {
-      throw new TypeError("solid-workspace: addResource() expects a resource() workspace part");
-    }
-    const existing = this.resourceById.get(part.id);
-    let current = {
-      id: part.id,
-      type: part.type ?? "replicated-resource",
-      local: null,
-      remote: null
-    };
-    if (existing) {
-      current = { ...existing };
-    }
-    let remoteSource = current.remote;
-    if (part.remote) {
-      remoteSource = resourceReplicaSource(part.remote, {
-        resource: current,
-        replica: "remote"
-      });
-    }
-    let localSource = current.local;
-    if (part.local) {
-      localSource = resourceReplicaSource(part.local, {
-        resource: current,
-        replica: "local",
-        syncTo: remoteSource?.id
-      });
-    } else if (current.local && remoteSource) {
-      localSource = resourceReplicaSource(current.local, {
-        resource: current,
-        replica: "local",
-        syncTo: remoteSource.id
-      });
-    }
-    if (localSource) {
-      current.local = this.addSource(localSource);
-    }
-    if (remoteSource) {
-      current.remote = this.addSource(remoteSource);
-    }
-    const index = this.resources.findIndex((item) => item.id === current.id);
-    if (index >= 0) {
-      this.resources[index] = current;
-    } else {
-      this.resources.push(current);
-    }
-    this.resourceById.set(current.id, current);
-    this.sourcePatterns.set(current.id, (current.local ?? current.remote).id);
-    this.setResourceStatus(current);
-    return current;
-  }
-  setClient(client3) {
-    this.solid = client3;
-    return this;
-  }
-  async open(options = {}) {
-    if (isResourceReference(this, options)) {
-      return this.openResource(options);
-    }
-    if (isOpenAllOptions(options) && this.resources.length > 0) {
-      const resourceSourceIds = new Set(this.resources.flatMap((item) => resourceSources2(item).map((source2) => source2.id)));
-      for (const item of this.resources) {
-        await this.openResource(item, options);
-      }
-      const directSources = this.sources.filter((source2) => !resourceSourceIds.has(source2.id));
-      if (directSources.length > 0) {
-        await this.load({
-          ...options,
-          sources: directSources,
-          throwOnError: options.throwOnError ?? false
-        });
-      }
-      return this;
-    }
-    if (Array.isArray(options) && options.some((item) => isResourceReference(this, item))) {
-      for (const item of options) {
-        if (isResourceReference(this, item)) {
-          await this.openResource(item);
-        } else {
-          await this.load({ sources: item, throwOnError: false });
-        }
-      }
-      return this;
-    }
-    if (options?.resources) {
-      const resources = Array.isArray(options.resources) ? options.resources : [options.resources];
-      for (const item of resources) {
-        await this.openResource(item, options);
-      }
-      return this;
-    }
-    if (typeof options === "string" || Array.isArray(options) || options?.workspacePart === "source") {
-      return this.load({ sources: options, throwOnError: false });
-    }
-    return this.load({
-      throwOnError: false,
-      ...options
-    });
-  }
-  async openResource(resourceOrId, options = {}) {
-    const logicalResource = resolveResource(this, resourceOrId);
-    const sources = resourceSources2(logicalResource);
-    const failures = [];
-    const loaded = [];
-    const throwOnError = options.throwOnError ?? false;
-    this.status.state = "opening";
-    this.status.error = null;
-    this.setResourceStatus(logicalResource, { state: "opening", error: null });
-    for (const source2 of sources) {
-      try {
-        loaded.push({
-          source: source2,
-          objects: await this.loadSource(source2)
-        });
-      } catch (error4) {
-        failures.push({ source: source2, error: error4 });
-        if (throwOnError) {
-          this.status.state = "error";
-          this.status.error = error4;
-          this.setResourceStatus(logicalResource, { state: "error", error: error4 });
-          throw error4;
-        }
-      }
-    }
-    if (logicalResource.local && logicalResource.remote && this.status.sources[logicalResource.remote.id]?.state === "ready") {
-      try {
-        const document2 = mergeGraphDocuments([
-          this.dataset({ sources: [logicalResource.local.id] }),
-          this.dataset({ sources: [logicalResource.remote.id] })
-        ], options);
-        if (document2.changed || options.force === true) {
-          await saveGraphDocument(this, logicalResource.local, document2, options.writeOptions);
-          this.replaceSourceRecords(logicalResource.local, cloneValue(document2.data), {
-            source: logicalResource.local,
-            sourceUrl: logicalResource.local.url,
-            status: "loaded"
-          });
-          this.setSourceStatus(logicalResource.local, { state: "ready", error: null });
-        }
-      } catch (error4) {
-        failures.push({ source: logicalResource.local, error: error4 });
-        this.setSourceStatus(logicalResource.local, {
-          state: sourceFailureState(error4),
-          error: error4
-        });
-        if (throwOnError) {
-          this.status.state = "error";
-          this.status.error = error4;
-          this.setResourceStatus(logicalResource, { state: "error", error: error4 });
-          throw error4;
-        }
-      }
-    }
-    this.status.lastOpen = { resource: logicalResource, sources, loaded, failures };
-    this.status.state = workspaceState(this);
-    this.status.error = failures[0]?.error ?? null;
-    this.setResourceStatus(logicalResource, {
-      state: resourceState(this, logicalResource),
-      error: failures[0]?.error ?? null
-    });
-    return this;
-  }
-  async load(options = {}) {
-    const sources = normalizeLoadSources(this, options.sources ?? this.sources);
-    const failures = [];
-    const loaded = [];
-    const throwOnError = options.throwOnError ?? true;
-    this.status.state = "opening";
-    this.status.error = null;
-    for (const source2 of sources) {
-      try {
-        loaded.push(await this.loadSource(source2));
-      } catch (error4) {
-        failures.push({ source: source2, error: error4 });
-        if (throwOnError) {
-          this.status.state = "error";
-          this.status.error = error4;
-          throw error4;
-        }
-      }
-    }
-    this.status.lastOpen = { sources, loaded, failures };
-    this.status.state = workspaceState(this);
-    this.status.error = failures[0]?.error ?? null;
-    return this;
-  }
-  async loadSource(sourceOrId) {
-    const descriptor = resolveSource(this, sourceOrId);
-    this.setSourceStatus(descriptor, { state: "opening", error: null });
-    try {
-      if (descriptor.kind === "container") {
-        assertSolidClient(this);
-        const entries = await this.solid.contains(descriptor.url, descriptor.options);
-        this.replaceSourceRecords(descriptor, [], {
-          source: descriptor,
-          sourceUrl: descriptor.url,
-          status: "loaded"
-        });
-        for (const entry of entries) {
-          await this.loadSource({
-            ...descriptor,
-            append: true,
-            kind: "resource",
-            url: entry.url,
-            parent: descriptor
-          });
-        }
-        this.setSourceStatus(descriptor, { state: "ready", error: null });
-        return entries;
-      }
-      if (typeof descriptor.load === "function") {
-        const document2 = graphDocumentFrom(await descriptor.load({
-          source: descriptor,
-          workspace: this
-        }));
-        const objects = document2.data;
-        if (descriptor.append) {
-          this.trackObjects(objects, {
-            source: descriptor,
-            sourceUrl: descriptor.url,
-            status: "loaded"
-          });
-        } else {
-          this.replaceSourceRecords(descriptor, objects, {
-            source: descriptor,
-            sourceUrl: descriptor.url,
-            status: "loaded"
-          });
-        }
-        this.setSourceStatus(descriptor, { state: "ready", error: null });
-        return objects;
-      }
-      assertSolidClient(this);
-      try {
-        const data = await this.solid.get(descriptor.url, requestOptions(descriptor.options));
-        const objects = Object.values(data.subjects);
-        if (descriptor.append) {
-          this.trackObjects(objects, {
-            data,
-            source: descriptor,
-            sourceUrl: descriptor.url,
-            status: "loaded"
-          });
-        } else {
-          this.replaceSourceRecords(descriptor, objects, {
-            data,
-            source: descriptor,
-            sourceUrl: descriptor.url,
-            status: "loaded"
-          });
-        }
-        this.setSourceStatus(descriptor, { state: "ready", error: null });
-        return objects;
-      } catch (error4) {
-        if ([404, 410].includes(errorStatus(error4))) {
-          if (!descriptor.append) {
-            this.replaceSourceRecords(descriptor, [], {
-              source: descriptor,
-              sourceUrl: descriptor.url,
-              status: "loaded"
-            });
-          }
-          this.setSourceStatus(descriptor, { state: "ready", error: null });
-          return [];
-        }
-        throw error4;
-      }
-    } catch (error4) {
-      this.setSourceStatus(descriptor, {
-        state: sourceFailureState(error4),
-        error: error4
-      });
-      throw error4;
-    }
-  }
-  trackObjects(objects, options = {}) {
-    for (const object of objects) {
-      this.track(object, options);
-    }
-    return objects;
-  }
-  replaceSourceRecords(source2, objects, options = {}) {
-    this.records = this.records.filter((record) => record.status === "new" || !recordBelongsToSources(record, [source2]));
-    this.objects = /* @__PURE__ */ new WeakMap();
-    for (const record of this.records) {
-      this.objects.set(record.object, record);
-    }
-    return this.trackObjects(objects, options);
-  }
-  dataset(options = {}) {
-    const config = normalizeDatasetOptions(this, options);
-    const records = recordsForSources(this, config.sources ?? this.sources);
-    return mergeGraphDocuments(records.filter((record) => record.object.id).map((record) => ({
-      format: config.format,
-      version: config.version,
-      prefixes: config.prefixes,
-      subjects: {
-        [record.object.id]: record.object
-      }
-    })), config);
-  }
-  async sync(options = {}) {
-    if (isResourceReference(this, options)) {
-      return this.syncResource(options);
-    }
-    const target = resolveSource(this, options.into);
-    if (target.kind !== "resource") {
-      throw new Error("solid-workspace: sync target must be a resource source");
-    }
-    if (target.readOnly) {
-      throw new Error(`solid-workspace: source ${target.id} is read-only`);
-    }
-    let sourceDocument = options.document;
-    if (sourceDocument == null) {
-      sourceDocument = this.dataset({
-        sources: options.from ?? this.sources,
-        format: options.format,
-        version: options.version,
-        prefixes: options.prefixes
-      });
-    }
-    let targetDocument;
-    if (options.loadTarget === false) {
-      targetDocument = graphDocumentFrom(options.targetDocument);
-    } else {
-      targetDocument = await this.loadGraphDocument(target, options);
-    }
-    const document2 = mergeGraphDocuments([
-      targetDocument,
-      sourceDocument
-    ], options);
-    if (!document2.changed && options.force !== true) {
-      this.clearSyncPending(target);
-      return {
-        ok: true,
-        status: "unchanged",
-        source: target,
-        sourceUrl: target.url,
-        document: document2
-      };
-    }
-    try {
-      this.setSourceStatus(target, { state: "syncing", error: null });
-      const response3 = await saveGraphDocument(this, target, document2, options.writeOptions);
-      this.clearSyncPending(target);
-      this.setSourceStatus(target, { state: "ready", error: null });
-      return {
-        ok: true,
-        status: "synced",
-        source: target,
-        sourceUrl: target.url,
-        document: document2,
-        response: response3
-      };
-    } catch (error4) {
-      this.setSourceStatus(target, {
-        state: sourceFailureState(error4),
-        error: error4
-      });
-      throw error4;
-    }
-  }
-  async syncResource(resourceOrId, options = {}) {
-    const logicalResource = resolveResource(this, resourceOrId);
-    const localSource = logicalResource.local;
-    const remoteSource = logicalResource.remote;
-    if (!localSource) {
-      throw new Error(`solid-workspace: resource ${logicalResource.id} needs a local replica to sync`);
-    }
-    if (!remoteSource) {
-      throw new Error(`solid-workspace: resource ${logicalResource.id} needs a remote replica to sync`);
-    }
-    if (remoteSource.readOnly) {
-      throw new Error(`solid-workspace: source ${remoteSource.id} is read-only`);
-    }
-    this.setResourceStatus(logicalResource, { state: "syncing", error: null });
-    this.setSourceStatus(remoteSource, { state: "syncing", error: null });
-    let remoteDocument;
-    try {
-      if (options.loadRemote === false) {
-        remoteDocument = graphDocumentFrom(options.remoteDocument);
-      } else {
-        remoteDocument = await this.loadGraphDocument(remoteSource, options);
-      }
-    } catch (error4) {
-      this.setSourceStatus(remoteSource, {
-        state: sourceFailureState(error4),
-        error: error4
-      });
-      this.markSyncPending({
-        from: localSource.id,
-        into: remoteSource.id
-      });
-      this.setResourceStatus(logicalResource, {
-        state: "sync-pending",
-        error: error4
-      });
-      return {
-        ok: false,
-        status: this.status.sources[remoteSource.id].state,
-        resource: logicalResource,
-        source: remoteSource,
-        sourceUrl: remoteSource.url,
-        error: error4
-      };
-    }
-    const localDocument = this.dataset({
-      sources: [localSource.id],
-      format: options.format,
-      version: options.version,
-      prefixes: options.prefixes
-    });
-    const document2 = mergeGraphDocuments([
-      remoteDocument,
-      localDocument
-    ], options);
-    if (!document2.changed && options.force !== true) {
-      this.clearSyncPending(remoteSource);
-      this.setResourceStatus(logicalResource, { state: "ready", error: null });
-      return {
-        ok: true,
-        status: "unchanged",
-        resource: logicalResource,
-        source: remoteSource,
-        sourceUrl: remoteSource.url,
-        document: document2
-      };
-    }
-    let response3;
-    try {
-      response3 = await saveGraphDocument(this, remoteSource, document2, options.writeOptions);
-    } catch (error4) {
-      this.setSourceStatus(remoteSource, {
-        state: sourceFailureState(error4),
-        error: error4
-      });
-      this.markSyncPending({
-        from: localSource.id,
-        into: remoteSource.id
-      });
-      this.setResourceStatus(logicalResource, {
-        state: "sync-pending",
-        error: error4
-      });
-      return {
-        ok: false,
-        status: this.status.sources[remoteSource.id].state,
-        resource: logicalResource,
-        source: remoteSource,
-        sourceUrl: remoteSource.url,
-        error: error4
-      };
-    }
-    try {
-      await saveGraphDocument(this, localSource, document2, options.localWriteOptions ?? options.writeOptions);
-      this.replaceSourceRecords(remoteSource, cloneValue(document2.data), {
-        source: remoteSource,
-        sourceUrl: remoteSource.url,
-        status: "loaded"
-      });
-      this.replaceSourceRecords(localSource, cloneValue(document2.data), {
-        source: localSource,
-        sourceUrl: localSource.url,
-        status: "loaded"
-      });
-      this.clearSyncPending(remoteSource);
-      this.setSourceStatus(remoteSource, { state: "ready", error: null });
-      this.setSourceStatus(localSource, { state: "ready", error: null });
-      this.setResourceStatus(logicalResource, { state: "ready", error: null });
-      return {
-        ok: true,
-        status: "synced",
-        resource: logicalResource,
-        source: remoteSource,
-        sourceUrl: remoteSource.url,
-        document: document2,
-        response: response3
-      };
-    } catch (error4) {
-      this.setSourceStatus(localSource, {
-        state: sourceFailureState(error4),
-        error: error4
-      });
-      this.setResourceStatus(logicalResource, {
-        state: "error",
-        error: error4
-      });
-      return {
-        ok: false,
-        status: this.status.sources[localSource.id].state,
-        resource: logicalResource,
-        source: localSource,
-        sourceUrl: localSource.url,
-        error: error4
-      };
-    }
-  }
-  async loadGraphDocument(sourceOrId, options = {}) {
-    const descriptor = resolveSource(this, sourceOrId);
-    if (descriptor.kind !== "resource") {
-      throw new Error("solid-workspace: graph documents can only be loaded from resource sources");
-    }
-    if (typeof descriptor.load === "function") {
-      return graphDocumentFrom(await descriptor.load({
-        source: descriptor,
-        workspace: this,
-        ...options.readOptions
-      }));
-    }
-    assertSolidClient(this);
-    try {
-      const response3 = await this.solid.get(descriptor.url, requestOptions({
-        ...descriptor.options,
-        ...options.readOptions
-      }));
-      return graphDocumentFrom(response3);
-    } catch (error4) {
-      const status2 = errorStatus(error4);
-      if (status2 === 404 || status2 === 410) {
-        return graphDocumentFrom(null);
-      }
-      throw error4;
-    }
-  }
-  track(object, options = {}) {
-    check(object, Object, "solid-workspace: can only track object values", TypeError);
-    const record = {
-      object,
-      source: options.source ?? null,
-      sourceId: recordSourceId(options),
-      sourceUrl: options.sourceUrl ?? options.source?.url ?? object.id ?? null,
-      data: options.data ?? null,
-      response: options.response ?? null,
-      status: options.status ?? "loaded",
-      readOnly: Boolean(options.readOnly ?? options.source?.readOnly),
-      created: Boolean(options.created),
-      deleted: Boolean(options.deleted),
-      error: null
-    };
-    this.records.push(record);
-    this.objects.set(object, record);
-    return record;
-  }
-  sourceOf(object, predicate, value) {
-    return src_default2.one(this.sourcesOf(object, predicate, value), "first") ?? null;
-  }
-  sourcesOf(object, predicate, value) {
-    const record = this.objects.get(object);
-    if (!record) {
-      return [];
-    }
-    const oldmSources = oldmSourcesOf(record, object, predicate, value);
-    if (oldmSources.length > 0) {
-      return oldmSources.map((sourceUrl) => ({
-        sourceUrl,
-        source: this.sourceById.get(sourceUrl) ?? record.source,
-        record
-      }));
-    }
-    return [{
-      sourceUrl: record.sourceUrl,
-      source: record.source,
-      record
-    }];
-  }
-  async createIn(sourceOrId, object, options = {}) {
-    const descriptor = resolveCreateSource(this, sourceOrId);
-    if (descriptor.readOnly) {
-      throw new Error(`solid-workspace: source ${descriptor.id} is read-only`);
-    }
-    this.track(object, {
-      source: descriptor,
-      sourceUrl: null,
-      status: "new",
-      created: true
-    });
-    if (options.save === false) {
-      return object;
-    }
-    await this.save(object, options);
-    return object;
-  }
-  async save(object, options = {}) {
-    const record = this.objects.get(object);
-    if (!record) {
-      throw new Error("solid-workspace: cannot save an object that is not tracked by this workspace");
-    }
-    const issues3 = validateRecord(record);
-    if (issues3) {
-      return updateRecordStatus(record, {
-        ok: false,
-        status: "validation_failed",
-        issues: issues3
-      });
-    }
-    if (record.readOnly) {
-      return updateRecordStatus(record, {
-        ok: false,
-        status: "read_only",
-        error: new Error(`solid-workspace: source ${record.source?.id ?? record.sourceUrl} is read-only`)
-      });
-    }
-    try {
-      if (typeof record.source?.save === "function") {
-        const document2 = this.dataset({
-          sources: [record.source.id]
-        });
-        const response4 = await saveGraphDocument(this, record.source, document2, options);
-        record.sourceUrl = record.source.url;
-        record.created = false;
-        this.setSourceStatus(record.source, { state: "ready", error: null });
-        const syncTo = options.syncTo ?? record.source.syncTo;
-        if (syncTo) {
-          this.markSyncPending({
-            from: record.source.id,
-            into: syncTo
-          });
-        }
-        return updateRecordStatus(record, {
-          ok: true,
-          status: record.deleted ? "deleted" : "saved",
-          response: response4
-        });
-      }
-      assertSolidClient(this);
-      if (record.deleted) {
-        const response4 = await this.solid.delete(record.sourceUrl, requestOptions(options));
-        this.setSourceStatus(record.source, { state: "ready", error: null });
-        return updateRecordStatus(record, { ok: true, status: "deleted", response: response4 });
-      }
-      if (record.created || !record.sourceUrl) {
-        const source2 = record.source;
-        let response4;
-        if (source2.kind === "container") {
-          response4 = await this.solid.postToContainer(source2.url, record.object, writeOptions(source2, options));
-        } else {
-          response4 = await this.solid.create(source2.url, record.object, writeOptions(source2, options));
-        }
-        record.sourceUrl = response4.location ?? source2.url;
-        record.created = false;
-        this.setSourceStatus(record.source, { state: "ready", error: null });
-        return updateRecordStatus(record, { ok: true, status: "created", response: response4 });
-      }
-      const response3 = await this.solid.put(record.sourceUrl, bodyOptions(record.object, writeOptions(record.source, options)));
-      this.setSourceStatus(record.source, { state: "ready", error: null });
-      return updateRecordStatus(record, { ok: true, status: "saved", response: response3 });
-    } catch (error4) {
-      this.setSourceStatus(record.source, {
-        state: sourceFailureState(error4),
-        error: error4
-      });
-      return updateRecordStatus(record, { ok: false, status: "error", error: error4 });
-    }
-  }
-  async delete(object, options = {}) {
-    const record = this.objects.get(object);
-    if (!record) {
-      throw new Error("solid-workspace: cannot delete an object that is not tracked by this workspace");
-    }
-    record.deleted = true;
-    if (options.save === false) {
-      record.status = "deleted_pending";
-      return statusFor(record, { ok: true, status: record.status });
-    }
-    return this.save(object, options);
-  }
-  async saveAll(records = this.records) {
-    const statuses = [];
-    for (const recordOrObject of records) {
-      const object = recordOrObject?.object ?? recordOrObject;
-      statuses.push(await this.save(object));
-    }
-    const failures = statuses.filter((status2) => !status2.ok);
-    if (failures.length > 0) {
-      const error4 = new Error("solid-workspace: saveAll failed", {
-        cause: {
-          failures
-        }
-      });
-      error4.statuses = statuses;
-      throw error4;
-    }
-    return statuses;
-  }
-  markSyncPending({ from: from3, into }) {
-    const targets = Array.isArray(into) ? into : [into];
-    for (const target of targets) {
-      const source2 = resolveSource(this, target);
-      const current = this.status.sources[source2.id] ?? sourceStatus(source2, { state: "idle" });
+  pending(from2, targets) {
+    for (const source2 of targets) {
+      const current = this.value.sources[source2.id] ?? sourceStatus(source2, { state: "idle" });
       let state = "sync-pending";
       if (current.state === "opening" || current.state === "syncing") {
         state = current.state;
       }
-      this.setSourceStatus(source2, {
+      this.source(source2, {
         ...current,
         state,
         syncPending: true,
-        pendingFrom: unique([
+        pendingFrom: [.../* @__PURE__ */ new Set([
           ...src_default2.many(current.pendingFrom),
-          ...src_default2.many(from3)
-        ])
+          ...src_default2.many(from2)
+        ])]
       });
     }
     return this;
   }
-  clearSyncPending(sourceOrId) {
-    const source2 = resolveSource(this, sourceOrId);
-    const current = this.status.sources[source2.id] ?? sourceStatus(source2, { state: "idle" });
+  clearPending(source2) {
+    const current = this.value.sources[source2.id] ?? sourceStatus(source2, { state: "idle" });
     let state = current.state;
     if (current.state === "sync-pending") {
       state = "ready";
     }
-    this.setSourceStatus(source2, {
+    this.source(source2, {
       ...current,
       state,
       syncPending: false,
@@ -11738,233 +10562,98 @@ var SolidWorkspace = class {
     });
     return this;
   }
-  setSourceStatus(sourceOrId, status2 = {}) {
-    let source2 = sourceOrId?.parent ?? sourceOrId;
-    if (typeof sourceOrId === "string") {
-      source2 = this.sourceById.get(sourceOrId) ?? { id: sourceOrId };
-    }
-    if (!source2?.id) {
-      return null;
-    }
-    const current = this.status?.sources?.[source2.id] ?? {};
-    const next = sourceStatus(source2, {
-      ...current,
-      ...status2
-    });
-    this.status.sources[source2.id] = next;
-    return next;
+};
+
+// node_modules/@muze-labs/solid-workspace/src/source-io.mjs
+var SourceIO = class {
+  constructor(solid2, workspace2) {
+    this.solid = solid2;
+    this.workspace = workspace2;
   }
-  setResourceStatus(resourceOrId, status2 = {}) {
-    let logicalResource = resourceOrId;
-    if (typeof resourceOrId === "string") {
-      logicalResource = this.resourceById.get(resourceOrId) ?? { id: resourceOrId };
+  contains(source2) {
+    assertSolidClient(this.solid);
+    return this.solid.contains(source2.url, source2.options);
+  }
+  async read(source2, options = {}) {
+    if (source2.kind !== "resource") {
+      throw new Error("solid-workspace: graphs can only be loaded from resource sources");
     }
-    if (!logicalResource?.id) {
-      return null;
+    if (typeof source2.load === "function") {
+      const turtle = await source2.load({
+        source: source2,
+        workspace: this.workspace,
+        ...options.readOptions
+      });
+      return parseGraph(turtle, source2);
     }
-    const current = this.status?.resources?.[logicalResource.id] ?? {};
-    const next = {
-      id: logicalResource.id,
-      type: logicalResource.type ?? "replicated-resource",
-      local: logicalResource.local?.id ?? null,
-      remote: logicalResource.remote?.id ?? null,
-      state: status2.state ?? current.state ?? "idle",
-      error: status2.error ?? current.error ?? null
-    };
-    this.status.resources[logicalResource.id] = next;
-    return next;
+    assertSolidClient(this.solid);
+    try {
+      const response2 = await this.solid.get(source2.url, requestOptions({
+        ...source2.options,
+        ...options.readOptions
+      }));
+      if (response2 instanceof src_default2.Graph) {
+        return copyGraph(response2, { url: source2.url });
+      }
+      return parseGraph(response2, source2);
+    } catch (error4) {
+      const status2 = errorStatus(error4);
+      if (status2 === 404 || status2 === 410) {
+        return emptyGraph(source2);
+      }
+      throw error4;
+    }
+  }
+  async write(source2, snapshot, options = {}) {
+    if (typeof source2.save === "function") {
+      const result = await source2.save(await this.serialize(source2, snapshot), {
+        source: source2,
+        workspace: this.workspace,
+        ...options
+      });
+      if (result?.ok === false) {
+        throw result.error ?? new Error("solid-workspace: source save failed", { cause: result });
+      }
+      return result;
+    }
+    assertSolidClient(this.solid);
+    const response2 = await this.solid.put(source2.url, bodyOptions(await this.serialize(source2, snapshot), writeOptions(source2, options)));
+    assertWriteSucceeded(response2);
+    return response2;
+  }
+  async create(source2, snapshot, options = {}) {
+    assertSolidClient(this.solid);
+    const turtle = await this.serialize(source2, snapshot);
+    const request2 = writeOptions(source2, options);
+    const response2 = source2.createContainer ? await this.solid.postToContainer(source2.createContainer, turtle, request2) : await this.solid.create(source2.url, turtle, request2);
+    assertWriteSucceeded(response2);
+    return response2;
+  }
+  serialize(source2, snapshot) {
+    const output = source2.prefixes ? copyGraph(snapshot, {
+      prefixes: { ...snapshot.prefixDeclarations(), ...source2.prefixes }
+    }) : snapshot;
+    return output.write();
+  }
+  async remove(url2, options = {}) {
+    assertSolidClient(this.solid);
+    const response2 = await this.solid.delete(url2, requestOptions(options));
+    assertWriteSucceeded(response2);
+    return response2;
   }
 };
-function graphResource(options = {}) {
-  check(options, Object, "solid-workspace: graph resource options must be an object", TypeError);
-  if (!options.id) {
-    throw new TypeError("solid-workspace: graph resource id is required");
-  }
-  if (!options.url) {
-    throw new TypeError("solid-workspace: graph resource url is required");
-  }
-  if (typeof options.load !== "function") {
-    throw new TypeError("solid-workspace: graph resource load() is required");
-  }
-  return Object.freeze({
-    ...options,
-    workspacePart: "source",
-    kind: "resource",
-    type: options.type ?? "graph-resource",
-    readOnly: Boolean(options.readOnly),
-    shape: options.shape ?? null,
-    options: options.options ?? {},
-    writeOptions: options.writeOptions,
-    id: options.id,
-    url: String(options.url)
-  });
-}
-function source(kind, url3, options) {
-  if (!url3) {
-    throw new TypeError("solid-workspace: source url is required");
-  }
-  return Object.freeze({
-    ...options,
-    workspacePart: "source",
-    kind,
-    type: options.type ?? kind,
-    id: options.id ?? String(url3),
-    url: String(url3),
-    readOnly: Boolean(options.readOnly),
-    shape: options.shape ?? null,
-    options: options.options ?? {}
-  });
-}
-function assertWorkspaceSource(descriptor, role = "source") {
-  if (descriptor?.workspacePart !== "source") {
-    throw new TypeError(`solid-workspace: resource ${role} replica must be a source from a factory`);
+function assertWriteSucceeded(response2) {
+  if (response2?.ok === false) {
+    throw new Error(
+      `solid-workspace: remote save failed (${response2.status})`,
+      { cause: response2 }
+    );
   }
 }
-function resourceReplicaSource(descriptor, { resource: resource2, replica, syncTo } = {}) {
-  assertWorkspaceSource(descriptor, replica);
-  return Object.freeze({
-    ...descriptor,
-    logicalResource: resource2.id,
-    replica,
-    syncTo: syncTo ?? descriptor.syncTo
-  });
-}
-function normalizeSources(sources) {
-  check(sources, Array, "solid-workspace: sources must be an array", TypeError);
-  return sources.map((descriptor) => {
-    check(descriptor, {
-      kind: oneOf("resource", "container")
-    }, "solid-workspace: sources must be solid.resource() or solid.container() descriptors", TypeError);
-    return descriptor;
-  });
-}
-function normalizeDatasetOptions(currentWorkspace, options = {}) {
-  if (isResourceReference(currentWorkspace, options)) {
-    return {
-      resources: [options],
-      sources: datasetSourcesForResources(currentWorkspace, [options])
-    };
-  }
-  if (options?.resources) {
-    const resources = Array.isArray(options.resources) ? options.resources : [options.resources];
-    return {
-      ...options,
-      sources: datasetSourcesForResources(currentWorkspace, resources)
-    };
-  }
-  return options;
-}
-function normalizeLoadSources(currentWorkspace, sources) {
-  if (!Array.isArray(sources)) {
-    sources = [sources];
-  }
-  return sources.map((sourceOrId) => resolveSource(currentWorkspace, sourceOrId));
-}
-function isResourceReference(currentWorkspace, value) {
-  return Boolean(
-    value?.workspacePart === "resource" || typeof value === "string" && currentWorkspace.resourceById.has(value)
-  );
-}
-function isOpenAllOptions(options) {
-  return Boolean(
-    isObject(options) && !Array.isArray(options) && !options.sources && !options.resources && !options.workspacePart
-  );
-}
-function resolveResource(currentWorkspace, resourceOrId) {
-  if (!resourceOrId) {
-    throw new TypeError("solid-workspace: resource is required");
-  }
-  if (typeof resourceOrId === "string") {
-    const logicalResource = currentWorkspace.resourceById.get(resourceOrId);
-    if (!logicalResource) {
-      throw new Error(`solid-workspace: unknown resource ${resourceOrId}`);
-    }
-    return logicalResource;
-  }
-  if (resourceOrId.workspacePart === "resource") {
-    return currentWorkspace.resourceById.get(resourceOrId.id) ?? resourceOrId;
-  }
-  return resourceOrId;
-}
-function resourceSources2(logicalResource) {
-  return [logicalResource.local, logicalResource.remote].filter(Boolean);
-}
-function datasetSourcesForResources(currentWorkspace, resources) {
-  return resources.flatMap((resourceOrId) => {
-    const logicalResource = resolveResource(currentWorkspace, resourceOrId);
-    return [logicalResource.local ?? logicalResource.remote].filter(Boolean);
-  });
-}
-function resolveSource(currentWorkspace, sourceOrId) {
-  if (!sourceOrId) {
-    throw new TypeError("solid-workspace: source is required");
-  }
-  if (typeof sourceOrId === "string") {
-    const descriptor = currentWorkspace.sourceById.get(sourceOrId);
-    if (!descriptor) {
-      throw new Error(`solid-workspace: unknown source ${sourceOrId}`);
-    }
-    return descriptor;
-  }
-  return sourceOrId;
-}
-function resolveCreateSource(currentWorkspace, sourceOrResourceOrId) {
-  if (isResourceReference(currentWorkspace, sourceOrResourceOrId)) {
-    const logicalResource = resolveResource(currentWorkspace, sourceOrResourceOrId);
-    if (!logicalResource.local) {
-      throw new Error(`solid-workspace: resource ${logicalResource.id} needs a local replica for local-first writes`);
-    }
-    return logicalResource.local;
-  }
-  return resolveSource(currentWorkspace, sourceOrResourceOrId);
-}
-function recordsForSources(currentWorkspace, sources) {
-  const descriptors = new Set(normalizeLoadSources(currentWorkspace, sources));
-  const ids2 = new Set([...descriptors].map((source2) => source2.id));
-  return from(currentWorkspace.records).where((record) => {
-    if (record.deleted) {
-      return false;
-    }
-    const source2 = record.source?.parent ?? record.source;
-    return source2 && (descriptors.has(source2) || ids2.has(source2.id));
-  }).toArray();
-}
-function recordBelongsToSources(record, sources) {
-  const source2 = record.source?.parent ?? record.source;
-  return Boolean(source2 && sources.some((candidate) => candidate === source2 || candidate.id === source2.id));
-}
-function recordSourceId(record) {
-  return record.source?.parent?.id ?? record.source?.id ?? null;
-}
-async function saveGraphDocument(workspace2, source2, document2, options = {}) {
-  if (typeof source2.save === "function") {
-    return source2.save(document2, {
-      source: source2,
-      workspace: workspace2,
-      ...options
-    });
-  }
-  assertSolidClient(workspace2);
-  return workspace2.solid.put(source2.url, bodyOptions(document2, writeOptions(source2, options)));
-}
-function assertSolidClient(workspace2) {
-  if (!workspace2.solid) {
+function assertSolidClient(solid2) {
+  if (!solid2) {
     throw new TypeError("solid-workspace: a Solid API client is required for Solid sources");
   }
-}
-function oldmSourcesOf(record, object, predicate, value) {
-  const data = record.data;
-  const context = data?.context ?? data?.primary?.context;
-  if (!context || typeof context.sources !== "function") {
-    return [];
-  }
-  return context.sources(object, predicate, value).map((source2) => typeof source2 === "string" ? source2 : source2?.url ?? source2?.id).filter(Boolean);
-}
-function validateRecord(record) {
-  if (record.source.shape) {
-    return record.source.shape.fails(record.object);
-  }
-  return false;
 }
 function writeOptions(source2, options) {
   const headers = new Headers(source2?.writeOptions?.headers);
@@ -11993,46 +10682,599 @@ function bodyOptions(body, options = {}) {
     headers: new Headers(options.headers)
   };
 }
-function ensureSlash(url3) {
-  return String(url3).endsWith("/") ? String(url3) : `${url3}/`;
-}
-function unique(items) {
-  return [...new Set(items)];
+
+// node_modules/@muze-labs/solid-workspace/src/operations.mjs
+var ResourceOperations = class {
+  #operations;
+  #revisions;
+  constructor() {
+    this.#operations = /* @__PURE__ */ new Map();
+    this.#revisions = /* @__PURE__ */ new Map();
+  }
+  admit(key) {
+    this.#revisions.set(key, this.revision(key) + 1);
+  }
+  revision(key) {
+    return this.#revisions.get(key) ?? 0;
+  }
+  sequence(key, operation) {
+    const previous = this.#operations.get(key) ?? Promise.resolve();
+    const current = previous.catch(() => {
+    }).then(operation);
+    this.#operations.set(key, current);
+    current.finally(() => {
+      if (this.#operations.get(key) === current) {
+        this.#operations.delete(key);
+      }
+    }).catch(() => {
+    });
+    return current;
+  }
+};
+
+// node_modules/@muze-labs/solid-workspace/src/replica-sync.mjs
+var ReplicaSync = class {
+  constructor({ graphs, io, state, operations }) {
+    this.graphs = graphs;
+    this.io = io;
+    this.state = state;
+    this.operations = operations;
+  }
+  open(resource2, options = {}) {
+    return this.operations.sequence(resource2.id, () => this.openReplica(resource2, options));
+  }
+  sync(resource2, options = {}) {
+    return this.operations.sequence(resource2.id, () => this.syncReplica(resource2, options));
+  }
+  async openReplica(logicalResource, options) {
+    const revision = this.operations.revision(logicalResource.id);
+    const sources = resourceSources(logicalResource);
+    const loaded = [];
+    const failures = [];
+    this.state.value.state = "opening";
+    this.state.value.error = null;
+    this.state.resource(logicalResource, { state: "opening", error: null });
+    for (const source2 of sources) {
+      this.state.source(source2, { state: "opening", error: null });
+      try {
+        const snapshot = await this.io.read(source2, options);
+        loaded.push({ source: source2, snapshot });
+        this.state.source(source2, { state: "ready", error: null });
+      } catch (error4) {
+        failures.push({ source: source2, error: error4 });
+        this.state.source(source2, { state: sourceFailureState(error4), error: error4 });
+      }
+    }
+    const isCurrent = () => this.operations.revision(logicalResource.id) === revision;
+    const local2 = loaded.find((entry) => entry.source === logicalResource.local);
+    const remote = loaded.find((entry) => entry.source === logicalResource.remote);
+    if (isCurrent() && local2 && remote) {
+      try {
+        local2.snapshot = mergeReplicas([local2.snapshot, remote.snapshot], logicalResource);
+        await this.io.write(local2.source, local2.snapshot, options.writeOptions);
+      } catch (error4) {
+        failures.push({ source: local2.source, error: error4 });
+        this.state.source(local2.source, { state: sourceFailureState(error4), error: error4 });
+      }
+    }
+    if (isCurrent()) {
+      for (const { source: source2, snapshot } of loaded) {
+        if (failures.some((failure) => failure.source === source2)) {
+          continue;
+        }
+        this.graphs.installGraph(source2, snapshot);
+      }
+    }
+    this.state.value.lastOpen = { resource: logicalResource, sources, loaded, failures };
+    this.state.value.state = workspaceState(this.state.value);
+    this.state.value.error = failures[0]?.error ?? null;
+    this.state.resource(logicalResource, {
+      state: failures.some((failure) => failure.source === logicalResource.local) ? "error" : resourceState(this.state.value, logicalResource),
+      error: failures[0]?.error ?? null
+    });
+    if (options.throwOnError && failures.length) {
+      throw failures[0].error;
+    }
+  }
+  async syncReplica(logicalResource, options = {}) {
+    const localSource = logicalResource.local;
+    const remoteSource = logicalResource.remote;
+    if (!localSource || !remoteSource) {
+      throw new Error(`solid-workspace: resource ${logicalResource.id} needs local and remote replicas to sync`);
+    }
+    if (remoteSource.readOnly) {
+      throw new Error(`solid-workspace: source ${remoteSource.id} is read-only`);
+    }
+    const revision = this.operations.revision(logicalResource.id);
+    const isCurrent = () => this.operations.revision(logicalResource.id) === revision;
+    this.state.resource(logicalResource, { state: "syncing", error: null });
+    this.state.source(remoteSource, { state: "syncing", error: null });
+    let activeSource = remoteSource;
+    let snapshot;
+    let localSaved = false;
+    try {
+      const remoteGraph = await this.io.read(remoteSource, options);
+      if (!isCurrent()) {
+        return this.pendingReplica(logicalResource);
+      }
+      snapshot = mergeReplicas([
+        remoteGraph,
+        this.graphs.graph(localSource)
+      ], logicalResource);
+      activeSource = localSource;
+      await this.io.write(localSource, snapshot, options.localWriteOptions ?? options.writeOptions);
+      localSaved = true;
+      this.state.source(localSource, { state: "ready", error: null });
+      if (!isCurrent()) {
+        return this.pendingReplica(logicalResource);
+      }
+      activeSource = remoteSource;
+      const response2 = await this.io.write(remoteSource, snapshot, options.writeOptions);
+      if (!isCurrent()) {
+        return this.pendingReplica(logicalResource);
+      }
+      this.publishReplica(localSource, snapshot);
+      this.publishReplica(remoteSource, snapshot);
+      this.state.clearPending(remoteSource);
+      this.state.resource(logicalResource, { state: "ready", error: null });
+      return { ok: true, status: "synced", resource: logicalResource, source: remoteSource, sourceUrl: remoteSource.url, graph: snapshot, response: response2 };
+    } catch (error4) {
+      if (localSaved && isCurrent()) {
+        this.publishReplica(localSource, snapshot);
+      }
+      this.pendingReplica(logicalResource);
+      this.state.source(activeSource, { state: sourceFailureState(error4), error: error4 });
+      this.state.resource(logicalResource, {
+        state: activeSource === localSource ? "error" : "sync-pending",
+        error: error4
+      });
+      return { ok: false, status: this.state.value.sources[activeSource.id].state, resource: logicalResource, source: activeSource, sourceUrl: activeSource.url, localSaved, error: error4 };
+    }
+  }
+  publishReplica(source2, snapshot) {
+    this.graphs.installGraph(source2, snapshot);
+    this.state.source(source2, { state: "ready", error: null });
+  }
+  pendingReplica(logicalResource) {
+    this.state.pending(logicalResource.local.id, [logicalResource.remote]);
+    this.state.source(logicalResource.remote, { state: "sync-pending" });
+    this.state.resource(logicalResource, { state: "sync-pending", error: null });
+    return { ok: true, status: "sync-pending", resource: logicalResource };
+  }
+};
+
+// node_modules/@muze-labs/solid-workspace/src/writes.mjs
+var WorkspaceWrites = class {
+  constructor({ sources, graphs, io, state, operations }) {
+    this.sources = sources;
+    this.graphs = graphs;
+    this.io = io;
+    this.state = state;
+    this.operations = operations;
+  }
+  async createIn(sourceOrId, object, options = {}) {
+    const descriptor = this.sources.resolveCreateSource(sourceOrId);
+    if (descriptor.readOnly) {
+      throw new Error(`solid-workspace: source ${descriptor.id} is read-only`);
+    }
+    object = this.graphs.create(descriptor, object);
+    if (options.save === false) {
+      return object;
+    }
+    const result = await this.save(object, options);
+    if (!result.ok) {
+      throw result.error ?? new Error(`solid-workspace: create failed: ${result.status}`, { cause: result });
+    }
+    return object;
+  }
+  save(object, options = {}) {
+    const record = this.graphs.recordFor(object);
+    if (!record) {
+      return Promise.reject(new Error("solid-workspace: cannot save an object that is not tracked by this workspace"));
+    }
+    if (record.source.logicalResource) {
+      record.deleted = isDeleted(object);
+    }
+    const key = record.source.logicalResource ?? record.source.id;
+    this.operations.admit(key);
+    const snapshot = this.graphs.snapshot(record.sourceUrl);
+    return this.operations.sequence(key, () => this.saveRecord(record, options, snapshot));
+  }
+  async saveRecord(record, options, snapshot) {
+    const issues4 = validateRecord(record);
+    if (issues4) {
+      return updateRecordStatus(record, {
+        ok: false,
+        status: "validation_failed",
+        issues: issues4
+      });
+    }
+    if (record.readOnly) {
+      return updateRecordStatus(record, {
+        ok: false,
+        status: "read_only",
+        error: new Error(`solid-workspace: source ${record.source?.id ?? record.sourceUrl} is read-only`)
+      });
+    }
+    try {
+      if (typeof record.source?.save === "function") {
+        const response3 = await this.io.write(record.source, snapshot, options);
+        record.sourceUrl = record.source.url;
+        record.created = false;
+        this.state.source(record.source, { state: "ready", error: null });
+        const syncTo = options.syncTo ?? record.source.syncTo;
+        if (syncTo) {
+          this.state.pending(record.source.id, this.sources.resolveSources(syncTo));
+        }
+        return updateRecordStatus(record, {
+          ok: true,
+          status: record.deleted ? "deleted" : "saved",
+          response: response3
+        });
+      }
+      if (record.deleted) {
+        const response3 = await this.io.remove(record.sourceUrl, options);
+        this.graphs.installGraph(record.source, null);
+        this.state.source(record.source, { state: "ready", error: null });
+        return updateRecordStatus(record, { ok: true, status: "deleted", response: response3 });
+      }
+      const source2 = { ...record.source, url: record.sourceUrl };
+      const response2 = record.created ? await this.io.create(source2, snapshot, options) : await this.io.write(source2, snapshot, options);
+      const created = record.created;
+      if (record.source.createContainer && response2.location) {
+        this.graphs.relocate(record, response2.location);
+      }
+      record.created = false;
+      this.state.source(record.source, { state: "ready", error: null });
+      return updateRecordStatus(record, {
+        ok: true,
+        status: created ? "created" : "saved",
+        response: response2
+      });
+    } catch (error4) {
+      this.state.source(record.source, {
+        state: sourceFailureState(error4),
+        error: error4
+      });
+      return updateRecordStatus(record, { ok: false, status: "error", error: error4 });
+    }
+  }
+  async delete(object, options = {}) {
+    const record = this.graphs.recordFor(object);
+    if (!record) {
+      throw new Error("solid-workspace: cannot delete an object that is not tracked by this workspace");
+    }
+    if (record.readOnly) {
+      return statusFor(record, {
+        ok: false,
+        status: "read_only",
+        error: new Error("solid-workspace: source is read-only")
+      });
+    }
+    const wasDeleted = record.deleted;
+    const rollback = record.source.logicalResource ? markDeleted(object) : null;
+    record.deleted = true;
+    if (options.save === false) {
+      record.status = "deleted_pending";
+      return statusFor(record, { ok: true, status: record.status });
+    }
+    const result = await this.save(object, options);
+    if (!result.ok) {
+      record.deleted = wasDeleted;
+      rollback?.();
+    }
+    return result;
+  }
+  async saveAll(records) {
+    const statuses = [];
+    for (const recordOrObject of records) {
+      const object = recordOrObject?.object ?? recordOrObject;
+      statuses.push(await this.save(object));
+    }
+    const failures = statuses.filter((status2) => !status2.ok);
+    if (failures.length > 0) {
+      const error4 = new Error("solid-workspace: saveAll failed", {
+        cause: {
+          failures
+        }
+      });
+      error4.statuses = statuses;
+      throw error4;
+    }
+    return statuses;
+  }
+};
+function validateRecord(record) {
+  if (record.source.shape) {
+    return record.source.shape.fails(record.object);
+  }
+  return false;
 }
 
-// ../solid-tools/packages/solid-workspace/src/indexeddb.mjs
+// node_modules/@muze-labs/solid-workspace/src/workspace.mjs
+function workspace(options = {}) {
+  return new SolidWorkspace(options);
+}
+var SolidWorkspace = class {
+  #sources;
+  #graphs;
+  #io;
+  #state;
+  #replicas;
+  #writes;
+  constructor(options = {}) {
+    check(options, Object, "solid-workspace: workspace options must be an object", TypeError);
+    this.#sources = new WorkspaceSources();
+    this.#graphs = new WorkingGraphs(options.context ?? src_default2.context(options));
+    this.#state = new WorkspaceStatus();
+    this.#io = new SourceIO(options.solid, this);
+    const dependencies = {
+      graphs: this.#graphs,
+      io: this.#io,
+      state: this.#state,
+      operations: new ResourceOperations()
+    };
+    this.#replicas = new ReplicaSync(dependencies);
+    this.#writes = new WorkspaceWrites({ ...dependencies, sources: this.#sources });
+    if (options.sources) {
+      this.addSource(options.sources);
+    }
+    if (options.resources) {
+      this.add(options.resources);
+    }
+    this.collections = Object.fromEntries(
+      Object.entries(options.collections ?? {}).map(([name, descriptor]) => [
+        name,
+        new WorkspaceCollection(this, name, descriptor)
+      ])
+    );
+  }
+  get context() {
+    return this.#graphs.context;
+  }
+  get status() {
+    return this.#state.value;
+  }
+  get sources() {
+    return this.#sources.sources;
+  }
+  get resources() {
+    return this.#sources.resources;
+  }
+  get solid() {
+    return this.#io.solid;
+  }
+  add(part) {
+    if (Array.isArray(part)) {
+      for (const item of part) {
+        this.add(item);
+      }
+      return this;
+    }
+    if (part?.workspacePart === "source") {
+      this.addSource(part);
+      return this;
+    }
+    if (part?.workspacePart === "resource") {
+      this.addResource(part);
+      return this;
+    }
+    if (part?.workspacePart === "client") {
+      this.setClient(part.client);
+      return this;
+    }
+    throw new TypeError("solid-workspace: add() expects a workspace part from a factory");
+  }
+  addSource(sourceOrSources) {
+    const sources = this.#sources.add(sourceOrSources);
+    for (const source2 of sources) {
+      this.#acceptSource(source2);
+    }
+    return sources.length === 1 ? sources[0] : sources;
+  }
+  #acceptSource(source2) {
+    this.#graphs.replaceSource(source2);
+    this.#state.source(source2, this.status.sources[source2.id] ?? { state: "idle" });
+  }
+  addResource(part) {
+    const resource2 = this.#sources.addResource(part);
+    for (const source2 of resourceSources(resource2)) {
+      this.#acceptSource(source2);
+    }
+    this.#state.resource(resource2);
+    return resource2;
+  }
+  setClient(client2) {
+    this.#io.solid = client2;
+    return this;
+  }
+  async open(options = {}) {
+    if (this.#sources.isResource(options)) {
+      return this.openResource(options);
+    }
+    if (isOpenAllOptions(options) && this.resources.length > 0) {
+      const resourceSourceIds = new Set(this.resources.flatMap((item) => resourceSources(item).map((source2) => source2.id)));
+      for (const item of this.resources) {
+        await this.openResource(item, options);
+      }
+      const directSources = this.sources.filter((source2) => !resourceSourceIds.has(source2.id));
+      if (directSources.length > 0) {
+        await this.load({
+          ...options,
+          sources: directSources,
+          throwOnError: options.throwOnError ?? false
+        });
+      }
+      return this;
+    }
+    if (Array.isArray(options) && options.some((item) => this.#sources.isResource(item))) {
+      for (const item of options) {
+        if (this.#sources.isResource(item)) {
+          await this.openResource(item);
+        } else {
+          await this.load({ sources: item, throwOnError: false });
+        }
+      }
+      return this;
+    }
+    if (options?.resources) {
+      const resources = Array.isArray(options.resources) ? options.resources : [options.resources];
+      for (const item of resources) {
+        await this.openResource(item, options);
+      }
+      return this;
+    }
+    if (typeof options === "string" || Array.isArray(options) || options?.workspacePart === "source") {
+      return this.load({ sources: options, throwOnError: false });
+    }
+    return this.load({
+      throwOnError: false,
+      ...options
+    });
+  }
+  async openResource(resourceOrId, options = {}) {
+    const resource2 = this.#sources.resolveResource(resourceOrId);
+    await this.#replicas.open(resource2, options);
+    return this;
+  }
+  async load(options = {}) {
+    const sources = this.#sources.resolveSources(options.sources ?? this.sources);
+    const failures = [];
+    const loaded = [];
+    const throwOnError = options.throwOnError ?? true;
+    this.status.state = "opening";
+    this.status.error = null;
+    for (const source2 of sources) {
+      try {
+        loaded.push(await this.loadSource(source2));
+      } catch (error4) {
+        failures.push({ source: source2, error: error4 });
+        if (throwOnError) {
+          this.status.state = "error";
+          this.status.error = error4;
+          throw error4;
+        }
+      }
+    }
+    this.status.lastOpen = { sources, loaded, failures };
+    this.status.state = workspaceState(this.status);
+    this.status.error = failures[0]?.error ?? null;
+    return this;
+  }
+  async loadSource(sourceOrId) {
+    const descriptor = this.#sources.resolveSource(sourceOrId);
+    this.#state.source(descriptor, { state: "opening", error: null });
+    try {
+      if (descriptor.kind === "container") {
+        const entries = await this.#io.contains(descriptor);
+        this.#graphs.clearSourceGraphs(descriptor);
+        for (const entry of entries) {
+          await this.loadSource({
+            ...descriptor,
+            append: true,
+            kind: "resource",
+            url: entry.url,
+            parent: descriptor
+          });
+        }
+        this.#state.source(descriptor, { state: "ready", error: null });
+        return entries;
+      }
+      const snapshot = await this.#io.read(descriptor);
+      const graph3 = this.#graphs.installGraph(descriptor, snapshot);
+      this.#state.source(descriptor, { state: "ready", error: null });
+      return graph3.data;
+    } catch (error4) {
+      this.#state.source(descriptor, {
+        state: sourceFailureState(error4),
+        error: error4
+      });
+      throw error4;
+    }
+  }
+  graph(sourceOrResource) {
+    let source2;
+    if (this.#sources.isResource(sourceOrResource)) {
+      const resource2 = this.#sources.resolveResource(sourceOrResource);
+      source2 = resource2.local ?? resource2.remote;
+    } else {
+      source2 = this.#sources.resolveSource(sourceOrResource);
+    }
+    return this.#graphs.graph(source2);
+  }
+  sourceSubjects(sources = this.sources) {
+    return this.#graphs.subjects(this.#sources.sourceIds(sources));
+  }
+  recordFor(object) {
+    return this.#graphs.recordFor(object);
+  }
+  sourceOf(...args) {
+    return src_default2.one(this.sourcesOf(...args), "first") ?? null;
+  }
+  sourcesOf(...args) {
+    return this.#graphs.sourcesOf(...args);
+  }
+  createIn(source2, object, options = {}) {
+    return this.#writes.createIn(source2, object, options);
+  }
+  save(object, options = {}) {
+    return this.#writes.save(object, options);
+  }
+  delete(object, options = {}) {
+    return this.#writes.delete(object, options);
+  }
+  saveAll(objects = this.sourceSubjects()) {
+    return this.#writes.saveAll(objects);
+  }
+  sync(resourceOrId, options = {}) {
+    return this.#replicas.sync(this.#sources.resolveResource(resourceOrId), options);
+  }
+};
+function isOpenAllOptions(options) {
+  return Boolean(
+    isObject(options) && !Array.isArray(options) && !options.sources && !options.resources && !options.workspacePart
+  );
+}
+
+// node_modules/@muze-labs/solid-workspace/src/indexeddb.mjs
 function openIndexedDatabase({ indexedDB, name, version, storeName }) {
   const factory = indexedDB ?? globalThis.indexedDB;
   if (!factory) {
     throw new TypeError("solid-workspace: IndexedDB is not available");
   }
   return new Promise((resolve, reject) => {
-    const request3 = factory.open(name, version);
-    request3.onerror = () => reject(request3.error ?? new Error(`solid-workspace: could not open IndexedDB database ${name}`));
-    request3.onblocked = () => reject(new Error(`solid-workspace: IndexedDB database ${name} is blocked`));
-    request3.onupgradeneeded = () => {
-      const database = request3.result;
+    const request2 = factory.open(name, version);
+    request2.onerror = () => reject(request2.error ?? new Error(`solid-workspace: could not open IndexedDB database ${name}`));
+    request2.onblocked = () => reject(new Error(`solid-workspace: IndexedDB database ${name} is blocked`));
+    request2.onupgradeneeded = () => {
+      const database = request2.result;
       if (!objectStoreExists(database.objectStoreNames, storeName)) {
         database.createObjectStore(storeName, { keyPath: "key" });
       }
     };
-    request3.onsuccess = () => resolve(request3.result);
+    request2.onsuccess = () => resolve(request2.result);
   });
 }
 function indexedDBGet(database, storeName, key) {
+  const transaction = database.transaction(storeName, "readonly");
   return indexedDBRequest(
-    database.transaction(storeName, "readonly").objectStore(storeName).get(key)
+    transaction,
+    transaction.objectStore(storeName).get(key)
   );
 }
 function indexedDBPut(database, storeName, value) {
+  const transaction = database.transaction(storeName, "readwrite");
   return indexedDBRequest(
-    database.transaction(storeName, "readwrite").objectStore(storeName).put(value)
+    transaction,
+    transaction.objectStore(storeName).put(value)
   );
 }
-function indexedDBRequest(request3) {
+function indexedDBRequest(transaction, request2) {
   return new Promise((resolve, reject) => {
-    request3.onerror = () => reject(request3.error ?? new Error("solid-workspace: IndexedDB request failed"));
-    request3.onsuccess = () => resolve(request3.result);
+    request2.onerror = () => reject(request2.error ?? new Error("solid-workspace: IndexedDB request failed"));
+    transaction.onabort = () => reject(transaction.error ?? new Error("solid-workspace: IndexedDB transaction aborted"));
+    transaction.onerror = () => reject(transaction.error ?? request2.error ?? new Error("solid-workspace: IndexedDB transaction failed"));
+    transaction.oncomplete = () => resolve(request2.result);
   });
 }
 function objectStoreExists(objectStoreNames, storeName) {
@@ -12042,158 +11284,91 @@ function objectStoreExists(objectStoreNames, storeName) {
   return src_default2.many(objectStoreNames).includes(storeName);
 }
 
-// ../solid-tools/packages/solid-workspace/src/local.mjs
+// node_modules/@muze-labs/solid-workspace/src/local.mjs
+function turtleText(value) {
+  if (typeof value !== "string") {
+    throw new TypeError("solid-workspace: local sources store Turtle text");
+  }
+  return value;
+}
 var local = {
-  memory(idOrOptions, options = {}) {
-    let config = { ...idOrOptions };
-    if (typeof idOrOptions === "string") {
-      config = { ...options, id: idOrOptions };
+  memory(id2, options = {}) {
+    if (typeof id2 !== "string" || !id2) {
+      throw new TypeError("solid-workspace: memory source id must be a string");
     }
-    const id2 = config.id ?? config.key ?? "local-memory";
-    const url3 = config.url ?? `memory://${encodeURIComponent(id2)}`;
-    let initialDocument = config.document;
-    if (initialDocument == null) {
-      initialDocument = {
-        format: config.format ?? "oldmed-graph",
-        version: config.version ?? 1,
-        prefixes: config.prefixes ?? {},
-        subjects: {}
-      };
-    }
-    let turtle = config.turtle ?? null;
-    async function loadDocument() {
-      if (turtle == null) {
-        turtle = await graphDocumentToTurtle(initialDocument, {
-          url: url3,
-          prefixes: config.prefixes
-        });
-      }
-      return graphDocumentFromTurtle(turtle, {
-        url: url3,
-        prefixes: config.prefixes
-      });
-    }
+    const url2 = options.url ?? `memory://${encodeURIComponent(id2)}`;
+    let turtle = turtleText(options.turtle ?? "");
     return graphResource({
-      ...config,
+      ...options,
       id: id2,
-      url: url3,
+      url: url2,
       local: true,
       type: "local-memory",
       async load() {
-        return cloneGraphDocument(await loadDocument());
+        return turtle;
       },
       async save(value) {
-        const document2 = graphDocumentFrom(value);
-        turtle = await graphDocumentToTurtle(document2, {
-          url: url3,
-          prefixes: config.prefixes
-        });
-        return {
-          ok: true,
-          status: "saved",
-          sourceUrl: url3,
-          document: cloneGraphDocument(document2)
-        };
-      },
-      async turtle() {
-        await loadDocument();
-        return turtle;
+        turtle = turtleText(value);
+        return { ok: true, status: "saved", sourceUrl: url2 };
       }
     });
   },
-  indexedDB(nameOrOptions, options = {}) {
-    let config = { ...nameOrOptions };
-    if (typeof nameOrOptions === "string") {
-      config = { ...options, name: nameOrOptions };
-    }
-    const databaseName = config.name ?? config.databaseName ?? config.database;
-    if (!databaseName) {
+  indexedDB(name, options = {}) {
+    if (typeof name !== "string" || !name) {
       throw new TypeError("solid-workspace: IndexedDB database name is required");
     }
-    const storeName = config.store ?? config.storeName ?? "resources";
-    const key = config.key ?? config.id ?? "default";
-    const id2 = config.id ?? `${databaseName}:${key}`;
-    const url3 = config.url ?? `indexeddb://${encodeURIComponent(databaseName)}/${encodeURIComponent(storeName)}/${encodeURIComponent(key)}`;
-    const databaseVersion = config.databaseVersion ?? 1;
-    const initialDocument = config.document === void 0 ? null : graphDocumentFrom(config.document);
-    const initialTurtle = config.turtle ?? null;
-    const indexedDBFactory = config.indexedDB;
-    const sourceConfig = { ...config };
-    delete sourceConfig.indexedDB;
-    delete sourceConfig.document;
-    delete sourceConfig.turtle;
-    delete sourceConfig.databaseVersion;
-    async function loadTurtle() {
-      const database = await openIndexedDatabase({
-        indexedDB: indexedDBFactory,
-        name: databaseName,
+    const storeName = options.store ?? "resources";
+    const key = options.key ?? options.id ?? "default";
+    const id2 = options.id ?? `${name}:${key}`;
+    const url2 = options.url ?? `indexeddb://${encodeURIComponent(name)}/${encodeURIComponent(storeName)}/${encodeURIComponent(key)}`;
+    const initialTurtle = turtleText(options.turtle ?? "");
+    const {
+      indexedDB,
+      databaseVersion = 1,
+      ...sourceOptions
+    } = options;
+    async function database() {
+      return openIndexedDatabase({
+        indexedDB,
+        name,
         version: databaseVersion,
         storeName
       });
-      try {
-        const entry = await indexedDBGet(database, storeName, key);
-        if (entry?.turtle) {
-          return entry.turtle;
-        }
-        if (initialTurtle != null) {
-          return initialTurtle;
-        }
-        return graphDocumentToTurtle(initialDocument, {
-          url: url3,
-          prefixes: config.prefixes
-        });
-      } finally {
-        database.close?.();
-      }
     }
     return graphResource({
-      ...sourceConfig,
+      ...sourceOptions,
       id: id2,
-      url: url3,
+      url: url2,
       local: true,
       type: "local-indexeddb",
       async load() {
-        return cloneGraphDocument(graphDocumentFromTurtle(await loadTurtle(), {
-          url: url3,
-          prefixes: config.prefixes
-        }));
+        const db = await database();
+        try {
+          const entry = await indexedDBGet(db, storeName, key);
+          return entry ? turtleText(entry.turtle) : initialTurtle;
+        } finally {
+          db.close?.();
+        }
       },
       async save(value) {
-        const document2 = graphDocumentFrom(value);
-        const turtle = await graphDocumentToTurtle(document2, {
-          url: url3,
-          prefixes: config.prefixes
-        });
-        const database = await openIndexedDatabase({
-          indexedDB: indexedDBFactory,
-          name: databaseName,
-          version: databaseVersion,
-          storeName
-        });
+        const turtle = turtleText(value);
+        const db = await database();
         try {
-          await indexedDBPut(database, storeName, {
+          await indexedDBPut(db, storeName, {
             key,
             turtle,
             updatedAt: (/* @__PURE__ */ new Date()).toISOString()
           });
         } finally {
-          database.close?.();
+          db.close?.();
         }
-        return {
-          ok: true,
-          status: "saved",
-          sourceUrl: url3,
-          document: cloneGraphDocument(document2)
-        };
-      },
-      async turtle() {
-        return loadTurtle();
+        return { ok: true, status: "saved", sourceUrl: url2 };
       }
     });
   }
 };
 
-// ../solid-tools/packages/simplysolid/src/index.mjs
+// node_modules/@muze-labs/simplysolid/src/index.mjs
 function simplySolid(config = {}) {
   return new SimplySolid(config);
 }
@@ -12217,6 +11392,7 @@ var SimplySolid = class {
       resources: {}
     };
     this.workspace = config.workspace ?? workspace({
+      context: config.context,
       solid: normalized.client,
       sources: normalized.sources,
       resources: normalized.resources,
@@ -12248,7 +11424,7 @@ var SimplySolid = class {
       for (const handle of Object.values(this.data)) {
         handle.refresh();
       }
-      this.status.state = "ready";
+      this.acceptOpenedWorkspace();
       this.status.lastOpen = /* @__PURE__ */ new Date();
       return this.data;
     } catch (error4) {
@@ -12257,37 +11433,14 @@ var SimplySolid = class {
       throw error4;
     }
   }
-  async sync(options = {}) {
-    if (isResourceSyncRequest(this.workspace, options)) {
-      return this.syncResources(options);
-    }
-    this.status.state = "syncing";
-    this.status.error = null;
-    try {
-      await this.workspace.open(options);
-      for (const handle of Object.values(this.data)) {
-        handle.refresh();
-      }
-      this.status.state = "ready";
-      this.status.lastSync = /* @__PURE__ */ new Date();
-      return this.data;
-    } catch (error4) {
-      this.status.state = "error";
-      this.status.error = error4;
-      throw error4;
-    }
-  }
-  dataset(options = {}) {
-    return this.workspace.dataset(options);
-  }
   async connect(options = {}) {
     this.status.state = "connecting";
     this.status.error = null;
     try {
-      const client3 = options.solid ?? options.solidApi ?? options.client;
-      if (client3) {
-        this.solid = client3;
-        this.workspace.setClient(client3);
+      const client2 = options.solid;
+      if (client2) {
+        this.solid = client2;
+        this.workspace.setClient(client2);
       }
       const resources = connectionResources(options);
       const opened = [];
@@ -12302,7 +11455,7 @@ var SimplySolid = class {
       for (const handle of Object.values(this.data)) {
         handle.refresh();
       }
-      this.status.state = "ready";
+      this.acceptOpenedWorkspace();
       this.status.lastConnect = /* @__PURE__ */ new Date();
       return this;
     } catch (error4) {
@@ -12311,22 +11464,33 @@ var SimplySolid = class {
       throw error4;
     }
   }
-  async syncResources(options = {}) {
+  async sync(resourceOrId, options = {}) {
     this.status.state = "syncing";
     this.status.error = null;
     try {
-      const status2 = await this.workspace.sync(options);
+      const status2 = await this.workspace.sync(resourceOrId, options);
       for (const handle of Object.values(this.data)) {
         handle.refresh();
       }
-      this.status.state = "ready";
-      this.status.lastSync = /* @__PURE__ */ new Date();
+      this.status.state = status2.ok === false || status2.status === "sync-pending" ? this.workspace.status.resources[status2.resource?.id]?.state ?? "error" : "ready";
+      this.status.error = status2.error ?? null;
+      if (this.status.state === "ready") this.status.lastSync = /* @__PURE__ */ new Date();
       return status2;
     } catch (error4) {
       this.status.state = "error";
       this.status.error = error4;
       throw error4;
     }
+  }
+  acceptOpenedWorkspace() {
+    const sources = Object.values(this.workspace.status.sources);
+    const localFailure = sources.find((source2) => source2.local && source2.error);
+    if (localFailure || this.workspace.status.state === "error") {
+      throw localFailure?.error ?? this.workspace.status.error ?? new Error("simplysolid: workspace could not be opened");
+    }
+    const remoteFailure = sources.find((source2) => source2.error);
+    this.status.state = remoteFailure ? "sync-pending" : "ready";
+    this.status.error = remoteFailure?.error ?? null;
   }
   async checkSetup() {
     if (!this.solid) {
@@ -12336,8 +11500,8 @@ var SimplySolid = class {
       return this.status.setup;
     }
     const checks = [];
-    for (const url3 of this.conventions.requiredContainers) {
-      checks.push(await checkContainer(this.solid, url3));
+    for (const url2 of this.conventions.requiredContainers) {
+      checks.push(await checkContainer(this.solid, url2));
     }
     const missing = checks.filter((check2) => check2.status === "missing");
     const repair = checks.filter((check2) => check2.status === "error");
@@ -12365,8 +11529,8 @@ var SimplySolid = class {
     const repair = [];
     for (const item of setup.needed) {
       try {
-        const response3 = await this.solid.createContainer(item.url);
-        created.push({ ...item, response: response3 });
+        const response2 = await this.solid.createContainer(item.url);
+        created.push({ ...item, response: response2 });
       } catch (error4) {
         repair.push({ ...item, status: "error", error: error4 });
       }
@@ -12396,15 +11560,18 @@ var SimplySolidCollection = class {
   }
   refresh() {
     this.items = this.collection.list();
-    this.status.state = "ready";
+    if (this.status.state === "idle") this.status.state = "ready";
     this.status.lastSync = /* @__PURE__ */ new Date();
     return this.items;
   }
-  async sync() {
+  async open() {
     this.status.state = "syncing";
     this.status.error = null;
     try {
       await this.solid.workspace.open(this.collection.descriptor.sources);
+      this.solid.acceptOpenedWorkspace();
+      this.status.state = this.solid.status.state;
+      this.status.error = this.solid.status.error;
       return this.refresh();
     } catch (error4) {
       this.status.state = "error";
@@ -12430,6 +11597,7 @@ var SimplySolidCollection = class {
       }
       const status2 = await this.collection.save(object, options);
       this.status.lastSave = status2;
+      if (!status2.ok) throw status2.error ?? new Error(`simplysolid: ${this.name} save failed: ${status2.status}`, { cause: status2 });
       this.refresh();
       return object;
     });
@@ -12444,6 +11612,7 @@ var SimplySolidCollection = class {
       }
       const status2 = await this.collection.save(object, options);
       this.status.lastSave = status2;
+      if (!status2.ok) throw status2.error ?? new Error(`simplysolid: ${this.name} save failed: ${status2.status}`, { cause: status2 });
       this.refresh();
       return object;
     });
@@ -12456,6 +11625,22 @@ var SimplySolidCollection = class {
         save: options.save ?? true
       });
       this.status.lastSave = status2;
+      if (!status2.ok) throw status2.error ?? new Error(`simplysolid: ${this.name} save failed: ${status2.status}`, { cause: status2 });
+      this.refresh();
+      return status2;
+    });
+  }
+  async save(idOrObject, options = {}) {
+    return this.write("saving", async () => {
+      const object = this.resolve(idOrObject);
+      const status2 = await this.collection.save(object, options);
+      this.status.lastSave = status2;
+      if (!status2.ok) {
+        throw status2.error ?? new Error(
+          `simplysolid: ${this.name} save failed: ${status2.status}`,
+          { cause: status2 }
+        );
+      }
       this.refresh();
       return status2;
     });
@@ -12512,15 +11697,15 @@ function normalizeConfig(config) {
       registrations: registrationsFor(config, conventions2)
     };
   }
-  const client3 = config.solid ?? config.solidApi ?? config.client;
+  const client2 = config.solid;
   const explicitSources = config.sources ?? [];
   const explicitResources = config.resources ?? [];
-  const data = config.data ?? config.collections ?? {};
+  const data = config.data ?? {};
   const generatedSources = [];
   const generatedResources = [];
   const collections = {};
   const hasLocalFirstData = Object.values(data).some((descriptor) => isLocalFirstDescriptor(null, descriptor, config));
-  if (!client3 && explicitSources.length === 0 && explicitResources.length === 0 && !hasLocalFirstData) {
+  if (!client2 && explicitSources.length === 0 && explicitResources.length === 0 && !hasLocalFirstData) {
     throw new TypeError("simplysolid: a Solid API client, workspace, source, resource, or local-first data config is required");
   }
   for (const [name, descriptor] of Object.entries(data)) {
@@ -12537,7 +11722,7 @@ function normalizeConfig(config) {
   const resources = [...explicitResources, ...generatedResources];
   const conventions = setupConventions(config, { sources, resources, collections });
   return {
-    client: client3,
+    client: client2,
     sources,
     resources,
     collections,
@@ -12560,6 +11745,10 @@ function normalizeCollection(name, descriptor = {}, config = {}) {
   if (isLocalFirstDescriptor(name, descriptor, config)) {
     const resourceId = descriptor.resourceId ?? descriptor.resource ?? descriptor.source ?? name;
     const resource2 = resource(resourceId, {
+      scalarPredicates: descriptor.scalarPredicates ?? [],
+      ownedPredicates: descriptor.ownedPredicates ?? [],
+      baseURI: descriptor.baseURI,
+      prefixes: descriptor.prefixes,
       local: localSourceForResource(name, descriptor, config),
       remote: remoteSourceForResource(name, descriptor, config, resourceId)
     });
@@ -12600,16 +11789,14 @@ function localSourceForResource(name, descriptor = {}, config = {}) {
   if (localConfig?.workspacePart === "source") {
     return localConfig;
   }
-  const indexedDBName = typeof localConfig.indexedDB === "string" ? localConfig.indexedDB : null;
-  const indexedDBFactory = localConfig.indexedDB && typeof localConfig.indexedDB !== "string" ? localConfig.indexedDB : localConfig.indexedDBFactory;
-  const databaseName = indexedDBName ?? localConfig.name ?? localConfig.databaseName ?? localConfig.database ?? config.local?.indexedDB ?? config.local?.name ?? slugFrom(config.app?.slug ?? config.slug ?? config.app?.id ?? config.id ?? defaultAppId());
+  const databaseName = localConfig.indexedDB ?? config.local?.indexedDB ?? slugFrom(config.app?.slug ?? config.app?.id ?? defaultAppId());
   return local.indexedDB(databaseName, {
     ...localConfig,
     id: localConfig.id ?? `${descriptor.resourceId ?? descriptor.resource ?? descriptor.source ?? name}:local`,
     key: localConfig.key ?? name,
     prefixes: localConfig.prefixes ?? descriptor.prefixes,
-    document: localConfig.document ?? descriptor.document,
-    indexedDB: indexedDBFactory
+    turtle: localConfig.turtle,
+    indexedDB: localConfig.indexedDBFactory
   });
 }
 function remoteSourceForResource(name, descriptor = {}, config = {}, resourceId = name) {
@@ -12620,11 +11807,11 @@ function remoteSourceForResource(name, descriptor = {}, config = {}, resourceId 
   if (remoteConfig?.workspacePart === "source") {
     return remoteConfig;
   }
-  const url3 = remoteConfig.url ?? remoteConfig.resourceUrl ?? (descriptor.path && firstStorage(config.storage) ? new URL(descriptor.path, firstStorage(config.storage)).href : null);
-  if (!url3) {
+  const url2 = remoteConfig.url ?? remoteConfig.resourceUrl ?? (descriptor.path && firstStorage(config.storage) ? new URL(descriptor.path, firstStorage(config.storage)).href : null);
+  if (!url2) {
     return null;
   }
-  return solid.resource(url3, {
+  return solid.resource(url2, {
     id: remoteConfig.id ?? descriptor.remoteSource ?? `${resourceId}:solid`,
     readOnly: Boolean(remoteConfig.readOnly ?? descriptor.readOnly),
     shape: remoteConfig.shape ?? descriptor.shape ?? null,
@@ -12648,12 +11835,12 @@ function connectionResources(options = {}) {
 function remoteResourcePart(name, descriptor = {}, service) {
   const config = typeof descriptor === "string" ? { url: descriptor } : descriptor;
   const resourceId = config.resourceId ?? config.resource ?? name;
-  const url3 = config.url ?? config.resourceUrl ?? (config.path && firstStorage(service.status.storage) ? new URL(config.path, firstStorage(service.status.storage)).href : null);
-  if (!url3) {
+  const url2 = config.url ?? config.resourceUrl ?? (config.path && firstStorage(service.status.storage) ? new URL(config.path, firstStorage(service.status.storage)).href : null);
+  if (!url2) {
     throw new TypeError(`simplysolid: connected resource ${name} needs a url, resourceUrl, or path`);
   }
   return resource(resourceId, {
-    remote: solid.resource(url3, {
+    remote: solid.resource(url2, {
       id: config.id ?? config.source ?? `${resourceId}:solid`,
       readOnly: Boolean(config.readOnly),
       shape: config.shape ?? null,
@@ -12664,17 +11851,12 @@ function remoteResourcePart(name, descriptor = {}, service) {
     })
   });
 }
-function isResourceSyncRequest(currentWorkspace, options) {
-  return Boolean(
-    options?.workspacePart === "resource" || typeof options === "string" && currentWorkspace.resourceById.has(options)
-  );
-}
 function sourceFromPath(name, descriptor, config) {
   const storage = firstStorage(config.storage);
   if (!storage) {
     throw new TypeError(`simplysolid: collection ${name} uses path but no storage root was configured`);
   }
-  const url3 = new URL(descriptor.path, storage).href;
+  const url2 = new URL(descriptor.path, storage).href;
   const options = {
     id: descriptor.source ?? name,
     readOnly: Boolean(descriptor.readOnly),
@@ -12682,7 +11864,7 @@ function sourceFromPath(name, descriptor, config) {
     options: descriptor.options ?? {},
     writeOptions: descriptor.writeOptions
   };
-  return descriptor.kind === "resource" || descriptor.resource === true || !url3.endsWith("/") ? solid.resource(url3, options) : solid.container(url3, options);
+  return descriptor.kind === "resource" || descriptor.resource === true || !url2.endsWith("/") ? solid.resource(url2, options) : solid.container(url2, options);
 }
 function normalizeStorage(storage) {
   if (!storage) {
@@ -12697,8 +11879,8 @@ function firstStorage(storage) {
   return normalizeStorage(storage)[0] ?? null;
 }
 function storageUrl(storage) {
-  const url3 = typeof storage === "string" ? storage : storage?.url ?? storage?.id;
-  return url3 && !String(url3).endsWith("/") ? `${url3}/` : url3;
+  const url2 = typeof storage === "string" ? storage : storage?.url ?? storage?.id;
+  return url2 && !String(url2).endsWith("/") ? `${url2}/` : url2;
 }
 function setupConventions(config, normalized) {
   const storage = firstStorage(config.storage);
@@ -12707,7 +11889,7 @@ function setupConventions(config, normalized) {
   const appStorage = ensureSlash2(config.appStorage ?? config.setup?.appStorage ?? (storage ? new URL(`apps/${appSlug}/`, storage).href : null));
   const settingsUrl = config.settings?.url ?? config.setup?.settingsUrl ?? (appStorage ? new URL("settings.ttl", appStorage).href : null);
   const sourceContainers = (normalized.sources ?? []).filter((source2) => source2.kind === "container").map((source2) => source2.url);
-  const requiredContainers = unique2([
+  const requiredContainers = unique([
     appStorage,
     ...sourceContainers,
     ...config.setup?.containers ?? []
@@ -12731,7 +11913,7 @@ function registrationsFor(config, conventions) {
   if (config.registrations) {
     return config.registrations;
   }
-  const data = config.data ?? config.collections ?? {};
+  const data = config.data ?? {};
   return Object.entries(data).map(([name, descriptor]) => {
     const forClass = descriptor.shape?.for;
     if (!forClass) {
@@ -12761,23 +11943,23 @@ function setupStatus(state, conventions, registrations, options = {}) {
     registrations
   };
 }
-async function checkContainer(client3, url3) {
+async function checkContainer(client2, url2) {
   try {
-    const response3 = await client3.head(url3);
-    const status2 = response3?.status ?? 200;
+    const response2 = await client2.head(url2);
+    const status2 = response2?.status ?? 200;
     if (status2 === 404) {
-      return { url: url3, status: "missing", response: response3 };
+      return { url: url2, status: "missing", response: response2 };
     }
     if (status2 >= 400) {
-      return { url: url3, status: "error", response: response3 };
+      return { url: url2, status: "error", response: response2 };
     }
-    return { url: url3, status: "ready", response: response3 };
+    return { url: url2, status: "ready", response: response2 };
   } catch (error4) {
     const status2 = error4.cause?.status ?? error4.response?.status;
     if (status2 === 404) {
-      return { url: url3, status: "missing", error: error4 };
+      return { url: url2, status: "missing", error: error4 };
     }
-    return { url: url3, status: "error", error: error4 };
+    return { url: url2, status: "error", error: error4 };
   }
 }
 function defaultAppId() {
@@ -12785,29 +11967,29 @@ function defaultAppId() {
   if (!location) {
     return "app";
   }
-  const url3 = new URL(location);
-  url3.hash = "";
-  return url3.href;
+  const url2 = new URL(location);
+  url2.hash = "";
+  return url2.href;
 }
 function slugFrom(value) {
   const input2 = String(value);
   let source2 = input2;
   try {
-    const url3 = new URL(input2);
-    source2 = url3.pathname.split("/").filter(Boolean).at(-1) ?? url3.hostname;
+    const url2 = new URL(input2);
+    source2 = url2.pathname.split("/").filter(Boolean).at(-1) ?? url2.hostname;
   } catch {
     source2 = input2;
   }
   return source2.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "") || "app";
 }
-function ensureSlash2(url3) {
-  return url3 && !String(url3).endsWith("/") ? `${url3}/` : url3;
+function ensureSlash2(url2) {
+  return url2 && !String(url2).endsWith("/") ? `${url2}/` : url2;
 }
-function unique2(values2) {
-  return [...new Set(values2)];
+function unique(values3) {
+  return [...new Set(values3)];
 }
 
-// ../../poef/cobalt-note/packages/rich-text-note/dist/fragment.js
+// node_modules/@muze-labs/cobalt-rich-text-note/dist/fragment.js
 function getJoinOffsetAfterSeparator(first2, second, separator) {
   if (separator.length > 0) {
     return first2.text.length + separator.length;
@@ -12826,14 +12008,14 @@ function getNextOrder(fragment) {
   }
   return Math.max(...fragment.annotations.map((annotation) => annotation.order)) + 1;
 }
-function addAnnotation(fragment, range, tag) {
+function addAnnotation(fragment, range, tag2) {
   const [start, end] = range;
   if (end <= start) {
     return null;
   }
   const annotation = {
     range: [start, end],
-    tag,
+    tag: tag2,
     order: getNextOrder(fragment)
   };
   fragment.annotations.push(annotation);
@@ -13038,7 +12220,7 @@ function clamp(value, min, max) {
   return Math.max(min, Math.min(max, value));
 }
 
-// ../../poef/cobalt-note/packages/rich-text-note/dist/commands.js
+// node_modules/@muze-labs/cobalt-rich-text-note/dist/commands.js
 var InsertTextCommand = class {
   offset;
   text;
@@ -13079,9 +12261,9 @@ var DeleteRangeCommand = class {
 var AddAnnotationCommand = class {
   range;
   tag;
-  constructor(range, tag) {
+  constructor(range, tag2) {
     this.range = range;
-    this.tag = tag;
+    this.tag = tag2;
   }
   apply(fragment) {
     addAnnotation(fragment, this.range, this.tag);
@@ -13093,7 +12275,7 @@ function applyCommands(fragment, commands2) {
   }
 }
 
-// ../../poef/cobalt-note/packages/rich-text-note/dist/registry.js
+// node_modules/@muze-labs/cobalt-rich-text-note/dist/registry.js
 var AnnotationRegistry = class {
   definitions = /* @__PURE__ */ new Map();
   register(definition) {
@@ -13109,8 +12291,8 @@ var AnnotationRegistry = class {
     const key = shortcutFromKeyboardEvent(event);
     return this.getAll().find((definition) => definition.shortcut?.toLowerCase() === key);
   }
-  findByTag(tag) {
-    const trimmed = tag.trim();
+  findByTag(tag2) {
+    const trimmed = tag2.trim();
     for (const definition of this.definitions.values()) {
       if (trimmed === definition.tag) {
         return {
@@ -13167,8 +12349,8 @@ defaultRegistry.register({
   shortcut: "Ctrl+B",
   supportsPending: true
 });
-function parseAnnotationTag(tag, registry = defaultRegistry) {
-  const trimmed = tag.trim();
+function parseAnnotationTag(tag2, registry = defaultRegistry) {
+  const trimmed = tag2.trim();
   const registryMatch = registry.findByTag(trimmed);
   if (registryMatch) {
     return registryMatch;
@@ -13217,25 +12399,25 @@ function createInverseAnnotationTag(openingTag) {
   }
   return `</${trimmed.slice(1)}`;
 }
-function createHtmlCloseTag(tag) {
-  const tagName = getTagName(tag);
+function createHtmlCloseTag(tag2) {
+  const tagName = getTagName(tag2);
   if (!tagName) {
-    throw new Error(`Could not determine tag name: ${tag}`);
+    throw new Error(`Could not determine tag name: ${tag2}`);
   }
   return `</${tagName}>`;
 }
-function getTagName(tag) {
-  const match = tag.trim().match(/^<\/?\s*([^\s>/]+)/);
+function getTagName(tag2) {
+  const match = tag2.trim().match(/^<\/?\s*([^\s>/]+)/);
   return match?.[1] ?? null;
 }
-function isOpeningTag(tag, tagName) {
-  return new RegExp(`^<${tagName}(?:\\s[^>]*)?>$`, "i").test(tag);
+function isOpeningTag(tag2, tagName) {
+  return new RegExp(`^<${tagName}(?:\\s[^>]*)?>$`, "i").test(tag2);
 }
-function isClosingTag(tag, tagName) {
-  return new RegExp(`^</${tagName}(?:\\s[^>]*)?>$`, "i").test(tag);
+function isClosingTag(tag2, tagName) {
+  return new RegExp(`^</${tagName}(?:\\s[^>]*)?>$`, "i").test(tag2);
 }
-function isCobaltSelectionOpeningTag(tag) {
-  return /^<span\s[^>]*data-cobalt-selection=["']true["'][^>]*>$/i.test(tag);
+function isCobaltSelectionOpeningTag(tag2) {
+  return /^<span\s[^>]*data-cobalt-selection=["']true["'][^>]*>$/i.test(tag2);
 }
 function shortcutFromKeyboardEvent(event) {
   const parts2 = [];
@@ -13258,7 +12440,7 @@ function escapeAttribute(value) {
   return value.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
 }
 
-// ../../poef/cobalt-note/packages/rich-text-note/dist/editor-state.js
+// node_modules/@muze-labs/cobalt-rich-text-note/dist/editor-state.js
 function createEditorState() {
   return {
     pending: {}
@@ -13285,7 +12467,7 @@ function clearPendingAnnotations(state) {
   }
 }
 
-// ../../poef/cobalt-note/packages/rich-text-note/dist/clipboard.js
+// node_modules/@muze-labs/cobalt-rich-text-note/dist/clipboard.js
 var COBALT_CLIPBOARD_MIME = "application/x-cobalt-fragment+json";
 function writeFragmentToClipboard(clipboardData, fragment) {
   clipboardData.setData("text/plain", fragment.text);
@@ -13321,7 +12503,7 @@ function normalizeClipboardFragment(fragment) {
   };
 }
 
-// ../../poef/cobalt-note/packages/rich-text-note/dist/runs.js
+// node_modules/@muze-labs/cobalt-rich-text-note/dist/runs.js
 function createEmptyState() {
   return {};
 }
@@ -13417,8 +12599,8 @@ function copyState(state) {
     { ...value }
   ]));
 }
-function applyAnnotationToState(state, tag) {
-  const parsed = parseAnnotationTag(tag);
+function applyAnnotationToState(state, tag2) {
+  const parsed = parseAnnotationTag(tag2);
   if (!parsed) {
     return;
   }
@@ -13436,7 +12618,7 @@ function applyAnnotationToState(state, tag) {
   };
 }
 
-// ../../poef/cobalt-note/packages/rich-text-note/dist/render.js
+// node_modules/@muze-labs/cobalt-rich-text-note/dist/render.js
 function render(fragment) {
   const runs = generateRuns(fragment);
   let html2 = "";
@@ -13490,7 +12672,7 @@ function escapeHtml(text) {
   return text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
 }
 
-// ../../poef/cobalt-note/packages/note-core/dist/selection.js
+// node_modules/@muze-labs/cobalt-note-core/dist/selection.js
 function getTextNodes(root) {
   const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT);
   const nodes = [];
@@ -13798,7 +12980,7 @@ function isSentinelTextNode(node) {
   return node.parentElement?.hasAttribute("data-cobalt-sentinel") ?? false;
 }
 
-// ../../poef/cobalt-note/packages/rich-text-note/dist/editor.js
+// node_modules/@muze-labs/cobalt-rich-text-note/dist/editor.js
 var RICH_TEXT_NOTE_FRAGMENT_TYPE = "cobalt.rich-text";
 function cloneFragment(fragment) {
   return {
@@ -14006,8 +13188,8 @@ function edit(element2, fragment) {
       if (!this.canApplyCommand(command, range, value)) {
         return false;
       }
-      const tag = command === "link" && typeof value === "string" ? createLinkAnnotationTag(value) : createAnnotationTag(command, value !== false);
-      addAnnotation(fragment, [range.start, range.end], tag);
+      const tag2 = command === "link" && typeof value === "string" ? createLinkAnnotationTag(value) : createAnnotationTag(command, value !== false);
+      addAnnotation(fragment, [range.start, range.end], tag2);
       rerender(range.start, range.end);
       return true;
     },
@@ -14116,9 +13298,9 @@ function edit(element2, fragment) {
       return;
     }
     const currentState = getEffectiveState(fragment.annotations, selection.start);
-    const tag = createAnnotationTag(definition.name, currentState[definition.name] === void 0);
+    const tag2 = createAnnotationTag(definition.name, currentState[definition.name] === void 0);
     applyCommands(fragment, [
-      new AddAnnotationCommand([selection.start, selection.end], tag)
+      new AddAnnotationCommand([selection.start, selection.end], tag2)
     ]);
     rerender(selection.start, selection.end);
   }
@@ -14366,8 +13548,6 @@ var annotationVocabulary = {
   classes: {
     annotation: "http://www.w3.org/ns/oa#Annotation",
     textualBody: "http://www.w3.org/ns/oa#TextualBody",
-    specificResource: "http://www.w3.org/ns/oa#SpecificResource",
-    fragmentSelector: "http://www.w3.org/ns/oa#FragmentSelector",
     cobaltFragment: "https://vocab.muze.nl/cobalt#Fragment"
   },
   predicates: {
@@ -14376,511 +13556,207 @@ var annotationVocabulary = {
     created: "dcterms$created",
     modified: "dcterms$modified",
     format: "dcterms$format",
+    hasFormat: "dcterms$hasFormat",
     value: "rdf$value",
     hasBody: "oa$hasBody",
     hasTarget: "oa$hasTarget",
-    hasSource: "oa$hasSource",
-    hasSelector: "oa$hasSelector",
     text: "schema$text",
     cobaltFragment: "cobalt$fragment"
-  },
-  mediaTypes: {
-    cobaltFragment: "application/vnd.cobalt.fragment+json"
   }
 };
 
-// node_modules/@muze-nl/jaqt/src/jaqt.mjs
-function isPrimitiveWrapper3(data) {
-  return [String, Boolean, Number, BigInt].includes(data?.constructor);
-}
-function getSelectFn2(filter2) {
-  let fns = [];
-  if (filter2 instanceof Function) {
-    fns.push(filter2);
-  } else for (const [filterKey, filterValue] of Object.entries(filter2)) {
-    if (filterValue instanceof Function) {
-      fns.push((data) => {
-        if (filterKey == "_") {
-          return filterValue(data, filterKey, "select");
-        } else {
-          return {
-            [filterKey]: filterValue(data, filterKey, "select")
-          };
-        }
-      });
-    } else if (!isPrimitiveWrapper3(filterValue)) {
-      fns.push((data) => {
-        if (filterKey == "_") {
-          return from2(data[filterKey]).select(filterValue);
-        } else {
-          return {
-            [filterKey]: from2(data[filterKey]).select(filterValue)
-          };
-        }
-      });
-    } else {
-      fns.push(() => {
-        if (filterKey == "_") {
-          return filterValue;
-        } else {
-          return {
-            [filterKey]: filterValue
-          };
-        }
-      });
-    }
+// src/features/paragraph-note-stacks/cobalt-fragment-rdf.js
+var cobalt = annotationVocabulary.prefixes.cobalt;
+var rdf3 = annotationVocabulary.prefixes.rdf;
+function writeCobaltFragment(fragment, { id: id2, htmlId, graph: graph3 } = {}) {
+  validateFragment(fragment);
+  if (typeof id2 !== "string" || !id2) {
+    throw new TypeError("cobalt-fragment-rdf: fragment id is required");
   }
-  if (fns.length == 1) {
-    return fns[0];
+  if (typeof htmlId !== "string" || !htmlId || htmlId === id2) {
+    throw new TypeError("cobalt-fragment-rdf: a distinct HTML body id is required");
   }
-  return (data) => {
-    let result = {};
-    for (let fn of fns) {
-      Object.assign(result, fn(data));
-    }
-    return result;
-  };
-}
-function getMatchFn2(pattern) {
-  let fns = [];
-  if (Array.isArray(pattern)) {
-    fns.push(anyOf3(...pattern));
-  } else if (pattern instanceof RegExp) {
-    fns.push((data) => pattern.test(data));
-  } else if (pattern instanceof Function) {
-    fns.push((data) => pattern(data));
-  } else if (!isPrimitiveWrapper3(pattern)) {
-    let patternMatches = {};
-    for (const [wKey, wVal] of Object.entries(pattern)) {
-      patternMatches[wKey] = getMatchFn2(wVal);
-    }
-    let matchFn = (data) => {
-      if (Array.isArray(data)) {
-        return data.filter((element2) => matchFn(element2)).length > 0;
-      }
-      if (isPrimitiveWrapper3(data)) {
-        return false;
-      }
-      for (let wKey in patternMatches) {
-        let patternMatchFn = patternMatches[wKey];
-        if (!patternMatchFn(data?.[wKey])) {
-          return false;
-        }
-      }
-      return true;
-    };
-    fns.push(matchFn);
-  } else {
-    fns.push((data) => {
-      if (Array.isArray(data)) {
-        return data.filter((element2) => pattern == element2).length > 0;
-      } else {
-        return pattern == data;
-      }
-    });
+  const html2 = render(fragment);
+  if (!graph3) {
+    graph3 = new src_default2.Graph(
+      [],
+      id2,
+      "text/turtle",
+      annotationVocabulary.prefixes,
+      src_default2.context()
+    );
   }
-  if (fns.length == 1) {
-    return fns[0];
+  const node = graph3.addNamedNode(id2);
+  const previous = field3(node, cobalt + "annotations");
+  graph3.add(node, "a", annotationVocabulary.classes.cobaltFragment);
+  graph3.set(node, rdf3 + "value", src_default2.literal(fragment.text));
+  const annotations = new src_default2.Collection(graph3);
+  for (const [index, annotation] of fragment.annotations.entries()) {
+    const item = graph3.addNamedNode(`${id2}-${index}`);
+    graph3.set(item, cobalt + "start", integerLiteral(annotation.range[0]));
+    graph3.set(item, cobalt + "end", integerLiteral(annotation.range[1]));
+    graph3.set(item, cobalt + "tag", src_default2.literal(annotation.tag));
+    graph3.set(item, cobalt + "order", integerLiteral(annotation.order));
+    annotations.push(item);
   }
-  return (data) => {
-    for (let fn of fns) {
-      if (!fn(data)) {
-        return false;
-      }
-    }
-    return true;
-  };
-}
-var asc2 = Symbol("asc");
-var desc2 = Symbol("desc");
-function getSortFn2(pattern) {
-  let comparisons = Object.entries(pattern);
-  let fns = [];
-  for (let [key, compare] of comparisons) {
-    if (compare instanceof Function) {
-      fns.push(compare);
-    } else if (compare === asc2) {
-      fns.push((a, b) => a[key] > b[key] ? 1 : a[key] < b[key] ? -1 : 0);
-    } else if (compare === desc2) {
-      fns.push((a, b) => a[key] < b[key] ? 1 : a[key] > b[key] ? -1 : 0);
-    } else if (!isPrimitiveWrapper3(compare)) {
-      let subFn = getSortFn2(compare);
-      fns.push((a, b) => subFn(a[key], b[key]));
-    } else {
-      throw new Error("Unknown sort order", compare);
-    }
-  }
-  if (fns.length == 1) {
-    return fns[0];
-  }
-  return (a, b) => {
-    for (let fn of fns) {
-      let result = fn(a, b);
-      if (result !== 0) {
-        return result;
-      }
-    }
-    return 0;
-  };
-}
-function getAggregateFn2(filter2) {
-  let fns = [];
-  if (filter2 instanceof Function) {
-    fns.push(filter2);
-  } else for (const [filterKey, filterValue] of Object.entries(filter2)) {
-    if (filterValue instanceof Function) {
-      fns.push((a, o, i, l) => {
-        if (isPrimitiveWrapper3(a)) {
-          a = {};
-        }
-        if (o.reduce) {
-          a[filterKey] = o.reduce(filterValue, a[filterKey] || []);
-        } else {
-          a[filterKey] = filterValue(a[filterKey] || [], o, i, l);
-        }
-        return a;
-      });
-    } else if (!isPrimitiveWrapper3(filterValue)) {
-      fns.push((a, o) => {
-        if (isPrimitiveWrapper3(a)) {
-          a = {};
-        }
-        a[filterKey] = from2(o[filterKey]).reduce(filterValue, []);
-        return a;
-      });
-    } else {
-      fns.push((a) => {
-        if (isPrimitiveWrapper3(a)) {
-          a = {};
-        }
-        a[filterKey] = filterValue;
-        return a;
-      });
-    }
-  }
-  if (fns.length == 1) {
-    return fns[0];
-  }
-  return (a, o, i, l) => {
-    let result = {};
-    for (let fn of fns) {
-      Object.assign(result, fn(a, o, i, l));
-    }
-    return result;
-  };
-}
-function getMatchingGroups2(data, pointerFn) {
-  let result = {};
-  for (let entity of data) {
-    let groups = pointerFn(entity);
-    if (!Array.isArray(groups)) {
-      groups = [groups];
-    }
-    for (let group2 of groups) {
-      if (typeof group2 != "string" && !(group2 instanceof String)) {
-        console.warn("JAQT: groupBy(selector) can only handle string values, got:", group2);
+  const currentIds = new Set(annotations.map((item) => item.id));
+  if (previous instanceof src_default2.Collection) {
+    for (const item of previous) {
+      if (currentIds.has(item.id)) {
         continue;
       }
-      if (!result[group2]) {
-        result[group2] = [];
+      for (const name of ["start", "end", "tag", "order"]) {
+        graph3.delete(item, cobalt + name);
       }
-      result[group2].push(entity);
+      if (Object.keys(item).length === 1) {
+        graph3.delete(item);
+      }
     }
   }
-  return result;
+  if (annotations.length === 0) {
+    graph3.set(
+      node,
+      cobalt + "annotations",
+      graph3.addNamedNode("http://www.w3.org/1999/02/22-rdf-syntax-ns#nil")
+    );
+  } else {
+    graph3.set(node, cobalt + "annotations", annotations);
+  }
+  const body = graph3.addNamedNode(htmlId);
+  graph3.add(body, "a", annotationVocabulary.classes.textualBody);
+  graph3.set(body, annotationVocabulary.prefixes.dcterms + "format", "text/html");
+  graph3.set(body, rdf3 + "value", src_default2.literal(html2));
+  graph3.set(node, annotationVocabulary.prefixes.dcterms + "hasFormat", body);
+  return node;
 }
-function groupBy2(data, pointerFunctions) {
-  let pointerFn = pointerFunctions.shift();
-  if (typeof pointerFn == "string") {
-    pointerFn = _2[pointerFn];
+function readCobaltFragment(node) {
+  if (!node || !src_default2.many(node.a).includes(
+    annotationVocabulary.classes.cobaltFragment
+  )) {
+    throw new TypeError("cobalt-fragment-rdf: expected a Cobalt Fragment node");
   }
-  if (typeof pointerFn != "function") {
-    throw new Error("groupBy parameters must be either a property name or a pointer function (e.g.: _.name)");
+  let annotations = field3(node, cobalt + "annotations");
+  if (annotations?.id === "http://www.w3.org/1999/02/22-rdf-syntax-ns#nil") {
+    annotations = new src_default2.Collection(node.graph);
   }
-  let groups = getMatchingGroups2(data, pointerFn);
-  if (pointerFunctions.length) {
-    for (let group2 in groups) {
-      groups[group2] = groupBy2(groups[group2], pointerFunctions);
-    }
+  if (!(annotations instanceof src_default2.Collection)) {
+    throw new TypeError("cobalt-fragment-rdf: annotations must be a Collection");
   }
-  return groups;
-}
-function anyOf3(...patterns) {
-  let matchFns = patterns.map((pattern) => getMatchFn2(pattern));
-  return (data) => matchFns.some((fn) => fn(data));
-}
-var FunctionProxyHandler2 = {
-  apply(target, thisArg, argumentsList) {
-    let result = target.apply(thisArg, argumentsList);
-    if (typeof result === "object") {
-      return new Proxy(result, DataProxyHandler2);
-    }
-    return result;
-  }
-};
-var DataProxyHandler2 = {
-  get(target, property) {
-    let result = null;
-    if (typeof property === "symbol") {
-      result = target[property];
-    }
-    if (Array.isArray(target)) {
-      switch (property) {
-        case "where":
-          result = function(shape) {
-            let matchFn = getMatchFn2(shape);
-            return new Proxy(
-              target.filter((element2) => matchFn(element2)),
-              DataProxyHandler2
-            );
-          };
-          break;
-        case "select":
-          result = function(filter2) {
-            let selectFn = getSelectFn2(filter2);
-            return new Proxy(
-              target.map(selectFn),
-              DataProxyHandler2
-            );
-          };
-          break;
-        case "reduce":
-          result = function(pattern, initial = []) {
-            let aggregateFn = getAggregateFn2(pattern);
-            let temp = target.reduce(aggregateFn, initial);
-            if (Array.isArray(temp)) {
-              return new Proxy(temp, DataProxyHandler2);
-            } else if (!isPrimitiveWrapper3(temp)) {
-              return new Proxy(temp, GroupByProxyHandler2);
-            } else {
-              return temp;
-            }
-          };
-          break;
-        case "orderBy":
-          result = function(pattern) {
-            let sortFn = getSortFn2(pattern);
-            return new Proxy(
-              target.toSorted(sortFn),
-              DataProxyHandler2
-            );
-          };
-          break;
-        case "groupBy":
-          result = function(...groups) {
-            let temp = groupBy2(target, groups);
-            return new Proxy(
-              temp,
-              GroupByProxyHandler2
-            );
-          };
-          break;
-      }
-    }
-    if (!result && target && typeof target === "object") {
-      if (property === "select") {
-        result = function(filter2) {
-          let selector = getSelectFn2(filter2);
-          return new Proxy(selector(target), DataProxyHandler2);
-        };
-      }
-    }
-    if (!result && target && typeof target[property] === "function") {
-      result = new Proxy(target[property], FunctionProxyHandler2);
-    }
-    if (!result) {
-      result = target[property];
-    }
-    return result;
-  }
-};
-var GroupByProxyHandler2 = {
-  get(target, property) {
-    let result = null;
-    switch (property) {
-      case "select":
-        result = function(filter2) {
-          let selectFn = getSelectFn2(filter2);
-          let result2 = {};
-          for (let group2 in target) {
-            if (Array.isArray(target[group2])) {
-              result2[group2] = new Proxy(target[group2].map(selectFn), DataProxyHandler2);
-            } else {
-              result2[group2] = new Proxy(target[group2], GroupByProxyHandler2);
-            }
-          }
-          return result2;
-        };
-        break;
-      case "reduce":
-        result = function(pattern, initial = []) {
-          let aggregateFn = getAggregateFn2(pattern);
-          let result2 = {};
-          for (let group2 in target) {
-            if (Array.isArray(target[group2])) {
-              let temp = target[group2].reduce(aggregateFn, initial);
-              if (Array.isArray(temp)) {
-                result2[group2] = new Proxy(temp, DataProxyHandler2);
-              } else if (!isPrimitiveWrapper3(temp)) {
-                result2[group2] = new Proxy(temp, GroupByProxyHandler2);
-              } else {
-                result2[group2] = temp;
-              }
-            } else {
-              result2[group2] = new Proxy(target[group2], GroupByProxyHandler2);
-            }
-          }
-          return result2;
-        };
-        break;
-      default:
-        if (Array.isArray(target[property])) {
-          result = from2(target[property]);
-        } else {
-          result = target[property];
-        }
-        break;
-    }
-    return result;
-  }
-};
-var EmptyHandler2 = {
-  get(target, property) {
-    let result = null;
-    switch (property) {
-      case "where":
-        result = function() {
-          return new Proxy(new Null2(), EmptyHandler2);
-        };
-        break;
-      case "reduce":
-      case "select":
-        result = function() {
-          return null;
-        };
-        break;
-      case "orderBy":
-        result = function() {
-          return new Proxy(new Null2(), EmptyHandler2);
-        };
-        break;
-      case "groupBy":
-        result = function() {
-          return new Proxy(new Null2(), EmptyHandler2);
-        };
-        break;
-    }
-    if (!result && typeof target?.[property] == "function") {
-      result = target[property];
-    }
-    return result;
-  }
-};
-var Null2 = class {
-  toJSON() {
-    return null;
-  }
-};
-function from2(data) {
-  if (!data || typeof data !== "object") {
-    return new Proxy(new Null2(), EmptyHandler2);
-  }
-  return new Proxy(data, DataProxyHandler2);
-}
-function getPointerFn2(path2) {
-  return (data, key) => {
-    if (path2?.length > 0) {
-      let localPath = path2.slice();
-      let prop = localPath.shift();
-      while (prop) {
-        if (Array.isArray(data) && parseInt(prop) != prop) {
-          localPath.unshift(prop);
-          return data.map(getPointerFn2(localPath));
-        } else if (typeof data?.[prop] != "undefined") {
-          data = data[prop];
-        } else {
-          data = null;
-        }
-        prop = localPath.shift();
-      }
-      return data;
-    } else if (key && key !== "_") {
-      if (typeof data?.[key] != "undefined") {
-        return data[key];
-      } else {
-        return null;
-      }
-    } else {
-      return data;
-    }
+  const fragment = {
+    text: stringValue(field3(node, rdf3 + "value")),
+    annotations: Array.from(annotations, (item) => ({
+      range: [
+        numberValue(field3(item, cobalt + "start")),
+        numberValue(field3(item, cobalt + "end"))
+      ],
+      tag: stringValue(field3(item, cobalt + "tag")),
+      order: numberValue(field3(item, cobalt + "order"))
+    }))
   };
+  validateFragment(fragment);
+  return fragment;
 }
-var pointerHandler2 = (path2) => {
-  if (!path2) {
-    path2 = [];
+function field3(node, predicate) {
+  if (!node?.graph) {
+    throw new TypeError("cobalt-fragment-rdf: expected a native RDF node");
   }
-  return {
-    get(target, property) {
-      if (property == "constructor" || typeof property == "symbol") {
-        return target[property];
-      }
-      let newpath = path2.concat([property]);
-      return new Proxy(getPointerFn2(newpath), pointerHandler2(newpath));
-    },
-    apply(target, thisArg, argumentsList) {
-      let result = target(...argumentsList);
-      if (Array.isArray(result)) {
-        result = result.flat(Infinity);
-      }
-      return result;
+  return node[node.graph.propertyName(predicate)];
+}
+function integerLiteral(value) {
+  return src_default2.literal(value, {
+    type: "http://www.w3.org/2001/XMLSchema#integer"
+  });
+}
+function stringValue(value) {
+  if (typeof value !== "string" && !(value instanceof String)) {
+    throw new TypeError("cobalt-fragment-rdf: expected a string literal");
+  }
+  return String(value);
+}
+function numberValue(value) {
+  const integerText = value instanceof String && value.type === "http://www.w3.org/2001/XMLSchema#integer" && /^[+-]?\d+$/.test(String(value));
+  if (!integerText && typeof value !== "number" && !(value instanceof Number)) {
+    throw new TypeError("cobalt-fragment-rdf: expected a numeric literal");
+  }
+  return Number(value);
+}
+function validateFragment(fragment) {
+  if (typeof fragment?.text !== "string" || !Array.isArray(fragment.annotations)) {
+    throw new TypeError("cobalt-fragment-rdf: expected text and annotations");
+  }
+  for (const annotation of fragment.annotations) {
+    const range = annotation?.range;
+    if (!Array.isArray(range) || range.length !== 2 || !range.every(Number.isSafeInteger) || range[0] < 0 || range[1] < range[0] || range[1] > fragment.text.length || typeof annotation.tag !== "string" || !Number.isSafeInteger(annotation.order)) {
+      throw new TypeError("cobalt-fragment-rdf: invalid annotation range/tag/order");
     }
-  };
-};
-var _2 = new Proxy(getPointerFn2(), pointerHandler2());
+  }
+}
 
 // src/features/paragraph-note-stacks/annotation-model.js
 var annotationModel = {
   vocabulary: annotationVocabulary,
-  createAnnotationNote({ anchorId, fragment, now: now2 = (/* @__PURE__ */ new Date()).toISOString() }) {
-    const annotationId = this.createLocalSubjectId({});
-    const body = {
-      id: this.relatedSubjectId({ annotationId, part: "body" }),
-      rdf$type: [
-        this.vocabulary.classes.textualBody,
-        this.vocabulary.classes.cobaltFragment
-      ],
-      dcterms$format: this.vocabulary.mediaTypes.cobaltFragment,
-      rdf$value: this.noteText({ fragment }),
-      schema$text: this.noteText({ fragment }),
-      cobalt$fragment: fragment
-    };
-    const target = {
-      id: this.relatedSubjectId({ annotationId, part: "target" }),
-      rdf$type: this.vocabulary.classes.specificResource,
-      oa$hasSource: this.currentDocumentIri({}),
-      oa$hasSelector: {
-        id: this.relatedSubjectId({ annotationId, part: "selector-fragment" }),
-        rdf$type: this.vocabulary.classes.fragmentSelector,
-        rdf$value: anchorId
-      }
-    };
+  replicaPolicy: {
+    ownedPredicates: [
+      annotationVocabulary.prefixes.dcterms + "hasFormat",
+      annotationVocabulary.prefixes.cobalt + "fragment",
+      annotationVocabulary.prefixes.cobalt + "annotations"
+    ],
+    scalarPredicates: [
+      annotationVocabulary.prefixes.oa + "hasBody",
+      annotationVocabulary.prefixes.dcterms + "hasFormat",
+      annotationVocabulary.prefixes.dcterms + "format",
+      annotationVocabulary.prefixes.cobalt + "fragment",
+      annotationVocabulary.prefixes.rdf + "value",
+      ...["annotations", "start", "end", "tag", "order"].map(
+        (name) => annotationVocabulary.prefixes.cobalt + name
+      )
+    ]
+  },
+  createAnnotationNote({
+    anchorId,
+    fragment,
+    subjects = [],
+    sequence = {},
+    now: now2 = (/* @__PURE__ */ new Date()).toISOString()
+  }) {
+    const annotationId = this.createAnnotationId({ subjects, sequence });
+    const storedFragment = writeCobaltFragment(fragment, {
+      id: this.relatedSubjectId({ annotationId, part: "fragment" }),
+      htmlId: this.relatedSubjectId({ annotationId, part: "html" })
+    });
     return {
       id: annotationId,
-      rdf$type: this.vocabulary.classes.annotation,
+      a: this.vocabulary.classes.annotation,
       dcterms$created: now2,
       dcterms$modified: now2,
-      oa$hasBody: body,
-      oa$hasTarget: target
+      oa$hasBody: storedFragment.dcterms$hasFormat,
+      cobalt$fragment: storedFragment,
+      oa$hasTarget: `${this.currentDocumentIri({})}#${encodeURIComponent(anchorId)}`
     };
   },
   relatedSubjectId({ annotationId, part }) {
     return `${annotationId}${annotationId.includes("#") ? "-" : "#"}${part}`;
   },
-  createLocalSubjectId() {
-    if (globalThis.crypto?.randomUUID) {
-      return `urn:uuid:${globalThis.crypto.randomUUID()}`;
+  restoreAnnotationSequence({ subjects, sequence }) {
+    const identifiers = subjects.map((subject) => subject.id?.match(/#margin-note-([A-Za-z0-9_-]{8})-([1-9][0-9]*)$/)).filter(Boolean);
+    if (!sequence.code) {
+      const codes = identifiers.map((match) => match[1]).sort();
+      sequence.code = codes[0];
     }
-    return `urn:muze:margin-notes:${Date.now()}-${Math.random().toString(16).slice(2)}`;
+    for (const match of identifiers) {
+      if (match[1] === sequence.code) {
+        sequence.counter = Math.max(sequence.counter || 0, Number(match[2]));
+      }
+    }
+  },
+  createAnnotationId({ subjects, sequence }) {
+    this.restoreAnnotationSequence({ subjects, sequence });
+    sequence.code ||= randomCode();
+    sequence.counter = (sequence.counter || 0) + 1;
+    if (!Number.isSafeInteger(sequence.counter)) {
+      throw new RangeError("annotation-model: annotation counter exhausted");
+    }
+    return `${this.currentDocumentIri({})}#margin-note-${sequence.code}-${sequence.counter}`;
   },
   currentDocumentIri() {
     const href = globalThis.location?.href;
@@ -14891,24 +13767,33 @@ var annotationModel = {
   },
   annotationAnchorId({ annotation }) {
     const target = src_default2.one(annotation?.oa$hasTarget, "first");
-    const fragment = from2(src_default2.many(target?.oa$hasSelector)).where((selector) => src_default2.many(selector?.rdf$type).includes(this.vocabulary.classes.fragmentSelector) || src_default2.many(selector?.a).includes(this.vocabulary.classes.fragmentSelector))[0];
-    if (fragment?.rdf$value != null) {
-      return String(fragment.rdf$value);
+    const iri = typeof target === "string" ? target : target?.id;
+    if (!iri || !iri.startsWith(`${this.currentDocumentIri({})}#`)) {
+      return void 0;
     }
-    return fragment?.rdf$value;
+    try {
+      return decodeURIComponent(iri.slice(iri.indexOf("#") + 1)) || void 0;
+    } catch {
+      return void 0;
+    }
   },
   annotationBody({ annotation }) {
     return src_default2.one(annotation?.oa$hasBody, "first");
   },
   annotationBodyFragment({ annotation }) {
-    return this.annotationBody({ annotation })?.cobalt$fragment || { text: "", annotations: [] };
+    return readCobaltFragment(src_default2.one(annotation?.cobalt$fragment, "first"));
   },
   updateAnnotationBody({ annotation, fragment, now: now2 = (/* @__PURE__ */ new Date()).toISOString() }) {
     const body = this.annotationBody({ annotation });
-    if (!body) return;
-    body.rdf$value = this.noteText({ fragment });
-    body.schema$text = this.noteText({ fragment });
-    body.cobalt$fragment = fragment;
+    const storedFragment = src_default2.one(annotation?.cobalt$fragment, "first");
+    if (!body || !storedFragment) {
+      throw new TypeError("annotation-model: annotation needs a body and Cobalt fragment");
+    }
+    writeCobaltFragment(fragment, {
+      id: storedFragment.id,
+      htmlId: body.id,
+      graph: storedFragment.graph
+    });
     annotation.dcterms$modified = now2;
   },
   removeAnnotationFromGraph({ app: app2, annotationId }) {
@@ -14939,122 +13824,13 @@ var annotationModel = {
     note.createdLabel = `Created: ${(note.created || "").substring(0, 10)}`;
     return note;
   },
-  toStoredAnnotation({ annotation }) {
-    const stored = this.cloneValue({ value: annotation });
-    const body = this.annotationBody({ annotation: stored });
-    if (body?.rdf$value != null) {
-      body.rdf$value = String(body.rdf$value);
-    }
-    if (body?.schema$text != null) {
-      body.schema$text = String(body.schema$text);
-    }
-    if (body?.cobalt$fragment?.text != null) {
-      body.cobalt$fragment.text = String(body.cobalt$fragment.text);
-    }
-    const target = src_default2.one(stored?.oa$hasTarget, "first");
-    for (const selector of src_default2.many(target?.oa$hasSelector)) {
-      if (selector?.rdf$value != null) {
-        selector.rdf$value = String(selector.rdf$value);
-      }
-    }
-    return stored;
-  },
-  toStorageDocument({ subjects }) {
-    return {
-      format: "margin-notes-oldmed-graph",
-      version: 1,
-      prefixes: this.vocabulary.prefixes,
-      subjects: Array.from(from2(subjects).where((annotation) => this.isMarginNoteAnnotation({ value: annotation })).select((annotation) => this.toStoredAnnotation({ annotation })))
-    };
-  },
-  toStoredGraph({ value }) {
-    const context = src_default2.context({ prefixes: { ...this.vocabulary.prefixes, ...value?.prefixes } });
-    value = this.expandStoredTypes({ value, context });
-    if (Array.isArray(value)) {
-      return Array.from(from2(value).select((note) => {
-        if (this.isMarginNoteAnnotation({ value: note })) {
-          return note;
-        }
-        return this.annotationFromLegacyNote({ note });
-      }).where((annotation) => this.isMarginNoteAnnotation({ value: annotation })));
-    }
-    if (Array.isArray(value?.subjects)) {
-      return Array.from(from2(value.subjects).where((subject) => this.isMarginNoteAnnotation({ value: subject })));
-    }
-    return [];
-  },
-  // Upgrade only RDF type values at the load boundary. Keep already-current
-  // subjects by reference so edits still belong to their workspace records.
-  expandStoredTypes({ value, context }) {
-    if (Array.isArray(value)) {
-      const expanded = value.map((item) => this.expandStoredTypes({ value: item, context }));
-      return expanded.some((item, index) => item !== value[index]) ? expanded : value;
-    }
-    if (!value || typeof value !== "object" || value instanceof String || value instanceof Number || value instanceof Boolean) {
-      return value;
-    }
-    let result = value;
-    for (const [key, item] of Object.entries(value)) {
-      let expanded;
-      if (value.id && (key === "a" || key === "rdf$type")) {
-        expanded = Array.isArray(item) ? item.map((type) => context.fullURI(type)) : context.fullURI(item);
-        if (Array.isArray(item) && expanded.every((type, index) => type === item[index])) expanded = item;
-      } else {
-        expanded = this.expandStoredTypes({ value: item, context });
-      }
-      if (expanded !== item) {
-        if (result === value) result = { ...value };
-        result[key] = expanded;
-      }
-    }
-    return result;
-  },
   isOldmedAnnotation({ value }) {
-    return src_default2.many(value?.rdf$type).includes(this.vocabulary.classes.annotation) || src_default2.many(value?.a).includes(this.vocabulary.classes.annotation);
+    return src_default2.many(value?.a).includes(this.vocabulary.classes.annotation);
   },
   isMarginNoteAnnotation({ value }) {
     return Boolean(
-      this.isOldmedAnnotation({ value }) && this.annotationBody({ annotation: value }) && this.annotationAnchorId({ annotation: value })
+      this.isOldmedAnnotation({ value }) && this.annotationBody({ annotation: value }) && src_default2.many(src_default2.one(value.cobalt$fragment, "first")?.a).includes(this.vocabulary.classes.cobaltFragment) && this.annotationAnchorId({ annotation: value })
     );
-  },
-  annotationFromLegacyNote({ note }) {
-    const annotation = this.createAnnotationNote({
-      anchorId: note.anchorId,
-      fragment: note.body || { text: "", annotations: [] },
-      now: note.created || (/* @__PURE__ */ new Date()).toISOString()
-    });
-    annotation.id = this.legacyLocalSubjectId({ id: note.id });
-    annotation.dcterms$created = note.created || annotation.dcterms$created;
-    annotation.dcterms$modified = note.modified || annotation.dcterms$modified;
-    annotation.oa$hasBody.id = this.relatedSubjectId({ annotationId: annotation.id, part: "body" });
-    annotation.oa$hasTarget.id = this.relatedSubjectId({ annotationId: annotation.id, part: "target" });
-    annotation.oa$hasTarget.oa$hasSelector.id = this.relatedSubjectId({ annotationId: annotation.id, part: "selector-fragment" });
-    return annotation;
-  },
-  legacyLocalSubjectId({ id: id2 }) {
-    if (typeof id2 === "string" && /^(?:[a-z][a-z0-9+.-]*:)/i.test(id2)) {
-      return id2;
-    }
-    return `urn:muze:margin-notes:${encodeURIComponent(id2 || this.createLocalSubjectId({}))}`;
-  },
-  cloneValue({ value }) {
-    if (Array.isArray(value)) {
-      return value.map((item) => this.cloneValue({ value: item }));
-    }
-    if (value instanceof String || value instanceof Number || value instanceof Boolean) {
-      const clone2 = new value.constructor(value.valueOf());
-      for (const [key, item] of Object.entries(value)) {
-        if (!/^\d+$/.test(key)) clone2[key] = this.cloneValue({ value: item });
-      }
-      return clone2;
-    }
-    if (value && typeof value === "object") {
-      const entries = Object.entries(value);
-      return Object.fromEntries(
-        entries.map(([key, item]) => [key, this.cloneValue({ value: item })])
-      );
-    }
-    return value;
   },
   noteText({ fragment }) {
     if (fragment?.text != null) {
@@ -15063,6 +13839,11 @@ var annotationModel = {
     return "(empty note)";
   }
 };
+function randomCode() {
+  return btoa(String.fromCharCode(
+    ...globalThis.crypto.getRandomValues(new Uint8Array(6))
+  )).replace(/\+/g, "-").replace(/\//g, "_");
+}
 
 // src/features/paragraph-note-stacks/root.html
 var root_default = '<div class="margin-notes-root" hidden></div>\n';
@@ -15071,7 +13852,7 @@ var root_default = '<div class="margin-notes-root" hidden></div>\n';
 var anchor_widget_default = '<span class="margin-notes-anchor-widget">\n  <button\n    type="button"\n    class="margin-notes-target-add-btn"\n    title="Add note"\n    aria-label="Add note"\n    data-simply-command="createNote"\n    data-simply-value=":value"\n  >+</button>\n  <span class="margin-notes-target-note-list" data-simply-shortcuts="marginNotesNote">\n    <span class="margin-notes-target-note-items" data-simply-list="visibleNotes">\n      <template rel="margin-notes-inline-note"></template>\n    </span>\n    <button\n      type="button"\n      class="margin-notes-target-note-count"\n      aria-expanded="false"\n      data-margin-notes-empty="true"\n      data-simply-command="toggleAnchorNoteList"\n      data-simply-value=":value"\n    ><span data-simply-field="overflowLabel"></span></button>\n  </span>\n</span>\n';
 
 // src/features/paragraph-note-stacks/inline-note.html
-var inline_note_default = '<article class="margin-notes-target-note">\n  <button\n    type="button"\n    class="margin-notes-target-note-toggle"\n    aria-expanded="false"\n    data-simply-shortcuts="marginNotesNote"\n    data-simply-command="expandInlineNote"\n    data-simply-value=":value"\n  ><span class="margin-notes-target-note-text" data-simply-field="bodyText"></span></button>\n  <button\n    type="button"\n    class="margin-notes-target-note-close"\n    aria-label="Close note"\n    data-simply-command="collapseInlineNote"\n    data-simply-value=":value"\n  >x</button>\n  <span class="margin-notes-target-note-actions">\n    <button\n      type="button"\n      class="margin-notes-target-note-action"\n      data-simply-command="updateNote"\n      data-simply-value=":value"\n    >Edit</button>\n    <button\n      type="button"\n      class="margin-notes-target-note-action"\n      data-simply-command="deleteNote"\n      data-simply-value=":value"\n    >Delete</button>\n  </span>\n</article>\n';
+var inline_note_default = '<article class="margin-notes-target-note">\n  <button\n    type="button"\n    class="margin-notes-target-note-toggle"\n    aria-expanded="false"\n    data-simply-shortcuts="marginNotesNote"\n    data-simply-command="expandInlineNote"\n    data-simply-value=":value"\n  ><span class="margin-notes-target-note-text" data-simply-field="body" data-simply-transform="cobaltFragment"></span></button>\n  <button\n    type="button"\n    class="margin-notes-target-note-close"\n    aria-label="Close note"\n    data-simply-command="collapseInlineNote"\n    data-simply-value=":value"\n  >x</button>\n  <span class="margin-notes-target-note-actions">\n    <button\n      type="button"\n      class="margin-notes-target-note-action"\n      data-simply-command="updateNote"\n      data-simply-value=":value"\n    >Edit</button>\n    <button\n      type="button"\n      class="margin-notes-target-note-action"\n      data-simply-command="deleteNote"\n      data-simply-value=":value"\n    >Delete</button>\n  </span>\n</article>\n';
 
 // src/features/solid-connection/control.html
 var control_default = '<form class="margin-notes-solid-connection" data-margin-notes-solid-connection>\n  <label class="margin-notes-solid-connection-webid">\n    <span>WebID</span>\n    <input\n      type="url"\n      inputmode="url"\n      autocomplete="url"\n      placeholder="https://example.solidcommunity.net/profile/card#me"\n      data-margin-notes-solid-webid\n    >\n  </label>\n  <button type="submit" class="ds-button ds-button-primary">Connect</button>\n  <p class="margin-notes-solid-connection-status" data-margin-notes-solid-status>Not connected</p>\n</form>\n';
@@ -15085,473 +13866,7 @@ var ui_default = '[data-margin-notes-target],\n.margin-notes-anchor-widget {\n  
 // src/features/solid-connection/ui.css
 var ui_default2 = '.margin-notes-solid-connection {\n  color: var(--ds-color-contrast);\n  display: grid;\n  font-family: var(--ds-font-body);\n  font-size: 0.875rem;\n  gap: calc(var(--ds-space) / 3);\n  line-height: 1.35;\n}\n\n.margin-notes-solid-connection-webid {\n  display: grid;\n  gap: calc(var(--ds-space) / 4);\n}\n\n.margin-notes-solid-connection-webid span {\n  color: var(--ds-grey-medium);\n  font-size: 0.75rem;\n  font-weight: 600;\n}\n\n.margin-notes-solid-connection-webid input {\n  background: var(--ds-color-background);\n  border: 1px solid var(--ds-input-border);\n  border-radius: var(--ds-box-radius);\n  box-sizing: border-box;\n  color: var(--ds-color-contrast);\n  font: inherit;\n  inline-size: 100%;\n  min-block-size: var(--ds-input-height);\n  padding: 0 calc(var(--ds-space) / 3);\n}\n\n.margin-notes-solid-connection-status {\n  color: var(--ds-grey-medium);\n  margin: 0;\n}\n\n.margin-notes-solid-connection-status[data-status="connected"] {\n  color: var(--ds-primary-high);\n}\n\n.margin-notes-solid-connection-status[data-status="error"] {\n  color: var(--ds-color-error);\n}\n';
 
-// node_modules/@muze-nl/assert/src/assert-core.mjs
-var assert_core_exports2 = {};
-__export(assert_core_exports2, {
-  Optional: () => Optional2,
-  Recommended: () => Recommended2,
-  Required: () => Required2,
-  allOf: () => allOf2,
-  anyOf: () => anyOf4,
-  assert: () => assert2,
-  disable: () => disable2,
-  enable: () => enable2,
-  error: () => error2,
-  fails: () => fails2,
-  formatIssue: () => formatIssue2,
-  formatIssues: () => formatIssues2,
-  instanceOf: () => instanceOf2,
-  issues: () => issues2,
-  not: () => not2,
-  oneOf: () => oneOf2,
-  validEmail: () => validEmail2,
-  validURL: () => validURL2,
-  warn: () => warn2
-});
-var assertEnabled2 = false;
-function enable2() {
-  assertEnabled2 = true;
-}
-function disable2() {
-  assertEnabled2 = false;
-}
-function appendPath2(path2 = "", key) {
-  if (typeof path2 == "undefined" || path2 == null) {
-    path2 = "";
-  }
-  if (typeof key == "number") {
-    return `${path2}[${key}]`;
-  }
-  return `${path2}.${key}`;
-}
-function pathToArray2(path2 = "") {
-  if (Array.isArray(path2)) {
-    return path2;
-  }
-  if (!path2) {
-    return [];
-  }
-  let result = [];
-  let matcher = /(?:^|\.)([^.\[\]]+)|\[(\d+)\]/g;
-  let match;
-  while (match = matcher.exec(path2)) {
-    if (typeof match[1] != "undefined") {
-      result.push(match[1]);
-    } else if (typeof match[2] != "undefined") {
-      result.push(Number(match[2]));
-    }
-  }
-  return result;
-}
-function pathToString2(path2 = []) {
-  if (typeof path2 == "string") {
-    return path2.startsWith(".") ? path2.slice(1) : path2;
-  }
-  return path2.map((part, index) => {
-    if (typeof part == "number") {
-      return `[${part}]`;
-    }
-    return `${index ? "." : ""}${part}`;
-  }).join("");
-}
-function describeFunction2(value) {
-  if (value === String) {
-    return "string";
-  }
-  if (value === Number) {
-    return "number";
-  }
-  if (value === Boolean) {
-    return "boolean";
-  }
-  return value.name || "function";
-}
-function clip2(text, maxLength = 60) {
-  if (text.length <= maxLength) {
-    return text;
-  }
-  return text.slice(0, maxLength - 1) + "\u2026";
-}
-function quoteString2(value) {
-  return `'${clip2(String(value).replace(/\\/g, "\\\\").replace(/'/g, "\\'").replace(/\n/g, "\\n"))}'`;
-}
-function jsonSummary2(value) {
-  try {
-    let json = JSON.stringify(value);
-    if (typeof json == "string") {
-      return clip2(json);
-    }
-  } catch (e) {
-  }
-  let name = value?.constructor?.name;
-  if (name && name != "Object") {
-    return name;
-  }
-  return Object.prototype.toString.call(value);
-}
-function formatValue2(value) {
-  if (typeof value == "string") {
-    return quoteString2(value);
-  }
-  if (typeof value == "undefined") {
-    return "undefined";
-  }
-  if (value === null) {
-    return "null";
-  }
-  if (typeof value == "function") {
-    return describeFunction2(value);
-  }
-  if (value instanceof RegExp) {
-    return value.toString();
-  }
-  if (typeof value == "number" || typeof value == "boolean" || typeof value == "bigint") {
-    return String(value);
-  }
-  if (typeof value == "symbol") {
-    return value.toString();
-  }
-  return jsonSummary2(value);
-}
-function describeExpected2(value) {
-  if (value === String || value === Number || value === Boolean) {
-    return describeFunction2(value);
-  }
-  if (typeof value == "function") {
-    return describeFunction2(value);
-  }
-  if (value instanceof RegExp) {
-    return value.toString();
-  }
-  if (Array.isArray(value)) {
-    return "[" + value.map(describeExpected2).join(", ") + "]";
-  }
-  return formatValue2(value);
-}
-function describeOneOf2(patterns) {
-  return patterns.map(describeExpected2).join(", ");
-}
-function conciseMessage2(message, actual, expected) {
-  if (message == "data and pattern are not equal") {
-    return `expected ${formatValue2(expected)}, found ${formatValue2(actual)}`;
-  }
-  if (message == "data does not match pattern" || /^data\[\d+\] does not match pattern$/.test(message)) {
-    return `expected ${describeExpected2(expected)}, found ${formatValue2(actual)}`;
-  }
-  if (message == "data is undefined, should match pattern") {
-    return `missing; expected ${describeExpected2(expected)}`;
-  }
-  if (message == "data is required") {
-    return "required";
-  }
-  if (message == "data is an empty string, which is not allowed") {
-    return "empty string is not allowed";
-  }
-  if (message == "data is not an object, pattern is") {
-    return "data is not an object";
-  }
-  if (message == "data is not an instanceof pattern") {
-    return `expected instance of ${describeExpected2(expected)}, found ${formatValue2(actual)}`;
-  }
-  if (message == "data does not match oneOf patterns" || message == "data does not match anyOf patterns") {
-    return `expected one of ${describeOneOf2(expected)}, found ${formatValue2(actual)}`;
-  }
-  if (message == "data matches pattern, when required not to") {
-    return `must not match ${describeExpected2(expected)}`;
-  }
-  return message;
-}
-function formatIssue2(issue, options = {}) {
-  if (!issue || typeof issue != "object") {
-    return String(issue);
-  }
-  let path2 = issue.pathString || pathToString2(issue.path || []) || "value";
-  let indent = options.indent ?? "";
-  return `${indent}${path2}: ${issue.message}`;
-}
-function formatIssues2(issues3, options = {}) {
-  if (!issues3) {
-    return false;
-  }
-  let indent = options.indent ?? "  - ";
-  return (Array.isArray(issues3) ? issues3 : [issues3]).map((issue) => formatIssue2(issue, { ...options, indent }));
-}
-function issueFromProblem2(problem) {
-  if (!problem || typeof problem != "object") {
-    return {
-      path: [],
-      pathString: "",
-      message: String(problem),
-      expected: void 0,
-      actual: void 0
-    };
-  }
-  let path2 = pathToArray2(problem.path);
-  let pathString = pathToString2(path2);
-  let actual = problem.actual ?? problem.found;
-  let expected = describeExpected2(problem.expected);
-  let message = conciseMessage2(problem.message, actual, problem.expected);
-  return {
-    path: path2,
-    pathString,
-    message,
-    expected,
-    actual
-  };
-}
-function problemsToIssues2(problems) {
-  if (!problems) {
-    return [];
-  }
-  let result = [];
-  for (let problem of Array.isArray(problems) ? problems : [problems]) {
-    if (!problem) {
-      continue;
-    }
-    if (problem && typeof problem == "object" && problem.problems) {
-      let nested = problemsToIssues2(problem.problems);
-      if (nested.length) {
-        result = result.concat(nested);
-        continue;
-      }
-    }
-    result.push(issueFromProblem2(problem));
-  }
-  return result;
-}
-function assert2(source2, test) {
-  if (assertEnabled2) {
-    let problems = fails2(source2, test);
-    if (problems) {
-      let assertionIssues = problemsToIssues2(problems);
-      let formattedIssues = formatIssues2(assertionIssues);
-      let message = "Assertions failed:\n" + formattedIssues.join("\n");
-      console.error("\u{1F170}\uFE0F  " + message);
-      throw new Error(message, {
-        cause: { problems, issues: assertionIssues, source: source2 }
-      });
-    }
-  }
-}
-function Optional2(pattern) {
-  return function _Optional(data, root, path2) {
-    if (typeof data != "undefined" && data != null && typeof pattern != "undefined") {
-      return fails2(data, pattern, root, path2);
-    }
-  };
-}
-function Required2(pattern) {
-  return function _Required(data, root, path2) {
-    if (data == null || typeof data == "undefined") {
-      return error2("data is required", data, pattern || "any value", path2);
-    } else if (typeof pattern != "undefined") {
-      return fails2(data, pattern, root, path2);
-    } else {
-      return false;
-    }
-  };
-}
-function Recommended2(pattern) {
-  return function _Recommended(data, root, path2) {
-    if (data == null || typeof data == "undefined") {
-      warn2("data does not contain recommended value", data, pattern, path2);
-      return false;
-    } else {
-      return fails2(data, pattern, root, path2);
-    }
-  };
-}
-function oneOf2(...patterns) {
-  return function _oneOf(data, root, path2) {
-    for (let pattern of patterns) {
-      if (!fails2(data, pattern, root, path2)) {
-        return false;
-      }
-    }
-    return error2("data does not match oneOf patterns", data, patterns, path2);
-  };
-}
-function anyOf4(...patterns) {
-  return function _anyOf(data, root, path2) {
-    if (!Array.isArray(data)) {
-      return error2("data is not an array", data, "anyOf", path2);
-    }
-    for (let [index, value] of data.entries()) {
-      let itemPath = appendPath2(path2, index);
-      if (oneOf2(...patterns)(value, root, itemPath)) {
-        return error2("data does not match anyOf patterns", value, patterns, itemPath);
-      }
-    }
-    return false;
-  };
-}
-function allOf2(...patterns) {
-  return function _allOf(data, root, path2) {
-    let problems = [];
-    for (let pattern of patterns) {
-      problems = problems.concat(fails2(data, pattern, root, path2));
-    }
-    problems = problems.filter(Boolean);
-    if (problems.length) {
-      return error2("data does not match all given patterns", data, patterns, path2, problems);
-    }
-  };
-}
-function validURL2(data, root, path2) {
-  try {
-    if (data instanceof URL) {
-      data = data.href;
-    }
-    let url3 = new URL(data);
-    if (url3.href != data) {
-      if (!(url3.href + "/" == data || url3.href == data + "/")) {
-        return error2("data is not a valid url", data, "validURL", path2);
-      }
-    }
-  } catch (e) {
-    return error2("data is not a valid url", data, "validURL", path2);
-  }
-}
-function validEmail2(data, root, path2) {
-  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data)) {
-    return error2("data is not a valid email", data, "validEmail", path2);
-  }
-}
-function instanceOf2(constructor) {
-  return function _instanceOf(data, root, path2) {
-    if (!(data instanceof constructor)) {
-      return error2("data is not an instanceof pattern", data, constructor, path2);
-    }
-  };
-}
-function not2(pattern) {
-  return function _not(data, root, path2) {
-    if (!fails2(data, pattern, root, path2)) {
-      return error2("data matches pattern, when required not to", data, pattern, path2);
-    }
-  };
-}
-function issues2(data, pattern, root) {
-  let problems = fails2(data, pattern, root);
-  if (!problems) {
-    return false;
-  }
-  return problemsToIssues2(problems);
-}
-function fails2(data, pattern, root, path2 = "") {
-  if (typeof root == "undefined") {
-    root = data;
-  }
-  let problems = [];
-  if (pattern === Boolean) {
-    if (typeof data != "boolean" && !(data instanceof Boolean)) {
-      problems.push(error2("data is not a boolean", data, pattern, path2));
-    }
-  } else if (pattern === Number) {
-    if (typeof data != "number" && !(data instanceof Number)) {
-      problems.push(error2("data is not a number", data, pattern, path2));
-    }
-  } else if (pattern === String) {
-    if (typeof data != "string" && !(data instanceof String)) {
-      problems.push(error2("data is not a string", data, pattern, path2));
-    }
-    if (data == "") {
-      problems.push(error2("data is an empty string, which is not allowed", data, pattern, path2));
-    }
-  } else if (pattern instanceof RegExp) {
-    if (Array.isArray(data)) {
-      let index = data.findIndex((element2, index2) => fails2(element2, pattern, root, appendPath2(path2, index2)));
-      if (index > -1) {
-        problems.push(error2("data[" + index + "] does not match pattern", data[index], pattern, appendPath2(path2, index)));
-      }
-    } else if (typeof data == "undefined") {
-      problems.push(error2("data is undefined, should match pattern", data, pattern, path2));
-    } else if (!pattern.test(data)) {
-      problems.push(error2("data does not match pattern", data, pattern, path2));
-    }
-  } else if (pattern instanceof Function) {
-    let problem = pattern(data, root, path2);
-    if (problem) {
-      if (Array.isArray(problem)) {
-        problems = problems.concat(problem);
-      } else {
-        problems.push(problem);
-      }
-    }
-  } else if (Array.isArray(pattern)) {
-    if (!Array.isArray(data)) {
-      problems.push(error2("data is not an array", data, [], path2));
-    } else {
-      for (let p of pattern) {
-        for (let index of data.keys()) {
-          let problem = fails2(data[index], p, root, appendPath2(path2, index));
-          if (Array.isArray(problem)) {
-            problems = problems.concat(problem);
-          } else if (problem) {
-            problems.push(problem);
-          }
-        }
-      }
-    }
-  } else if (pattern && typeof pattern == "object") {
-    if (Array.isArray(data)) {
-      let index = data.findIndex((element2, index2) => fails2(element2, pattern, root, appendPath2(path2, index2)));
-      if (index > -1) {
-        problems.push(error2("data[" + index + "] does not match pattern", data[index], pattern, appendPath2(path2, index)));
-      }
-    } else if (!data || typeof data != "object") {
-      problems.push(error2("data is not an object, pattern is", data, pattern, path2));
-    } else {
-      if (data instanceof URLSearchParams) {
-        data = Object.fromEntries(data);
-      }
-      if (pattern instanceof Function) {
-        let result = fails2(data, pattern, root, path2);
-        if (result) {
-          problems = problems.concat(result);
-        }
-      } else {
-        for (const [patternKey, subpattern] of Object.entries(pattern)) {
-          let result = fails2(data[patternKey], subpattern, root, appendPath2(path2, patternKey));
-          if (result) {
-            problems = problems.concat(result);
-          }
-        }
-      }
-    }
-  } else {
-    if (pattern != data) {
-      problems.push(error2("data and pattern are not equal", data, pattern, path2));
-    }
-  }
-  if (problems.length) {
-    return problems;
-  }
-  return false;
-}
-function error2(message, found, expected, path2 = "", problems) {
-  let pathParts = pathToArray2(path2);
-  let result = {
-    path: path2,
-    pathString: pathToString2(pathParts),
-    pathParts,
-    message,
-    found,
-    expected
-  };
-  if (problems) {
-    result.problems = problems;
-  }
-  return result;
-}
-function warn2(message, data, pattern, path2) {
-  console.warn("\u{1F170}\uFE0F  Assert: " + path2, message, pattern, data);
-}
-
-// node_modules/@muze-nl/assert/src/assert.mjs
-globalThis.assert = { ...assert_core_exports2 };
-
-// ../../muze-nl/metro/packages/metro-core/src/index.mjs
+// node_modules/@muze-nl/metro-core/src/index.mjs
 var src_exports3 = {};
 __export(src_exports3, {
   Client: () => Client,
@@ -15563,7 +13878,7 @@ __export(src_exports3, {
   url: () => url
 });
 
-// ../../muze-nl/metro/packages/metro-core/src/metro.mjs
+// node_modules/@muze-nl/metro-core/src/metro.mjs
 var metroURL = "https://metro.muze.nl/details/";
 if (!Symbol.metroProxy) {
   Symbol.metroProxy = Symbol("isProxy");
@@ -15653,35 +13968,11 @@ var Client = class _Client {
     if (!(typeof options === "object") || options instanceof String) {
       throw metroError("metro.client.fetch: Invalid options parameter " + metroURL + "client/fetch-invalid-options/", options);
     }
-    const metrofetch = async function browserFetch(req2) {
-      if (req2[Symbol.metroProxy]) {
-        req2 = req2[Symbol.metroSource];
-      }
-      const res = await fetch(req2);
-      return response(res);
-    };
-    let middlewares = [metrofetch].concat(this.clientOptions?.middlewares?.slice() || []);
     options = Object.assign({}, this.clientOptions, options);
     const traceContext = createTraceContext(req, options);
     const middlewareContext = createMiddlewareContext(this, options, traceContext);
-    let next;
-    for (let middleware of middlewares) {
-      next = /* @__PURE__ */ (function(next2, middleware2) {
-        return async function(req2) {
-          let res;
-          let tracers2 = traceContext.tracers;
-          callTracers2(tracers2, "request", req2, middleware2, traceContext);
-          try {
-            res = await middleware2(req2, next2, middlewareContext);
-          } catch (error4) {
-            callTracers2(tracers2, "error", error4, req2, middleware2, traceContext);
-            throw error4;
-          }
-          callTracers2(tracers2, "response", res, middleware2, traceContext);
-          return res;
-        };
-      })(next, middleware);
-    }
+    const middlewares = this.clientOptions?.middlewares || [];
+    const next = createMiddlewareChain(middlewares, traceContext, middlewareContext);
     return next(req);
   }
   with(...options) {
@@ -15691,6 +13982,35 @@ var Client = class _Client {
     return this.clientOptions.url;
   }
 };
+async function browserFetch(req) {
+  if (req[Symbol.metroProxy]) {
+    req = req[Symbol.metroSource];
+  }
+  const res = await fetch(req);
+  return response(res);
+}
+function createMiddlewareChain(middlewares, traceContext, middlewareContext) {
+  let next;
+  for (const middleware of [browserFetch, ...middlewares]) {
+    next = traceMiddleware(middleware, next, traceContext, middlewareContext);
+  }
+  return next;
+}
+function traceMiddleware(middleware, next, traceContext, middlewareContext) {
+  const tracers2 = traceContext.tracers;
+  return async function(req) {
+    callTracers2(tracers2, "request", req, middleware, traceContext);
+    let res;
+    try {
+      res = await middleware(req, next, middlewareContext);
+    } catch (error4) {
+      callTracers2(tracers2, "error", error4, req, middleware, traceContext);
+      throw error4;
+    }
+    callTracers2(tracers2, "response", res, middleware, traceContext);
+    return res;
+  };
+}
 var traceContextId = 0;
 var TRACE_OPTION_KEYS = ["trace", "tracer", "tracers"];
 function fetchOptionsFrom(...options) {
@@ -15767,19 +14087,19 @@ function isTracer(value) {
     "current"
   ].some((name) => typeof value[name] == "function");
 }
-function createMiddlewareContext(client3, options, traceContext) {
-  const trace3 = createTraceAPI(traceContext);
+function createMiddlewareContext(client2, options, traceContext) {
+  const trace2 = createTraceAPI(traceContext);
   return Object.freeze({
-    client: client3,
+    client: client2,
     options,
-    trace: trace3,
+    trace: trace2,
     fetch(req, fetchOptions = {}) {
-      return client3.fetch(req, Object.assign({}, fetchOptions, { trace: trace3 }));
+      return client2.fetch(req, Object.assign({}, fetchOptions, { trace: trace2 }));
     }
   });
 }
 function createTraceAPI(context) {
-  const api3 = {
+  const api2 = {
     __metroTraceContext: true,
     context,
     event(name, data = {}) {
@@ -15804,7 +14124,7 @@ function createTraceAPI(context) {
       if (!tracer) {
         return fn();
       }
-      return tracer.span(name, fn, data, context);
+      return tracedSpan(tracer, name, fn, data, context);
     },
     link(key) {
       let traceId = null;
@@ -15816,16 +14136,44 @@ function createTraceAPI(context) {
       return traceId;
     },
     options(extra = {}) {
-      return Object.assign({}, extra, { trace: api3 });
+      return Object.assign({}, extra, { trace: api2 });
     }
   };
-  return api3;
+  return api2;
 }
 function callTracers2(tracers2, method, ...args) {
   for (const tracer of tracers2) {
     if (tracer && typeof tracer[method] == "function") {
-      tracer[method].call(tracer, ...args);
+      callTracer(tracer, method, args);
     }
+  }
+}
+async function tracedSpan(tracer, name, fn, data, context) {
+  let work = null;
+  const run = () => {
+    if (!work) {
+      work = (async () => fn())();
+    }
+    return work;
+  };
+  try {
+    await tracer.span(name, run, data, context);
+  } catch (error4) {
+    metroConsole.error("metro: tracer.span() failed", error4);
+  }
+  return run();
+}
+function callTracer(tracer, method, args) {
+  const reportFailure = (error4) => {
+    metroConsole.error("metro: tracer." + method + "() failed", error4);
+  };
+  try {
+    const result = tracer[method].call(tracer, ...args);
+    if (typeof result?.then == "function") {
+      result.then(void 0, reportFailure);
+    }
+  } catch (error4) {
+    reportFailure(error4);
   }
 }
 function isPlainObject2(value) {
@@ -16039,13 +14387,13 @@ function response(...options) {
     }
   });
 }
-function appendSearchParams(url3, params) {
+function appendSearchParams(url2, params) {
   if (typeof params == "function") {
-    params(url3.searchParams, url3);
+    params(url2.searchParams, url2);
   } else {
     params = new URLSearchParams(params);
     params.forEach((value, key) => {
-      url3.searchParams.append(key, value);
+      url2.searchParams.append(key, value);
     });
   }
 }
@@ -16190,11 +14538,11 @@ function url(...options) {
   });
 }
 var metroConsole = {
-  error: (message, ...details) => {
-    console.error("\u24C2\uFE0F  ", message, ...details);
+  error: (message2, ...details) => {
+    console.error("\u24C2\uFE0F  ", message2, ...details);
   },
-  info: (message, ...details) => {
-    console.info("\u24C2\uFE0F  ", message, ...details);
+  info: (message2, ...details) => {
+    console.info("\u24C2\uFE0F  ", message2, ...details);
   },
   group: (name) => {
     console.group("\u24C2\uFE0F  " + name);
@@ -16203,9 +14551,9 @@ var metroConsole = {
     console.groupEnd("\u24C2\uFE0F  " + name);
   }
 };
-function metroError(message, ...details) {
-  metroConsole.error(message, ...details);
-  return new Error(message, ...details);
+function metroError(message2, ...details) {
+  metroConsole.error(message2, ...details);
+  return new Error(message2, ...details);
 }
 function deepClone(object) {
   if (Array.isArray(object)) {
@@ -16225,7 +14573,7 @@ function deepClone(object) {
   return object;
 }
 
-// ../../muze-nl/metro/packages/metro-middleware/src/json.mjs
+// node_modules/@muze-nl/metro-middleware/src/json.mjs
 function jsonmw(options) {
   options = Object.assign({
     contentType: "application/json",
@@ -16262,16 +14610,30 @@ function jsonmw(options) {
     if (res && isJSON(res.headers?.get("Content-Type"))) {
       let tempRes = res.clone();
       let body = await tempRes.text();
+      if (body === "") {
+        return res;
+      }
       try {
         let json2 = JSON.parse(body, options.reviver);
         return res.with({
           body: json2
         });
-      } catch (e) {
+      } catch (error4) {
+        if (!res.ok) {
+          return res;
+        }
+        throw parseError(req, res, error4);
       }
     }
     return res;
   };
+}
+function parseError(req, res, cause) {
+  const message2 = "jsonmw: could not parse " + res.headers.get("Content-Type") + " response from " + req.url;
+  const error4 = new Error(message2, { cause });
+  error4.request = req;
+  error4.response = res;
+  return error4;
 }
 var jsonRE = /^application\/([a-zA-Z0-9\-_]+\+)?json\b/;
 function isJSON(contentType) {
@@ -16281,7 +14643,7 @@ function isPlainText(contentType) {
   return /^text\/plain\b/.exec(contentType);
 }
 
-// ../../muze-nl/metro/packages/metro-middleware/src/thrower.mjs
+// node_modules/@muze-nl/metro-middleware/src/thrower.mjs
 function throwermw(options) {
   return async function thrower(req, next) {
     let res = await next(req);
@@ -16298,7 +14660,7 @@ function throwermw(options) {
   };
 }
 
-// ../../muze-nl/metro/packages/metro-middleware/src/getdata.mjs
+// node_modules/@muze-nl/metro-middleware/src/getdata.mjs
 function getdatamw(options = {}) {
   return async function getdata(req, next) {
     let res = await next(req);
@@ -16328,7 +14690,7 @@ function getdatamw(options = {}) {
   };
 }
 
-// ../../muze-nl/metro/packages/metro-middleware/src/_trace.mjs
+// node_modules/@muze-nl/metro-middleware/src/_trace.mjs
 function traceEvent(name, data = {}, context = null) {
   for (const tracer of tracersFor(context)) {
     if (tracer && typeof tracer.event == "function") {
@@ -16347,7 +14709,7 @@ function tracersFor(context) {
   return context?.tracers || Object.values(Client.tracers || {});
 }
 
-// ../../muze-nl/metro/packages/metro-middleware/src/backoff.mjs
+// node_modules/@muze-nl/metro-middleware/src/backoff.mjs
 var DEFAULT_BACKOFF_STATUSES = [429, 503];
 function backoffmw(options = {}) {
   options = Object.assign({
@@ -16470,19 +14832,19 @@ function parseCombinedRateLimit(value) {
   return result;
 }
 function memoryBackoffStore() {
-  const values2 = /* @__PURE__ */ new Map();
+  const values3 = /* @__PURE__ */ new Map();
   return {
     get(key) {
-      return values2.get(key) || 0;
+      return values3.get(key) || 0;
     },
     set(key, until) {
-      values2.set(key, until);
+      values3.set(key, until);
     },
     clear(key = null) {
       if (key == null) {
-        values2.clear();
+        values3.clear();
       } else {
-        values2.delete(key);
+        values3.delete(key);
       }
     }
   };
@@ -16563,14 +14925,14 @@ function backoffKey(req, options) {
   if (typeof options.scope == "function") {
     return options.scope(req);
   }
-  const url3 = new URL(req.url);
+  const url2 = new URL(req.url);
   if (options.scope == "url") {
-    return url3.href;
+    return url2.href;
   }
   if (options.scope == "path") {
-    return `${url3.origin}${url3.pathname}`;
+    return `${url2.origin}${url2.pathname}`;
   }
-  return url3.origin;
+  return url2.origin;
 }
 function formatDelay(delay) {
   return delay < 1e3 ? `${Math.round(delay)}ms` : `${(delay / 1e3).toFixed(delay < 1e4 ? 1 : 0)}s`;
@@ -16587,7 +14949,7 @@ backoffmw.localStorageStore = localStorageBackoffStore;
 backoffmw.parseRetryAfter = parseRetryAfter;
 backoffmw.responseDelay = responseBackoffDelay;
 
-// ../../muze-nl/metro/packages/metro-middleware/src/retry.mjs
+// node_modules/@muze-nl/metro-middleware/src/retry.mjs
 var DEFAULT_RETRY_STATUS = [408, 425, 429, 500, 502, 503, 504];
 var DEFAULT_RETRY_METHODS = ["GET", "HEAD", "OPTIONS"];
 function retrymw(options = {}) {
@@ -16726,14 +15088,14 @@ function formatDelay2(delay) {
 }
 function displayURL(value) {
   try {
-    const url3 = new URL(value, "https://localhost/");
-    return url3.origin == "https://localhost" ? url3.pathname + url3.search : url3.href;
+    const url2 = new URL(value, "https://localhost/");
+    return url2.origin == "https://localhost" ? url2.pathname + url2.search : url2.href;
   } catch (e) {
     return String(value);
   }
 }
 
-// ../../muze-nl/metro/packages/metro-middleware/src/abort.mjs
+// node_modules/@muze-nl/metro-middleware/src/abort.mjs
 function abortmw(options = {}) {
   if (isAbortSignal(options)) {
     options = { signal: options };
@@ -16777,6 +15139,9 @@ function combineSignals(...signals2) {
   if (signals2.length == 1) {
     return signals2[0];
   }
+  if (typeof AbortSignal != "undefined" && typeof AbortSignal.any == "function") {
+    return AbortSignal.any(signals2);
+  }
   const controller = new AbortController();
   const cleanup = [];
   const abort = (event) => {
@@ -16798,11 +15163,11 @@ function combineSignals(...signals2) {
   }
   return controller.signal;
 }
-function abortError(message = "Request was aborted") {
+function abortError(message2 = "Request was aborted") {
   if (typeof DOMException != "undefined") {
-    return new DOMException(message, "AbortError");
+    return new DOMException(message2, "AbortError");
   }
-  const error4 = new Error(message);
+  const error4 = new Error(message2);
   error4.name = "AbortError";
   return error4;
 }
@@ -16815,7 +15180,7 @@ function isAbortSignal(value) {
 abortmw.combineSignals = combineSignals;
 abortmw.abortError = abortError;
 
-// ../../muze-nl/metro/packages/metro-middleware/src/timeout.mjs
+// node_modules/@muze-nl/metro-middleware/src/timeout.mjs
 function timeoutmw(options = 3e4) {
   if (typeof options == "number") {
     options = { ms: options };
@@ -16871,7 +15236,7 @@ function delayFor2(ms, req) {
 }
 timeoutmw.timeoutError = timeoutError;
 
-// ../../muze-nl/metro/packages/metro-middleware/src/echo.mock.mjs
+// node_modules/@muze-nl/metro-middleware/src/echo.mock.mjs
 function echomw() {
   return async function echo(req) {
     let options = {
@@ -16885,7 +15250,7 @@ function echomw() {
   };
 }
 
-// ../../muze-nl/metro/packages/metro-middleware/src/error.mock.mjs
+// node_modules/@muze-nl/metro-middleware/src/error.mock.mjs
 var baseResponse = {
   status: 200,
   statusText: "OK",
@@ -16948,11 +15313,11 @@ var status = {
 function errormw(options) {
   const customStatus = Object.assign({}, status, options);
   return async function error4(req) {
-    let url3 = url(req.url);
-    if (status[url3.pathname]) {
+    let url2 = url(req.url);
+    if (status[url2.pathname]) {
       let error5 = {
-        code: parseInt(url3.pathname.substring(1)),
-        message: customStatus[url3.pathname]
+        code: parseInt(url2.pathname.substring(1)),
+        message: customStatus[url2.pathname]
       };
       return response(badRequest(error5));
     } else {
@@ -16961,7 +15326,7 @@ function errormw(options) {
   };
 }
 
-// ../../muze-nl/metro/packages/metro-middleware/src/index.mjs
+// node_modules/@muze-nl/metro-middleware/src/index.mjs
 var src_default3 = {
   json: jsonmw,
   thrower: throwermw,
@@ -16974,7 +15339,7 @@ var src_default3 = {
   errorMock: errormw
 };
 
-// ../../muze-nl/metro/packages/metro-api/src/index.mjs
+// node_modules/@muze-nl/metro-api/src/index.mjs
 var API = class extends Client {
   #methods = null;
   #base = "";
@@ -17022,7 +15387,7 @@ function jsonApi(base, methods) {
   return new API(client(base, jsonmw(), throwermw(), getdatamw()), methods);
 }
 
-// ../../muze-nl/metro/packages/metro-trace/src/index.mjs
+// node_modules/@muze-nl/metro-trace/src/index.mjs
 var src_exports4 = {};
 __export(src_exports4, {
   GraphTracer: () => GraphTracer,
@@ -17036,7 +15401,7 @@ __export(src_exports4, {
   remove: () => remove
 });
 
-// ../../muze-nl/metro/packages/metro-trace/src/tracegraph.mjs
+// node_modules/@muze-nl/metro-trace/src/tracegraph.mjs
 var DEFAULT_OPTIONS = {
   name: "Metro trace",
   view: "tree",
@@ -17122,22 +15487,22 @@ var GraphTracer = class {
     span.severity = "error";
     span.error = errorSummary(error4);
     this.store.saveSpan(span);
-    const message = error4?.message || "Middleware failed";
-    const trace3 = this.store.read(span.traceId);
-    const alreadyReported = trace3?.diagnostics?.some((diagnostic) => diagnostic.data?.errorMessage == message);
+    const message2 = error4?.message || "Middleware failed";
+    const trace2 = this.store.read(span.traceId);
+    const alreadyReported = trace2?.diagnostics?.some((diagnostic) => diagnostic.data?.errorMessage == message2);
     if (span.kind == "fetch" || !alreadyReported) {
       this.diagnostic({
         traceId: span.traceId,
         spanId: span.spanId,
         severity: "error",
         code: span.kind == "fetch" ? "network-error" : "middleware-error",
-        message,
+        message: message2,
         data: {
           middleware: middlewareName(middleware),
           method: req?.method,
           url: safeURL(req?.url),
           name: error4?.name,
-          errorMessage: message
+          errorMessage: message2
         }
       }, context);
     }
@@ -17180,7 +15545,7 @@ var GraphTracer = class {
   }
   startTrace(name, data = {}, context = null) {
     const state = this.state(context);
-    const trace3 = {
+    const trace2 = {
       id: data.traceId || id("trace"),
       name,
       start: now(),
@@ -17188,11 +15553,11 @@ var GraphTracer = class {
       severity: "ok",
       data: sanitizeData(data)
     };
-    state.activeTraceId = trace3.id;
-    state.lastTraceId = trace3.id;
-    this.lastTraceId = trace3.id;
-    this.store.saveTrace(trace3);
-    return trace3.id;
+    state.activeTraceId = trace2.id;
+    state.lastTraceId = trace2.id;
+    this.lastTraceId = trace2.id;
+    this.store.saveTrace(trace2);
+    return trace2.id;
   }
   startSpan(name, data = {}, context = null) {
     const state = this.state(context);
@@ -17278,21 +15643,21 @@ var GraphTracer = class {
     return this.store.read(traceId);
   }
   print(traceId = this.lastTraceId, options = {}) {
-    const trace3 = typeof traceId == "object" ? traceId : this.get(traceId);
-    if (!trace3) {
+    const trace2 = typeof traceId == "object" ? traceId : this.get(traceId);
+    if (!trace2) {
       return null;
     }
-    return printTrace(trace3, Object.assign({}, this.options, options));
+    return printTrace(trace2, Object.assign({}, this.options, options));
   }
   printLast(options = {}) {
     return this.print(this.lastTraceId || this.store.lastTraceId?.(), options);
   }
   render(traceId = this.lastTraceId, options = {}) {
-    const trace3 = typeof traceId == "object" ? traceId : this.get(traceId);
-    if (!trace3) {
+    const trace2 = typeof traceId == "object" ? traceId : this.get(traceId);
+    if (!trace2) {
       return "";
     }
-    return renderTrace(trace3, Object.assign({}, this.options, options));
+    return renderTrace(trace2, Object.assign({}, this.options, options));
   }
   clear() {
     this.store.clear();
@@ -17348,20 +15713,20 @@ var GraphTracer = class {
       this.runs.delete(context.id);
       return;
     }
-    const trace3 = this.store.read(state.activeTraceId);
-    if (!trace3) {
+    const trace2 = this.store.read(state.activeTraceId);
+    if (!trace2) {
       this.pause(context);
       return;
     }
-    trace3.end = now();
-    trace3.duration = trace3.end - trace3.start;
-    trace3.status = status2 || traceStatus(trace3);
-    trace3.severity = traceSeverity(trace3);
-    this.store.saveTrace(trace3);
-    state.lastTraceId = trace3.id;
-    this.lastTraceId = trace3.id;
+    trace2.end = now();
+    trace2.duration = trace2.end - trace2.start;
+    trace2.status = status2 || traceStatus(trace2);
+    trace2.severity = traceSeverity(trace2);
+    this.store.saveTrace(trace2);
+    state.lastTraceId = trace2.id;
+    this.lastTraceId = trace2.id;
     if (this.options.autoPrint) {
-      this.print(trace3.id);
+      this.print(trace2.id);
     }
     this.pause(context);
   }
@@ -17392,11 +15757,11 @@ function traceState() {
     lastTraceId: null
   };
 }
-function renderTrace(trace3, options = {}) {
+function renderTrace(trace2, options = {}) {
   options = Object.assign({}, DEFAULT_OPTIONS, options);
-  const diagnostics = trace3.diagnostics || [];
+  const diagnostics = trace2.diagnostics || [];
   const lines = [];
-  lines.push(`${traceTitle(trace3)} ${trace3.status || ""} ${formatDuration(trace3.duration || elapsed(trace3))}`.trim());
+  lines.push(`${traceTitle(trace2)} ${trace2.status || ""} ${formatDuration(trace2.duration || elapsed(trace2))}`.trim());
   const primary = primaryDiagnostic(diagnostics);
   if (primary) {
     lines.push("");
@@ -17411,12 +15776,12 @@ function renderTrace(trace3, options = {}) {
     }
   }
   lines.push("");
-  lines.push(options.view == "sequence" ? renderSequence(trace3, options) : renderTree(trace3, options));
+  lines.push(options.view == "sequence" ? renderSequence(trace2, options) : renderTree(trace2, options));
   return lines.join("\n");
 }
-function renderTree(trace3, options = {}) {
-  const spans = trace3.spans || [];
-  const events = trace3.events || [];
+function renderTree(trace2, options = {}) {
+  const spans = trace2.spans || [];
+  const events = trace2.events || [];
   const children = /* @__PURE__ */ new Map();
   for (const span of spans) {
     const parent = span.parentSpanId || "";
@@ -17452,10 +15817,10 @@ function renderTree(trace3, options = {}) {
   }
   return lines.join("\n");
 }
-function renderSequence(trace3, options = {}) {
-  const arrows = sequenceArrows(trace3);
+function renderSequence(trace2, options = {}) {
+  const arrows = sequenceArrows(trace2);
   if (!arrows.length) {
-    return renderTree(trace3, options);
+    return renderTree(trace2, options);
   }
   const actors = collectActors(arrows);
   const width = Math.max(14, ...actors.map((actor) => actor.length));
@@ -17468,24 +15833,24 @@ function renderSequence(trace3, options = {}) {
   }
   return lines.join("\n");
 }
-function printTrace(trace3, options = {}) {
-  const output = renderTrace(trace3, options);
+function printTrace(trace2, options = {}) {
+  const output = renderTrace(trace2, options);
   const out = options.console || console;
   if (!out) {
     return output;
   }
-  const title = `${symbol(trace3.severity)} ${traceTitle(trace3)} ${trace3.status || ""} ${formatDuration(trace3.duration || elapsed(trace3))}`.trim();
+  const title = `${symbol(trace2.severity)} ${traceTitle(trace2)} ${trace2.status || ""} ${formatDuration(trace2.duration || elapsed(trace2))}`.trim();
   if (out.groupCollapsed) {
     out.groupCollapsed("\u24C2\uFE0F  " + title);
   } else if (out.group) {
     out.group("\u24C2\uFE0F  " + title);
   }
-  printDiagnostics(trace3.diagnostics || [], out);
+  printDiagnostics(trace2.diagnostics || [], out);
   for (const line of output.split("\n")) {
     printLine(line, out);
   }
   if (options.includeRawTrace && out.dir) {
-    out.dir(trace3);
+    out.dir(trace2);
   }
   if (out.groupEnd) {
     out.groupEnd();
@@ -17500,9 +15865,9 @@ function memoryStore() {
   let links = /* @__PURE__ */ new Map();
   let last = null;
   return {
-    saveTrace(trace3) {
-      traces.set(trace3.id, Object.assign({}, trace3));
-      last = trace3.id;
+    saveTrace(trace2) {
+      traces.set(trace2.id, Object.assign({}, trace2));
+      last = trace2.id;
     },
     saveSpan(span) {
       spans.set(span.spanId, Object.assign({}, span));
@@ -17545,11 +15910,11 @@ function localStorageStore(options = {}) {
   const prefix = options.prefix || "metro:trace:";
   const key = (suffix) => prefix + suffix;
   return {
-    saveTrace(trace3) {
+    saveTrace(trace2) {
       safeStore(() => {
-        storage.setItem(key(`trace:${trace3.id}`), JSON.stringify(trace3));
-        storage.setItem(key("last"), trace3.id);
-        updateIndex(storage, prefix, trace3.id);
+        storage.setItem(key(`trace:${trace2.id}`), JSON.stringify(trace2));
+        storage.setItem(key("last"), trace2.id);
+        updateIndex(storage, prefix, trace2.id);
       });
     },
     saveSpan(span) {
@@ -17610,9 +15975,9 @@ function appendSpan(lines, span, children, eventsBySpan, prefix, isLast) {
 }
 function spanLine(span) {
   const status2 = span.status == "running" ? "pending" : span.severity || span.status || "ok";
-  const response3 = span.response?.status ? ` HTTP ${span.response.status}` : "";
-  const url3 = span.data?.url ? ` ${displayURL2(span.data.url)}` : "";
-  return `${symbol(status2)} ${span.name}${response3}${url3} ${formatDuration(span.duration || elapsed(span))}`.trim();
+  const response2 = span.response?.status ? ` HTTP ${span.response.status}` : "";
+  const url2 = span.data?.url ? ` ${displayURL2(span.data.url)}` : "";
+  return `${symbol(status2)} ${span.name}${response2}${url2} ${formatDuration(span.duration || elapsed(span))}`.trim();
 }
 function eventLabel(event) {
   if (event.data?.label) {
@@ -17623,9 +15988,9 @@ function eventLabel(event) {
   }
   return "";
 }
-function sequenceArrows(trace3) {
+function sequenceArrows(trace2) {
   const arrows = [];
-  const spans = [...trace3.spans || []].sort((a, b) => a.start - b.start);
+  const spans = [...trace2.spans || []].sort((a, b) => a.start - b.start);
   const roots = spans.filter((span) => !span.parentSpanId);
   for (const span of roots) {
     arrows.push({
@@ -17657,7 +16022,7 @@ function sequenceArrows(trace3) {
       }
     }
   }
-  for (const event of trace3.events || []) {
+  for (const event of trace2.events || []) {
     if (event.data?.from && event.data?.to) {
       arrows.push({
         from: event.data.from,
@@ -17683,17 +16048,17 @@ function collectActors(arrows) {
   return actors;
 }
 function sequenceLine(actors, arrow, width, gap) {
-  const from3 = actors.indexOf(arrow.from);
+  const from2 = actors.indexOf(arrow.from);
   const to = actors.indexOf(arrow.to);
-  const left = Math.min(from3, to);
-  const right = Math.max(from3, to);
+  const left = Math.min(from2, to);
+  const right = Math.max(from2, to);
   const cells = actors.map(() => pad("\u2502", width));
   const label = `${symbol(arrow.severity)} ${arrow.label}`.trim();
   for (let index = left; index <= right; index++) {
-    if (index == from3) {
-      cells[index] = pad(from3 < to ? "\u251C" : "\u25C0", width);
+    if (index == from2) {
+      cells[index] = pad(from2 < to ? "\u251C" : "\u25C0", width);
     } else if (index == to) {
-      cells[index] = pad(from3 < to ? "\u25B6" : "\u2524", width);
+      cells[index] = pad(from2 < to ? "\u25B6" : "\u2524", width);
     } else {
       cells[index] = pad("\u2500", width);
     }
@@ -17722,11 +16087,11 @@ function printLine(line, out) {
   }
 }
 function assemble(traceId, traces, spans, events, diagnostics) {
-  const trace3 = traces.get(traceId);
-  if (!trace3) {
+  const trace2 = traces.get(traceId);
+  if (!trace2) {
     return null;
   }
-  const result = Object.assign({}, trace3);
+  const result = Object.assign({}, trace2);
   result.spans = [...spans.values()].filter((span) => span.traceId == traceId);
   result.events = [...events.values()].filter((event) => event.traceId == traceId);
   result.diagnostics = [...diagnostics.values()].filter((diagnostic) => diagnostic.traceId == traceId);
@@ -17738,29 +16103,29 @@ function readLocalTrace(storage, prefix, traceId) {
   if (!traceId) {
     return null;
   }
-  const trace3 = parseJSON(storage.getItem(prefix + `trace:${traceId}`));
-  if (!trace3) {
+  const trace2 = parseJSON(storage.getItem(prefix + `trace:${traceId}`));
+  if (!trace2) {
     return null;
   }
-  trace3.spans = [];
-  trace3.events = [];
-  trace3.diagnostics = [];
+  trace2.spans = [];
+  trace2.events = [];
+  trace2.diagnostics = [];
   for (let index = 0; index < storage.length; index++) {
     const key = storage.key(index);
     if (key?.startsWith(prefix + `span:${traceId}:`)) {
-      trace3.spans.push(parseJSON(storage.getItem(key)));
+      trace2.spans.push(parseJSON(storage.getItem(key)));
     } else if (key?.startsWith(prefix + `event:${traceId}:`)) {
-      trace3.events.push(parseJSON(storage.getItem(key)));
+      trace2.events.push(parseJSON(storage.getItem(key)));
     } else if (key?.startsWith(prefix + `diagnostic:${traceId}:`)) {
-      trace3.diagnostics.push(parseJSON(storage.getItem(key)));
+      trace2.diagnostics.push(parseJSON(storage.getItem(key)));
     }
   }
-  trace3.spans = trace3.spans.filter(Boolean);
-  trace3.events = trace3.events.filter(Boolean);
-  trace3.diagnostics = trace3.diagnostics.filter(Boolean);
-  trace3.status = trace3.status == "running" ? traceStatus(trace3) : trace3.status;
-  trace3.severity = traceSeverity(trace3);
-  return trace3;
+  trace2.spans = trace2.spans.filter(Boolean);
+  trace2.events = trace2.events.filter(Boolean);
+  trace2.diagnostics = trace2.diagnostics.filter(Boolean);
+  trace2.status = trace2.status == "running" ? traceStatus(trace2) : trace2.status;
+  trace2.severity = traceSeverity(trace2);
+  return trace2;
 }
 function updateIndex(storage, prefix, traceId) {
   const indexKey = prefix + "index";
@@ -17777,8 +16142,8 @@ function cleanupLocalStorage(storage, prefix, options = {}) {
   const remove2 = [];
   const cutoff = now() - maxAge;
   for (const traceId of index) {
-    const trace3 = parseJSON(storage.getItem(prefix + `trace:${traceId}`));
-    if (!trace3 || trace3.start < cutoff || keep.length >= maxTraces) {
+    const trace2 = parseJSON(storage.getItem(prefix + `trace:${traceId}`));
+    if (!trace2 || trace2.start < cutoff || keep.length >= maxTraces) {
       remove2.push(traceId);
     } else {
       keep.push(traceId);
@@ -17813,25 +16178,25 @@ function removeTrace(storage, prefix, traceId) {
     storage.removeItem(key);
   }
 }
-function traceStatus(trace3) {
-  const spans = trace3.spans || [];
+function traceStatus(trace2) {
+  const spans = trace2.spans || [];
   if (spans.some((span) => span.status == "running")) {
     return "incomplete";
   }
-  if ((trace3.diagnostics || []).some((diagnostic) => diagnostic.severity == "error" || diagnostic.severity == "blocked")) {
+  if ((trace2.diagnostics || []).some((diagnostic) => diagnostic.severity == "error" || diagnostic.severity == "blocked")) {
     return "error";
   }
-  if ((trace3.diagnostics || []).some((diagnostic) => diagnostic.severity == "warning")) {
+  if ((trace2.diagnostics || []).some((diagnostic) => diagnostic.severity == "warning")) {
     return "warning";
   }
   return "ok";
 }
-function traceSeverity(trace3) {
-  let severity = trace3.status == "running" ? "pending" : "ok";
-  for (const span of trace3.spans || []) {
+function traceSeverity(trace2) {
+  let severity = trace2.status == "running" ? "pending" : "ok";
+  for (const span of trace2.spans || []) {
     severity = maxSeverity(severity, span.severity || span.status || "ok");
   }
-  for (const diagnostic of trace3.diagnostics || []) {
+  for (const diagnostic of trace2.diagnostics || []) {
     severity = maxSeverity(severity, diagnostic.severity || "warning");
   }
   return severity;
@@ -17874,23 +16239,23 @@ function errorSummary(error4) {
     stack: error4?.stack
   };
 }
-function traceTitle(trace3) {
-  return trace3?.name || trace3?.id || "Metro trace";
+function traceTitle(trace2) {
+  return trace2?.name || trace2?.id || "Metro trace";
 }
 function safeURL(value) {
   if (!value) {
     return value;
   }
   try {
-    const url3 = new URL(value, typeof window != "undefined" ? window.location.href : "https://localhost/");
-    url3.username = "";
-    url3.password = "";
-    for (const param of [...url3.searchParams.keys()]) {
+    const url2 = new URL(value, typeof window != "undefined" ? window.location.href : "https://localhost/");
+    url2.username = "";
+    url2.password = "";
+    for (const param of [...url2.searchParams.keys()]) {
       if (isSecretName(param)) {
-        url3.searchParams.set(param, "\u2026");
+        url2.searchParams.set(param, "\u2026");
       }
     }
-    return url3.href;
+    return url2.href;
   } catch (e) {
     return String(value);
   }
@@ -17900,8 +16265,8 @@ function displayURL2(value) {
     return "";
   }
   try {
-    const url3 = new URL(value, "https://localhost/");
-    return url3.origin == "https://localhost" ? url3.pathname + url3.search : url3.href;
+    const url2 = new URL(value, "https://localhost/");
+    return url2.origin == "https://localhost" ? url2.pathname + url2.search : url2.href;
   } catch (e) {
     return String(value);
   }
@@ -17915,8 +16280,8 @@ function hostActor(value) {
 }
 function pathLabel(value) {
   try {
-    const url3 = new URL(value, "https://localhost/");
-    return url3.pathname + url3.search;
+    const url2 = new URL(value, "https://localhost/");
+    return url2.pathname + url2.search;
   } catch (e) {
     return displayURL2(value);
   }
@@ -17984,9 +16349,9 @@ function safeLocalStorage2() {
   }
 }
 
-// ../../muze-nl/metro/packages/metro-trace/src/index.mjs
+// node_modules/@muze-nl/metro-trace/src/index.mjs
 var metroConsole2 = {
-  info: (message, ...details) => console.info("\u24C2\uFE0F  ", message, ...details),
+  info: (message2, ...details) => console.info("\u24C2\uFE0F  ", message2, ...details),
   group: (name) => console.group("\u24C2\uFE0F  " + name),
   groupEnd: (name) => console.groupEnd("\u24C2\uFE0F  " + name)
 };
@@ -18029,37 +16394,37 @@ var src_default4 = {
   localConsole: (...args) => localConsole(...args)
 };
 
-// ../../muze-nl/metro/packages/metro-hashparams/src/index.mjs
+// node_modules/@muze-nl/metro-hashparams/src/index.mjs
 var src_exports5 = {};
 __export(src_exports5, {
   append: () => append,
   clear: () => clear2,
   parse: () => parse
 });
-function parse(url3) {
-  const hash = url(url3).hash.substr(1);
+function parse(url2) {
+  const hash = url(url2).hash.substr(1);
   const query = /\?[^#]*/.exec(hash)?.[0];
   return new URLSearchParams(query);
 }
-function append(url3, params) {
-  url3 = url(url3);
+function append(url2, params) {
+  url2 = url(url2);
   if (!(params instanceof URLSearchParams)) {
     params = new URLSearchParams(params);
   }
-  let hash = url3.hash || "#";
+  let hash = url2.hash || "#";
   hash += "?" + params;
-  return url3.with({ hash });
+  return url2.with({ hash });
 }
-function clear2(url3) {
-  url3 = url(url3);
-  let hash = url3.hash.replace(/\?[^#]*/, "");
+function clear2(url2) {
+  url2 = url(url2);
+  let hash = url2.hash.replace(/\?[^#]*/, "");
   if (hash.substr(0, 2) === "##") {
     hash = hash.substr(1);
   }
-  return url3.with({ hash });
+  return url2.with({ hash });
 }
 
-// ../../muze-nl/metro/packages/metro-formdata/src/index.mjs
+// node_modules/@muze-nl/metro-formdata/src/index.mjs
 var metroURL2 = "https://metro.muze.nl/details/";
 if (!Symbol.metroProxy) {
   Symbol.metroProxy = Symbol("isProxy");
@@ -18123,7 +16488,7 @@ function formdata(...options) {
   });
 }
 
-// ../../muze-nl/metro/packages/metro/src/index.mjs
+// node_modules/@muze-nl/metro/src/index.mjs
 var metro = Object.assign({}, src_exports3, {
   API,
   api,
@@ -18135,7 +16500,7 @@ var metro = Object.assign({}, src_exports3, {
 });
 var src_default5 = metro;
 
-// ../../muze-nl/oldm/packages/metro-oldm/src/oldmmw.mjs
+// node_modules/@muze-nl/metro-oldm/src/oldmmw.mjs
 function oldmmw(options) {
   options = Object.assign({
     contentType: "text/turtle",
@@ -18163,33 +16528,59 @@ function oldmmw(options) {
         }
         if (isLinkedData(req.headers.get("Content-Type"))) {
           req = req.with({
-            body: await context.writer(req.data)
+            body: await writeRequestData(req)
           });
         }
       }
     }
     let res = await next(req);
     if (res && isLinkedData(res.headers?.get("Content-Type"))) {
-      let tempRes = res.clone();
-      let body = await tempRes.text();
-      try {
-        let ld = context.parse(body, req.url, res.headers.get("Content-Type"));
-        return res.with({
-          body: ld
-        });
-      } catch (e) {
-      }
+      return res.with({
+        body: await parseResponseData(req, res)
+      });
     }
     return res;
   }
+  async function writeRequestData(req) {
+    try {
+      return await context.writer(req.data);
+    } catch (error4) {
+      let message2 = "oldmmw: could not write request data as " + req.headers.get("Content-Type") + " for " + req.url;
+      if (context.writer === src_default2.n3Writer) {
+        message2 += "; the default writer expects an OLDM Graph";
+      }
+      throw linkedDataError(message2, error4, req);
+    }
+  }
+  async function parseResponseData(req, res) {
+    const contentType = res.headers.get("Content-Type");
+    const body = await res.clone().text();
+    try {
+      return context.parse(body, req.url, contentType);
+    } catch (error4) {
+      if (!res.ok) {
+        return body;
+      }
+      const message2 = "oldmmw: could not parse " + contentType + " response from " + req.url;
+      throw linkedDataError(message2, error4, req, res);
+    }
+  }
   oldmmw2.context = context;
   return oldmmw2;
+}
+function linkedDataError(message2, cause, request2, response2) {
+  const error4 = new Error(message2, { cause });
+  error4.request = request2;
+  if (response2) {
+    error4.response = response2;
+  }
+  return error4;
 }
 var mimetypes = [
   /^text\/turtle\b/,
   /^application\/n-quads\b/,
   /^text\/x-nquads\b/,
-  /^appliction\/n-triples\b/,
+  /^application\/n-triples\b/,
   /^application\/trig\b/
 ];
 function isLinkedData(contentType) {
@@ -18204,10 +16595,10 @@ function isPlainText2(contentType) {
   return /^text\/plain\b/.exec(contentType);
 }
 
-// ../../muze-nl/oldm/packages/metro-oldm/src/index.mjs
+// node_modules/@muze-nl/metro-oldm/src/index.mjs
 var src_default6 = oldmmw;
 
-// ../solid-tools/packages/metro-solid/src/client.mjs
+// node_modules/@muze-labs/metro-solid/src/client.mjs
 var vocabulary = src_default2.context();
 function propertyValue(subject, iri) {
   const owner = subject?.graph ?? vocabulary;
@@ -18215,8 +16606,8 @@ function propertyValue(subject, iri) {
 }
 var BASIC_CONTAINER = "http://www.w3.org/ns/ldp#BasicContainer";
 var SOLID_RESPONSE = Symbol.for("muze.metro-solid.response");
-function ensureSlash3(url3) {
-  return String(url3).endsWith("/") ? String(url3) : `${url3}/`;
+function ensureSlash3(url2) {
+  return String(url2).endsWith("/") ? String(url2) : `${url2}/`;
 }
 function ids(value) {
   return from(src_default2.many(value)).select((item) => typeof item === "string" ? item : item?.id).where(Boolean).toArray();
@@ -18232,18 +16623,18 @@ function solidApi(base, methods) {
       responseProperty: SOLID_RESPONSE
     })
   ), {
-    create(url3, body, options = {}) {
+    create(url2, body, options = {}) {
       const headers = new Headers(options.headers);
       if (!headers.has("If-None-Match")) {
         headers.set("If-None-Match", "*");
       }
-      return this.put(String(url3), {
+      return this.put(String(url2), {
         ...options,
         body,
         headers
       });
     },
-    createContainer(url3, options = {}) {
+    createContainer(url2, options = {}) {
       const headers = new Headers(options.headers);
       if (!headers.has("If-None-Match")) {
         headers.set("If-None-Match", "*");
@@ -18251,38 +16642,38 @@ function solidApi(base, methods) {
       if (!headers.has("Link")) {
         headers.set("Link", `<${options.containerType ?? BASIC_CONTAINER}>; rel="type"`);
       }
-      return this.put(ensureSlash3(url3), {
+      return this.put(ensureSlash3(url2), {
         ...options,
         body: options.body ?? "",
         headers
       });
     },
-    async postToContainer(url3, body, options = {}) {
-      const result = await this.post(ensureSlash3(url3), {
+    async postToContainer(url2, body, options = {}) {
+      const result = await this.post(ensureSlash3(url2), {
         ...options,
         body,
         headers: new Headers(options.headers)
       });
-      const response3 = result[SOLID_RESPONSE];
+      const response2 = result[SOLID_RESPONSE];
       return {
-        response: response3,
-        location: response3.headers.get("Location"),
-        etag: response3.headers.get("ETag")
+        response: response2,
+        location: response2.headers.get("Location"),
+        etag: response2.headers.get("ETag")
       };
     },
-    async contains(url3, options = {}) {
+    async contains(url2, options = {}) {
       const headers = new Headers(options.headers);
       if (!headers.has("Accept")) {
         headers.set("Accept", "text/turtle");
       }
-      const result = await this.get(ensureSlash3(url3), {
+      const result = await this.get(ensureSlash3(url2), {
         ...options,
         headers
       });
-      const response3 = result[SOLID_RESPONSE];
+      const response2 = result[SOLID_RESPONSE];
       return from(src_default2.many(propertyValue(result?.primary, "http://www.w3.org/ns/ldp#contains"))).select((resource2) => {
         const id2 = typeof resource2 === "string" ? resource2 : resource2?.id;
-        return { id: id2, url: id2, resource: resource2, response: response3 };
+        return { id: id2, url: id2, resource: resource2, response: response2 };
       }).where((entry) => entry.id).toArray();
     },
     async discoverProfile(webId, options = {}) {
@@ -18308,10 +16699,10 @@ function solidApi(base, methods) {
     async discoverStorage(webId, options = {}) {
       const profile = await this.discoverProfile(webId, options);
       const storageUrls = [...new Set(from(ids(propertyValue(profile, "http://www.w3.org/ns/pim/space#storage"))).select(ensureSlash3).toArray())];
-      return from(storageUrls).select((url3) => ({
+      return from(storageUrls).select((url2) => ({
         profile,
-        id: url3,
-        url: url3
+        id: url2,
+        url: url2
       })).toArray();
     },
     async discoverWebId(webId, options = {}) {
@@ -18330,746 +16721,7 @@ function solidApi(base, methods) {
   });
 }
 
-// ../solid-tools/node_modules/@muze-nl/metro-oidc/node_modules/@muze-nl/metro/src/metro.mjs
-var metro_exports = {};
-__export(metro_exports, {
-  Client: () => Client2,
-  client: () => client2,
-  deepClone: () => deepClone2,
-  formdata: () => formdata2,
-  metroError: () => metroError2,
-  request: () => request2,
-  response: () => response2,
-  trace: () => trace2,
-  url: () => url2
-});
-var metroURL3 = "https://metro.muze.nl/details/";
-if (!Symbol.metroProxy) {
-  Symbol.metroProxy = Symbol("isProxy");
-}
-if (!Symbol.metroSource) {
-  Symbol.metroSource = Symbol("source");
-}
-var Client2 = class _Client {
-  clientOptions = {
-    url: typeof window != "undefined" ? url2(window.location) : url2("https://localhost"),
-    verbs: ["get", "post", "put", "delete", "patch", "head", "options", "query"]
-  };
-  static tracers = {};
-  /**
-   * @typedef {Object} ClientOptions
-   * @property {Array} middlewares - list of middleware functions
-   * @property {string|URL} url - default url of the client
-   * @property {[string]} verbs - a list of verb methods to expose, e.g. ['get','post']
-   * 
-   * Constructs a new metro client. Can have any number of params.
-   * @params {ClientOptions|URL|Function|Client}
-   * @returns {Client} - A metro client object with given or default verb methods
-   */
-  constructor(...options) {
-    for (let option of options) {
-      if (typeof option == "string" || option instanceof String) {
-        this.clientOptions.url = url2(this.clientOptions.url.href, option);
-      } else if (option instanceof _Client) {
-        Object.assign(this.clientOptions, option.clientOptions);
-      } else if (option instanceof Function) {
-        this.#addMiddlewares([option]);
-      } else if (option && typeof option == "object") {
-        for (let param in option) {
-          if (param == "middlewares") {
-            this.#addMiddlewares(option[param]);
-          } else if (param == "url") {
-            this.clientOptions.url = url2(this.clientOptions.url.href, option[param]);
-          } else if (typeof option[param] == "function") {
-            this.clientOptions[param] = option[param](this.clientOptions[param], this.clientOptions);
-          } else {
-            this.clientOptions[param] = option[param];
-          }
-        }
-      }
-    }
-    for (const verb of this.clientOptions.verbs) {
-      this[verb] = async function(...options2) {
-        return this.fetch(request2(
-          this.clientOptions,
-          ...options2,
-          { method: verb.toUpperCase() }
-        ));
-      };
-    }
-  }
-  #addMiddlewares(middlewares) {
-    if (typeof middlewares == "function") {
-      middlewares = [middlewares];
-    }
-    let index = middlewares.findIndex((m) => typeof m != "function");
-    if (index >= 0) {
-      throw metroError2("metro.client: middlewares must be a function or an array of functions " + metroURL3 + "client/invalid-middlewares/", middlewares[index]);
-    }
-    if (!Array.isArray(this.clientOptions.middlewares)) {
-      this.clientOptions.middlewares = [];
-    }
-    this.clientOptions.middlewares = this.clientOptions.middlewares.concat(middlewares);
-  }
-  /**
-   * Mimics the standard browser fetch method, but uses any middleware installed through
-   * the constructor.
-   * @param {Request|string|Object} - Required. The URL or Request object, accepts all types that are accepted by metro.request
-   * @param {Object} - Optional. Any object that is accepted by metro.request
-   * @return {Promise<Response|*>} - The metro.response to this request, or any other result as changed by any included middleware.
-   */
-  fetch(req, options) {
-    req = request2(req, options);
-    if (!req.url) {
-      throw metroError2("metro.client." + req.method.toLowerCase() + ": Missing url parameter " + metroURL3 + "client/fetch-missing-url/", req);
-    }
-    if (!options) {
-      options = {};
-    }
-    if (!(typeof options === "object") || options instanceof String) {
-      throw metroError2("metro.client.fetch: Invalid options parameter " + metroURL3 + "client/fetch-invalid-options/", options);
-    }
-    const metrofetch = async function browserFetch(req2) {
-      if (req2[Symbol.metroProxy]) {
-        req2 = req2[Symbol.metroSource];
-      }
-      const res = await fetch(req2);
-      return response2(res);
-    };
-    let middlewares = [metrofetch].concat(this.clientOptions?.middlewares?.slice() || []);
-    options = Object.assign({}, this.clientOptions, options);
-    let next;
-    for (let middleware of middlewares) {
-      next = /* @__PURE__ */ (function(next2, middleware2) {
-        return async function(req2) {
-          let res;
-          let tracers2 = Object.values(_Client.tracers);
-          for (let tracer of tracers2) {
-            if (tracer.request) {
-              tracer.request.call(tracer, req2, middleware2);
-            }
-          }
-          res = await middleware2(req2, next2);
-          for (let tracer of tracers2) {
-            if (tracer.response) {
-              tracer.response.call(tracer, res, middleware2);
-            }
-          }
-          return res;
-        };
-      })(next, middleware);
-    }
-    return next(req);
-  }
-  with(...options) {
-    return new _Client(deepClone2(this.clientOptions), ...options);
-  }
-  get location() {
-    return this.clientOptions.url;
-  }
-};
-function client2(...options) {
-  return new Client2(...deepClone2(options));
-}
-function getRequestParams2(req, current) {
-  let params = current || {};
-  if (!params.url && current.url) {
-    params.url = current.url;
-  }
-  for (let prop of [
-    "method",
-    "headers",
-    "body",
-    "mode",
-    "credentials",
-    "cache",
-    "redirect",
-    "referrer",
-    "referrerPolicy",
-    "integrity",
-    "keepalive",
-    "signal",
-    "priority",
-    "url"
-  ]) {
-    let value = req[prop];
-    if (typeof value == "undefined" || value == null) {
-      continue;
-    }
-    if (value?.[Symbol.metroProxy]) {
-      value = value[Symbol.metroSource];
-    }
-    if (typeof value == "function") {
-      params[prop] = value(params[prop], params);
-    } else {
-      if (prop == "url") {
-        params.url = url2(params.url, value);
-      } else if (prop == "headers") {
-        params.headers = new Headers(current.headers);
-        if (!(value instanceof Headers)) {
-          value = new Headers(req.headers);
-        }
-        for (let [key, val] of value.entries()) {
-          params.headers.set(key, val);
-        }
-      } else {
-        params[prop] = value;
-      }
-    }
-  }
-  if (req instanceof Request && req.data) {
-    params.body = req.data;
-  }
-  return params;
-}
-function request2(...options) {
-  let requestParams = {
-    url: typeof window != "undefined" ? url2(window.location) : url2("https://localhost/"),
-    duplex: "half"
-    // required when setting body to ReadableStream, just set it here by default already
-  };
-  for (let option of options) {
-    if (typeof option == "string" || option instanceof URL || option instanceof URLSearchParams) {
-      requestParams.url = url2(requestParams.url, option);
-    } else if (option && (option instanceof FormData || option instanceof ReadableStream || option instanceof Blob || option instanceof ArrayBuffer || option instanceof DataView)) {
-      requestParams.body = option;
-    } else if (option && typeof option == "object") {
-      Object.assign(requestParams, getRequestParams2(option, requestParams));
-    }
-  }
-  let r = new Request(requestParams.url, requestParams);
-  let data = requestParams.body;
-  if (data) {
-    if (typeof data == "object" && !(data instanceof String) && !(data instanceof ReadableStream) && !(data instanceof Blob) && !(data instanceof ArrayBuffer) && !(data instanceof DataView) && !(data instanceof FormData) && !(data instanceof URLSearchParams) && (typeof globalThis.TypedArray == "undefined" || !(data instanceof globalThis.TypedArray))) {
-      if (typeof data.toString == "function") {
-        requestParams.body = data.toString({ headers: r.headers });
-        r = new Request(requestParams.url, requestParams);
-      }
-    }
-  }
-  Object.freeze(r);
-  return new Proxy(r, {
-    get(target, prop) {
-      let result;
-      switch (prop) {
-        case Symbol.metroSource:
-          result = target;
-          break;
-        case Symbol.metroProxy:
-          result = true;
-          break;
-        case "with":
-          result = function(...options2) {
-            if (data) {
-              options2.unshift({ body: data });
-            }
-            return request2(target, ...options2);
-          };
-          break;
-        case "data":
-          result = data;
-          break;
-        default:
-          if (target[prop] instanceof Function) {
-            if (prop === "clone") {
-            }
-            result = target[prop].bind(target);
-          } else {
-            result = target[prop];
-          }
-          break;
-      }
-      return result;
-    }
-  });
-}
-function getResponseParams2(res, current) {
-  let params = current || {};
-  if (!params.url && current.url) {
-    params.url = current.url;
-  }
-  for (let prop of ["status", "statusText", "headers", "body", "url", "type", "redirected"]) {
-    let value = res[prop];
-    if (typeof value == "undefined" || value == null) {
-      continue;
-    }
-    if (value?.[Symbol.metroProxy]) {
-      value = value[Symbol.metroSource];
-    }
-    if (typeof value == "function") {
-      params[prop] = value(params[prop], params);
-    } else {
-      if (prop == "url") {
-        params.url = new URL(value, params.url || "https://localhost/");
-      } else {
-        params[prop] = value;
-      }
-    }
-  }
-  if (res instanceof Response && res.data) {
-    params.body = res.data;
-  }
-  return params;
-}
-function response2(...options) {
-  let responseParams = {};
-  for (let option of options) {
-    if (typeof option == "string") {
-      responseParams.body = option;
-    } else if (option instanceof Response) {
-      Object.assign(responseParams, getResponseParams2(option, responseParams));
-    } else if (option && typeof option == "object") {
-      if (option instanceof FormData || option instanceof Blob || option instanceof ArrayBuffer || option instanceof DataView || option instanceof ReadableStream || option instanceof URLSearchParams || option instanceof String || typeof globalThis.TypedArray != "undefined" && option instanceof globalThis.TypedArray) {
-        responseParams.body = option;
-      } else {
-        Object.assign(responseParams, getResponseParams2(option, responseParams));
-      }
-    }
-  }
-  let data = void 0;
-  if (responseParams.body) {
-    data = responseParams.body;
-  }
-  if ([101, 204, 205, 304].includes(responseParams.status)) {
-    responseParams.body = null;
-  }
-  let r = new Response(responseParams.body, responseParams);
-  Object.freeze(r);
-  return new Proxy(r, {
-    get(target, prop) {
-      let result;
-      switch (prop) {
-        case Symbol.metroProxy:
-          result = true;
-          break;
-        case Symbol.metroSource:
-          result = target;
-          break;
-        case "with":
-          result = function(...options2) {
-            return response2(target, ...options2);
-          };
-          break;
-        case "data":
-          result = data;
-          break;
-        case "ok":
-          result = target.status >= 200 && target.status < 400;
-          break;
-        default:
-          if (typeof target[prop] == "function") {
-            result = target[prop].bind(target);
-          } else {
-            result = target[prop];
-          }
-          break;
-      }
-      return result;
-    }
-  });
-}
-function appendSearchParams2(url3, params) {
-  if (typeof params == "function") {
-    params(url3.searchParams, url3);
-  } else {
-    params = new URLSearchParams(params);
-    params.forEach((value, key) => {
-      url3.searchParams.append(key, value);
-    });
-  }
-}
-function url2(...options) {
-  let validParams = [
-    "hash",
-    "host",
-    "hostname",
-    "href",
-    "password",
-    "pathname",
-    "port",
-    "protocol",
-    "username",
-    "search",
-    "searchParams"
-  ];
-  let u = new URL("https://localhost/");
-  for (let option of options) {
-    if (typeof option == "string" || option instanceof String) {
-      u = new URL(option, u);
-    } else if (option instanceof URL || typeof Location != "undefined" && option instanceof Location) {
-      u = new URL(option);
-    } else if (option instanceof URLSearchParams) {
-      appendSearchParams2(u, option);
-    } else if (option && typeof option == "object") {
-      for (let param in option) {
-        switch (param) {
-          case "search":
-            if (typeof option.search == "function") {
-              option.search(u.search, u);
-            } else {
-              u.search = new URLSearchParams(option.search);
-            }
-            break;
-          case "searchParams":
-            appendSearchParams2(u, option.searchParams);
-            break;
-          default:
-            if (!validParams.includes(param)) {
-              throw metroError2("metro.url: unknown url parameter " + metroURL3 + "url/unknown-param-name/", param);
-            }
-            if (typeof option[param] == "function") {
-              option[param](u[param], u);
-            } else if (typeof option[param] == "string" || option[param] instanceof String || typeof option[param] == "number" || option[param] instanceof Number || typeof option[param] == "boolean" || option[param] instanceof Boolean) {
-              u[param] = "" + option[param];
-            } else if (typeof option[param] == "object" && option[param].toString) {
-              u[param] = option[param].toString();
-            } else {
-              throw metroError2("metro.url: unsupported value for " + param + " " + metroURL3 + "url/unsupported-param-value/", options[param]);
-            }
-            break;
-        }
-      }
-    } else {
-      throw metroError2("metro.url: unsupported option value " + metroURL3 + "url/unsupported-option-value/", option);
-    }
-  }
-  Object.freeze(u);
-  return new Proxy(u, {
-    get(target, prop) {
-      let result;
-      switch (prop) {
-        case Symbol.metroProxy:
-          result = true;
-          break;
-        case Symbol.metroSource:
-          result = target;
-          break;
-        case "with":
-          result = function(...options2) {
-            return url2(target, ...options2);
-          };
-          break;
-        case "filename":
-          result = target.pathname.split("/").pop();
-          break;
-        case "folderpath":
-          result = target.pathname.substring(0, target.pathname.lastIndexOf("\\") + 1);
-          break;
-        case "authority":
-          result = target.username ?? "";
-          result += target.password ? ":" + target.password : "";
-          result += result ? "@" : "";
-          result += target.hostname;
-          result += target.port ? ":" + target.port : "";
-          result += "/";
-          result = target.protocol + "//" + result;
-          break;
-        case "origin":
-          result = target.protocol + "//" + target.hostname;
-          result += target.port ? ":" + target.port : "";
-          result += "/";
-          break;
-        case "fragment":
-          result = target.hash.substring(1);
-          break;
-        case "scheme":
-          if (target.protocol) {
-            result = target.protocol.substring(0, target.protocol.length - 1);
-          } else {
-            result = "";
-          }
-          break;
-        default:
-          if (target[prop] instanceof Function) {
-            result = target[prop].bind(target);
-          } else {
-            result = target[prop];
-          }
-          break;
-      }
-      return result;
-    }
-  });
-}
-function formdata2(...options) {
-  var params = new FormData();
-  for (let option of options) {
-    if (option instanceof HTMLFormElement) {
-      option = new FormData(option);
-    }
-    if (option instanceof FormData) {
-      for (let entry of option.entries()) {
-        params.append(entry[0], entry[1]);
-      }
-    } else if (option && typeof option == "object") {
-      for (let entry of Object.entries(option)) {
-        if (Array.isArray(entry[1])) {
-          for (let value of entry[1]) {
-            params.append(entry[0], value);
-          }
-        } else {
-          params.append(entry[0], entry[1]);
-        }
-      }
-    } else {
-      throw new metroError2("metro.formdata: unknown option type " + metroURL3 + "formdata/unknown-option-value/", option);
-    }
-  }
-  Object.freeze(params);
-  return new Proxy(params, {
-    get(target, prop) {
-      let result;
-      switch (prop) {
-        case Symbol.metroProxy:
-          result = true;
-          break;
-        case Symbol.metroSource:
-          result = target;
-          break;
-        //TODO: add toString() that can check
-        //headers param: toString({headers:request.headers})
-        //for the content-type
-        case "with":
-          result = function(...options2) {
-            return formdata2(target, ...options2);
-          };
-          break;
-        default:
-          if (target[prop] instanceof Function) {
-            result = target[prop].bind(target);
-          } else {
-            result = target[prop];
-          }
-          break;
-      }
-      return result;
-    }
-  });
-}
-var metroConsole3 = {
-  error: (message, ...details) => {
-    console.error("\u24C2\uFE0F  ", message, ...details);
-  },
-  info: (message, ...details) => {
-    console.info("\u24C2\uFE0F  ", message, ...details);
-  },
-  group: (name) => {
-    console.group("\u24C2\uFE0F  " + name);
-  },
-  groupEnd: (name) => {
-    console.groupEnd("\u24C2\uFE0F  " + name);
-  }
-};
-function metroError2(message, ...details) {
-  metroConsole3.error(message, ...details);
-  return new Error(message, ...details);
-}
-var trace2 = {
-  /**
-   * Adds a named tracer function
-   * @param {string} name - the name of the tracer
-   * @param {Function} tracer - the tracer function to call
-   */
-  add(name, tracer) {
-    Client2.tracers[name] = tracer;
-  },
-  /**
-   * Removes a named tracer function
-   * @param {string} name
-   */
-  delete(name) {
-    delete Client2.tracers[name];
-  },
-  /**
-   * Removes all tracer functions
-   */
-  clear() {
-    Client2.tracers = {};
-  },
-  /**
-   * Returns a set of request and response tracer functions that use the
-   * console.group feature to shows nested request/response pairs, with
-   * most commonly needed information for debugging
-   */
-  group() {
-    let group2 = 0;
-    return {
-      request: (req, middleware) => {
-        group2++;
-        metroConsole3.group(group2);
-        metroConsole3.info(req?.url, req, middleware);
-      },
-      response: (res, middleware) => {
-        metroConsole3.info(res?.body ? res.body[Symbol.metroSource] : null, res, middleware);
-        metroConsole3.groupEnd(group2);
-        group2--;
-      }
-    };
-  }
-};
-function deepClone2(object) {
-  if (Array.isArray(object)) {
-    return object.slice().map(deepClone2);
-  }
-  if (object && typeof object === "object") {
-    if (object.__proto__.constructor == Object || !object.__proto__) {
-      let result = Object.assign({}, object);
-      Object.keys(result).forEach((key) => {
-        result[key] = deepClone2(object[key]);
-      });
-      return result;
-    } else {
-      return object;
-    }
-  }
-  return object;
-}
-
-// ../solid-tools/node_modules/@muze-nl/metro-oidc/node_modules/@muze-nl/metro/src/mw/json.mjs
-function jsonmw2(options) {
-  options = Object.assign({
-    contentType: "application/json",
-    reviver: null,
-    replacer: null,
-    space: ""
-  }, options);
-  return async function json(req, next) {
-    if (!req.headers.get("Accept")) {
-      req = req.with({
-        headers: {
-          "Accept": options.accept ?? options.contentType
-        }
-      });
-    }
-    if (req.method !== "GET" && req.method !== "HEAD") {
-      if (req.data && typeof req.data == "object" && !(req.data instanceof ReadableStream)) {
-        const contentType = req.headers.get("Content-Type");
-        if (!contentType || isPlainText3(contentType)) {
-          req = req.with({
-            headers: {
-              "Content-Type": options.contentType
-            }
-          });
-        }
-        if (isJSON2(req.headers.get("Content-Type"))) {
-          req = req.with({
-            body: JSON.stringify(req.data, options.replacer, options.space)
-          });
-        }
-      }
-    }
-    let res = await next(req);
-    if (res && isJSON2(res.headers?.get("Content-Type"))) {
-      let tempRes = res.clone();
-      let body = await tempRes.text();
-      try {
-        let json2 = JSON.parse(body, options.reviver);
-        return res.with({
-          body: json2
-        });
-      } catch (e) {
-      }
-    }
-    return res;
-  };
-}
-var jsonRE2 = /^application\/([a-zA-Z0-9\-_]+\+)?json\b/;
-function isJSON2(contentType) {
-  return jsonRE2.exec(contentType);
-}
-function isPlainText3(contentType) {
-  return /^text\/plain\b/.exec(contentType);
-}
-
-// ../solid-tools/node_modules/@muze-nl/metro-oidc/node_modules/@muze-nl/metro/src/mw/thrower.mjs
-function throwermw2(options) {
-  return async function thrower(req, next) {
-    let res = await next(req);
-    if (!res.ok) {
-      if (options && typeof options[res.status] == "function") {
-        res = options[res.status].apply(res, req);
-      } else {
-        throw new Error(res.status + ": " + res.statusText, {
-          cause: res
-        });
-      }
-    }
-    return res;
-  };
-}
-
-// ../solid-tools/node_modules/@muze-nl/metro-oidc/node_modules/@muze-nl/metro/src/mw/getdata.mjs
-function getdatamw2() {
-  return async function getdata(req, next) {
-    let res = await next(req);
-    if (res.ok && res.data) {
-      return res.data;
-    }
-    return res;
-  };
-}
-
-// ../solid-tools/node_modules/@muze-nl/metro-oidc/node_modules/@muze-nl/metro/src/api.mjs
-var API2 = class extends Client2 {
-  #methods = null;
-  #base = "";
-  constructor(base, methods, bind2 = null) {
-    if (base instanceof Client2) {
-      super(base.clientOptions, throwermw2(), getdatamw2());
-    } else {
-      super(base, throwermw2(), getdatamw2());
-    }
-    if (!bind2) {
-      bind2 = this;
-    }
-    this.#methods = methods;
-    this.#base = base;
-    for (const methodName in methods) {
-      if (typeof methods[methodName] == "function") {
-        this[methodName] = methods[methodName].bind(bind2);
-      } else if (methods[methodName] && typeof methods[methodName] == "object" && (Object.getPrototypeOf(methods[methodName]) === null || Object.getPrototypeOf(methods[methodName]).constructor === Object)) {
-        this[methodName] = new this.constructor(base, methods[methodName], bind2);
-      } else {
-        this[methodName] = methods[methodName];
-      }
-    }
-  }
-  extend(methods) {
-    return new this.constructor(this.#base, Object.assign({}, this.#methods, methods));
-  }
-};
-var JsonAPI = class extends API2 {
-  constructor(base, methods, bind2 = null) {
-    if (base instanceof Client2) {
-      super(base.with(jsonmw2()), methods, bind2);
-    } else {
-      super(client2(base, jsonmw2()), methods, bind2);
-    }
-  }
-};
-function api2(...options) {
-  return new API2(...deepClone2(options));
-}
-function jsonApi2(...options) {
-  return new JsonAPI(...deepClone2(options));
-}
-
-// ../solid-tools/node_modules/@muze-nl/metro-oidc/node_modules/@muze-nl/metro/src/everything.mjs
-var metro2 = Object.assign({}, metro_exports, {
-  mw: {
-    json: jsonmw2,
-    thrower: throwermw2,
-    getdata: getdatamw2
-  },
-  api: api2,
-  jsonApi: jsonApi2
-});
-if (!globalThis.metro) {
-  globalThis.metro = metro2;
-}
-var everything_default = metro2;
-
-// ../solid-tools/node_modules/@muze-nl/metro-oauth2/src/oauth2.mjs
+// node_modules/@muze-nl/metro-oauth2/src/oauth2.mjs
 var oauth2_exports = {};
 __export(oauth2_exports, {
   base64url_encode: () => base64url_encode,
@@ -19084,7 +16736,473 @@ __export(oauth2_exports, {
   parseBearerChallenge: () => parseBearerChallenge
 });
 
-// ../solid-tools/node_modules/@muze-nl/metro-oauth2/src/tokenstore.mjs
+// node_modules/@muze-nl/metro-oauth2/node_modules/@muze-nl/assert/src/assert-core.mjs
+var assert_core_exports2 = {};
+__export(assert_core_exports2, {
+  Optional: () => Optional2,
+  Recommended: () => Recommended2,
+  Required: () => Required2,
+  allOf: () => allOf2,
+  anyOf: () => anyOf3,
+  assert: () => assert2,
+  disable: () => disable2,
+  enable: () => enable2,
+  error: () => error2,
+  fails: () => fails2,
+  formatIssue: () => formatIssue2,
+  formatIssues: () => formatIssues2,
+  instanceOf: () => instanceOf2,
+  issues: () => issues2,
+  not: () => not2,
+  oneOf: () => oneOf2,
+  validEmail: () => validEmail2,
+  validURL: () => validURL2,
+  warn: () => warn2
+});
+var assertEnabled2 = false;
+function enable2() {
+  assertEnabled2 = true;
+}
+function disable2() {
+  assertEnabled2 = false;
+}
+function appendPath2(path2 = "", key) {
+  if (typeof path2 == "undefined" || path2 == null) {
+    path2 = "";
+  }
+  if (typeof key == "number") {
+    return `${path2}[${key}]`;
+  }
+  return `${path2}.${key}`;
+}
+function pathToArray2(path2 = "") {
+  if (Array.isArray(path2)) {
+    return path2;
+  }
+  if (!path2) {
+    return [];
+  }
+  let result = [];
+  let matcher = /(?:^|\.)([^.\[\]]+)|\[(\d+)\]/g;
+  let match;
+  while (match = matcher.exec(path2)) {
+    if (typeof match[1] != "undefined") {
+      result.push(match[1]);
+    } else if (typeof match[2] != "undefined") {
+      result.push(Number(match[2]));
+    }
+  }
+  return result;
+}
+function pathToString2(path2 = []) {
+  if (typeof path2 == "string") {
+    return path2.startsWith(".") ? path2.slice(1) : path2;
+  }
+  return path2.map((part, index) => {
+    if (typeof part == "number") {
+      return `[${part}]`;
+    }
+    return `${index ? "." : ""}${part}`;
+  }).join("");
+}
+function describeFunction2(value) {
+  if (value === String) {
+    return "string";
+  }
+  if (value === Number) {
+    return "number";
+  }
+  if (value === Boolean) {
+    return "boolean";
+  }
+  return value.name || "function";
+}
+function clip2(text, maxLength = 60) {
+  if (text.length <= maxLength) {
+    return text;
+  }
+  return text.slice(0, maxLength - 1) + "\u2026";
+}
+function quoteString2(value) {
+  return `'${clip2(String(value).replace(/\\/g, "\\\\").replace(/'/g, "\\'").replace(/\n/g, "\\n"))}'`;
+}
+function jsonSummary2(value) {
+  try {
+    let json = JSON.stringify(value);
+    if (typeof json == "string") {
+      return clip2(json);
+    }
+  } catch (e) {
+  }
+  let name = value?.constructor?.name;
+  if (name && name != "Object") {
+    return name;
+  }
+  return Object.prototype.toString.call(value);
+}
+function formatValue2(value) {
+  if (typeof value == "string") {
+    return quoteString2(value);
+  }
+  if (typeof value == "undefined") {
+    return "undefined";
+  }
+  if (value === null) {
+    return "null";
+  }
+  if (typeof value == "function") {
+    return describeFunction2(value);
+  }
+  if (value instanceof RegExp) {
+    return value.toString();
+  }
+  if (typeof value == "number" || typeof value == "boolean" || typeof value == "bigint") {
+    return String(value);
+  }
+  if (typeof value == "symbol") {
+    return value.toString();
+  }
+  return jsonSummary2(value);
+}
+function describeExpected2(value) {
+  if (value === String || value === Number || value === Boolean) {
+    return describeFunction2(value);
+  }
+  if (typeof value == "function") {
+    return describeFunction2(value);
+  }
+  if (value instanceof RegExp) {
+    return value.toString();
+  }
+  if (Array.isArray(value)) {
+    return "[" + value.map(describeExpected2).join(", ") + "]";
+  }
+  return formatValue2(value);
+}
+function describeOneOf2(patterns) {
+  return patterns.map(describeExpected2).join(", ");
+}
+function conciseMessage2(message2, actual, expected) {
+  if (message2 == "data and pattern are not equal") {
+    return `expected ${formatValue2(expected)}, found ${formatValue2(actual)}`;
+  }
+  if (message2 == "data does not match pattern" || /^data\[\d+\] does not match pattern$/.test(message2)) {
+    return `expected ${describeExpected2(expected)}, found ${formatValue2(actual)}`;
+  }
+  if (message2 == "data is undefined, should match pattern") {
+    return `missing; expected ${describeExpected2(expected)}`;
+  }
+  if (message2 == "data is required") {
+    return "required";
+  }
+  if (message2 == "data is an empty string, which is not allowed") {
+    return "empty string is not allowed";
+  }
+  if (message2 == "data is not an object, pattern is") {
+    return "data is not an object";
+  }
+  if (message2 == "data is not an instanceof pattern") {
+    return `expected instance of ${describeExpected2(expected)}, found ${formatValue2(actual)}`;
+  }
+  if (message2 == "data does not match oneOf patterns" || message2 == "data does not match anyOf patterns") {
+    return `expected one of ${describeOneOf2(expected)}, found ${formatValue2(actual)}`;
+  }
+  if (message2 == "data matches pattern, when required not to") {
+    return `must not match ${describeExpected2(expected)}`;
+  }
+  return message2;
+}
+function formatIssue2(issue, options = {}) {
+  if (!issue || typeof issue != "object") {
+    return String(issue);
+  }
+  let path2 = issue.pathString || pathToString2(issue.path || []) || "value";
+  let indent = options.indent ?? "";
+  return `${indent}${path2}: ${issue.message}`;
+}
+function formatIssues2(issues4, options = {}) {
+  if (!issues4) {
+    return false;
+  }
+  let indent = options.indent ?? "  - ";
+  return (Array.isArray(issues4) ? issues4 : [issues4]).map((issue) => formatIssue2(issue, { ...options, indent }));
+}
+function issueFromProblem2(problem) {
+  if (!problem || typeof problem != "object") {
+    return {
+      path: [],
+      pathString: "",
+      message: String(problem),
+      expected: void 0,
+      actual: void 0
+    };
+  }
+  let path2 = pathToArray2(problem.path);
+  let pathString = pathToString2(path2);
+  let actual = problem.actual ?? problem.found;
+  let expected = describeExpected2(problem.expected);
+  let message2 = conciseMessage2(problem.message, actual, problem.expected);
+  return {
+    path: path2,
+    pathString,
+    message: message2,
+    expected,
+    actual
+  };
+}
+function problemsToIssues2(problems) {
+  if (!problems) {
+    return [];
+  }
+  let result = [];
+  for (let problem of Array.isArray(problems) ? problems : [problems]) {
+    if (!problem) {
+      continue;
+    }
+    if (problem && typeof problem == "object" && problem.problems) {
+      let nested = problemsToIssues2(problem.problems);
+      if (nested.length) {
+        result = result.concat(nested);
+        continue;
+      }
+    }
+    result.push(issueFromProblem2(problem));
+  }
+  return result;
+}
+function assert2(source2, test) {
+  if (assertEnabled2) {
+    let problems = fails2(source2, test);
+    if (problems) {
+      let assertionIssues = problemsToIssues2(problems);
+      let formattedIssues = formatIssues2(assertionIssues);
+      let message2 = "Assertions failed:\n" + formattedIssues.join("\n");
+      console.error("\u{1F170}\uFE0F  " + message2);
+      throw new Error(message2, {
+        cause: { problems, issues: assertionIssues, source: source2 }
+      });
+    }
+  }
+}
+function Optional2(pattern) {
+  return function _Optional(data, root, path2) {
+    if (typeof data != "undefined" && data != null && typeof pattern != "undefined") {
+      return fails2(data, pattern, root, path2);
+    }
+  };
+}
+function Required2(pattern) {
+  return function _Required(data, root, path2) {
+    if (data == null || typeof data == "undefined") {
+      return error2("data is required", data, pattern || "any value", path2);
+    } else if (typeof pattern != "undefined") {
+      return fails2(data, pattern, root, path2);
+    } else {
+      return false;
+    }
+  };
+}
+function Recommended2(pattern) {
+  return function _Recommended(data, root, path2) {
+    if (data == null || typeof data == "undefined") {
+      warn2("data does not contain recommended value", data, pattern, path2);
+      return false;
+    } else {
+      return fails2(data, pattern, root, path2);
+    }
+  };
+}
+function oneOf2(...patterns) {
+  return function _oneOf(data, root, path2) {
+    for (let pattern of patterns) {
+      if (!fails2(data, pattern, root, path2)) {
+        return false;
+      }
+    }
+    return error2("data does not match oneOf patterns", data, patterns, path2);
+  };
+}
+function anyOf3(...patterns) {
+  return function _anyOf(data, root, path2) {
+    if (!Array.isArray(data)) {
+      return error2("data is not an array", data, "anyOf", path2);
+    }
+    for (let [index, value] of data.entries()) {
+      let itemPath = appendPath2(path2, index);
+      if (oneOf2(...patterns)(value, root, itemPath)) {
+        return error2("data does not match anyOf patterns", value, patterns, itemPath);
+      }
+    }
+    return false;
+  };
+}
+function allOf2(...patterns) {
+  return function _allOf(data, root, path2) {
+    let problems = [];
+    for (let pattern of patterns) {
+      problems = problems.concat(fails2(data, pattern, root, path2));
+    }
+    problems = problems.filter(Boolean);
+    if (problems.length) {
+      return error2("data does not match all given patterns", data, patterns, path2, problems);
+    }
+  };
+}
+function validURL2(data, root, path2) {
+  try {
+    if (data instanceof URL) {
+      data = data.href;
+    }
+    let url2 = new URL(data);
+    if (url2.href != data) {
+      if (!(url2.href + "/" == data || url2.href == data + "/")) {
+        return error2("data is not a valid url", data, "validURL", path2);
+      }
+    }
+  } catch (e) {
+    return error2("data is not a valid url", data, "validURL", path2);
+  }
+}
+function validEmail2(data, root, path2) {
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data)) {
+    return error2("data is not a valid email", data, "validEmail", path2);
+  }
+}
+function instanceOf2(constructor) {
+  return function _instanceOf(data, root, path2) {
+    if (!(data instanceof constructor)) {
+      return error2("data is not an instanceof pattern", data, constructor, path2);
+    }
+  };
+}
+function not2(pattern) {
+  return function _not(data, root, path2) {
+    if (!fails2(data, pattern, root, path2)) {
+      return error2("data matches pattern, when required not to", data, pattern, path2);
+    }
+  };
+}
+function issues2(data, pattern, root) {
+  let problems = fails2(data, pattern, root);
+  if (!problems) {
+    return false;
+  }
+  return problemsToIssues2(problems);
+}
+function fails2(data, pattern, root, path2 = "") {
+  if (typeof root == "undefined") {
+    root = data;
+  }
+  let problems = [];
+  if (pattern === Boolean) {
+    if (typeof data != "boolean" && !(data instanceof Boolean)) {
+      problems.push(error2("data is not a boolean", data, pattern, path2));
+    }
+  } else if (pattern === Number) {
+    if (typeof data != "number" && !(data instanceof Number)) {
+      problems.push(error2("data is not a number", data, pattern, path2));
+    }
+  } else if (pattern === String) {
+    if (typeof data != "string" && !(data instanceof String)) {
+      problems.push(error2("data is not a string", data, pattern, path2));
+    }
+    if (data == "") {
+      problems.push(error2("data is an empty string, which is not allowed", data, pattern, path2));
+    }
+  } else if (pattern instanceof RegExp) {
+    if (Array.isArray(data)) {
+      let index = data.findIndex((element2, index2) => fails2(element2, pattern, root, appendPath2(path2, index2)));
+      if (index > -1) {
+        problems.push(error2("data[" + index + "] does not match pattern", data[index], pattern, appendPath2(path2, index)));
+      }
+    } else if (typeof data == "undefined") {
+      problems.push(error2("data is undefined, should match pattern", data, pattern, path2));
+    } else if (!pattern.test(data)) {
+      problems.push(error2("data does not match pattern", data, pattern, path2));
+    }
+  } else if (pattern instanceof Function) {
+    let problem = pattern(data, root, path2);
+    if (problem) {
+      if (Array.isArray(problem)) {
+        problems = problems.concat(problem);
+      } else {
+        problems.push(problem);
+      }
+    }
+  } else if (Array.isArray(pattern)) {
+    if (!Array.isArray(data)) {
+      problems.push(error2("data is not an array", data, [], path2));
+    } else {
+      for (let p of pattern) {
+        for (let index of data.keys()) {
+          let problem = fails2(data[index], p, root, appendPath2(path2, index));
+          if (Array.isArray(problem)) {
+            problems = problems.concat(problem);
+          } else if (problem) {
+            problems.push(problem);
+          }
+        }
+      }
+    }
+  } else if (pattern && typeof pattern == "object") {
+    if (Array.isArray(data)) {
+      let index = data.findIndex((element2, index2) => fails2(element2, pattern, root, appendPath2(path2, index2)));
+      if (index > -1) {
+        problems.push(error2("data[" + index + "] does not match pattern", data[index], pattern, appendPath2(path2, index)));
+      }
+    } else if (!data || typeof data != "object") {
+      problems.push(error2("data is not an object, pattern is", data, pattern, path2));
+    } else {
+      if (data instanceof URLSearchParams) {
+        data = Object.fromEntries(data);
+      }
+      if (pattern instanceof Function) {
+        let result = fails2(data, pattern, root, path2);
+        if (result) {
+          problems = problems.concat(result);
+        }
+      } else {
+        for (const [patternKey, subpattern] of Object.entries(pattern)) {
+          let result = fails2(data[patternKey], subpattern, root, appendPath2(path2, patternKey));
+          if (result) {
+            problems = problems.concat(result);
+          }
+        }
+      }
+    }
+  } else {
+    if (pattern != data) {
+      problems.push(error2("data and pattern are not equal", data, pattern, path2));
+    }
+  }
+  if (problems.length) {
+    return problems;
+  }
+  return false;
+}
+function error2(message2, found, expected, path2 = "", problems) {
+  let pathParts = pathToArray2(path2);
+  let result = {
+    path: path2,
+    pathString: pathToString2(pathParts),
+    pathParts,
+    message: message2,
+    found,
+    expected
+  };
+  if (problems) {
+    result.problems = problems;
+  }
+  return result;
+}
+function warn2(message2, data, pattern, path2) {
+  console.warn("\u{1F170}\uFE0F  Assert: " + path2, message2, pattern, data);
+}
+
+// node_modules/@muze-nl/metro-oauth2/node_modules/@muze-nl/assert/src/assert.mjs
+globalThis.assert = { ...assert_core_exports2 };
+
+// node_modules/@muze-nl/metro-oauth2/src/tokenstore.mjs
 function tokenStore(site) {
   let localState, localTokens;
   if (typeof localStorage !== "undefined") {
@@ -19116,7 +17234,8 @@ function tokenStore(site) {
   };
 }
 
-// ../solid-tools/node_modules/@muze-nl/metro-oauth2/src/oauth2.mjs
+// node_modules/@muze-nl/metro-oauth2/src/oauth2.mjs
+var pendingTokenRequests = /* @__PURE__ */ new Map();
 var SUPPORTED_TOKEN_TYPES = /* @__PURE__ */ new Map([
   ["bearer", "Bearer"],
   ["dpop", "DPoP"]
@@ -19138,17 +17257,18 @@ function oauth2mw(options) {
       grant_type: "authorization_code",
       code_verifier: generateCodeVerifier(64)
     },
-    authorize_callback: async (url3) => {
-      if (window.location.href != url3.href) {
-        window.location.replace(url3.href);
+    authorize_callback: async (url2) => {
+      if (window.location.href != url2.href) {
+        window.location.replace(url2.href);
       }
       return false;
     }
   };
-  assert(options, {});
+  assert2(options, {});
   const oauth22 = Object.assign({}, defaultOptions.oauth2_configuration, options?.oauth2_configuration);
   options = Object.assign({}, defaultOptions, options);
   options.oauth2_configuration = oauth22;
+  const tokenStoreKey = options.tokens ?? "site:" + options.site;
   const store = tokenStore(options.site);
   if (!options.tokens) {
     options.tokens = store.tokens;
@@ -19156,13 +17276,13 @@ function oauth2mw(options) {
   if (!options.state) {
     options.state = store.state;
   }
-  assert(options, {
+  assert2(options, {
     oauth2_configuration: {
-      client_id: Required(/.+/),
+      client_id: Required2(/.+/),
       grant_type: "authorization_code",
-      authorization_endpoint: Required(validURL),
-      token_endpoint: Required(validURL),
-      redirect_uri: Required(validURL)
+      authorization_endpoint: Required2(validURL2),
+      token_endpoint: Required2(validURL2),
+      redirect_uri: Required2(validURL2)
     }
   });
   for (let option in oauth22) {
@@ -19190,15 +17310,15 @@ function oauth2mw(options) {
     const refreshToken = options.tokens.get("refresh_token");
     const tokenIsExpired = isExpired(accessToken);
     if (!accessToken || tokenIsExpired && !refreshToken) {
-      const token = await fetchAccessToken();
+      const token = await requestToken(fetchAccessToken);
       if (!token) {
-        return response("false");
+        throw authorizationNotCompleted(req);
       }
       return oauth2authorized(req, next);
     } else if (tokenIsExpired && refreshToken) {
-      const token = await refreshAccessToken();
+      const token = await requestToken(refreshAccessToken);
       if (!token) {
-        return response("false");
+        throw authorizationNotCompleted(req);
       }
       return oauth2authorized(req, next);
     } else {
@@ -19211,29 +17331,46 @@ function oauth2mw(options) {
       if (!shouldAuthorizeResponse(res) || retryState.handledRejectedToken) {
         return res;
       }
+      if (options.tokens.get("access_token")?.value !== accessToken.value) {
+        return oauth2authorized(req, next, { handledRejectedToken: true });
+      }
       options.tokens.delete("access_token");
-      const token = refreshToken ? await refreshAccessToken() : await fetchAccessToken();
+      let tokenRequest = fetchAccessToken;
+      if (refreshToken) {
+        tokenRequest = refreshAccessToken;
+      }
+      const token = await requestToken(tokenRequest);
       if (!token) {
-        return response("false");
+        throw authorizationNotCompleted(req);
       }
       return oauth2authorized(req, next, { handledRejectedToken: true });
     }
   }
+  function requestToken(tokenRequest) {
+    if (!pendingTokenRequests.has(tokenStoreKey)) {
+      const pending = tokenRequest().finally(() => {
+        pendingTokenRequests.delete(tokenStoreKey);
+      });
+      pendingTokenRequests.set(tokenStoreKey, pending);
+    }
+    return pendingTokenRequests.get(tokenStoreKey);
+  }
   function getTokensFromLocation() {
     if (typeof window !== "undefined" && window?.location) {
-      let url3 = url(window.location);
+      let url2 = url(window.location);
       let code, state, params;
-      if (url3.searchParams.has("code") || url3.searchParams.has("error")) {
-        params = url3.searchParams;
-        url3 = url3.with({ search: "" });
-        history.pushState({}, "", url3.href);
-      } else if (url3.hash) {
-        let query = url3.hash.substr(1);
+      if (url2.searchParams.has("code") || url2.searchParams.has("error")) {
+        params = url2.searchParams;
+        url2 = url2.with({ search: "" });
+        history.pushState({}, "", url2.href);
+      } else if (url2.hash) {
+        let query = url2.hash.substr(1);
         params = new URLSearchParams("?" + query);
-        url3 = url3.with({ hash: "" });
-        history.pushState({}, "", url3.href);
+        url2 = url2.with({ hash: "" });
+        history.pushState({}, "", url2.href);
       }
       if (params) {
+        validateIssuer(params.get("iss"));
         if (params.has("error")) {
           throw metroError("oauth2mw: authorization failed: " + params.get("error") + (params.get("error_description") ? " (" + params.get("error_description") + ")" : ""));
         }
@@ -19260,24 +17397,24 @@ function oauth2mw(options) {
       }
     }
     let tokenReq = getAccessTokenRequest();
-    let response3 = await options.client.post(tokenReq);
-    if (!response3.ok) {
-      let msg = await response3.text();
-      throw metroError("OAuth2mw: fetch access_token: " + response3.status + ": " + response3.statusText + " (" + msg + ")", { cause: tokenReq });
-    }
-    let data = await response3.json();
-    storeTokenResponse(data);
     options.tokens.delete("authorization_code");
+    let response2 = await options.client.post(tokenReq);
+    if (!response2.ok) {
+      let msg = await response2.text();
+      throw metroError("OAuth2mw: fetch access_token: " + response2.status + ": " + response2.statusText + " (" + msg + ")", { cause: tokenReq });
+    }
+    let data = await response2.json();
+    storeTokenResponse(data);
     return data;
   }
   async function refreshAccessToken() {
     let refreshTokenReq = getAccessTokenRequest("refresh_token");
-    let response3 = await options.client.post(refreshTokenReq);
-    if (!response3.ok) {
-      let msg = await response3.text();
-      throw metroError("OAuth2mw: refresh access_token: " + response3.status + ": " + response3.statusText + " (" + msg + ")", { cause: refreshTokenReq });
+    let response2 = await options.client.post(refreshTokenReq);
+    if (!response2.ok) {
+      let msg = await response2.text();
+      throw metroError("OAuth2mw: refresh access_token: " + response2.status + ": " + response2.statusText + " (" + msg + ")", { cause: refreshTokenReq });
     }
-    let data = await response3.json();
+    let data = await response2.json();
     storeTokenResponse(data);
     return data;
   }
@@ -19285,8 +17422,8 @@ function oauth2mw(options) {
     if (!oauth22.authorization_endpoint) {
       throw metroError("oauth2mw: Missing options.oauth2_configuration.authorization_endpoint");
     }
-    let url3 = url(oauth22.authorization_endpoint, { hash: "" });
-    assert(oauth22, {
+    let url2 = url(oauth22.authorization_endpoint, { hash: "" });
+    assert2(oauth22, {
       client_id: /.+/,
       redirect_uri: /.+/,
       scope: /.*/
@@ -19315,20 +17452,23 @@ function oauth2mw(options) {
     if (oauth22.prompt) {
       search.prompt = oauth22.prompt;
     }
+    if (oauth22.login_hint) {
+      search.login_hint = oauth22.login_hint;
+    }
     if (oauth22.nonce) {
       search.nonce = oauth22.nonce;
     }
-    return url(url3, { search });
+    return url(url2, { search });
   }
   function getAccessTokenRequest(grant_type = null) {
-    assert(oauth22, {
+    assert2(oauth22, {
       client_id: /.+/,
       redirect_uri: /.+/
     });
     if (!oauth22.token_endpoint) {
       throw metroError("oauth2mw: Missing options.endpoints.token url");
     }
-    let url3 = url(oauth22.token_endpoint, { hash: "" });
+    let url2 = url(oauth22.token_endpoint, { hash: "" });
     let params = {
       grant_type: grant_type || oauth22.grant_type
     };
@@ -19355,7 +17495,7 @@ function oauth2mw(options) {
         throw new Error("Unknown grant_type: " + params.grant_type);
         break;
     }
-    return request(url3, { method: "POST", headers, body: new URLSearchParams(params) });
+    return request(url2, { method: "POST", headers, body: new URLSearchParams(params) });
   }
   function applyTokenEndpointAuthentication(params, headers) {
     const method = tokenEndpointAuthMethod(oauth22);
@@ -19379,6 +17519,7 @@ function oauth2mw(options) {
   function storeAuthorizationResult(authorization) {
     let code = authorization;
     if (authorization && typeof authorization === "object") {
+      validateIssuer(authorization.iss);
       if (authorization.error) {
         throw metroError("oauth2mw: authorization failed: " + authorization.error);
       }
@@ -19390,6 +17531,20 @@ function oauth2mw(options) {
     }
     options.tokens.set("authorization_code", code);
   }
+  function validateIssuer(iss) {
+    if (!oauth22.issuer) {
+      return;
+    }
+    if (!iss) {
+      if (oauth22.authorization_response_iss_parameter_supported) {
+        throw metroError("oauth2mw: authorization response is missing iss, expected " + oauth22.issuer);
+      }
+      return;
+    }
+    if (iss !== oauth22.issuer) {
+      throw metroError("oauth2mw: authorization response is from issuer " + iss + ", expected " + oauth22.issuer);
+    }
+  }
   function validateState(state) {
     let storedState = options.state.get();
     if (!state || state !== storedState) {
@@ -19397,7 +17552,7 @@ function oauth2mw(options) {
     }
   }
   function storeTokenResponse(data) {
-    const token = validateTokenResponse(data);
+    const token = validateTokenResponse(data, oauth22.token_type);
     options.tokens.set("access_token", token);
     if (data.refresh_token) {
       options.tokens.set("refresh_token", { value: data.refresh_token });
@@ -19408,10 +17563,10 @@ function shouldAuthorizeResponse(res) {
   if (!res) {
     return false;
   }
-  if (res.status === 400) {
-    return true;
-  }
   const challenge = parseBearerChallenge(res.headers?.get("WWW-Authenticate"));
+  if (res.status === 400) {
+    return challenge?.error === "invalid_token";
+  }
   if (challenge?.error === "insufficient_scope") {
     return false;
   }
@@ -19429,7 +17584,7 @@ function normalizeInitialToken(name, token) {
   }
   return token;
 }
-function validateTokenResponse(data) {
+function validateTokenResponse(data, requiredTokenType) {
   if (!data || typeof data !== "object") {
     throw metroError("OAuth2mw: token endpoint did not return a JSON object");
   }
@@ -19440,6 +17595,9 @@ function validateTokenResponse(data) {
     throw metroError("OAuth2mw: token response did not include token_type");
   }
   const tokenType = normalizeTokenType(data.token_type);
+  if (requiredTokenType && tokenType !== normalizeTokenType(requiredTokenType)) {
+    throw metroError("OAuth2mw: token endpoint returned a " + tokenType + " token, but " + requiredTokenType + " is required");
+  }
   return {
     value: data.access_token,
     expires: data.expires_in === void 0 ? null : getExpires(data.expires_in),
@@ -19505,8 +17663,8 @@ function generateCodeVerifier(size = 64) {
   return base64url_encode(code_verifier);
 }
 async function generateCodeChallenge(code_verifier) {
-  const encoder2 = new TextEncoder();
-  const data = encoder2.encode(code_verifier);
+  const encoder3 = new TextEncoder();
+  const data = encoder3.encode(code_verifier);
   const challenge = await globalThis.crypto.subtle.digest("SHA-256", data);
   return base64url_encode(challenge);
 }
@@ -19529,11 +17687,17 @@ function createState(length) {
   }
   return randomState;
 }
+function authorizationNotCompleted(req) {
+  const error4 = new Error("oauth2mw: authorization was not completed for " + req.url + "; no access token was obtained");
+  error4.code = "authorization_not_completed";
+  error4.request = req;
+  return error4;
+}
 function isRedirected() {
-  let url3 = new URL(document.location.href);
-  if (!url3.searchParams.has("code")) {
-    if (url3.hash) {
-      let query = url3.hash.substr(1);
+  let url2 = new URL(document.location.href);
+  if (!url2.searchParams.has("code")) {
+    if (url2.hash) {
+      let query = url2.hash.substr(1);
       const params = new URLSearchParams("?" + query);
       if (params.has("code")) {
         return true;
@@ -19581,208 +17745,7 @@ function parseBearerChallenge(value) {
   return result;
 }
 
-// ../solid-tools/node_modules/@muze-nl/metro-oauth2/src/oauth2.discovery.mjs
-var oauth2_discovery_exports = {};
-__export(oauth2_discovery_exports, {
-  default: () => makeClient
-});
-var validAlgorithms = [
-  "HS256",
-  "HS384",
-  "HS512",
-  "RS256",
-  "RS384",
-  "RS512",
-  "ES256",
-  "ES384",
-  "ES512"
-];
-var validAuthMethods = [
-  "client_secret_post",
-  "client_secret_base",
-  "client_secret_jwt",
-  "private_key_jwt"
-];
-var oauth_authorization_server_metadata = {
-  authorization_endpoint: Required(validURL),
-  issuer: Required(validURL),
-  response_types_supported: Required(anyOf2("code", "token")),
-  token_endpoint: Required(validURL),
-  scopes_supported: Recommended([]),
-  code_challendge_methods_supported: Optional([]),
-  grant_types_supported: Optional([]),
-  introspection_endpoint: Optional(validURL),
-  introspection_endpoint_auth_methods_supported: Optional(validAuthMethods),
-  introspection_endpoint_auth_signing_alg_values_supported: Optional(validAlgorithms),
-  jwks_uri: Optional(validURL),
-  op_policy_uri: Optional(validURL),
-  op_tos_uri: Optional(validURL),
-  registration_endpoint: Optional(validURL),
-  response_modes_supported: Optional([]),
-  revocation_endpoint: Optional(validURL),
-  revocation_endpoint_auth_methods_supported: Optional(validAuthMethods),
-  revocation_endpoint_auth_signing_alg_values_supported: Optional(validAlgorithms),
-  service_documentation: Optional(validURL),
-  token_endpoint_auth_methods_supported: Optional([]),
-  token_endpoint_auth_signing_alg_values_supported: Optional([]),
-  ui_locales_supported: Optional([])
-};
-function makeClient(options = {}) {
-  const defaultOptions = {
-    client: client()
-  };
-  options = Object.assign({}, defaultOptions, options);
-  assert(options, {
-    issuer: Required(validURL)
-  });
-  const oauth_authorization_server_configuration = fetchWellknownOauthAuthorizationServer(options.issuer);
-  return options.client.with(options.issuer);
-}
-async function fetchWellknownOauthAuthorizationServer(issuer, client3) {
-  let res = client3.get(url(issuer, ".wellknown/oauth_authorization_server"));
-  if (!res.ok) {
-    throw metroError("metro.oidcmw: Error while fetching " + issuer + ".wellknown/oauth_authorization_server", res);
-  }
-  assert(res.headers.get("Content-Type"), /application\/json.*/);
-  let configuration = await res.json();
-  assert(configuration, oauth_authorization_server_metadata);
-  return configuration;
-}
-
-// ../solid-tools/node_modules/@muze-nl/metro-oauth2/src/oauth2.popup.mjs
-function handleRedirect(origin = null) {
-  let success = false;
-  origin = origin || window.location.origin;
-  let params = new URLSearchParams(window.location.search);
-  if (!params.has("code") && !params.has("error") && window.location.hash) {
-    let query = window.location.hash.substring(1);
-    params = new URLSearchParams("?" + query);
-  }
-  let parent = window.parent !== window ? window.parent : window.opener;
-  if (!parent) {
-    console.error("No parent window found, cannot post authorization code (or error)");
-  } else {
-    let message;
-    if (params.has("code")) {
-      success = true;
-      message = {
-        authorization_code: params.get("code"),
-        state: params.get("state")
-      };
-    } else if (params.has("error")) {
-      message = {
-        error: params.get("error"),
-        error_description: params.get("error_description"),
-        state: params.get("state")
-      };
-    } else {
-      message = { error: "Could not find an authorization_code" };
-    }
-    parent.postMessage(message, origin);
-  }
-  return success;
-}
-function authorizePopup(authorizationCodeURL, options = {}) {
-  const url3 = new URL(authorizationCodeURL, window.location.href);
-  const expectedState = url3.searchParams.get("state");
-  const redirectUri = url3.searchParams.get("redirect_uri");
-  const expectedOrigin = redirectUri ? new URL(redirectUri, window.location.href).origin : window.location.origin;
-  return new Promise((resolve, reject) => {
-    const cleanup = () => {
-      if (typeof removeEventListener === "function") {
-        removeEventListener("message", handler);
-      }
-    };
-    const handler = (event) => {
-      if (event.origin && event.origin !== expectedOrigin) {
-        return;
-      }
-      if (event.data.authorization_code) {
-        if (expectedState && event.data.state !== expectedState) {
-          cleanup();
-          reject("OAuth2 authorization state mismatch");
-          return;
-        }
-        cleanup();
-        resolve(event.data.authorization_code);
-      } else if (event.data.error) {
-        if (expectedState && event.data.state && event.data.state !== expectedState) {
-          cleanup();
-          reject("OAuth2 authorization state mismatch");
-          return;
-        }
-        cleanup();
-        reject(event.data.error_description || event.data.error);
-      } else {
-        cleanup();
-        reject("Unknown authorization error");
-      }
-    };
-    addEventListener("message", handler);
-    const popup = options.popup || window.open(authorizationCodeURL);
-    if (!popup || popup.closed) {
-      cleanup();
-      reject("OAuth2 popup was blocked");
-      return;
-    }
-    if (options.popup) {
-      popup.location.href = authorizationCodeURL;
-    }
-  });
-}
-
-// ../solid-tools/node_modules/@muze-nl/metro-oauth2/src/keysstore.mjs
-function keysStore() {
-  return new Promise((resolve, reject) => {
-    const request3 = globalThis.indexedDB.open("metro", 1);
-    request3.onupgradeneeded = () => request3.result.createObjectStore("keyPairs", { keyPath: "domain" });
-    request3.onerror = (event) => {
-      reject(event);
-    };
-    request3.onsuccess = (event) => {
-      const db = event.target.result;
-      resolve({
-        set: function(value, key) {
-          return new Promise((resolve2, reject2) => {
-            const tx = db.transaction("keyPairs", "readwrite", { durability: "strict" });
-            const objectStore = tx.objectStore("keyPairs");
-            tx.oncomplete = () => {
-              resolve2();
-            };
-            tx.onerror = reject2;
-            objectStore.put(value, key);
-          });
-        },
-        get: function(key) {
-          return new Promise((resolve2, reject2) => {
-            const tx = db.transaction("keyPairs", "readonly");
-            const objectStore = tx.objectStore("keyPairs");
-            const request4 = objectStore.get(key);
-            request4.onsuccess = () => {
-              resolve2(request4.result);
-            };
-            request4.onerror = reject2;
-            tx.onerror = reject2;
-          });
-        },
-        clear: function() {
-          return new Promise((resolve2, reject2) => {
-            const tx = db.transaction("keyPairs", "readwrite");
-            const objectStore = tx.objectStore("keyPairs");
-            const request4 = objectStore.clear();
-            request4.onsuccess = () => {
-              resolve2();
-            };
-            request4.onerror = reject2;
-            tx.onerror = reject2;
-          });
-        }
-      });
-    };
-  });
-}
-
-// ../solid-tools/node_modules/dpop/build/index.js
+// node_modules/dpop/build/index.js
 var encoder = new TextEncoder();
 var decoder = new TextDecoder();
 function buf(input2) {
@@ -19847,17 +17810,17 @@ function b64u(input2) {
   return encodeBase64Url(input2);
 }
 var UnsupportedOperationError = class extends Error {
-  constructor(message) {
+  constructor(message2) {
     var _a;
-    super(message !== null && message !== void 0 ? message : "operation not supported");
+    super(message2 !== null && message2 !== void 0 ? message2 : "operation not supported");
     this.name = this.constructor.name;
     (_a = Error.captureStackTrace) === null || _a === void 0 ? void 0 : _a.call(Error, this, this.constructor);
   }
 };
 var OperationProcessingError = class extends Error {
-  constructor(message) {
+  constructor(message2) {
     var _a;
-    super(message);
+    super(message2);
     this.name = this.constructor.name;
     (_a = Error.captureStackTrace) === null || _a === void 0 ? void 0 : _a.call(Error, this, this.constructor);
   }
@@ -19939,18 +17902,19 @@ async function generateProof(keypair, htu, htm, nonce, accessToken, additional) 
   if (additional !== void 0 && (typeof additional !== "object" || additional === null || Array.isArray(additional))) {
     throw new TypeError('"additional" must be an object');
   }
-  return jwt({
-    alg: determineJWSAlgorithm(privateKey),
-    typ: "dpop+jwt",
-    jwk: await publicJwk(publicKey)
-  }, Object.assign(Object.assign({}, additional), {
+  const claimsSet = Object.assign(/* @__PURE__ */ Object.create(null), additional, {
     iat: epochTime(),
     jti: crypto.randomUUID(),
     htm,
     nonce,
     htu,
     ath: accessToken ? b64u(await crypto.subtle.digest("SHA-256", buf(accessToken))) : void 0
-  }), privateKey);
+  });
+  return jwt({
+    alg: determineJWSAlgorithm(privateKey),
+    typ: "dpop+jwt",
+    jwk: await publicJwk(publicKey)
+  }, claimsSet, privateKey);
 }
 async function publicJwk(key) {
   const { kty, e, n, x, y, crv } = await crypto.subtle.exportKey("jwk", key);
@@ -19991,83 +17955,388 @@ async function generateKeyPair(alg, options) {
   return crypto.subtle.generateKey(algorithm, (_a = options === null || options === void 0 ? void 0 : options.extractable) !== null && _a !== void 0 ? _a : false, ["sign", "verify"]);
 }
 
-// ../solid-tools/node_modules/@muze-nl/metro-oauth2/src/oauth2.dpop.mjs
+// node_modules/@muze-nl/metro-oauth2/src/keysstore.mjs
+function keysStore() {
+  return new Promise((resolve, reject) => {
+    const request2 = globalThis.indexedDB.open("metro", 1);
+    request2.onupgradeneeded = () => request2.result.createObjectStore("keyPairs", { keyPath: "domain" });
+    request2.onerror = (event) => {
+      reject(event);
+    };
+    request2.onsuccess = (event) => {
+      const db = event.target.result;
+      resolve({
+        set: function(value, key) {
+          return new Promise((resolve2, reject2) => {
+            const tx = db.transaction("keyPairs", "readwrite", { durability: "strict" });
+            const objectStore = tx.objectStore("keyPairs");
+            tx.oncomplete = () => {
+              resolve2();
+            };
+            tx.onerror = reject2;
+            objectStore.put(value, key);
+          });
+        },
+        get: function(key) {
+          return new Promise((resolve2, reject2) => {
+            const tx = db.transaction("keyPairs", "readonly");
+            const objectStore = tx.objectStore("keyPairs");
+            const request3 = objectStore.get(key);
+            request3.onsuccess = () => {
+              resolve2(request3.result);
+            };
+            request3.onerror = reject2;
+            tx.onerror = reject2;
+          });
+        },
+        clear: function() {
+          return new Promise((resolve2, reject2) => {
+            const tx = db.transaction("keyPairs", "readwrite");
+            const objectStore = tx.objectStore("keyPairs");
+            const request3 = objectStore.clear();
+            request3.onsuccess = () => {
+              resolve2();
+            };
+            request3.onerror = reject2;
+            tx.onerror = reject2;
+          });
+        }
+      });
+    };
+  });
+}
+
+// node_modules/@muze-nl/metro-oauth2/src/oauth2.dpop.mjs
+var serverNonces = /* @__PURE__ */ new Map();
 function dpopmw(options) {
-  assert(options, {
-    site: Required(validURL),
-    authorization_endpoint: Required(validURL),
-    token_endpoint: Required(validURL),
-    dpop_signing_alg_values_supported: Optional([])
+  assert2(options, {
+    site: Required2(validURL2),
+    token_endpoint: Required2(validURL2),
+    dpop_signing_alg_values_supported: Optional2([])
     // this property is unfortunately rarely supported
   });
   return async (req, next) => {
-    const keys = await keysStore();
-    let keyInfo = await keys.get(options.site);
-    if (!keyInfo) {
-      let keyPair = await generateKeyPair("ES256");
-      keyInfo = { domain: options.site, keyPair };
-      await keys.set(keyInfo);
+    const keyPair = await keyPairFor(options.site);
+    const origin = url(req.url).origin;
+    let res = await next(await withProof(req, keyPair));
+    rememberNonce(origin, res);
+    if (needsProof(req) && await asksForNonce(res)) {
+      res = await next(await withProof(req, keyPair));
+      rememberNonce(origin, res);
     }
-    const url3 = url(req.url);
-    if (req.url.startsWith(options.authorization_endpoint)) {
-      let params = req.body;
-      if (params instanceof URLSearchParams || params instanceof FormData) {
-        params.set("dpop_jkt", keyInfo.keyPair.publicKey);
-      } else {
-        params.dpop_jkt = keyInfo.keyPair.publicKey;
-      }
-    } else if (req.url.startsWith(options.token_endpoint)) {
-      const dpopHeader = await generateProof(keyInfo.keyPair, req.url, req.method);
-      req = req.with({
-        headers: {
-          "DPoP": dpopHeader
-        }
-      });
-    } else if (req.headers.has("Authorization")) {
-      const nonce = localStorage.getItem(url3.host + ":nonce") || void 0;
-      const accessToken = req.headers.get("Authorization").split(" ")[1];
-      const dpopHeader = await generateProof(keyInfo.keyPair, req.url, req.method, nonce, accessToken);
-      req = req.with({
-        headers: {
-          "Authorization": "DPoP " + accessToken,
-          "DPoP": dpopHeader
-        }
-      });
-    }
-    let response3 = await next(req);
-    if (response3.headers.get("DPoP-Nonce")) {
-      localStorage.setItem(url3.host + ":nonce", response3.headers.get("DPoP-Nonce"));
-    }
-    return response3;
+    return res;
   };
+  function needsProof(req) {
+    return req.url.startsWith(options.token_endpoint) || isDPoPAuthorization(req.headers.get("Authorization"));
+  }
+  async function withProof(req, keyPair) {
+    if (!needsProof(req)) {
+      return req;
+    }
+    const nonce = serverNonces.get(url(req.url).origin);
+    const htu = targetURI(req.url);
+    if (req.url.startsWith(options.token_endpoint)) {
+      const proof2 = await generateProof(keyPair, htu, req.method, nonce);
+      return req.with({
+        headers: {
+          "DPoP": proof2
+        }
+      });
+    }
+    const accessToken = req.headers.get("Authorization").split(" ")[1];
+    const proof = await generateProof(keyPair, htu, req.method, nonce, accessToken);
+    return req.with({
+      headers: {
+        "Authorization": "DPoP " + accessToken,
+        "DPoP": proof
+      }
+    });
+  }
+}
+async function keyPairFor(site) {
+  const keys = await keysStore();
+  let keyInfo = await keys.get(site);
+  if (!keyInfo) {
+    const keyPair = await generateKeyPair("ES256");
+    keyInfo = { domain: site, keyPair };
+    await keys.set(keyInfo);
+  }
+  return keyInfo.keyPair;
+}
+function targetURI(url2) {
+  const target = new URL(url2);
+  target.search = "";
+  target.hash = "";
+  return target.href;
+}
+function rememberNonce(origin, res) {
+  const nonce = res.headers.get("DPoP-Nonce");
+  if (nonce) {
+    serverNonces.set(origin, nonce);
+  }
+}
+async function asksForNonce(res) {
+  if (!res.headers.get("DPoP-Nonce")) {
+    return false;
+  }
+  if (res.status == 401) {
+    const challenge = parseBearerChallenge(res.headers.get("WWW-Authenticate"));
+    return challenge?.error == "use_dpop_nonce";
+  }
+  if (res.status == 400) {
+    const body = await res.clone().json().catch(() => null);
+    return body?.error == "use_dpop_nonce";
+  }
+  return false;
+}
+function isDPoPAuthorization(value) {
+  return /^DPoP\s/i.test(value || "");
 }
 
-// ../solid-tools/node_modules/@muze-nl/metro-oauth2/src/index.mjs
-var oauth2 = Object.assign({}, oauth2_exports, {
-  oauth2mw,
-  discover: oauth2_discovery_exports,
-  tokenstore: tokenStore,
-  dpopmw,
-  keysstore: keysStore,
-  authorizePopup,
-  popupHandleRedirect: handleRedirect
+// node_modules/@muze-nl/metro-oidc/node_modules/@muze-nl/assert/src/assert-core.mjs
+var assert_core_exports3 = {};
+__export(assert_core_exports3, {
+  Optional: () => Optional3,
+  Recommended: () => Recommended3,
+  Required: () => Required3,
+  allOf: () => allOf3,
+  anyOf: () => anyOf4,
+  assert: () => assert3,
+  disable: () => disable3,
+  enable: () => enable3,
+  error: () => error3,
+  fails: () => fails3,
+  formatIssue: () => formatIssue3,
+  formatIssues: () => formatIssues3,
+  instanceOf: () => instanceOf3,
+  issues: () => issues3,
+  not: () => not3,
+  oneOf: () => oneOf3,
+  validEmail: () => validEmail3,
+  validURL: () => validURL3,
+  warn: () => warn3
 });
-
-// ../solid-tools/node_modules/@muze-nl/metro-oidc/node_modules/@muze-nl/assert/src/assert.mjs
-globalThis.assertEnabled = false;
+var assertEnabled3 = false;
 function enable3() {
-  globalThis.assertEnabled = true;
+  assertEnabled3 = true;
 }
 function disable3() {
-  globalThis.assertEnabled = false;
+  assertEnabled3 = false;
+}
+function appendPath3(path2 = "", key) {
+  if (typeof path2 == "undefined" || path2 == null) {
+    path2 = "";
+  }
+  if (typeof key == "number") {
+    return `${path2}[${key}]`;
+  }
+  return `${path2}.${key}`;
+}
+function pathToArray3(path2 = "") {
+  if (Array.isArray(path2)) {
+    return path2;
+  }
+  if (!path2) {
+    return [];
+  }
+  let result = [];
+  let matcher = /(?:^|\.)([^.\[\]]+)|\[(\d+)\]/g;
+  let match;
+  while (match = matcher.exec(path2)) {
+    if (typeof match[1] != "undefined") {
+      result.push(match[1]);
+    } else if (typeof match[2] != "undefined") {
+      result.push(Number(match[2]));
+    }
+  }
+  return result;
+}
+function pathToString3(path2 = []) {
+  if (typeof path2 == "string") {
+    return path2.startsWith(".") ? path2.slice(1) : path2;
+  }
+  return path2.map((part, index) => {
+    if (typeof part == "number") {
+      return `[${part}]`;
+    }
+    return `${index ? "." : ""}${part}`;
+  }).join("");
+}
+function describeFunction3(value) {
+  if (value === String) {
+    return "string";
+  }
+  if (value === Number) {
+    return "number";
+  }
+  if (value === Boolean) {
+    return "boolean";
+  }
+  return value.name || "function";
+}
+function clip3(text, maxLength = 60) {
+  if (text.length <= maxLength) {
+    return text;
+  }
+  return text.slice(0, maxLength - 1) + "\u2026";
+}
+function quoteString3(value) {
+  return `'${clip3(String(value).replace(/\\/g, "\\\\").replace(/'/g, "\\'").replace(/\n/g, "\\n"))}'`;
+}
+function jsonSummary3(value) {
+  try {
+    let json = JSON.stringify(value);
+    if (typeof json == "string") {
+      return clip3(json);
+    }
+  } catch (e) {
+  }
+  let name = value?.constructor?.name;
+  if (name && name != "Object") {
+    return name;
+  }
+  return Object.prototype.toString.call(value);
+}
+function formatValue3(value) {
+  if (typeof value == "string") {
+    return quoteString3(value);
+  }
+  if (typeof value == "undefined") {
+    return "undefined";
+  }
+  if (value === null) {
+    return "null";
+  }
+  if (typeof value == "function") {
+    return describeFunction3(value);
+  }
+  if (value instanceof RegExp) {
+    return value.toString();
+  }
+  if (typeof value == "number" || typeof value == "boolean" || typeof value == "bigint") {
+    return String(value);
+  }
+  if (typeof value == "symbol") {
+    return value.toString();
+  }
+  return jsonSummary3(value);
+}
+function describeExpected3(value) {
+  if (value === String || value === Number || value === Boolean) {
+    return describeFunction3(value);
+  }
+  if (typeof value == "function") {
+    return describeFunction3(value);
+  }
+  if (value instanceof RegExp) {
+    return value.toString();
+  }
+  if (Array.isArray(value)) {
+    return "[" + value.map(describeExpected3).join(", ") + "]";
+  }
+  return formatValue3(value);
+}
+function describeOneOf3(patterns) {
+  return patterns.map(describeExpected3).join(", ");
+}
+function conciseMessage3(message2, actual, expected) {
+  if (message2 == "data and pattern are not equal") {
+    return `expected ${formatValue3(expected)}, found ${formatValue3(actual)}`;
+  }
+  if (message2 == "data does not match pattern" || /^data\[\d+\] does not match pattern$/.test(message2)) {
+    return `expected ${describeExpected3(expected)}, found ${formatValue3(actual)}`;
+  }
+  if (message2 == "data is undefined, should match pattern") {
+    return `missing; expected ${describeExpected3(expected)}`;
+  }
+  if (message2 == "data is required") {
+    return "required";
+  }
+  if (message2 == "data is an empty string, which is not allowed") {
+    return "empty string is not allowed";
+  }
+  if (message2 == "data is not an object, pattern is") {
+    return "data is not an object";
+  }
+  if (message2 == "data is not an instanceof pattern") {
+    return `expected instance of ${describeExpected3(expected)}, found ${formatValue3(actual)}`;
+  }
+  if (message2 == "data does not match oneOf patterns" || message2 == "data does not match anyOf patterns") {
+    return `expected one of ${describeOneOf3(expected)}, found ${formatValue3(actual)}`;
+  }
+  if (message2 == "data matches pattern, when required not to") {
+    return `must not match ${describeExpected3(expected)}`;
+  }
+  return message2;
+}
+function formatIssue3(issue, options = {}) {
+  if (!issue || typeof issue != "object") {
+    return String(issue);
+  }
+  let path2 = issue.pathString || pathToString3(issue.path || []) || "value";
+  let indent = options.indent ?? "";
+  return `${indent}${path2}: ${issue.message}`;
+}
+function formatIssues3(issues4, options = {}) {
+  if (!issues4) {
+    return false;
+  }
+  let indent = options.indent ?? "  - ";
+  return (Array.isArray(issues4) ? issues4 : [issues4]).map((issue) => formatIssue3(issue, { ...options, indent }));
+}
+function issueFromProblem3(problem) {
+  if (!problem || typeof problem != "object") {
+    return {
+      path: [],
+      pathString: "",
+      message: String(problem),
+      expected: void 0,
+      actual: void 0
+    };
+  }
+  let path2 = pathToArray3(problem.path);
+  let pathString = pathToString3(path2);
+  let actual = problem.actual ?? problem.found;
+  let expected = describeExpected3(problem.expected);
+  let message2 = conciseMessage3(problem.message, actual, problem.expected);
+  return {
+    path: path2,
+    pathString,
+    message: message2,
+    expected,
+    actual
+  };
+}
+function problemsToIssues3(problems) {
+  if (!problems) {
+    return [];
+  }
+  let result = [];
+  for (let problem of Array.isArray(problems) ? problems : [problems]) {
+    if (!problem) {
+      continue;
+    }
+    if (problem && typeof problem == "object" && problem.problems) {
+      let nested = problemsToIssues3(problem.problems);
+      if (nested.length) {
+        result = result.concat(nested);
+        continue;
+      }
+    }
+    result.push(issueFromProblem3(problem));
+  }
+  return result;
 }
 function assert3(source2, test) {
-  if (globalThis.assertEnabled) {
+  if (assertEnabled3) {
     let problems = fails3(source2, test);
     if (problems) {
-      console.error("\u{1F170}\uFE0F  Assertions failed because of:", problems, "in this source:", source2);
-      throw new Error("Assertions failed", {
-        cause: { problems, source: source2 }
+      let assertionIssues = problemsToIssues3(problems);
+      let formattedIssues = formatIssues3(assertionIssues);
+      let message2 = "Assertions failed:\n" + formattedIssues.join("\n");
+      console.error("\u{1F170}\uFE0F  " + message2);
+      throw new Error(message2, {
+        cause: { problems, issues: assertionIssues, source: source2 }
       });
     }
   }
@@ -20110,14 +18379,15 @@ function oneOf3(...patterns) {
     return error3("data does not match oneOf patterns", data, patterns, path2);
   };
 }
-function anyOf5(...patterns) {
+function anyOf4(...patterns) {
   return function _anyOf(data, root, path2) {
     if (!Array.isArray(data)) {
       return error3("data is not an array", data, "anyOf", path2);
     }
-    for (let value of data) {
-      if (oneOf3(...patterns)(value)) {
-        return error3("data does not match anyOf patterns", value, patterns, path2);
+    for (let [index, value] of data.entries()) {
+      let itemPath = appendPath3(path2, index);
+      if (oneOf3(...patterns)(value, root, itemPath)) {
+        return error3("data does not match anyOf patterns", value, patterns, itemPath);
       }
     }
     return false;
@@ -20140,9 +18410,9 @@ function validURL3(data, root, path2) {
     if (data instanceof URL) {
       data = data.href;
     }
-    let url3 = new URL(data);
-    if (url3.href != data) {
-      if (!(url3.href + "/" == data || url3.href == data + "/")) {
+    let url2 = new URL(data);
+    if (url2.href != data) {
+      if (!(url2.href + "/" == data || url2.href == data + "/")) {
         return error3("data is not a valid url", data, "validURL", path2);
       }
     }
@@ -20169,8 +18439,15 @@ function not3(pattern) {
     }
   };
 }
+function issues3(data, pattern, root) {
+  let problems = fails3(data, pattern, root);
+  if (!problems) {
+    return false;
+  }
+  return problemsToIssues3(problems);
+}
 function fails3(data, pattern, root, path2 = "") {
-  if (!root) {
+  if (typeof root == "undefined") {
     root = data;
   }
   let problems = [];
@@ -20191,9 +18468,9 @@ function fails3(data, pattern, root, path2 = "") {
     }
   } else if (pattern instanceof RegExp) {
     if (Array.isArray(data)) {
-      let index = data.findIndex((element2, index2) => fails3(element2, pattern, root, path2 + "[" + index2 + "]"));
+      let index = data.findIndex((element2, index2) => fails3(element2, pattern, root, appendPath3(path2, index2)));
       if (index > -1) {
-        problems.push(error3("data[" + index + "] does not match pattern", data[index], pattern, path2 + "[" + index + "]"));
+        problems.push(error3("data[" + index + "] does not match pattern", data[index], pattern, appendPath3(path2, index)));
       }
     } else if (typeof data == "undefined") {
       problems.push(error3("data is undefined, should match pattern", data, pattern, path2));
@@ -20212,22 +18489,23 @@ function fails3(data, pattern, root, path2 = "") {
   } else if (Array.isArray(pattern)) {
     if (!Array.isArray(data)) {
       problems.push(error3("data is not an array", data, [], path2));
-    }
-    for (let p of pattern) {
-      for (let index of data.keys()) {
-        let problem = fails3(data[index], p, root, path2 + "[" + index + "]");
-        if (Array.isArray(problem)) {
-          problems = problems.concat(problem);
-        } else if (problem) {
-          problems.push(problem);
+    } else {
+      for (let p of pattern) {
+        for (let index of data.keys()) {
+          let problem = fails3(data[index], p, root, appendPath3(path2, index));
+          if (Array.isArray(problem)) {
+            problems = problems.concat(problem);
+          } else if (problem) {
+            problems.push(problem);
+          }
         }
       }
     }
   } else if (pattern && typeof pattern == "object") {
     if (Array.isArray(data)) {
-      let index = data.findIndex((element2, index2) => fails3(element2, pattern, root, path2 + "[" + index2 + "]"));
+      let index = data.findIndex((element2, index2) => fails3(element2, pattern, root, appendPath3(path2, index2)));
       if (index > -1) {
-        problems.push(error3("data[" + index + "] does not match pattern", data[index], pattern, path2 + "[" + index + "]"));
+        problems.push(error3("data[" + index + "] does not match pattern", data[index], pattern, appendPath3(path2, index)));
       }
     } else if (!data || typeof data != "object") {
       problems.push(error3("data is not an object, pattern is", data, pattern, path2));
@@ -20242,7 +18520,7 @@ function fails3(data, pattern, root, path2 = "") {
         }
       } else {
         for (const [patternKey, subpattern] of Object.entries(pattern)) {
-          let result = fails3(data[patternKey], subpattern, root, path2 + "." + patternKey);
+          let result = fails3(data[patternKey], subpattern, root, appendPath3(path2, patternKey));
           if (result) {
             problems = problems.concat(result);
           }
@@ -20259,10 +18537,13 @@ function fails3(data, pattern, root, path2 = "") {
   }
   return false;
 }
-function error3(message, found, expected, path2, problems) {
+function error3(message2, found, expected, path2 = "", problems) {
+  let pathParts = pathToArray3(path2);
   let result = {
     path: path2,
-    message,
+    pathString: pathToString3(pathParts),
+    pathParts,
+    message: message2,
     found,
     expected
   };
@@ -20271,29 +18552,14 @@ function error3(message, found, expected, path2, problems) {
   }
   return result;
 }
-function warn3(message, data, pattern, path2) {
-  console.warn("\u{1F170}\uFE0F  Assert: " + path2, message, pattern, data);
+function warn3(message2, data, pattern, path2) {
+  console.warn("\u{1F170}\uFE0F  Assert: " + path2, message2, pattern, data);
 }
-globalThis.assert = {
-  warn: warn3,
-  error: error3,
-  assert: assert3,
-  enable: enable3,
-  disable: disable3,
-  Required: Required3,
-  Recommended: Recommended3,
-  Optional: Optional3,
-  oneOf: oneOf3,
-  anyOf: anyOf5,
-  allOf: allOf3,
-  validURL: validURL3,
-  validEmail: validEmail3,
-  instanceOf: instanceOf3,
-  not: not3,
-  fails: fails3
-};
 
-// ../solid-tools/node_modules/@muze-nl/metro-oidc/src/oidc.util.mjs
+// node_modules/@muze-nl/metro-oidc/node_modules/@muze-nl/assert/src/assert.mjs
+globalThis.assert = { ...assert_core_exports3 };
+
+// node_modules/@muze-nl/metro-oidc/src/oidc.util.mjs
 var MustHave = (...options) => (value, root) => {
   if (options.filter((o) => root.hasOwnKey(o)).length > 0) {
     return false;
@@ -20318,27 +18584,32 @@ var validJWA = [
   "ES384",
   "ES512"
 ];
-var validAuthMethods2 = [
+var validAuthMethods = [
+  "none",
   "client_secret_post",
   "client_secret_basic",
   "client_secret_jwt",
   "private_key_jwt"
 ];
 
-// ../solid-tools/node_modules/@muze-nl/metro-oidc/src/oidc.discovery.mjs
+// node_modules/@muze-nl/metro-oidc/src/oidc.discovery.mjs
 async function oidcDiscovery(options = {}) {
   assert3(options, {
-    client: Optional3(instanceOf3(everything_default.client().constructor)),
+    client: Optional3(instanceOf3(client().constructor)),
     issuer: Required3(validURL3)
   });
   const defaultOptions = {
-    client: everything_default.client().with(throwermw2()).with(jsonmw2()),
+    client: client().with(throwermw()).with(jsonmw()),
     requireDynamicRegistration: false
   };
   options = Object.assign({}, defaultOptions, options);
-  const TestSucceeded = false;
-  function MustUseHTTPS(url3) {
-    return TestSucceeded;
+  options.client = options.client.with(throwermw()).with(jsonmw());
+  requireSecureURL("issuer", options.issuer);
+  function MustUseHTTPS(url2) {
+    if (isSecureURL(url2)) {
+      return false;
+    }
+    return error3("url must use https", url2);
   }
   const openid_provider_metadata = {
     issuer: Required3(allOf3(options.issuer, MustUseHTTPS)),
@@ -20364,10 +18635,10 @@ async function oidcDiscovery(options = {}) {
     // not testing for 'none'
     request_object_encryption_alg_values_supported: Optional3([]),
     request_object_encryption_enc_values_supported: Optional3([]),
-    token_endpoint_auth_methods_supported: Optional3(anyOf5(...validAuthMethods2)),
+    token_endpoint_auth_methods_supported: Optional3(anyOf4(...validAuthMethods)),
     token_endpoint_auth_signing_alg_values_supported: Optional3(MustInclude("RS256"), not3(MustInclude("none"))),
-    display_values_supported: Optional3(anyOf5("page", "popup", "touch", "wap")),
-    claim_types_supported: Optional3(anyOf5("normal", "aggregated", "distributed")),
+    display_values_supported: Optional3(anyOf4("page", "popup", "touch", "wap")),
+    claim_types_supported: Optional3(anyOf4("normal", "aggregated", "distributed")),
     claims_supported: Recommended3([]),
     service_documentation: Optional3(validURL3),
     claims_locales_supported: Optional3([]),
@@ -20378,24 +18649,72 @@ async function oidcDiscovery(options = {}) {
     op_policy_uri: Optional3(validURL3),
     op_tos_uri: Optional3(validURL3)
   };
-  const configURL = everything_default.url(options.issuer, ".well-known/openid-configuration");
-  const response3 = await options.client.get(
+  const configURL = url(options.issuer, ".well-known/openid-configuration");
+  const response2 = await options.client.get(
     // https://openid.net/specs/openid-connect-discovery-1_0.html#ProviderConfigurationRequest
     // note: this allows path components in the options.issuer url
     configURL
   );
-  const openid_config = response3.data;
+  const openid_config = response2.data;
   assert3(openid_config, openid_provider_metadata);
-  assert3(openid_config.issuer, options.issuer);
+  checkProviderMetadata(openid_config, options.issuer);
   return openid_config;
 }
+var REQUIRED_ENDPOINTS = ["authorization_endpoint", "token_endpoint", "jwks_uri"];
+function checkProviderMetadata(config, issuer) {
+  if (!config || typeof config !== "object") {
+    throw metroError("metro.oidc.discovery: openid-configuration for " + issuer + " is not a JSON object");
+  }
+  if (!sameIssuer(config.issuer, issuer)) {
+    throw metroError("metro.oidc.discovery: openid-configuration is for issuer " + config.issuer + ", expected " + issuer);
+  }
+  requireSecureURL("issuer", config.issuer);
+  for (const name of REQUIRED_ENDPOINTS) {
+    if (!config[name]) {
+      throw metroError("metro.oidc.discovery: openid-configuration for " + issuer + " has no " + name);
+    }
+    requireSecureURL(name, config[name]);
+  }
+  if (config.registration_endpoint) {
+    requireSecureURL("registration_endpoint", config.registration_endpoint);
+  }
+}
+function sameIssuer(discovered, requested) {
+  if (typeof discovered != "string") {
+    return false;
+  }
+  return withoutTrailingSlash(discovered) === withoutTrailingSlash(String(requested));
+}
+function withoutTrailingSlash(value) {
+  return value.replace(/\/$/, "");
+}
+function requireSecureURL(name, value) {
+  if (!isSecureURL(value)) {
+    throw metroError("metro.oidc.discovery: " + name + " must use https: " + value);
+  }
+}
+function isSecureURL(value) {
+  let url2;
+  try {
+    url2 = new URL(String(value));
+  } catch (e) {
+    return false;
+  }
+  if (url2.protocol == "https:") {
+    return true;
+  }
+  return url2.protocol == "http:" && isLoopback(url2.hostname);
+}
+function isLoopback(hostname) {
+  return hostname == "localhost" || hostname.endsWith(".localhost") || hostname == "127.0.0.1" || hostname == "[::1]";
+}
 
-// ../solid-tools/node_modules/@muze-nl/metro-oidc/src/oidc.register.mjs
+// node_modules/@muze-nl/metro-oidc/src/oidc.register.mjs
 async function register(options) {
   const openid_client_metadata = {
     redirect_uris: Required3([validURL3]),
     response_types: Optional3([]),
-    grant_types: Optional3(anyOf5("authorization_code", "refresh_token")),
+    grant_types: Optional3(anyOf4("authorization_code", "refresh_token")),
     //TODO: match response_types with grant_types
     application_type: Optional3(oneOf3("native", "web")),
     contacts: Optional3([validEmail3]),
@@ -20417,7 +18736,7 @@ async function register(options) {
     request_object_signing_alg: Optional3(oneOf3(...validJWA)),
     request_object_encryption_alg: Optional3(oneOf3(...validJWA)),
     request_object_encryption_enc: Optional3(oneOf3(...validJWA)),
-    token_endpoint_auth_method: Optional3(oneOf3(...validAuthMethods2)),
+    token_endpoint_auth_method: Optional3(oneOf3(...validAuthMethods)),
     token_endpoint_auth_signing_alg: Optional3(oneOf3(...validJWA)),
     default_max_age: Optional3(Number),
     require_auth_time: Optional3(Boolean),
@@ -20426,35 +18745,36 @@ async function register(options) {
     request_uris: Optional3([validURL3])
   };
   assert3(options, {
-    client: Optional3(instanceOf3(everything_default.client().constructor)),
+    client: Optional3(instanceOf3(client().constructor)),
     registration_endpoint: validURL3,
     client_info: openid_client_metadata
   });
   const defaultOptions = {
-    client: everything_default.client().with(throwermw2()).with(jsonmw2()),
+    client: client().with(throwermw()).with(jsonmw()),
     client_info: {
       redirect_uris: [globalThis.document?.location.href]
     }
   };
   options = Object.assign({}, defaultOptions, options);
+  options.client = options.client.with(throwermw()).with(jsonmw());
   if (!options.client_info) {
     options.client_info = {};
   }
   if (!options.client_info.redirect_uris) {
     options.client_info.redirect_uris = [globalThis.document?.location.href];
   }
-  let response3 = await options.client.post(options.registration_endpoint, {
+  let response2 = await options.client.post(options.registration_endpoint, {
     body: options.client_info
   });
-  let info = response3.data;
-  if (!info.client_id || !info.client_secret) {
-    throw everything_default.metroError("metro.oidc: Error: dynamic registration of client failed, no client_id or client_secret returned", response3);
+  let info = response2.data;
+  if (!info.client_id) {
+    throw metroError("metro.oidc: Error: dynamic registration of client failed, no client_id returned", response2);
   }
   options.client_info = Object.assign(options.client_info, info);
   return options.client_info;
 }
 
-// ../solid-tools/node_modules/@muze-nl/metro-oidc/src/oidc.store.mjs
+// node_modules/@muze-nl/metro-oidc/src/oidc.store.mjs
 function oidcStore(site) {
   let store;
   if (typeof localStorage !== "undefined") {
@@ -20474,15 +18794,700 @@ function oidcStore(site) {
   return store;
 }
 
-// ../solid-tools/node_modules/@muze-nl/metro-oidc/src/oidcmw.mjs
+// node_modules/jose/dist/webapi/lib/buffer_utils.js
+var encoder2 = new TextEncoder();
+var decoder2 = new TextDecoder();
+var strictDecoder = new TextDecoder("utf-8", { fatal: true });
+var UINT32_RANGE = 2 ** 32;
+function concat(...buffers) {
+  const size = buffers.reduce((acc, { length }) => acc + length, 0), buf2 = new Uint8Array(size);
+  let i = 0;
+  for (const buffer of buffers)
+    buf2.set(buffer, i), i += buffer.length;
+  return buf2;
+}
+var NON_ASCII = /[^\x00-\x7f]/;
+function encode(string) {
+  if (typeof string == "string" && string.length >= 128) {
+    if (NON_ASCII.test(string))
+      throw new TypeError("non-ASCII string encountered in encode()");
+    return encoder2.encode(string);
+  }
+  const bytes = new Uint8Array(string.length);
+  for (let i = 0; i < string.length; i++) {
+    const code = string.charCodeAt(i);
+    if (code > 127)
+      throw new TypeError("non-ASCII string encountered in encode()");
+    bytes[i] = code;
+  }
+  return bytes;
+}
+function decodeBase64(encoded, url2 = false) {
+  if (Uint8Array.fromBase64)
+    return Uint8Array.fromBase64(encoded, { alphabet: url2 ? "base64url" : "base64" });
+  if (url2) {
+    if (encoded.includes("+") || encoded.includes("/"))
+      throw new TypeError("Invalid base64url");
+    encoded = encoded.replace(/-/g, "+").replace(/_/g, "/");
+  }
+  const binary = atob(encoded), bytes = new Uint8Array(binary.length);
+  for (let i = 0; i < binary.length; i++)
+    bytes[i] = binary.charCodeAt(i);
+  return bytes;
+}
+
+// node_modules/jose/dist/webapi/util/errors.js
+var JOSEError = class extends Error {
+  static code = "ERR_JOSE_GENERIC";
+  code = "ERR_JOSE_GENERIC";
+  constructor(message2, options) {
+    super(message2, options), this.name = this.constructor.name, Error.captureStackTrace?.(this, this.constructor);
+  }
+};
+var JWTClaimValidationFailed = class extends JOSEError {
+  static code = "ERR_JWT_CLAIM_VALIDATION_FAILED";
+  code = "ERR_JWT_CLAIM_VALIDATION_FAILED";
+  claim;
+  reason;
+  payload;
+  constructor(message2, payload, claim = "unspecified", reason = "unspecified") {
+    super(message2, { cause: { claim, reason, payload } }), this.claim = claim, this.reason = reason, this.payload = payload;
+  }
+};
+var JWTExpired = class extends JOSEError {
+  static code = "ERR_JWT_EXPIRED";
+  code = "ERR_JWT_EXPIRED";
+  claim;
+  reason;
+  payload;
+  constructor(message2, payload, claim = "unspecified", reason = "unspecified") {
+    super(message2, { cause: { claim, reason, payload } }), this.claim = claim, this.reason = reason, this.payload = payload;
+  }
+};
+var JOSEAlgNotAllowed = class extends JOSEError {
+  static code = "ERR_JOSE_ALG_NOT_ALLOWED";
+  code = "ERR_JOSE_ALG_NOT_ALLOWED";
+};
+var JOSENotSupported = class extends JOSEError {
+  static code = "ERR_JOSE_NOT_SUPPORTED";
+  code = "ERR_JOSE_NOT_SUPPORTED";
+};
+var JWSInvalid = class extends JOSEError {
+  static code = "ERR_JWS_INVALID";
+  code = "ERR_JWS_INVALID";
+};
+var JWTInvalid = class extends JOSEError {
+  static code = "ERR_JWT_INVALID";
+  code = "ERR_JWT_INVALID";
+};
+var JWKSInvalid = class extends JOSEError {
+  static code = "ERR_JWKS_INVALID";
+  code = "ERR_JWKS_INVALID";
+};
+var JWKSNoMatchingKey = class extends JOSEError {
+  static code = "ERR_JWKS_NO_MATCHING_KEY";
+  code = "ERR_JWKS_NO_MATCHING_KEY";
+  constructor(message2 = "no applicable key found in the JSON Web Key Set", options) {
+    super(message2, options);
+  }
+};
+var JWKSMultipleMatchingKeys = class extends JOSEError {
+  [Symbol.asyncIterator] = async function* () {
+  };
+  static code = "ERR_JWKS_MULTIPLE_MATCHING_KEYS";
+  code = "ERR_JWKS_MULTIPLE_MATCHING_KEYS";
+  constructor(message2 = "multiple matching keys found in the JSON Web Key Set", options) {
+    super(message2, options);
+  }
+};
+var JWSSignatureVerificationFailed = class extends JOSEError {
+  static code = "ERR_JWS_SIGNATURE_VERIFICATION_FAILED";
+  code = "ERR_JWS_SIGNATURE_VERIFICATION_FAILED";
+  constructor(message2 = "signature verification failed", options) {
+    super(message2, options);
+  }
+};
+
+// node_modules/jose/dist/webapi/util/base64url.js
+var invalid = "The input to be decoded is not correctly encoded.";
+function decode(input2) {
+  try {
+    return decodeBase64(typeof input2 == "string" ? input2 : decoder2.decode(input2), true);
+  } catch (cause) {
+    throw new TypeError(invalid, { cause });
+  }
+}
+
+// node_modules/jose/dist/webapi/lib/validate.js
+function isObject2(input2) {
+  if (typeof input2 != "object" || input2 === null || Object.prototype.toString.call(input2) !== "[object Object]")
+    return false;
+  const prototype = Object.getPrototypeOf(input2);
+  return prototype === null || Object.getPrototypeOf(prototype) === null;
+}
+function isJwkSet(input2) {
+  return isObject2(input2) && Array.isArray(input2.keys) && Array.from(input2.keys).every(isObject2);
+}
+function isDisjoint(...headers) {
+  const parameters = /* @__PURE__ */ new Set();
+  for (const header of headers)
+    if (header)
+      for (const parameter of Object.keys(header)) {
+        if (parameters.has(parameter))
+          return false;
+        parameters.add(parameter);
+      }
+  return true;
+}
+function decodeBase64url(value, label, ErrorClass) {
+  try {
+    return decode(value);
+  } catch (cause) {
+    throw new ErrorClass(`Failed to base64url decode the ${label}`, { cause });
+  }
+}
+function encodeAsciiMember(value, label, ErrorClass) {
+  try {
+    return encode(value);
+  } catch (cause) {
+    throw new ErrorClass(`The ${label} is not a valid base64url string`, { cause });
+  }
+}
+function parseJoseHeader(encodedProtectedHeader, ErrorClass, message2) {
+  let parsed;
+  try {
+    parsed = JSON.parse(strictDecoder.decode(decode(encodedProtectedHeader)));
+  } catch (cause) {
+    throw new ErrorClass(message2, { cause });
+  }
+  if (!isObject2(parsed))
+    throw new ErrorClass(message2);
+  return parsed;
+}
+var JWS_RECOGNIZED = { __proto__: null, b64: true };
+function validateAlgorithms(option, algorithms) {
+  if (algorithms !== void 0 && (!Array.isArray(algorithms) || algorithms.some((s) => typeof s != "string")))
+    throw new TypeError(`"${option}" option must be an array of strings`);
+  return algorithms === void 0 ? void 0 : new Set(algorithms);
+}
+function validateCrit(Err, recognizedDefault, recognizedOption, protectedHeader, joseHeader) {
+  if (joseHeader.crit !== void 0 && protectedHeader?.crit === void 0)
+    throw new Err('"crit" (Critical) Header Parameter MUST be integrity protected');
+  if (!protectedHeader || protectedHeader.crit === void 0)
+    return [];
+  if (!Array.isArray(protectedHeader.crit) || protectedHeader.crit.length === 0 || protectedHeader.crit.some((input2) => typeof input2 != "string" || input2.length === 0))
+    throw new Err('"crit" (Critical) Header Parameter MUST be an array of non-empty strings when present');
+  const recognized = recognizedOption === void 0 ? recognizedDefault : { __proto__: null, ...recognizedOption, ...recognizedDefault };
+  for (const parameter of protectedHeader.crit) {
+    if (!(parameter in recognized))
+      throw new JOSENotSupported(`Extension Header Parameter "${parameter}" is not recognized`);
+    if (!Object.hasOwn(joseHeader, parameter) || joseHeader[parameter] === void 0)
+      throw new Err(`Extension Header Parameter "${parameter}" is missing`);
+    if (recognized[parameter] && (!Object.hasOwn(protectedHeader, parameter) || protectedHeader[parameter] === void 0))
+      throw new Err(`Extension Header Parameter "${parameter}" MUST be integrity protected`);
+  }
+  return protectedHeader.crit;
+}
+function validateB64(protectedHeader, extensions) {
+  if (extensions.includes("b64")) {
+    const b64 = protectedHeader.b64;
+    if (typeof b64 != "boolean")
+      throw new JWSInvalid('The "b64" (base64url-encode payload) Header Parameter must be a boolean');
+    return b64;
+  }
+  return true;
+}
+
+// node_modules/jose/dist/webapi/lib/key.js
+var tag = (key) => key[Symbol.toStringTag];
+var jwkMatchesOp = (entry, key, usage) => {
+  const { alg } = entry;
+  if (key.use !== void 0) {
+    const expected = usage === "sign" || usage === "verify" ? "sig" : "enc";
+    if (key.use !== expected)
+      throw new TypeError(`Invalid key for this operation, its "use" must be "${expected}" when present`);
+  }
+  if (key.alg !== void 0 && key.alg !== alg)
+    throw new TypeError(`Invalid key for this operation, its "alg" must be "${alg}" when present`);
+  if (Array.isArray(key.key_ops)) {
+    const expectedKeyOp = usage === "encrypt" || usage === "decrypt" ? entry.ops?.[usage === "encrypt" ? 0 : 1] : usage;
+    if (expectedKeyOp && !key.key_ops.includes(expectedKeyOp))
+      throw new TypeError(`Invalid key for this operation, its "key_ops" must include "${expectedKeyOp}" when present`);
+  }
+};
+async function prepareKey(entry, key, usage) {
+  const { alg, secret } = entry, requiresPrivateKey = usage === "decrypt" || usage === "sign";
+  if (secret && key instanceof Uint8Array)
+    return key;
+  let normalized, keyObject;
+  if (isObject2(key)) {
+    if (normalized = normalizeJwk(key), typeof normalized.kty != "string")
+      throw invalidKeyType(alg, key, secret);
+    if (!(secret ? normalized.kty === "oct" && typeof normalized.k == "string" : normalized.kty !== "oct" && (requiresPrivateKey ? normalized.kty === "AKP" && typeof normalized.priv == "string" || typeof normalized.d == "string" : normalized.d === void 0 && normalized.priv === void 0)))
+      throw new TypeError(secret ? 'JSON Web Key for symmetric algorithms must have JWK "kty" (Key Type) equal to "oct" and the JWK "k" (Key Value) present' : `JSON Web Key for this operation must be a ${requiresPrivateKey ? "private" : "public"} JWK`);
+    if (jwkMatchesOp(entry, normalized, usage), normalized.kty === "oct")
+      return decode(normalized.k);
+    if (!Object.isFrozen(key)) {
+      const { key_ops } = key;
+      Array.isArray(key_ops) && Object.freeze(key_ops), Object.freeze(key);
+    }
+  } else {
+    if (!isKeyLike(key))
+      throw invalidKeyType(alg, key, secret);
+    const expectedType = secret ? "secret" : requiresPrivateKey ? "private" : "public";
+    if (key.type !== expectedType && (secret || ["secret", "public", "private"].includes(key.type)))
+      throw new TypeError(`${tag(key)} instances must be of type "${expectedType}" for the ${alg} algorithm`);
+    if (isCryptoKey2(key))
+      return key;
+    if (keyObject = key, keyObject.type === "secret")
+      return keyObject.export();
+  }
+  cache ||= /* @__PURE__ */ new WeakMap();
+  const cacheKey = key;
+  let cached = cache.get(cacheKey);
+  if (cached?.[alg])
+    return cached[alg];
+  if (cached || cache.set(cacheKey, cached = {}), keyObject && typeof keyObject.toCryptoKey == "function") {
+    const isPublic = keyObject.type === "public", crv = nist[keyObject.asymmetricKeyDetails?.namedCurve], params = entry.resolve?.({ crv, asymmetricKeyType: keyObject.asymmetricKeyType }) ?? entry.subtle;
+    return cached[alg] = keyObject.toCryptoKey(params, isPublic, entry.usages[isPublic ? 0 : 1]);
+  }
+  return normalized ??= keyObject.export({ format: "jwk" }), normalized.alg = alg, cached[alg] = await jwkToKey(entry, normalized);
+}
+var cache;
+var nist = {
+  __proto__: null,
+  prime256v1: "P-256",
+  secp384r1: "P-384",
+  secp521r1: "P-521"
+};
+var isCryptoKey2 = (key) => {
+  if (key?.[Symbol.toStringTag] === "CryptoKey")
+    return true;
+  try {
+    return key instanceof CryptoKey;
+  } catch {
+    return false;
+  }
+};
+var isKeyObject = (key) => key?.[Symbol.toStringTag] === "KeyObject";
+var isKeyLike = (key) => isCryptoKey2(key) || isKeyObject(key);
+function message(msg, actual, ...types) {
+  if (types.length > 2) {
+    const last = types.pop();
+    msg += `one of type ${types.join(", ")}, or ${last}.`;
+  } else types.length === 2 ? msg += `one of type ${types[0]} or ${types[1]}.` : msg += `of type ${types[0]}.`;
+  return actual == null ? msg += ` Received ${actual}` : typeof actual == "function" && actual.name ? msg += ` Received function ${actual.name}` : typeof actual == "object" && actual != null && actual.constructor?.name && (msg += ` Received an instance of ${actual.constructor.name}`), msg;
+}
+function invalidKeyType(alg, actual, secret) {
+  const types = ["CryptoKey", "KeyObject", "JSON Web Key"];
+  return secret && types.push("Uint8Array"), new TypeError(message(`Key for the ${alg} algorithm must be `, actual, ...types));
+}
+var unusable = (name, prop = "algorithm.name") => new TypeError(`CryptoKey does not support this operation, its ${prop} must be ${name}`);
+function checkUsage(key, usage) {
+  if (usage && !key.usages.includes(usage))
+    throw new TypeError(`CryptoKey does not support this operation, its usages must include ${usage}.`);
+}
+function checkModulusLength(alg, key) {
+  const { modulusLength } = key.algorithm;
+  if (typeof modulusLength != "number" || modulusLength < 2048)
+    throw new TypeError(`${alg} requires key modulusLength to be 2048 bits or larger`);
+}
+function checkCryptoKey(key, expected, usage) {
+  const algorithm = key.algorithm;
+  if (algorithm.name !== expected.name)
+    throw unusable(expected.name);
+  if (expected.hash && algorithm.hash?.name !== expected.hash)
+    throw unusable(expected.hash, "algorithm.hash");
+  if (expected.namedCurve && algorithm.namedCurve !== expected.namedCurve)
+    throw unusable(expected.namedCurve, "algorithm.namedCurve");
+  if (expected.length !== void 0 && algorithm.length !== expected.length)
+    throw unusable(expected.length, "algorithm.length");
+  checkUsage(key, usage);
+}
+function snapshotJwk(jwk) {
+  return { __proto__: null, ...jwk };
+}
+function normalizeJwk(jwk) {
+  const normalized = snapshotJwk(jwk);
+  if (normalized.ext !== void 0 && typeof normalized.ext != "boolean")
+    throw new TypeError('"ext" (Extractable) Parameter must be a boolean');
+  if (normalized.key_ops !== void 0) {
+    const value = normalized.key_ops, keyOps = Array.isArray(value) ? [...value] : void 0;
+    if (!keyOps || keyOps.some((operation) => typeof operation != "string") || new Set(keyOps).size !== keyOps.length)
+      throw new TypeError('"key_ops" (Key Operations) Parameter must be an array of unique strings');
+    normalized.key_ops = keyOps;
+  }
+  return normalized;
+}
+async function jwkToKey(entry, jwk, extractable) {
+  if (!entry.kty.includes(jwk.kty))
+    throw new JOSENotSupported('Invalid or unsupported JWK "alg" (Algorithm) Parameter value');
+  const algorithm = entry.resolve?.({ kty: jwk.kty, crv: jwk.crv }) ?? entry.subtle, isPrivate = !!(jwk.d || jwk.priv), keyData = { ...jwk, ext: extractable ?? jwk.ext };
+  return keyData.kty !== "AKP" && delete keyData.alg, delete keyData.use, crypto.subtle.importKey("jwk", keyData, algorithm, keyData.ext ?? !isPrivate, jwk.key_ops ?? entry.usages[isPrivate ? 1 : 0]);
+}
+async function rawKey(key, expected, usage, extractable = false) {
+  return key instanceof Uint8Array && (key = await crypto.subtle.importKey("raw", key, expected, extractable, [usage])), checkCryptoKey(key, expected, usage), key;
+}
+
+// node_modules/jose/dist/webapi/lib/key_descriptor.js
+function table(entries) {
+  const out = { __proto__: null };
+  for (const alg in entries)
+    out[alg] = { ...entries[alg], alg };
+  return out;
+}
+
+// node_modules/jose/dist/webapi/lib/jws_algorithms.js
+var sig = [["verify"], ["sign"]];
+function hmac(bits) {
+  const subtle = { name: "HMAC", hash: `SHA-${bits}` };
+  return { kty: ["oct"], secret: true, subtle, signing: subtle, usages: sig };
+}
+function rsa(bits, saltLength) {
+  const subtle = { name: saltLength ? "RSA-PSS" : "RSASSA-PKCS1-v1_5", hash: `SHA-${bits}` };
+  return {
+    kty: ["RSA"],
+    subtle,
+    signing: saltLength ? { ...subtle, saltLength } : subtle,
+    usages: sig,
+    minRsaBits: 2048
+  };
+}
+function ecdsa(crv, bits) {
+  return {
+    kty: ["EC"],
+    crv,
+    subtle: { name: "ECDSA", namedCurve: crv },
+    signing: { name: "ECDSA", hash: `SHA-${bits}` },
+    usages: sig
+  };
+}
+function eddsa() {
+  const subtle = { name: "Ed25519" };
+  return {
+    kty: ["OKP"],
+    crv: "Ed25519",
+    subtle,
+    signing: subtle,
+    usages: sig
+  };
+}
+function mldsa(parameterSet) {
+  const subtle = { name: `ML-DSA-${parameterSet}` };
+  return {
+    kty: ["AKP"],
+    subtle,
+    signing: subtle,
+    usages: sig
+  };
+}
+var JWS = table({
+  HS256: hmac(256),
+  HS384: hmac(384),
+  HS512: hmac(512),
+  RS256: rsa(256),
+  RS384: rsa(384),
+  RS512: rsa(512),
+  PS256: rsa(256, 32),
+  PS384: rsa(384, 48),
+  PS512: rsa(512, 64),
+  ES256: ecdsa("P-256", 256),
+  ES384: ecdsa("P-384", 384),
+  ES512: ecdsa("P-521", 512),
+  EdDSA: eddsa(),
+  Ed25519: eddsa(),
+  "ML-DSA-44": mldsa(44),
+  "ML-DSA-65": mldsa(65),
+  "ML-DSA-87": mldsa(87)
+});
+function jwsAlgorithm(alg) {
+  const entry = typeof alg == "string" ? JWS[alg] : void 0;
+  if (!entry)
+    throw new JOSENotSupported(`alg ${alg} is not supported either by JOSE or your javascript runtime`);
+  return entry;
+}
+
+// node_modules/jose/dist/webapi/lib/jws_verify.js
+function prepareVerify(options) {
+  return [options && validateAlgorithms("algorithms", options.algorithms), options?.crit];
+}
+function parseProtectedHeader(encodedProtectedHeader) {
+  return encodedProtectedHeader === void 0 ? {} : parseJoseHeader(encodedProtectedHeader, JWSInvalid, "JWS Protected Header is invalid");
+}
+function encodeCompactUnencodedPayload(payload) {
+  try {
+    return encode(payload);
+  } catch (cause) {
+    throw new JWSInvalid("JWS Compact Serialization payload must use only ASCII characters", {
+      cause
+    });
+  }
+}
+async function verifySignature(jws, shared, key, encodeUnencodedPayload, parsedProtected) {
+  const { protected: encodedProtectedHeader, header, payload: inputPayload } = jws, protectedHeader = parsedProtected ?? parseProtectedHeader(encodedProtectedHeader);
+  if (!isDisjoint(protectedHeader, header))
+    throw new JWSInvalid("JWS Protected and JWS Unprotected Header Parameter names must be disjoint");
+  const joseHeader = { ...protectedHeader, ...header }, b64 = validateB64(protectedHeader, validateCrit(JWSInvalid, JWS_RECOGNIZED, shared[1], protectedHeader, joseHeader)), { alg } = joseHeader;
+  if (typeof alg != "string" || !alg)
+    throw new JWSInvalid('JWS "alg" (Algorithm) Header Parameter missing or invalid');
+  if (shared[0] && !shared[0].has(alg))
+    throw new JOSEAlgNotAllowed('"alg" (Algorithm) Header Parameter value not allowed');
+  if (b64) {
+    if (typeof inputPayload != "string")
+      throw new JWSInvalid("JWS Payload must be a string");
+  } else if (typeof inputPayload != "string" && !(inputPayload instanceof Uint8Array))
+    throw new JWSInvalid("JWS Payload must be a string or an Uint8Array instance");
+  const signingPayload = b64 || typeof inputPayload != "string" ? inputPayload : encodeUnencodedPayload(inputPayload);
+  let resolvedKey = false;
+  typeof key == "function" && (key = await key(protectedHeader, jws), resolvedKey = true);
+  const entry = jwsAlgorithm(alg), signingInput = concat(encodedProtectedHeader !== void 0 ? encode(encodedProtectedHeader) : new Uint8Array(), encode("."), typeof signingPayload == "string" ? shared[2] ??= encodeAsciiMember(signingPayload, "payload", JWSInvalid) : signingPayload), signature = decodeBase64url(jws.signature, "signature", JWSInvalid), verificationKey = await prepareKey(entry, key, "verify"), cryptoKey = await rawKey(verificationKey, entry.subtle, "verify");
+  entry.minRsaBits && checkModulusLength(entry.alg, cryptoKey);
+  let verified = false;
+  try {
+    verified = await crypto.subtle.verify(entry.signing, cryptoKey, signature, signingInput);
+  } catch (cause) {
+    throw new JWSSignatureVerificationFailed(void 0, { cause });
+  }
+  if (!verified)
+    throw new JWSSignatureVerificationFailed();
+  const result = { payload: typeof signingPayload == "string" ? decodeBase64url(signingPayload, "payload", JWSInvalid) : signingPayload };
+  return encodedProtectedHeader !== void 0 && (result.protectedHeader = protectedHeader), header !== void 0 && (result.unprotectedHeader = header), resolvedKey ? [{ ...result, key: verificationKey }, b64] : [result, b64];
+}
+async function verifyCompact(jws, shared, key) {
+  if (jws instanceof Uint8Array && (jws = decoder2.decode(jws)), typeof jws != "string")
+    throw new JWSInvalid("Compact JWS must be a string or Uint8Array");
+  const { 0: protectedHeader, 1: payload, 2: signature, length } = jws.split(".");
+  if (length !== 3)
+    throw new JWSInvalid("Invalid Compact JWS");
+  return verifySignature({ payload, protected: protectedHeader, signature }, shared, key, encodeCompactUnencodedPayload);
+}
+
+// node_modules/jose/dist/webapi/lib/jwt_claims_set.js
+var epoch = (date) => Math.floor(date.getTime() / 1e3);
+var multipliers = {
+  s: 1,
+  m: 60,
+  h: 3600,
+  d: 86400,
+  w: 604800,
+  y: 31557600
+};
+var REGEX = /^(\+|\-)? ?(\d+|\d+\.\d+) ?(seconds?|secs?|s|minutes?|mins?|m|hours?|hrs?|h|days?|d|weeks?|w|years?|yrs?|y)(?: (ago|from now))?$/i;
+var checkFailed = "check_failed";
+function invalidDuration() {
+  throw new TypeError("Invalid time period format");
+}
+function secs(str) {
+  typeof str != "string" && invalidDuration();
+  const matched = REGEX.exec(str);
+  (!matched || matched[4] && matched[1]) && invalidDuration();
+  const value = parseFloat(matched[2]), durationSeconds = Math.round(value * multipliers[matched[3][0].toLowerCase()]);
+  return Number.isFinite(durationSeconds) || invalidDuration(), matched[1] === "-" || matched[4] === "ago" ? -durationSeconds : durationSeconds;
+}
+function validateInput(label, input2) {
+  if (!Number.isFinite(input2))
+    throw new TypeError(`Invalid ${label} input`);
+  return input2;
+}
+var normalizeTyp = (value) => {
+  const normalized = value.toLowerCase();
+  return value.includes("/") ? normalized : `application/${normalized}`;
+};
+var checkAudiencePresence = (audPayload, audOption) => typeof audPayload == "string" ? audOption.includes(audPayload) : Array.isArray(audPayload) ? audOption.some((aud) => audPayload.includes(aud)) : false;
+function validateNumericDate(claimsSet, claim, required = false) {
+  const value = claimsSet[claim];
+  if (!(value === void 0 && !required)) {
+    if (typeof value != "number")
+      throw new JWTClaimValidationFailed(`"${claim}" claim must be a number`, claimsSet, claim, "invalid");
+    return value;
+  }
+}
+function unexpectedClaim(claimsSet, claim) {
+  throw new JWTClaimValidationFailed(`unexpected "${claim}" claim value`, claimsSet, claim, checkFailed);
+}
+function validateClaimsSet(protectedHeader, claimsSetBytes, options = {}) {
+  let claimsSet;
+  try {
+    claimsSet = JSON.parse(strictDecoder.decode(claimsSetBytes));
+  } catch (cause) {
+    throw new JWTInvalid("JWT Claims Set must be a top-level JSON object", { cause });
+  }
+  if (!isObject2(claimsSet))
+    throw new JWTInvalid("JWT Claims Set must be a top-level JSON object");
+  const { typ } = options;
+  if (typ !== void 0 && (typeof protectedHeader.typ != "string" || normalizeTyp(protectedHeader.typ) !== normalizeTyp(typ)))
+    throw new JWTClaimValidationFailed('unexpected "typ" JWT header value', claimsSet, "typ", checkFailed);
+  const { requiredClaims = [], issuer, subject, audience, maxTokenAge } = options, presenceCheck = [...requiredClaims];
+  maxTokenAge !== void 0 && presenceCheck.push("iat"), audience !== void 0 && presenceCheck.push("aud"), subject !== void 0 && presenceCheck.push("sub"), issuer !== void 0 && presenceCheck.push("iss");
+  for (const claim of new Set(presenceCheck.reverse()))
+    if (!Object.hasOwn(claimsSet, claim))
+      throw new JWTClaimValidationFailed(`missing required "${claim}" claim`, claimsSet, claim, "missing");
+  issuer !== void 0 && !(Array.isArray(issuer) ? issuer : [issuer]).includes(claimsSet.iss) && unexpectedClaim(claimsSet, "iss"), subject !== void 0 && claimsSet.sub !== subject && unexpectedClaim(claimsSet, "sub"), audience !== void 0 && !checkAudiencePresence(claimsSet.aud, typeof audience == "string" ? [audience] : audience) && unexpectedClaim(claimsSet, "aud");
+  const { clockTolerance } = options;
+  let tolerance = 0;
+  if (typeof clockTolerance == "string")
+    tolerance = secs(clockTolerance);
+  else if (clockTolerance !== void 0) {
+    if (typeof clockTolerance != "number")
+      throw new TypeError("Invalid clockTolerance option type");
+    tolerance = clockTolerance;
+  }
+  validateInput("clockTolerance option", tolerance);
+  const { currentDate } = options, now2 = validateInput("currentDate option", epoch(currentDate === void 0 ? /* @__PURE__ */ new Date() : currentDate)), iat = validateNumericDate(claimsSet, "iat", maxTokenAge !== void 0), nbf = validateNumericDate(claimsSet, "nbf");
+  if (nbf !== void 0 && nbf > now2 + tolerance)
+    throw new JWTClaimValidationFailed('"nbf" claim timestamp check failed', claimsSet, "nbf", checkFailed);
+  const exp = validateNumericDate(claimsSet, "exp");
+  if (exp !== void 0 && exp <= now2 - tolerance)
+    throw new JWTExpired('"exp" claim timestamp check failed', claimsSet, "exp", checkFailed);
+  if (maxTokenAge !== void 0) {
+    const age = now2 - iat, max = validateInput("maxTokenAge option", typeof maxTokenAge == "number" ? maxTokenAge : secs(maxTokenAge));
+    if (age - tolerance > max)
+      throw new JWTExpired('"iat" claim timestamp check failed (too far in the past)', claimsSet, "iat", checkFailed);
+    if (age < -tolerance)
+      throw new JWTClaimValidationFailed('"iat" claim timestamp check failed (it should be in the past)', claimsSet, "iat", checkFailed);
+  }
+  return claimsSet;
+}
+
+// node_modules/jose/dist/webapi/jwt/verify.js
+async function jwtVerify(jwt2, key, options) {
+  const [verified, b64] = await verifyCompact(jwt2, prepareVerify(options), key);
+  if (!b64)
+    throw new JWTInvalid("JWTs MUST NOT use unencoded payload");
+  const payload = validateClaimsSet(verified.protectedHeader, verified.payload, options);
+  return { ...verified, payload };
+}
+
+// node_modules/jose/dist/webapi/jwks/local.js
+function isUsableJWK(jwk, entry, alg, kid) {
+  const { kty, key_ops: keyOps, ext, kid: jwkKid, alg: jwkAlg, use, crv } = jwk;
+  return (ext === void 0 || typeof ext == "boolean") && (keyOps === void 0 || Array.isArray(keyOps) && keyOps.every((operation, index) => typeof operation == "string" && keyOps.indexOf(operation) === index) && keyOps.includes("verify")) && entry.kty.includes(kty) && (kid === void 0 || typeof kid == "string" && kid === jwkKid) && (jwkAlg === void 0 ? kty !== "AKP" : alg === jwkAlg) && (use === void 0 || use === "sig") && (!entry.crv || crv === entry.crv);
+}
+async function importWithAlgCache(cache2, jwk, entry) {
+  const cached = cache2.get(jwk) || cache2.set(jwk, {}).get(jwk), { alg } = entry;
+  if (cached[alg] === void 0) {
+    const pending = jwkToKey(entry, jwk, true).then((key) => {
+      if (key.type !== "public")
+        throw new JWKSInvalid("JSON Web Key Set members must be public keys");
+      return cached[alg] = key, key;
+    }).catch((error4) => {
+      throw cached[alg] === pending && delete cached[alg], error4;
+    });
+    cached[alg] = pending;
+  }
+  return cached[alg];
+}
+function createLocalJWKSet(jwks) {
+  let snapshot;
+  try {
+    snapshot = structuredClone(jwks);
+  } catch (cause) {
+    throw new JWKSInvalid("JSON Web Key Set malformed", { cause });
+  }
+  if (!isJwkSet(snapshot))
+    throw new JWKSInvalid("JSON Web Key Set malformed");
+  const metadata = snapshot.keys.map((jwk) => {
+    const normalized = snapshotJwk(jwk);
+    return Array.isArray(normalized.key_ops) && (normalized.key_ops = [...normalized.key_ops]), normalized;
+  }), cached = /* @__PURE__ */ new WeakMap();
+  return Object.defineProperty(async (protectedHeader, token) => {
+    const { alg, kid } = { ...protectedHeader, ...token?.header }, entry = typeof alg == "string" ? JWS[alg] : void 0;
+    if (!entry || entry.secret)
+      throw new JOSENotSupported('Unsupported "alg" value for a JSON Web Key Set');
+    const candidates = snapshot.keys.filter((_2, index) => isUsableJWK(metadata[index], entry, alg, kid)), { 0: jwk, length } = candidates;
+    if (!length)
+      throw new JWKSNoMatchingKey();
+    if (length !== 1) {
+      const error4 = new JWKSMultipleMatchingKeys();
+      throw error4[Symbol.asyncIterator] = async function* () {
+        for (const jwk2 of candidates)
+          try {
+            yield await importWithAlgCache(cached, jwk2, entry);
+          } catch {
+          }
+      }, error4;
+    }
+    return importWithAlgCache(cached, jwk, entry);
+  }, "jwks", {
+    value: () => structuredClone(snapshot)
+  });
+}
+
+// node_modules/@muze-nl/metro-oidc/src/oidc.jwt.mjs
+var jwksCache = /* @__PURE__ */ new WeakMap();
+function keySetFor(jwks) {
+  if (!jwks || !Array.isArray(jwks.keys)) {
+    throw metroError("metro.oidc: Error: jwks must be an object with a keys array");
+  }
+  if (!jwksCache.has(jwks)) {
+    jwksCache.set(jwks, createLocalJWKSet(jwks));
+  }
+  return jwksCache.get(jwks);
+}
+function supportedAlgorithms(openidConfiguration = {}) {
+  const algorithms = openidConfiguration.id_token_signing_alg_values_supported;
+  if (Array.isArray(algorithms) && algorithms.length) {
+    return algorithms.filter((algorithm) => algorithm !== "none");
+  }
+  return ["RS256"];
+}
+async function validateIdToken(idToken2, options = {}) {
+  if (!idToken2) {
+    throw metroError("metro.oidc: Error: token response did not include an id_token");
+  }
+  if (!options.jwks) {
+    throw metroError("metro.oidc: Error: cannot validate id_token without jwks");
+  }
+  if (!options.issuer) {
+    throw metroError("metro.oidc: Error: cannot validate id_token without issuer");
+  }
+  if (!options.client_id) {
+    throw metroError("metro.oidc: Error: cannot validate id_token without client_id");
+  }
+  const { payload, protectedHeader } = await jwtVerify(
+    idToken2,
+    keySetFor(options.jwks),
+    {
+      issuer: options.issuer,
+      audience: options.client_id,
+      algorithms: options.algorithms || supportedAlgorithms(options.openid_configuration),
+      clockTolerance: options.clockTolerance ?? 60,
+      requiredClaims: ["iss", "sub", "aud", "exp", "iat"]
+    }
+  );
+  if (options.nonce !== void 0 && payload.nonce !== options.nonce) {
+    throw metroError("metro.oidc: Error: id_token nonce mismatch");
+  }
+  return {
+    header: protectedHeader,
+    claims: payload
+  };
+}
+
+// node_modules/@muze-nl/metro-oidc/src/oidcmw.mjs
+var pendingClientSetups = /* @__PURE__ */ new Map();
+var BROWSER_CLIENT_METADATA = {
+  token_endpoint_auth_method: "none",
+  grant_types: ["authorization_code", "refresh_token"],
+  response_types: ["code"]
+};
+function sharedClientSetup(key, setup) {
+  if (!pendingClientSetups.has(key)) {
+    const pending = setup().finally(() => {
+      pendingClientSetups.delete(key);
+    });
+    pendingClientSetups.set(key, pending);
+  }
+  return pendingClientSetups.get(key);
+}
 function oidcmw(options = {}) {
   const defaultOptions = {
-    client: client2(),
+    client: client(),
     force_authorization: false,
     use_dpop: true,
-    authorize_callback: async (url3) => {
-      if (window.location.href != url3.href) {
-        window.location.replace(url3.href);
+    authorize_callback: async (url2) => {
+      if (window.location.href != url2.href) {
+        window.location.replace(url2.href);
       }
       return false;
     }
@@ -20490,15 +19495,21 @@ function oidcmw(options = {}) {
   options = Object.assign({}, defaultOptions, options);
   const requestedClientInfo = options.client_info;
   assert3(options, {
-    client: Required3(instanceOf3(client2().constructor)),
+    client: Required3(instanceOf3(client().constructor)),
     // required because it is set in defaultOptions
     client_info: Required3(),
     issuer: Required3(validURL3),
     oauth2: Optional3({}),
     openid_configuration: Optional3()
   });
+  const account = accountFor(options);
+  const expectedClaims = expectedClaimsFor(options);
+  const site = siteFor(options.issuer, account);
+  const clientSetupKey = options.issuer + " " + JSON.stringify(requestedClientInfo?.redirect_uris ?? null);
+  let userStore = options.store;
   if (!options.store) {
     options.store = oidcStore(options.issuer);
+    userStore = oidcStore(site);
   }
   if (!options.openid_configuration && options.store.has("openid_configuration")) {
     options.openid_configuration = options.store.get("openid_configuration");
@@ -20509,46 +19520,70 @@ function oidcmw(options = {}) {
       options.client_info = storedClientInfo;
     }
   }
+  async function prepareClient() {
+    if (options.openid_configuration && options.client_info?.client_id) {
+      return;
+    }
+    const prepared = await sharedClientSetup(clientSetupKey, discoverAndRegister);
+    options.openid_configuration = prepared.openid_configuration;
+    options.client_info = prepared.client_info;
+    options.store.set("openid_configuration", options.openid_configuration);
+    options.store.set("client_info", options.client_info);
+  }
+  async function discoverAndRegister() {
+    let openid_configuration = options.openid_configuration;
+    if (!openid_configuration) {
+      openid_configuration = await oidcDiscovery({
+        issuer: options.issuer,
+        client: options.client.with(options.issuer)
+      });
+    }
+    let client_info = options.client_info;
+    if (!client_info?.client_id) {
+      if (!openid_configuration.registration_endpoint) {
+        throw metroError("metro.oidcmw: Error: issuer " + options.issuer + " does not support dynamic client registration, but you haven't specified a client_id");
+      }
+      client_info = await register({
+        registration_endpoint: openid_configuration.registration_endpoint,
+        client: options.client,
+        client_info: Object.assign({}, BROWSER_CLIENT_METADATA, client_info)
+      });
+      if (client_info.token_endpoint_auth_method == "none") {
+        delete client_info.client_secret;
+      }
+    }
+    return { openid_configuration, client_info };
+  }
+  function rememberNonce2(authorizeCallback) {
+    if (typeof authorizeCallback != "function") {
+      return authorizeCallback;
+    }
+    return async (url2) => {
+      userStore.set("pending_nonce", url2.searchParams.get("nonce"));
+      return authorizeCallback(url2);
+    };
+  }
   return async (req, next) => {
     let res;
     if (!options.force_authorization) {
-      try {
-        res = await next(req);
-      } catch (err) {
-        if (res.status != 401 && res.status != 403) {
-          throw err;
-        }
-      }
+      res = await next(req);
       if (res.ok || res.status != 401 && res.status != 403) {
         return res;
       }
     }
-    if (!options.openid_configuration) {
-      options.openid_configuration = await oidcDiscovery({
-        issuer: options.issuer
-      });
-      options.store.set("openid_configuration", options.openid_configuration);
-    }
-    if (!options.client_info?.client_id) {
-      if (!options.openid_configuration.registration_endpoint) {
-        throw metroError2("metro.oidcmw: Error: issuer " + options.issuer + " does not support dynamic client registration, but you haven't specified a client_id");
-      }
-      options.client_info = await register({
-        registration_endpoint: options.openid_configuration.registration_endpoint,
-        client_info: options.client_info
-      });
-      options.store.set("client_info", options.client_info);
-    }
-    const scope = options.scope || "openid";
+    await prepareClient();
+    const scope = options.scope || defaultScope(options);
+    const nonce = options.nonce || generateCodeVerifier(32);
     const oauth2Options = Object.assign(
       {
-        site: options.issuer,
+        site,
         client: options.client,
         force_authorization: true,
-        authorize_callback: options.authorize_callback,
+        authorize_callback: rememberNonce2(options.authorize_callback),
         oauth2_configuration: {
           client_id: options.client_info?.client_id,
           client_secret: options.client_info?.client_secret,
+          token_endpoint_auth_method: options.client_info?.token_endpoint_auth_method,
           grant_type: "authorization_code",
           response_type: "code",
           response_mode: "query",
@@ -20556,43 +19591,71 @@ function oidcmw(options = {}) {
           token_endpoint: options.openid_configuration.token_endpoint,
           scope,
           //FIXME: should only use scopes supported by server
-          redirect_uri: options.client_info.redirect_uris[0]
+          redirect_uri: options.client_info.redirect_uris[0],
+          login_hint: options.login_hint ?? options.webid,
+          issuer: options.openid_configuration.issuer,
+          authorization_response_iss_parameter_supported: options.openid_configuration.authorization_response_iss_parameter_supported,
+          token_type: options.use_dpop ? "DPoP" : void 0,
+          nonce
         }
       }
       //...
     );
     const storeIdToken = async (req2, next2) => {
+      const tokenEndpoint = url(options.openid_configuration.token_endpoint, { hash: "" }).href;
+      const requestUrl = url(req2.url, { hash: "" }).href;
+      if (requestUrl !== tokenEndpoint) {
+        return next2(req2);
+      }
+      const isRefresh = await grantTypeOf(req2) == "refresh_token";
       const res2 = await next2(req2);
       const contentType = res2.headers.get("content-type");
-      if (contentType?.startsWith("application/json")) {
-        let id_token = res2.data?.id_token;
-        if (!id_token) {
-          const res22 = res2.clone();
-          try {
-            let data = await res22.json();
-            if (data && data.id_token) {
-              id_token = data.id_token;
-            }
-          } catch (e) {
-          }
-        }
-        if (id_token) {
-          options.store.set("id_token", id_token);
-        }
+      if (!res2.ok || !contentType?.startsWith("application/json")) {
+        return res2;
       }
+      let data = res2.data;
+      if (!data || typeof data !== "object" || data instanceof ReadableStream) {
+        const res22 = res2.clone();
+        data = await res22.json();
+      }
+      const id_token = data?.id_token;
+      if (isRefresh && !id_token) {
+        return res2;
+      }
+      const jwks = await getJwks();
+      const validation = await validateIdToken(id_token, {
+        issuer: options.openid_configuration.issuer,
+        client_id: options.client_info.client_id,
+        jwks,
+        openid_configuration: options.openid_configuration,
+        nonce: isRefresh ? void 0 : userStore.get("pending_nonce")
+      });
+      if (isRefresh) {
+        assertSameUserAsLogin(validation.claims, userStore.get("id_token_claims"));
+      }
+      assertExpectedUser(validation.claims, expectedClaims);
+      userStore.set("id_token", id_token);
+      userStore.set("id_token_claims", validation.claims);
       return res2;
+    };
+    const getJwks = async () => {
+      if (!options.jwks) {
+        const jwksClient = options.client.with(throwermw()).with(jsonmw());
+        const response2 = await jwksClient.get(options.openid_configuration.jwks_uri);
+        options.jwks = response2.data;
+      }
+      return options.jwks;
     };
     let oauth2client = options.client.with(options.issuer).with(storeIdToken);
     if (options.use_dpop) {
       const dpopOptions = {
         site: options.issuer,
-        authorization_endpoint: options.openid_configuration.authorization_endpoint,
         token_endpoint: options.openid_configuration.token_endpoint,
         dpop_signing_alg_values_supported: options.openid_configuration.dpop_signing_alg_values_supported
       };
       oauth2client = oauth2client.with(dpopmw(dpopOptions));
-      oauth2Options.client = oauth2client;
     }
+    oauth2Options.client = oauth2client;
     oauth2client = oauth2client.with(oauth2mw(oauth2Options));
     res = await oauth2client.fetch(req);
     return res;
@@ -20608,33 +19671,266 @@ function clientInfoMatchesRequest(storedClientInfo, requestedClientInfo) {
   const storedRedirectUris = new Set(storedClientInfo.redirect_uris || []);
   return requestedClientInfo.redirect_uris.every((uri) => storedRedirectUris.has(uri));
 }
+function accountFor(options) {
+  return options.webid ?? options.login_hint;
+}
+function expectedClaimsFor(options) {
+  if (options.webid) {
+    return Object.assign({ webid: options.webid }, options.expected_claims);
+  }
+  return options.expected_claims || {};
+}
+function defaultScope(options) {
+  const supported = options.openid_configuration?.scopes_supported;
+  const solidIssuer = Array.isArray(supported) && supported.includes("webid");
+  if (options.webid || solidIssuer) {
+    return "openid webid";
+  }
+  return "openid";
+}
+function siteFor(issuer, account) {
+  if (!account) {
+    return issuer;
+  }
+  return issuer + "|" + account;
+}
+function assertExpectedUser(claims, expectedClaims) {
+  for (const [name, expected] of Object.entries(expectedClaims)) {
+    const actual = claimValue(claims, name);
+    if (actual !== expected) {
+      throw metroError("metro.oidcmw: id_token is for a different user: expected " + name + " " + expected + ", got " + actual);
+    }
+  }
+}
+async function grantTypeOf(req) {
+  const body = await req.clone().text();
+  return new URLSearchParams(body).get("grant_type");
+}
+function assertSameUserAsLogin(claims, loginClaims) {
+  if (loginClaims && claims.sub !== loginClaims.sub) {
+    throw metroError("metro.oidcmw: refreshed id_token is for a different user: expected sub " + loginClaims.sub + ", got " + claims.sub);
+  }
+}
+function claimValue(claims, name) {
+  if (name == "webid" && claims.webid === void 0) {
+    return claims.sub;
+  }
+  return claims[name];
+}
 function isRedirected2() {
   return isRedirected();
 }
 function idToken(options) {
   if (!options.store) {
     if (!options.issuer) {
-      throw metroError2("Must supply options.issuer or options.store to get the id_token");
+      throw metroError("Must supply options.issuer or options.store to get the id_token");
     }
-    options.store = oidcStore(options.issuer);
+    options.store = oidcStore(siteFor(options.issuer, accountFor(options)));
   }
   return options.store.get("id_token");
 }
+function idTokenClaims(options) {
+  if (!options.store) {
+    if (!options.issuer) {
+      throw metroError("Must supply options.issuer or options.store to get the id_token claims");
+    }
+    options.store = oidcStore(siteFor(options.issuer, accountFor(options)));
+  }
+  return options.store.get("id_token_claims");
+}
 
-// ../solid-tools/node_modules/@muze-nl/metro-oidc/src/browser.mjs
+// node_modules/@muze-nl/metro-oidc/src/index.mjs
 var oidc = {
   oidcmw,
   discover: oidcDiscovery,
   register,
   isRedirected: isRedirected2,
-  idToken
+  idToken,
+  idTokenClaims
 };
-if (!globalThis.metro.oidc) {
-  globalThis.metro.oidc = oidc;
-}
-var browser_default = oidc;
+var src_default7 = oidc;
 
-// ../solid-tools/packages/jsfs-solid/src/metro.mjs
+// node_modules/@muze-nl/metro-oauth2/src/oauth2.discovery.mjs
+var oauth2_discovery_exports = {};
+__export(oauth2_discovery_exports, {
+  default: () => makeClient
+});
+var validAlgorithms = [
+  "HS256",
+  "HS384",
+  "HS512",
+  "RS256",
+  "RS384",
+  "RS512",
+  "ES256",
+  "ES384",
+  "ES512"
+];
+var validAuthMethods2 = [
+  "client_secret_post",
+  "client_secret_base",
+  "client_secret_jwt",
+  "private_key_jwt"
+];
+var oauth_authorization_server_metadata = {
+  authorization_endpoint: Required2(validURL2),
+  issuer: Required2(validURL2),
+  response_types_supported: Required2(anyOf3("code", "token")),
+  token_endpoint: Required2(validURL2),
+  scopes_supported: Recommended2([]),
+  code_challendge_methods_supported: Optional2([]),
+  grant_types_supported: Optional2([]),
+  introspection_endpoint: Optional2(validURL2),
+  introspection_endpoint_auth_methods_supported: Optional2(validAuthMethods2),
+  introspection_endpoint_auth_signing_alg_values_supported: Optional2(validAlgorithms),
+  jwks_uri: Optional2(validURL2),
+  op_policy_uri: Optional2(validURL2),
+  op_tos_uri: Optional2(validURL2),
+  registration_endpoint: Optional2(validURL2),
+  response_modes_supported: Optional2([]),
+  revocation_endpoint: Optional2(validURL2),
+  revocation_endpoint_auth_methods_supported: Optional2(validAuthMethods2),
+  revocation_endpoint_auth_signing_alg_values_supported: Optional2(validAlgorithms),
+  service_documentation: Optional2(validURL2),
+  token_endpoint_auth_methods_supported: Optional2([]),
+  token_endpoint_auth_signing_alg_values_supported: Optional2([]),
+  ui_locales_supported: Optional2([])
+};
+function makeClient(options = {}) {
+  const defaultOptions = {
+    client: client()
+  };
+  options = Object.assign({}, defaultOptions, options);
+  assert2(options, {
+    issuer: Required2(validURL2)
+  });
+  const oauth_authorization_server_configuration = fetchWellknownOauthAuthorizationServer(options.issuer);
+  return options.client.with(options.issuer);
+}
+async function fetchWellknownOauthAuthorizationServer(issuer, client2) {
+  let res = client2.get(url(issuer, ".wellknown/oauth_authorization_server"));
+  if (!res.ok) {
+    throw metroError("metro.oidcmw: Error while fetching " + issuer + ".wellknown/oauth_authorization_server", res);
+  }
+  assert2(res.headers.get("Content-Type"), /application\/json.*/);
+  let configuration = await res.json();
+  assert2(configuration, oauth_authorization_server_metadata);
+  return configuration;
+}
+
+// node_modules/@muze-nl/metro-oauth2/src/oauth2.popup.mjs
+function handleRedirect(origin = null) {
+  let success = false;
+  origin = origin || window.location.origin;
+  let params = new URLSearchParams(window.location.search);
+  if (!params.has("code") && !params.has("error") && window.location.hash) {
+    let query = window.location.hash.substring(1);
+    params = new URLSearchParams("?" + query);
+  }
+  let parent = window.parent !== window ? window.parent : window.opener;
+  if (!parent) {
+    console.error("No parent window found, cannot post authorization code (or error)");
+  } else {
+    let message2;
+    if (params.has("code")) {
+      success = true;
+      message2 = {
+        authorization_code: params.get("code"),
+        state: params.get("state"),
+        iss: params.get("iss")
+      };
+    } else if (params.has("error")) {
+      message2 = {
+        error: params.get("error"),
+        error_description: params.get("error_description"),
+        state: params.get("state"),
+        iss: params.get("iss")
+      };
+    } else {
+      message2 = { error: "Could not find an authorization_code" };
+    }
+    parent.postMessage(message2, origin);
+  }
+  return success;
+}
+function authorizePopup(authorizationCodeURL, options = {}) {
+  const url2 = new URL(authorizationCodeURL, window.location.href);
+  const expectedState = url2.searchParams.get("state");
+  const redirectUri = url2.searchParams.get("redirect_uri");
+  const expectedOrigin = redirectUri ? new URL(redirectUri, window.location.href).origin : window.location.origin;
+  return new Promise((resolve, reject) => {
+    let settled = false;
+    let closedWatcher = null;
+    const cleanup = () => {
+      settled = true;
+      clearInterval(closedWatcher);
+      if (typeof removeEventListener === "function") {
+        removeEventListener("message", handler);
+      }
+    };
+    const handler = (event) => {
+      if (event.origin && event.origin !== expectedOrigin) {
+        return;
+      }
+      if (event.data.authorization_code) {
+        if (expectedState && event.data.state !== expectedState) {
+          cleanup();
+          reject("OAuth2 authorization state mismatch");
+          return;
+        }
+        cleanup();
+        resolve({
+          authorization_code: event.data.authorization_code,
+          state: event.data.state,
+          iss: event.data.iss
+        });
+      } else if (event.data.error) {
+        if (expectedState && event.data.state && event.data.state !== expectedState) {
+          cleanup();
+          reject("OAuth2 authorization state mismatch");
+          return;
+        }
+        cleanup();
+        reject(event.data.error_description || event.data.error);
+      } else {
+        cleanup();
+        reject("Unknown authorization error");
+      }
+    };
+    addEventListener("message", handler);
+    const popup = options.popup || window.open(authorizationCodeURL);
+    if (!popup || popup.closed) {
+      cleanup();
+      reject("OAuth2 popup was blocked");
+      return;
+    }
+    if (options.popup) {
+      popup.location.href = authorizationCodeURL;
+    }
+    if (!settled) {
+      closedWatcher = setInterval(() => {
+        if (popup.closed) {
+          cleanup();
+          reject("OAuth2 popup was closed");
+        }
+      }, POPUP_CLOSED_CHECK_MS);
+    }
+  });
+}
+var POPUP_CLOSED_CHECK_MS = 500;
+
+// node_modules/@muze-nl/metro-oauth2/src/index.mjs
+var oauth2 = Object.assign({}, oauth2_exports, {
+  oauth2mw,
+  discover: oauth2_discovery_exports,
+  tokenstore: tokenStore,
+  dpopmw,
+  keysstore: keysStore,
+  authorizePopup,
+  popupHandleRedirect: handleRedirect
+});
+
+// node_modules/@muze-labs/jsfs-solid/src/metro.mjs
 function createSolidMetroClient(input2, options = {}) {
   const providedClient = options.metroClient ?? options.metro ?? options.client;
   let metroClient = providedClient ?? input2;
@@ -20644,8 +19940,8 @@ function createSolidMetroClient(input2, options = {}) {
   if (providedClient && options.configureMetro !== true) {
     return metroClient;
   }
-  if (options.oidc !== false && browser_default?.oidcmw && typeof metroClient?.with === "function") {
-    metroClient = metroClient.with(browser_default.oidcmw(options));
+  if (options.oidc !== false && src_default7?.oidcmw && typeof metroClient?.with === "function") {
+    metroClient = metroClient.with(src_default7.oidcmw(options));
   }
   if (options.oldm !== false && typeof src_default6 === "function" && typeof metroClient?.with === "function") {
     metroClient = metroClient.with(src_default6(options));
@@ -20678,7 +19974,7 @@ async function createSolidNotesConnection(options = {}) {
   if (!storageUrl2) {
     throw new Error(`No Solid storage root found in WebID profile: ${webId}`);
   }
-  const issuer = profile?.issuer || firstId(profile?.profile?.solid$oidcIssuer);
+  const issuer = profile?.issuer;
   const preferences = preferencesUrlForProfile({
     profile: profile?.profile,
     storageUrl: storageUrl2,
@@ -20719,7 +20015,9 @@ function preferencesUrlForProfile({ profile, storageUrl: storageUrl2, options })
       source: "configured"
     };
   }
-  const profilePreferencesUrl = firstId(profile?.pim$preferencesFile);
+  const context = src_default2.context({ prefixes: prefixes2 });
+  context.addGraph(profile.graph);
+  const profilePreferencesUrl = firstId(context.get(profile.id)?.pim$preferencesFile);
   if (profilePreferencesUrl) {
     return {
       url: profilePreferencesUrl,
@@ -20754,44 +20052,44 @@ async function loadMarginNotesRootFolder({ solid: solid2, preferencesUrl }) {
     if (isMissing(error4.cause)) return "";
     throw error4;
   }
-  const subject = from2(graphSubjects(graph3)).where((subject2) => firstId(subject2.mn$rootFolder))[0];
+  const context = src_default2.context({ prefixes: prefixes2 });
+  context.addGraph(graph3);
+  const subject = from(context.data).where((subject2) => firstId(subject2.mn$rootFolder))[0];
   return firstId(subject?.mn$rootFolder);
 }
 async function saveDefaultMarginNotesRootFolder({ solid: solid2, preferencesUrl, rootFolderUrl }) {
   const exists = await resourceExists({ solid: solid2, resourceUrl: preferencesUrl });
   if (!exists) {
-    const response4 = await solid2.put(preferencesUrl, {
+    await solid2.put(preferencesUrl, {
       body: preferencesTurtle({ preferencesUrl, rootFolderUrl }),
       headers: { "Content-Type": TURTLE }
     });
-    await ensureOk({ response: response4, operation: "create preferences" });
     return;
   }
-  const response3 = await solid2.patch(preferencesUrl, {
+  await solid2.patch(preferencesUrl, {
     body: preferencesPatch({ preferencesUrl, rootFolderUrl }),
     headers: { "Content-Type": SPARQL_UPDATE }
   });
-  await ensureOk({ response: response3, operation: "update preferences" });
 }
 async function ensureRootFolder({ solid: solid2, rootFolderUrl }) {
-  const response3 = await solid2.createContainer(rootFolderUrl);
-  if (response3?.ok || [200, 201, 204, 205, 409, 412].includes(response3?.status)) return;
-  await ensureOk({ response: response3, operation: "create margin-notes folder" });
+  try {
+    await solid2.createContainer(rootFolderUrl);
+  } catch (error4) {
+    if ([409, 412].includes(error4.cause?.status)) return;
+    throw error4;
+  }
 }
 async function resourceExists({ solid: solid2, resourceUrl }) {
-  const response3 = await solid2.head(resourceUrl);
-  if (response3?.status === 404) return false;
-  await ensureOk({ response: response3, operation: "check preferences" });
-  return true;
+  try {
+    await solid2.head(resourceUrl);
+    return true;
+  } catch (error4) {
+    if (isMissing(error4.cause)) return false;
+    throw error4;
+  }
 }
-function graphSubjects(graph3) {
-  return Object.values(graph3.subjects);
-}
-function isMissing(response3) {
-  return response3?.status === 404;
-}
-async function responseText(response3) {
-  return response3.text();
+function isMissing(response2) {
+  return response2?.status === 404;
 }
 function preferencesTurtle({ preferencesUrl, rootFolderUrl }) {
   return `@prefix mn: <${prefixes2.mn}>.
@@ -20811,6 +20109,8 @@ function createDiscoverySolid({ webId, options }) {
   const metroClient = createSolidMetroClient(webId, {
     ...storageOptions({ options, pageUrl: currentPageUrl(options.pageUrl) }),
     oidc: false,
+    oldm: false,
+    // solidApi owns the RDF middleware.
     configureMetro: true
   });
   return solidApi(metroClient);
@@ -20820,6 +20120,8 @@ function createStorageSolid({ issuer, rootUrl, options }) {
     ...options,
     issuer,
     oidc: Boolean(issuer),
+    oldm: false,
+    // solidApi owns the RDF middleware.
     configureMetro: true
   });
   return solidApi(metroClient);
@@ -20847,20 +20149,20 @@ function storageOptions({ options, pageUrl }) {
   };
 }
 function assertConnectionOptions(options) {
-  const optionIssues = issues2(options, {
-    webId: Required2(String),
-    pageUrl: Optional2(String),
-    callbackUrl: Optional2(String),
-    preferencesUrl: Optional2(String),
-    preferencesFilename: Optional2(String),
-    rootFolderName: Optional2(String),
-    clientName: Optional2(String),
-    usePopupAuth: Optional2(Boolean),
-    authorize_callback: Optional2(callable),
-    force_authorization: Optional2(Boolean),
-    forceAuthorizationForWrites: Optional2(Boolean),
-    client_info: Optional2(Object),
-    solidOptions: Optional2(Object)
+  const optionIssues = issues(options, {
+    webId: Required(String),
+    pageUrl: Optional(String),
+    callbackUrl: Optional(String),
+    preferencesUrl: Optional(String),
+    preferencesFilename: Optional(String),
+    rootFolderName: Optional(String),
+    clientName: Optional(String),
+    usePopupAuth: Optional(Boolean),
+    authorize_callback: Optional(callable),
+    force_authorization: Optional(Boolean),
+    forceAuthorizationForWrites: Optional(Boolean),
+    client_info: Optional(Object),
+    solidOptions: Optional(Object)
   });
   if (optionIssues) {
     throw new TypeError(`Invalid Solid notes connection options: ${optionIssues[0].pathString} ${optionIssues[0].message}`);
@@ -20868,7 +20170,7 @@ function assertConnectionOptions(options) {
 }
 function callable(value, _root, path2) {
   if (typeof value !== "function") {
-    return error2("data is not a function", value, "function", path2);
+    return error("data is not a function", value, "function", path2);
   }
   return false;
 }
@@ -20881,12 +20183,12 @@ function normalizeUrl(value, name) {
 }
 function currentPageUrl(value) {
   const href = value || globalThis.location?.href || "";
-  const url3 = new URL(href);
-  url3.hash = "";
-  return url3.href;
+  const url2 = new URL(href);
+  url2.hash = "";
+  return url2.href;
 }
-function ensureSlash4(url3) {
-  return String(url3).endsWith("/") ? String(url3) : `${url3}/`;
+function ensureSlash4(url2) {
+  return String(url2).endsWith("/") ? String(url2) : `${url2}/`;
 }
 function firstId(value) {
   const item = src_default2.one(value, "first");
@@ -20911,379 +20213,15 @@ function fallbackHash(value) {
   }
   return (hash >>> 0).toString(16).padStart(8, "0");
 }
-async function ensureOk({ response: response3, operation }) {
-  if (response3?.ok) return;
-  const detail = (await responseText(response3)).trim();
-  const suffix = detail ? `: ${detail}` : "";
-  throw new Error(`Solid ${operation} failed (${response3?.status || "unknown"} ${response3?.statusText || ""})${suffix}`);
-}
-
-// src/storage/solid-resource-store.js
-var DEFAULT_ACCEPT = "text/turtle, application/ld+json;q=0.9, application/json;q=0.2";
-var DEFAULT_CONTENT_TYPE = "text/turtle";
-var DEFAULT_FORMAT = "margin-notes-oldmed-graph";
-var DEFAULT_VERSION = 1;
-var NODE_PREDICATES = /* @__PURE__ */ new Set([
-  "oa$hasBody",
-  "oa$hasTarget",
-  "oa$hasSource",
-  "oa$hasSelector",
-  "schema$about"
-]);
-var INLINE_PREDICATES = /* @__PURE__ */ new Set([
-  "oa$hasBody",
-  "oa$hasTarget",
-  "oa$hasSelector"
-]);
-function createSolidResourceStore(options = {}) {
-  assertOptions(options);
-  const defaultResourceUrl = options.resourceUrl || "";
-  const accept = options.accept || DEFAULT_ACCEPT;
-  const contentType = options.contentType || DEFAULT_CONTENT_TYPE;
-  const providedSolid = options.solid || options.solidApi || null;
-  const generatedClient = {
-    clients: /* @__PURE__ */ new Map()
-  };
-  function solidFor(resourceUrl, requestOptions2 = {}) {
-    return solidClientFor({ options, providedSolid, resourceUrl, generatedClient, requestOptions: requestOptions2 });
-  }
-  return {
-    name: "solidResourceStore",
-    async load({ key } = {}) {
-      const resourceUrl = resourceUrlFrom({ key, defaultResourceUrl });
-      const solid2 = solidFor(resourceUrl);
-      const response3 = await callResource(() => solid2.get(resourceUrl, {
-        headers: { Accept: accept }
-      }));
-      if (isMissing2(response3)) return null;
-      const data = response3;
-      if (isOldmGraph(data)) {
-        return storageDocumentFromGraph({ graph: data, resourceUrl });
-      }
-      if (isStorageDocument(data)) {
-        return data;
-      }
-      await ensureOk2({ response: response3, operation: "load" });
-      const text = await responseText2(response3);
-      if (!text.trim()) return null;
-      if (isLinkedDataResponse(response3)) {
-        return storageDocumentFromGraph({
-          graph: oldmContext({ resourceUrl }).parse(text, resourceUrl, responseContentType(response3) || DEFAULT_CONTENT_TYPE),
-          resourceUrl
-        });
-      }
-      let parsed;
-      try {
-        parsed = JSON.parse(text);
-      } catch (error4) {
-        throw new Error(`Solid resource load returned invalid linked data or JSON from ${resourceUrl}: ${error4.message}`);
-      }
-      if (!isStorageDocument(parsed) && !Array.isArray(parsed)) {
-        throw new Error(`Solid resource load returned JSON that is not a notes document from ${resourceUrl}`);
-      }
-      return parsed;
-    },
-    async save({ key, value } = {}) {
-      const resourceUrl = resourceUrlFrom({ key, defaultResourceUrl });
-      const solid2 = solidFor(resourceUrl, { writesBody: true });
-      const graph3 = graphFromStorageDocument({ document: value, resourceUrl });
-      const response3 = await callResource(() => solid2.put(resourceUrl, {
-        body: graph3,
-        headers: { "Content-Type": contentType }
-      }));
-      await ensureOk2({ response: response3, operation: "save" });
-      return {
-        key: resourceUrl,
-        resourceUrl,
-        status: response3.status
-      };
-    },
-    async remove({ key } = {}) {
-      const resourceUrl = resourceUrlFrom({ key, defaultResourceUrl });
-      const solid2 = solidFor(resourceUrl, { needsAuthorization: true });
-      const response3 = await callResource(() => solid2.delete(resourceUrl));
-      if (isMissing2(response3) || response3.status === 410) {
-        return {
-          key: resourceUrl,
-          resourceUrl,
-          status: response3.status
-        };
-      }
-      await ensureOk2({ response: response3, operation: "remove" });
-      return {
-        key: resourceUrl,
-        resourceUrl,
-        status: response3.status
-      };
-    }
-  };
-}
-function assertOptions(options) {
-  const optionIssues = issues2(options, {
-    resourceUrl: Optional2(String),
-    rootUrl: Optional2(String),
-    storageUrl: Optional2(String),
-    accept: Optional2(String),
-    contentType: Optional2(String),
-    force_authorization: Optional2(Boolean),
-    forceAuthorizationForWrites: Optional2(Boolean)
-  });
-  if (optionIssues) {
-    throw new TypeError(`Invalid Solid resource store options: ${optionIssues[0].pathString} ${optionIssues[0].message}`);
-  }
-}
-function oldmContext({ resourceUrl, prefixes: prefixes3 = {} }) {
-  return src_default2.context({
-    defaultGraph: resourceUrl,
-    prefixes: annotationPrefixes(prefixes3)
-  });
-}
-function annotationPrefixes(prefixes3 = {}) {
-  return {
-    ...annotationVocabulary.prefixes,
-    ...prefixes3
-  };
-}
-function graphFromStorageDocument({ document: document2, resourceUrl }) {
-  let storageDocument = { subjects: [] };
-  if (isStorageDocument(document2)) {
-    storageDocument = document2;
-  }
-  const context = oldmContext({
-    resourceUrl,
-    prefixes: storageDocument.prefixes
-  });
-  const graph3 = context.parse("", resourceUrl, DEFAULT_CONTENT_TYPE);
-  for (const subject of storageDocument.subjects) {
-    writeSubjectToGraph2({ graph: graph3, subject });
-  }
-  return graph3;
-}
-function writeSubjectToGraph2({ graph: graph3, subject }) {
-  if (!subject?.id) return null;
-  for (const [predicate, value] of Object.entries(subject)) {
-    if (predicate === "id") continue;
-    if (predicate === "rdf$type" || predicate === "a") {
-      graph3.add(subject.id, "a", value);
-      continue;
-    }
-    graph3.set(subject.id, predicate, graphValueFromStorageValue({ graph: graph3, predicate, value }));
-  }
-  return subject.id;
-}
-function graphValueFromStorageValue({ graph: graph3, predicate, value }) {
-  if (Array.isArray(value)) {
-    return value.map((item) => graphValueFromStorageValue({ graph: graph3, predicate, value: item }));
-  }
-  if (value instanceof String || value instanceof Number) {
-    return src_default2.literal(value);
-  }
-  if (value && typeof value === "object") {
-    if (predicate === "cobalt$fragment") {
-      return JSON.stringify(value);
-    }
-    if (value.id) {
-      writeSubjectToGraph2({ graph: graph3, subject: value });
-      return value.id;
-    }
-    return JSON.stringify(value);
-  }
-  if (typeof value === "string" && !NODE_PREDICATES.has(predicate)) {
-    return new String(value);
-  }
-  return value;
-}
-function storageDocumentFromGraph({ graph: graph3, resourceUrl }) {
-  const subjects = Array.from(from2(graphSubjects2(graph3)).where((subject) => src_default2.many(subject.a).includes(annotationVocabulary.classes.annotation) || src_default2.many(subject.rdf$type).includes(annotationVocabulary.classes.annotation)).select((subject) => repairConventionalAnnotationParts({
-    graph: graph3,
-    annotation: storageSubjectFromOldmSubject({ graph: graph3, subject })
-  })));
-  return {
-    format: DEFAULT_FORMAT,
-    version: DEFAULT_VERSION,
-    prefixes: annotationPrefixes(graph3?.prefixes ?? graph3?.context?.prefixes),
-    resourceUrl,
-    subjects
-  };
-}
-function repairConventionalAnnotationParts({ graph: graph3, annotation }) {
-  if (!annotation?.id) return annotation;
-  const body = annotation.oa$hasBody || conventionalSubject({
-    graph: graph3,
-    subjectId: annotation.id,
-    suffixes: ["#body", "-body"],
-    types: [annotationVocabulary.classes.textualBody, annotationVocabulary.classes.cobaltFragment]
-  });
-  if (body) {
-    annotation.oa$hasBody = body;
-  }
-  const target = annotation.oa$hasTarget || conventionalSubject({
-    graph: graph3,
-    subjectId: annotation.id,
-    suffixes: ["#target", "-target"],
-    types: [annotationVocabulary.classes.specificResource]
-  });
-  if (target) {
-    target.oa$hasSelector = target.oa$hasSelector || conventionalSubject({
-      graph: graph3,
-      subjectId: annotation.id,
-      suffixes: ["#selector-fragment", "-selector", "#selector"],
-      types: [annotationVocabulary.classes.fragmentSelector]
-    });
-    annotation.oa$hasTarget = target;
-  }
-  return annotation;
-}
-function conventionalSubject({ graph: graph3, subjectId, suffixes, types }) {
-  const subject = from2(suffixes).select((suffix) => graph3?.subjects?.[`${subjectId}${suffix}`]).where((candidate) => candidate && src_default2.many(candidate.a).some((type) => types.includes(type)))[0];
-  if (!subject) return null;
-  return storageSubjectFromOldmSubject({ graph: graph3, subject });
-}
-function storageSubjectFromOldmSubject({ graph: graph3, subject, seen = /* @__PURE__ */ new Set() }) {
-  if (!subject || seen.has(subject.id)) {
-    return subject?.id;
-  }
-  seen.add(subject.id);
-  const result = {};
-  for (const [predicate, value] of Object.entries(subject)) {
-    if (predicate === "graph") continue;
-    if (predicate === "a") {
-      result.rdf$type = storageValueFromOldmValue({ graph: graph3, predicate, value, seen });
-      continue;
-    }
-    result[predicate] = storageValueFromOldmValue({ graph: graph3, predicate, value, seen });
-  }
-  return result;
-}
-function storageValueFromOldmValue({ graph: graph3, predicate, value, seen }) {
-  if (Array.isArray(value)) {
-    return value.map((item) => storageValueFromOldmValue({ graph: graph3, predicate, value: item, seen }));
-  }
-  if (isOldmNamedNode(value)) {
-    const linkedSubject = graph3?.subjects?.[value.id];
-    if (linkedSubject && INLINE_PREDICATES.has(predicate)) {
-      return storageSubjectFromOldmSubject({ graph: graph3, subject: linkedSubject, seen });
-    }
-    return NODE_PREDICATES.has(predicate) ? value.id : { id: value.id };
-  }
-  if (value instanceof String || value instanceof Number) {
-    if (predicate !== "cobalt$fragment" && (value.language || value.type && value.type !== "http://www.w3.org/2001/XMLSchema#string")) {
-      return src_default2.literal(value);
-    }
-    return storageLiteralValue({ predicate, value: value.valueOf() });
-  }
-  if (value && typeof value === "object") {
-    return storageSubjectFromOldmSubject({ graph: graph3, subject: value, seen });
-  }
-  return storageLiteralValue({ predicate, value });
-}
-function storageLiteralValue({ predicate, value }) {
-  if (predicate === "cobalt$fragment" && typeof value === "string") {
-    try {
-      return JSON.parse(value);
-    } catch {
-      return { text: value, annotations: [] };
-    }
-  }
-  return value;
-}
-function graphSubjects2(graph3) {
-  return Object.values(graph3.subjects);
-}
-function resourceUrlFrom({ key, defaultResourceUrl }) {
-  const resourceUrl = defaultResourceUrl || key;
-  if (issues2(resourceUrl, String)) {
-    throw new Error("Solid resource store requires a resourceUrl option or key");
-  }
-  return resourceUrl;
-}
-function solidClientFor({ options, providedSolid, resourceUrl, generatedClient, requestOptions: requestOptions2 = {} }) {
-  if (providedSolid) {
-    assertSolidClient2(providedSolid);
-    return providedSolid;
-  }
-  const rootUrl = options.rootUrl || options.storageUrl || resourceUrl;
-  const forceAuthorization = forceAuthorizationForRequest({ options, requestOptions: requestOptions2 });
-  const cacheKey = `${rootUrl}
-force:${forceAuthorization}`;
-  if (generatedClient.clients.has(cacheKey)) {
-    return generatedClient.clients.get(cacheKey);
-  }
-  const metroClient = createSolidMetroClient(rootUrl, {
-    ...options,
-    oidc: options.oidc ?? Boolean(options.issuer),
-    force_authorization: forceAuthorization,
-    configureMetro: options.configureMetro ?? true
-  });
-  const solid2 = solidApi(metroClient);
-  generatedClient.clients.set(cacheKey, solid2);
-  return solid2;
-}
-function forceAuthorizationForRequest({ options, requestOptions: requestOptions2 }) {
-  if (options.force_authorization !== void 0) {
-    return options.force_authorization;
-  }
-  if (requestOptions2.writesBody || requestOptions2.needsAuthorization) {
-    return Boolean(options.forceAuthorizationForWrites);
-  }
-  return false;
-}
-function assertSolidClient2(solid2) {
-  const clientIssues = issues2(solid2, {
-    get: callable2,
-    put: callable2,
-    delete: callable2
-  });
-  if (clientIssues) {
-    throw new TypeError("Solid resource store requires a Solid API client with get/put/delete");
-  }
-}
-function callable2(value, _root, path2) {
-  if (typeof value !== "function") {
-    return error2("data is not a function", value, "function", path2);
-  }
-  return false;
-}
-async function callResource(operation) {
-  try {
-    return await operation();
-  } catch (error4) {
-    if (isMissing2(error4?.cause)) {
-      return error4.cause;
-    }
-    throw error4;
-  }
-}
-function isMissing2(response3) {
-  return response3?.status === 404;
-}
-function isStorageDocument(value) {
-  return Boolean(value && typeof value === "object" && Array.isArray(value.subjects));
-}
-function isOldmGraph(value) {
-  return Boolean(value && typeof value === "object" && typeof value.write === "function" && value.subjects);
-}
-function isOldmNamedNode(value) {
-  return Boolean(value && typeof value === "object" && typeof value.id === "string" && value.graph);
-}
-function isLinkedDataResponse(response3) {
-  return /^text\/turtle\b|^application\/ld\+json\b|^application\/n-quads\b|^application\/trig\b/.test(responseContentType(response3));
-}
-function responseContentType(response3) {
-  return response3.headers.get("Content-Type") || "";
-}
-async function ensureOk2({ response: response3, operation }) {
-  if (response3.ok) return;
-  const body = await responseText2(response3).catch(() => "");
-  const detail = body.trim() ? `: ${body.trim()}` : "";
-  throw new Error(`Solid resource ${operation} failed (${response3.status} ${response3.statusText})${detail}`);
-}
-async function responseText2(response3) {
-  return response3.text();
-}
 
 // src/features/paragraph-note-stacks.js
 var paragraphNoteStacks = {
+  transformers: {
+    cobaltFragment(context, next) {
+      context.value = { innerHTML: context.value == null ? "" : render(context.value) };
+      return next(context);
+    }
+  },
   templates: {
     "margin-notes": root_default,
     "margin-notes-anchor-widget": anchor_widget_default,
@@ -21307,7 +20245,6 @@ var paragraphNoteStacks = {
       await this.actions.setTheme({
         theme: this.data.marginNotes.theme
       });
-      await this.actions.installAnchorAffordances({ anchors });
       this.data.marginNotes.graph = await notesApi.loadGraph({
         app: this,
         key: storeKey
@@ -21330,6 +20267,7 @@ var paragraphNoteStacks = {
       });
       this.data.marginNotes.anchors = anchorState;
       this.data.marginNotes.anchorViews = Array.from(anchorState, (anchor2) => [anchor2]);
+      await this.actions.installAnchorAffordances({ anchors });
       for (const anchor2 of this.data.marginNotes.anchors) {
         await this.actions.renderAnchorNotes({ anchor: anchor2 });
       }
@@ -21370,6 +20308,7 @@ var paragraphNoteStacks = {
         event.preventDefault();
         void this.actions.connectSolidStorage({
           webId: input2.value
+        }).catch(() => {
         });
       };
       element2.addEventListener("submit", onSubmit);
@@ -21380,7 +20319,9 @@ var paragraphNoteStacks = {
       };
       if (rememberedConnection && config.autoConnect !== false) {
         void this.actions.connectSolidStorage({
-          webId: initialWebId
+          webId: initialWebId,
+          interactive: false
+        }).catch(() => {
         });
       }
     },
@@ -21409,7 +20350,13 @@ var paragraphNoteStacks = {
       });
       const fragment = await modal.show();
       if (!fragment) return;
-      const annotation = notesApi.createAnnotationNote({ anchorId, fragment });
+      const service = await notesApi.ensureNotesService({ app: this });
+      const annotation = notesApi.createAnnotationNote({
+        anchorId,
+        fragment,
+        subjects: service.workspace.graph("notes").data,
+        sequence: this.marginNotesRuntime.annotationIds
+      });
       const storedAnnotation = await notesApi.createStoredAnnotation({
         app: this,
         annotation
@@ -21419,9 +20366,7 @@ var paragraphNoteStacks = {
       anchor2.notes.push(notesApi.toRenderableNote({ annotation: noteAnnotation }));
       await this.actions.updateAnchorNoteState({ anchor: anchor2 });
       await this.actions.renderAnchorNotes({ anchor: anchor2 });
-      if (!this.marginNotesRuntime.notesService) {
-        await this.actions.saveNotes({});
-      }
+      await notesApi.syncNotesResource({ app: this });
     },
     async updateNote({ noteId }) {
       const notesApi = this.api.notes;
@@ -21433,19 +20378,16 @@ var paragraphNoteStacks = {
       });
       const fragment = await modal.show();
       if (!fragment) return;
-      notesApi.updateAnnotationBody({
-        annotation: match.note.annotation,
-        fragment
-      });
+      const annotation = this.marginNotesRuntime.notesService.data.notes.get(noteId);
+      notesApi.updateAnnotationBody({ annotation, fragment });
+      match.note.annotation = annotation;
       notesApi.syncRenderableNote({ note: match.note });
       await notesApi.saveStoredAnnotation({
         app: this,
         annotation: match.note.annotation
       });
       await this.actions.renderAnchorNotes({ anchor: match.anchor });
-      if (!this.marginNotesRuntime.notesService) {
-        await this.actions.saveNotes({});
-      }
+      await notesApi.syncNotesResource({ app: this });
     },
     async deleteNote({ noteId }) {
       const notesApi = this.api.notes;
@@ -21462,9 +20404,7 @@ var paragraphNoteStacks = {
       });
       await this.actions.updateAnchorNoteState({ anchor: match.anchor });
       await this.actions.renderAnchorNotes({ anchor: match.anchor });
-      if (!this.marginNotesRuntime.notesService) {
-        await this.actions.saveNotes({});
-      }
+      await notesApi.syncNotesResource({ app: this });
     },
     async saveNotes() {
       const notesApi = this.api.notes;
@@ -21474,9 +20414,10 @@ var paragraphNoteStacks = {
         subjects: this.data.marginNotes.graph
       });
     },
-    async connectSolidStorage({ webId }) {
+    async connectSolidStorage({ webId, interactive = true }) {
       const notesApi = this.api.notes;
       const config = this.marginNotesRuntime.solidConnectionConfig || {};
+      let authorization;
       try {
         notesApi.setSolidConnectionStatus({
           app: this,
@@ -21485,9 +20426,10 @@ var paragraphNoteStacks = {
           message: "Resolving Solid storage..."
         });
         notesApi.renderSolidConnectionStatus({ app: this });
+        authorization = notesApi.prepareSolidAuthorization({ config, interactive });
         const connection = await notesApi.createSolidNotesConnection({
           ...config,
-          ...notesApi.prepareSolidAuthorization({ config }),
+          ...authorization.options,
           webId
         });
         notesApi.setSolidConnectionStatus({
@@ -21507,43 +20449,20 @@ var paragraphNoteStacks = {
         if (!solidClient) {
           throw new Error("Solid connection did not provide a Solid API client for note sync");
         }
-        const solidStore = notesApi.createSolidResourceStore({
-          resourceUrl: connection.resourceUrl,
-          solid: solidClient
-        });
         await notesService.connect({
           solid: solidClient,
-          resources: {
-            notes: {
-              url: connection.resourceUrl,
-              async load() {
-                const document2 = await solidStore.load({ key: connection.resourceUrl });
-                if (!document2) {
-                  return { subjects: {} };
-                }
-                return {
-                  ...document2,
-                  subjects: Object.fromEntries(document2.subjects.map((subject) => [subject.id, subject]))
-                };
-              },
-              async save(document2) {
-                return solidStore.save({
-                  key: connection.resourceUrl,
-                  value: {
-                    ...document2,
-                    subjects: Object.values(document2.subjects)
-                  }
-                });
-              }
-            }
-          }
+          resources: { notes: { url: connection.resourceUrl } }
         });
+        notesApi.updateNotesPrefix({ app: this, service: notesService });
         const syncStatus = await notesService.sync("notes");
         if (syncStatus?.ok === false) {
           throw syncStatus.error || new Error(`Solid notes sync failed: ${syncStatus.status}`);
         }
         notesService.data.notes.refresh();
         this.marginNotesRuntime.solidConnection = connection;
+        await this.actions.replaceNotesGraph({
+          graph: notesApi.noteSubjects({ service: notesService })
+        });
         notesApi.setSolidConnectionStatus({
           app: this,
           status: "connected",
@@ -21553,9 +20472,6 @@ var paragraphNoteStacks = {
           message: `Connected to ${connection.storageUrl}`
         });
         notesApi.renderSolidConnectionStatus({ app: this });
-        await this.actions.replaceNotesGraph({
-          graph: notesService.data.notes.list()
-        });
         notesApi.rememberSolidConnection({
           app: this,
           connection
@@ -21571,6 +20487,8 @@ var paragraphNoteStacks = {
         });
         notesApi.renderSolidConnectionStatus({ app: this });
         throw error4;
+      } finally {
+        authorization?.close?.();
       }
     },
     async reloadNotesFromStore() {
@@ -21889,7 +20807,6 @@ var paragraphNoteStacks = {
       ...annotationModel,
       CobaltEditorModal,
       createSolidNotesConnection,
-      createSolidResourceStore,
       authorizePopup,
       path: path_default,
       templates: {
@@ -21924,17 +20841,29 @@ var paragraphNoteStacks = {
       getNotesForAnchor({ app: app2, anchorId }) {
         const anchor2 = this.findAnchor({ app: app2, anchorId });
         if (!anchor2) return [];
-        return Array.from(anchor2.notes, (note) => this.toStoredAnnotation({ annotation: note.annotation }));
+        return this.noteSubjects({ service: app2.marginNotesRuntime.notesService }).filter((annotation) => this.annotationAnchorId({ annotation }) === anchorId);
       },
       hostElement(value) {
         return value?.element || value || null;
       },
-      prepareSolidAuthorization({ config }) {
+      prepareSolidAuthorization({ config, interactive = true }) {
         if (config.solid || config.discoverySolid || config.authorize_callback || config.usePopupAuth === false) return {};
-        const popup = this.openSolidAuthPopup();
+        let popup = null;
+        if (interactive) {
+          popup = this.openSolidAuthPopup();
+        }
         return {
-          authorize_callback: (authorizationCodeURL) => {
-            return this.authorizeSolidPopup({ authorizationCodeURL, popup });
+          options: {
+            authorize_callback: (authorizationCodeURL) => {
+              if (!interactive) {
+                throw new Error("Sign-in required. Click Connect to continue.");
+              }
+              return this.authorizeSolidPopup({ authorizationCodeURL, popup });
+            }
+          },
+          close() {
+            popup?.close();
+            popup = null;
           }
         };
       },
@@ -21952,11 +20881,11 @@ var paragraphNoteStacks = {
           popup ? { popup } : {}
         );
       },
-      setSolidConnectionStatus({ app: app2, status: status2, message, webId, storageUrl: storageUrl2, resourceUrl }) {
+      setSolidConnectionStatus({ app: app2, status: status2, message: message2, webId, storageUrl: storageUrl2, resourceUrl }) {
         app2.data.marginNotes.solidConnection = {
           ...app2.data.marginNotes.solidConnection,
           status: status2,
-          message,
+          message: message2,
           webId: webId ?? app2.data.marginNotes.solidConnection.webId,
           storageUrl: storageUrl2 ?? app2.data.marginNotes.solidConnection.storageUrl,
           resourceUrl: resourceUrl ?? app2.data.marginNotes.solidConnection.resourceUrl
@@ -22017,159 +20946,115 @@ var paragraphNoteStacks = {
         }
       },
       async setupNotesStorage({ app: app2, storeKey }) {
-        if (app2.marginNotesRuntime.customStore) {
-          return null;
-        }
-        return this.ensureNotesService({
-          app: app2,
-          storeKey
-        });
+        return this.ensureNotesService({ app: app2, storeKey });
       },
       async ensureNotesService({ app: app2, storeKey = app2.data.marginNotes.storeKey }) {
         if (app2.marginNotesRuntime.notesService) {
           return app2.marginNotesRuntime.notesService;
         }
-        if (app2.marginNotesRuntime.customStore) {
-          return null;
-        }
-        const legacyGraph = await this.loadGraphFromStore({
-          store: app2.marginNotesRuntime.store,
-          key: storeKey
-        });
-        const localDocument = this.toStorageDocument({ subjects: legacyGraph });
+        const store = app2.marginNotesRuntime.store;
+        const prefixes3 = {
+          ...this.vocabulary.prefixes
+        };
+        app2.marginNotesRuntime.notesPrefixes = prefixes3;
+        const local2 = store ? graph.resource({
+          id: "notes:local",
+          url: `urn:margin-notes:store:${encodeURIComponent(storeKey)}`,
+          local: true,
+          prefixes: prefixes3,
+          async load() {
+            return await store.load({ key: storeKey }) ?? "";
+          },
+          async save(turtle) {
+            return store.save({ key: storeKey, value: turtle });
+          }
+        }) : {
+          indexedDB: "margin-notes-workspace",
+          store: "resources",
+          key: storeKey,
+          prefixes: prefixes3
+        };
         const service = app2.marginNotesRuntime.simplySolid({
           localFirst: true,
-          app: {
-            slug: "margin-notes"
-          },
+          app: { slug: "margin-notes" },
           data: {
             notes: {
               kind: "resource",
-              local: {
-                database: "margin-notes-workspace",
-                store: "resources",
-                key: storeKey,
-                prefixes: this.vocabulary.prefixes,
-                document: {
-                  ...localDocument,
-                  subjects: Object.fromEntries(localDocument.subjects.map((subject) => [subject.id, subject]))
-                }
-              }
+              baseURI: this.currentDocumentIri({}),
+              prefixes: prefixes3,
+              ...this.replicaPolicy,
+              local: local2
             }
           }
         });
         await service.open();
         app2.marginNotesRuntime.notesService = service;
+        this.updateNotesPrefix({ app: app2, service });
         return service;
       },
-      async loadGraph({ app: app2, key, throwOnError = false }) {
-        const notesService = await this.ensureNotesService({
-          app: app2,
-          storeKey: key
-        });
-        if (notesService) {
-          return notesService.data.notes.list();
-        }
-        return this.loadGraphFromStore({
-          store: app2.marginNotesRuntime.store,
-          key,
-          throwOnError
-        });
-      },
-      async loadGraphFromStore({ store, key, throwOnError = false }) {
-        try {
-          const value = await store.load({ key });
-          if (!value) return [];
-          return this.toStoredGraph({ value });
-        } catch (error4) {
-          if (throwOnError) {
-            throw error4;
+      updateNotesPrefix({ app: app2, service }) {
+        const data = service.workspace.graph("notes");
+        const sequence = app2.marginNotesRuntime.annotationIds;
+        this.restoreAnnotationSequence({ subjects: data.data, sequence });
+        if (sequence.code) {
+          const prefix = `${this.currentDocumentIri({})}#margin-note-${sequence.code}-`;
+          if (app2.marginNotesRuntime.notesPrefixes) {
+            app2.marginNotesRuntime.notesPrefixes.note = prefix;
           }
-          console.error("Failed to load notes:", error4);
-          return [];
         }
       },
-      async saveGraph({ app: app2, key, subjects }) {
-        const notesService = await this.ensureNotesService({
-          app: app2,
-          storeKey: key
-        });
-        if (notesService) {
-          await notesService.data.notes.saveAll();
-          await this.syncNotesResource({ app: app2 });
-          return true;
-        }
-        return this.saveGraphToStore({
-          store: app2.marginNotesRuntime.store,
-          key,
-          subjects
-        });
+      noteSubjects({ service }) {
+        return service.data.notes.list().filter((value) => this.isMarginNoteAnnotation({ value }));
       },
-      async saveGraphToStore({ store, key, subjects, throwOnError = false }) {
-        try {
-          await store.save({
-            key,
-            value: this.toStorageDocument({ subjects })
-          });
-          return true;
-        } catch (error4) {
-          if (throwOnError) {
-            throw error4;
-          }
-          console.error("Failed to save notes:", error4);
-          return false;
-        }
+      async loadGraph({ app: app2, key }) {
+        const service = await this.ensureNotesService({ app: app2, storeKey: key });
+        return this.noteSubjects({ service });
+      },
+      async saveGraph({ app: app2, key }) {
+        const service = await this.ensureNotesService({ app: app2, storeKey: key });
+        await service.data.notes.saveAll();
+        await this.syncNotesResource({ app: app2 });
+        return true;
       },
       async createStoredAnnotation({ app: app2, annotation }) {
         const notesService = await this.ensureNotesService({ app: app2 });
-        if (!notesService) {
-          return annotation;
-        }
-        const stored = await notesService.data.notes.create(annotation);
-        await this.syncNotesResource({ app: app2 });
-        return stored;
+        this.updateNotesPrefix({ app: app2, service: notesService });
+        return notesService.data.notes.create(annotation);
       },
       async saveStoredAnnotation({ app: app2, annotation }) {
         const notesService = await this.ensureNotesService({ app: app2 });
-        if (!notesService) {
-          return null;
-        }
-        const saved = await notesService.data.notes.update(
-          annotation.id,
-          this.toStoredAnnotation({ annotation })
-        );
-        await this.syncNotesResource({ app: app2 });
-        return saved;
+        return notesService.data.notes.save(annotation.id);
       },
       async deleteStoredAnnotation({ app: app2, annotation }) {
         const notesService = await this.ensureNotesService({ app: app2 });
-        if (!notesService) {
-          return null;
-        }
-        const deleted = await notesService.data.notes.delete(annotation.id);
-        await this.syncNotesResource({ app: app2 });
-        return deleted;
+        return notesService.data.notes.delete(annotation.id);
       },
       async syncNotesResource({ app: app2 }) {
         const notesService = app2.marginNotesRuntime.notesService;
-        const resource2 = notesService?.workspace?.resourceById?.get?.("notes");
+        const resource2 = notesService?.status.resources.notes;
         if (!resource2?.remote) {
           return null;
         }
         const status2 = await notesService.sync("notes");
+        await app2.actions.replaceNotesGraph({
+          graph: this.noteSubjects({ service: notesService })
+        });
         if (status2?.ok === false) {
           this.setSolidConnectionStatus({
             app: app2,
-            status: "error",
-            message: status2.error?.message || `Solid sync failed: ${status2.status}`
+            status: "sync-pending",
+            message: `Saved on this device. Solid sync pending: ${status2.error?.message || status2.status}`
           });
+          this.renderSolidConnectionStatus({ app: app2 });
+        } else if (status2?.status !== "sync-pending" && app2.marginNotesRuntime.solidConnection) {
+          this.setSolidConnectionStatus({ app: app2, status: "connected", message: `Connected to ${app2.marginNotesRuntime.solidConnection.storageUrl}` });
           this.renderSolidConnectionStatus({ app: app2 });
         }
         return status2;
       },
       groupNotesByAnchor({ notes }) {
         return notes.reduce((grouped, note) => {
-          const anchorId = this.annotationAnchorId({ annotation: note }) || note.anchorId;
+          const anchorId = this.annotationAnchorId({ annotation: note });
           if (!anchorId) return grouped;
           if (!grouped[anchorId]) {
             grouped[anchorId] = [];
@@ -22286,7 +21171,7 @@ function validateHostConfig(config) {
 }
 function storeKeyFromConfig(config) {
   const namespace = config?.namespace || "default";
-  return config?.storeKey || config?.storageKey || `margin-notes-${namespace}`;
+  return config?.storeKey || `margin-notes-${namespace}`;
 }
 function validateAnchor(anchor2, index) {
   if (!anchor2 || typeof anchor2.id !== "string" || anchor2.id.length === 0) {
@@ -22326,67 +21211,12 @@ function isElementLike(value) {
   return value && typeof value === "object" && value.nodeType === 1;
 }
 
-// src/storage/local-store.js
-var DEFAULT_NAME = "margin-notes";
-var DEFAULT_COLLECTION = "values";
-function createLocalStore(options = {}) {
-  const name = options.name || DEFAULT_NAME;
-  const collection2 = options.collection || DEFAULT_COLLECTION;
-  const indexedDB = options.indexedDB ?? globalThis.indexedDB;
-  let database;
-  return {
-    name: "localStore",
-    async load({ key }) {
-      const store = await objectStore({ mode: "readonly" });
-      const record = await requestValue(store.get(key));
-      return record?.value ?? null;
-    },
-    async save({ key, value }) {
-      const store = await objectStore({ mode: "readwrite" });
-      await requestValue(store.put({ key, value }));
-      return { key };
-    },
-    async remove({ key }) {
-      const store = await objectStore({ mode: "readwrite" });
-      await requestValue(store.delete(key));
-      return { key };
-    }
-  };
-  async function objectStore({ mode }) {
-    database ||= openDatabase({ indexedDB, name, collection: collection2 });
-    const db = await database;
-    return db.transaction(collection2, mode).objectStore(collection2);
-  }
-}
-function openDatabase({ indexedDB, name, collection: collection2 }) {
-  if (!indexedDB) {
-    return Promise.reject(new Error("Browser local storage is not available"));
-  }
-  return new Promise((resolve, reject) => {
-    const request3 = indexedDB.open(name, 1);
-    request3.onupgradeneeded = (event) => {
-      const db = event.target.result;
-      if (!db.objectStoreNames.contains(collection2)) {
-        db.createObjectStore(collection2, { keyPath: "key" });
-      }
-    };
-    request3.onsuccess = (event) => resolve(event.target.result);
-    request3.onerror = (event) => reject(event.target.error);
-  });
-}
-function requestValue(request3) {
-  return new Promise((resolve, reject) => {
-    request3.onsuccess = (event) => resolve(event.target.result);
-    request3.onerror = (event) => reject(event.target.error);
-  });
-}
-
 // src/component.js
 function mount(config) {
   validateHostConfig(config);
   const mountContainer = config.container.element;
   const storeKey = storeKeyFromConfig(config);
-  const store = config.store || createLocalStore();
+  const store = config.store;
   const themeRoot = document.documentElement;
   mountContainer.innerHTML = '<simply-render rel="margin-notes"></simply-render>';
   const marginApp = app({
@@ -22413,6 +21243,7 @@ function mount(config) {
     },
     marginNotesRuntime: {
       mountContainer,
+      annotationIds: {},
       hostAnchors: config.anchors,
       store,
       expandedStackBackground: config.expandedStackBackground || "#fffefb",
@@ -22423,7 +21254,7 @@ function mount(config) {
       solidConnectionElement: null,
       solidConnectionCleanup: null,
       notesService: config.notesService || null,
-      customStore: Boolean(config.store),
+      notesPrefixes: null,
       simplySolid,
       themeRoot,
       hadThemeAttribute: themeRoot.hasAttribute("data-margin-notes-theme"),
@@ -22465,54 +21296,169 @@ function mount(config) {
   };
   return marginApp;
 }
-var MarginNotes = class {
-  constructor() {
-    this.app = null;
+
+// src/storage/solid-resource-store.js
+var DEFAULT_CONTENT_TYPE = "text/turtle";
+function createSolidResourceStore(options = {}) {
+  assertOptions(options);
+  const defaultResourceUrl = options.resourceUrl || "";
+  const accept = DEFAULT_CONTENT_TYPE;
+  const contentType = DEFAULT_CONTENT_TYPE;
+  const providedSolid = options.solid || null;
+  const generatedClient = {
+    clients: /* @__PURE__ */ new Map()
+  };
+  function solidFor(resourceUrl, requestOptions2 = {}) {
+    return solidClientFor({ options, providedSolid, resourceUrl, generatedClient, requestOptions: requestOptions2 });
   }
-  async initialize(config) {
-    if (this.app) {
-      await this.destroy();
+  return {
+    name: "solidResourceStore",
+    async load({ key } = {}) {
+      const resourceUrl = resourceUrlFrom({ key, defaultResourceUrl });
+      const solid2 = solidFor(resourceUrl);
+      const response2 = await callResource(() => solid2.get(resourceUrl, {
+        headers: { Accept: accept }
+      }));
+      if (isMissing2(response2)) return null;
+      if (response2 instanceof src_default2.Graph) {
+        return response2.write();
+      }
+      await ensureOk({ response: response2, operation: "load" });
+      if (!/^text\/turtle\b/.test(response2.headers.get("Content-Type") || "")) {
+        throw new TypeError("Solid resource store expects text/turtle");
+      }
+      return response2.text();
+    },
+    async save({ key, value } = {}) {
+      const resourceUrl = resourceUrlFrom({ key, defaultResourceUrl });
+      const solid2 = solidFor(resourceUrl, { writesBody: true });
+      if (typeof value !== "string") {
+        throw new TypeError("Solid resource store expects Turtle text");
+      }
+      const response2 = await callResource(() => solid2.put(resourceUrl, {
+        body: value,
+        headers: { "Content-Type": contentType }
+      }));
+      await ensureOk({ response: response2, operation: "save" });
+      return {
+        key: resourceUrl,
+        resourceUrl,
+        status: response2.status
+      };
+    },
+    async remove({ key } = {}) {
+      const resourceUrl = resourceUrlFrom({ key, defaultResourceUrl });
+      const solid2 = solidFor(resourceUrl, { needsAuthorization: true });
+      const response2 = await callResource(() => solid2.delete(resourceUrl));
+      if (isMissing2(response2) || response2.status === 410) {
+        return {
+          key: resourceUrl,
+          resourceUrl,
+          status: response2.status
+        };
+      }
+      await ensureOk({ response: response2, operation: "remove" });
+      return {
+        key: resourceUrl,
+        resourceUrl,
+        status: response2.status
+      };
     }
-    this.app = mount(config);
+  };
+}
+function assertOptions(options) {
+  const optionIssues = issues(options, {
+    resourceUrl: Optional(String),
+    rootUrl: Optional(String),
+    storageUrl: Optional(String),
+    force_authorization: Optional(Boolean),
+    forceAuthorizationForWrites: Optional(Boolean)
+  });
+  if (optionIssues) {
+    throw new TypeError(`Invalid Solid resource store options: ${optionIssues[0].pathString} ${optionIssues[0].message}`);
   }
-  async destroy() {
-    if (!this.app) return;
-    await this.app.destroy();
-    this.app = null;
+}
+function resourceUrlFrom({ key, defaultResourceUrl }) {
+  const resourceUrl = defaultResourceUrl || key;
+  if (issues(resourceUrl, String)) {
+    throw new Error("Solid resource store requires a resourceUrl option or key");
   }
-  async createNote(anchorId) {
-    return this.app?.actions.createNote({ anchorId });
+  return resourceUrl;
+}
+function solidClientFor({ options, providedSolid, resourceUrl, generatedClient, requestOptions: requestOptions2 = {} }) {
+  if (providedSolid) {
+    assertSolidClient2(providedSolid);
+    return providedSolid;
   }
-  async updateNote(noteId) {
-    return this.app?.actions.updateNote({ noteId });
+  const rootUrl = options.rootUrl || options.storageUrl || resourceUrl;
+  const forceAuthorization = forceAuthorizationForRequest({ options, requestOptions: requestOptions2 });
+  const cacheKey = `${rootUrl}
+force:${forceAuthorization}`;
+  if (generatedClient.clients.has(cacheKey)) {
+    return generatedClient.clients.get(cacheKey);
   }
-  async deleteNote(noteId) {
-    return this.app?.actions.deleteNote({ noteId });
+  const metroClient = createSolidMetroClient(rootUrl, {
+    ...options,
+    oidc: options.oidc ?? Boolean(options.issuer),
+    force_authorization: forceAuthorization,
+    configureMetro: options.configureMetro ?? true
+  });
+  const solid2 = solidApi(metroClient);
+  generatedClient.clients.set(cacheKey, solid2);
+  return solid2;
+}
+function forceAuthorizationForRequest({ options, requestOptions: requestOptions2 }) {
+  if (options.force_authorization !== void 0) {
+    return options.force_authorization;
   }
-  getNotesForAnchor(anchorId) {
-    return this.app?.getNotesForAnchor(anchorId) || [];
+  if (requestOptions2.writesBody || requestOptions2.needsAuthorization) {
+    return Boolean(options.forceAuthorizationForWrites);
   }
-  setTheme(theme) {
-    return this.app?.setTheme(theme);
+  return false;
+}
+function assertSolidClient2(solid2) {
+  const clientIssues = issues(solid2, {
+    get: callable2,
+    put: callable2,
+    delete: callable2
+  });
+  if (clientIssues) {
+    throw new TypeError("Solid resource store requires a Solid API client with get/put/delete");
   }
-  getTheme() {
-    return this.app?.getTheme() || "system";
+}
+function callable2(value, _root, path2) {
+  if (typeof value !== "function") {
+    return error("data is not a function", value, "function", path2);
   }
-  connectSolidStorage(webId) {
-    return this.app?.connectSolidStorage(webId);
+  return false;
+}
+async function callResource(operation) {
+  try {
+    return await operation();
+  } catch (error4) {
+    if (isMissing2(error4?.cause)) {
+      return error4.cause;
+    }
+    throw error4;
   }
-  getSolidConnection() {
-    return this.app?.getSolidConnection() || null;
-  }
-};
+}
+function isMissing2(response2) {
+  return response2?.status === 404;
+}
+async function ensureOk({ response: response2, operation }) {
+  if (response2.ok) return;
+  const body = await responseText(response2).catch(() => "");
+  const detail = body.trim() ? `: ${body.trim()}` : "";
+  throw new Error(`Solid resource ${operation} failed (${response2.status} ${response2.statusText})${detail}`);
+}
+async function responseText(response2) {
+  return response2.text();
+}
 
 // src/index.js
 var MarginNotesAPI = {
   mount(config) {
     return mount(config);
-  },
-  create() {
-    return new MarginNotes();
   },
   createSolidResourceStore(options) {
     return createSolidResourceStore(options);
@@ -22531,7 +21477,6 @@ if (typeof window !== "undefined") {
   window.MarginNotes = MarginNotesAPI;
 }
 export {
-  MarginNotes,
   MarginNotesAPI,
   createSolidNotesConnection,
   createSolidResourceStore,
@@ -22539,17 +21484,4 @@ export {
   notesResourceUrlForPage,
   handleRedirect as popupHandleRedirect
 };
-/*! Bundled license information:
-
-ieee754/index.js:
-  (*! ieee754. BSD-3-Clause License. Feross Aboukhadijeh <https://feross.org/opensource> *)
-
-buffer/index.js:
-  (*!
-   * The buffer module from node.js, for the browser.
-   *
-   * @author   Feross Aboukhadijeh <https://feross.org>
-   * @license  MIT
-   *)
-*/
 //# sourceMappingURL=index.js.map

@@ -10,7 +10,9 @@ const bookPath = path.join(contentDir, "book.json")
 const wizardsPath = path.join(contentDir, "wizards.json")
 const phaseDir = path.join(rootDir, "phases", "01-enhanced-static-manuscript")
 const exhibitPhaseDir = path.join(rootDir, "phases", "03-core-explorable-exhibits")
-const marginNotesDistDir = path.resolve(rootDir, "..", "solid-margin-notes", "dist")
+const marginNotesDistDir = path.dirname(
+  fileURLToPath(import.meta.resolve("margin-notes"))
+)
 const siteDir = path.join(rootDir, "www")
 const siteChapterDir = path.join(siteDir, "chapters")
 const siteAssetDir = path.join(siteDir, "assets")
@@ -172,7 +174,7 @@ async function main() {
     path.join(siteAssetDir, "exhibits"),
     { recursive: true }
   )
-  await copyLocalMarginNotesBundle()
+  await copyMarginNotesBundle()
 
   await buildEpub(book, cover, readingItems)
   await writePwaManifest(book)
@@ -181,21 +183,12 @@ async function main() {
   console.log(`Built ${readingItems.length} reading pages and EPUB into ${path.relative(rootDir, siteDir)}`)
 }
 
-async function copyLocalMarginNotesBundle() {
-  try {
-    await cp(
-      marginNotesDistDir,
-      path.join(siteAssetDir, "margin-notes"),
-      { recursive: true }
-    )
-  } catch (error) {
-    if (error?.code === "ENOENT") {
-      console.warn("[margin-notes] No local bundle found; run npm run build in ../solid-margin-notes to enable the local demo.")
-      return
-    }
-
-    throw error
-  }
+async function copyMarginNotesBundle() {
+  await cp(
+    marginNotesDistDir,
+    path.join(siteAssetDir, "margin-notes"),
+    { recursive: true }
+  )
 }
 
 async function buildAssetRevision() {

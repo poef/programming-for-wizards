@@ -27,8 +27,13 @@ Wizards do not merely write solutions. They learn to notice the world around a p
 The first build is an enhanced static manuscript. It uses local Node scripts and a small typography runtime for the optional book-style text setting.
 
 ```sh
+npm install
 npm run build
 ```
+
+The margin-notes bundle comes from the installed `margin-notes` npm package.
+The build does not use a sibling checkout. Install dependencies after publishing
+the prepared margin-notes release.
 
 Open [www/index.html](www/index.html) after building.
 
