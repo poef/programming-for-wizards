@@ -1657,7 +1657,7 @@ function epubCss() {
   return `body {
   color: #1f2421;
   font-family: Georgia, "Times New Roman", serif;
-  font-size: 133%;
+  font-size: 100%;
   line-height: 1.55;
   margin: 0;
   padding: 0;
